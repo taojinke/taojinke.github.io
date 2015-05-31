@@ -21,7 +21,7 @@
 					<p class="music-record">{{album}}</p>
 				</section>
 
-				<div class="player-btn" ng-init="player.playing=true">
+				<div class="player-btn" ng-init="player.playing=false">
 					<a ng-href="#" class="prev icon" ng-click="player.prev()"><span class="icon-backward"></span></a>
 					<a ng-href="#" class="play" ng-show="!player.playing" ng-click="player.play()"><span class="icon-play"></span></a>
 					<a ng-href="#" class="stop" ng-show="player.playing" ng-click="player.stop()"><span class="icon-pause"></span></a>
