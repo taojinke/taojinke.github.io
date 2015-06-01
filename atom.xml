@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[dianzi blog]]></title>
+  
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://fblog.github.io/"/>
+  <updated>2015-05-25T15:26:47.814Z</updated>
+  <id>http://fblog.github.io/</id>
+  
+  <author>
+    <name><![CDATA[edwin]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[新的开始]]></title>
+    <link href="http://fblog.github.io/2015/05/25/%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B/"/>
+    <id>http://fblog.github.io/2015/05/25/新的开始/</id>
+    <published>2015-05-25T15:25:01.000Z</published>
+    <updated>2015-05-25T15:26:47.814Z</updated>
+    <content type="html"><![CDATA[<p>这是<strong>新的开始</strong>，我用hexo创建了第一篇文章。</p>
+<p>通过下面的命令，就可以创建新文章<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\workspace\javascript\nodejs-hexo&#62;hexo new &#26032;&#30340;&#24320;&#22987;&#10;[info] File created at D:\workspace\javascript\nodejs-hexo\source\_posts\&#26032;&#30340;&#24320;&#22987;.md</span><br></pre></td></tr></table></figure></p>
+<p>感觉非常好。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>这是<strong>新的开始</strong>，我用hexo创建了第一篇文章。</p>
+<p>通过下面的命令，就可以创建新文章<br><figure class="highlight"><table><tr><td class="gutter"><pre><span cla]]>
+    </summary>
+    
+      <category term="开始" scheme="http://fblog.github.io/tags/%E5%BC%80%E5%A7%8B/"/>
+    
+      <category term="我" scheme="http://fblog.github.io/tags/%E6%88%91/"/>
+    
+      <category term="日记" scheme="http://fblog.github.io/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+      <category term="日志" scheme="http://fblog.github.io/categories/%E6%97%A5%E5%BF%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello Hexo]]></title>
+    <link href="http://fblog.github.io/2015/05/24/Hello-Hexo/"/>
+    <id>http://fblog.github.io/2015/05/24/Hello-Hexo/</id>
+    <published>2015-05-24T10:41:43.000Z</published>
+    <updated>2015-05-25T15:10:46.442Z</updated>
+    <content type="html"><![CDATA[<h1 id="我是_H1">我是 H1</h1><h2 id="我是_H2">我是 H2</h2><ul>
+<li>我是无序列表项1</li>
+<li>我是无序列表项2</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="我是_H1">我是 H1</h1><h2 id="我是_H2">我是 H2</h2><ul>
+<li>我是无序列表项1</li>
+<li>我是无序列表项2</li>
+</ul>
+]]>
+    </summary>
+    
+      <category term="github生成" scheme="http://fblog.github.io/tags/github%E7%94%9F%E6%88%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <link href="http://fblog.github.io/2015/05/24/hello-world/"/>
+    <id>http://fblog.github.io/2015/05/24/hello-world/</id>
+    <published>2015-05-24T10:37:04.751Z</published>
+    <updated>2015-05-24T10:37:04.751Z</updated>
+    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io]]>
+    </summary>
+    
+  </entry>
+  
+</feed>
