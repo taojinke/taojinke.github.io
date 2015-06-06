@@ -1,0 +1,677 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>如何实现一个不规则排列的图片布局算法 - 推酷 | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x5982;&amp;#x4F55;&amp;#x5B9E;&amp;#x73B0;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E0D;&amp;#x89C4;&amp;#x5219;&amp;#x6392;&amp;#x5217;&amp;#x7684;&amp;#x56FE;&amp;#x7247;&amp;#x5E03;&amp;#x5C40;&amp;#x7B97;&amp;#x6CD5; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-06 17:12:00  Kitten&amp;apos;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何实现一个不规则排列的图片布局算法 - 推酷">
+<meta property="og:url" content="http://fblog.github.io/2015/06/06/bdc2089/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x5982;&amp;#x4F55;&amp;#x5B9E;&amp;#x73B0;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E0D;&amp;#x89C4;&amp;#x5219;&amp;#x6392;&amp;#x5217;&amp;#x7684;&amp;#x56FE;&amp;#x7247;&amp;#x5E03;&amp;#x5C40;&amp;#x7B97;&amp;#x6CD5; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-06 17:12:00  Kitten&amp;apos;">
+<meta property="og:image" content="http://img1.tuicool.com/7baiEf.png">
+<meta property="og:image" content="http://img2.tuicool.com/77RZfuq.gif">
+<meta property="og:image" content="http://img0.tuicool.com/Y36NZb.gif">
+<meta property="og:image" content="http://img2.tuicool.com/vMBfAv.gif">
+<meta property="og:image" content="http://img2.tuicool.com/6ze6ZrZ.gif">
+<meta property="og:image" content="http://img2.tuicool.com/q67fAb.png">
+<meta property="og:image" content="http://img1.tuicool.com/B7fA7fv.png">
+<meta property="og:image" content="http://img1.tuicool.com/qEjIrun.png">
+<meta property="og:image" content="http://img0.tuicool.com/6zuQf2.png">
+<meta property="og:image" content="http://img1.tuicool.com/eeiqa2a.png">
+<meta property="og:updated_time" content="2015-06-06T15:07:25.991Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何实现一个不规则排列的图片布局算法 - 推酷">
+<meta name="twitter:description" content="&amp;#x5982;&amp;#x4F55;&amp;#x5B9E;&amp;#x73B0;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E0D;&amp;#x89C4;&amp;#x5219;&amp;#x6392;&amp;#x5217;&amp;#x7684;&amp;#x56FE;&amp;#x7247;&amp;#x5E03;&amp;#x5C40;&amp;#x7B97;&amp;#x6CD5; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-06 17:12:00  Kitten&amp;apos;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/06/bdc2089/" title="如何实现一个不规则排列的图片布局算法 - 推酷" itemprop="url">如何实现一个不规则排列的图片布局算法 - 推酷</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-06T03:07:25.000Z" itemprop="datePublished"> 发表于 2015-06-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何实现一个不规则排列的图片布局算法"><span class="toc-number">1.</span> <span class="toc-text">如何实现一个不规则排列的图片布局算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#垂直滚动"><span class="toc-number">1.0.1.</span> <span class="toc-text">垂直滚动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#水平滚动"><span class="toc-number">1.0.2.</span> <span class="toc-text">水平滚动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法总体思路"><span class="toc-number">1.0.3.</span> <span class="toc-text">算法总体思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#细节"><span class="toc-number">1.0.4.</span> <span class="toc-text">细节</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#item-frame-origin:"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">item.frame.origin:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#item-frame-size-width:"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">item.frame.size.width:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#但是！"><span class="toc-number">1.0.4.3.</span> <span class="toc-text">但是！</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#item-frame-size-height:"><span class="toc-number">1.0.4.4.</span> <span class="toc-text">item.frame.size.height:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充："><span class="toc-number">1.1.</span> <span class="toc-text">补充：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#最后"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">最后</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">1.1.1.</span> <span class="toc-text">结语</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.1.1.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x4E0D;&#x89C4;&#x5219;&#x6392;&#x5217;&#x7684;&#x56FE;&#x7247;&#x5E03;&#x5C40;&#x7B97;&#x6CD5;">&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x4E0D;&#x89C4;&#x5219;&#x6392;&#x5217;&#x7684;&#x56FE;&#x7247;&#x5E03;&#x5C40;&#x7B97;&#x6CD5;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 17:12:00  <a href="/sites/FBbmemn">Kitten&apos;s &#x65F6;&#x95F4;&#x80F6;&#x56CA;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://kittenyang.com/layout-algorithm/?utm_source=tuicool" target="_blank" rel="external">http://kittenyang.com/layout-algorithm/</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11000083">&#x7B97;&#x6CD5;</a><a href="/topics/11080009">iOS&#x5F00;&#x53D1;</a></p>
+<p><img src="http://img1.tuicool.com/7baiEf.png" alt=""></p>
+<p>&#x4E00;&#x76F4;&#xFFFD;&#xFFFD;&#xFFFD; <a href="https://500px.com/flow" target="_blank" rel="external">500px</a> &#x4E0A;&#x770B;&#x7167;&#x7247;&#xFF0C;&#x53D1;&#x7167;&#x7247;&#x3002;&#x4EE5;&#x524D;&#x770B;&#x5B83;&#x7684;&#x9996;&#x9875;&#x56FE;&#x7247;&#x5C55;&#x793A;&#x5C31;&#x53EA;&#x662F;&#x89C9;&#x5F97;&#x597D;&#x770B;&#xFF0C;&#x6D0B;&#x6C14;&#xFF0C;&#x4E5F;&#x6CA1;&#x60F3;&#x8FC7;&#x81EA;&#x5DF1;&#x5728;iOS&#x4E0A;&#x5B9E;&#x73B0;&#x4E00;&#x4E0B;&#x3002;&#x6628;&#x5929;&#x4E0D;&#x77E5;&#x600E;&#x4E48;&#x7684;&#x5C31;&#x5F00;&#x59CB;&#x60F3;&#x5176;&#x4E2D;&#x7684;&#x7B97;&#x6CD5;&#x4E86;&#xFF0C;&#x73B0;&#x5728;&#x6211;&#x628A;&#x601D;&#x8003;&#x7684;&#x8FC7;&#x7A0B;&#x5728;&#x8FD9;&#x91CC;&#x8D34;&#x51FA;&#x6765;&#x5206;&#x4EAB;&#x4E00;&#x4E0B;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x6709;&#x66F4;&#x597D;&#x7684;&#x7B97;&#x6CD5;&#x6B22;&#x8FCE;&#x63A2;&#x8BA8;&#x3002; </p>
+<p>&#x6700;&#x7EC8;&#x6211;&#x505A;&#x51FA;&#x7684;&#x6548;&#x679C;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;</p>
+<h3 id="&#x5782;&#x76F4;&#x6EDA;&#x52A8;">&#x5782;&#x76F4;&#x6EDA;&#x52A8;</h3><p><img src="http://img2.tuicool.com/77RZfuq.gif" alt=""></p>
+<p><img src="http://img0.tuicool.com/Y36NZb.gif" alt=""></p>
+<h3 id="&#x6C34;&#x5E73;&#x6EDA;&#x52A8;">&#x6C34;&#x5E73;&#x6EDA;&#x52A8;</h3><p><img src="http://img2.tuicool.com/vMBfAv.gif" alt=""></p>
+<p><img src="http://img2.tuicool.com/6ze6ZrZ.gif" alt=""></p>
+<h3 id="&#x7B97;&#x6CD5;&#x603B;&#x4F53;&#x601D;&#x8DEF;">&#x7B97;&#x6CD5;&#x603B;&#x4F53;&#x601D;&#x8DEF;</h3><p>&#x5148;&#x8BF4;&#x4E00;&#x4E0B;&#x603B;&#x4F53;&#x4E0A;&#x7684;&#x601D;&#x8DEF;&#x3002;&#x65E2;&#x7136;&#x56FE;&#x7247;&#x7684;&#x5927;&#x5C0F;&#x3001;&#x4F4D;&#x7F6E;&#x5404;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x6211;&#x4EEC;&#x5F88;&#x81EA;&#x7136;&#x5730;&#x4F1A;&#x60F3;&#x5230;&#x9700;&#x8981;&#x7B97;&#x51FA;&#x6BCF;&#x4E2A;item&#x7684;frame&#xFF0C;&#x7136;&#x540E;&#x628A;&#x8FD9;&#x4E9B;frame&#x8D4B;&#x503C;&#x7ED9;&#x5F53;&#x524D;item&#x7684; UICollectionViewLayoutAttributes &#x3002; </p>
+<p>&#x81EA;&#x5B9A;&#x4E49; UICollectionViewLayout &#x7684;&#x5173;&#x952E;&#x4E24;&#x6B65;&#x662F;&#x5148;&#x540E;&#x91CD;&#x8F7D;&#x4E0B;&#x9762;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#xFF1A; </p>
+<pre><code>- <span class="list">(<span class="keyword">void</span>)</span>prepareLayout<span class="comment">;</span>
+</code></pre><p>&#x548C;</p>
+<pre><code><span class="tag">-</span> (<span class="tag">NSArray</span> *)<span class="rule"><span class="attribute">layoutAttributesForElementsInRect</span>:<span class="value">(CGRect)rect</span></span>;
+</code></pre><p>&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x7684;&#x601D;&#x8DEF;&#x662F;&#x5728; - (void)prepareLayout; &#x65B9;&#x6CD5;&#x4E2D;&#x7B97;&#x51FA;&#x6240;&#x6709;item&#x7684;frame&#xFF0C;&#x5E76;&#x8D4B;&#x503C;&#x7ED9;&#x5F53;&#x524D;item&#x7684; UICollectionViewLayoutAttributes &#x3002;&#x7528;&#x56FE;&#x7247;&#x7684;&#x5F62;&#x5F0F;&#x6BD4;&#x8F83;&#x76F4;&#x89C2;&#xFF1A; </p>
+<p><img src="http://img2.tuicool.com/q67fAb.png" alt=""></p>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x95EE;&#x9898;&#x5C31;&#x5316;&#x5F52;&#x5230;&#x4E86;&#x5982;&#x4F55;&#x6C42;&#x6BCF;&#x4E2A;item&#x7684;frame&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x62BD;&#x8C61;&#x51FA;&#x4E00;&#x4E2A; &#x5217; &#x7684;&#x6982;&#x5FF5;&#xFF1A; </p>
+<p><img src="http://img1.tuicool.com/B7fA7fv.png" alt=""></p>
+<p>&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x9700;&#x8981;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;&#x5B58;&#x50A8;&#x9AD8;&#x5EA6;&#x7684;&#x6570;&#x7EC4; COLUMNSHEIGHTS &#x3002;&#x6570;&#x7EC4;&#x4E2D;&#x6709; n &#x4E2A;&#x5143;&#x7D20;&#xFF0C; n &#x8868;&#x793A;&#x6240;&#x6709;&#x5217;&#x6570;&#xFF0C;&#x5982;&#x4E0A;&#x56FE;&#xFF0C;n = 3&#x3002;&#x7F13;&#x5B58;&#x7684;&#x503C;&#x8868;&#x793A;&#x5F53;&#x524D;&#x5217;&#x7684;&#x9AD8;&#x5EA6;&#xFF0C;&#x4E0A;&#x56FE;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C; COLUMNSHEIGHTS = [104,123,89] &#x3002; </p>
+<p>&#x7136;&#x540E;&#x6211;&#x4EEC;&#x628A;item&#x9010;&#x4E2A;&#x653E;&#x5165;&#x5217;&#x4E2D;&#xFF0C;&#x4EE5;&#x8FD9;&#x6837;&#x7684;&#x89C4;&#x5219;&#xFF1A;&#x4ECE;&#x5DE6;&#x5230;&#x53F3;&#xFF0C;item&#x4F18;&#x5148;&#x653E;&#x5165; COLUMNSHEIGHTS &#x4E2D;&#x6700;&#x77ED;&#x7684;&#x5217;&#x3002; </p>
+<p>&#x6253;&#x4E2A;&#x6BD4;&#x65B9;&#xFF0C;&#x4E0B;&#x4E00;&#x4E2A;item&#x5C31;&#x5E94;&#x8BE5;&#x653E;&#x5165;&#x6700;&#x77ED;&#x7684;&#x5217;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x7B2C;&#x4E09;&#x5217;:</p>
+<p><img src="http://img1.tuicool.com/qEjIrun.png" alt=""></p>
+<p>&#x4EE5;&#x6B64;&#x89C4;&#x5219;&#xFF0C;&#x5FAA;&#x73AF;&#x4E0B;&#x53BB;&#xFF0C;&#x76F4;&#x5230;&#x6240;&#x6709;item&#x90FD;&#x653E;&#x7F6E;&#x5B8C;&#x6BD5;&#x3002;</p>
+<h3 id="&#x7EC6;&#x8282;">&#x7EC6;&#x8282;</h3><h4 id="item-frame-origin:">item.frame.origin:</h4><p>&#x7528;&#x81EA;&#x7136;&#x8BED;&#x8A00;&#x63CF;&#x8FF0;&#xFF0C;</p>
+<p>&#x5750;&#x6807;x&#x5E94;&#x8BE5;&#x662F;&#x8FD9;&#x6837;&#x7684;: <em>&#xFF08;&#x6700;&#x77ED;&#x5217;&#x7684;&#x7F16;&#x53F7;-1&#xFF09;x &#x5217;&#x5BBD;</em></p>
+<p>&#x5750;&#x6807;y&#x5E94;&#x8BE5;&#x662F;&#x8FD9;&#x6837;&#x7684;: <em>&#x4ECE; COLUMNSHEIGHTS &#x4E2D;&#x53D6;&#x51FA;&#x6700;&#x77ED;&#x5217;&#x5BF9;&#x5E94;&#x7684;&#x9AD8;&#x5EA6;</em></p>
+<p>&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x7B97;&#x6CD5;&#x6765;&#x627E;&#x51FA;&#x5F53;&#x524D; COLUMNSHEIGHTS &#x4E2D;&#x7684;&#x6700;&#x77ED;&#x7684;&#x5217;&#xFF0C;&#x6700;&#x76F4;&#x63A5;&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x662F;0(n)&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;&#x7684;&#x5FAA;&#x73AF;&#x6BD4;&#x8F83;&#xFF0C;&#x8FD9;&#x91CC;&#x8FD8;&#x597D;&#x56E0;&#x4E3A;&#x6570;&#x636E;&#x91CF;&#x6BD4;&#x8F83;&#x5C11;&#xFF0C;&#x5982;&#x679C;&#x9047;&#x5230;&#x6570;&#x636E;&#x91CF;&#x5927;&#x7684;&#x60C5;&#x51B5;&#x53EF;&#x80FD;&#x5C31;&#x9700;&#x8981;&#x8003;&#x8651;&#x5206;&#x6CBB;&#x6CD5;&#x4E86;&#x3002; </p>
+<pre><code>//&amp;<span class="symbol">#x5BFB</span>;&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x9AD8</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x77ED</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5217</span>;.&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>
+-(<span class="class">NSUInteger</span>)findShortestColumn{
+    <span class="class">NSUInteger</span> shortestIndex = <span class="number">0</span>;
+    <span class="class">CGFloat</span> shortestValue = <span class="class">MAXFLOAT</span>;
+    <span class="class">NSUInteger</span> index=<span class="number">0</span>;//&amp;<span class="symbol">#x6E38</span>;&amp;<span class="symbol">#x6807</span>;
+    for (<span class="class">NSNumber</span> *columnHeight in <span class="keyword">self</span>.<span class="class">COLUMNSHEIGHTS</span>) {
+        if ([columnHeight floatValue] &amp;lt; shortestValue) {
+            shortestValue = [columnHeight floatValue];
+            shortestIndex = index;
+        }
+        index++;
+    }
+    return shortestIndex;
+}
+</code></pre><p>&#x627E;&#x5230;&#x4E86;&#x6700;&#x77ED;&#x5217;&#xFF0C;&#x8868;&#x8FBE;&#x51FA;item&#x7684;x&#x5750;&#x6807;&#x548C;y&#x5750;&#x6807;&#x5C31;&#x5F88;&#x5BB9;&#x6613;&#x4E86;&#xFF1A;</p>
+<pre><code><span class="built_in">NSUInteger</span> origin_x = [<span class="keyword">self</span> findShortestColumn] * [<span class="keyword">self</span> columnWidth];
+
+<span class="built_in">NSUInteger</span> origin_y = [<span class="keyword">self</span><span class="variable">.COLUMNSHEIGHTS</span>[shtIndex] integerValue] ;  
+</code></pre><h4 id="item-frame-size-width:">item.frame.size.width:</h4><p>&#x7531;&#x4E8E;&#x5217;&#x6570;&#x662F;&#x6709;&#x7528;&#x6237;&#x51B3;&#x5B9A;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x662F;&#x4E2A;&#x53D8;&#x91CF;&#xFF0C;&#x7531;&#x6B64;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x5217;&#x5BBD; columnWidth = self.collectionView.bounds.size.width / self.columnsCount</p>
+<p>&#x7136;&#x540E;&#x6211;&#x4EEC;&#x89C4;&#x5B9A;&#xFF0C; <em>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;item&#x7684;&#x5BBD;&#x5EA6;&#x7B49;&#x4E8E; columnWidth &#x3002;&#x5F53;&#x6EE1;&#x8DB3;&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;(&#x5982;&#x4E0A;&#x56FE;&#x7EA2;&#x8272;&#x65B9;&#x5757;&#xFF0C;&#x5C31;&#x662F;&#x5C5E;&#x4E8E;&#x5F53;&#x524D;&#x5217;&#x4F4D;&#x4E8E;&#x5217;2&#xFF0C;&#x4E0B;&#x4E00;&#x5217;&#x5217;3)&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x6A2A;&#x8DE8;&#x4E24;&#x680F;&#x3002;(&#x518D;&#x770B;&#x7EA2;&#x8272;&#x65B9;&#x5757;&#xFF0C;&#x56E0;&#x4E3A;&#x5728;&#x5B83;&#x653E;&#x8FDB;&#x53BB;&#x4E4B;&#x524D;&#xFF0C;&#x7B2C;&#x4E8C;&#x5217;&#x9AD8;&#x5EA6;&#x4E3A;0&#xFF0C;&#x7B2C;&#x4E09;&#x5217;&#x9AD8;&#x5EA6;&#x4E5F;&#x4E3A;0&#xFF0C;&#x6EE1;&#x8DB3;&#x6A2A;&#x8DE8;&#x7684;&#x6761;&#x4EF6;)</em></p>
+<h4 id="&#x4F46;&#x662F;&#xFF01;">&#x4F46;&#x662F;&#xFF01;</h4><p>&#x5982;&#x679C;&#x51FA;&#x73B0;&#x4E86;&#x4E0B;&#x9762;&#x7684;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#xFF1A;</p>
+<p><img src="http://img0.tuicool.com/6zuQf2.png" alt=""></p>
+<p>&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x5355;&#x5355;&#x6EE1;&#x8DB3; <strong>&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;</strong> &#x9AD8;&#x5EA6;&#x76F8;&#x7B49;&#x8FD8;&#x4E0D;&#x591F;&#xFF0C;&#x56E0;&#x4E3A;&#x53EA;&#x8981;&#x4E00;&#x65E6;&#x6EE1;&#x8DB3;&#x8FD9;&#x4E2A;&#x6761;&#x4EF6;&#xFF0C;&#x63A5;&#x4E0B;&#x53BB;&#x5C06;&#x4F1A;&#x4E00;&#x76F4;&#x662F;&#x6A2A;&#x8DE8;&#x7684;&#x72B6;&#x6001;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x8FD8;&#x9700;&#x8981;&#x518D;&#x52A0;&#x4E00;&#x4E2A;&#x6761;&#x4EF6;&#x6765;&#x7B5B;&#x9009;&#x8FD9;&#x4E9B;&#x5373;&#x4F7F;&#x6EE1;&#x8DB3; <strong>&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;</strong> &#x7684;item&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x7528;&#x968F;&#x673A;&#x6570;&#xFF1A; </p>
+<pre><code><span class="class">NSUInteger</span> randomOfWhetherDouble = arc4random() % <span class="number">100</span>;//&amp;<span class="symbol">#x968F</span>;&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x53CC</span>;&amp;<span class="symbol">#x884C</span>;
+</code></pre><p>arc4random() % 100; &#x4F1A;&#x968F;&#x673A;&#x751F;&#x6210;&#x4E00;&#x4E2A;0&#xFF5E;100&#x7684;&#x6574;&#x6570;&#x3002;&#x7136;&#x540E;&#x6211;&#x4EEC;&#x8BBE;&#x5B9A;&#x4E00;&#x4E2A;&#x9608;&#x503C;&#xFF0C;&#x6BD4;&#x5982; 40 .&#x53EA;&#x6709;&#x5F53;&#x540C;&#x65F6;&#x6EE1;&#x8DB3; <strong>&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;</strong> &#x548C; <strong>randomOfWhetherDouble &lt; 40</strong> &#x7684;item&#x624D;&#x80FD;&#x771F;&#x6B63;&#x5B9E;&#x73B0;&#x8DE8;&#x884C;&#x3002;&#x6362;&#x53E5;&#x8BDD;&#x8BF4;&#xFF0C;&#x5373;&#x4F7F;&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;&#xFF0C;&#x4E5F;&#x53EA;&#x6709;&#x767E;&#x5206;&#x4E4B;40&#x7684;&#x51E0;&#x7387;&#x51FA;&#x73B0;&#x8DE8;&#x884C;&#x7684;item&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x5F88;&#x597D;&#x7684;&#x4FDD;&#x8BC1;&#x4E86;&#x5BBD;&#x5EA6;&#x4E0D;&#x4E00;&#x7684;item&#x968F;&#x673A;&#x51FA;&#x73B0;&#xFF01; </p>
+<p>&#x6240;&#x4EE5;&#x5BBD;&#x5EA6;&#x7684;&#x4EE3;&#x7801;&#x662F;:</p>
+<pre><code><span class="keyword">if</span> (shtIndex &amp;lt; <span class="keyword">self</span>.columnsCount - <span class="number">1</span> &amp;amp;&amp;amp; [<span class="keyword">self</span>.<span class="constant">COLUMNSHEIGHTS</span>[shtIndex] floatValue] == [<span class="keyword">self</span>.<span class="constant">COLUMNSHEIGHTS</span>[shtIndex+<span class="number">1</span>] floatValue] &amp;amp;&amp;amp; randomOfWhetherDouble &amp;lt; <span class="number">40</span>) {
+
+    size_width = <span class="number">2</span>*[<span class="keyword">self</span> columnWidth];
+
+}<span class="keyword">else</span>{
+
+    size_width = [<span class="keyword">self</span> columnWidth];
+}
+</code></pre><h4 id="item-frame-size-height:">item.frame.size.height:</h4><p>&#x8FD9;&#x4E2A;&#x53EF;&#x4EE5;&#x81EA;&#x7531;&#x89C4;&#x5B9A;&#xFF0C;&#x56E0;&#x4E3A;&#x5728;&#x7AD6;&#x76F4;&#x65B9;&#x5411;&#x9AD8;&#x5EA6;&#x6CA1;&#x6709;&#x7279;&#x522B;&#x7684;&#x9650;&#x5236;&#x3002;&#x6BD4;&#x5982;&#x6211;&#x89C4;&#x5B9A;&#xFF1A;</p>
+<p>1.&#x5982;&#x679C;&#x662F;&#x6A2A;&#x8DE8;&#x7684;,&#x9AD8;&#x5EA6; &#xFF1D; &#x5BBD;&#x5EA6; * (0.75~1&#x968F;&#x673A;)</p>
+<pre><code>float extraRandomHeight = arc4random() % 25<span class="comment">;  </span>
+retVal = 0.75 + (extraRandomHeight / 100)<span class="comment">;  </span>
+size_height = size_width * retVal<span class="comment">; </span>
+</code></pre><p>2.&#x5982;&#x679C;&#x662F;&#x5355;&#x5217;&#x7684;&#xFF0C;&#x9AD8;&#x5EA6; &#xFF1D; &#x5BBD;&#x5EA6; * (0.75~1.25&#x968F;&#x673A;)</p>
+<pre><code>float extraRandomHeight = arc4random() % <span class="number">50</span>;  
+retVal = <span class="number">0.75</span> + (extraRandomHeight / <span class="number">100</span>);  
+size_height = size_width * retVal; // &amp;<span class="symbol">#x9AD8</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x5BBD</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x7684</span>;<span class="number">0.75</span>~<span class="number">1.25</span>&amp;<span class="symbol">#x500D</span>;
+</code></pre><h2 id="&#x8865;&#x5145;&#xFF1A;">&#x8865;&#x5145;&#xFF1A;</h2><p>&#x5B9E;&#x9645;&#x6D4B;&#x8BD5;&#x4E2D;&#x53D1;&#x73B0;&#xFF0C;&#x5373;&#x4F7F;&#x628A;&#x51FA;&#x73B0;&#x6A2A;&#x8DE8;item&#x7684;&#x9608;&#x503C;&#x8C03;&#x6210;0&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x53EA;&#x8981;&#x6EE1;&#x8DB3; <strong>&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;</strong> &#xFF0C;100%&#x51FA;&#x73B0;&#x6A2A;&#x8DE8;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x51FA;&#x73B0;&#x6A2A;&#x8DE8;&#x7684;&#x60C5;&#x51B5;&#x4E5F;&#x662F;&#x5C11;&#x4E4B;&#x53C8;&#x5C11;&#x3002;&#x4E3A;&#x4EC0;&#x4E48;&#x5462;&#xFF1F;&#x539F;&#x56E0;&#x51FA;&#x5728;&#x4E86;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E0A;&#xFF0C;&#x4E4B;&#x524D;&#x6211;&#x7684;&#x7528;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x5168;&#x662F; CGFloat &#x6216;&#x8005; float &#x7684;&#x6D6E;&#x70B9;&#x7C7B;&#x578B;&#xFF0C;&#x4E24;&#x4E2A;&#x6D6E;&#x70B9;&#x6570;&#x8981;&#x76F8;&#x7B49;&#x7684;&#x6982;&#x7387;&#x53EF;&#x60F3;&#x800C;&#x77E5;&#x3002;&#x6539;&#x6210; NSUInteger &#x4E4B;&#x540E;&#x5C31;&#x597D;&#x591A;&#x4E86;&#x3002;&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x4E3A;&#x4E86;&#x589E;&#x52A0;&#x6A2A;&#x8DE8;&#x60C5;&#x51B5;&#x51FA;&#x73B0;&#x7684;&#x6982;&#x7387;&#xFF0C;&#x6211;&#x8FD8;&#x7528;&#x5230;&#x4E86; &#x56DB;&#x820D;&#x4E94;&#x5165; &#x3002;&#x62FF;&#x56FE;&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF1A; </p>
+<p><img src="http://img1.tuicool.com/eeiqa2a.png" alt=""></p>
+<p>&#x6211;&#x4EEC;&#x8BA9;item&#x7684;&#x9AD8;&#x5EA6;&#x5BF9;&#x67D0;&#x4E2A;&#x6574;&#x6570;&#x53D6;&#x4F59;&#xFF0C;&#x6BD4;&#x5982;&#x4EE5;40&#x4E3A;&#x5355;&#x4F4D;&#xFF0C;&#x8BA9;&#x9AD8;&#x5EA6;&#x5BF9;40&#x53D6;&#x4F59;&#xFF0C;&#x518D;&#x8BA9;item&#x7684;&#x9AD8;&#x5EA6;&#x526A;&#x6389;&#x8FD9;&#x4E9B;&#x4F59;&#x6570;&#x3002;&#x5269;&#x4E0B;&#x7684;&#x9AD8;&#x5EA6;&#x80AF;&#x5B9A;&#x662F;40&#x7684;&#x6574;&#x6570;&#x500D;&#x3002;</p>
+<p>&#x4EE3;&#x7801;&#x5F88;&#x7B80;&#x5355;&#xFF1A;</p>
+<pre><code>size_height = size_height - <span class="list">(<span class="keyword">size_height</span> % <span class="number">40</span>)</span><span class="comment">;  </span>
+</code></pre><p>&#x8FD9;&#x53EF;&#x4EE5;&#x628A;&#x67D0;&#x4E2A;&#x8303;&#x56F4;&#x5185;&#x7684;&#x9AD8;&#x5EA6;&#x90FD;&#x5F52;&#x7EA6;&#x5230;&#x7528;&#x4E00;&#x4E2A;&#x9AD8;&#x5EA6;&#xFF0C;&#x4E5F;&#x5C31;&#x8BA9;&#x5DE6;&#x53F3;&#x4E24;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;&#x7684;&#x6982;&#x7387;&#x589E;&#x52A0;&#x4E86;&#xFF0C;&#x51FA;&#x73B0;&#x6A2A;&#x8DE8;item&#x7684;&#x53EF;&#x80FD;&#x6027;&#x4E5F;&#x53D8;&#x5927;&#x4E86;&#x3002;</p>
+<p>&#x7136;&#x540E;&#xFF0C;&#x5728;&#x5FAA;&#x73AF;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x628A;&#x6BCF;&#x4E2A;item&#x7684;frame&#x8D4B;&#x503C;&#x7ED9;&#x5BF9;&#x5E94;&#x7684;attributes,&#x5E76;&#x628A;&#x8FD9;&#x4E9B;attributes&#x4FDD;&#x5B58;&#x5230;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x91CC;&#x3002;</p>
+<pre><code>//&amp;<span class="symbol">#x7ED9</span>;attributes.frame &amp;<span class="symbol">#x8D4B</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5165</span>; <span class="keyword">self</span>.itemsAttributes
+<span class="class">NSIndexPath</span> *indexPath = [<span class="class">NSIndexPath</span> <span class="method">indexPathForItem:</span>i <span class="method">inSection:</span><span class="number">0</span>];  
+<span class="class">UICollectionViewLayoutAttributes</span> *attributes = [<span class="class">UICollectionViewLayoutAttributes</span> <span class="method">layoutAttributesForCellWithIndexPath:</span>indexPath];  
+attributes.frame = <span class="class">CGRectMake</span>(origin_x, origin_y, size_width, size_height);  
+[<span class="keyword">self</span>.itemsAttributes <span class="method">addObject:</span>attributes];
+</code></pre><p>&#x7136;&#x540E;&#x5728; layoutAttributesForElementsInRect &#x65B9;&#x6CD5;&#x4E2D;&#x8FD4;&#x56DE;&#xFF1A; </p>
+<pre><code>- (<span class="built_in">NSArray</span> *)layoutAttributesForElementsInRect:(<span class="built_in">CGRect</span>)rect{
+
+   <span class="keyword">return</span> <span class="keyword">self</span><span class="variable">.itemsAttributes</span>;
+
+}
+</code></pre><h4 id="&#x6700;&#x540E;">&#x6700;&#x540E;</h4><p>&#x4E3A;&#x4E86;&#x80FD;&#x8BA9;collectionView&#x6ED1;&#x8D77;&#x6765;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x5B83;&#x7684; ContentSize .&#x5176;&#x5B9E;&#x53EA;&#x8981;&#x8BA9;ContentSize&#x7684;&#x9AD8;&#x5EA6;&#x53D8;&#x6210; COLUMNSHEIGHTS &#x4E2D;&#x6700;&#x957F;&#x5217;&#x7684;&#x9AD8;&#x5EA6;&#x5373;&#x53EF;&#x3002;&#x81F3;&#x4E8E;&#x8FD9;&#x4E2A;&#x6C42;&#x6570;&#x7EC4;&#x4E2D;&#x6700;&#x957F;&#x5217;&#x7684;&#x7B97;&#x6CD5;&#xFF0C;&#x548C;&#x524D;&#x9762;&#x7684;&#x6C42;&#x6700;&#x77ED;&#x5217;&#x7C7B;&#x4F3C;&#x3002; </p>
+<pre><code>-(<span class="built_in">CGSize</span>)collectionViewContentSize{
+    <span class="built_in">CGSize</span> size = <span class="keyword">self</span><span class="variable">.collectionView</span><span class="variable">.bounds</span><span class="variable">.size</span>;
+    <span class="built_in">NSUInteger</span> longstIndex = [<span class="keyword">self</span> findLongestColumn];
+    <span class="keyword">float</span> columnMax = [<span class="keyword">self</span><span class="variable">.COLUMNSHEIGHTS</span>[longstIndex] floatValue];
+    size<span class="variable">.height</span> = columnMax;
+    <span class="keyword">return</span> size;
+}
+</code></pre><h3 id="&#x7ED3;&#x8BED;">&#x7ED3;&#x8BED;</h3><p>&#x5982;&#x679C;&#x4F60;&#x6709;&#x5174;&#x8DA3;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x8BD5;&#x8BD5;</p>
+<p>1&#x3001;&#x8BA9;&#x56FE;&#x7247;&#x5728;&#x7AD6;&#x5C4F;&#x548C;&#x6A2A;&#x5C4F;&#x65F6;&#x62E5;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x5217;&#x6570;&#xFF0C;&#x5E76;&#x4EE5;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x5207;&#x6362;&#x3002;</p>
+<p>2&#x3001;&#x5B9E;&#x73B0;contentView&#x7684;&#x6C34;&#x5E73;&#x6EDA;&#x52A8;&#x5E76;&#x5B9E;&#x73B0;&#x4E0A;&#x9762;&#x7684;&#x4E0D;&#x89C4;&#x5219;&#x5E03;&#x5C40;&#x3002;</p>
+<p>&#x4EE5;&#x4E0A;&#x4E24;&#x4E2A;&#x529F;&#x80FD;&#x6211;&#x5DF2;&#x7ECF;&#x5B9E;&#x73B0;&#x5E76;&#x8FDB;&#x884C;&#x4E86;&#x5C01;&#x88C5;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x50CF;&#x666E;&#x901A;&#x7684;UICollectionViewLayout&#x4E00;&#x6837;&#x4F7F;&#x7528;&#x3002;&#x53EF;&#x4EE5;&#x5728; <a href="https://github.com/KittenYang/KYTilePhotoLayout" target="_blank" rel="external">&#x8FD9;&#x91CC;</a> &#x4F7F;&#x7528;&#x548C;&#x5B66;&#x4E60;&#x3002; </p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/Vri6za6">iOS-Runtime&#x77E5;&#x8BC6;&#x70B9;&#x6574;&#x7406;</a></li>
+<li>2.<a href="/articles/zA7JNbn">Replace-iOS&#xFF1A;&#x8BA9;&#x4EBA;&#x773C;&#x524D;&#x4E00;&#x4EAE;&#x7684;&#x4E0B;&#x62C9;&#x5237;&#x65B0;&#xFF08;iOS&#xFF09;</a></li>
+<li>3.<a href="/articles/2qUjUba">&#x767E;&#x5EA6; OCR &#x6587;&#x5B57;&#x8BC6;&#x522B;&#x670D;&#x52A1;&#x6B63;&#x5F0F;&#x5BF9;&#x5916;&#x5F00;&#x653E;</a></li>
+<li>4.<a href="/articles/vA7zMra">ios&#x5F00;&#x53D1;——&#x5E94;&#x7528;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x7684;&#x5E38;&#x7528;&#x65B9;&#x6CD5;&#x4E4B;plist&#x5B58;&#x53D6;&#x65B9;&#x6CD5;</a></li>
+<li>5.<a href="/articles/vYzIVn">Swift&#x5B66;&#x4E60;&#x7B14;&#x8BB0;&#x4E94;</a></li>
+<li><p>6.<a href="/articles/2QVbMvu">Objective-c &#x5185;&#x5B58;&#x7BA1;&#x7406;&#x7684;&#x5386;&#x53F2;&#x548C;&#x53C2;&#x8003;&#x8D44;&#x6599;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/6FrY3uZ">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;6FrY3uZ&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iOS开发/">iOS开发</a><a href="/tags/算法/">算法</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://fblog.github.io/2015/06/06/bdc2089/" data-title="如何实现一个不规则排列的图片布局算法 - 推酷 | dianzi blog" data-tsina="512316815" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/06/bdc42b7/" title="Javascript的setTimeOut和setInterval的定时器用法 - 推酷">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Javascript的setTimeOut和setInterval的定时器用法 - 推酷</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/06/bdb3fed/"  title="iOS-Runtime知识点整理 - 推酷">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS-Runtime知识点整理 - 推酷
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何实现一个不规则排列的图片布局算法"><span class="toc-number">1.</span> <span class="toc-text">如何实现一个不规则排列的图片布局算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#垂直滚动"><span class="toc-number">1.0.1.</span> <span class="toc-text">垂直滚动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#水平滚动"><span class="toc-number">1.0.2.</span> <span class="toc-text">水平滚动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法总体思路"><span class="toc-number">1.0.3.</span> <span class="toc-text">算法总体思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#细节"><span class="toc-number">1.0.4.</span> <span class="toc-text">细节</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#item-frame-origin:"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">item.frame.origin:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#item-frame-size-width:"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">item.frame.size.width:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#但是！"><span class="toc-number">1.0.4.3.</span> <span class="toc-text">但是！</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#item-frame-size-height:"><span class="toc-number">1.0.4.4.</span> <span class="toc-text">item.frame.size.height:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充："><span class="toc-number">1.1.</span> <span class="toc-text">补充：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#最后"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">最后</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">1.1.1.</span> <span class="toc-text">结语</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.1.1.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安卓开发/" title="安卓开发">安卓开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL-Server/" title="SQL Server">SQL Server<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/文件系统/" title="文件系统">文件系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux内核/" title="Linux内核">Linux内核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WCF/" title="WCF">WCF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/github生成/" title="github生成">github生成<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/我/" title="我">我<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVC模式/" title="MVC模式">MVC模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/测试技术/" title="测试技术">测试技术<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SharePoint/" title="SharePoint">SharePoint<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/负载均衡/" title="负载均衡">负载均衡<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PPS/" title="PPS">PPS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AIDL/" title="AIDL">AIDL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

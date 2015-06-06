@@ -1,0 +1,702 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>编程模拟自然(一)：如何画一颗静态树 - 推酷 | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x7F16;&amp;#x7A0B;&amp;#x6A21;&amp;#x62DF;&amp;#x81EA;&amp;#x7136;(&amp;#x4E00;)&amp;#xFF1A;&amp;#x5982;&amp;#x4F55;&amp;#x753B;&amp;#x4E00;&amp;#x9897;&amp;#x9759;&amp;#x6001;&amp;#x6811; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-06 15:07:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;-&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编程模拟自然(一)：如何画一颗静态树 - 推酷">
+<meta property="og:url" content="http://fblog.github.io/2015/06/06/be85f4d/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x7F16;&amp;#x7A0B;&amp;#x6A21;&amp;#x62DF;&amp;#x81EA;&amp;#x7136;(&amp;#x4E00;)&amp;#xFF1A;&amp;#x5982;&amp;#x4F55;&amp;#x753B;&amp;#x4E00;&amp;#x9897;&amp;#x9759;&amp;#x6001;&amp;#x6811; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-06 15:07:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;-&amp;">
+<meta property="og:image" content="http://img1.tuicool.com/jqeuEz.png">
+<meta property="og:image" content="http://img0.tuicool.com/IRzE7v.png">
+<meta property="og:image" content="http://img1.tuicool.com/EBnYjmU.png">
+<meta property="og:image" content="http://img1.tuicool.com/zEbmYjN.png">
+<meta property="og:image" content="http://img2.tuicool.com/bqmANnj.png">
+<meta property="og:image" content="http://img1.tuicool.com/7ZzEJjy.png">
+<meta property="og:image" content="http://img1.tuicool.com/7JJJry.gif">
+<meta property="og:updated_time" content="2015-06-06T15:07:27.408Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编程模拟自然(一)：如何画一颗静态树 - 推酷">
+<meta name="twitter:description" content="&amp;#x7F16;&amp;#x7A0B;&amp;#x6A21;&amp;#x62DF;&amp;#x81EA;&amp;#x7136;(&amp;#x4E00;)&amp;#xFF1A;&amp;#x5982;&amp;#x4F55;&amp;#x753B;&amp;#x4E00;&amp;#x9897;&amp;#x9759;&amp;#x6001;&amp;#x6811; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-06 15:07:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;-&amp;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/06/be85f4d/" title="编程模拟自然(一)：如何画一颗静态树 - 推酷" itemprop="url">编程模拟自然(一)：如何画一颗静态树 - 推酷</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-06T03:07:27.000Z" itemprop="datePublished"> 发表于 2015-06-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编程模拟自然(一)：如何画一颗静态树"><span class="toc-number">1.</span> <span class="toc-text">编程模拟自然(一)：如何画一颗静态树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#序"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第一章_二叉树必须是最好的树!"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">第一章 二叉树必须是最好的树!</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第二章_黄金分割現れる"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">第二章 黄金分割現れる</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三章_不对称与伪随机"><span class="toc-number">1.0.0.4.</span> <span class="toc-text">第三章 不对称与伪随机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第四章_更多的子树"><span class="toc-number">1.0.0.5.</span> <span class="toc-text">第四章 更多的子树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第五章_绿叶与果实"><span class="toc-number">1.0.0.6.</span> <span class="toc-text">第五章 绿叶与果实</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#后记"><span class="toc-number">1.0.0.7.</span> <span class="toc-text">后记</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.7.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="&#x7F16;&#x7A0B;&#x6A21;&#x62DF;&#x81EA;&#x7136;(&#x4E00;)&#xFF1A;&#x5982;&#x4F55;&#x753B;&#x4E00;&#x9897;&#x9759;&#x6001;&#x6811;">&#x7F16;&#x7A0B;&#x6A21;&#x62DF;&#x81EA;&#x7136;(&#x4E00;)&#xFF1A;&#x5982;&#x4F55;&#x753B;&#x4E00;&#x9897;&#x9759;&#x6001;&#x6811;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 15:07:00  <a href="/sites/Fn2umm">&#x535A;&#x5BA2;&#x56ED;-&#x539F;&#x521B;&#x7CBE;&#x534E;&#x533A;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/experdot/p/4556672.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/experdot/p/4556672.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11050000">.Net</a></p>
+<h4 id="&#x5E8F;">&#x5E8F;</h4><p>&#x4E07;&#x7269;&#x521D;&#x59CB;&#x4E4B;&#x524D;&#xFF0C;&#x5B87;&#x5B99;&#x662F;&#x65E0;&#x8FB9;&#x65E0;&#x9645;&#x6DF7;&#x6C8C;&#x7684;&#x9ED1;&#x6697;&#xFF0C;&#x53EA;&#x6709;&#x5143;&#x4E4B;&#x7075;&#x7A7F;&#x884C;&#x5176;&#x95F4;&#x3002;&#x5143;&#x5BF9;&#x8FD9;&#x65E0;&#x8FB9;&#x7684;&#x9ED1;&#x6697;&#x5341;&#x5206;&#x4E0D;&#x6EE1;&#xFF0C;&#x5C31;&#x8F7B;&#x8F7B;&#x4E00;&#x6572;&#x952E;&#x76D8;&#xFF0C;&#x8BF4;&#xFF1A;&#x201C;&#x8981;&#x6709;&#x5149;&#x201D;&#xFF0C;&#x4E8E;&#x662F;&#x4E16;&#x95F4;&#x5C31;&#x6709;&#x4E86;&#x5149;&#x3002;&#x5143;&#x79F0;&#x201C;&#x5149;&#x201D;&#x4E3A;&#x201C;&#x663C;&#x201D;&#xFF0C;&#x79F0;&#x201C;&#x9ED1;&#x6697;&#x201D;&#x4E3A;&#x201C;&#x591C;&#x201D;&#x3002;&#x4EAE;&#x5149;&#x9690;&#x53BB;&#xFF0C;&#x9ED1;&#x6697;&#x91CD;&#x4E34;&#xFF0C;&#x4ECE;&#x6B64;&#xFF0C;&#x4E16;&#x95F4;&#x5C31;&#x6709;&#x4E86;&#x663C;&#x4E0E;&#x591C;&#x7684;&#x4EA4;&#x66FF;&#x3002;&#x8FD9;&#x662F;&#x5143;&#x521B;&#x4E16;&#x7684;&#x7B2C;&#x4E00;&#x5929;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x4E8C;&#x6B21;&#x5143;&#x4E16;&#x754C;&#x8BDE;&#x751F;&#x4E4B;&#x521D;&#x4F34;&#x6709;&#x4E00;&#x53EA;&#x7A0B;&#x5E8F;&#x733F;&#xFF0C;Ta&#x7684;&#x540D;&#x5B57;&#x53EB;&#x5143;&#x3002;</p>
+<h4 id="&#x7B2C;&#x4E00;&#x7AE0;_&#x4E8C;&#x53C9;&#x6811;&#x5FC5;&#x987B;&#x662F;&#x6700;&#x597D;&#x7684;&#x6811;!">&#x7B2C;&#x4E00;&#x7AE0; &#x4E8C;&#x53C9;&#x6811;&#x5FC5;&#x987B;&#x662F;&#x6700;&#x597D;&#x7684;&#x6811;!</h4><p>&#x5143;&#x5C31;&#x662F;&#x8FD9;&#x6837;&#x60F3;&#x7684;&#xFF0C;&#x4E3A;&#x4E86;&#x8868;&#x8FBE;&#x5BF9;&#x8FD9;&#x79CD;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7684;&#x5D07;&#x62DC;&#x4E4B;&#x60C5;&#xFF0C;&#x51B3;&#x5B9A;&#x5728;&#x8FD9;&#x4E2A;&#x4E16;&#x754C;&#x9020;&#x51FA;&#x4E00;&#x9897;&#x771F;&#x5B9E;&#x7684;&#x6811;&#xFF0C;&#x4E00;&#x5F00;&#x59CB;&#x7684;&#x6784;&#x60F3;&#x662F;&#x8FD9;&#x6837;&#x7684;</p>
+<p><img src="http://img1.tuicool.com/jqeuEz.png" alt=""></p>
+<p>&#x201C;&#x6B63;&#x6240;&#x8C13;&#x6811;&#x6781;&#x751F;&#x4E09;&#x5E72;&#xFF0C;&#x4E09;&#x5E72;&#x751F;&#x516D;&#x679D;&#xFF0C;&#x516D;&#x679D;&#x751F;&#x5341;&#x4E8C;&#x53F6;&#x3002;&#x201D; &#x7136;&#x800C;&#x8FD9;&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x9897;&#x4E8C;&#x53C9;&#x6811;&#x3002;</p>
+<h4 id="&#x7B2C;&#x4E8C;&#x7AE0;_&#x9EC4;&#x91D1;&#x5206;&#x5272;&#x73FE;&#x308C;&#x308B;">&#x7B2C;&#x4E8C;&#x7AE0; &#x9EC4;&#x91D1;&#x5206;&#x5272;&#x73FE;&#x308C;&#x308B;</h4><p>&#x6811;&#x6BCF;&#x9012;&#x5F52;&#x4E00;&#x5C42;&#x9700;&#x8981;&#x6309;&#x4E00;&#x5B9A;&#x6BD4;&#x4F8B;&#x7F29;&#x653E;&#xFF0C;&#x5143;&#x82E6;&#x82E6;&#x51A5;&#x60F3;&#x826F;&#x4E45;&#xFF0C;&#x7EC8;&#x4E8E;&#x627E;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x65E0;&#x9650;&#x4E0D;&#x5FAA;&#x73AF;&#x5C0F;&#x6570;&#xFF0C;&#x5B83;&#x7684;&#x5C0F;&#x6570;&#x70B9;&#x540E;64&#x4F4D;&#x662F;&#x8FD9;&#x6837;&#x7684;</p>
+<p>0.6180339887 4989484820 4586834365 6381177203 0917980576&#xA0;2862135448 6227…</p>
+<p>[&#x4ECE;&#x5DE6;&#x81F3;&#x53F3;&#xFF0C;&#x6BD4;&#x4F8B;&#x7CFB;&#x6570;&#x4F9D;&#x6B21;&#x662F;0.618, 0.5, 1, 1.6]</p>
+<p><img src="http://img0.tuicool.com/IRzE7v.png" alt=""></p>
+<p>&#x5F53;&#x7136;&#x6811;&#x5E72;&#x7684;&#x7C97;&#x7EC6;&#x4E5F;&#x5F97;&#x7F29;&#x653E;&#xFF0C;&#x5143;&#x662F;&#x60F3;&#x5C06;&#x8FD9;&#x4E1C;&#x897F;&#x79CD;&#x5728;&#x4F0A;&#x7538;&#x56ED;&#x7684;&#x571F;&#x5730;&#x4E0A;&#x7684;&#xFF0C;&#x90A3;&#x5C31;&#x518D;&#x622A;&#x53BB;&#x4E0B;&#x65B9;&#x7684;&#x5B50;&#x6811;</p>
+<p><img src="http://img1.tuicool.com/EBnYjmU.png" alt=""></p>
+<p>&#x201C;&#x554A;&#x54C8;&#xFF0C;&#x8FD9;&#x4E0B;&#x53EB;&#x4E8C;&#x53C9;&#x6811;&#x6CA1;&#x9519;&#x4E86;&#x5427;&#x3002;&#x201D;</p>
+<p>&#x201C;&#x65E2;&#x7136;&#x914D;&#x56FE;&#x8FD9;&#x4E48;&#x6697;&#x9EC4;&#xFF0C;&#x5C31;&#x79F0;&#x8FD9;&#x4E2A;&#x65E0;&#x7406;&#x6570;&#x4E3A;&#x9EC4;&#x91D1;&#x5206;&#x5272;&#x6BD4;&#x4F8B;&#x5427;!&#x201D;&#x5143;&#x5FC3;&#x91CC;&#x60F3;&#x4E86;&#x60F3;&#x3002;</p>
+<h4 id="&#x7B2C;&#x4E09;&#x7AE0;_&#x4E0D;&#x5BF9;&#x79F0;&#x4E0E;&#x4F2A;&#x968F;&#x673A;">&#x7B2C;&#x4E09;&#x7AE0; &#x4E0D;&#x5BF9;&#x79F0;&#x4E0E;&#x4F2A;&#x968F;&#x673A;</h4><p>&#x4E0D;&#x5BF9;&#x79F0;&#x624D;&#x662F;&#x7F8E;&#xFF1F;&#x4E0D;&#x5BF9;&#x79F0;&#x624D;&#x662F;&#x7F8E;&#xFF1F;&#xFF01;&#x6240;&#x4EE5;&#x5143;&#x5C31;&#x5728;&#x6811;&#x7684;&#x8282;&#x70B9;&#x4F4D;&#x7F6E;&#x52A0;&#x5165;&#x4E86;&#x4F2A;&#x968F;&#x673A;&#x6270;&#x52A8;&#x3002; </p>
+<p><img src="http://img1.tuicool.com/zEbmYjN.png" alt=""></p>
+<p>&#x201C;&#x8BF4;&#x70B9;&#x4EC0;&#x4E48;&#x597D;&#x5462;&#xFF1F;&#x201D;</p>
+<h4 id="&#x7B2C;&#x56DB;&#x7AE0;_&#x66F4;&#x591A;&#x7684;&#x5B50;&#x6811;">&#x7B2C;&#x56DB;&#x7AE0; &#x66F4;&#x591A;&#x7684;&#x5B50;&#x6811;</h4><p>&#x5143;&#x4E00;&#x76F4;&#x8BA4;&#x4E3A;&#x8FD9;&#x4E2A;&#x4E16;&#x754C;&#x6709;&#x65F6;&#x5019;&#x662F;&#x9700;&#x8981;&#x504F;&#x89C1;&#x7684;&#xFF0C;&#x4E8C;&#x53C9;&#x6811;&#x80AF;&#x5B9A;&#x662F;&#x6700;&#x597D;&#x7684;&#x6811;&#x3002;</p>
+<p>&#x867D;&#x7136;&#x73B0;&#x5728;&#x4E0D;&#x6B62;&#x4E24;&#x4E2A;&#x5B50;&#x6811;&#x3002;</p>
+<p><img src="http://img2.tuicool.com/bqmANnj.png" alt=""></p>
+<p>&#x201C;&#x9AD8;&#x6E05;&#x5927;&#x56FE;&#x624D;&#x80FD;&#x6B23;&#x8D4F;&#x7684;&#x8FC7;&#x763E;&#x3002;&#x201D;&#x4F60;&#x53EF;&#x4EE5;&#x5C1D;&#x8BD5;&#x76EE;&#x6807;&#x53E6;&#x5B58;&#x4E3A;&#x3002; </p>
+<h4 id="&#x7B2C;&#x4E94;&#x7AE0;_&#x7EFF;&#x53F6;&#x4E0E;&#x679C;&#x5B9E;">&#x7B2C;&#x4E94;&#x7AE0; &#x7EFF;&#x53F6;&#x4E0E;&#x679C;&#x5B9E;</h4><p>&#x5728;&#x6811;&#x7684;&#x672B;&#x68A2;&#x957F;&#x51FA;&#x53F6;&#x5B50;&#x548C;&#x679C;&#x5B9E;&#xFF0C;&#x4E00;&#x9897;&#x6811;&#x7EC8;&#x4E8E;&#x6210;&#x578B;&#x4E86;&#x3002; </p>
+<p><img src="http://img1.tuicool.com/7ZzEJjy.png" alt=""></p>
+<p>&#x201C;&#x5BF9;&#x6697;&#x9EC4;&#x7CFB;&#x7B80;&#x76F4;&#x5BA1;&#x7F8E;&#x75B2;&#x52B3;&#xFF0C;&#x753B;&#x98CE;&#x662F;&#x8BE5;&#x6362;&#x4E00;&#x6362;&#x4E86;&#x3002;&#x201D;</p>
+<p>&#x201C;&#x7ED3;&#x675F;&#x4E86;&#xFF0C;&#x636E;&#x8BF4;&#x7B2C;&#x516D;&#x5929;&#x8FD8;&#x8981;&#x52A0;&#x73ED;&#x9020;&#x4EBA;&#xFF1F;&#xFF01;&#x201D;</p>
+<h4 id="&#x540E;&#x8BB0;">&#x540E;&#x8BB0;</h4><p>— &#x4E9A;&#xFF0C;&#x6211;&#x997F;&#x4E86;</p>
+<p>— &#x590F;&#xFF0C;&#x6211;&#x53BB;&#x7ED9;&#x4F60;&#x6458;&#x679C;&#x5B50;</p>
+<p>…</p>
+<p>— &#x4E9A;&#xFF0C;&#x90A3;&#x4E2A;&#x733F;&#x53C8;&#x5728;&#x6811;&#x4E0A;&#x770B;&#x7740;&#x6211;&#x4EEC;</p>
+<p>— &#x522B;&#x7BA1;Ta&#xFF0C;&#x5403;&#x679C;&#x5B50;&#x54AF;</p>
+<p>— &#x55EF;&#x54EA;</p>
+<p>…</p>
+<p>…</p>
+<p>— &#x590F;&#xFF0C;&#x6211;&#x4E00;&#x76F4;&#x4EE5;&#x4E3A;&#x90A3;&#x662F;&#x53EA;&#x72D7;&#x5462;</p>
+<p>…</p>
+<p><img src="http://img1.tuicool.com/7JJJry.gif" alt=""></p>
+<pre><code><span class="keyword">Dim</span> ph As Graphics
+<span class="keyword">Dim</span> PaintBoard As Bitmap
+<span class="keyword">Dim</span> centerX, centerY As Long
+<span class="keyword">Dim</span> modeSequence() As Integer = {<span class="number">4</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>}
+<span class="keyword">Dim</span> <span class="built_in">rnd</span> As <span class="keyword">New</span> Random
+<span class="keyword">Public</span> <span class="keyword">Function</span> Calculator(<span class="keyword">ByVal</span> x As Double, <span class="keyword">ByVal</span> y As Double, <span class="keyword">ByVal</span> mode As Integer, <span class="keyword">ByVal</span> r As Double, <span class="keyword">ByVal</span> depth As Integer, <span class="keyword">ByVal</span> radio As Double) As Double()
+    <span class="keyword">Dim</span> R2 As Double
+    r = r * radio
+    R2 = Math.Sqrt(<span class="number">3</span>) * (r / <span class="number">2</span>)
+    <span class="keyword">Dim</span> Position(<span class="number">2</span>) As Double
+    <span class="keyword">Dim</span> tempRnd As Double = <span class="number">1</span> &amp;apos;* <span class="built_in">rnd</span>.<span class="keyword">Next</span>(depth, <span class="number">20</span>) / <span class="number">10</span>
+    <span class="keyword">If</span> mode = <span class="number">1</span> <span class="keyword">Then</span>
+        x = <span class="number">0</span> : y = -r * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">2</span> <span class="keyword">Then</span>
+        x = -R2 * tempRnd : y = (r / <span class="number">2</span>) * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">3</span> <span class="keyword">Then</span>
+        x = R2 * tempRnd : y = (r / <span class="number">2</span>) * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">4</span> <span class="keyword">Then</span>
+        x = -R2 * tempRnd : y = -(r / <span class="number">2</span>) * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">5</span> <span class="keyword">Then</span>
+        x = R2 * tempRnd : y = -(r / <span class="number">2</span>) * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">6</span> <span class="keyword">Then</span>
+        x = <span class="number">0</span> : y = r * tempRnd
+    <span class="keyword">End</span> <span class="keyword">If</span>
+    Position(<span class="number">0</span>) = x
+    Position(<span class="number">1</span>) = y
+    Position(<span class="number">2</span>) = r
+    Return Position
+<span class="keyword">End</span> <span class="keyword">Function</span>
+<span class="keyword">Public</span> <span class="keyword">Sub</span> PaintLine(<span class="keyword">ByVal</span> x As Double, <span class="keyword">ByVal</span> y As Double, <span class="keyword">ByVal</span> mode As Integer, <span class="keyword">ByVal</span> r As Double, <span class="keyword">ByVal</span> depth As Integer, <span class="keyword">ByVal</span> radio As Double)
+    <span class="keyword">Dim</span> position() As Double
+    <span class="keyword">Dim</span> tempR As Double
+    <span class="keyword">Dim</span> tempWidth As Double
+    <span class="keyword">Dim</span> tempColor As Color
+    <span class="keyword">Dim</span> tempRnd As Integer = <span class="built_in">rnd</span>.<span class="keyword">Next</span>(<span class="number">1</span>, <span class="number">3</span>)
+    <span class="keyword">Dim</span> tempAlpha As Integer
+    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> <span class="number">1</span>
+        <span class="keyword">For</span> pff = <span class="number">0</span> <span class="keyword">To</span> tempRnd
+            position = Calculator(x, y, modeSequence((mode - <span class="number">1</span>) * <span class="number">2</span> + j), r, depth, radio)
+            <span class="keyword">Dim</span> LineVector As <span class="keyword">New</span> Vector2D(position(<span class="number">0</span>), position(<span class="number">1</span>))
+            LineVector.x *= <span class="built_in">rnd</span>.NextDouble
+            LineVector.y *= <span class="built_in">rnd</span>.NextDouble
+            LineVector.SetMag(IIf(depth &amp;lt;= <span class="number">1</span>, <span class="number">20</span>, position(<span class="number">2</span>)))
+            position(<span class="number">0</span>) = LineVector.x
+            position(<span class="number">1</span>) = LineVector.y
+            <span class="keyword">Dim</span> tempMag As Double = LineVector.Magnitude
+            <span class="keyword">Dim</span> PointList As <span class="keyword">New</span> List(Of PointF)
+            <span class="keyword">For</span> m = <span class="number">1</span> <span class="keyword">To</span> tempMag
+                LineVector.SetMag(m)
+                PointList.Add(<span class="keyword">New</span> PointF(x + LineVector.x, y + LineVector.y))
+            <span class="keyword">Next</span>
+            <span class="keyword">If</span> PointList.Count &amp;gt;= <span class="number">2</span> <span class="keyword">Then</span>
+                <span class="keyword">Dim</span> tempNext As Double = <span class="built_in">rnd</span>.NextDouble
+                tempAlpha = <span class="built_in">rnd</span>.<span class="keyword">Next</span>(<span class="number">20</span>, <span class="number">100</span>)
+                <span class="keyword">For</span> p = <span class="number">0</span> <span class="keyword">To</span> PointList.Count - <span class="number">2</span>
+                    tempR = r * <span class="number">0.015</span> * depth
+                    tempWidth = IIf(depth &amp;lt;= <span class="number">1</span>, Math.<span class="built_in">Sin</span>(p / <span class="number">6</span>) * <span class="number">10</span>, tempR - p / PointList.Count * (tempR - tempR * radio + r * <span class="number">0.015</span> * radio))
+                    tempColor = IIf(depth &amp;lt;= <span class="number">1</span>, Color.FromArgb(tempAlpha, Color.Green), Color.Black)
+                    <span class="keyword">If</span> depth &amp;lt;= <span class="number">1</span> <span class="keyword">Then</span>
+                        <span class="keyword">If</span> tempNext &amp;lt; <span class="number">0.01</span> <span class="keyword">Then</span>
+                            tempWidth = Math.<span class="built_in">Sin</span>(p / <span class="number">6</span>) * <span class="number">20</span>
+                            tempColor = Color.FromArgb(<span class="built_in">rnd</span>.<span class="keyword">Next</span>(<span class="number">200</span>, <span class="number">255</span>), Color.Red)
+                        <span class="keyword">End</span> <span class="keyword">If</span>
+                    <span class="keyword">End</span> <span class="keyword">If</span>
+                    ph.DrawLine(<span class="keyword">New</span> Pen(tempColor, tempWidth), PointList(p), PointList(p + <span class="number">1</span>))
+                <span class="keyword">Next</span>
+            <span class="keyword">End</span> <span class="keyword">If</span>
+            PaintHexgon(position(<span class="number">0</span>) + x, position(<span class="number">1</span>) + y, modeSequence((mode - <span class="number">1</span>) * <span class="number">2</span> + j), tempMag, depth - <span class="number">1</span>, radio)
+        <span class="keyword">Next</span>
+    <span class="keyword">Next</span>
+<span class="keyword">End</span> <span class="keyword">Sub</span>
+<span class="keyword">Public</span> <span class="keyword">Sub</span> PaintHexgon(<span class="keyword">ByVal</span> x As Double, <span class="keyword">ByVal</span> y As Double, <span class="keyword">ByVal</span> mode As Integer, <span class="keyword">ByVal</span> r As Double, <span class="keyword">ByVal</span> depth As Integer, <span class="keyword">ByVal</span> radio As Double)
+    <span class="keyword">If</span> depth &amp;gt; <span class="number">0</span> <span class="keyword">Then</span>
+        <span class="keyword">If</span> mode = <span class="number">0</span> <span class="keyword">Then</span>
+            ph.DrawLine(<span class="keyword">New</span> Pen(Brushes.Black, r * <span class="number">0.02</span> * depth), <span class="keyword">New</span> PointF(x, y), <span class="keyword">New</span> PointF(x, y + r))
+            PaintLine(x, y, <span class="number">1</span>, r, depth, radio)
+        <span class="keyword">Else</span>
+            PaintLine(x, y, mode, r, depth, radio)
+        <span class="keyword">End</span> <span class="keyword">If</span>
+    <span class="keyword">End</span> <span class="keyword">If</span>
+<span class="keyword">End</span> <span class="keyword">Sub</span>
+&amp;apos;&amp;#x753B;&amp;#x6811;
+<span class="keyword">Private</span> <span class="keyword">Sub</span> Button2_Click(<span class="keyword">ByVal</span> sender As System.Object, <span class="keyword">ByVal</span> e As System.EventArgs) Handles Button2.Click
+    PaintBoard = <span class="keyword">New</span> Bitmap(PictureBox1.Width, PictureBox1.Height)
+    ph = Graphics.FromImage(PaintBoard)
+    ph.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+    centerX = PictureBox1.Width / <span class="number">2</span> : centerY = PictureBox1.Height / <span class="number">2</span>
+    PaintHexgon(centerX, centerY, <span class="number">0</span>, <span class="number">200</span>, <span class="number">5</span>, <span class="number">0.6180339887</span>)
+    &amp;apos; PaintHexgon(centerX, centerY, <span class="number">0</span>, <span class="number">20</span>, <span class="number">5</span>, <span class="number">1.61812</span>)
+    PictureBox1.Image = PaintBoard
+<span class="keyword">End</span> <span class="keyword">Sub</span>
+</code></pre><p> VB.NET&#x6E90;&#x7801;</p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/mm6viyA">silverlight RIA Service&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x6C42;&#x52A9;</a></li>
+<li>2.<a href="/articles/7RvaYf3">&#x7531;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#x63A8;&#x9001;&#x60F3;&#x5230;&#x4E86;ObservableCollection&#x7684;&#x795E;&#x5947;&#x7528;&#x6CD5;</a></li>
+<li>3.<a href="/articles/eQnUFv6">&#x54B8;&#x86CB;&#x7CFB;&#x5217;&#x4E00;&#x25CF;&#x300A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x7BC7;&#x300B;1 &#x5E8F;</a></li>
+<li>4.<a href="/articles/73UVNfY">Mock session,cookie,querystring in ASB.NET MVC</a></li>
+<li>5.<a href="/articles/uUNFjmu">js&#x8C03;DLL&#x7C7B;&#x5E93;&#x4E2D;&#x7684;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;(&#x975E;com&#x7EC4;&#x4EF6;&#x5F62;&#x5F0F;)</a></li>
+<li><p>6.<a href="/articles/RBJzI3Y">[.net &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x57FA;&#x7840;] (12) &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x4E09;&#x5927;&#x7279;&#x6027;&#x2014;&#x2014;&#x7EE7;&#x627F;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/I3iU3e">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;I3iU3e&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Net/">.Net</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://fblog.github.io/2015/06/06/be85f4d/" data-title="编程模拟自然(一)：如何画一颗静态树 - 推酷 | dianzi blog" data-tsina="512316815" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/06/be9c3bf/" title="Restful风格wcf调用2——增删改查 - 推酷">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Restful风格wcf调用2——增删改查 - 推酷</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/06/bea9a97/"  title="统计信息内幕：直方图和密度向量 - 推酷">
+ <strong>下一篇：</strong><br/> 
+ <span>统计信息内幕：直方图和密度向量 - 推酷
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编程模拟自然(一)：如何画一颗静态树"><span class="toc-number">1.</span> <span class="toc-text">编程模拟自然(一)：如何画一颗静态树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#序"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第一章_二叉树必须是最好的树!"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">第一章 二叉树必须是最好的树!</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第二章_黄金分割現れる"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">第二章 黄金分割現れる</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三章_不对称与伪随机"><span class="toc-number">1.0.0.4.</span> <span class="toc-text">第三章 不对称与伪随机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第四章_更多的子树"><span class="toc-number">1.0.0.5.</span> <span class="toc-text">第四章 更多的子树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第五章_绿叶与果实"><span class="toc-number">1.0.0.6.</span> <span class="toc-text">第五章 绿叶与果实</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#后记"><span class="toc-number">1.0.0.7.</span> <span class="toc-text">后记</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.7.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安卓开发/" title="安卓开发">安卓开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL-Server/" title="SQL Server">SQL Server<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/文件系统/" title="文件系统">文件系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux内核/" title="Linux内核">Linux内核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WCF/" title="WCF">WCF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/github生成/" title="github生成">github生成<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/我/" title="我">我<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVC模式/" title="MVC模式">MVC模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/测试技术/" title="测试技术">测试技术<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SharePoint/" title="SharePoint">SharePoint<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/负载均衡/" title="负载均衡">负载均衡<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PPS/" title="PPS">PPS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AIDL/" title="AIDL">AIDL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

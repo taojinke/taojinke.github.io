@@ -1,0 +1,613 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>咸蛋系列一●《随机数生成篇》1 序 - 推酷 | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x54B8;&amp;#x86CB;&amp;#x7CFB;&amp;#x5217;&amp;#x4E00;&amp;#x25CF;&amp;#x300A;&amp;#x968F;&amp;#x673A;&amp;#x6570;&amp;#x751F;&amp;#x6210;&amp;#x7BC7;&amp;#x300B;1 &amp;#x5E8F; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-06 15:20:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;&amp;#x7CBE;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="咸蛋系列一●《随机数生成篇》1 序 - 推酷">
+<meta property="og:url" content="http://fblog.github.io/2015/06/06/bdc6003/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x54B8;&amp;#x86CB;&amp;#x7CFB;&amp;#x5217;&amp;#x4E00;&amp;#x25CF;&amp;#x300A;&amp;#x968F;&amp;#x673A;&amp;#x6570;&amp;#x751F;&amp;#x6210;&amp;#x7BC7;&amp;#x300B;1 &amp;#x5E8F; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-06 15:20:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;&amp;#x7CBE;&amp;#">
+<meta property="og:image" content="http://img2.tuicool.com/qIFJRf.png">
+<meta property="og:image" content="http://img0.tuicool.com/z6vMBzY.png">
+<meta property="og:image" content="http://img0.tuicool.com/u6R36fa.png">
+<meta property="og:image" content="http://img1.tuicool.com/InMbUb.jpg">
+<meta property="og:updated_time" content="2015-06-06T15:07:26.004Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="咸蛋系列一●《随机数生成篇》1 序 - 推酷">
+<meta name="twitter:description" content="&amp;#x54B8;&amp;#x86CB;&amp;#x7CFB;&amp;#x5217;&amp;#x4E00;&amp;#x25CF;&amp;#x300A;&amp;#x968F;&amp;#x673A;&amp;#x6570;&amp;#x751F;&amp;#x6210;&amp;#x7BC7;&amp;#x300B;1 &amp;#x5E8F; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-06 15:20:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;&amp;#x7CBE;&amp;#">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/06/bdc6003/" title="咸蛋系列一●《随机数生成篇》1 序 - 推酷" itemprop="url">咸蛋系列一●《随机数生成篇》1 序 - 推酷</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-06T03:07:25.000Z" itemprop="datePublished"> 发表于 2015-06-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#咸蛋系列一●《随机数生成篇》1_序"><span class="toc-number">1.</span> <span class="toc-text">咸蛋系列一●《随机数生成篇》1 序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#先上项目目录���"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">先上项目目录���</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简单使用："><span class="toc-number">1.0.0.2.</span> <span class="toc-text">简单使用：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.2.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="&#x54B8;&#x86CB;&#x7CFB;&#x5217;&#x4E00;&#x25CF;&#x300A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x7BC7;&#x300B;1_&#x5E8F;">&#x54B8;&#x86CB;&#x7CFB;&#x5217;&#x4E00;&#x25CF;&#x300A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x7BC7;&#x300B;1 &#x5E8F;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 15:20:00  <a href="/sites/bAzeYv">&#x535A;&#x5BA2;&#x56ED;&#x7CBE;&#x534E;&#x533A;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/Pupa/p/4556695.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/Pupa/p/4556695.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11050000">.Net</a></p>
+<p>&#x968F;&#x673A;&#x6570;&#x5728;&#x7F16;&#x7A0B;&#x5F00;&#x53D1;&#x7684;&#x65F6;&#x5019;&#x4F7F;&#x7528;&#x8FD8;&#x662F;&#x6BD4;&#x8F83;&#x591A;&#x7684;&#xFF0C;&#x8FFD;&#x5E38;&#x89C1;&#x7684;&#x5F53;&#x7136;&#x662F;&#x9A8C;&#x8BC1;&#x7801;&#xFF0C;&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x5728;&#x62BD;&#x5956;&#x3001;&#x6E38;&#x620F;&#x4E4B;&#x4E2D;&#x4E5F;&#x6709;&#x8FD0;&#x7528;&#x3002;&#x6700;&#x8FD1;&#x95F2;&#x5F97;&#x86CB;&#x75BC;&#xFF0C;&#x5C31;&#x641E;&#x4E86;&#x4E2A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x7684;&#x6A21;&#x677F;&#xFF0C;&#x640F;&#x603B;&#x770B;&#x5B98;&#x4E00;&#x4E50;&#x3002;</p>
+<h4 id="&#x5148;&#x4E0A;&#x9879;&#x76EE;&#x76EE;&#x5F55;&#xFFFD;&#xFFFD;&#xFFFD;">&#x5148;&#x4E0A;&#x9879;&#x76EE;&#x76EE;&#x5F55;&#xFFFD;&#xFFFD;&#xFFFD;</h4><p><img src="http://img2.tuicool.com/qIFJRf.png" alt=""></p>
+<h4 id="&#x7B80;&#x5355;&#x4F7F;&#x7528;&#xFF1A;">&#x7B80;&#x5355;&#x4F7F;&#x7528;&#xFF1A;</h4><p>&#x6570;&#x5B57;&#x4E0D;&#x8981;4</p>
+<pre><code><span class="class">RandomString</span> rs = new <span class="class">RandomString</span>();
+//&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x8981</span>;<span class="number">4</span>
+var sdd = rs.<span class="class">AddProviders</span>(<span class="class">EStringProviders</span>.<span class="class">SingleDigit</span>);
+sdd[<span class="class">EStringProviders</span>.<span class="class">SingleDigit</span>][<span class="number">0</span>].<span class="class">AddExclude</span>(<span class="number">4</span>);
+do
+{
+    <span class="class">Console</span>.<span class="class">WriteLine</span>(&amp;quot;-----------------&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;---------------------&amp;quot;);
+    <span class="class">Stopwatch</span> timer = new <span class="class">Stopwatch</span>();
+    var max = rs.<span class="class">TotalMember</span>;
+    timer.<span class="class">Start</span>();
+    string[] rev = rs.<span class="class">NextMany</span>(max);
+    timer.<span class="class">Stop</span>();
+    <span class="class">Console</span>.<span class="class">WriteLine</span>(string.<span class="class">Join</span>(&amp;quot;\t&amp;quot;, rev));
+    <span class="class">Console</span>.<span class="class">WriteLine</span>(&amp;quot;-----------------&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x675F</span>;---------------------&amp;quot;);
+    <span class="class">Console</span>.<span class="class">WriteLine</span>(&amp;quot;&amp;<span class="symbol">#x8017</span>;&amp;<span class="symbol">#x65F6</span>;{<span class="number">0</span>}, &amp;<span class="symbol">#x4EA7</span>;&amp;<span class="symbol">#x751F</span>;{<span class="number">1</span>}&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x968F</span>;&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;quot;, timer.<span class="class">Elapsed</span>.<span class="class">TotalMilliseconds</span>, rev.<span class="class">Length</span>); 
+}while (<span class="class">Console</span>.<span class="class">ReadKey</span>().<span class="class">Key</span> != <span class="class">ConsoleKey</span>.<span class="class">Escape</span>);
+</code></pre><p><img src="http://img0.tuicool.com/z6vMBzY.png" alt=""></p>
+<p>&#x5B57;&#x6BCD;&#x5927;&#x5C0F;&#x5199;</p>
+<pre><code>RandomString rs = new RandomString<span class="params">()</span>;
+rs.AddProviders<span class="params">(EStringProviders.Lowercase | EStringProviders.Uppercase)</span>;
+do
+{
+    Console.WriteLine<span class="params">(&amp;quot;-----------------&amp;#x5F00;&amp;#x59CB;---------------------&amp;quot;)</span>;
+    Stopwatch timer = new Stopwatch<span class="params">()</span>;
+    var <span class="built_in">max</span> = rs.TotalMember;
+    timer.Start<span class="params">()</span>;
+    string[] rev = rs.NextMany<span class="params">(max)</span>;
+    timer.Stop<span class="params">()</span>;
+    Console.WriteLine<span class="params">(string.Join<span class="params">(&amp;quot;\t&amp;quot;, rev)</span>)</span>;
+    Console.WriteLine<span class="params">(&amp;quot;-----------------&amp;#x7ED3;&amp;#x675F;---------------------&amp;quot;)</span>;
+    Console.WriteLine<span class="params">(&amp;quot;&amp;#x8017;&amp;#x65F6;{<span class="number">0</span>}, &amp;#x4EA7;&amp;#x751F;{<span class="number">1</span>}&amp;#x4E2A;&amp;#x968F;&amp;#x673A;&amp;#x5BF9;&amp;#x8C61;&amp;quot;, timer.Elapsed.TotalMilliseconds, rev.Length)</span>; 
+}
+while <span class="params">(Console.ReadKey<span class="params">()</span>.Key != ConsoleKey.Escape)</span>;
+</code></pre><p><img src="http://img0.tuicool.com/u6R36fa.png" alt=""></p>
+<p>&#x540E;&#x9762;&#x8FD8;&#x6709;&#x5E38;&#x7528;&#x5B57;&#x3001;&#x751F;&#x50FB;&#x5B57;&#x7B49;&#x3002;</p>
+<p>&#x5148;&#x732E;&#x4E0A;&#x4EE3;&#x7801;&#xFF0C;&#x5177;&#x4F53;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#xFF0C;&#x5468;&#x4E00;&#x89C1; </p>
+<p><img src="http://img1.tuicool.com/InMbUb.jpg" alt=""></p>
+<p><a href="https://APirate@bitbucket.org/APirate/lib.pirate.unit.randomextension.git" target="_blank" rel="external">https://APirate@bitbucket.org/APirate/lib.pirate.unit.randomextension.git</a></p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/mm6viyA">silverlight RIA Service&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x6C42;&#x52A9;</a></li>
+<li>2.<a href="/articles/7RvaYf3">&#x7531;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#x63A8;&#x9001;&#x60F3;&#x5230;&#x4E86;ObservableCollection&#x7684;&#x795E;&#x5947;&#x7528;&#x6CD5;</a></li>
+<li>3.<a href="/articles/I3iU3e">&#x7F16;&#x7A0B;&#x6A21;&#x62DF;&#x81EA;&#x7136;(&#x4E00;)&#xFF1A;&#x5982;&#x4F55;&#x753B;&#x4E00;&#x9897;&#x9759;&#x6001;&#x6811;</a></li>
+<li>4.<a href="/articles/73UVNfY">Mock session,cookie,querystring in ASB.NET MVC</a></li>
+<li>5.<a href="/articles/uUNFjmu">js&#x8C03;DLL&#x7C7B;&#x5E93;&#x4E2D;&#x7684;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;(&#x975E;com&#x7EC4;&#x4EF6;&#x5F62;&#x5F0F;)</a></li>
+<li><p>6.<a href="/articles/RBJzI3Y">[.net &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x57FA;&#x7840;] (12) &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x4E09;&#x5927;&#x7279;&#x6027;&#x2014;&#x2014;&#x7EE7;&#x627F;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/eQnUFv6">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;eQnUFv6&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Net/">.Net</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://fblog.github.io/2015/06/06/bdc6003/" data-title="咸蛋系列一●《随机数生成篇》1 序 - 推酷 | dianzi blog" data-tsina="512316815" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/06/bdade45/" title="腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计 - 推酷">
+  <strong>上一篇：</strong><br/>
+  <span>
+  腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计 - 推酷</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/06/bdc42b7/"  title="Javascript的setTimeOut和setInterval的定时器用法 - 推酷">
+ <strong>下一篇：</strong><br/> 
+ <span>Javascript的setTimeOut和setInterval的定时器用法 - 推酷
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#咸蛋系列一●《随机数生成篇》1_序"><span class="toc-number">1.</span> <span class="toc-text">咸蛋系列一●《随机数生成篇》1 序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#先上项目目录���"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">先上项目目录���</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简单使用："><span class="toc-number">1.0.0.2.</span> <span class="toc-text">简单使用：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.2.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安卓开发/" title="安卓开发">安卓开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL-Server/" title="SQL Server">SQL Server<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/文件系统/" title="文件系统">文件系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux内核/" title="Linux内核">Linux内核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WCF/" title="WCF">WCF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/github生成/" title="github生成">github生成<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/我/" title="我">我<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVC模式/" title="MVC模式">MVC模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/测试技术/" title="测试技术">测试技术<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SharePoint/" title="SharePoint">SharePoint<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/负载均衡/" title="负载均衡">负载均衡<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PPS/" title="PPS">PPS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AIDL/" title="AIDL">AIDL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
