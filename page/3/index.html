@@ -15,7 +15,7 @@
     <meta name="description" content="edwin jin dianzi blog">
 <meta property="og:type" content="website">
 <meta property="og:title" content="dianzi blog">
-<meta property="og:url" content="http://fblog.github.io/page/3/index.html">
+<meta property="og:url" content="http://taojinke.github.io/page/3/index.html">
 <meta property="og:site_name" content="dianzi blog">
 <meta property="og:description" content="edwin jin dianzi blog">
 <meta name="twitter:card" content="summary">
@@ -96,7 +96,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/06/07/edec84b/" title="咸蛋系列一●《随机数生成篇》1 序" itemprop="url">咸蛋系列一●《随机数生成篇》1 序</a>
+      <a href="/2015/06/07/ede8db3/" title="爱立信开源物联网应用开发平台：Calvin" itemprop="url">爱立信开源物联网应用开发平台：Calvin</a>
   </h1>
   <p class="article-author">By
        
@@ -109,67 +109,30 @@
 </header>
     <div class="article-content">
         
-        <h1 id="&#x54B8;&#x86CB;&#x7CFB;&#x5217;&#x4E00;&#x25CF;&#x300A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x7BC7;&#x300B;1_&#x5E8F;">&#x54B8;&#x86CB;&#x7CFB;&#x5217;&#x4E00;&#x25CF;&#x300A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x7BC7;&#x300B;1 &#x5E8F;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 15:20:00  <a href="/sites/bAzeYv">&#x535A;&#x5BA2;&#x56ED;&#x7CBE;&#x534E;&#x533A;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/Pupa/p/4556695.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/Pupa/p/4556695.html</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11050000">.Net</a></p>
-<p>&#x968F;&#x673A;&#x6570;&#x5728;&#x7F16;&#x7A0B;&#x5F00;&#x53D1;&#x7684;&#x65F6;&#x5019;&#x4F7F;&#x7528;&#x8FD8;&#x662F;&#x6BD4;&#x8F83;&#x591A;&#x7684;&#xFF0C;&#x8FFD;&#x5E38;&#x89C1;&#x7684;&#x5F53;&#x7136;&#x662F;&#x9A8C;&#x8BC1;&#x7801;&#xFF0C;&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x5728;&#x62BD;&#x5956;&#x3001;&#x6E38;&#x620F;&#x4E4B;&#x4E2D;&#x4E5F;&#x6709;&#x8FD0;&#x7528;&#x3002;&#x6700;&#x8FD1;&#x95F2;&#x5F97;&#x86CB;&#x75BC;&#xFF0C;&#x5C31;&#x641E;&#x4E86;&#x4E2A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x7684;&#x6A21;&#x677F;&#xFF0C;&#x640F;&#x603B;&#x770B;&#x5B98;&#x4E00;&#x4E50;&#x3002;</p>
-<h4 id="&#x5148;&#x4E0A;&#x9879;&#x76EE;&#x76EE;&#x5F55;&#xFF1A;">&#x5148;&#x4E0A;&#x9879;&#x76EE;&#x76EE;&#x5F55;&#xFF1A;</h4><p><img src="http://img2.tuicool.com/qIFJRf.png" alt=""></p>
-<h4 id="&#x7B80;&#x5355;&#x4F7F;&#x7528;&#xFF1A;">&#x7B80;&#x5355;&#x4F7F;&#x7528;&#xFF1A;</h4><p>&#x6570;&#x5B57;&#x4E0D;&#x8981;4</p>
-<pre><code><span class="class">RandomString</span> rs = new <span class="class">RandomString</span>();
-//&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x8981</span>;<span class="number">4</span>
-var sdd = rs.<span class="class">AddProviders</span>(<span class="class">EStringProviders</span>.<span class="class">SingleDigit</span>);
-sdd[<span class="class">EStringProviders</span>.<span class="class">SingleDigit</span>][<span class="number">0</span>].<span class="class">AddExclude</span>(<span class="number">4</span>);
-do
-{
-    <span class="class">Console</span>.<span class="class">WriteLine</span>(&amp;quot;-----------------&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;---------------------&amp;quot;);
-    <span class="class">Stopwatch</span> timer = new <span class="class">Stopwatch</span>();
-    var max = rs.<span class="class">TotalMember</span>;
-    timer.<span class="class">Start</span>();
-    string[] rev = rs.<span class="class">NextMany</span>(max);
-    timer.<span class="class">Stop</span>();
-    <span class="class">Console</span>.<span class="class">WriteLine</span>(string.<span class="class">Join</span>(&amp;quot;\t&amp;quot;, rev));
-    <span class="class">Console</span>.<span class="class">WriteLine</span>(&amp;quot;-----------------&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x675F</span>;---------------------&amp;quot;);
-    <span class="class">Console</span>.<span class="class">WriteLine</span>(&amp;quot;&amp;<span class="symbol">#x8017</span>;&amp;<span class="symbol">#x65F6</span>;{<span class="number">0</span>}, &amp;<span class="symbol">#x4EA7</span>;&amp;<span class="symbol">#x751F</span>;{<span class="number">1</span>}&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x968F</span>;&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;quot;, timer.<span class="class">Elapsed</span>.<span class="class">TotalMilliseconds</span>, rev.<span class="class">Length</span>); 
-}while (<span class="class">Console</span>.<span class="class">ReadKey</span>().<span class="class">Key</span> != <span class="class">ConsoleKey</span>.<span class="class">Escape</span>);
-</code></pre><p><img src="http://img0.tuicool.com/z6vMBzY.png" alt=""></p>
-<p>&#x5B57;&#x6BCD;&#x5927;&#x5C0F;&#x5199;</p>
-<pre><code>RandomString rs = new RandomString<span class="params">()</span>;
-rs.AddProviders<span class="params">(EStringProviders.Lowercase | EStringProviders.Uppercase)</span>;
-do
-{
-    Console.WriteLine<span class="params">(&amp;quot;-----------------&amp;#x5F00;&amp;#x59CB;---------------------&amp;quot;)</span>;
-    Stopwatch timer = new Stopwatch<span class="params">()</span>;
-    var <span class="built_in">max</span> = rs.TotalMember;
-    timer.Start<span class="params">()</span>;
-    string[] rev = rs.NextMany<span class="params">(max)</span>;
-    timer.Stop<span class="params">()</span>;
-    Console.WriteLine<span class="params">(string.Join<span class="params">(&amp;quot;\t&amp;quot;, rev)</span>)</span>;
-    Console.WriteLine<span class="params">(&amp;quot;-----------------&amp;#x7ED3;&amp;#x675F;---------------------&amp;quot;)</span>;
-    Console.WriteLine<span class="params">(&amp;quot;&amp;#x8017;&amp;#x65F6;{<span class="number">0</span>}, &amp;#x4EA7;&amp;#x751F;{<span class="number">1</span>}&amp;#x4E2A;&amp;#x968F;&amp;#x673A;&amp;#x5BF9;&amp;#x8C61;&amp;quot;, timer.Elapsed.TotalMilliseconds, rev.Length)</span>; 
-}
-while <span class="params">(Console.ReadKey<span class="params">()</span>.Key != ConsoleKey.Escape)</span>;
-</code></pre><p><img src="http://img0.tuicool.com/u6R36fa.png" alt=""></p>
-<p>&#x540E;&#x9762;&#x8FD8;&#x6709;&#x5E38;&#x7528;&#x5B57;&#x3001;&#x751F;&#x50FB;&#x5B57;&#x7B49;&#x3002;</p>
-<p>&#x5148;&#x732E;&#x4E0A;&#x4EE3;&#x7801;&#xFF0C;&#x5177;&#x4F53;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#xFF0C;&#x5468;&#x4E00;&#x89C1; </p>
-<p><img src="http://img1.tuicool.com/InMbUb.jpg" alt=""></p>
-<p><a href="https://APirate@bitbucket.org/APirate/lib.pirate.unit.randomextension.git" target="_blank" rel="external">https://APirate@bitbucket.org/APirate/lib.pirate.unit.randomextension.git</a></p>
+        <h1 id="&#x7231;&#x7ACB;&#x4FE1;&#x5F00;&#x6E90;&#x7269;&#x8054;&#x7F51;&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x5E73;&#x53F0;&#xFF1A;Calvin">&#x7231;&#x7ACB;&#x4FE1;&#x5F00;&#x6E90;&#x7269;&#x8054;&#x7F51;&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x5E73;&#x53F0;&#xFF1A;Calvin</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-07 05:42:25  <a href="/sites/qIN36n">IT&#x7ECF;&#x7406;&#x7F51;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.ctocio.com/ccnews/18637.html?utm_source=tuicool" target="_blank" rel="external">http://www.ctocio.com/ccnews/18637.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11080038">&#x5F00;&#x6E90;</a></p>
+<p><img src="http://img0.tuicool.com/ryIRzmy.jpg" alt="ipad-computing-device.jpg"></p>
+<p>&#x7231;&#x7ACB;&#x4FE1;&#x8FD1;&#x65E5;&#x5728; <a href="http://www.ericsson.com/research-blog/cloud/open-source-calvin/" target="_blank" rel="external">&#x5B98;&#x65B9;&#x535A;&#x5BA2;</a> &#x5BA3;&#x5E03;&#x5F00;&#x6E90;&#x5176;&#x7269;&#x8054;&#x7F51;IoT&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x5E73;&#x53F0;&#x2014;&#x2014; <a href="https://www.github.com/EricssonResearch/calvin-base" target="_blank" rel="external">Calvin</a> &#x3002; </p>
+<p>CalvinCalvin&#x9762;&#x5411;&#x5206;&#x5E03;&#x5F0F;&#x7269;&#x8054;&#x7F51;&#x4E91;&#x8BA1;&#x7B97;&#x5F00;&#x53D1;&#xFF0C;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A;&#x7269;&#x8054;&#x7F51;&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x6846;&#x67B6;&#x548C;&#x7269;&#x8054;&#x7F51;&#x5E94;&#x7528;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x73AF;&#x5883;&#x3002;&#x7231;&#x7ACB;&#x4FE1;&#x4E3A;Calvin&#x8BBE;&#x5B9A;&#x7684;&#x5B97;&#x65E8;&#x662F;&#x8BA9;&#x7269;&#x8054;&#x7F51;&#x5F00;&#x53D1;&#x53D8;&#x5F97;&#x66F4;&#x52A0;&#x7B80;&#x5355;&#x6709;&#x8DA3;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x65E0;&#x9700;&#x4E3A;&#x901A;&#x8BAF;&#x534F;&#x8BAE;&#x6216;&#x786C;&#x4EF6;&#x89C4;&#x683C;&#x7B49;&#x64CD;&#x5FC3;&#x3002;</p>
+<p>Calvin&#x7684;&#x5F00;&#x53D1;&#x57FA;&#x4E8E;&#x6210;&#x719F;&#x6A21;&#x578B;&#xFF0C;&#x91C7;&#x7528;&#x4E86;&#x4E00;&#x79CD;&#x79F0;&#x4E3A;&#x201C;&#x6570;&#x636E;&#x6D41;&#x7F16;&#x7A0B;&#x201D;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+<h4 id="Calvin&#x7684;&#x4F18;&#x70B9;">Calvin&#x7684;&#x4F18;&#x70B9;</h4><p>Calvin&#x7684;runtime&#x6269;&#x5C55;&#x6027;&#x975E;&#x5E38;&#x597D;&#xFF0C;&#x57FA;&#x7840;&#x529F;&#x80FD;&#x975E;&#x5E38;&#x7B80;&#x6D01;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x5F88;&#x5C0F;&#x7684;&#x7269;&#x8054;&#x7F51;&#x8BBE;&#x5907;&#x5546;&#x8FD0;&#x884C;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x80FD;&#x5145;&#x5206;&#x8C03;&#x7528;&#x4E91;&#x7AEF;&#x7684;&#x8BA1;&#x7B97;&#x6027;&#x80FD;&#x3002;Calvin&#x7684;&#x7F16;&#x7A0B;&#x6A21;&#x578B;&#x5BF9;&#x4E91;&#x3001;&#x8BBE;&#x5907;&#x3001;&#x667A;&#x80FD;&#x624B;&#x673A;/&#x4F20;&#x611F;&#x5668;&#x3001;&#x5BA2;&#x6237;&#x7AEF;/&#x670D;&#x52A1;&#x5668;&#x4E00;&#x89C6;&#x540C;&#x4EC1;&#xFF0C;&#x91C7;&#x7528;&#x76F8;&#x540C;&#x7684;&#x8303;&#x578B;&#x3002;&#x56E0;&#x6B64;&#x5728;Calvin&#x4E0A;&#x5F00;&#x53D1;&#x7684;&#x5E94;&#x7528;&#x5728;&#x90E8;&#x7F72;&#x65F6;&#x65E0;&#x9700;&#x62C5;&#x5FC3;&#x5177;&#x4F53;&#x7684;&#x786C;&#x4EF6;&#x89C4;&#x683C;&#x3002;&#x5F00;&#x53D1;&#x548C;&#x90E8;&#x7F72;&#x4E5F;&#x662F;&#x76F8;&#x5BF9;&#x72EC;&#x7ACB;&#x7684;&#xFF0C;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x8BA1;&#x7B97;&#x8282;&#x70B9;&#x8FC1;&#x79FB;&#x5E94;&#x7528;&#x65F6;&#x4E5F;&#x65E0;&#x9700;&#x4FEE;&#x6539;&#x4EE3;&#x7801;&#xFF0C;&#x540C;&#x6837;&#x7684;&#xFF0C;&#x4FEE;&#x6539;&#x4EE3;&#x7801;&#x4E5F;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x5E94;&#x7528;&#x5728;&#x539F;&#x6709;&#x8BA1;&#x7B97;&#x8282;&#x70B9;&#x4E0A;&#x7684;&#x90E8;&#x7F72;&#x3002;</p>
+<p>&#x5B9E;&#x65F6;&#x4E0A;Calvin&#x5E94;&#x7528;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x5728;runtime&#x73AF;&#x5883;&#x95F4;&#x8FDB;&#x884C;&#x70ED;&#x5207;&#x6362;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;&#x5E7F;&#x5927;IoT&#x7269;&#x8054;&#x7F51;&#x5F00;&#x53D1;&#x8005;&#x6765;&#x8BF4;&#xFF0C;Calvin&#x7684;&#x5356;&#x70B9;&#x662F;&#x7B80;&#x5316;&#x7684;&#x7F16;&#x7A0B;&#x6A21;&#x578B;&#xFF0C;&#x5F3A;&#x5927;&#x7684;&#x901A;&#x8BAF;&#x529F;&#x80FD;&#x548C;&#x4FBF;&#x6377;&#x7684;&#x90E8;&#x7F72;&#x673A;&#x5236;&#x3002;&#x590D;&#x6742;&#x6027;&#x88AB;&#x9690;&#x85CF;&#x540E;&#xFF0C;&#x7269;&#x8054;&#x7F51;&#x5F00;&#x53D1;&#x53D8;&#x5F97;&#x66F4;&#x52A0;&#x9AD8;&#x6548;&#xFF0C;&#x540C;&#x65F6;&#x5E94;&#x7528;&#x66F4;&#x52A0;&#x9C81;&#x68D2;&#xFF0C;&#x4EE3;&#x7801;&#x4E2D;&#x7684;&#x9519;&#x8BEF;&#x4E5F;&#x66F4;&#x5C11;&#x3002;</p>
 <p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
 <p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
 <ul>
-<li>1.<a href="/articles/RJrUN3F">Aspose.Tasks for .NET 8.4.1 &#x53D1;&#x5E03;</a></li>
-<li>2.<a href="/articles/nYriY3B">[.net &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x57FA;&#x7840;] (14) &#x91CD;&#x6784;</a></li>
-<li>3.<a href="/articles/mm6viyA">silverlight RIA Service&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x6C42;&#x52A9;</a></li>
-<li>4.<a href="/articles/7RvaYf3">&#x7531;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#x63A8;&#x9001;&#x60F3;&#x5230;&#x4E86;ObservableCollection&#x7684;&#x795E;&#x5947;&#x7528;&#x6CD5;</a></li>
-<li>5.<a href="/articles/I3iU3e">&#x7F16;&#x7A0B;&#x6A21;&#x62DF;&#x81EA;&#x7136;(&#x4E00;)&#xFF1A;&#x5982;&#x4F55;&#x753B;&#x4E00;&#x9897;&#x9759;&#x6001;&#x6811;</a></li>
-<li><p>6.<a href="/articles/73UVNfY">Mock session,cookie,querystring in ASB.NET MVC</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/eQnUFv6">()</a></p>
+<li>1.<a href="/articles/NF7bUb3">&#x7B14;&#x8BB0;, Cirru Table Redo &#x5931;&#x8D25;, &#x7ECF;&#x9A8C;&#x6559;&#x8BAD;</a></li>
+<li>2.<a href="/articles/zqmUzqB">Java I/O : Bit Operation &#x4F4D;&#x8FD0;&#x7B97;</a></li>
+<li><p>3.<a href="/articles/3A3YNvm">&#x91CD;&#x65B0;&#x62CE;&#x4E00;&#x904D;js&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/NnIrmaA">()</a></p>
 </li>
 </ul>
 <h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
 <p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
 <p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
 <p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;eQnUFv6&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;NnIrmaA&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
 
         
         
@@ -188,7 +151,273 @@ while <span class="params">(Console.ReadKey<span class="params">()</span>.Key !=
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Net/">.Net</a>
+  <span></span> <a href="/tags/开源/">开源</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/07/ede6432/" title="腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计" itemprop="url">腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-07T01:45:51.000Z" itemprop="datePublished"> 发表于 2015-06-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#xFF1A;App&#x6027;&#x80FD;&#x4F18;&#x5316;&#x4E0E;&#x7EC8;&#x7AEF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;">&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#xFF1A;App&#x6027;&#x80FD;&#x4F18;&#x5316;&#x4E0E;&#x7EC8;&#x7AEF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 19:49:52  <a href="/sites/7fAnIr">CSDN&#x79FB;&#x52A8;&#x5F00;&#x53D1;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.csdn.net/article/2015-06-06/2824885?utm_source=tuicool" target="_blank" rel="external">http://www.csdn.net/article/2015-06-06/2824885</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11110030">&#x6027;&#x80FD;&#x4F18;&#x5316;</a><a href="/topics/11000077">&#x79FB;&#x52A8;&#x5F00;&#x53D1;</a></p>
+<p>5&#x6708;31&#x65E5;&#xFF0C;&#x7531;&#x817E;&#x8BAF;&#x65E0;&#x7EBF;&#x7814;&#x53D1;&#x90E8;&#x4E3B;&#x529E;&#x7684;&#x201C;&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#x201D;&#x7B2C;&#x4E00;&#x671F;&#x5728;&#x5317;&#x4EAC;&#x8F66;&#x5E93;&#x5496;&#x5561;&#x62C9;&#x5F00;&#x5E8F;&#x5E55;&#x3002;&#x672C;&#x6B21;&#x6C99;&#x9F99;&#x6D3B;&#x52A8;&#x4EE5;&#x201C;&#x79FB;&#x52A8;&#x5E94;&#x7528;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x7B14;&#x8BB0;&#x201D;&#x4E3A;&#x4E3B;&#x9898;&#xFF0C;&#x9080;&#x8BF7;&#x5230;&#x817E;&#x8BAF;&#x79FB;&#x52A8;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x4E13;&#x5BB6;&#x53F6;&#x65B9;&#x6B63;&#x4E0E;&#x624B;&#x673A;QQ&#x8D1F;&#x8D23;&#x4EBA;&#x5F20;&#x65ED;&#x5728;&#x73B0;&#x573A;&#x7ED3;&#x5408;&#x5B9E;&#x6218;&#x5C31;&#x201C;Android&#x5E94;&#x7528;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x201D;&#x4E0E;&#x201C;&#x7EC8;&#x7AEF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x201D;&#x8FDB;&#x884C;&#x4E86;&#x6280;&#x672F;&#x4EA4;&#x6D41;&#x4E0E;&#x5206;&#x4EAB;&#x3002;</p>
+<p><img src="http://img2.tuicool.com/Ub63Yv3.jpg" alt=""></p>
+<p>&#x79FB;&#x52A8;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x4E13;&#x5BB6;&#x53F6;&#x65B9;&#x6B63;&#xFF1A;Android&#x4F18;&#x5316;&#x7B14;&#x8BB0;</p>
+<p>&#x817E;&#x8BAF;&#x79FB;&#x52A8;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x4E13;&#x5BB6; &#x53F6;&#x65B9;&#x6B63;&#x5BF9;Android&#x5E94;&#x7528;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x548C;&#x8C03;&#x4F18;&#x8FDB;&#x884C;&#x4E86;&#x8BE6;&#x7EC6;&#x7684;&#x4ECB;&#x7ECD;&#x3002;&#x5173;&#x4E8E;Android&#x5E94;&#x7528;&#x4F18;&#x5316;&#xFF0C;&#x4E3B;&#x8981;&#x96C6;&#x4E2D;&#x5728;&#x5185;&#x5B58;&#x548C;UI&#x6D41;&#x7545;&#x5EA6;&#x4E24;&#x4E2A;&#x65B9;&#x9762;&#xFF0C;&#x6BD4;&#x5982;&#x5185;&#x5B58;&#x5360;&#x7528;&#x4E0E;&#x6CC4;&#x9732;&#xFF0C;UI&#x6D41;&#x7545;&#x5EA6;&#x7684;&#x5E27;&#x6570;&#x548C;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#xFF0C;IO&#x7684;&#x963B;&#x585E;&#x5F0F;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x7B49;&#x3002;</p>
+<p><img src="http://img0.tuicool.com/qaQnAb.jpg" alt=""></p>
+<p>&#x8C08;&#x5230;&#x4E3A;&#x4EC0;&#x4E48;&#x4F18;&#x5316;&#x5185;&#x5B58;&#x65F6;&#xFF0C;&#x53F6;&#x65B9;&#x6B63;&#x8868;&#x793A;&#xFF0C;&#x5BF9;&#x4E8E;&#x624B;&#x673A;&#x6765;&#x8BF4;&#xFF0C;&#x5185;&#x5B58;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x7A00;&#x7F3A;&#x7684;&#x8D44;&#x6E90;&#xFF0C;&#x5373;&#x4F7F;&#x662F;&#x73B0;&#x5728;&#x666E;&#x904D;&#x62E5;&#x6709;&#x7740;&#x5F88;&#x5927;&#x5185;&#x5B58;&#x7684;Android&#x624B;&#x673A;&#x4E5F;&#x4E0D;&#x53EF;&#x907F;&#x514D;&#xFF0C;&#x800C;Android&#x7684;&#x5185;&#x5B58;&#x95EE;&#x9898;&#x4E3B;&#x8981;&#x5305;&#x62EC;DDMS&#x3001;MAT&#x548C;android.os.Debug&#x3002;&#x6D4B;&#x8BD5;&#x4EBA;&#x5458;&#x5E94;&#x4ECE;&#x7F16;&#x8BD1;&#x4EE3;&#x7801;&#x3001;&#x9009;&#x5B9A;&#x6D4B;&#x8BD5;&#x573A;&#x666F;&#x3001;&#x6D4B;&#x8BD5;&#x573A;&#x666F;&#x8F6C;&#x6362;&#x6210;&#x7528;&#x4F8B;&#x3001;&#x8DD1;&#x8D77;&#x5DE5;&#x5177;Run&#x7528;&#x4F8B;&#x5165;&#x624B;&#xFF0C;&#x5E76;&#x7ED3;&#x5408;&#x4EE3;&#x7801;&#x6DF1;&#x5EA6;&#x5206;&#x6790;&#xFF0C;&#x6765;&#x8FDB;&#x884C;&#x5185;&#x5B58;&#x6D4B;&#x8BD5;&#x3002;</p>
+<p>&#x624B;&#x673A;QQ&#x8D1F;&#x8D23;&#x4EBA;&#x5F20;&#x65ED;&#xFF1A;&#x6700;&#x5408;&#x9002;&#x7684;&#x67B6;&#x6784; &#x6700;&#x5408;&#x9002;&#x7684;&#x91CD;&#x6784;</p>
+<p>&#x624B;&#x673A;QQ&#x8D1F;&#x8D23;&#x4EBA;&#x5F20;&#x65ED;&#x4ECE;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x3001;&#x91CD;&#x6784;&#x4E0E;&#x9879;&#x76EE;&#x8FDB;&#x5EA6;&#x7B49;&#x65B9;&#x9762;&#x5BF9;&#x8F6F;&#x4EF6;&#x67B6;&#x6784;&#x8FDB;&#x884C;&#x4E86;&#x5168;&#x65B9;&#x4F4D;&#x7684;&#x5256;&#x6790;&#x4E0E;&#x8BB2;&#x89E3;&#x3002;&#x4E0D;&#x662F;&#x6BCF;&#x4E00;&#x4E2A;&#x7A0B;&#x5E8F;&#x5458;&#x90FD;&#x80FD;&#x591F;&#x6210;&#x4E3A;&#x4E00;&#x4E2A;&#x67B6;&#x6784;&#x5E08;&#x2014;&#x2014;&#x8FD9;&#x662F;&#x5F00;&#x53D1;&#x754C;&#x5E7F;&#x4E3A;&#x6D41;&#x4F20;&#x7684;&#x4E00;&#x4E2A;&#x8BBA;&#x8C03;&#x3002;&#x8F6F;&#x4EF6;&#x67B6;&#x6784;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5C06;&#x4EA7;&#x54C1;&#x4ECE;&#x9700;&#x6C42;&#x5230;&#x8BBE;&#x8BA1;&#x7684;&#x6BCF;&#x4E2A;&#x7EC6;&#x8282;&#x90FD;&#x8981;&#x8003;&#x8651;&#x5230;&#xFF0C;&#x628A;&#x63E1;&#x6574;&#x4E2A;&#x9879;&#x76EE;&#xFF0C;&#x4F7F;&#x8BBE;&#x8BA1;&#x7684;&#x9879;&#x76EE;&#x5C3D;&#x91CF;&#x6548;&#x7387;&#x9AD8;&#xFF0C;&#x5F00;&#x53D1;&#x5BB9;&#x6613;&#xFF0C;&#x7EF4;&#x62A4;&#x65B9;&#x4FBF;&#xFF0C;&#x5347;&#x7EA7;&#x7B80;&#x5355;&#x3002;</p>
+<p><img src="http://img0.tuicool.com/MJFJ7b.jpg" alt=""></p>
+<p>&#x90A3;&#x4E48;&#xFF0C;&#x7A76;&#x7ADF;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x67B6;&#x6784;&#x624D;&#x662F;&#x6700;&#x5408;&#x9002;&#x7684;&#xFF1F;&#x5F20;&#x65ED;&#x8868;&#x793A;&#xFF0C;&#x8861;&#x91CF;&#x4E00;&#x4E2A;&#x67B6;&#x6784;&#x662F;&#x5426;&#x5408;&#x9002;&#x7684;&#x91CD;&#x8981;&#x6807;&#x51C6;&#x5C31;&#x662F;&#xFF1A;&#x662F;&#x5426;&#x9002;&#x7528;&#x4E8E;&#x5F53;&#x524D;&#x56E2;&#x961F;&#x4E0E;&#x4E1A;&#x52A1;&#x89C4;&#x6A21;&#xFF0C;&#x662F;&#x5426;&#x9002;&#x7528;&#x4E8E;&#x4EA7;&#x54C1;/&#x5546;&#x4E1A;&#x53D1;&#x5C55;&#x7684;&#x4E0B;&#x4E00;&#x6B65;&#x65B9;&#x5411;&#xFF1F;&#x5982;&#x679C;&#x56E2;&#x961F;&#x89C4;&#x6A21;&#x6269;&#x5927;&#x3001;&#x6269;&#x5C55;&#x6027;&#x4E0D;&#x8DB3;&#x3001;&#x7EF4;&#x62A4;&#x6027;&#x5D29;&#x574F;&#x3001;&#x6027;&#x80FD;&#x53D7;&#x5230;&#x5F71;&#x54CD;&#x5C31;&#x5FC5;&#x987B;&#x5F15;&#x5165;&#x91CD;&#x6784;&#x3002;&#x6839;&#x636E;&#x73B0;&#x6709;&#x60C5;&#x51B5;&#xFF0C;&#x91CD;&#x65B0;&#x505A;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#xFF0C;&#x5E76;&#x627E;&#x5230;&#x539F;&#x6709;&#x67B6;&#x6784;&#x53EF;&#x590D;&#x7528;&#x7684;&#x90E8;&#x5206;&#x4EE5;&#x53CA;&#x9700;&#x8981;&#x91CD;/&#x6539;&#x5199;&#x7684;&#x5173;&#x952E;&#x70B9;&#xFF0C;&#x7ED9;&#x51FA;&#x91CD;&#x6784;&#x7684;&#x6539;&#x5584;&#x76EE;&#x6807;&#x3002;</p>
+<p>&#x4F5C;&#x4E3A;&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#x7684;&#x9996;&#x79C0;&#xFF0C;&#x672C;&#x6B21;&#x6D3B;&#x52A8;&#x805A;&#x96C6;&#x4E86;&#x7EA6;&#x4E24;&#x767E;&#x591A;&#x540D;&#x5F00;&#x53D1;&#x8005;&#x7684;&#x53C2;&#x4E0E;&#xFF0C;&#x6574;&#x4E2A;&#x5206;&#x4EAB;&#x4F1A;&#x73B0;&#x573A;&#x5EA7;&#x65E0;&#x865A;&#x5E2D;&#xFF0C;&#x4E24;&#x4F4D;&#x6280;&#x672F;&#x5496;&#x4EE5;&#x5E72;&#x8D27;&#x52A0;&#x5B9E;&#x4F8B;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x4F7F;&#x6574;&#x4E2A;&#x5206;&#x4EAB;&#x901A;&#x4FD7;&#x6613;&#x61C2;&#x3001;&#x751F;&#x52A8;&#x6709;&#x8DA3;&#x3002;&#x9664;&#x4E86;&#x6280;&#x672F;&#x5185;&#x5BB9;&#x5206;&#x4EAB;&#x4E4B;&#x5916;&#xFF0C;&#x73B0;&#x573A;&#x8FD8;&#x8BBE;&#x7F6E;&#x4E86;&#x4E92;&#x52A8;&#x3001;&#x8336;&#x6B47;&#x4EA4;&#x6D41;&#x548C;&#x5706;&#x684C;&#x8BBA;&#x575B;&#x7B49;&#x73AF;&#x8282;&#xFF0C;&#x4E24;&#x4F4D;&#x6F14;&#x8BB2;&#x5609;&#x5BBE;&#x76F4;&#x63A5;&#x4E0E;&#x5F00;&#x53D1;&#x8005;&#x4EEC;&#x8FDB;&#x884C;&#x9762;&#x5BF9;&#x9762;&#x7684;&#x7B54;&#x7591;&#x89E3;&#x60D1;&#x3002; </p>
+<p>&#x73B0;&#x573A;&#x82B1;&#x7D6E;&#xFF1A;</p>
+<p><img src="http://img1.tuicool.com/jYNzE3.jpg" alt=""></p>
+<p><img src="http://img0.tuicool.com/fu22Mr.jpg" alt=""></p>
+<p><img src="http://img0.tuicool.com/bMjARre.jpg" alt=""></p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/rAveEza">&#x95F2;&#x8C08;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x6A21;&#x5F0F;</a></li>
+<li>2.<a href="/articles/NF7bUb3">&#x7B14;&#x8BB0;, Cirru Table Redo &#x5931;&#x8D25;, &#x7ECF;&#x9A8C;&#x6559;&#x8BAD;</a></li>
+<li>3.<a href="/articles/6VB7zii">Datazen&#x5B89;&#x88C5;</a></li>
+<li>4.<a href="/articles/NjUB7b">Fibonacci&#x6570;&#x5217;&#x6027;&#x8D28;&#x7684;&#x7EC4;&#x5408;&#x8BC1;&#x660E;</a></li>
+<li>5.<a href="/articles/BbaINzQ">Backbone.js 1.2.1 &#x53D1;&#x5E03;&#xFF0C;JavaScript &#x7684; MVC &#x6846;&#x67B6;</a></li>
+<li><p>6.<a href="/articles/QbYRb2I">Unity3d &#x83B7;&#x53D6;&#x5C4F;&#x5E55;depth&#x4E0E;normal</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/rmmQ3uR">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;rmmQ3uR&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/性能优化/">性能优化</a><a href="/tags/移动开发/">移动开发</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/07/edc881f/" title="笔记, Cirru Table Redo 失败, 经验教训" itemprop="url">笔记, Cirru Table Redo 失败, 经验教训</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-07T01:45:51.000Z" itemprop="datePublished"> 发表于 2015-06-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="&#x7B14;&#x8BB0;,_Cirru_Table_Redo_&#x5931;&#x8D25;,_&#x7ECF;&#x9A8C;&#x6559;&#x8BAD;">&#x7B14;&#x8BB0;, Cirru Table Redo &#x5931;&#x8D25;, &#x7ECF;&#x9A8C;&#x6559;&#x8BAD;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-07 08:53:26  <a href="/sites/3uEjYv">segmentfault-&#x535A;&#x5BA2;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://segmentfault.com/a/1190000002882642?utm_source=tuicool" target="_blank" rel="external">http://segmentfault.com/a/1190000002882642</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11000151">&#x8F6F;&#x4EF6;&#x5F00;&#x53D1;</a></p>
+<h3 id="&#x7F18;&#x8D77;">&#x7F18;&#x8D77;</h3><p>&#x524D;&#x9762;&#x4E24;&#x5468;&#x82B1;&#x4E86;&#x4E00;&#x4E9B;&#x7CBE;&#x529B;&#x65AD;&#x65AD;&#x7EED;&#x7EED;&#x53BB;&#x60F3;&#x8FD9;&#x4E2A;&#x9879;&#x76EE;:</p>
+<p>Cirru Table Redo: <a href="https://github.com/Cirru/cirru-table-redo" target="_blank" rel="external">https://github.com/Cirru/cirru-table-redo</a></p>
+<p>&#x672C;&#x6765;&#x7684;&#x76EE;&#x6807;&#x662F;&#x505A;&#x4E00;&#x4E2A;&#x5B9E;&#x65F6;&#x9884;&#x89C8;&#x6BCF;&#x4E2A;&#x503C;&#x7684;&#x89E3;&#x91CA;&#x5668;&#x7684; Demo&#x4ECE;&#x524D;&#x505A;&#x8FC7;&#x4E24;&#x4E2A;&#x7248;&#x672C;, &#x4E5F;&#x662F;&#x5728;&#x5FAE;&#x535A;&#x8BB0;&#x5F55;&#x5F53;&#x4E2D;&#x56DE;&#x5FC6;&#x624D;&#x840C;&#x751F;&#x5FF5;&#x5934;&#x7684;: </p>
+<p>Cirru Live Editing: <a href="http://www.tudou.com/programs/view/SWKnhfmduos/" target="_blank" rel="external">http://www.tudou.com/programs/view/SWKnhfmduos/</a></p>
+<p>Cirru Table: <a href="http://www.tudou.com/programs/view/mHypUOnZSOI/" target="_blank" rel="external">http://www.tudou.com/programs/view/mHypUOnZSOI/</a></p>
+<p>&#x5728; Live Editing &#x7684;&#x4F8B;&#x5B50;&#x91CC;, &#x6211;&#x8BD5;&#x9A8C;&#x4E86;&#x6709;&#x4E00;&#x4E2A;&#x5168;&#x5C40; Mutable Scope,</p>
+<p>&#x7136;&#x540E;&#x4EE3;&#x7801;&#x4E00;&#x904D;&#x6E32;&#x67D3;&#x4E00;&#x904D;&#x4F1A;&#x4FEE;&#x6539; Scope, &#x4E8E;&#x662F;&#x4EE3;&#x7801;&#x540C;&#x65F6;&#x4F1A;&#x663E;&#x793A;&#x6BCF;&#x4E2A;&#x503C;.</p>
+<p>&#x5F53;&#x65F6;&#x7684; commit &#x6CA1;&#x53BB;&#x627E;&#x662F;&#x54EA;&#x4E00;&#x4E2A;, &#x6240;&#x4EE5;&#x53EA;&#x80FD;&#x770B;&#x4E0D;&#x6E05;&#x6670;&#x7684;&#x89C6;&#x9891;&#x4E86;</p>
+<p>Cirru Table &#x5F53;&#x4E2D;&#x5462;, &#x5219;&#x662F;&#x628A;&#x89E3;&#x91CA;&#x8FC7;&#x7A0B;&#x6574;&#x4E2A;&#x8BB0;&#x5F55;&#x7136;&#x540E;&#x7528;&#x6811;&#x5C55;&#x793A;&#x51FA;&#x6765;</p>
+<p>&#x6548;&#x679C;&#x5BF9;&#x6211;&#x81EA;&#x5DF1;&#x6765;&#x662F;&#x662F;&#x633A;&#x68D2;&#x7684;, &#x53EA;&#x4E0D;&#x8FC7;&#x5177;&#x4F53;&#x5230;&#x7A0B;&#x5E8F;, &#x4E0D;&#x53EF;&#x80FD;&#x505A;&#x5230;&#x8BB0;&#x5F55;&#x5168;&#x90E8;&#x6267;&#x884C;&#x8FC7;&#x7A0B;</p>
+<p>Chrome Profiler &#x5F53;&#x4E2D; Flame Graph &#x6709;&#x7C7B;&#x4F3C;, &#x4F46;&#x6050;&#x6015;&#x4E5F;&#x4E0D;&#x4F1A;&#x8BB0;&#x5F55;&#x5168;&#x90E8;&#x6570;&#x636E;</p>
+<p>&#x4E0D;&#x8FC7;&#x6211;&#x89C9;&#x5F97;&#x7B49;&#x786C;&#x4EF6;&#x6027;&#x80FD;&#x4E0A;&#x53BB;&#x4E86;&#x5012;&#x662F;&#x503C;&#x5F97;&#x8003;&#x8651;&#x4E0B;, &#x800C;&#x4E14;&#x5F15;&#x5165;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x7684;&#x624B;&#x6CD5;&#x4F18;&#x5316;&#x4E0B;</p>
+<p>&#x4F5C;&#x4E3A;&#x6982;&#x5FF5;&#x6F14;&#x793A;, &#x5DF2;&#x7ECF;&#x8DB3;&#x591F;&#x4E86;, &#x6211;&#x4E0D;&#x7BA1;&#x4E86;, &#x53EA;&#x662F;&#x60F3;&#x5C1D;&#x8BD5;&#x70B9;&#x522B;&#x7684;</p>
+<p><img src="http://img0.tuicool.com/A7n632b.jpg" alt=""></p>
+<h3 id="&#x5931;&#x8D25;&#x7684;&#x76EE;&#x6807;">&#x5931;&#x8D25;&#x7684;&#x76EE;&#x6807;</h3><p>&#x90A3;&#x4E48;&#x6211;&#x6709;&#x65B0;&#x7684;&#x60F3;&#x6CD5;&#x4E86;, &#x8BD5;&#x8BD5;&#x7528;&#x65B0;&#x7684;&#x529E;&#x6CD5;&#x6765;&#x6F14;&#x793A;, &#x6BD4;&#x5982;&#x8BF4;&#x6709;&#x8FD9;&#x6837;&#x4E00;&#x6BB5;&#x811A;&#x672C;:</p>
+<pre><code>cirrudefine <span class="list">(<span class="keyword">add</span> x y)</span> <span class="list">(<span class="keyword">+</span> x y)</span>
+define <span class="list">(<span class="keyword">main</span>)</span>
+  print <span class="list">(<span class="keyword">add</span> <span class="number">1</span> <span class="number">2</span>)</span>
+</code></pre><p>&#x5C31;&#x50CF; Chris Granger &#x6307;&#x51FA;&#x7684;, <strong>&#x62BD;&#x8C61;&#x7684;&#x53D8;&#x91CF;&#x662F;&#x7A0B;&#x5E8F;&#x96BE;&#x4EE5;&#x7406;&#x89E3;&#x7684;&#x539F;&#x56E0;</strong></p>
+<p>&#x56E0;&#x4E3A;&#x4F60;&#x6839;&#x672C;&#x4E0D;&#x77E5;&#x9053;&#x53D8;&#x91CF;&#x91CC;&#x8FB9;&#x662F;&#x4EC0;&#x4E48;, &#x53EA;&#x80FD;&#x4E00;&#x8FB9;&#x8111;&#x8865;&#x4E00;&#x8FB9;&#x5199;&#x4EE3;&#x7801;, &#x9519;&#x4E86;&#x4E5F;&#x4E0D;&#x77E5;&#x9053;</p>
+<p>&#x90A3;&#x6211;&#x7684;&#x65B9;&#x6848;&#x9996;&#x5148;&#x662F;&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x7684;&#x8FC7;&#x7A0B;&#x5F53;&#x4E2D;&#x5E94;&#x8BE5;&#x628A;&#x5177;&#x4F53;&#x7684;&#x6570;&#x503C;&#x663E;&#x793A;&#x51FA;&#x6765;</p>
+<p>&#x5C31;&#x7B97;&#x5199; test case &#x4E5F;&#x53EA;&#x662F;&#x7ED9;&#x67D0;&#x4E9B;&#x7279;&#x5B9A;&#x6570;&#x636E;&#x5427;, &#x4E0D;&#x5982;&#x76F4;&#x63A5;&#x5728;&#x7A0B;&#x5E8F;&#x5F53;&#x4E2D;&#x7ED9;:</p>
+<pre><code><span class="string">cirrudefine:</span>Builtin (<span class="string">add:</span>Symbol <span class="string">x:</span><span class="number">1</span> <span class="string">y:</span><span class="number">2</span>)
+  +:Builtin <span class="string">x:</span><span class="number">1</span> <span class="string">y:</span><span class="number">2</span>
+</code></pre><p>&#x4E3A;&#x4E86;&#x6574;&#x5957;&#x4E1C;&#x897F;&#x80FD;&#x8FD0;&#x884C;, &#x6211;&#x9700;&#x8981;&#x5F15;&#x5165; suppose &#x51FD;&#x6570;, &#x5199;&#x4E0A;&#x521D;&#x59CB;&#x7684;&#x53D8;&#x91CF; </p>
+<p>suppose &#x7684;&#x4F5C;&#x7528;, &#x662F;&#x5728;&#x5F00;&#x53D1;&#x65F6;&#x63D0;&#x4F9B;&#x56FE;&#x5F62;&#x5316;&#x7684;&#x6570;&#x636E;, &#x800C;&#x5728;&#x5B9E;&#x9645;&#x8FD0;&#x884C;&#x65F6;&#x6D88;&#x5931; </p>
+<p>&#x90A3;&#x4E48;&#x6574;&#x4E2A;&#x7A0B;&#x5E8F;&#x7ECF;&#x8FC7;&#x6CE8;&#x91CA;, &#x6587;&#x5B57;&#x7248;&#x5C31;&#x662F;&#x8FD9;&#x6837;&#x7684;:</p>
+<pre><code><span class="attribute">cirrusuppose</span>:Built (<span class="attribute">add</span>:Symbol <span class="number">1</span>:<span class="number">1</span> <span class="number">2</span>:<span class="number">2</span>)
+
+<span class="attribute">define</span>:Builtin (<span class="attribute">add</span>:Symbol <span class="attribute">x</span>:<span class="number">1</span> <span class="attribute">y</span>:<span class="number">2</span>)
+  +:Builtin <span class="attribute">x</span>:<span class="number">1</span> <span class="attribute">y</span>:<span class="number">2</span>
+
+<span class="attribute">define</span>:Builtin (<span class="attribute">main</span>:Symbol)
+  <span class="attribute">print</span>:Builtin (<span class="attribute">add</span>:Func <span class="number">1</span>:<span class="number">1</span> <span class="number">2</span>:<span class="number">2</span>)
+</code></pre><p>&#x57FA;&#x4E8E;&#x8FD9;&#x6837;&#x7684;&#x601D;&#x8DEF;, &#x62C6;&#x5206;&#x51FA;&#x6765;&#x5B50;&#x95EE;&#x9898;&#x53EF;&#x4EE5;&#x6709;&#x8FD9;&#x6837;&#x4E00;&#x4E9B;:</p>
+<ul>
+<li>&#x9700;&#x8981;&#x6709;&#x57FA;&#x672C;&#x7684;&#x89E3;&#x91CA;&#x5668;, &#x6BD4;&#x5982; add &#x8C03;&#x7528;&#x65F6;&#x76F4;&#x63A5;&#x80FD;&#x8FD0;&#x884C; (&#x641E;&#x5B9A; Demo)</li>
+<li>&#x9700;&#x8981;&#x5728;&#x6E32;&#x67D3; DOM &#x65F6;&#x4E5F;&#x80FD;&#x89E3;&#x91CA;, &#x5199;&#x53E6;&#x4E00;&#x4EFD;&#x89E3;&#x91CA;&#x5668; (&#x601D;&#x8DEF;&#x7406;&#x6E05;, &#x6CA1;&#x641E;&#x5B9A;&#x7279;&#x4F8B;)</li>
+<li>&#x9700;&#x8981;&#x641E;&#x5B9A;&#x8BFB;&#x5199;&#x6587;&#x4EF6;&#x63A5;&#x53E3;&#x7684;&#x6570;&#x636E;&#x6A21;&#x62DF; (&#x601D;&#x8DEF;&#x7406;&#x6E05;, &#x6CA1;&#x5B9E;&#x73B0;)</li>
+<li>&#x9700;&#x8981;&#x8003;&#x8651;&#x533F;&#x540D;&#x51FD;&#x6570;&#x7684;&#x4F7F;&#x7528;, &#x5185;&#x90E8;&#x7684;&#x6570;&#x636E;&#x600E;&#x6837;&#x6A21;&#x62DF; (&#x601D;&#x8DEF;&#x6CA1;&#x6709;&#x7406;&#x51FA;&#x6765;)</li>
+</ul>
+<p>&#x73B0;&#x5728;&#x611F;&#x89C9;&#x8FD9;&#x4E2A;&#x5751;&#x5DF2;&#x7ECF;&#x592A;&#x5927;&#x4E86;, &#x76EE;&#x524D;&#x80FD;&#x529B;&#x8FDC;&#x8FDC;&#x4E0D;&#x591F;, &#x6253;&#x7B97;&#x5FEB;&#x70B9;&#x8DF3;&#x51FA;&#x6765;</p>
+<p>&#x5F53;&#x7136;&#x6211;&#x4F9D;&#x7136;&#x5BF9;&#x6B64;&#x4FDD;&#x6301;&#x5F3A;&#x70C8;&#x7684;&#x5174;&#x8DA3;, &#x4E5F;&#x662F;&#x6211;&#x4E3A;&#x4EC0;&#x4E48;&#x5931;&#x8D25;&#x4E86;&#x8FD8;&#x7559;&#x7B14;&#x8BB0;</p>
+<p>&#x5982;&#x679C;&#x6709;&#x540C;&#x5B66;&#x5BF9;&#x6B64;&#x611F;&#x5174;&#x8DA3;&#x7EE7;&#x7EED;&#x63A2;&#x7D22;&#x5C31;&#x6709;&#xFFFD;&#xFFFD;&#xFFFD;&#x601D;&#x4E86;.. &#x5F53;&#x7136;&#x5F88;&#x53EF;&#x80FD;&#x5931;&#x8D25;</p>
+<p>&#x524D;&#x4E9B;&#x5929;&#x770B;&#x5230;&#x8FD9;&#x53E5;&#x8BDD;, &#x53EF;&#x4EE5;&#x5171;&#x52C9;&#x4E00;&#x4E0B;:</p>
+<p><a href="http://weibo.com/1651843872/Cl1Cl2hKI" target="_blank" rel="external">http://weibo.com/1651843872/Cl1Cl2hKI</a></p>
+<p>If you don&apos;t fail at least 90 percent of the time, you&apos;re not aiming high enough.— Alan Kay </p>
+<h3 id="Live_Coding">Live Coding</h3><p>&#x5173;&#x4E8E;&#x600E;&#x6837;&#x8BA9;&#x7F16;&#x7A0B;&#x66F4;&#x52A0;&#x7B80;&#x5355;, &#x66F4;&#x52A0;&#x53EF;&#x9760;, &#x793E;&#x533A;&#x5DF2;&#x7ECF;&#x6295;&#x5165;&#x4E86;&#x5F88;&#x591A;&#x7814;&#x7A76;</p>
+<p>&#x7279;&#x522B;&#x662F;&#x524D;&#x9762;&#x7684; Chris Granger &#x7684;&#x4F5C;&#x54C1;, &#x90FD;&#x662F;&#x5F88;&#x53D1;&#x4EBA;&#x6DF1;&#x7701;&#x7684;</p>
+<p>&#x4ED6;&#x8BBE;&#x8BA1;&#x7684; LightTable &#x5F53;&#x4E2D;&#x5C31;&#x5728;&#x591A;, &#x4E0D;&#x8FC7;&#x5177;&#x4F53;&#x5BF9;&#x5E94;&#x8FD9;&#x91CC;&#x7684;&#x662F;:</p>
+<p>Inline Evaluation: <a href="http://docs.lighttable.com/tutorials/full/#inline-evaluation" target="_blank" rel="external">http://docs.lighttable.com/tutorials/full/#inline-evaluation</a></p>
+<p>&#x5B9E;&#x9645;&#x4E0A;&#x6211;&#x5E0C;&#x671B;&#x80FD;&#x6709;&#x5BF9;&#x66F4;&#x5927;&#x7684;&#x9879;&#x76EE;&#x4F7F;&#x7528;&#x7684;&#x65B9;&#x6848;, &#x5355;&#x884C;&#x7684;&#x6709;&#x70B9;&#x4E0D;&#x591F;</p>
+<p>&#x4E0D;&#x7BA1;&#x600E;&#x4E48;&#x8BF4; LightTable &#x8DDF; Swift &#x51FA;&#x73B0;&#x5728;&#x6211;&#x9762;&#x524D;&#x65F6;&#x8FD8;&#x662F;&#x5F88;&#x6B63;&#x9707;&#x60CA;&#x7684;</p>
+<p>&#x5927;&#x6982;&#x56E0;&#x4E3A;&#x6211;&#x5B8C;&#x5168;&#x4E0D;&#x77E5;&#x9053;&#x600E;&#x6837;&#x53BB;&#x5B9E;&#x73B0;&#x5427;.. Anyway, &#x4EE5;&#x540E;&#x4F1A;&#x6709;&#x66F4;&#x5F3A;&#x5927;&#x7684;</p>
+<p>Bret Victor &#x5728;&#x6613;&#x5B66;&#x7F16;&#x7A0B;&#x5F53;&#x4E2D;&#x6F14;&#x793A;&#x7684;&#x5C31;&#x771F;&#x7684;&#x5BF9;&#x56FE;&#x5F62;&#x5F00;&#x53D1;&#x8005;&#x975E;&#x5E38;&#x6709;&#x5FC5;&#x8981;&#x4E86;</p>
+<p>&#x56E0;&#x4E3A;&#x80FD;&#x6E05;&#x695A;&#x7406;&#x89E3;&#x6BCF;&#x4E00;&#x884C;&#x7A0B;&#x5E8F;&#x53D1;&#x6325;&#x600E;&#x6837;&#x7684;&#x4F5C;&#x7528;&#x7684;&#x8BDD;, &#x5BF9;&#x5F00;&#x53D1;&#x6765;&#x8BF4;&#x4F1A;&#x6E05;&#x6670;&#x5F88;&#x591A;</p>
+<p>&#x5177;&#x4F53;&#x770B;&#x539F;&#x6587;&#x5427;, &#x6216;&#x8005;&#x4E2D;&#x6587;&#x7FFB;&#x8BD1;&#x53EF;&#x4EE5;&#x7684;:</p>
+<p>Learnable Programming: <a href="http://worrydream.com/LearnableProgramming/" target="_blank" rel="external">http://worrydream.com/LearnableProgramming/</a></p>
+<p>(&#x7FFB;&#x8BD1;)&#x6613;&#x5B66;&#x7F16;&#x7A0B;: <a href="http://chengyichao.info/learnable-programming/" target="_blank" rel="external">http://chengyichao.info/learnable-programming/</a></p>
+<p>&#x603B;&#x4E4B;&#x5C31;&#x662F;, &#x8BA9;&#x7A0B;&#x5E8F;&#x8131;&#x79BB;&#x62BD;&#x8C61;, &#x80FD;&#x8BA9;&#x5F00;&#x53D1;&#x8005;&#x975E;&#x5E38;&#x76F4;&#x89C2;&#x5730;&#x7406;&#x89E3;, &#x8FD9;&#x5F88;&#x91CD;&#x8981;</p>
+<h3 id="&#x811A;&#x672C;&#x548C;&#x9759;&#x6001;&#x7C7B;&#x578B;">&#x811A;&#x672C;&#x548C;&#x9759;&#x6001;&#x7C7B;&#x578B;</h3><p>&#x4E2D;&#x95F4;&#x6709;&#x4E2A;&#x601D;&#x8003;, &#x5C31;&#x662F;: &#x7A0B;&#x5E8F;&#x8D8A;&#x5927;, &#x8D8A;&#x4F1A;&#x6709;&#x5F88;&#x591A;&#x62BD;&#x8C61;&#x673A;&#x5236;, &#x4E5F;&#x8D8A;&#x53D1;&#x96BE;&#x61C2;</p>
+<p>&#x9996;&#x5148;&#x6570;&#x636E;&#x7684;&#x62BD;&#x8C61;, &#x8FC7;&#x7A0B;&#x7684;&#x62BD;&#x8C61;, &#x5728;&#x7A0B;&#x5E8F;&#x5F00;&#x53D1;&#x5F53;&#x4E2D;&#x662F;&#x81F3;&#x5173;&#x91CD;&#x8981;&#x7684;</p>
+<p>&#x5176;&#x6B21;&#x624D;&#x662F;&#x6211;&#x4EEC;&#x8981;&#x8BA9;&#x7A0B;&#x5E8F;&#x66F4;&#x597D;&#x61C2;, &#x6709;&#x4E0D;&#x9AD8;&#x7684;&#x7EF4;&#x62A4;&#x6210;&#x672C;, &#x7136;&#x800C;&#x4E24;&#x8005;&#x5E38;&#x5E38;&#x80CC;&#x9053;&#x800C;&#x9A70;</p>
+<p>&#x6BD4;&#x5982;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B; Monad &#x62BD;&#x8C61;&#x7A0B;&#x5EA6;&#x5F88;&#x9AD8;, &#x7406;&#x89E3;&#x8D77;&#x6765;&#x6781;&#x96BE;</p>
+<p>&#x811A;&#x672C;&#x8BED;&#x8A00;&#x8BA1;&#x5212;&#x56E0;&#x4E3A;&#x77ED;&#x5C0F;, &#x62BD;&#x8C61;&#x4E0D;&#x9AD8;, &#x4F46;&#x4E5F;&#x56E0;&#x6B64;&#x7ECF;&#x5E38;&#x51FA;&#x9519;, &#x53EA;&#x80FD;&#x4ECE; Log &#x8C03;&#x8BD5;</p>
+<p>&#x5BF9;&#x4E8E;&#x811A;&#x672C;&#x8BED;&#x8A00;&#x6211;&#x53C8;&#x8FD9;&#x6837;&#x7684;&#x4E00;&#x79CD;&#x7406;&#x89E3;, &#x5C31;&#x662F;&#x811A;&#x672C;&#x5B9E;&#x9645;&#x5199;&#x7684;&#x662F;&#x4E0D;&#x51FA;&#x9519;&#x7684;&#x60C5;&#x51B5;</p>
+<p>&#x5C31;&#x662F;&#x8BF4;&#x5047;&#x8BBE;&#x7A0B;&#x5E8F;&#x4E0D;&#x4F1A;&#x9047;&#x5230;&#x5947;&#x602A;&#x7684;&#x6570;&#x636E;, &#x90A3;&#x4E48;&#x5148;&#x8FD9;&#x6837;, &#x518D;&#x90A3;&#x4E48;, &#x5E94;&#x8BE5;&#x5C31;&#x641E;&#x5B9A;&#x4E86;</p>
+<p>&#x7136;&#x540E;&#x5199;&#x7740;&#x5199;&#x7740;&#x53D1;&#x73B0;&#x6709;&#x6CA1;&#x8003;&#x8651;&#x5230;&#x7684;, &#x52A0;&#x5165;&#x5224;&#x65AD;&#x53BB;&#x5904;&#x7406;&#x4E00;&#x4E0B;. &#x5F3A;&#x8C03;&#x4E0B;&#x540D;&#x5B57;, &#x811A;&#x672C;.</p>
+<p>&#x5728;&#x9759;&#x6001;&#x7C7B;&#x578B;&#x7684;&#x8BED;&#x53E5;&#x5F53;&#x4E2D;, &#x6216;&#x8005;&#x8BF4;&#x9700;&#x8981;&#x663E;&#x793A;&#x58F0;&#x660E;&#x7C7B;&#x578B;&#x7684;&#x8BED;&#x8A00;, &#x5C31;&#x4E0D;&#x80FD;&#x8FD9;&#x6837;&#x6563;&#x6F2B;</p>
+<p>&#x6BCF;&#x4E00;&#x4E2A;&#x51FD;&#x6570;, &#x5230;&#x9700;&#x8981;&#x8003;&#x8651;&#x597D;&#x7C7B;&#x578B;, &#x600E;&#x6837;&#x5904;&#x7406;&#x5404;&#x79CD;&#x6570;&#x636E;&#x7684;&#x53EF;&#x80FD;, &#x518D;&#x8FDE;&#x63A5;&#x5230;&#x4E00;&#x8D77;</p>
+<p>&#x7A0B;&#x5E8F;&#x7ECF;&#x8FC7;&#x4E86;&#x7C7B;&#x578B;&#x68C0;&#x67E5;, &#x76F8;&#x6BD4;&#x811A;&#x672C;&#x8BED;&#x8A00;&#x6765;&#x8BF4;&#x51FA;&#x95EE;&#x9898;&#x7684;&#x60C5;&#x51B5;&#x5C11;&#x5F97;&#x591A;</p>
+<p>&#x5F53;&#x7136;, &#x6BCF;&#x4E2A;&#x51FD;&#x6570;&#x90FD;&#x8BA4;&#x771F;&#x8003;&#x8651;, &#x63D0;&#x5347;&#x8D28;&#x91CF;&#x7684;&#x540C;&#x65F6;, &#x7F16;&#x5199;&#x7684;&#x5DE5;&#x4F5C;&#x91CF;&#x4E5F;&#x591A;&#x4E86;</p>
+<p>&#x8FD9;&#x51E0;&#x4E4E;&#x5C31;&#x662F;&#x5728;&#x4FBF;&#x5229;&#x548C;&#x53EF;&#x9760;&#x4E24;&#x8005;&#x4E4B;&#x95F4;&#x505A;&#x6289;&#x62E9;, &#x800C;&#x4E14;&#x662F;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x76EE;&#x7684;</p>
+<p>&#x6240;&#x4EE5;&#x6211;&#x60F3;&#x4E24;&#x8005;&#x90FD;&#x53EF;&#x4EE5;&#x5F53;&#x4F5C;&#x662F;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;</p>
+<p>&#x6709;&#x4E00;&#x5929;&#x8981;&#x8BBE;&#x8BA1;&#x7A0B;&#x5E8F;&#x7684;&#x53EF;&#x89C6;&#x5316;&#x7684;&#x65F6;&#x5019;, &#x8003;&#x8651;&#x4E0B;&#x662F;&#x5426;&#x9700;&#x8981;&#x4E24;&#x8005;&#x533A;&#x5206;&#x5F00;&#x6765;?</p>
+<h3 id="&#x4E0D;&#x53EF;&#x53D8;&#x6570;&#x636E;&#x7684;_name">&#x4E0D;&#x53EF;&#x53D8;&#x6570;&#x636E;&#x7684; name</h3><p>&#x4E2D;&#x95F4;&#x8BD5;&#x7740;&#x73A9;&#x7684;&#x65F6;&#x5019;, &#x672A;&#x6765;&#x8003;&#x8651;&#x6E32;&#x67D3;&#x65F6;&#x72B6;&#x6001;&#x4E0D;&#x88AB;&#x7834;&#x7834;&#x574F;, &#x6211;&#x5C1D;&#x8BD5;&#x8003;&#x8651;&#x4E0D;&#x53EF;&#x53D8;&#x6570;&#x636E;</p>
+<p>&#x6BD4;&#x5982;&#x8FD9;&#x6837;&#x4E00;&#x4E2A;&#x89E3;&#x91CA;&#x5668;, &#x4F1A;&#x4FEE;&#x6539;&#x4F5C;&#x7528;&#x57DF;&#x5F53;&#x4E2D;&#x4E24;&#x4E2A;&#x53D8;&#x91CF;&#x7684;&#x6570;&#x636E;,</p>
+<p>&#x5982;&#x679C;&#x6E32;&#x67D3;&#x8FC7;&#x7A0B;&#x4E2D;&#x540E;&#x8FB9;&#x7684;&#x4EE3;&#x7801;&#x4FEE;&#x6539;&#x4E86;&#x6570;&#x636E;, &#x5176;&#x4ED6;&#x7528;&#x4E86;&#x53D8;&#x91CF;&#x7684;&#x672A;&#x4F4D;&#x7F6E;&#x662F;&#x5426;&#x6536;&#x5230;&#x5F71;&#x54CD;?</p>
+<pre><code>cirrudefine <span class="list">(<span class="keyword">guess</span> x y)</span>
+  set size <span class="number">10</span>
+  set width <span class="number">20</span>
+  + <span class="list">(<span class="keyword">*</span> x size)</span> <span class="list">(<span class="keyword">*</span> y weight)</span>
+</code></pre><p>&#x53EF;&#x662F;&#x53BB;&#x6389;&#x4FEE;&#x6539;&#x4F5C;&#x7528;&#x57DF;&#x7684;&#x51FD;&#x6570; set , &#x95EE;&#x9898;&#x6765;&#x4E86;, &#x7136;&#x540E;&#x5982;&#x4F55;&#x5B9A;&#x4E49;&#x53D8;&#x91CF;&#x5462;? </p>
+<p>&#x540E;&#x6765;&#x60F3;&#x8D77;&#x4E86; Do Notation &#x5F53;&#x4E2D;&#x624B;&#x6CD5;, &#x901A;&#x8FC7;&#x51FD;&#x6570;&#x4F5C;&#x7528;&#x57DF;&#x5F15;&#x5165;&#x6570;&#x636E;&#x7684; name,</p>
+<p>&#x5177;&#x4F53;&#x5C31;&#x662F;&#x4E2A;&#x5C71;&#x5BE8;(&#x4E0D;&#x5168;)&#x7684; bind &#x51FD;&#x6570;, &#x901A;&#x8FC7;&#x8C03;&#x7528;&#x533F;&#x540D;&#x51FD;&#x6570;&#x6765;&#x5B9E;&#x73B0;: </p>
+<pre><code>cirrudefine <span class="params">(guess x y)</span>
+  bind <span class="number">10</span> $ \ <span class="params">(size)</span>
+    bind <span class="number">20</span> $ \ <span class="params">(weight)</span>
+      + <span class="params">(* x size)</span> <span class="params">(* y weight)</span>
+</code></pre><p>&#x4E5F;&#x662F;&#x56E0;&#x4E3A;&#x533F;&#x540D;&#x51FD;&#x6570;&#x7684;&#x5B58;&#x5728;, &#x8FD9;&#x4E2A;&#x9879;&#x76EE;&#x96BE;&#x5EA6;&#x589E;&#x52A0;&#x4E86;, &#x533F;&#x540D;&#x51FD;&#x6570;&#x5185;&#x90E8;&#x6570;&#x636E;&#x5982;&#x4F55;&#x5C55;&#x793A;?</p>
+<p>&#x6587;&#x672C;&#x7684;&#x4EE3;&#x7801;&#x6267;&#x884C;&#x662F;&#x975E;&#x5E38;&#x62BD;&#x8C61;&#x7684;, &#x867D;&#x7136;&#x770B;&#x8D77;&#x6765;&#x53EA;&#x662F;&#x4F20;&#x5165;&#x4E00;&#x4E2A;&#x503C;, &#x5B9E;&#x9645;&#x5374;&#x4E0D;&#x80FD;&#x90A3;&#x4E48;&#x5199;,</p>
+<p>&#x5177;&#x4F53;&#x6CA1;&#x6709;&#x8003;&#x8651;&#x6E05;&#x695A;. &#x4E0D;&#x8FC7; bind &#x7684;&#x9996;&#x53D1;&#x786E;&#x5B9E;&#x6709;&#x610F;&#x601D;, &#x4EE5;&#x540E;&#x8FD8;&#x80FD;&#x7528;&#x5230; </p>
+<h3 id="&#x603B;&#x7ED3;">&#x603B;&#x7ED3;</h3><p>&#x53EF;&#x89C6;&#x5316;&#x7684;&#x7F16;&#x7A0B;&#x65B9;&#x6848;&#x5BF9;&#x4E8E;&#x5F00;&#x53D1;&#x8005;&#x6765;&#x8BF4;&#x4F1A;&#x5F88;&#x91CD;&#x8981;, &#x7279;&#x522B;&#x662F;&#x754C;&#x9762;&#x8D8A;&#x6765;&#x8D8A;&#x591A;&#x7684;&#x8D8B;&#x52BF;&#x4E0B;</p>
+<p>&#x53E6;&#x5916;&#x8981;&#x5438;&#x5F15;&#x65B0;&#x4EBA;&#x52A0;&#x5165;&#x7A0B;&#x5E8F;&#x5458;&#x7684;&#x9886;&#x57DF;, &#x771F;&#x7684;&#x662F;&#x8981;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x8BDA;&#x610F;&#x624D;&#x884C;&#x554A;</p>
+<p>&#x6211;&#x671F;&#x5F85;&#x770B;&#x56FD;&#x5916;&#x725B;&#x4EBA;&#x53D1;&#x5E03;&#x65B0;&#x7684;&#x65B9;&#x6848;&#x53BB;&#x505A;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x7684;&#x53EF;&#x89C6;&#x5316;, &#x81EA;&#x5DF1;&#x505A;&#x53EA;&#x662F;&#x5B66;&#x4E60;&#x800C;&#x5DF2;</p>
+<p>&#x81F3;&#x5C11;&#x7406;&#x89E3;&#x4E86; bind &#x51FD;&#x6570;&#x8FD9;&#x4E00;&#x8282;, &#x5E2E;&#x6211;&#x7406;&#x89E3;&#x4E86; Haskell &#x5F53;&#x4E2D;&#x6709;&#x4E9B;&#x5730;&#x65B9; </p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/NnIrmaA">&#x7231;&#x7ACB;&#x4FE1;&#x5F00;&#x6E90;&#x7269;&#x8054;&#x7F51;&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x5E73;&#x53F0;&#xFF1A;Calvin</a></li>
+<li>2.<a href="/articles/zqmUzqB">Java I/O : Bit Operation &#x4F4D;&#x8FD0;&#x7B97;</a></li>
+<li><p>3.<a href="/articles/3A3YNvm">&#x91CD;&#x65B0;&#x62CE;&#x4E00;&#x904D;js&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/NF7bUb3">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;NF7bUb3&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/软件开发/">软件开发</a>
   </div>
 
 </div>
@@ -583,318 +812,7 @@ while <span class="params">(Console.ReadKey<span class="params">()</span>.Key !=
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/06/07/ede6432/" title="腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计" itemprop="url">腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-07T01:45:51.000Z" itemprop="datePublished"> 发表于 2015-06-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#xFF1A;App&#x6027;&#x80FD;&#x4F18;&#x5316;&#x4E0E;&#x7EC8;&#x7AEF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;">&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#xFF1A;App&#x6027;&#x80FD;&#x4F18;&#x5316;&#x4E0E;&#x7EC8;&#x7AEF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 19:49:52  <a href="/sites/7fAnIr">CSDN&#x79FB;&#x52A8;&#x5F00;&#x53D1;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.csdn.net/article/2015-06-06/2824885?utm_source=tuicool" target="_blank" rel="external">http://www.csdn.net/article/2015-06-06/2824885</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11110030">&#x6027;&#x80FD;&#x4F18;&#x5316;</a><a href="/topics/11000077">&#x79FB;&#x52A8;&#x5F00;&#x53D1;</a></p>
-<p>5&#x6708;31&#x65E5;&#xFF0C;&#x7531;&#x817E;&#x8BAF;&#x65E0;&#x7EBF;&#x7814;&#x53D1;&#x90E8;&#x4E3B;&#x529E;&#x7684;&#x201C;&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#x201D;&#x7B2C;&#x4E00;&#x671F;&#x5728;&#x5317;&#x4EAC;&#x8F66;&#x5E93;&#x5496;&#x5561;&#x62C9;&#x5F00;&#x5E8F;&#x5E55;&#x3002;&#x672C;&#x6B21;&#x6C99;&#x9F99;&#x6D3B;&#x52A8;&#x4EE5;&#x201C;&#x79FB;&#x52A8;&#x5E94;&#x7528;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x7B14;&#x8BB0;&#x201D;&#x4E3A;&#x4E3B;&#x9898;&#xFF0C;&#x9080;&#x8BF7;&#x5230;&#x817E;&#x8BAF;&#x79FB;&#x52A8;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x4E13;&#x5BB6;&#x53F6;&#x65B9;&#x6B63;&#x4E0E;&#x624B;&#x673A;QQ&#x8D1F;&#x8D23;&#x4EBA;&#x5F20;&#x65ED;&#x5728;&#x73B0;&#x573A;&#x7ED3;&#x5408;&#x5B9E;&#x6218;&#x5C31;&#x201C;Android&#x5E94;&#x7528;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x201D;&#x4E0E;&#x201C;&#x7EC8;&#x7AEF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x201D;&#x8FDB;&#x884C;&#x4E86;&#x6280;&#x672F;&#x4EA4;&#x6D41;&#x4E0E;&#x5206;&#x4EAB;&#x3002;</p>
-<p><img src="http://img2.tuicool.com/Ub63Yv3.jpg" alt=""></p>
-<p>&#x79FB;&#x52A8;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x4E13;&#x5BB6;&#x53F6;&#x65B9;&#x6B63;&#xFF1A;Android&#x4F18;&#x5316;&#x7B14;&#x8BB0;</p>
-<p>&#x817E;&#x8BAF;&#x79FB;&#x52A8;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x4E13;&#x5BB6; &#x53F6;&#x65B9;&#x6B63;&#x5BF9;Android&#x5E94;&#x7528;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x548C;&#x8C03;&#x4F18;&#x8FDB;&#x884C;&#x4E86;&#x8BE6;&#x7EC6;&#x7684;&#x4ECB;&#x7ECD;&#x3002;&#x5173;&#x4E8E;Android&#x5E94;&#x7528;&#x4F18;&#x5316;&#xFF0C;&#x4E3B;&#x8981;&#x96C6;&#x4E2D;&#x5728;&#x5185;&#x5B58;&#x548C;UI&#x6D41;&#x7545;&#x5EA6;&#x4E24;&#x4E2A;&#x65B9;&#x9762;&#xFF0C;&#x6BD4;&#x5982;&#x5185;&#x5B58;&#x5360;&#x7528;&#x4E0E;&#x6CC4;&#x9732;&#xFF0C;UI&#x6D41;&#x7545;&#x5EA6;&#x7684;&#x5E27;&#x6570;&#x548C;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#xFF0C;IO&#x7684;&#x963B;&#x585E;&#x5F0F;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x7B49;&#x3002;</p>
-<p><img src="http://img0.tuicool.com/qaQnAb.jpg" alt=""></p>
-<p>&#x8C08;&#x5230;&#x4E3A;&#x4EC0;&#x4E48;&#x4F18;&#x5316;&#x5185;&#x5B58;&#x65F6;&#xFF0C;&#x53F6;&#x65B9;&#x6B63;&#x8868;&#x793A;&#xFF0C;&#x5BF9;&#x4E8E;&#x624B;&#x673A;&#x6765;&#x8BF4;&#xFF0C;&#x5185;&#x5B58;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x7A00;&#x7F3A;&#x7684;&#x8D44;&#x6E90;&#xFF0C;&#x5373;&#x4F7F;&#x662F;&#x73B0;&#x5728;&#x666E;&#x904D;&#x62E5;&#x6709;&#x7740;&#x5F88;&#x5927;&#x5185;&#x5B58;&#x7684;Android&#x624B;&#x673A;&#x4E5F;&#x4E0D;&#x53EF;&#x907F;&#x514D;&#xFF0C;&#x800C;Android&#x7684;&#x5185;&#x5B58;&#x95EE;&#x9898;&#x4E3B;&#x8981;&#x5305;&#x62EC;DDMS&#x3001;MAT&#x548C;android.os.Debug&#x3002;&#x6D4B;&#x8BD5;&#x4EBA;&#x5458;&#x5E94;&#x4ECE;&#x7F16;&#x8BD1;&#x4EE3;&#x7801;&#x3001;&#x9009;&#x5B9A;&#x6D4B;&#x8BD5;&#x573A;&#x666F;&#x3001;&#x6D4B;&#x8BD5;&#x573A;&#x666F;&#x8F6C;&#x6362;&#x6210;&#x7528;&#x4F8B;&#x3001;&#x8DD1;&#x8D77;&#x5DE5;&#x5177;Run&#x7528;&#x4F8B;&#x5165;&#x624B;&#xFF0C;&#x5E76;&#x7ED3;&#x5408;&#x4EE3;&#x7801;&#x6DF1;&#x5EA6;&#x5206;&#x6790;&#xFF0C;&#x6765;&#x8FDB;&#x884C;&#x5185;&#x5B58;&#x6D4B;&#x8BD5;&#x3002;</p>
-<p>&#x624B;&#x673A;QQ&#x8D1F;&#x8D23;&#x4EBA;&#x5F20;&#x65ED;&#xFF1A;&#x6700;&#x5408;&#x9002;&#x7684;&#x67B6;&#x6784; &#x6700;&#x5408;&#x9002;&#x7684;&#x91CD;&#x6784;</p>
-<p>&#x624B;&#x673A;QQ&#x8D1F;&#x8D23;&#x4EBA;&#x5F20;&#x65ED;&#x4ECE;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x3001;&#x91CD;&#x6784;&#x4E0E;&#x9879;&#x76EE;&#x8FDB;&#x5EA6;&#x7B49;&#x65B9;&#x9762;&#x5BF9;&#x8F6F;&#x4EF6;&#x67B6;&#x6784;&#x8FDB;&#x884C;&#x4E86;&#x5168;&#x65B9;&#x4F4D;&#x7684;&#x5256;&#x6790;&#x4E0E;&#x8BB2;&#x89E3;&#x3002;&#x4E0D;&#x662F;&#x6BCF;&#x4E00;&#x4E2A;&#x7A0B;&#x5E8F;&#x5458;&#x90FD;&#x80FD;&#x591F;&#x6210;&#x4E3A;&#x4E00;&#x4E2A;&#x67B6;&#x6784;&#x5E08;&#x2014;&#x2014;&#x8FD9;&#x662F;&#x5F00;&#x53D1;&#x754C;&#x5E7F;&#x4E3A;&#x6D41;&#x4F20;&#x7684;&#x4E00;&#x4E2A;&#x8BBA;&#x8C03;&#x3002;&#x8F6F;&#x4EF6;&#x67B6;&#x6784;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5C06;&#x4EA7;&#x54C1;&#x4ECE;&#x9700;&#x6C42;&#x5230;&#x8BBE;&#x8BA1;&#x7684;&#x6BCF;&#x4E2A;&#x7EC6;&#x8282;&#x90FD;&#x8981;&#x8003;&#x8651;&#x5230;&#xFF0C;&#x628A;&#x63E1;&#x6574;&#x4E2A;&#x9879;&#x76EE;&#xFF0C;&#x4F7F;&#x8BBE;&#x8BA1;&#x7684;&#x9879;&#x76EE;&#x5C3D;&#x91CF;&#x6548;&#x7387;&#x9AD8;&#xFF0C;&#x5F00;&#x53D1;&#x5BB9;&#x6613;&#xFF0C;&#x7EF4;&#x62A4;&#x65B9;&#x4FBF;&#xFF0C;&#x5347;&#x7EA7;&#x7B80;&#x5355;&#x3002;</p>
-<p><img src="http://img0.tuicool.com/MJFJ7b.jpg" alt=""></p>
-<p>&#x90A3;&#x4E48;&#xFF0C;&#x7A76;&#x7ADF;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x67B6;&#x6784;&#x624D;&#x662F;&#x6700;&#x5408;&#x9002;&#x7684;&#xFF1F;&#x5F20;&#x65ED;&#x8868;&#x793A;&#xFF0C;&#x8861;&#x91CF;&#x4E00;&#x4E2A;&#x67B6;&#x6784;&#x662F;&#x5426;&#x5408;&#x9002;&#x7684;&#x91CD;&#x8981;&#x6807;&#x51C6;&#x5C31;&#x662F;&#xFF1A;&#x662F;&#x5426;&#x9002;&#x7528;&#x4E8E;&#x5F53;&#x524D;&#x56E2;&#x961F;&#x4E0E;&#x4E1A;&#x52A1;&#x89C4;&#x6A21;&#xFF0C;&#x662F;&#x5426;&#x9002;&#x7528;&#x4E8E;&#x4EA7;&#x54C1;/&#x5546;&#x4E1A;&#x53D1;&#x5C55;&#x7684;&#x4E0B;&#x4E00;&#x6B65;&#x65B9;&#x5411;&#xFF1F;&#x5982;&#x679C;&#x56E2;&#x961F;&#x89C4;&#x6A21;&#x6269;&#x5927;&#x3001;&#x6269;&#x5C55;&#x6027;&#x4E0D;&#x8DB3;&#x3001;&#x7EF4;&#x62A4;&#x6027;&#x5D29;&#x574F;&#x3001;&#x6027;&#x80FD;&#x53D7;&#x5230;&#x5F71;&#x54CD;&#x5C31;&#x5FC5;&#x987B;&#x5F15;&#x5165;&#x91CD;&#x6784;&#x3002;&#x6839;&#x636E;&#x73B0;&#x6709;&#x60C5;&#x51B5;&#xFF0C;&#x91CD;&#x65B0;&#x505A;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#xFF0C;&#x5E76;&#x627E;&#x5230;&#x539F;&#x6709;&#x67B6;&#x6784;&#x53EF;&#x590D;&#x7528;&#x7684;&#x90E8;&#x5206;&#x4EE5;&#x53CA;&#x9700;&#x8981;&#x91CD;/&#x6539;&#x5199;&#x7684;&#x5173;&#x952E;&#x70B9;&#xFF0C;&#x7ED9;&#x51FA;&#x91CD;&#x6784;&#x7684;&#x6539;&#x5584;&#x76EE;&#x6807;&#x3002;</p>
-<p>&#x4F5C;&#x4E3A;&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#x7684;&#x9996;&#x79C0;&#xFF0C;&#x672C;&#x6B21;&#x6D3B;&#x52A8;&#x805A;&#x96C6;&#x4E86;&#x7EA6;&#x4E24;&#x767E;&#x591A;&#x540D;&#x5F00;&#x53D1;&#x8005;&#x7684;&#x53C2;&#x4E0E;&#xFF0C;&#x6574;&#x4E2A;&#x5206;&#x4EAB;&#x4F1A;&#x73B0;&#x573A;&#x5EA7;&#x65E0;&#x865A;&#x5E2D;&#xFF0C;&#x4E24;&#x4F4D;&#x6280;&#x672F;&#x5496;&#x4EE5;&#x5E72;&#x8D27;&#x52A0;&#x5B9E;&#x4F8B;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x4F7F;&#x6574;&#x4E2A;&#x5206;&#x4EAB;&#x901A;&#x4FD7;&#x6613;&#x61C2;&#x3001;&#x751F;&#x52A8;&#x6709;&#x8DA3;&#x3002;&#x9664;&#x4E86;&#x6280;&#x672F;&#x5185;&#x5BB9;&#x5206;&#x4EAB;&#x4E4B;&#x5916;&#xFF0C;&#x73B0;&#x573A;&#x8FD8;&#x8BBE;&#x7F6E;&#x4E86;&#x4E92;&#x52A8;&#x3001;&#x8336;&#x6B47;&#x4EA4;&#x6D41;&#x548C;&#x5706;&#x684C;&#x8BBA;&#x575B;&#x7B49;&#x73AF;&#x8282;&#xFF0C;&#x4E24;&#x4F4D;&#x6F14;&#x8BB2;&#x5609;&#x5BBE;&#x76F4;&#x63A5;&#x4E0E;&#x5F00;&#x53D1;&#x8005;&#x4EEC;&#x8FDB;&#x884C;&#x9762;&#x5BF9;&#x9762;&#x7684;&#x7B54;&#x7591;&#x89E3;&#x60D1;&#x3002; </p>
-<p>&#x73B0;&#x573A;&#x82B1;&#x7D6E;&#xFF1A;</p>
-<p><img src="http://img1.tuicool.com/jYNzE3.jpg" alt=""></p>
-<p><img src="http://img0.tuicool.com/fu22Mr.jpg" alt=""></p>
-<p><img src="http://img0.tuicool.com/bMjARre.jpg" alt=""></p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/rAveEza">&#x95F2;&#x8C08;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x6A21;&#x5F0F;</a></li>
-<li>2.<a href="/articles/NF7bUb3">&#x7B14;&#x8BB0;, Cirru Table Redo &#x5931;&#x8D25;, &#x7ECF;&#x9A8C;&#x6559;&#x8BAD;</a></li>
-<li>3.<a href="/articles/6VB7zii">Datazen&#x5B89;&#x88C5;</a></li>
-<li>4.<a href="/articles/NjUB7b">Fibonacci&#x6570;&#x5217;&#x6027;&#x8D28;&#x7684;&#x7EC4;&#x5408;&#x8BC1;&#x660E;</a></li>
-<li>5.<a href="/articles/BbaINzQ">Backbone.js 1.2.1 &#x53D1;&#x5E03;&#xFF0C;JavaScript &#x7684; MVC &#x6846;&#x67B6;</a></li>
-<li><p>6.<a href="/articles/QbYRb2I">Unity3d &#x83B7;&#x53D6;&#x5C4F;&#x5E55;depth&#x4E0E;normal</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/rmmQ3uR">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;rmmQ3uR&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/性能优化/">性能优化</a><a href="/tags/移动开发/">移动开发</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/07/ede2c0b/" title="几种锁算法的实现" itemprop="url">几种锁算法的实现</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-07T01:45:51.000Z" itemprop="datePublished"> 发表于 2015-06-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="&#x51E0;&#x79CD;&#x9501;&#x7B97;&#x6CD5;&#x7684;&#x5B9E;&#x73B0;">&#x51E0;&#x79CD;&#x9501;&#x7B97;&#x6CD5;&#x7684;&#x5B9E;&#x73B0;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 23:48:59  <a href="/sites/3uEjYv">segmentfault-&#x535A;&#x5BA2;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://segmentfault.com/a/1190000002881664?utm_source=tuicool" target="_blank" rel="external">http://segmentfault.com/a/1190000002881664</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11000083">&#x7B97;&#x6CD5;</a></p>
-<h2 id="Multicore">Multicore</h2><h3 id="Abstract">Abstract</h3><p>4&#x79CD;Lock&#x7684;&#x5B9E;&#x73B0;&#xFF1A;</p>
-<ul>
-<li>TASLock</li>
-<li>TTASLock</li>
-<li>CLHLock</li>
-<li>MCSLock</li>
-</ul>
-<h3 id="TASLock">TASLock</h3><p>&#x6BCF;&#x4E00;&#x4E2A;Lock&#x5E26;&#x6709;&#x4E00;&#x4E2A;&#x72B6;&#x6001;&#x4F4D;&#xFF0C;lock()&#x4E0E;unlock()&#x64CD;&#x4F5C;&#x539F;&#x5B50;&#x7684;&#x6539;&#x53D8;&#x72B6;&#x6001;&#x4F4D;&#x3002;false&#x65F6;&#x53EF;&#x8FDB;&#x5165;&#xFF0C;true&#x65F6;spin&#x3002; </p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TASLock</span> <span class="keyword">implements</span> <span class="title">Lock</span>
-</span>{
-    AtomicBoolean state = <span class="keyword">new</span> AtomicBoolean(<span class="keyword">false</span>);
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span>
-    </span>{
-        <span class="keyword">while</span>(state.getAndSet(<span class="keyword">true</span>))
-        {}
-    }
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span>
-    </span>{
-        state.set(<span class="keyword">false</span>);
-    }
-}
-</code></pre><p>defect&#xFF1A;</p>
-<ul>
-<li>&#x5728;&#x9501;&#x88AB;&#x5176;&#x4ED6;&#x7EBF;&#x7A0B;&#x6301;&#x6709;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C; while(state.getAndSet(true)) &#x4F1A;&#x4E0D;&#x505C;&#x7684;&#x5C06; </li>
-</ul>
-<p>state&#x4ECE;true&#x6539;&#x4E3A;true</p>
-<h3 id="TTASLock">TTASLock</h3><p>TASLock&#x7B97;&#x6CD5;&#x7684;&#x6539;&#x8FDB;&#x3002;</p>
-<pre><code>public class TTASLock implements Lock()
-{
-    AtomicBoolean <span class="keyword">state</span> = new AtomicBoolean(false);
-    public void lock()
-    {
-        while (true)
-        {
-            while (<span class="keyword">state</span>.get())
-            {};
-            if (! <span class="keyword">state</span>.getAndSet(true))
-                return;
-        }
-    }
-    public void unlock()
-    {
-        <span class="keyword">state</span>.<span class="built_in">set</span>(false);
-    }
-}
-</code></pre><ol>
-<li>while (state.get()){} &#x662F;&#x4E00;&#x4E2A;&#x6539;&#x8FDB;&#xFF0C;&#x6548;&#x679C;&#x662F;&#x5148;&#x770B;&#x4E00;&#x773C;lock&#x7684;&#x72B6;&#x6001;&#xFF0C;&#x5F53;lock&#x662F;false&#x65F6;&#xFF0C;<br>&#x518D;&#x771F;&#x6B63;&#x7684;&#x6267;&#x884C; state.getAndSet(true) &#x3002;</li>
-<li>&#x5F53;state.getAndSet(true) &#x7684;return&#x4E3A;false&#x65F6;&#xFF0C;&#x8BF4;&#x660E;&#x4E4B;&#x524D;&#x7684;&#x786E;&#x662F;false&#xFF0C;&#x4E8E;&#x662F;&#x83B7;&#x5F97;&#x9501;&#xFF0C;return&#x3002;<br>&#x5426;&#x5219;&#x56DE;&#x5230;while(true),&#x518D;&#x6B21;&#x5C1D;&#x8BD5;&#x83B7;&#x5F97;&#x9501;&#x3002;</li>
-</ol>
-<p>defect&#xFF1A;</p>
-<ul>
-<li>&#x5728;unlock&#x65F6;&#xFF0C;state.set(false)&#x8FD8;&#x662F;&#x4F1A;&#x5E26;&#x6765;&#x5927;&#x91CF;&#x7684;cache miss&#x3002;</li>
-<li>cache miss VS cache hit</li>
-</ul>
-<h3 id="CLHLock">CLHLock</h3><p>&#x961F;&#x5217;&#x9501;&#x3002;</p>
-<p><a href="http://git.oschina.net/qcliu/testC/blob/master/multicore/clh.c" target="_blank" rel="external">CLHLock</a></p>
-<pre><code>void initCLHlock()
-{
-    q.<span class="keyword">locked</span> = FALSE;
-    tail = &amp;amp;q;
-}
-void lock()
-{
-    QNode* qnode = (QNode*)pthread_getspecific(myNode);
-    qnode-&amp;gt;<span class="keyword">locked</span> = TRUE;
-    QNode* pred = getAndSet(qnode);//&amp;#x539F;&amp;#x5B50;&amp;#x7684;&amp;#x5F97;&amp;#x5230;&amp;#x961F;&amp;#x5C3E;&amp;#xFF0C;&amp;#x5E76;&amp;#x5C06;qnode&amp;#x8BBE;&amp;#x4E3A;&amp;#x65B0;&amp;#x7684;&amp;#x961F;&amp;#x5C3E;&amp;#x3002;
-    pthread_setspecific(myPred, pred);
-    while(pred-&amp;gt;<span class="keyword">locked</span>)
-    {
-    }
-}
-void unlock()
-{
-    QNode* qnode = (QNode*)pthread_getspecific(myNode);
-    qnode-&amp;gt;<span class="keyword">locked</span> = FALSE;
-    QNode* pred = (QNode*)pthread_getspecific(myPred);
-    pthread_setspecific(myNode, pred);//unlock&amp;#x65F6;&amp;#x5FC5;&amp;#x987B;&amp;#x5C06;myNode&amp;#x6307;&amp;#x5411;&amp;#x524D;&amp;#x9762;&amp;#x7684;Node
-}
-</code></pre><h6 id="NOTE_:"><strong>NOTE</strong> :</h6><ul>
-<li>unlock&#x65F6;&#x5FC5;&#x987B;&#x5C06;myNode&#x6307;&#x5411;&#x524D;&#x9762;&#x7684;Node&#xFF01;<br>&gt; <strong>&#x540E;&#x679C;</strong> &#xFF1A;&#x5982;&#x679C;Thread A unlock()&#x540E;&#xFF0C;&#x7D27;&#x63A5;&#x7740;&#x53C8;&#x8FDB;&#x5165;<br>&#x961F;&#x5C3E;&#xFF0C; A&#x7684;locked&#x4F1A;&#x518D;&#x6B21;&#x88AB;&#x7F6E;&#x4E3A;TRUE&#xFF0C; Thread B&#x8FD8;&#x5728;&#x770B;&#x7740;Thread A &#x7684;locked&#x5B57;&#x6BB5;&#xFF0C;&#x4E8E;&#x662F;&#x4EA7;&#x751F;<br>deadlock&#x3002;</li>
-<li>&#x521D;&#x59CB;&#x65F6;&#x6559;&#x5BA4;&#x91CC;&#x9762;&#x6709;&#x4E00;&#x4E2A;&#x7A7A;&#x51F3;&#x5B50;&#xFF0C; &#x6BCF;&#x4E2A;&#x5B66;&#x751F;&#x6765;&#x5230;&#x95E8;&#x53E3;&#x6392;&#x961F;&#x65F6;&#x90FD;&#x81EA;&#x5DF1;&#x5E26;&#x7740;&#x4E00;&#x4E2A;&#x51F3;&#x5B50;&#x3002;</li>
-</ul>
-<h3 id="MCSLock">MCSLock</h3><pre><code>public class <span class="class">MCSLock</span> implements <span class="class">Lock</span>
-{
-    <span class="class">AtomicReference</span>&amp;lt;<span class="class">QNode</span>&amp;gt; tail;
-    <span class="class">ThreadLocal</span>&amp;lt;<span class="class">QNode</span>&amp;gt; myNode;
-    public <span class="class">MCSLock</span>()
-    {
-        queue = new <span class="class">AtomicReference</span>&amp;lt;<span class="class">QNode</span>&amp;gt;(null);
-        myNode = new <span class="class">ThreadLocal</span>&amp;lt;<span class="class">QNode</span>&amp;gt;()
-        {
-            protected <span class="class">QNode</span> initialValue()
-            {
-                return new <span class="class">QNode</span>();
-            }
-        };
-    }
-    ...
-    class <span class="class">QNode</span>
-    {
-        boolean locked = <span class="keyword">false</span>;
-        <span class="class">QNode</span> next = null;//&amp;<span class="symbol">#x4E0E</span>;<span class="class">CLHLock</span>&amp;<span class="symbol">#x76F8</span>;&amp;<span class="symbol">#x6BD4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x771F</span>;&amp;<span class="symbol">#x6B63</span>;&amp;<span class="symbol">#x7684</span>;next
-    }
-}   
-public void lock()
-{
-    <span class="class">QNode</span> qnode = myNode.get();
-    <span class="class">QNode</span> pred = tail.getAndSet(qnode);
-    if (pred != null)
-    {
-        qnode.locked = <span class="keyword">true</span>;
-        pred.next = qnode;
-        //wait until predecessor gives up the lock
-        while(qnode.locked){}//&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x5DF1</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="keyword">true</span>&amp;<span class="symbol">#x7136</span>;&amp;<span class="symbol">#x540E</span>;spin&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x770B</span>;&amp;<span class="symbol">#x4F3C</span>;deadlock
-    }
-}
-public void unlock()
-{
-    <span class="class">QNode</span> qnode = myNode.get();
-    if (qnode.next == null)         //&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;
-    {//------there is a gap!!!!
-        if (tail.compareAndSet(qnode, null))
-            return;                 //&amp;<span class="symbol">#x771F</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x77E5</span>;
-        //wait until predecessor fills in its next field
-        while (qnode.next == null){}
-    }
-    //&amp;<span class="symbol">#x53F3</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x77E5</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;
-    qnode.next.locked = <span class="keyword">false</span>;
-    qnode.next = null;
-}
-</code></pre><p>NOTE:</p>
-<ul>
-<li>unlock()&#x8981;&#x8981;&#x7279;&#x522B;&#x7684;&#x6CE8;&#x610F;&#x3002;</li>
-</ul>
-<h3 id="Summary">Summary</h3><ul>
-<li>CLHLock&#x7684;&#x601D;&#x60F3;&#x662F;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x5728;&#x524D;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x7684;node&#x4E0A;spin&#xFF0C;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;unlock&#x65F6;&#x4FEE;&#x6539;&#x81EA;&#x8EAB;&#x7684;&#x6807;&#x8BB0;&#x3002;<br>&#x5728;&#x5171;&#x4EAB;&#x603B;&#x7EBF;&#x7ED3;&#x6784;&#x4E0B;&#x6027;&#x80FD;&#x53EF;&#x4EE5;&#xFF0C;&#x65E0;&#x6CD5;&#x5E94;&#x5BF9;&#x5206;&#x5E03;&#x5F0F;&#x3002;</li>
-<li>MCSLock &#x7528;&#x4E8E;&#x89E3;&#x51B3;&#x5206;&#x5E03;&#x5F0F;&#x5E76;&#x884C;&#x7684;&#x95EE;&#x9898;&#x3002;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#x90FD;&#x5728;&#x81EA;&#x5DF1;&#x7684;node&#x4E0A;spin&#xFF0C;&#x5F53;&#x91CA;&#x653E;&#x9501;&#x65F6;&#x901A;&#x77E5;<br>&#x540E;&#x9762;&#x7684;&#x7EBF;&#x7A0B;&#x3002;</li>
-</ul>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/NrMJJz">CUDA —— Dynamic Parallelism</a></li>
-<li>2.<a href="/articles/miuIzi">C++&#x4E2D;&#x7684;&#x6307;&#x9488;&#x57FA;&#x7840;</a></li>
-<li>3.<a href="/articles/JRnyi2Z">&#x5E38;&#x89C1;&#x9762;&#x8BD5;&#x9898;&#x7CFB;&#x5217;1&#x2014;&#x2014;&#x539F;&#x5730;&#x6D88;&#x9664;&#x5B57;&#x7B26;&#x4E32;&#x8FDE;&#x7EED;&#x7684;&#x7A7A;&#x767D;&#x5B57;&#x7B26;</a></li>
-<li>4.<a href="/articles/uM3IN32">&#x4ECE;RTSP&#x534F;&#x8BAE;SDP&#x6570;&#x636E;&#x4E2D;&#x83B7;&#x5F97;&#x4E8C;&#x8FDB;&#x5236;&#x7684;SPS&#x3001;PPS</a></li>
-<li>5.<a href="/articles/Yzuqe2">cdoj1092-&#x97E9;&#x7237;&#x7684;&#x68A6; &#xFF08;&#x5B57;&#x7B26;&#x4E32;hash&#xFF09;&#x3010;hash&#x3011;</a></li>
-<li><p>6.<a href="/articles/22YV7fr">&#x5982;&#x4F55;&#x5B9A;&#x4F4D;Obj-C&#x91CE;&#x6307;&#x9488;&#x968F;&#x673A;Crash(&#x4E8C;)&#xFF1A;&#x8BA9;&#x975E;&#x5FC5;&#x73B0;Crash&#x53D8;&#x6210;&#x5FC5;&#x73B0;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/vuuUFjY">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;vuuUFjY&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/算法/">算法</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/06/be85f4d/" title="编程模拟自然(一)：如何画一颗静态树" itemprop="url">编程模拟自然(一)：如何画一颗静态树</a>
+      <a href="/2015/06/06/bea9a97/" title="统计信息内幕：直方图和密度向量" itemprop="url">统计信息内幕：直方图和密度向量</a>
   </h1>
   <p class="article-author">By
        
@@ -907,153 +825,118 @@ public void unlock()
 </header>
     <div class="article-content">
         
-        <h1 id="&#x7F16;&#x7A0B;&#x6A21;&#x62DF;&#x81EA;&#x7136;(&#x4E00;)&#xFF1A;&#x5982;&#x4F55;&#x753B;&#x4E00;&#x9897;&#x9759;&#x6001;&#x6811;">&#x7F16;&#x7A0B;&#x6A21;&#x62DF;&#x81EA;&#x7136;(&#x4E00;)&#xFF1A;&#x5982;&#x4F55;&#x753B;&#x4E00;&#x9897;&#x9759;&#x6001;&#x6811;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 15:07:00  <a href="/sites/Fn2umm">&#x535A;&#x5BA2;&#x56ED;-&#x539F;&#x521B;&#x7CBE;&#x534E;&#x533A;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/experdot/p/4556672.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/experdot/p/4556672.html</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11050000">.Net</a></p>
-<h4 id="&#x5E8F;">&#x5E8F;</h4><p>&#x4E07;&#x7269;&#x521D;&#x59CB;&#x4E4B;&#x524D;&#xFF0C;&#x5B87;&#x5B99;&#x662F;&#x65E0;&#x8FB9;&#x65E0;&#x9645;&#x6DF7;&#x6C8C;&#x7684;&#x9ED1;&#x6697;&#xFF0C;&#x53EA;&#x6709;&#x5143;&#x4E4B;&#x7075;&#x7A7F;&#x884C;&#x5176;&#x95F4;&#x3002;&#x5143;&#x5BF9;&#x8FD9;&#x65E0;&#x8FB9;&#x7684;&#x9ED1;&#x6697;&#x5341;&#x5206;&#x4E0D;&#x6EE1;&#xFF0C;&#x5C31;&#x8F7B;&#x8F7B;&#x4E00;&#x6572;&#x952E;&#x76D8;&#xFF0C;&#x8BF4;&#xFF1A;&#x201C;&#x8981;&#x6709;&#x5149;&#x201D;&#xFF0C;&#x4E8E;&#x662F;&#x4E16;&#x95F4;&#x5C31;&#x6709;&#x4E86;&#x5149;&#x3002;&#x5143;&#x79F0;&#x201C;&#x5149;&#x201D;&#x4E3A;&#x201C;&#x663C;&#x201D;&#xFF0C;&#x79F0;&#x201C;&#x9ED1;&#x6697;&#x201D;&#x4E3A;&#x201C;&#x591C;&#x201D;&#x3002;&#x4EAE;&#x5149;&#x9690;&#x53BB;&#xFF0C;&#x9ED1;&#x6697;&#x91CD;&#x4E34;&#xFF0C;&#x4ECE;&#x6B64;&#xFF0C;&#x4E16;&#x95F4;&#x5C31;&#x6709;&#x4E86;&#x663C;&#x4E0E;&#x591C;&#x7684;&#x4EA4;&#x66FF;&#x3002;&#x8FD9;&#x662F;&#x5143;&#x521B;&#x4E16;&#x7684;&#x7B2C;&#x4E00;&#x5929;&#x3002;</p>
-<p>&#x8FD9;&#x4E2A;&#x4E8C;&#x6B21;&#x5143;&#x4E16;&#x754C;&#x8BDE;&#x751F;&#x4E4B;&#x521D;&#x4F34;&#x6709;&#x4E00;&#x53EA;&#x7A0B;&#x5E8F;&#x733F;&#xFF0C;Ta&#x7684;&#x540D;&#x5B57;&#x53EB;&#x5143;&#x3002;</p>
-<h4 id="&#x7B2C;&#x4E00;&#x7AE0;_&#x4E8C;&#x53C9;&#x6811;&#x5FC5;&#x987B;&#x662F;&#x6700;&#x597D;&#x7684;&#x6811;!">&#x7B2C;&#x4E00;&#x7AE0; &#x4E8C;&#x53C9;&#x6811;&#x5FC5;&#x987B;&#x662F;&#x6700;&#x597D;&#x7684;&#x6811;!</h4><p>&#x5143;&#x5C31;&#x662F;&#x8FD9;&#x6837;&#x60F3;&#x7684;&#xFF0C;&#x4E3A;&#x4E86;&#x8868;&#x8FBE;&#x5BF9;&#x8FD9;&#x79CD;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7684;&#x5D07;&#x62DC;&#x4E4B;&#x60C5;&#xFF0C;&#x51B3;&#x5B9A;&#x5728;&#x8FD9;&#x4E2A;&#x4E16;&#x754C;&#x9020;&#x51FA;&#x4E00;&#x9897;&#x771F;&#x5B9E;&#x7684;&#x6811;&#xFF0C;&#x4E00;&#x5F00;&#x59CB;&#x7684;&#x6784;&#x60F3;&#x662F;&#x8FD9;&#x6837;&#x7684;</p>
-<p><img src="http://img1.tuicool.com/jqeuEz.png" alt=""></p>
-<p>&#x201C;&#x6B63;&#x6240;&#x8C13;&#x6811;&#x6781;&#x751F;&#x4E09;&#x5E72;&#xFF0C;&#x4E09;&#x5E72;&#x751F;&#x516D;&#x679D;&#xFF0C;&#x516D;&#x679D;&#x751F;&#x5341;&#x4E8C;&#x53F6;&#x3002;&#x201D; &#x7136;&#x800C;&#x8FD9;&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x9897;&#x4E8C;&#x53C9;&#x6811;&#x3002;</p>
-<h4 id="&#x7B2C;&#x4E8C;&#x7AE0;_&#x9EC4;&#x91D1;&#x5206;&#x5272;&#x73FE;&#x308C;&#x308B;">&#x7B2C;&#x4E8C;&#x7AE0; &#x9EC4;&#x91D1;&#x5206;&#x5272;&#x73FE;&#x308C;&#x308B;</h4><p>&#x6811;&#x6BCF;&#x9012;&#x5F52;&#x4E00;&#x5C42;&#x9700;&#x8981;&#x6309;&#x4E00;&#x5B9A;&#x6BD4;&#x4F8B;&#x7F29;&#x653E;&#xFF0C;&#x5143;&#x82E6;&#x82E6;&#x51A5;&#x60F3;&#x826F;&#x4E45;&#xFF0C;&#x7EC8;&#x4E8E;&#x627E;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x65E0;&#x9650;&#x4E0D;&#x5FAA;&#x73AF;&#x5C0F;&#x6570;&#xFF0C;&#x5B83;&#x7684;&#x5C0F;&#x6570;&#x70B9;&#x540E;64&#x4F4D;&#x662F;&#x8FD9;&#x6837;&#x7684;</p>
-<p>0.6180339887 4989484820 4586834365 6381177203 0917980576&#xA0;2862135448 6227…</p>
-<p>[&#x4ECE;&#x5DE6;&#x81F3;&#x53F3;&#xFF0C;&#x6BD4;&#x4F8B;&#x7CFB;&#x6570;&#x4F9D;&#x6B21;&#x662F;0.618, 0.5, 1, 1.6]</p>
-<p><img src="http://img0.tuicool.com/IRzE7v.png" alt=""></p>
-<p>&#x5F53;&#x7136;&#x6811;&#x5E72;&#x7684;&#x7C97;&#x7EC6;&#x4E5F;&#x5F97;&#x7F29;&#x653E;&#xFF0C;&#x5143;&#x662F;&#x60F3;&#x5C06;&#x8FD9;&#x4E1C;&#x897F;&#x79CD;&#x5728;&#x4F0A;&#x7538;&#x56ED;&#x7684;&#x571F;&#x5730;&#x4E0A;&#x7684;&#xFF0C;&#x90A3;&#x5C31;&#x518D;&#x622A;&#x53BB;&#x4E0B;&#x65B9;&#x7684;&#x5B50;&#x6811;</p>
-<p><img src="http://img1.tuicool.com/EBnYjmU.png" alt=""></p>
-<p>&#x201C;&#x554A;&#x54C8;&#xFF0C;&#x8FD9;&#x4E0B;&#x53EB;&#x4E8C;&#x53C9;&#x6811;&#x6CA1;&#x9519;&#x4E86;&#x5427;&#x3002;&#x201D;</p>
-<p>&#x201C;&#x65E2;&#x7136;&#x914D;&#x56FE;&#x8FD9;&#x4E48;&#x6697;&#x9EC4;&#xFF0C;&#x5C31;&#x79F0;&#x8FD9;&#x4E2A;&#x65E0;&#x7406;&#x6570;&#x4E3A;&#x9EC4;&#x91D1;&#x5206;&#x5272;&#x6BD4;&#x4F8B;&#x5427;!&#x201D;&#x5143;&#x5FC3;&#x91CC;&#x60F3;&#x4E86;&#x60F3;&#x3002;</p>
-<h4 id="&#x7B2C;&#x4E09;&#x7AE0;_&#x4E0D;&#x5BF9;&#x79F0;&#x4E0E;&#x4F2A;&#x968F;&#x673A;">&#x7B2C;&#x4E09;&#x7AE0; &#x4E0D;&#x5BF9;&#x79F0;&#x4E0E;&#x4F2A;&#x968F;&#x673A;</h4><p>&#x4E0D;&#x5BF9;&#x79F0;&#x624D;&#x662F;&#x7F8E;&#xFF1F;&#x4E0D;&#x5BF9;&#x79F0;&#x624D;&#x662F;&#x7F8E;&#xFF1F;&#xFF01;&#x6240;&#x4EE5;&#x5143;&#x5C31;&#x5728;&#x6811;&#x7684;&#x8282;&#x70B9;&#x4F4D;&#x7F6E;&#x52A0;&#x5165;&#x4E86;&#x4F2A;&#x968F;&#x673A;&#x6270;&#x52A8;&#x3002; </p>
-<p><img src="http://img1.tuicool.com/zEbmYjN.png" alt=""></p>
-<p>&#x201C;&#x8BF4;&#x70B9;&#x4EC0;&#x4E48;&#x597D;&#x5462;&#xFF1F;&#x201D;</p>
-<h4 id="&#x7B2C;&#x56DB;&#x7AE0;_&#x66F4;&#x591A;&#x7684;&#x5B50;&#x6811;">&#x7B2C;&#x56DB;&#x7AE0; &#x66F4;&#x591A;&#x7684;&#x5B50;&#x6811;</h4><p>&#x5143;&#x4E00;&#x76F4;&#x8BA4;&#x4E3A;&#x8FD9;&#x4E2A;&#x4E16;&#x754C;&#x6709;&#x65F6;&#x5019;&#x662F;&#x9700;&#x8981;&#x504F;&#x89C1;&#x7684;&#xFF0C;&#x4E8C;&#x53C9;&#x6811;&#x80AF;&#x5B9A;&#x662F;&#x6700;&#x597D;&#x7684;&#x6811;&#x3002;</p>
-<p>&#x867D;&#x7136;&#x73B0;&#x5728;&#x4E0D;&#x6B62;&#x4E24;&#x4E2A;&#x5B50;&#x6811;&#x3002;</p>
-<p><img src="http://img2.tuicool.com/bqmANnj.png" alt=""></p>
-<p>&#x201C;&#x9AD8;&#x6E05;&#x5927;&#x56FE;&#x624D;&#x80FD;&#x6B23;&#x8D4F;&#x7684;&#x8FC7;&#x763E;&#x3002;&#x201D;&#x4F60;&#x53EF;&#x4EE5;&#x5C1D;&#x8BD5;&#x76EE;&#x6807;&#x53E6;&#x5B58;&#x4E3A;&#x3002; </p>
-<h4 id="&#x7B2C;&#x4E94;&#x7AE0;_&#x7EFF;&#x53F6;&#x4E0E;&#x679C;&#x5B9E;">&#x7B2C;&#x4E94;&#x7AE0; &#x7EFF;&#x53F6;&#x4E0E;&#x679C;&#x5B9E;</h4><p>&#x5728;&#x6811;&#x7684;&#x672B;&#x68A2;&#x957F;&#x51FA;&#x53F6;&#x5B50;&#x548C;&#x679C;&#x5B9E;&#xFF0C;&#x4E00;&#x9897;&#x6811;&#x7EC8;&#x4E8E;&#x6210;&#x578B;&#x4E86;&#x3002; </p>
-<p><img src="http://img1.tuicool.com/7ZzEJjy.png" alt=""></p>
-<p>&#x201C;&#x5BF9;&#x6697;&#x9EC4;&#x7CFB;&#x7B80;&#x76F4;&#x5BA1;&#x7F8E;&#x75B2;&#x52B3;&#xFF0C;&#x753B;&#x98CE;&#x662F;&#x8BE5;&#x6362;&#x4E00;&#x6362;&#x4E86;&#x3002;&#x201D;</p>
-<p>&#x201C;&#x7ED3;&#x675F;&#x4E86;&#xFF0C;&#x636E;&#x8BF4;&#x7B2C;&#x516D;&#x5929;&#x8FD8;&#x8981;&#x52A0;&#x73ED;&#x9020;&#x4EBA;&#xFF1F;&#xFF01;&#x201D;</p>
-<h4 id="&#x540E;&#x8BB0;">&#x540E;&#x8BB0;</h4><p>— &#x4E9A;&#xFF0C;&#x6211;&#x997F;&#x4E86;</p>
-<p>— &#x590F;&#xFF0C;&#x6211;&#x53BB;&#x7ED9;&#x4F60;&#x6458;&#x679C;&#x5B50;</p>
-<p>…</p>
-<p>— &#x4E9A;&#xFF0C;&#x90A3;&#x4E2A;&#x733F;&#x53C8;&#x5728;&#x6811;&#x4E0A;&#x770B;&#x7740;&#x6211;&#x4EEC;</p>
-<p>— &#x522B;&#x7BA1;Ta&#xFF0C;&#x5403;&#x679C;&#x5B50;&#x54AF;</p>
-<p>— &#x55EF;&#x54EA;</p>
-<p>…</p>
-<p>…</p>
-<p>— &#x590F;&#xFF0C;&#x6211;&#x4E00;&#x76F4;&#x4EE5;&#x4E3A;&#x90A3;&#x662F;&#x53EA;&#x72D7;&#x5462;</p>
-<p>…</p>
-<p><img src="http://img1.tuicool.com/7JJJry.gif" alt=""></p>
-<pre><code><span class="keyword">Dim</span> ph As Graphics
-<span class="keyword">Dim</span> PaintBoard As Bitmap
-<span class="keyword">Dim</span> centerX, centerY As Long
-<span class="keyword">Dim</span> modeSequence() As Integer = {<span class="number">4</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>}
-<span class="keyword">Dim</span> <span class="built_in">rnd</span> As <span class="keyword">New</span> Random
-<span class="keyword">Public</span> <span class="keyword">Function</span> Calculator(<span class="keyword">ByVal</span> x As Double, <span class="keyword">ByVal</span> y As Double, <span class="keyword">ByVal</span> mode As Integer, <span class="keyword">ByVal</span> r As Double, <span class="keyword">ByVal</span> depth As Integer, <span class="keyword">ByVal</span> radio As Double) As Double()
-    <span class="keyword">Dim</span> R2 As Double
-    r = r * radio
-    R2 = Math.Sqrt(<span class="number">3</span>) * (r / <span class="number">2</span>)
-    <span class="keyword">Dim</span> Position(<span class="number">2</span>) As Double
-    <span class="keyword">Dim</span> tempRnd As Double = <span class="number">1</span> &amp;apos;* <span class="built_in">rnd</span>.<span class="keyword">Next</span>(depth, <span class="number">20</span>) / <span class="number">10</span>
-    <span class="keyword">If</span> mode = <span class="number">1</span> <span class="keyword">Then</span>
-        x = <span class="number">0</span> : y = -r * tempRnd
-    <span class="keyword">ElseIf</span> mode = <span class="number">2</span> <span class="keyword">Then</span>
-        x = -R2 * tempRnd : y = (r / <span class="number">2</span>) * tempRnd
-    <span class="keyword">ElseIf</span> mode = <span class="number">3</span> <span class="keyword">Then</span>
-        x = R2 * tempRnd : y = (r / <span class="number">2</span>) * tempRnd
-    <span class="keyword">ElseIf</span> mode = <span class="number">4</span> <span class="keyword">Then</span>
-        x = -R2 * tempRnd : y = -(r / <span class="number">2</span>) * tempRnd
-    <span class="keyword">ElseIf</span> mode = <span class="number">5</span> <span class="keyword">Then</span>
-        x = R2 * tempRnd : y = -(r / <span class="number">2</span>) * tempRnd
-    <span class="keyword">ElseIf</span> mode = <span class="number">6</span> <span class="keyword">Then</span>
-        x = <span class="number">0</span> : y = r * tempRnd
-    <span class="keyword">End</span> <span class="keyword">If</span>
-    Position(<span class="number">0</span>) = x
-    Position(<span class="number">1</span>) = y
-    Position(<span class="number">2</span>) = r
-    Return Position
-<span class="keyword">End</span> <span class="keyword">Function</span>
-<span class="keyword">Public</span> <span class="keyword">Sub</span> PaintLine(<span class="keyword">ByVal</span> x As Double, <span class="keyword">ByVal</span> y As Double, <span class="keyword">ByVal</span> mode As Integer, <span class="keyword">ByVal</span> r As Double, <span class="keyword">ByVal</span> depth As Integer, <span class="keyword">ByVal</span> radio As Double)
-    <span class="keyword">Dim</span> position() As Double
-    <span class="keyword">Dim</span> tempR As Double
-    <span class="keyword">Dim</span> tempWidth As Double
-    <span class="keyword">Dim</span> tempColor As Color
-    <span class="keyword">Dim</span> tempRnd As Integer = <span class="built_in">rnd</span>.<span class="keyword">Next</span>(<span class="number">1</span>, <span class="number">3</span>)
-    <span class="keyword">Dim</span> tempAlpha As Integer
-    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> <span class="number">1</span>
-        <span class="keyword">For</span> pff = <span class="number">0</span> <span class="keyword">To</span> tempRnd
-            position = Calculator(x, y, modeSequence((mode - <span class="number">1</span>) * <span class="number">2</span> + j), r, depth, radio)
-            <span class="keyword">Dim</span> LineVector As <span class="keyword">New</span> Vector2D(position(<span class="number">0</span>), position(<span class="number">1</span>))
-            LineVector.x *= <span class="built_in">rnd</span>.NextDouble
-            LineVector.y *= <span class="built_in">rnd</span>.NextDouble
-            LineVector.SetMag(IIf(depth &amp;lt;= <span class="number">1</span>, <span class="number">20</span>, position(<span class="number">2</span>)))
-            position(<span class="number">0</span>) = LineVector.x
-            position(<span class="number">1</span>) = LineVector.y
-            <span class="keyword">Dim</span> tempMag As Double = LineVector.Magnitude
-            <span class="keyword">Dim</span> PointList As <span class="keyword">New</span> List(Of PointF)
-            <span class="keyword">For</span> m = <span class="number">1</span> <span class="keyword">To</span> tempMag
-                LineVector.SetMag(m)
-                PointList.Add(<span class="keyword">New</span> PointF(x + LineVector.x, y + LineVector.y))
-            <span class="keyword">Next</span>
-            <span class="keyword">If</span> PointList.Count &amp;gt;= <span class="number">2</span> <span class="keyword">Then</span>
-                <span class="keyword">Dim</span> tempNext As Double = <span class="built_in">rnd</span>.NextDouble
-                tempAlpha = <span class="built_in">rnd</span>.<span class="keyword">Next</span>(<span class="number">20</span>, <span class="number">100</span>)
-                <span class="keyword">For</span> p = <span class="number">0</span> <span class="keyword">To</span> PointList.Count - <span class="number">2</span>
-                    tempR = r * <span class="number">0.015</span> * depth
-                    tempWidth = IIf(depth &amp;lt;= <span class="number">1</span>, Math.<span class="built_in">Sin</span>(p / <span class="number">6</span>) * <span class="number">10</span>, tempR - p / PointList.Count * (tempR - tempR * radio + r * <span class="number">0.015</span> * radio))
-                    tempColor = IIf(depth &amp;lt;= <span class="number">1</span>, Color.FromArgb(tempAlpha, Color.Green), Color.Black)
-                    <span class="keyword">If</span> depth &amp;lt;= <span class="number">1</span> <span class="keyword">Then</span>
-                        <span class="keyword">If</span> tempNext &amp;lt; <span class="number">0.01</span> <span class="keyword">Then</span>
-                            tempWidth = Math.<span class="built_in">Sin</span>(p / <span class="number">6</span>) * <span class="number">20</span>
-                            tempColor = Color.FromArgb(<span class="built_in">rnd</span>.<span class="keyword">Next</span>(<span class="number">200</span>, <span class="number">255</span>), Color.Red)
-                        <span class="keyword">End</span> <span class="keyword">If</span>
-                    <span class="keyword">End</span> <span class="keyword">If</span>
-                    ph.DrawLine(<span class="keyword">New</span> Pen(tempColor, tempWidth), PointList(p), PointList(p + <span class="number">1</span>))
-                <span class="keyword">Next</span>
-            <span class="keyword">End</span> <span class="keyword">If</span>
-            PaintHexgon(position(<span class="number">0</span>) + x, position(<span class="number">1</span>) + y, modeSequence((mode - <span class="number">1</span>) * <span class="number">2</span> + j), tempMag, depth - <span class="number">1</span>, radio)
-        <span class="keyword">Next</span>
-    <span class="keyword">Next</span>
-<span class="keyword">End</span> <span class="keyword">Sub</span>
-<span class="keyword">Public</span> <span class="keyword">Sub</span> PaintHexgon(<span class="keyword">ByVal</span> x As Double, <span class="keyword">ByVal</span> y As Double, <span class="keyword">ByVal</span> mode As Integer, <span class="keyword">ByVal</span> r As Double, <span class="keyword">ByVal</span> depth As Integer, <span class="keyword">ByVal</span> radio As Double)
-    <span class="keyword">If</span> depth &amp;gt; <span class="number">0</span> <span class="keyword">Then</span>
-        <span class="keyword">If</span> mode = <span class="number">0</span> <span class="keyword">Then</span>
-            ph.DrawLine(<span class="keyword">New</span> Pen(Brushes.Black, r * <span class="number">0.02</span> * depth), <span class="keyword">New</span> PointF(x, y), <span class="keyword">New</span> PointF(x, y + r))
-            PaintLine(x, y, <span class="number">1</span>, r, depth, radio)
-        <span class="keyword">Else</span>
-            PaintLine(x, y, mode, r, depth, radio)
-        <span class="keyword">End</span> <span class="keyword">If</span>
-    <span class="keyword">End</span> <span class="keyword">If</span>
-<span class="keyword">End</span> <span class="keyword">Sub</span>
-&amp;apos;&amp;#x753B;&amp;#x6811;
-<span class="keyword">Private</span> <span class="keyword">Sub</span> Button2_Click(<span class="keyword">ByVal</span> sender As System.Object, <span class="keyword">ByVal</span> e As System.EventArgs) Handles Button2.Click
-    PaintBoard = <span class="keyword">New</span> Bitmap(PictureBox1.Width, PictureBox1.Height)
-    ph = Graphics.FromImage(PaintBoard)
-    ph.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-    centerX = PictureBox1.Width / <span class="number">2</span> : centerY = PictureBox1.Height / <span class="number">2</span>
-    PaintHexgon(centerX, centerY, <span class="number">0</span>, <span class="number">200</span>, <span class="number">5</span>, <span class="number">0.6180339887</span>)
-    &amp;apos; PaintHexgon(centerX, centerY, <span class="number">0</span>, <span class="number">20</span>, <span class="number">5</span>, <span class="number">1.61812</span>)
-    PictureBox1.Image = PaintBoard
-<span class="keyword">End</span> <span class="keyword">Sub</span>
-</code></pre><p> VB.NET&#x6E90;&#x7801;</p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+        <h1 id="&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5185;&#x5E55;&#xFF1A;&#x76F4;&#x65B9;&#x56FE;&#x548C;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;">&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5185;&#x5E55;&#xFF1A;&#x76F4;&#x65B9;&#x56FE;&#x548C;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 12:48:00  <a href="/sites/Fn2umm">&#x535A;&#x5BA2;&#x56ED;-&#x539F;&#x521B;&#x7CBE;&#x534E;&#x533A;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/woodytu/p/4556065.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/woodytu/p/4556065.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11110157">&#x5411;&#x91CF;</a><a href="/topics/11030006">SQL Server</a></p>
+<p>&#x6709;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;&#x5728;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;42&#xFF0C;&#x4F46;&#x662F;&#x4F60;&#x77E5;&#x9053;&#x67E5;&#x8BE2;&#x7684;&#x6B63;&#x786E;&#x884C;&#x6570;&#x4E0D;&#xFFFD;&#xFFFD;&#xFFFD;42&#x3002;&#x4F60;&#x4E5F;&#x542C;&#x8BF4;&#x4E86;SQL Server&#x4F7F;&#x7528;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x6765;&#x4F5C;&#x6B64;&#x4F30;&#x8BA1;&#x7684;&#xFF1F;&#x4F46;&#x6211;&#x4EEC;&#x600E;&#x4E48;&#x770B;&#x61C2;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x6765;&#x7406;&#x89E3;&#x8FD9;&#x91CC;&#x7684;&#x4F30;&#x8BA1;&#x662F;&#x600E;&#x4E48;&#x6765;&#x7684;&#xFF1F;</p>
+<p>&#x4ECA;&#x5929;&#x6211;&#x60F3;&#x8C08;&#x4E0B;SQL Server&#x91CC;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x5728; &#x76F4;&#x65B9;&#x56FE;&#xFF08; histogram &#xFF09; &#x548C; &#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF08; density vector &#xFF09; &#x91CC;&#xFF0C;SQL Server&#x5185;&#x90E8;&#x662F;&#x5982;&#x4F55;&#x4FDD;&#x5B58;&#x8FD9;&#x4E9B;&#x503C;&#x7684;&#x5E76;&#x7528;&#x6B64;&#x6765;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x7684;&#x3002; </p>
+<h2 id="&#x76F4;&#x65B9;&#x56FE;&#xFF08;Histogram&#xFF09;_&#x9996;&#x5148;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x4E0B;&#x76F4;&#x65B9;&#x56FE;&#x3002;&#x76F4;&#x65B9;&#x56FE;&#x7684;&#x7528;&#x9014;&#x662F;&#x7528;&#x9AD8;&#x6548;&#x3001;&#x538B;&#x7F29;&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x50A8;&#x5217;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002;&#x6BCF;&#x6B21;&#x5F53;&#x4F60;&#x5728;&#x8868;&#x4E0A;&#x521B;&#x5EFA;&#x7D22;&#x5F15;&#x65F6;&#xFF08;&#x805A;&#x96C6;/&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF09;&#xFF0C;SQL_Server&#x4F1A;&#x4E3A;&#x4F60;&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;&#x8FD9;&#x4E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5C31;&#x5305;&#x542B;&#x4E86;&#x90A3;&#x5217;&#xFF08;&#x7D22;&#x5F15;&#x952E;&#xFF09;&#x7684;&#x6570;&#x636E;&#x5206;&#x5E03;&#x4FE1;&#x606F;&#x3002;&#x6BD4;&#x5982;&#x4F60;&#x6709;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#x8868;&#xFF0C;&#x91CC;&#x9762;&#x6709;&#x4E2A;Country&#x5217;&#xFF0C;&#x8FD9;&#x5217;&#x91CC;&#x6709;&#x5F88;&#x591A;&#x56FD;&#x5BB6;&#x540D;&#x5B57;&#x3002;&#x56E0;&#x6B64;&#x76F4;&#x65B9;&#x56FE;&#x5C31;&#x662F;&#x5BF9;&#x8FD9;&#x4E9B;&#x56FD;&#x5BB6;&#x4E2A;&#x6570;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x7684;&#x53EF;&#x89C6;&#x5316;&#xFF1A;">&#x76F4;&#x65B9;&#x56FE;&#xFF08;Histogram&#xFF09; &#x9996;&#x5148;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x4E0B;&#x76F4;&#x65B9;&#x56FE;&#x3002;&#x76F4;&#x65B9;&#x56FE;&#x7684;&#x7528;&#x9014;&#x662F;&#x7528;&#x9AD8;&#x6548;&#x3001;&#x538B;&#x7F29;&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x50A8;&#x5217;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002;&#x6BCF;&#x6B21;&#x5F53;&#x4F60;&#x5728;&#x8868;&#x4E0A;&#x521B;&#x5EFA;&#x7D22;&#x5F15;&#x65F6;&#xFF08;&#x805A;&#x96C6;/&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF09;&#xFF0C;SQL Server&#x4F1A;&#x4E3A;&#x4F60;&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;&#x8FD9;&#x4E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5C31;&#x5305;&#x542B;&#x4E86;&#x90A3;&#x5217;&#xFF08;&#x7D22;&#x5F15;&#x952E;&#xFF09;&#x7684;&#x6570;&#x636E;&#x5206;&#x5E03;&#x4FE1;&#x606F;&#x3002;&#x6BD4;&#x5982;&#x4F60;&#x6709;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#x8868;&#xFF0C;&#x91CC;&#x9762;&#x6709;&#x4E2A;Country&#x5217;&#xFF0C;&#x8FD9;&#x5217;&#x91CC;&#x6709;&#x5F88;&#x591A;&#x56FD;&#x5BB6;&#x540D;&#x5B57;&#x3002;&#x56E0;&#x6B64;&#x76F4;&#x65B9;&#x56FE;&#x5C31;&#x662F;&#x5BF9;&#x8FD9;&#x4E9B;&#x56FD;&#x5BB6;&#x4E2A;&#x6570;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x7684;&#x53EF;&#x89C6;&#x5316;&#xFF1A;</h2><p> <img src="http://img0.tuicool.com/7bYBR3.png" alt=""></p>
+<p>&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x7528;&#x5F88;&#x591A;&#x67F1;&#x6761;&#x63CF;&#x8FF0;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#xFF1A;&#x67F1;&#x6761;&#x8D8A;&#x9AD8;&#xFF0C;&#x90A3;&#x5217;&#x7684;&#x8FD9;&#x4E2A;&#x503C;&#x5C31;&#x8BB0;&#x5F55;&#x6570;&#x5C31;&#x8D8A;&#x591A;&#x3002;SQL Server&#x4F7F;&#x7528;&#x540C;&#x6837;&#x7684;&#x6982;&#x5FF5;&#x548C;&#x683C;&#x5F0F;&#x6765;&#x63CF;&#x8FF0;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#x6765;&#x8BE6;&#x7EC6;&#x4E86;&#x89E3;&#x4E0B;&#x3002;&#x5728; AdventureWorks2008R2 &#x6570;&#x636E;&#x5E93;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x627E;&#x5230;&#x8868; SalesOrderDetail &#x91CC;&#x7684; ProductID &#x5217;&#x3002;&#x8FD9;ProductID&#x5217;&#x5B58;&#x50A8;&#x7740;&#x5177;&#x4F53;&#x7684;&#x9500;&#x552E;&#x4EA7;&#x54C1;ID&#x4FE1;&#x606F;&#x3002;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;ProductID&#x5217;&#x4E5F;&#x6709;&#x7D22;&#x5F15;&#x5B9A;&#x4E49;&#xFF0C;&#x90A3;&#x5C31;&#x8BF4;&#x6709;&#x5BF9;&#x5E94;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x6765;&#x63CF;&#x8FF0;ProductID&#x5217;&#x7684;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002; </p>
+<p> <img src="http://img1.tuicool.com/ARnyMrn.png" alt=""></p>
+<p>&#x5728;SSMS&#x91CC;&#xFF0C;&#x4F60;&#x901A;&#x8FC7;&#x67E5;&#x770B;&#x8868;&#x5C5E;&#x6027;&#x6765;&#x67E5;&#x770B;&#x5217;&#x548C;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; DBCC SHOW_STATISTICS &#x547D;&#x4EE4;&#x5728;&#x7ED3;&#x679C;&#x91CC;&#x8F93;&#x51FA;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002; </p>
+<pre><code><span class="number">1</span> <span class="comment">-- Show the statistics for a given index</span>
+<span class="number">2</span> DBCC SHOW_STATISTICS (&amp;apos;Sales.SalesOrderDetail&amp;apos;, IX_SalesOrderDetail_ProductID)
+<span class="number">3</span> GO
+</code></pre><p><img src="http://img1.tuicool.com/j2yIfm.png" alt=""></p>
+<p>&#x4ECE;&#x4E0A;&#x56FE;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8FD4;&#x56DE;3&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x8BB0;&#x5F55;&#x96C6;&#xFF1A;</p>
+<ul>
+<li>&#x6570;&#x636E;&#x663E;&#x793A;&#x6807;&#x9898;</li>
+<li>&#x5BC6;&#x5EA6;&#x5411;&#x91CF;</li>
+<li>&#x76F4;&#x65B9;&#x56FE;</li>
+</ul>
+<p>&#x6211;&#x4EEC;&#x6765;&#x5173;&#x6CE8;&#x4E0B;&#x8FD9;3&#x4E2A;&#x90E8;&#x5206;&#x4FE1;&#x606F;&#xFF0C;&#x770B;&#x770B;&#x5B83;&#x4EEC;&#x662F;&#x5982;&#x4F55;&#x88AB;&#x7528;&#x6765;&#x505A; &#x53C2;&#x6570;&#x9884;&#x4F30;&#xFF08;Cardinality Estimation&#xFF09; &#xFF08;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x7684;&#x8BA1;&#x7B97;&#xFF09;&#x3002;&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x5BF9; SalesOrderDetail &#x8868;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x67E5;&#x8BE2;&#xFF0C;&#x70B9;&#x51FB;&#x5DE5;&#x5177;&#x680F;&#x7684; </p>
+<p><img src="http://img1.tuicool.com/qUFf2a.png" alt=""></p>
+<p>&#x663E;&#x793A;&#x5305;&#x542B;&#x5B9E;&#x9645;&#x7684;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x3002;&#x5982;&#x4F60;&#x6240;&#x89C1;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x8981; ProductID &#x5217;&#x503C;&#x4E3A;707&#x7684;&#x8BB0;&#x5F55;&#xFF1A; </p>
+<pre><code><span class="number">1</span> <span class="subst">--</span> SQL Server<span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;EQ_ROWS<span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x6765</span>;<span class="subst">&amp;</span><span class="variable">#x505A</span>;<span class="subst">&amp;</span><span class="variable">#x9884</span>;<span class="subst">&amp;</span><span class="variable">#x4F30</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x8FD9</span>;<span class="subst">&amp;</span><span class="variable">#x4E2A</span>;<span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x65B9</span>;<span class="subst">&amp;</span><span class="variable">#x56FE</span>;<span class="subst">&amp;</span><span class="variable">#x91CC</span>;<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x63A5</span>;<span class="subst">&amp;</span><span class="variable">#x53D6</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+<span class="number">2</span> <span class="subst">--</span> <span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x7B5B</span>;<span class="subst">&amp;</span><span class="variable">#x9009</span>;<span class="subst">&amp;</span><span class="variable">#x5668</span>;<span class="subst">&amp;</span><span class="variable">#x8FD0</span>;<span class="subst">&amp;</span><span class="variable">#x7B97</span>;<span class="subst">&amp;</span><span class="variable">#x7B26</span>;<span class="subst">&amp;</span><span class="variable">#x4F30</span>;<span class="subst">&amp;</span><span class="variable">#x8BA1</span>;<span class="subst">&amp;</span><span class="variable">#x884C</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="number">3083.</span>
+<span class="number">3</span> <span class="keyword">SELECT</span> <span class="subst">*</span> FROM Sales<span class="built_in">.</span>SalesOrderDetail
+<span class="number">4</span> <span class="keyword">WHERE</span> ProductID <span class="subst">=</span> <span class="number">707</span>
+<span class="number">5</span> GO
+</code></pre><p>&#x67E5;&#x8BE2;&#x8FD4;&#x56DE;121317&#x6761;&#x8BB0;&#x5F55;&#x4E2D;&#x7684;3083&#x6761;&#x8BB0;&#x5F55;&#x3002;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x6CA1;&#x6709;&#x5B9A;&#x4E49;&#x8986;&#x76D6;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF08;&#x8FD9;&#x91CC;&#x4E5F;&#x7528;&#x4E0D;&#x5230;&#xFF0C;&#x56E0;&#x4E3A;&#x7528;&#x4E86;SELECT *&#xFF09;&#xFF0C;&#x8FD9;&#x4E2A;&#x67E5;&#x8BE2;&#x5DF2;&#x7ECF;&#x8D8A;&#x8FC7;&#x4E34;&#x754C;&#x70B9;&#x4E86;&#xFF0C;&#x4ECE;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;SQL Server&#x5DF2;&#x7ECF;&#x9009;&#x62E9;&#x4E86;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x626B;&#x63CF;&#x8FD0;&#x7B97;&#x7B26;&#x3002; </p>
+<p> <img src="http://img1.tuicool.com/AvMvEj.png" alt=""></p>
+<p>&#x5728;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#xFF0C;&#x7B5B;&#x9009;&#x5668;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#xFF08;&#x9F20;&#x6807;&#x79FB;&#x5230;&#x8FD0;&#x7B97;&#x7B26;&#x4E0A;&#x4F1A;&#x663E;&#x793A;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#xFF09;&#x7684;&#x8C13;&#x8BCD;&#x90E8;&#x5206;&#xFF0C;&#x8FD9;&#x91CC;&#x663E;&#x793A;&#x4E86;&#x8FC7;&#x6EE4;&#x8BB0;&#x5F55;&#x6761;&#x4EF6;&#x662F;ProductID&#x503C;&#x662F;707&#xFF0C;&#x8FD8;&#x6709;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;3083&#x3002;&#x770B;&#x6765;&#x8FD9;&#x91CC;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x975E;&#x5E38;&#x51C6;&#x786E;&#x3002;&#x4F46;&#x95EE;&#x9898;&#x662F;&#x8FD9;&#x4E2A;&#x4F30;&#x8BA1;&#x662F;&#x4ECE;&#x54EA;&#x91CC;&#x6765;&#x7684;&#x5462;&#xFF1F;&#x5F53;&#x4F60;&#x770B;&#x76F4;&#x65B9;&#x56FE;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5F88;&#x591A;&#x884C;&#xFF08;&#x6700;&#x5927; &#x68AF;&#x7EA7;&#xFF08;&#x6B65;&#x957F;&#xFF09; &#x6570;&#x4E3A; 200&#xFF09;&#xFF0C;&#x8FD9;&#x91CC;&#x63CF;&#x8FF0; ProductID &#x5217;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002; </p>
+<p>&#x76F4;&#x65B9;&#x56FE;&#x7684;&#x6BCF;&#x4E00;&#x884C;&#x6709;&#x4EE5;&#x4E0B;&#x5217;&#xFF1A;</p>
+<ul>
+<li>RANGE_HI_KEY&#xA0;&#xA0;&#xA0;&#xA0; &#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x7684;&#x4E0A;&#x9650;&#x5217;&#x503C;&#x3002;&#x5217;&#x503C;&#x4E5F;&#x79F0;&#x4E3A;&#x952E;&#x503C;&#x3002;</li>
+<li>RANGE_ROWS&#xA0;&#xA0;&#xA0; &#x5176;&#x5217;&#x503C;&#x4F4D;&#x4E8E;&#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x5185;&#xFF08;&#x4E0D;&#x5305;&#x62EC;&#x4E0A;&#x9650;&#xFF09;&#x7684;&#x884C;&#x7684;&#x4F30;&#x7B97;&#x6570;&#x76EE;&#x3002;</li>
+<li>EQ_ROWS&#xA0;&#xA0;&#xA0; &#x5176;&#x5217;&#x503C;&#x7B49;&#x4E8E;&#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x7684;&#x4E0A;&#x9650;&#x7684;&#x884C;&#x7684;&#x4F30;&#x7B97;&#x6570;&#x76EE;&#x3002;</li>
+<li>DISTINCT_ RANGE_ROWS&#xA0;&#xA0;&#xA0;&#x975E;&#x91CD;&#x590D;&#x5217;&#x503C;&#x4F4D;&#x4E8E;&#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x5185;&#xFF08;&#x4E0D;&#x5305;&#x62EC;&#x4E0A;&#x9650;&#xFF09;&#x7684;&#x884C;&#x7684;&#x4F30;&#x7B97;&#x6570;&#x76EE;&#x3002;</li>
+<li>AVG_RANGE_ROWS&#xA0;&#xA0;&#xA0;&#x91CD;&#x590D;&#x5217;&#x503C;&#x4F4D;&#x4E8E;&#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x5185;&#xFF08;&#x4E0D;&#x5305;&#x62EC;&#x4E0A;&#x9650;&#xFF09;&#x7684;&#x5E73;&#x5747;&#x884C;&#x6570;&#xFF08;&#x5982;&#x679C; DISTINCT_RANGE_ROWS &gt; 0&#xFF0C;&#x5219;&#x4E3A; RANGE_ROWS / DISTINCT_RANGE_ROWS&#xFF09;&#x3002;</li>
+</ul>
+<p>&#x4ECE; <strong>RANGE_HI_KEY</strong> &#x5217;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C; <strong>ProductID</strong> &#x503C;&#x4E3A;707&#x7684;&#x8BB0;&#x5F55;&#x6709;3083&#x3002;&#x8FD9;&#x4E0E;&#x6211;&#x4EEC;&#x67E5;&#x8BE2;&#x7684;&#x9650;&#x5236;&#x6761;&#x4EF6;&#x5B8C;&#x5168;&#x5339;&#x914D;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;SQL Server&#x4F7F;&#x7528; <strong>EQ_ROWS</strong>&#x5217;&#x7684;&#x503C;&#x7528;&#x4F5C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x2014;&#x2014;&#x8FD9;&#x91CC;&#x662F;3083&#x3002;&#x8FD9;&#x5C31;&#x662F;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x7B5B;&#x9009;&#x5668;&#x8FD0;&#x7B97;&#x7B26;&#x7528;&#x5230;&#x7684;&#x4F30;&#x8BA1;&#x65B9;&#x6CD5;&#x3002;</p>
+<p><img src="http://img1.tuicool.com/VZJV3ya.png" alt=""></p>
+<p>&#x6211;&#x4EEC;&#x518D;&#x6765;&#x770B;&#x4E2A;&#x67E5;&#x8BE2;&#xFF1A;</p>
+<pre><code><span class="number">1</span> <span class="subst">--</span> <span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="number">915</span><span class="subst">&amp;</span><span class="variable">#x8BB0</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x65B9</span>;<span class="subst">&amp;</span><span class="variable">#x56FE</span>;<span class="subst">&amp;</span><span class="variable">#x91CC</span>;<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x80FD</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x63A5</span>;<span class="subst">&amp;</span><span class="variable">#x53D6</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x56E0</span>;<span class="subst">&amp;</span><span class="variable">#x6B64</span>;SQL Server<span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;AVG_RANGE_ROWS<span class="subst">&amp;</span><span class="variable">#x5217</span>;<span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x6765</span>;<span class="subst">&amp;</span><span class="variable">#x505A</span>;<span class="subst">&amp;</span><span class="variable">#x9884</span>;<span class="subst">&amp;</span><span class="variable">#x4F30</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+<span class="number">2</span> <span class="subst">--</span> <span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="number">910</span><span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="number">916</span><span class="subst">&amp;</span><span class="variable">#x4E4B</span>;<span class="subst">&amp;</span><span class="variable">#x95F4</span>;<span class="subst">&amp;</span><span class="variable">#x6709</span>;<span class="number">150</span><span class="subst">&amp;</span><span class="variable">#x6761</span>;<span class="subst">&amp;</span><span class="variable">#x8BB0</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x540C</span>;<span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x4E2A</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="number">4</span><span class="subst">&amp;</span><span class="variable">#xFF08</span>;DISTINCT_RANGE_ROWS<span class="subst">&amp;</span><span class="variable">#xFF09</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+<span class="number">3</span> <span class="subst">--</span> <span class="subst">&amp;</span><span class="variable">#x56E0</span>;<span class="subst">&amp;</span><span class="variable">#x6B64</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x975E</span>;<span class="subst">&amp;</span><span class="variable">#x805A</span>;<span class="subst">&amp;</span><span class="variable">#x96C6</span>;<span class="subst">&amp;</span><span class="variable">#x67E5</span>;<span class="subst">&amp;</span><span class="variable">#x627E</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;SQL Server<span class="subst">&amp;</span><span class="variable">#x4F30</span>;<span class="subst">&amp;</span><span class="variable">#x8BA1</span>;<span class="number">150</span>/<span class="number">4</span><span class="subst">=</span><span class="number">37.5</span><span class="subst">&amp;</span><span class="variable">#x6761</span>;<span class="subst">&amp;</span><span class="variable">#x8BB0</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+<span class="number">4</span> <span class="keyword">SELECT</span> <span class="subst">*</span> FROM Sales<span class="built_in">.</span>SalesOrderDetail
+<span class="number">5</span> <span class="keyword">WHERE</span> ProductID <span class="subst">=</span> <span class="number">915</span>
+<span class="number">6</span> GO
+</code></pre><p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x53EA;&#x8FD4;&#x56DE; ProductID &#x5217;&#x503C;&#x4E3A;915&#x7684;&#x8BB0;&#x5F55;&#x3002;&#x4F46;&#x662F;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x627E;&#x4E0D;&#x5230;915&#x7684;&#x5BF9;&#x5E94;&#x503C;&#x3002;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x5B58;&#x50A8;&#x4E86;910&#x5230;916&#x4E4B;&#x95F4;&#x7684;&#x503C;&#x3002;&#x8FD9;&#x4E2A;&#x8303;&#x56F4;&#x5185;&#x7684;&#x8BB0;&#x5F55;&#x6570;&#x6709;150&#x6761;&#xFF08; <strong>RANGE_ROWS</strong> &#xFF09;&#xFF0C;&#x4E0D;&#x5305;&#x62EC;910&#x548C;916&#x8FD9;2&#x4E2A;&#x503C;&#x3002;&#x5728;&#x8FD9;&#x4E2A;150&#x6761;&#x8BB0;&#x5F55;&#x91CC;&#xFF0C;&#x6709;4&#x4E2A;&#x4E0D;&#x540C;&#x503C;&#xFF08; <strong>DISTINCT_RANGE_ROWS</strong> &#xFF09;&#x3002;&#x8FD9;&#x5C31;&#x662F;&#x8BF4;915&#x7684;&#x8BB0;&#x5F55;&#x6570;&#x5728;910&#x4E0E;916&#x4E4B;&#x95F4;&#x662F;37.5&#xFF08; AVG_RANGE_ROWS =150/4&#xFF09;&#x3002; </p>
+<p> <img src="http://img2.tuicool.com/r6RBre.png" alt=""></p>
+<p>&#x56E0;&#x6B64;&#x5728;&#x8FD9;&#x4E2A;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;SQL Server&#x5BF9;915&#x503C;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;37.5&#xFF0C;&#x5982;&#x4F60;&#x5728;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x6240;&#x89C1;&#x3002;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x67E5;&#x627E;&#x8FD0;&#x7B97;&#x7B26;&#x8FD4;&#x56DE;41&#x6761;&#x8BB0;&#x5F55;&#xFF0C;&#x8FD9;&#x4E2A;&#x4F30;&#x8BA1;&#x8FD8;&#x662F;&#x5F88;&#x51C6;&#x7684;&#x3002;</p>
+<p> <img src="http://img1.tuicool.com/MZV3Mza.png" alt=""></p>
+<p>&#x4ECE;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x6CA1;&#x6709;&#x5B8C;&#x5168;&#x5339;&#x914D;&#x503C;&#x65F6;&#xFF0C;SQL Server&#x4E5F;&#x80FD;&#x8FDB;&#x884C;&#x57FA;&#x6570;&#x9884;&#x4F30;&#x3002;&#x56E0;&#x6B64;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x4F1A;&#x6709; <strong>RANGE_ROWS</strong> &#x5217;&#x548C; <strong>DISTINCT_RANGE_ROWS</strong> &#x5217;&#x3002;&#x4ECE;&#x4E0A;&#x8FF0;&#x89E3;&#x91CA;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x76F4;&#x65B9;&#x56FE;&#x5E76;&#x4E0D;&#x96BE;&#x7406;&#x89E3;&#x3002;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x70B9;&#x662F;&#xFF0C;SQL Server&#x53EA;&#x4E3A;&#x7D22;&#x5F15;&#x4E2D;&#x7B2C;1&#x4E2A;&#x952E;&#x5217;&#x4E2D;&#x7684;&#x5217;&#x503C;&#x521B;&#x5EFA;&#x76F4;&#x65B9;&#x56FE;&#x3002;&#x7D22;&#x5F15;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x540E;&#x7EED;&#x5217;&#xFF0C;SQL Server&#x5728;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x91CC;&#x5B58;&#x50A8;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x7EC4;&#x5408;&#x7D22;&#x5F15;&#x952E;&#x91CC;&#xFF0C;&#x7B2C;1&#x5217;&#x5E94;&#x8BE5;&#x662F;&#x9009;&#x62E9;&#x6027;&#x6700;&#x9AD8;&#x7684;&#x90A3;&#x5217;&#xFF08;&#x67E5;&#x8BE2;&#x7ECF;&#x5E38;&#x7528;&#x5230;&#x7684;&#xFF09;&#x3002; </p>
+<h2 id="&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF08;density_vector&#xFF09;_&#x6211;&#x4EEC;&#x518D;&#x6765;&#x770B;&#x770B;&#x795E;&#x79D8;&#x7684;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF0C;&#x770B;&#x4E0B;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;_IX_SalesOrderDetail_ProductID_&#xFF0C;&#x8FD9;&#x4E2A;&#x7D22;&#x5F15;&#x53EA;&#x5728;_ProductID_&#x5217;&#x5EFA;&#x7ACB;&#x3002;&#x4F46;&#x662F;&#x6BCF;&#x4E2A;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF0C;SQL_Server&#x5728;&#x7D22;&#x5F15;&#x7684;&#x9875;&#x5C42;&#x4E5F;&#x4FDD;&#x5B58;&#x805A;&#x96C6;&#x952E;&#x4F5C;&#x4E3A;&#x903B;&#x8F91;&#x6307;&#x9488;&#x3002;&#x5F53;&#x4F60;&#x5B9A;&#x4E49;&#x4E86;&#x975E;&#x552F;&#x4E00;&#x7684;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF0C;&#x805A;&#x96C6;&#x952E;&#x4E5F;&#x662F;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x5BFC;&#x822A;&#x7ED3;&#x6784;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x8868;&#x91CC;&#x7684;&#x805A;&#x96C6;&#x952E;_SalesOrderID_&#x662F;&#x4E2A;&#x7EC4;&#x5408;&#x5217;&#xFF0C;&#x5305;&#x542B;_SalesOrderID_&#x5217;&#x548C;_SalesOrderDetailID_&#x5217;&#x3002;">&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF08;density vector&#xFF09; &#x6211;&#x4EEC;&#x518D;&#x6765;&#x770B;&#x770B;&#x795E;&#x79D8;&#x7684;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF0C;&#x770B;&#x4E0B;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15; IX_SalesOrderDetail_ProductID &#xFF0C;&#x8FD9;&#x4E2A;&#x7D22;&#x5F15;&#x53EA;&#x5728; ProductID &#x5217;&#x5EFA;&#x7ACB;&#x3002;&#x4F46;&#x662F;&#x6BCF;&#x4E2A;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF0C;SQL Server&#x5728;&#x7D22;&#x5F15;&#x7684;&#x9875;&#x5C42;&#x4E5F;&#x4FDD;&#x5B58;&#x805A;&#x96C6;&#x952E;&#x4F5C;&#x4E3A;&#x903B;&#x8F91;&#x6307;&#x9488;&#x3002;&#x5F53;&#x4F60;&#x5B9A;&#x4E49;&#x4E86;&#x975E;&#x552F;&#x4E00;&#x7684;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF0C;&#x805A;&#x96C6;&#x952E;&#x4E5F;&#x662F;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x5BFC;&#x822A;&#x7ED3;&#x6784;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x8868;&#x91CC;&#x7684;&#x805A;&#x96C6;&#x952E; SalesOrderID &#x662F;&#x4E2A;&#x7EC4;&#x5408;&#x5217;&#xFF0C;&#x5305;&#x542B; SalesOrderID &#x5217;&#x548C; SalesOrderDetailID &#x5217;&#x3002;</h2><p>&#x8FD9;&#x5C31;&#x662F;&#x8BF4;&#x6211;&#x4EEC;&#x7684;&#x975E;&#x552F;&#x4E00;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x4E8B;&#x5B9E;&#x4E0A;&#x5305;&#x542B; ProductID &#xFF0C; SalesOrderID &#x548C; SalesOrderDetailID &#x5217;&#x3002;&#x7D22;&#x5F15;&#x952E;&#x662F;&#x4E2A;&#x7EC4;&#x5408;&#x952E;&#x3002;&#x540C;&#x6837;SQL Server&#x9700;&#x8981;&#x4E3A;&#x5176;&#x4ED6;&#x5217;&#x521B;&#x5EFA;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF0C;&#x56E0;&#x4E3A;&#x53EA;&#x6709;&#x7B2C;1&#x5217;&#xFF08; ProductID &#xFF09;&#x662F;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x6709;&#x4FE1;&#x606F;&#xFF0C;&#x8FD9;&#x4E2A;&#x5728;&#x4E0A;&#x4E00;&#x90E8;&#x5206;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x770B;&#x8FC7;&#x4E86;&#x3002;&#x5F53;&#x4F60;&#x770B;&#x7528; DBCC SHOW_STATISTICS &#x547D;&#x4EE4;&#x7684;&#x8F93;&#x51FA;&#x65F6;&#xFF0C;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x662F;&#x7B2C;2&#x4E2A;&#x8868;&#x4FE1;&#x606F;&#x3002; </p>
+<p> <img src="http://img0.tuicool.com/bE3aEzY.png" alt=""></p>
+<p>SQL Server&#x5728;&#x8FD9;&#x91CC;&#x5B58;&#x50A8;&#x9009;&#x62E9;&#x7387;&#xFF08; selectivity &#xFF09;&#xFF0C;&#x4E0D;&#x540C;&#x5217;&#x7EC4;&#x5408;&#x7684;&#x5BC6;&#x5EA6;&#x3002;&#x4F8B;&#x5982;&#xFF0C; ProductID &#x5217;&#x7684;All density&#x503C;&#x662F;0.003759399&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x4E0B;&#x5217;&#x8BED;&#x53E5;&#x6765;&#x9A8C;&#x8BC1;&#x4E0B;&#xFF1A; </p>
+<pre><code>1 <span class="comment">-- The &amp;quot;All Density&amp;quot; value for the column ProductID: 0,0037593984962406015</span>
+2 <span class="operator"><span class="keyword">SELECT</span> <span class="number">1</span> / <span class="keyword">CAST</span>(<span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> ProductID) <span class="keyword">AS</span> <span class="built_in">NUMERIC</span>(<span class="number">18</span>, <span class="number">2</span>)) <span class="keyword">FROM</span> Sales.SalesOrderDetail
+<span class="number">3</span> <span class="keyword">GO</span></span>
+</code></pre><p> <img src="http://img1.tuicool.com/iqaiMn.png" alt=""></p>
+<p>&#x5BF9;&#x4E8E; ProductID &#xFF0C; SalesOrderID &#x7EC4;&#x5408;&#x5217;&#x548C; ProductID &#xFF0C; SalesOrderID &#xFF0C; SalesOrderDetailID &#x7EC4;&#x5408;&#x5217;&#x7684;All density&#x503C;&#x5206;&#x522B;&#x662F;8.242868E-06&#x548C;8.242868E-06&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x7528;1&#x9664;&#x4EE5;2&#x4E2A;&#x7EC4;&#x5408;&#x5217;&#x7684;&#x552F;&#x4E00;&#x503C;&#x6765;&#x9A8C;&#x8BC1;&#x4E0B;&#x3002;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x7684;&#x8BB0;&#x5F55;&#x662F;121317&#xFF0C;&#x8FD9;&#x4E9B;&#x805A;&#x96C6;&#x503C;&#xFF08; SalesOrderID&#xFF0C;  SalesOrderDetailID &#x7EC4;&#x6210;&#x4E86;&#x805A;&#x96C6;&#x952E;&#xFF09;&#x90FD;&#x662F;&#x552F;&#x4E00;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8BA1;&#x7B97;&#x4E0B;&#xFF1A;1/121317=8.242867858585359e-6&#x3002;&#x73B0;&#x5728;&#x7684;&#x95EE;&#x9898;&#x662F;&#xFF0C;SQL Server&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x503C;&#x4F5C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x5462;&#xFF1F; </p>
+<p>&#x6211;&#x4EEC;&#x6765;&#x770B;&#x4E00;&#x4E2A;&#x67E5;&#x8BE2;&#xFF1A;</p>
+<pre><code>1 <span class="comment">-- SQL Server uses the reciprocal in a GROUP BY to make an estimation how</span>
+2 <span class="comment">-- much rows are returned:</span>
+3 <span class="comment">-- Estimation for the Stream Aggregate: 266</span>
+4 <span class="operator"><span class="keyword">SELECT</span> ProductID <span class="keyword">FROM</span> Sales.SalesOrderDetail
+<span class="number">5</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> ProductID
+<span class="number">6</span> <span class="keyword">GO</span></span>
+</code></pre><p> <img src="http://img1.tuicool.com/BBBrAz.png" alt=""></p>
+<p>&#x6211;&#x4EEC;&#x5728; ProductID &#x5217;&#x8FDB;&#x884C;GROUP BY&#x64CD;&#x4F5C;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;SQL Server&#x4F7F;&#x7528; ProductID &#x5217;&#x7684;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x503C;&#x6765;&#x4F30;&#x8BA1;&#x6D41;&#x805A;&#x5408;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#xFF1A;1/0.003759399=266&#x3002;&#x5728;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x6D41;&#x805A;&#x5408;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;266&#x3002; </p>
+<p>&#x5728;T-SQL&#x8BED;&#x53E5;&#x91CC;&#xFF0C;&#x5F53;&#x4F60;&#x4F7F;&#x7528;&#x672C;&#x5730;&#x53D8;&#x91CF;&#x65F6;&#xFF0C;SQL Server&#x4E0D;&#x80FD;&#x55C5;&#x63A2;&#x4EFB;&#x4F55;&#x53C2;&#x6570;&#x503C;&#xFF0C;&#x53EA;&#x80FD;&#x9000;&#x56DE;&#x4F7F;&#x7528;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x6765;&#x8FDB;&#x884C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x3002;&#x6211;&#x4EEC;&#x770B;&#x4E0B;&#x9762;&#x7684;&#x67E5;&#x8BE2;&#x3002;</p>
+<pre><code> 1 <span class="comment">-- SQL Server also uses the Density Vector when we are working with local variables</span>
+ 2 <span class="comment">-- and equality predicates.</span>
+ 3 <span class="comment">-- SQL Server estimates for the Non-Clustered Index Seek 456 records: 121317 * 0,003759 = 456</span>
+ 4 <span class="comment">-- Every variable value gives us the same estimation.</span>
+ 5 
+ 6 <span class="comment">-- Estimated: 456</span>
+ 7 <span class="comment">-- Actual: 3083</span>
+ 8 <span class="operator"><span class="keyword">DECLARE</span> @i <span class="built_in">INT</span> = <span class="number">707</span>
+ <span class="number">9</span> 
+<span class="number">10</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Sales.SalesOrderDetail
+<span class="number">11</span> <span class="keyword">WHERE</span> ProductID = @i</span>
+</code></pre><p> <img src="http://img0.tuicool.com/IFvY3uQ.png" alt=""></p>
+<p>SQL Server&#x5BF9;&#x7B5B;&#x9009;&#x5668;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;456&#xFF08;121317 * 0.003759399&#xFF09;&#xFF0C;&#x4F46;&#x5B9E;&#x9645;&#x4E0A;&#x6211;&#x4EEC;&#x53EA;&#x8FD4;&#x56DE;&#x4E86;44&#x6761;&#x8BB0;&#x5F55;&#x3002;</p>
+<p>&#x5F53;&#x4F60;&#x7684;&#x672C;&#x5730;&#x53D8;&#x91CF;&#x4E0E;&#x5927;&#x4E8E;&#x5C0F;&#x4E8E;&#x7EC4;&#x5408;&#x65F6;&#xFF0C;SQL Server&#x4E0D;&#x518D;&#x4F7F;&#x7528;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x503C;&#xFF0C;&#x53EA;&#x5047;&#x8BBE;30%&#x7684;&#x884C;&#x8FD4;&#x56DE;&#x3002;</p>
+<pre><code>1 <span class="comment">-- When we are using an inequality predicate (&amp;quot;&amp;gt;&amp;quot;, &amp;quot;&amp;lt;&amp;quot;) SQL Server assumes 30% for the</span>
+2 <span class="comment">-- estimated number of rows.</span>
+3 <span class="comment">-- Estimated: 36.395 (121.317/36.395 = 3,33)</span>
+4 <span class="comment">-- Actual: 44</span>
+5 <span class="operator"><span class="keyword">DECLARE</span> @i <span class="built_in">INT</span> = <span class="number">719</span>
+<span class="number">6</span> 
+<span class="number">7</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Sales.SalesOrderDetail
+<span class="number">8</span> <span class="keyword">WHERE</span> ProductID &amp;gt;</span> @i
+9 GO
+</code></pre><p> <img src="http://img0.tuicool.com/MjymYr.png" alt=""></p>
+<p>&#x4ECE;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;SQL Server&#x5BF9;&#x6B64;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;36395&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x5C31;&#x662F;&#x5168;&#x8868;30%&#x7684;&#x8BB0;&#x5F55;&#x6570;&#xFF08;12317 * 0.30&#xFF09;&#x3002;</p>
+<h2 id="&#x5C0F;&#x7ED3;_&#x5728;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x91CC;&#x4F60;&#x5B66;&#x5230;&#x4E86;SQL_Server&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x5185;&#x5728;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x5BF9;&#x6211;&#x4EEC;&#x7684;&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x3002;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5305;&#x542B;2&#x4E2A;&#x90E8;&#x5206;&#xFF1A;&#x76F4;&#x65B9;&#x56FE;&#xFF0C;&#x8FD8;&#x6709;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x3002;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#xFF0C;SQL_Server&#x53EF;&#x4EE5;&#x975E;&#x5E38;&#x5BB9;&#x6613;&#x7684;&#x4F30;&#x8BA1;&#x51FA;&#x67E5;&#x8BE2;&#x7684;&#x5E73;&#x5747;&#x8FD4;&#x56DE;&#x884C;&#x6570;&#x3002;&#x56E0;&#x4E3A;SQL_Server&#x53EA;&#x5B58;&#x50A8;&#x7EC4;&#x5408;&#x7D22;&#x5F15;&#x952E;&#x7B2C;1&#x5217;&#x7684;&#x76F4;&#x65B9;&#x56FE;&#x4FE1;&#x606F;&#xFF0C;&#x53E6;&#x5916;&#x5BF9;&#x4E8E;&#x5176;&#x4ED6;&#x5217;&#x7684;&#x4FE1;&#xFFFD;&#xFFFD;&#xFFFD;&#x5728;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x91CC;&#x5B58;&#x50A8;&#x3002;&#x8FD8;&#x6709;&#x6211;&#x4EEC;&#x5B66;&#x4E60;&#x4E86;&#x8FD9;2&#x4E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5728;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x65F6;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x7684;&#x3002;">&#x5C0F;&#x7ED3; &#x5728;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x91CC;&#x4F60;&#x5B66;&#x5230;&#x4E86;SQL Server&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x5185;&#x5728;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x5BF9;&#x6211;&#x4EEC;&#x7684;&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x3002;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5305;&#x542B;2&#x4E2A;&#x90E8;&#x5206;&#xFF1A;&#x76F4;&#x65B9;&#x56FE;&#xFF0C;&#x8FD8;&#x6709;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x3002;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#xFF0C;SQL Server&#x53EF;&#x4EE5;&#x975E;&#x5E38;&#x5BB9;&#x6613;&#x7684;&#x4F30;&#x8BA1;&#x51FA;&#x67E5;&#x8BE2;&#x7684;&#x5E73;&#x5747;&#x8FD4;&#x56DE;&#x884C;&#x6570;&#x3002;&#x56E0;&#x4E3A;SQL Server&#x53EA;&#x5B58;&#x50A8;&#x7EC4;&#x5408;&#x7D22;&#x5F15;&#x952E;&#x7B2C;1&#x5217;&#x7684;&#x76F4;&#x65B9;&#x56FE;&#x4FE1;&#x606F;&#xFF0C;&#x53E6;&#x5916;&#x5BF9;&#x4E8E;&#x5176;&#x4ED6;&#x5217;&#x7684;&#x4FE1;&#xFFFD;&#xFFFD;&#xFFFD;&#x5728;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x91CC;&#x5B58;&#x50A8;&#x3002;&#x8FD8;&#x6709;&#x6211;&#x4EEC;&#x5B66;&#x4E60;&#x4E86;&#x8FD9;2&#x4E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5728;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x65F6;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x7684;&#x3002;</h2><p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
 <p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
 <ul>
-<li>1.<a href="/articles/mm6viyA">silverlight RIA Service&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x6C42;&#x52A9;</a></li>
-<li>2.<a href="/articles/7RvaYf3">&#x7531;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#x63A8;&#x9001;&#x60F3;&#x5230;&#x4E86;ObservableCollection&#x7684;&#x795E;&#x5947;&#x7528;&#x6CD5;</a></li>
-<li>3.<a href="/articles/eQnUFv6">&#x54B8;&#x86CB;&#x7CFB;&#x5217;&#x4E00;&#x25CF;&#x300A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x7BC7;&#x300B;1 &#x5E8F;</a></li>
-<li>4.<a href="/articles/73UVNfY">Mock session,cookie,querystring in ASB.NET MVC</a></li>
-<li>5.<a href="/articles/uUNFjmu">js&#x8C03;DLL&#x7C7B;&#x5E93;&#x4E2D;&#x7684;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;(&#x975E;com&#x7EC4;&#x4EF6;&#x5F62;&#x5F0F;)</a></li>
-<li><p>6.<a href="/articles/RBJzI3Y">[.net &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x57FA;&#x7840;] (12) &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x4E09;&#x5927;&#x7279;&#x6027;&#x2014;&#x2014;&#x7EE7;&#x627F;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/I3iU3e">()</a></p>
+<li>1.<a href="/articles/jm2Qjma">Android&#x6570;&#x636E;&#x5E93;&#x8868;&#x7684;&#x521B;&#x5EFA;&#x548C;&#x6570;&#x636E;&#x5347;&#x7EA7;&#x64CD;&#x4F5C;</a></li>
+<li>2.<a href="/articles/yaaMbeY">Oracle Data Pump &#x5BFC;&#x51FA;&#x548C;&#x5BFC;&#x5165;&#x6570;&#x636E;</a></li>
+<li>3.<a href="/articles/QJjAVny">Hibernate&#x5B66;&#x4E60;-Hibernate&#x67E5;&#x8BE2;&#x8BED;&#x8A00;HQL&#xFF08;&#x4E00;&#xFF09;</a></li>
+<li>4.<a href="/articles/NzAFZn">[MySQL bug] unique key corruption again&#x2026;..</a></li>
+<li>5.<a href="/articles/7rEFJju">&#x7528;VS2010&#x68C0;&#x67E5;&#x4E24;&#x4E2A;MSSQL&#x6570;&#x636E;&#x5E93;&#x7684;&#x67B6;&#x6784;&#x5DEE;&#x5F02;&#x5E76;&#x540C;&#x6B65;</a></li>
+<li><p>6.<a href="/articles/YvEjU3J">Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350; &#x2014;&#x2014; RexDeploy&#x81EA;&#x52A8;&#x53D1;&#x5E03;&#x7CFB;&#x7EDF;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/aIZb6fE">()</a></p>
 </li>
 </ul>
 <h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
 <p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
 <p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
 <p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;I3iU3e&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;aIZb6fE&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
 
         
         
@@ -1072,7 +955,7 @@ public void unlock()
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Net/">.Net</a>
+  <span></span> <a href="/tags/SQL-Server/">SQL Server</a><a href="/tags/向量/">向量</a>
   </div>
 
 </div>
@@ -1680,6 +1563,212 @@ public List&amp;lt;UserInfo&amp;gt; QueryList()
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/06/06/be85f4d/" title="编程模拟自然(一)：如何画一颗静态树" itemprop="url">编程模拟自然(一)：如何画一颗静态树</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-06T03:07:27.000Z" itemprop="datePublished"> 发表于 2015-06-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="&#x7F16;&#x7A0B;&#x6A21;&#x62DF;&#x81EA;&#x7136;(&#x4E00;)&#xFF1A;&#x5982;&#x4F55;&#x753B;&#x4E00;&#x9897;&#x9759;&#x6001;&#x6811;">&#x7F16;&#x7A0B;&#x6A21;&#x62DF;&#x81EA;&#x7136;(&#x4E00;)&#xFF1A;&#x5982;&#x4F55;&#x753B;&#x4E00;&#x9897;&#x9759;&#x6001;&#x6811;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 15:07:00  <a href="/sites/Fn2umm">&#x535A;&#x5BA2;&#x56ED;-&#x539F;&#x521B;&#x7CBE;&#x534E;&#x533A;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/experdot/p/4556672.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/experdot/p/4556672.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11050000">.Net</a></p>
+<h4 id="&#x5E8F;">&#x5E8F;</h4><p>&#x4E07;&#x7269;&#x521D;&#x59CB;&#x4E4B;&#x524D;&#xFF0C;&#x5B87;&#x5B99;&#x662F;&#x65E0;&#x8FB9;&#x65E0;&#x9645;&#x6DF7;&#x6C8C;&#x7684;&#x9ED1;&#x6697;&#xFF0C;&#x53EA;&#x6709;&#x5143;&#x4E4B;&#x7075;&#x7A7F;&#x884C;&#x5176;&#x95F4;&#x3002;&#x5143;&#x5BF9;&#x8FD9;&#x65E0;&#x8FB9;&#x7684;&#x9ED1;&#x6697;&#x5341;&#x5206;&#x4E0D;&#x6EE1;&#xFF0C;&#x5C31;&#x8F7B;&#x8F7B;&#x4E00;&#x6572;&#x952E;&#x76D8;&#xFF0C;&#x8BF4;&#xFF1A;&#x201C;&#x8981;&#x6709;&#x5149;&#x201D;&#xFF0C;&#x4E8E;&#x662F;&#x4E16;&#x95F4;&#x5C31;&#x6709;&#x4E86;&#x5149;&#x3002;&#x5143;&#x79F0;&#x201C;&#x5149;&#x201D;&#x4E3A;&#x201C;&#x663C;&#x201D;&#xFF0C;&#x79F0;&#x201C;&#x9ED1;&#x6697;&#x201D;&#x4E3A;&#x201C;&#x591C;&#x201D;&#x3002;&#x4EAE;&#x5149;&#x9690;&#x53BB;&#xFF0C;&#x9ED1;&#x6697;&#x91CD;&#x4E34;&#xFF0C;&#x4ECE;&#x6B64;&#xFF0C;&#x4E16;&#x95F4;&#x5C31;&#x6709;&#x4E86;&#x663C;&#x4E0E;&#x591C;&#x7684;&#x4EA4;&#x66FF;&#x3002;&#x8FD9;&#x662F;&#x5143;&#x521B;&#x4E16;&#x7684;&#x7B2C;&#x4E00;&#x5929;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x4E8C;&#x6B21;&#x5143;&#x4E16;&#x754C;&#x8BDE;&#x751F;&#x4E4B;&#x521D;&#x4F34;&#x6709;&#x4E00;&#x53EA;&#x7A0B;&#x5E8F;&#x733F;&#xFF0C;Ta&#x7684;&#x540D;&#x5B57;&#x53EB;&#x5143;&#x3002;</p>
+<h4 id="&#x7B2C;&#x4E00;&#x7AE0;_&#x4E8C;&#x53C9;&#x6811;&#x5FC5;&#x987B;&#x662F;&#x6700;&#x597D;&#x7684;&#x6811;!">&#x7B2C;&#x4E00;&#x7AE0; &#x4E8C;&#x53C9;&#x6811;&#x5FC5;&#x987B;&#x662F;&#x6700;&#x597D;&#x7684;&#x6811;!</h4><p>&#x5143;&#x5C31;&#x662F;&#x8FD9;&#x6837;&#x60F3;&#x7684;&#xFF0C;&#x4E3A;&#x4E86;&#x8868;&#x8FBE;&#x5BF9;&#x8FD9;&#x79CD;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7684;&#x5D07;&#x62DC;&#x4E4B;&#x60C5;&#xFF0C;&#x51B3;&#x5B9A;&#x5728;&#x8FD9;&#x4E2A;&#x4E16;&#x754C;&#x9020;&#x51FA;&#x4E00;&#x9897;&#x771F;&#x5B9E;&#x7684;&#x6811;&#xFF0C;&#x4E00;&#x5F00;&#x59CB;&#x7684;&#x6784;&#x60F3;&#x662F;&#x8FD9;&#x6837;&#x7684;</p>
+<p><img src="http://img1.tuicool.com/jqeuEz.png" alt=""></p>
+<p>&#x201C;&#x6B63;&#x6240;&#x8C13;&#x6811;&#x6781;&#x751F;&#x4E09;&#x5E72;&#xFF0C;&#x4E09;&#x5E72;&#x751F;&#x516D;&#x679D;&#xFF0C;&#x516D;&#x679D;&#x751F;&#x5341;&#x4E8C;&#x53F6;&#x3002;&#x201D; &#x7136;&#x800C;&#x8FD9;&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x9897;&#x4E8C;&#x53C9;&#x6811;&#x3002;</p>
+<h4 id="&#x7B2C;&#x4E8C;&#x7AE0;_&#x9EC4;&#x91D1;&#x5206;&#x5272;&#x73FE;&#x308C;&#x308B;">&#x7B2C;&#x4E8C;&#x7AE0; &#x9EC4;&#x91D1;&#x5206;&#x5272;&#x73FE;&#x308C;&#x308B;</h4><p>&#x6811;&#x6BCF;&#x9012;&#x5F52;&#x4E00;&#x5C42;&#x9700;&#x8981;&#x6309;&#x4E00;&#x5B9A;&#x6BD4;&#x4F8B;&#x7F29;&#x653E;&#xFF0C;&#x5143;&#x82E6;&#x82E6;&#x51A5;&#x60F3;&#x826F;&#x4E45;&#xFF0C;&#x7EC8;&#x4E8E;&#x627E;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x65E0;&#x9650;&#x4E0D;&#x5FAA;&#x73AF;&#x5C0F;&#x6570;&#xFF0C;&#x5B83;&#x7684;&#x5C0F;&#x6570;&#x70B9;&#x540E;64&#x4F4D;&#x662F;&#x8FD9;&#x6837;&#x7684;</p>
+<p>0.6180339887 4989484820 4586834365 6381177203 0917980576&#xA0;2862135448 6227…</p>
+<p>[&#x4ECE;&#x5DE6;&#x81F3;&#x53F3;&#xFF0C;&#x6BD4;&#x4F8B;&#x7CFB;&#x6570;&#x4F9D;&#x6B21;&#x662F;0.618, 0.5, 1, 1.6]</p>
+<p><img src="http://img0.tuicool.com/IRzE7v.png" alt=""></p>
+<p>&#x5F53;&#x7136;&#x6811;&#x5E72;&#x7684;&#x7C97;&#x7EC6;&#x4E5F;&#x5F97;&#x7F29;&#x653E;&#xFF0C;&#x5143;&#x662F;&#x60F3;&#x5C06;&#x8FD9;&#x4E1C;&#x897F;&#x79CD;&#x5728;&#x4F0A;&#x7538;&#x56ED;&#x7684;&#x571F;&#x5730;&#x4E0A;&#x7684;&#xFF0C;&#x90A3;&#x5C31;&#x518D;&#x622A;&#x53BB;&#x4E0B;&#x65B9;&#x7684;&#x5B50;&#x6811;</p>
+<p><img src="http://img1.tuicool.com/EBnYjmU.png" alt=""></p>
+<p>&#x201C;&#x554A;&#x54C8;&#xFF0C;&#x8FD9;&#x4E0B;&#x53EB;&#x4E8C;&#x53C9;&#x6811;&#x6CA1;&#x9519;&#x4E86;&#x5427;&#x3002;&#x201D;</p>
+<p>&#x201C;&#x65E2;&#x7136;&#x914D;&#x56FE;&#x8FD9;&#x4E48;&#x6697;&#x9EC4;&#xFF0C;&#x5C31;&#x79F0;&#x8FD9;&#x4E2A;&#x65E0;&#x7406;&#x6570;&#x4E3A;&#x9EC4;&#x91D1;&#x5206;&#x5272;&#x6BD4;&#x4F8B;&#x5427;!&#x201D;&#x5143;&#x5FC3;&#x91CC;&#x60F3;&#x4E86;&#x60F3;&#x3002;</p>
+<h4 id="&#x7B2C;&#x4E09;&#x7AE0;_&#x4E0D;&#x5BF9;&#x79F0;&#x4E0E;&#x4F2A;&#x968F;&#x673A;">&#x7B2C;&#x4E09;&#x7AE0; &#x4E0D;&#x5BF9;&#x79F0;&#x4E0E;&#x4F2A;&#x968F;&#x673A;</h4><p>&#x4E0D;&#x5BF9;&#x79F0;&#x624D;&#x662F;&#x7F8E;&#xFF1F;&#x4E0D;&#x5BF9;&#x79F0;&#x624D;&#x662F;&#x7F8E;&#xFF1F;&#xFF01;&#x6240;&#x4EE5;&#x5143;&#x5C31;&#x5728;&#x6811;&#x7684;&#x8282;&#x70B9;&#x4F4D;&#x7F6E;&#x52A0;&#x5165;&#x4E86;&#x4F2A;&#x968F;&#x673A;&#x6270;&#x52A8;&#x3002; </p>
+<p><img src="http://img1.tuicool.com/zEbmYjN.png" alt=""></p>
+<p>&#x201C;&#x8BF4;&#x70B9;&#x4EC0;&#x4E48;&#x597D;&#x5462;&#xFF1F;&#x201D;</p>
+<h4 id="&#x7B2C;&#x56DB;&#x7AE0;_&#x66F4;&#x591A;&#x7684;&#x5B50;&#x6811;">&#x7B2C;&#x56DB;&#x7AE0; &#x66F4;&#x591A;&#x7684;&#x5B50;&#x6811;</h4><p>&#x5143;&#x4E00;&#x76F4;&#x8BA4;&#x4E3A;&#x8FD9;&#x4E2A;&#x4E16;&#x754C;&#x6709;&#x65F6;&#x5019;&#x662F;&#x9700;&#x8981;&#x504F;&#x89C1;&#x7684;&#xFF0C;&#x4E8C;&#x53C9;&#x6811;&#x80AF;&#x5B9A;&#x662F;&#x6700;&#x597D;&#x7684;&#x6811;&#x3002;</p>
+<p>&#x867D;&#x7136;&#x73B0;&#x5728;&#x4E0D;&#x6B62;&#x4E24;&#x4E2A;&#x5B50;&#x6811;&#x3002;</p>
+<p><img src="http://img2.tuicool.com/bqmANnj.png" alt=""></p>
+<p>&#x201C;&#x9AD8;&#x6E05;&#x5927;&#x56FE;&#x624D;&#x80FD;&#x6B23;&#x8D4F;&#x7684;&#x8FC7;&#x763E;&#x3002;&#x201D;&#x4F60;&#x53EF;&#x4EE5;&#x5C1D;&#x8BD5;&#x76EE;&#x6807;&#x53E6;&#x5B58;&#x4E3A;&#x3002; </p>
+<h4 id="&#x7B2C;&#x4E94;&#x7AE0;_&#x7EFF;&#x53F6;&#x4E0E;&#x679C;&#x5B9E;">&#x7B2C;&#x4E94;&#x7AE0; &#x7EFF;&#x53F6;&#x4E0E;&#x679C;&#x5B9E;</h4><p>&#x5728;&#x6811;&#x7684;&#x672B;&#x68A2;&#x957F;&#x51FA;&#x53F6;&#x5B50;&#x548C;&#x679C;&#x5B9E;&#xFF0C;&#x4E00;&#x9897;&#x6811;&#x7EC8;&#x4E8E;&#x6210;&#x578B;&#x4E86;&#x3002; </p>
+<p><img src="http://img1.tuicool.com/7ZzEJjy.png" alt=""></p>
+<p>&#x201C;&#x5BF9;&#x6697;&#x9EC4;&#x7CFB;&#x7B80;&#x76F4;&#x5BA1;&#x7F8E;&#x75B2;&#x52B3;&#xFF0C;&#x753B;&#x98CE;&#x662F;&#x8BE5;&#x6362;&#x4E00;&#x6362;&#x4E86;&#x3002;&#x201D;</p>
+<p>&#x201C;&#x7ED3;&#x675F;&#x4E86;&#xFF0C;&#x636E;&#x8BF4;&#x7B2C;&#x516D;&#x5929;&#x8FD8;&#x8981;&#x52A0;&#x73ED;&#x9020;&#x4EBA;&#xFF1F;&#xFF01;&#x201D;</p>
+<h4 id="&#x540E;&#x8BB0;">&#x540E;&#x8BB0;</h4><p>— &#x4E9A;&#xFF0C;&#x6211;&#x997F;&#x4E86;</p>
+<p>— &#x590F;&#xFF0C;&#x6211;&#x53BB;&#x7ED9;&#x4F60;&#x6458;&#x679C;&#x5B50;</p>
+<p>…</p>
+<p>— &#x4E9A;&#xFF0C;&#x90A3;&#x4E2A;&#x733F;&#x53C8;&#x5728;&#x6811;&#x4E0A;&#x770B;&#x7740;&#x6211;&#x4EEC;</p>
+<p>— &#x522B;&#x7BA1;Ta&#xFF0C;&#x5403;&#x679C;&#x5B50;&#x54AF;</p>
+<p>— &#x55EF;&#x54EA;</p>
+<p>…</p>
+<p>…</p>
+<p>— &#x590F;&#xFF0C;&#x6211;&#x4E00;&#x76F4;&#x4EE5;&#x4E3A;&#x90A3;&#x662F;&#x53EA;&#x72D7;&#x5462;</p>
+<p>…</p>
+<p><img src="http://img1.tuicool.com/7JJJry.gif" alt=""></p>
+<pre><code><span class="keyword">Dim</span> ph As Graphics
+<span class="keyword">Dim</span> PaintBoard As Bitmap
+<span class="keyword">Dim</span> centerX, centerY As Long
+<span class="keyword">Dim</span> modeSequence() As Integer = {<span class="number">4</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>}
+<span class="keyword">Dim</span> <span class="built_in">rnd</span> As <span class="keyword">New</span> Random
+<span class="keyword">Public</span> <span class="keyword">Function</span> Calculator(<span class="keyword">ByVal</span> x As Double, <span class="keyword">ByVal</span> y As Double, <span class="keyword">ByVal</span> mode As Integer, <span class="keyword">ByVal</span> r As Double, <span class="keyword">ByVal</span> depth As Integer, <span class="keyword">ByVal</span> radio As Double) As Double()
+    <span class="keyword">Dim</span> R2 As Double
+    r = r * radio
+    R2 = Math.Sqrt(<span class="number">3</span>) * (r / <span class="number">2</span>)
+    <span class="keyword">Dim</span> Position(<span class="number">2</span>) As Double
+    <span class="keyword">Dim</span> tempRnd As Double = <span class="number">1</span> &amp;apos;* <span class="built_in">rnd</span>.<span class="keyword">Next</span>(depth, <span class="number">20</span>) / <span class="number">10</span>
+    <span class="keyword">If</span> mode = <span class="number">1</span> <span class="keyword">Then</span>
+        x = <span class="number">0</span> : y = -r * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">2</span> <span class="keyword">Then</span>
+        x = -R2 * tempRnd : y = (r / <span class="number">2</span>) * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">3</span> <span class="keyword">Then</span>
+        x = R2 * tempRnd : y = (r / <span class="number">2</span>) * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">4</span> <span class="keyword">Then</span>
+        x = -R2 * tempRnd : y = -(r / <span class="number">2</span>) * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">5</span> <span class="keyword">Then</span>
+        x = R2 * tempRnd : y = -(r / <span class="number">2</span>) * tempRnd
+    <span class="keyword">ElseIf</span> mode = <span class="number">6</span> <span class="keyword">Then</span>
+        x = <span class="number">0</span> : y = r * tempRnd
+    <span class="keyword">End</span> <span class="keyword">If</span>
+    Position(<span class="number">0</span>) = x
+    Position(<span class="number">1</span>) = y
+    Position(<span class="number">2</span>) = r
+    Return Position
+<span class="keyword">End</span> <span class="keyword">Function</span>
+<span class="keyword">Public</span> <span class="keyword">Sub</span> PaintLine(<span class="keyword">ByVal</span> x As Double, <span class="keyword">ByVal</span> y As Double, <span class="keyword">ByVal</span> mode As Integer, <span class="keyword">ByVal</span> r As Double, <span class="keyword">ByVal</span> depth As Integer, <span class="keyword">ByVal</span> radio As Double)
+    <span class="keyword">Dim</span> position() As Double
+    <span class="keyword">Dim</span> tempR As Double
+    <span class="keyword">Dim</span> tempWidth As Double
+    <span class="keyword">Dim</span> tempColor As Color
+    <span class="keyword">Dim</span> tempRnd As Integer = <span class="built_in">rnd</span>.<span class="keyword">Next</span>(<span class="number">1</span>, <span class="number">3</span>)
+    <span class="keyword">Dim</span> tempAlpha As Integer
+    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> <span class="number">1</span>
+        <span class="keyword">For</span> pff = <span class="number">0</span> <span class="keyword">To</span> tempRnd
+            position = Calculator(x, y, modeSequence((mode - <span class="number">1</span>) * <span class="number">2</span> + j), r, depth, radio)
+            <span class="keyword">Dim</span> LineVector As <span class="keyword">New</span> Vector2D(position(<span class="number">0</span>), position(<span class="number">1</span>))
+            LineVector.x *= <span class="built_in">rnd</span>.NextDouble
+            LineVector.y *= <span class="built_in">rnd</span>.NextDouble
+            LineVector.SetMag(IIf(depth &amp;lt;= <span class="number">1</span>, <span class="number">20</span>, position(<span class="number">2</span>)))
+            position(<span class="number">0</span>) = LineVector.x
+            position(<span class="number">1</span>) = LineVector.y
+            <span class="keyword">Dim</span> tempMag As Double = LineVector.Magnitude
+            <span class="keyword">Dim</span> PointList As <span class="keyword">New</span> List(Of PointF)
+            <span class="keyword">For</span> m = <span class="number">1</span> <span class="keyword">To</span> tempMag
+                LineVector.SetMag(m)
+                PointList.Add(<span class="keyword">New</span> PointF(x + LineVector.x, y + LineVector.y))
+            <span class="keyword">Next</span>
+            <span class="keyword">If</span> PointList.Count &amp;gt;= <span class="number">2</span> <span class="keyword">Then</span>
+                <span class="keyword">Dim</span> tempNext As Double = <span class="built_in">rnd</span>.NextDouble
+                tempAlpha = <span class="built_in">rnd</span>.<span class="keyword">Next</span>(<span class="number">20</span>, <span class="number">100</span>)
+                <span class="keyword">For</span> p = <span class="number">0</span> <span class="keyword">To</span> PointList.Count - <span class="number">2</span>
+                    tempR = r * <span class="number">0.015</span> * depth
+                    tempWidth = IIf(depth &amp;lt;= <span class="number">1</span>, Math.<span class="built_in">Sin</span>(p / <span class="number">6</span>) * <span class="number">10</span>, tempR - p / PointList.Count * (tempR - tempR * radio + r * <span class="number">0.015</span> * radio))
+                    tempColor = IIf(depth &amp;lt;= <span class="number">1</span>, Color.FromArgb(tempAlpha, Color.Green), Color.Black)
+                    <span class="keyword">If</span> depth &amp;lt;= <span class="number">1</span> <span class="keyword">Then</span>
+                        <span class="keyword">If</span> tempNext &amp;lt; <span class="number">0.01</span> <span class="keyword">Then</span>
+                            tempWidth = Math.<span class="built_in">Sin</span>(p / <span class="number">6</span>) * <span class="number">20</span>
+                            tempColor = Color.FromArgb(<span class="built_in">rnd</span>.<span class="keyword">Next</span>(<span class="number">200</span>, <span class="number">255</span>), Color.Red)
+                        <span class="keyword">End</span> <span class="keyword">If</span>
+                    <span class="keyword">End</span> <span class="keyword">If</span>
+                    ph.DrawLine(<span class="keyword">New</span> Pen(tempColor, tempWidth), PointList(p), PointList(p + <span class="number">1</span>))
+                <span class="keyword">Next</span>
+            <span class="keyword">End</span> <span class="keyword">If</span>
+            PaintHexgon(position(<span class="number">0</span>) + x, position(<span class="number">1</span>) + y, modeSequence((mode - <span class="number">1</span>) * <span class="number">2</span> + j), tempMag, depth - <span class="number">1</span>, radio)
+        <span class="keyword">Next</span>
+    <span class="keyword">Next</span>
+<span class="keyword">End</span> <span class="keyword">Sub</span>
+<span class="keyword">Public</span> <span class="keyword">Sub</span> PaintHexgon(<span class="keyword">ByVal</span> x As Double, <span class="keyword">ByVal</span> y As Double, <span class="keyword">ByVal</span> mode As Integer, <span class="keyword">ByVal</span> r As Double, <span class="keyword">ByVal</span> depth As Integer, <span class="keyword">ByVal</span> radio As Double)
+    <span class="keyword">If</span> depth &amp;gt; <span class="number">0</span> <span class="keyword">Then</span>
+        <span class="keyword">If</span> mode = <span class="number">0</span> <span class="keyword">Then</span>
+            ph.DrawLine(<span class="keyword">New</span> Pen(Brushes.Black, r * <span class="number">0.02</span> * depth), <span class="keyword">New</span> PointF(x, y), <span class="keyword">New</span> PointF(x, y + r))
+            PaintLine(x, y, <span class="number">1</span>, r, depth, radio)
+        <span class="keyword">Else</span>
+            PaintLine(x, y, mode, r, depth, radio)
+        <span class="keyword">End</span> <span class="keyword">If</span>
+    <span class="keyword">End</span> <span class="keyword">If</span>
+<span class="keyword">End</span> <span class="keyword">Sub</span>
+&amp;apos;&amp;#x753B;&amp;#x6811;
+<span class="keyword">Private</span> <span class="keyword">Sub</span> Button2_Click(<span class="keyword">ByVal</span> sender As System.Object, <span class="keyword">ByVal</span> e As System.EventArgs) Handles Button2.Click
+    PaintBoard = <span class="keyword">New</span> Bitmap(PictureBox1.Width, PictureBox1.Height)
+    ph = Graphics.FromImage(PaintBoard)
+    ph.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+    centerX = PictureBox1.Width / <span class="number">2</span> : centerY = PictureBox1.Height / <span class="number">2</span>
+    PaintHexgon(centerX, centerY, <span class="number">0</span>, <span class="number">200</span>, <span class="number">5</span>, <span class="number">0.6180339887</span>)
+    &amp;apos; PaintHexgon(centerX, centerY, <span class="number">0</span>, <span class="number">20</span>, <span class="number">5</span>, <span class="number">1.61812</span>)
+    PictureBox1.Image = PaintBoard
+<span class="keyword">End</span> <span class="keyword">Sub</span>
+</code></pre><p> VB.NET&#x6E90;&#x7801;</p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/mm6viyA">silverlight RIA Service&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x6C42;&#x52A9;</a></li>
+<li>2.<a href="/articles/7RvaYf3">&#x7531;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#x63A8;&#x9001;&#x60F3;&#x5230;&#x4E86;ObservableCollection&#x7684;&#x795E;&#x5947;&#x7528;&#x6CD5;</a></li>
+<li>3.<a href="/articles/eQnUFv6">&#x54B8;&#x86CB;&#x7CFB;&#x5217;&#x4E00;&#x25CF;&#x300A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x7BC7;&#x300B;1 &#x5E8F;</a></li>
+<li>4.<a href="/articles/73UVNfY">Mock session,cookie,querystring in ASB.NET MVC</a></li>
+<li>5.<a href="/articles/uUNFjmu">js&#x8C03;DLL&#x7C7B;&#x5E93;&#x4E2D;&#x7684;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;(&#x975E;com&#x7EC4;&#x4EF6;&#x5F62;&#x5F0F;)</a></li>
+<li><p>6.<a href="/articles/RBJzI3Y">[.net &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x57FA;&#x7840;] (12) &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x4E09;&#x5927;&#x7279;&#x6027;&#x2014;&#x2014;&#x7EE7;&#x627F;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/I3iU3e">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;I3iU3e&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Net/">.Net</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/06/06/be9d9b8/" title="&lt;Linux内核源码&gt;文件系统VFS内核4.0.4版本基本概念源码" itemprop="url">&lt;Linux内核源码&gt;文件系统VFS内核4.0.4版本基本概念源码</a>
   </h1>
   <p class="article-author">By
@@ -1777,177 +1866,6 @@ public List&amp;lt;UserInfo&amp;gt; QueryList()
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/06/bea9a97/" title="统计信息内幕：直方图和密度向量" itemprop="url">统计信息内幕：直方图和密度向量</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-06T03:07:27.000Z" itemprop="datePublished"> 发表于 2015-06-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5185;&#x5E55;&#xFF1A;&#x76F4;&#x65B9;&#x56FE;&#x548C;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;">&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5185;&#x5E55;&#xFF1A;&#x76F4;&#x65B9;&#x56FE;&#x548C;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 12:48:00  <a href="/sites/Fn2umm">&#x535A;&#x5BA2;&#x56ED;-&#x539F;&#x521B;&#x7CBE;&#x534E;&#x533A;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/woodytu/p/4556065.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/woodytu/p/4556065.html</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11110157">&#x5411;&#x91CF;</a><a href="/topics/11030006">SQL Server</a></p>
-<p>&#x6709;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;&#x5728;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;42&#xFF0C;&#x4F46;&#x662F;&#x4F60;&#x77E5;&#x9053;&#x67E5;&#x8BE2;&#x7684;&#x6B63;&#x786E;&#x884C;&#x6570;&#x4E0D;&#xFFFD;&#xFFFD;&#xFFFD;42&#x3002;&#x4F60;&#x4E5F;&#x542C;&#x8BF4;&#x4E86;SQL Server&#x4F7F;&#x7528;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x6765;&#x4F5C;&#x6B64;&#x4F30;&#x8BA1;&#x7684;&#xFF1F;&#x4F46;&#x6211;&#x4EEC;&#x600E;&#x4E48;&#x770B;&#x61C2;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x6765;&#x7406;&#x89E3;&#x8FD9;&#x91CC;&#x7684;&#x4F30;&#x8BA1;&#x662F;&#x600E;&#x4E48;&#x6765;&#x7684;&#xFF1F;</p>
-<p>&#x4ECA;&#x5929;&#x6211;&#x60F3;&#x8C08;&#x4E0B;SQL Server&#x91CC;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x5728; &#x76F4;&#x65B9;&#x56FE;&#xFF08; histogram &#xFF09; &#x548C; &#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF08; density vector &#xFF09; &#x91CC;&#xFF0C;SQL Server&#x5185;&#x90E8;&#x662F;&#x5982;&#x4F55;&#x4FDD;&#x5B58;&#x8FD9;&#x4E9B;&#x503C;&#x7684;&#x5E76;&#x7528;&#x6B64;&#x6765;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x7684;&#x3002; </p>
-<h2 id="&#x76F4;&#x65B9;&#x56FE;&#xFF08;Histogram&#xFF09;_&#x9996;&#x5148;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x4E0B;&#x76F4;&#x65B9;&#x56FE;&#x3002;&#x76F4;&#x65B9;&#x56FE;&#x7684;&#x7528;&#x9014;&#x662F;&#x7528;&#x9AD8;&#x6548;&#x3001;&#x538B;&#x7F29;&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x50A8;&#x5217;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002;&#x6BCF;&#x6B21;&#x5F53;&#x4F60;&#x5728;&#x8868;&#x4E0A;&#x521B;&#x5EFA;&#x7D22;&#x5F15;&#x65F6;&#xFF08;&#x805A;&#x96C6;/&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF09;&#xFF0C;SQL_Server&#x4F1A;&#x4E3A;&#x4F60;&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;&#x8FD9;&#x4E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5C31;&#x5305;&#x542B;&#x4E86;&#x90A3;&#x5217;&#xFF08;&#x7D22;&#x5F15;&#x952E;&#xFF09;&#x7684;&#x6570;&#x636E;&#x5206;&#x5E03;&#x4FE1;&#x606F;&#x3002;&#x6BD4;&#x5982;&#x4F60;&#x6709;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#x8868;&#xFF0C;&#x91CC;&#x9762;&#x6709;&#x4E2A;Country&#x5217;&#xFF0C;&#x8FD9;&#x5217;&#x91CC;&#x6709;&#x5F88;&#x591A;&#x56FD;&#x5BB6;&#x540D;&#x5B57;&#x3002;&#x56E0;&#x6B64;&#x76F4;&#x65B9;&#x56FE;&#x5C31;&#x662F;&#x5BF9;&#x8FD9;&#x4E9B;&#x56FD;&#x5BB6;&#x4E2A;&#x6570;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x7684;&#x53EF;&#x89C6;&#x5316;&#xFF1A;">&#x76F4;&#x65B9;&#x56FE;&#xFF08;Histogram&#xFF09; &#x9996;&#x5148;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x4E0B;&#x76F4;&#x65B9;&#x56FE;&#x3002;&#x76F4;&#x65B9;&#x56FE;&#x7684;&#x7528;&#x9014;&#x662F;&#x7528;&#x9AD8;&#x6548;&#x3001;&#x538B;&#x7F29;&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x50A8;&#x5217;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002;&#x6BCF;&#x6B21;&#x5F53;&#x4F60;&#x5728;&#x8868;&#x4E0A;&#x521B;&#x5EFA;&#x7D22;&#x5F15;&#x65F6;&#xFF08;&#x805A;&#x96C6;/&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF09;&#xFF0C;SQL Server&#x4F1A;&#x4E3A;&#x4F60;&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;&#x8FD9;&#x4E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5C31;&#x5305;&#x542B;&#x4E86;&#x90A3;&#x5217;&#xFF08;&#x7D22;&#x5F15;&#x952E;&#xFF09;&#x7684;&#x6570;&#x636E;&#x5206;&#x5E03;&#x4FE1;&#x606F;&#x3002;&#x6BD4;&#x5982;&#x4F60;&#x6709;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#x8868;&#xFF0C;&#x91CC;&#x9762;&#x6709;&#x4E2A;Country&#x5217;&#xFF0C;&#x8FD9;&#x5217;&#x91CC;&#x6709;&#x5F88;&#x591A;&#x56FD;&#x5BB6;&#x540D;&#x5B57;&#x3002;&#x56E0;&#x6B64;&#x76F4;&#x65B9;&#x56FE;&#x5C31;&#x662F;&#x5BF9;&#x8FD9;&#x4E9B;&#x56FD;&#x5BB6;&#x4E2A;&#x6570;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x7684;&#x53EF;&#x89C6;&#x5316;&#xFF1A;</h2><p> <img src="http://img0.tuicool.com/7bYBR3.png" alt=""></p>
-<p>&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x7528;&#x5F88;&#x591A;&#x67F1;&#x6761;&#x63CF;&#x8FF0;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#xFF1A;&#x67F1;&#x6761;&#x8D8A;&#x9AD8;&#xFF0C;&#x90A3;&#x5217;&#x7684;&#x8FD9;&#x4E2A;&#x503C;&#x5C31;&#x8BB0;&#x5F55;&#x6570;&#x5C31;&#x8D8A;&#x591A;&#x3002;SQL Server&#x4F7F;&#x7528;&#x540C;&#x6837;&#x7684;&#x6982;&#x5FF5;&#x548C;&#x683C;&#x5F0F;&#x6765;&#x63CF;&#x8FF0;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#x6765;&#x8BE6;&#x7EC6;&#x4E86;&#x89E3;&#x4E0B;&#x3002;&#x5728; AdventureWorks2008R2 &#x6570;&#x636E;&#x5E93;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x627E;&#x5230;&#x8868; SalesOrderDetail &#x91CC;&#x7684; ProductID &#x5217;&#x3002;&#x8FD9;ProductID&#x5217;&#x5B58;&#x50A8;&#x7740;&#x5177;&#x4F53;&#x7684;&#x9500;&#x552E;&#x4EA7;&#x54C1;ID&#x4FE1;&#x606F;&#x3002;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;ProductID&#x5217;&#x4E5F;&#x6709;&#x7D22;&#x5F15;&#x5B9A;&#x4E49;&#xFF0C;&#x90A3;&#x5C31;&#x8BF4;&#x6709;&#x5BF9;&#x5E94;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x6765;&#x63CF;&#x8FF0;ProductID&#x5217;&#x7684;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002; </p>
-<p> <img src="http://img1.tuicool.com/ARnyMrn.png" alt=""></p>
-<p>&#x5728;SSMS&#x91CC;&#xFF0C;&#x4F60;&#x901A;&#x8FC7;&#x67E5;&#x770B;&#x8868;&#x5C5E;&#x6027;&#x6765;&#x67E5;&#x770B;&#x5217;&#x548C;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; DBCC SHOW_STATISTICS &#x547D;&#x4EE4;&#x5728;&#x7ED3;&#x679C;&#x91CC;&#x8F93;&#x51FA;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002; </p>
-<pre><code><span class="number">1</span> <span class="comment">-- Show the statistics for a given index</span>
-<span class="number">2</span> DBCC SHOW_STATISTICS (&amp;apos;Sales.SalesOrderDetail&amp;apos;, IX_SalesOrderDetail_ProductID)
-<span class="number">3</span> GO
-</code></pre><p><img src="http://img1.tuicool.com/j2yIfm.png" alt=""></p>
-<p>&#x4ECE;&#x4E0A;&#x56FE;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8FD4;&#x56DE;3&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x8BB0;&#x5F55;&#x96C6;&#xFF1A;</p>
-<ul>
-<li>&#x6570;&#x636E;&#x663E;&#x793A;&#x6807;&#x9898;</li>
-<li>&#x5BC6;&#x5EA6;&#x5411;&#x91CF;</li>
-<li>&#x76F4;&#x65B9;&#x56FE;</li>
-</ul>
-<p>&#x6211;&#x4EEC;&#x6765;&#x5173;&#x6CE8;&#x4E0B;&#x8FD9;3&#x4E2A;&#x90E8;&#x5206;&#x4FE1;&#x606F;&#xFF0C;&#x770B;&#x770B;&#x5B83;&#x4EEC;&#x662F;&#x5982;&#x4F55;&#x88AB;&#x7528;&#x6765;&#x505A; &#x53C2;&#x6570;&#x9884;&#x4F30;&#xFF08;Cardinality Estimation&#xFF09; &#xFF08;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x7684;&#x8BA1;&#x7B97;&#xFF09;&#x3002;&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x5BF9; SalesOrderDetail &#x8868;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x67E5;&#x8BE2;&#xFF0C;&#x70B9;&#x51FB;&#x5DE5;&#x5177;&#x680F;&#x7684; </p>
-<p><img src="http://img1.tuicool.com/qUFf2a.png" alt=""></p>
-<p>&#x663E;&#x793A;&#x5305;&#x542B;&#x5B9E;&#x9645;&#x7684;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x3002;&#x5982;&#x4F60;&#x6240;&#x89C1;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x8981; ProductID &#x5217;&#x503C;&#x4E3A;707&#x7684;&#x8BB0;&#x5F55;&#xFF1A; </p>
-<pre><code><span class="number">1</span> <span class="subst">--</span> SQL Server<span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;EQ_ROWS<span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x6765</span>;<span class="subst">&amp;</span><span class="variable">#x505A</span>;<span class="subst">&amp;</span><span class="variable">#x9884</span>;<span class="subst">&amp;</span><span class="variable">#x4F30</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x8FD9</span>;<span class="subst">&amp;</span><span class="variable">#x4E2A</span>;<span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x65B9</span>;<span class="subst">&amp;</span><span class="variable">#x56FE</span>;<span class="subst">&amp;</span><span class="variable">#x91CC</span>;<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x63A5</span>;<span class="subst">&amp;</span><span class="variable">#x53D6</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
-<span class="number">2</span> <span class="subst">--</span> <span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x7B5B</span>;<span class="subst">&amp;</span><span class="variable">#x9009</span>;<span class="subst">&amp;</span><span class="variable">#x5668</span>;<span class="subst">&amp;</span><span class="variable">#x8FD0</span>;<span class="subst">&amp;</span><span class="variable">#x7B97</span>;<span class="subst">&amp;</span><span class="variable">#x7B26</span>;<span class="subst">&amp;</span><span class="variable">#x4F30</span>;<span class="subst">&amp;</span><span class="variable">#x8BA1</span>;<span class="subst">&amp;</span><span class="variable">#x884C</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="number">3083.</span>
-<span class="number">3</span> <span class="keyword">SELECT</span> <span class="subst">*</span> FROM Sales<span class="built_in">.</span>SalesOrderDetail
-<span class="number">4</span> <span class="keyword">WHERE</span> ProductID <span class="subst">=</span> <span class="number">707</span>
-<span class="number">5</span> GO
-</code></pre><p>&#x67E5;&#x8BE2;&#x8FD4;&#x56DE;121317&#x6761;&#x8BB0;&#x5F55;&#x4E2D;&#x7684;3083&#x6761;&#x8BB0;&#x5F55;&#x3002;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x6CA1;&#x6709;&#x5B9A;&#x4E49;&#x8986;&#x76D6;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF08;&#x8FD9;&#x91CC;&#x4E5F;&#x7528;&#x4E0D;&#x5230;&#xFF0C;&#x56E0;&#x4E3A;&#x7528;&#x4E86;SELECT *&#xFF09;&#xFF0C;&#x8FD9;&#x4E2A;&#x67E5;&#x8BE2;&#x5DF2;&#x7ECF;&#x8D8A;&#x8FC7;&#x4E34;&#x754C;&#x70B9;&#x4E86;&#xFF0C;&#x4ECE;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;SQL Server&#x5DF2;&#x7ECF;&#x9009;&#x62E9;&#x4E86;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x626B;&#x63CF;&#x8FD0;&#x7B97;&#x7B26;&#x3002; </p>
-<p> <img src="http://img1.tuicool.com/AvMvEj.png" alt=""></p>
-<p>&#x5728;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#xFF0C;&#x7B5B;&#x9009;&#x5668;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#xFF08;&#x9F20;&#x6807;&#x79FB;&#x5230;&#x8FD0;&#x7B97;&#x7B26;&#x4E0A;&#x4F1A;&#x663E;&#x793A;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#xFF09;&#x7684;&#x8C13;&#x8BCD;&#x90E8;&#x5206;&#xFF0C;&#x8FD9;&#x91CC;&#x663E;&#x793A;&#x4E86;&#x8FC7;&#x6EE4;&#x8BB0;&#x5F55;&#x6761;&#x4EF6;&#x662F;ProductID&#x503C;&#x662F;707&#xFF0C;&#x8FD8;&#x6709;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;3083&#x3002;&#x770B;&#x6765;&#x8FD9;&#x91CC;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x975E;&#x5E38;&#x51C6;&#x786E;&#x3002;&#x4F46;&#x95EE;&#x9898;&#x662F;&#x8FD9;&#x4E2A;&#x4F30;&#x8BA1;&#x662F;&#x4ECE;&#x54EA;&#x91CC;&#x6765;&#x7684;&#x5462;&#xFF1F;&#x5F53;&#x4F60;&#x770B;&#x76F4;&#x65B9;&#x56FE;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5F88;&#x591A;&#x884C;&#xFF08;&#x6700;&#x5927; &#x68AF;&#x7EA7;&#xFF08;&#x6B65;&#x957F;&#xFF09; &#x6570;&#x4E3A; 200&#xFF09;&#xFF0C;&#x8FD9;&#x91CC;&#x63CF;&#x8FF0; ProductID &#x5217;&#x6570;&#x636E;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#x3002; </p>
-<p>&#x76F4;&#x65B9;&#x56FE;&#x7684;&#x6BCF;&#x4E00;&#x884C;&#x6709;&#x4EE5;&#x4E0B;&#x5217;&#xFF1A;</p>
-<ul>
-<li>RANGE_HI_KEY&#xA0;&#xA0;&#xA0;&#xA0; &#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x7684;&#x4E0A;&#x9650;&#x5217;&#x503C;&#x3002;&#x5217;&#x503C;&#x4E5F;&#x79F0;&#x4E3A;&#x952E;&#x503C;&#x3002;</li>
-<li>RANGE_ROWS&#xA0;&#xA0;&#xA0; &#x5176;&#x5217;&#x503C;&#x4F4D;&#x4E8E;&#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x5185;&#xFF08;&#x4E0D;&#x5305;&#x62EC;&#x4E0A;&#x9650;&#xFF09;&#x7684;&#x884C;&#x7684;&#x4F30;&#x7B97;&#x6570;&#x76EE;&#x3002;</li>
-<li>EQ_ROWS&#xA0;&#xA0;&#xA0; &#x5176;&#x5217;&#x503C;&#x7B49;&#x4E8E;&#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x7684;&#x4E0A;&#x9650;&#x7684;&#x884C;&#x7684;&#x4F30;&#x7B97;&#x6570;&#x76EE;&#x3002;</li>
-<li>DISTINCT_ RANGE_ROWS&#xA0;&#xA0;&#xA0;&#x975E;&#x91CD;&#x590D;&#x5217;&#x503C;&#x4F4D;&#x4E8E;&#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x5185;&#xFF08;&#x4E0D;&#x5305;&#x62EC;&#x4E0A;&#x9650;&#xFF09;&#x7684;&#x884C;&#x7684;&#x4F30;&#x7B97;&#x6570;&#x76EE;&#x3002;</li>
-<li>AVG_RANGE_ROWS&#xA0;&#xA0;&#xA0;&#x91CD;&#x590D;&#x5217;&#x503C;&#x4F4D;&#x4E8E;&#x76F4;&#x65B9;&#x56FE;&#x68AF;&#x7EA7;&#x5185;&#xFF08;&#x4E0D;&#x5305;&#x62EC;&#x4E0A;&#x9650;&#xFF09;&#x7684;&#x5E73;&#x5747;&#x884C;&#x6570;&#xFF08;&#x5982;&#x679C; DISTINCT_RANGE_ROWS &gt; 0&#xFF0C;&#x5219;&#x4E3A; RANGE_ROWS / DISTINCT_RANGE_ROWS&#xFF09;&#x3002;</li>
-</ul>
-<p>&#x4ECE; <strong>RANGE_HI_KEY</strong> &#x5217;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C; <strong>ProductID</strong> &#x503C;&#x4E3A;707&#x7684;&#x8BB0;&#x5F55;&#x6709;3083&#x3002;&#x8FD9;&#x4E0E;&#x6211;&#x4EEC;&#x67E5;&#x8BE2;&#x7684;&#x9650;&#x5236;&#x6761;&#x4EF6;&#x5B8C;&#x5168;&#x5339;&#x914D;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;SQL Server&#x4F7F;&#x7528; <strong>EQ_ROWS</strong>&#x5217;&#x7684;&#x503C;&#x7528;&#x4F5C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x2014;&#x2014;&#x8FD9;&#x91CC;&#x662F;3083&#x3002;&#x8FD9;&#x5C31;&#x662F;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x7B5B;&#x9009;&#x5668;&#x8FD0;&#x7B97;&#x7B26;&#x7528;&#x5230;&#x7684;&#x4F30;&#x8BA1;&#x65B9;&#x6CD5;&#x3002;</p>
-<p><img src="http://img1.tuicool.com/VZJV3ya.png" alt=""></p>
-<p>&#x6211;&#x4EEC;&#x518D;&#x6765;&#x770B;&#x4E2A;&#x67E5;&#x8BE2;&#xFF1A;</p>
-<pre><code><span class="number">1</span> <span class="subst">--</span> <span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="number">915</span><span class="subst">&amp;</span><span class="variable">#x8BB0</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x65B9</span>;<span class="subst">&amp;</span><span class="variable">#x56FE</span>;<span class="subst">&amp;</span><span class="variable">#x91CC</span>;<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x80FD</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x63A5</span>;<span class="subst">&amp;</span><span class="variable">#x53D6</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x56E0</span>;<span class="subst">&amp;</span><span class="variable">#x6B64</span>;SQL Server<span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;AVG_RANGE_ROWS<span class="subst">&amp;</span><span class="variable">#x5217</span>;<span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x6765</span>;<span class="subst">&amp;</span><span class="variable">#x505A</span>;<span class="subst">&amp;</span><span class="variable">#x9884</span>;<span class="subst">&amp;</span><span class="variable">#x4F30</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
-<span class="number">2</span> <span class="subst">--</span> <span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="number">910</span><span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="number">916</span><span class="subst">&amp;</span><span class="variable">#x4E4B</span>;<span class="subst">&amp;</span><span class="variable">#x95F4</span>;<span class="subst">&amp;</span><span class="variable">#x6709</span>;<span class="number">150</span><span class="subst">&amp;</span><span class="variable">#x6761</span>;<span class="subst">&amp;</span><span class="variable">#x8BB0</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x540C</span>;<span class="subst">&amp;</span><span class="variable">#x503C</span>;<span class="subst">&amp;</span><span class="variable">#x4E2A</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="number">4</span><span class="subst">&amp;</span><span class="variable">#xFF08</span>;DISTINCT_RANGE_ROWS<span class="subst">&amp;</span><span class="variable">#xFF09</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
-<span class="number">3</span> <span class="subst">--</span> <span class="subst">&amp;</span><span class="variable">#x56E0</span>;<span class="subst">&amp;</span><span class="variable">#x6B64</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x975E</span>;<span class="subst">&amp;</span><span class="variable">#x805A</span>;<span class="subst">&amp;</span><span class="variable">#x96C6</span>;<span class="subst">&amp;</span><span class="variable">#x67E5</span>;<span class="subst">&amp;</span><span class="variable">#x627E</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;SQL Server<span class="subst">&amp;</span><span class="variable">#x4F30</span>;<span class="subst">&amp;</span><span class="variable">#x8BA1</span>;<span class="number">150</span>/<span class="number">4</span><span class="subst">=</span><span class="number">37.5</span><span class="subst">&amp;</span><span class="variable">#x6761</span>;<span class="subst">&amp;</span><span class="variable">#x8BB0</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
-<span class="number">4</span> <span class="keyword">SELECT</span> <span class="subst">*</span> FROM Sales<span class="built_in">.</span>SalesOrderDetail
-<span class="number">5</span> <span class="keyword">WHERE</span> ProductID <span class="subst">=</span> <span class="number">915</span>
-<span class="number">6</span> GO
-</code></pre><p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x53EA;&#x8FD4;&#x56DE; ProductID &#x5217;&#x503C;&#x4E3A;915&#x7684;&#x8BB0;&#x5F55;&#x3002;&#x4F46;&#x662F;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x627E;&#x4E0D;&#x5230;915&#x7684;&#x5BF9;&#x5E94;&#x503C;&#x3002;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x5B58;&#x50A8;&#x4E86;910&#x5230;916&#x4E4B;&#x95F4;&#x7684;&#x503C;&#x3002;&#x8FD9;&#x4E2A;&#x8303;&#x56F4;&#x5185;&#x7684;&#x8BB0;&#x5F55;&#x6570;&#x6709;150&#x6761;&#xFF08; <strong>RANGE_ROWS</strong> &#xFF09;&#xFF0C;&#x4E0D;&#x5305;&#x62EC;910&#x548C;916&#x8FD9;2&#x4E2A;&#x503C;&#x3002;&#x5728;&#x8FD9;&#x4E2A;150&#x6761;&#x8BB0;&#x5F55;&#x91CC;&#xFF0C;&#x6709;4&#x4E2A;&#x4E0D;&#x540C;&#x503C;&#xFF08; <strong>DISTINCT_RANGE_ROWS</strong> &#xFF09;&#x3002;&#x8FD9;&#x5C31;&#x662F;&#x8BF4;915&#x7684;&#x8BB0;&#x5F55;&#x6570;&#x5728;910&#x4E0E;916&#x4E4B;&#x95F4;&#x662F;37.5&#xFF08; AVG_RANGE_ROWS =150/4&#xFF09;&#x3002; </p>
-<p> <img src="http://img2.tuicool.com/r6RBre.png" alt=""></p>
-<p>&#x56E0;&#x6B64;&#x5728;&#x8FD9;&#x4E2A;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;SQL Server&#x5BF9;915&#x503C;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;37.5&#xFF0C;&#x5982;&#x4F60;&#x5728;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x6240;&#x89C1;&#x3002;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x67E5;&#x627E;&#x8FD0;&#x7B97;&#x7B26;&#x8FD4;&#x56DE;41&#x6761;&#x8BB0;&#x5F55;&#xFF0C;&#x8FD9;&#x4E2A;&#x4F30;&#x8BA1;&#x8FD8;&#x662F;&#x5F88;&#x51C6;&#x7684;&#x3002;</p>
-<p> <img src="http://img1.tuicool.com/MZV3Mza.png" alt=""></p>
-<p>&#x4ECE;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x6CA1;&#x6709;&#x5B8C;&#x5168;&#x5339;&#x914D;&#x503C;&#x65F6;&#xFF0C;SQL Server&#x4E5F;&#x80FD;&#x8FDB;&#x884C;&#x57FA;&#x6570;&#x9884;&#x4F30;&#x3002;&#x56E0;&#x6B64;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x4F1A;&#x6709; <strong>RANGE_ROWS</strong> &#x5217;&#x548C; <strong>DISTINCT_RANGE_ROWS</strong> &#x5217;&#x3002;&#x4ECE;&#x4E0A;&#x8FF0;&#x89E3;&#x91CA;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x76F4;&#x65B9;&#x56FE;&#x5E76;&#x4E0D;&#x96BE;&#x7406;&#x89E3;&#x3002;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x70B9;&#x662F;&#xFF0C;SQL Server&#x53EA;&#x4E3A;&#x7D22;&#x5F15;&#x4E2D;&#x7B2C;1&#x4E2A;&#x952E;&#x5217;&#x4E2D;&#x7684;&#x5217;&#x503C;&#x521B;&#x5EFA;&#x76F4;&#x65B9;&#x56FE;&#x3002;&#x7D22;&#x5F15;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x540E;&#x7EED;&#x5217;&#xFF0C;SQL Server&#x5728;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x91CC;&#x5B58;&#x50A8;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x7EC4;&#x5408;&#x7D22;&#x5F15;&#x952E;&#x91CC;&#xFF0C;&#x7B2C;1&#x5217;&#x5E94;&#x8BE5;&#x662F;&#x9009;&#x62E9;&#x6027;&#x6700;&#x9AD8;&#x7684;&#x90A3;&#x5217;&#xFF08;&#x67E5;&#x8BE2;&#x7ECF;&#x5E38;&#x7528;&#x5230;&#x7684;&#xFF09;&#x3002; </p>
-<h2 id="&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF08;density_vector&#xFF09;_&#x6211;&#x4EEC;&#x518D;&#x6765;&#x770B;&#x770B;&#x795E;&#x79D8;&#x7684;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF0C;&#x770B;&#x4E0B;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;_IX_SalesOrderDetail_ProductID_&#xFF0C;&#x8FD9;&#x4E2A;&#x7D22;&#x5F15;&#x53EA;&#x5728;_ProductID_&#x5217;&#x5EFA;&#x7ACB;&#x3002;&#x4F46;&#x662F;&#x6BCF;&#x4E2A;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF0C;SQL_Server&#x5728;&#x7D22;&#x5F15;&#x7684;&#x9875;&#x5C42;&#x4E5F;&#x4FDD;&#x5B58;&#x805A;&#x96C6;&#x952E;&#x4F5C;&#x4E3A;&#x903B;&#x8F91;&#x6307;&#x9488;&#x3002;&#x5F53;&#x4F60;&#x5B9A;&#x4E49;&#x4E86;&#x975E;&#x552F;&#x4E00;&#x7684;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF0C;&#x805A;&#x96C6;&#x952E;&#x4E5F;&#x662F;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x5BFC;&#x822A;&#x7ED3;&#x6784;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x8868;&#x91CC;&#x7684;&#x805A;&#x96C6;&#x952E;_SalesOrderID_&#x662F;&#x4E2A;&#x7EC4;&#x5408;&#x5217;&#xFF0C;&#x5305;&#x542B;_SalesOrderID_&#x5217;&#x548C;_SalesOrderDetailID_&#x5217;&#x3002;">&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF08;density vector&#xFF09; &#x6211;&#x4EEC;&#x518D;&#x6765;&#x770B;&#x770B;&#x795E;&#x79D8;&#x7684;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF0C;&#x770B;&#x4E0B;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15; IX_SalesOrderDetail_ProductID &#xFF0C;&#x8FD9;&#x4E2A;&#x7D22;&#x5F15;&#x53EA;&#x5728; ProductID &#x5217;&#x5EFA;&#x7ACB;&#x3002;&#x4F46;&#x662F;&#x6BCF;&#x4E2A;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF0C;SQL Server&#x5728;&#x7D22;&#x5F15;&#x7684;&#x9875;&#x5C42;&#x4E5F;&#x4FDD;&#x5B58;&#x805A;&#x96C6;&#x952E;&#x4F5C;&#x4E3A;&#x903B;&#x8F91;&#x6307;&#x9488;&#x3002;&#x5F53;&#x4F60;&#x5B9A;&#x4E49;&#x4E86;&#x975E;&#x552F;&#x4E00;&#x7684;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#xFF0C;&#x805A;&#x96C6;&#x952E;&#x4E5F;&#x662F;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x5BFC;&#x822A;&#x7ED3;&#x6784;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x8868;&#x91CC;&#x7684;&#x805A;&#x96C6;&#x952E; SalesOrderID &#x662F;&#x4E2A;&#x7EC4;&#x5408;&#x5217;&#xFF0C;&#x5305;&#x542B; SalesOrderID &#x5217;&#x548C; SalesOrderDetailID &#x5217;&#x3002;</h2><p>&#x8FD9;&#x5C31;&#x662F;&#x8BF4;&#x6211;&#x4EEC;&#x7684;&#x975E;&#x552F;&#x4E00;&#x975E;&#x805A;&#x96C6;&#x7D22;&#x5F15;&#x4E8B;&#x5B9E;&#x4E0A;&#x5305;&#x542B; ProductID &#xFF0C; SalesOrderID &#x548C; SalesOrderDetailID &#x5217;&#x3002;&#x7D22;&#x5F15;&#x952E;&#x662F;&#x4E2A;&#x7EC4;&#x5408;&#x952E;&#x3002;&#x540C;&#x6837;SQL Server&#x9700;&#x8981;&#x4E3A;&#x5176;&#x4ED6;&#x5217;&#x521B;&#x5EFA;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#xFF0C;&#x56E0;&#x4E3A;&#x53EA;&#x6709;&#x7B2C;1&#x5217;&#xFF08; ProductID &#xFF09;&#x662F;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#x6709;&#x4FE1;&#x606F;&#xFF0C;&#x8FD9;&#x4E2A;&#x5728;&#x4E0A;&#x4E00;&#x90E8;&#x5206;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x770B;&#x8FC7;&#x4E86;&#x3002;&#x5F53;&#x4F60;&#x770B;&#x7528; DBCC SHOW_STATISTICS &#x547D;&#x4EE4;&#x7684;&#x8F93;&#x51FA;&#x65F6;&#xFF0C;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x662F;&#x7B2C;2&#x4E2A;&#x8868;&#x4FE1;&#x606F;&#x3002; </p>
-<p> <img src="http://img0.tuicool.com/bE3aEzY.png" alt=""></p>
-<p>SQL Server&#x5728;&#x8FD9;&#x91CC;&#x5B58;&#x50A8;&#x9009;&#x62E9;&#x7387;&#xFF08; selectivity &#xFF09;&#xFF0C;&#x4E0D;&#x540C;&#x5217;&#x7EC4;&#x5408;&#x7684;&#x5BC6;&#x5EA6;&#x3002;&#x4F8B;&#x5982;&#xFF0C; ProductID &#x5217;&#x7684;All density&#x503C;&#x662F;0.003759399&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x4E0B;&#x5217;&#x8BED;&#x53E5;&#x6765;&#x9A8C;&#x8BC1;&#x4E0B;&#xFF1A; </p>
-<pre><code>1 <span class="comment">-- The &amp;quot;All Density&amp;quot; value for the column ProductID: 0,0037593984962406015</span>
-2 <span class="operator"><span class="keyword">SELECT</span> <span class="number">1</span> / <span class="keyword">CAST</span>(<span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> ProductID) <span class="keyword">AS</span> <span class="built_in">NUMERIC</span>(<span class="number">18</span>, <span class="number">2</span>)) <span class="keyword">FROM</span> Sales.SalesOrderDetail
-<span class="number">3</span> <span class="keyword">GO</span></span>
-</code></pre><p> <img src="http://img1.tuicool.com/iqaiMn.png" alt=""></p>
-<p>&#x5BF9;&#x4E8E; ProductID &#xFF0C; SalesOrderID &#x7EC4;&#x5408;&#x5217;&#x548C; ProductID &#xFF0C; SalesOrderID &#xFF0C; SalesOrderDetailID &#x7EC4;&#x5408;&#x5217;&#x7684;All density&#x503C;&#x5206;&#x522B;&#x662F;8.242868E-06&#x548C;8.242868E-06&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x7528;1&#x9664;&#x4EE5;2&#x4E2A;&#x7EC4;&#x5408;&#x5217;&#x7684;&#x552F;&#x4E00;&#x503C;&#x6765;&#x9A8C;&#x8BC1;&#x4E0B;&#x3002;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x7684;&#x8BB0;&#x5F55;&#x662F;121317&#xFF0C;&#x8FD9;&#x4E9B;&#x805A;&#x96C6;&#x503C;&#xFF08; SalesOrderID&#xFF0C;  SalesOrderDetailID &#x7EC4;&#x6210;&#x4E86;&#x805A;&#x96C6;&#x952E;&#xFF09;&#x90FD;&#x662F;&#x552F;&#x4E00;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8BA1;&#x7B97;&#x4E0B;&#xFF1A;1/121317=8.242867858585359e-6&#x3002;&#x73B0;&#x5728;&#x7684;&#x95EE;&#x9898;&#x662F;&#xFF0C;SQL Server&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x503C;&#x4F5C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x5462;&#xFF1F; </p>
-<p>&#x6211;&#x4EEC;&#x6765;&#x770B;&#x4E00;&#x4E2A;&#x67E5;&#x8BE2;&#xFF1A;</p>
-<pre><code>1 <span class="comment">-- SQL Server uses the reciprocal in a GROUP BY to make an estimation how</span>
-2 <span class="comment">-- much rows are returned:</span>
-3 <span class="comment">-- Estimation for the Stream Aggregate: 266</span>
-4 <span class="operator"><span class="keyword">SELECT</span> ProductID <span class="keyword">FROM</span> Sales.SalesOrderDetail
-<span class="number">5</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> ProductID
-<span class="number">6</span> <span class="keyword">GO</span></span>
-</code></pre><p> <img src="http://img1.tuicool.com/BBBrAz.png" alt=""></p>
-<p>&#x6211;&#x4EEC;&#x5728; ProductID &#x5217;&#x8FDB;&#x884C;GROUP BY&#x64CD;&#x4F5C;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;SQL Server&#x4F7F;&#x7528; ProductID &#x5217;&#x7684;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x503C;&#x6765;&#x4F30;&#x8BA1;&#x6D41;&#x805A;&#x5408;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#xFF1A;1/0.003759399=266&#x3002;&#x5728;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x6D41;&#x805A;&#x5408;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x5C5E;&#x6027;&#x4FE1;&#x606F;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;266&#x3002; </p>
-<p>&#x5728;T-SQL&#x8BED;&#x53E5;&#x91CC;&#xFF0C;&#x5F53;&#x4F60;&#x4F7F;&#x7528;&#x672C;&#x5730;&#x53D8;&#x91CF;&#x65F6;&#xFF0C;SQL Server&#x4E0D;&#x80FD;&#x55C5;&#x63A2;&#x4EFB;&#x4F55;&#x53C2;&#x6570;&#x503C;&#xFF0C;&#x53EA;&#x80FD;&#x9000;&#x56DE;&#x4F7F;&#x7528;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x6765;&#x8FDB;&#x884C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x3002;&#x6211;&#x4EEC;&#x770B;&#x4E0B;&#x9762;&#x7684;&#x67E5;&#x8BE2;&#x3002;</p>
-<pre><code> 1 <span class="comment">-- SQL Server also uses the Density Vector when we are working with local variables</span>
- 2 <span class="comment">-- and equality predicates.</span>
- 3 <span class="comment">-- SQL Server estimates for the Non-Clustered Index Seek 456 records: 121317 * 0,003759 = 456</span>
- 4 <span class="comment">-- Every variable value gives us the same estimation.</span>
- 5 
- 6 <span class="comment">-- Estimated: 456</span>
- 7 <span class="comment">-- Actual: 3083</span>
- 8 <span class="operator"><span class="keyword">DECLARE</span> @i <span class="built_in">INT</span> = <span class="number">707</span>
- <span class="number">9</span> 
-<span class="number">10</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Sales.SalesOrderDetail
-<span class="number">11</span> <span class="keyword">WHERE</span> ProductID = @i</span>
-</code></pre><p> <img src="http://img0.tuicool.com/IFvY3uQ.png" alt=""></p>
-<p>SQL Server&#x5BF9;&#x7B5B;&#x9009;&#x5668;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;456&#xFF08;121317 * 0.003759399&#xFF09;&#xFF0C;&#x4F46;&#x5B9E;&#x9645;&#x4E0A;&#x6211;&#x4EEC;&#x53EA;&#x8FD4;&#x56DE;&#x4E86;44&#x6761;&#x8BB0;&#x5F55;&#x3002;</p>
-<p>&#x5F53;&#x4F60;&#x7684;&#x672C;&#x5730;&#x53D8;&#x91CF;&#x4E0E;&#x5927;&#x4E8E;&#x5C0F;&#x4E8E;&#x7EC4;&#x5408;&#x65F6;&#xFF0C;SQL Server&#x4E0D;&#x518D;&#x4F7F;&#x7528;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x503C;&#xFF0C;&#x53EA;&#x5047;&#x8BBE;30%&#x7684;&#x884C;&#x8FD4;&#x56DE;&#x3002;</p>
-<pre><code>1 <span class="comment">-- When we are using an inequality predicate (&amp;quot;&amp;gt;&amp;quot;, &amp;quot;&amp;lt;&amp;quot;) SQL Server assumes 30% for the</span>
-2 <span class="comment">-- estimated number of rows.</span>
-3 <span class="comment">-- Estimated: 36.395 (121.317/36.395 = 3,33)</span>
-4 <span class="comment">-- Actual: 44</span>
-5 <span class="operator"><span class="keyword">DECLARE</span> @i <span class="built_in">INT</span> = <span class="number">719</span>
-<span class="number">6</span> 
-<span class="number">7</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Sales.SalesOrderDetail
-<span class="number">8</span> <span class="keyword">WHERE</span> ProductID &amp;gt;</span> @i
-9 GO
-</code></pre><p> <img src="http://img0.tuicool.com/MjymYr.png" alt=""></p>
-<p>&#x4ECE;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;SQL Server&#x5BF9;&#x6B64;&#x7684;&#x4F30;&#x8BA1;&#x884C;&#x6570;&#x662F;36395&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x5C31;&#x662F;&#x5168;&#x8868;30%&#x7684;&#x8BB0;&#x5F55;&#x6570;&#xFF08;12317 * 0.30&#xFF09;&#x3002;</p>
-<h2 id="&#x5C0F;&#x7ED3;_&#x5728;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x91CC;&#x4F60;&#x5B66;&#x5230;&#x4E86;SQL_Server&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x5185;&#x5728;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x5BF9;&#x6211;&#x4EEC;&#x7684;&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x3002;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5305;&#x542B;2&#x4E2A;&#x90E8;&#x5206;&#xFF1A;&#x76F4;&#x65B9;&#x56FE;&#xFF0C;&#x8FD8;&#x6709;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x3002;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#xFF0C;SQL_Server&#x53EF;&#x4EE5;&#x975E;&#x5E38;&#x5BB9;&#x6613;&#x7684;&#x4F30;&#x8BA1;&#x51FA;&#x67E5;&#x8BE2;&#x7684;&#x5E73;&#x5747;&#x8FD4;&#x56DE;&#x884C;&#x6570;&#x3002;&#x56E0;&#x4E3A;SQL_Server&#x53EA;&#x5B58;&#x50A8;&#x7EC4;&#x5408;&#x7D22;&#x5F15;&#x952E;&#x7B2C;1&#x5217;&#x7684;&#x76F4;&#x65B9;&#x56FE;&#x4FE1;&#x606F;&#xFF0C;&#x53E6;&#x5916;&#x5BF9;&#x4E8E;&#x5176;&#x4ED6;&#x5217;&#x7684;&#x4FE1;&#xFFFD;&#xFFFD;&#xFFFD;&#x5728;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x91CC;&#x5B58;&#x50A8;&#x3002;&#x8FD8;&#x6709;&#x6211;&#x4EEC;&#x5B66;&#x4E60;&#x4E86;&#x8FD9;2&#x4E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5728;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x65F6;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x7684;&#x3002;">&#x5C0F;&#x7ED3; &#x5728;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x91CC;&#x4F60;&#x5B66;&#x5230;&#x4E86;SQL Server&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x5185;&#x5728;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x5BF9;&#x6211;&#x4EEC;&#x7684;&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x3002;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5305;&#x542B;2&#x4E2A;&#x90E8;&#x5206;&#xFF1A;&#x76F4;&#x65B9;&#x56FE;&#xFF0C;&#x8FD8;&#x6709;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x3002;&#x5728;&#x76F4;&#x65B9;&#x56FE;&#x91CC;&#xFF0C;SQL Server&#x53EF;&#x4EE5;&#x975E;&#x5E38;&#x5BB9;&#x6613;&#x7684;&#x4F30;&#x8BA1;&#x51FA;&#x67E5;&#x8BE2;&#x7684;&#x5E73;&#x5747;&#x8FD4;&#x56DE;&#x884C;&#x6570;&#x3002;&#x56E0;&#x4E3A;SQL Server&#x53EA;&#x5B58;&#x50A8;&#x7EC4;&#x5408;&#x7D22;&#x5F15;&#x952E;&#x7B2C;1&#x5217;&#x7684;&#x76F4;&#x65B9;&#x56FE;&#x4FE1;&#x606F;&#xFF0C;&#x53E6;&#x5916;&#x5BF9;&#x4E8E;&#x5176;&#x4ED6;&#x5217;&#x7684;&#x4FE1;&#xFFFD;&#xFFFD;&#xFFFD;&#x5728;&#x5BC6;&#x5EA6;&#x5411;&#x91CF;&#x91CC;&#x5B58;&#x50A8;&#x3002;&#x8FD8;&#x6709;&#x6211;&#x4EEC;&#x5B66;&#x4E60;&#x4E86;&#x8FD9;2&#x4E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5728;&#x53C2;&#x6570;&#x9884;&#x4F30;&#x65F6;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x7684;&#x3002;</h2><p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/jm2Qjma">Android&#x6570;&#x636E;&#x5E93;&#x8868;&#x7684;&#x521B;&#x5EFA;&#x548C;&#x6570;&#x636E;&#x5347;&#x7EA7;&#x64CD;&#x4F5C;</a></li>
-<li>2.<a href="/articles/yaaMbeY">Oracle Data Pump &#x5BFC;&#x51FA;&#x548C;&#x5BFC;&#x5165;&#x6570;&#x636E;</a></li>
-<li>3.<a href="/articles/QJjAVny">Hibernate&#x5B66;&#x4E60;-Hibernate&#x67E5;&#x8BE2;&#x8BED;&#x8A00;HQL&#xFF08;&#x4E00;&#xFF09;</a></li>
-<li>4.<a href="/articles/NzAFZn">[MySQL bug] unique key corruption again&#x2026;..</a></li>
-<li>5.<a href="/articles/7rEFJju">&#x7528;VS2010&#x68C0;&#x67E5;&#x4E24;&#x4E2A;MSSQL&#x6570;&#x636E;&#x5E93;&#x7684;&#x67B6;&#x6784;&#x5DEE;&#x5F02;&#x5E76;&#x540C;&#x6B65;</a></li>
-<li><p>6.<a href="/articles/YvEjU3J">Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350; &#x2014;&#x2014; RexDeploy&#x81EA;&#x52A8;&#x53D1;&#x5E03;&#x7CFB;&#x7EDF;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/aIZb6fE">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;aIZb6fE&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/SQL-Server/">SQL Server</a><a href="/tags/向量/">向量</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1995,27 +1913,15 @@ public List&amp;lt;UserInfo&amp;gt; QueryList()
 			
 		
 			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/数据库/" title="数据库">数据库<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/安卓开发/" title="安卓开发">安卓开发<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DaoCloud/" title="DaoCloud">DaoCloud<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/技术/" title="技术">技术<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
 			
 		
 			
@@ -2027,11 +1933,7 @@ public List&amp;lt;UserInfo&amp;gt; QueryList()
 			
 		
 			
-				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/链表/" title="链表">链表<sup>2</sup></a></li>
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>2</sup></a></li>
 			
 		
 			
@@ -2039,7 +1941,23 @@ public List&amp;lt;UserInfo&amp;gt; QueryList()
 			
 		
 			
-				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>2</sup></a></li>
+				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DaoCloud/" title="DaoCloud">DaoCloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/链表/" title="链表">链表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/技术/" title="技术">技术<sup>2</sup></a></li>
 			
 		
 			
@@ -2051,15 +1969,15 @@ public List&amp;lt;UserInfo&amp;gt; QueryList()
 			
 		
 			
-				<li><a href="/tags/Visual-Studio/" title="Visual Studio">Visual Studio<sup>1</sup></a></li>
+				<li><a href="/tags/FTP/" title="FTP">FTP<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/AIDL/" title="AIDL">AIDL<sup>1</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/文件系统/" title="文件系统">文件系统<sup>1</sup></a></li>
+				<li><a href="/tags/Facebook/" title="Facebook">Facebook<sup>1</sup></a></li>
 			
 		
 		</ul>

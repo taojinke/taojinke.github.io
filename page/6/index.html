@@ -15,7 +15,7 @@
     <meta name="description" content="edwin jin dianzi blog">
 <meta property="og:type" content="website">
 <meta property="og:title" content="dianzi blog">
-<meta property="og:url" content="http://fblog.github.io/page/6/index.html">
+<meta property="og:url" content="http://taojinke.github.io/page/6/index.html">
 <meta property="og:site_name" content="dianzi blog">
 <meta property="og:description" content="edwin jin dianzi blog">
 <meta name="twitter:card" content="summary">
@@ -89,6 +89,266 @@
     </header>
     <div id="container">
       <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/06/bdc2089/" title="如何实现一个不规则排列的图片布局算法" itemprop="url">如何实现一个不规则排列的图片布局算法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-06T03:07:25.000Z" itemprop="datePublished"> 发表于 2015-06-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x4E0D;&#x89C4;&#x5219;&#x6392;&#x5217;&#x7684;&#x56FE;&#x7247;&#x5E03;&#x5C40;&#x7B97;&#x6CD5;">&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x4E0D;&#x89C4;&#x5219;&#x6392;&#x5217;&#x7684;&#x56FE;&#x7247;&#x5E03;&#x5C40;&#x7B97;&#x6CD5;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 17:12:00  <a href="/sites/FBbmemn">Kitten&apos;s &#x65F6;&#x95F4;&#x80F6;&#x56CA;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://kittenyang.com/layout-algorithm/?utm_source=tuicool" target="_blank" rel="external">http://kittenyang.com/layout-algorithm/</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11000083">&#x7B97;&#x6CD5;</a><a href="/topics/11080009">iOS&#x5F00;&#x53D1;</a></p>
+<p><img src="http://img1.tuicool.com/7baiEf.png" alt=""></p>
+<p>&#x4E00;&#x76F4;&#xFFFD;&#xFFFD;&#xFFFD; <a href="https://500px.com/flow" target="_blank" rel="external">500px</a> &#x4E0A;&#x770B;&#x7167;&#x7247;&#xFF0C;&#x53D1;&#x7167;&#x7247;&#x3002;&#x4EE5;&#x524D;&#x770B;&#x5B83;&#x7684;&#x9996;&#x9875;&#x56FE;&#x7247;&#x5C55;&#x793A;&#x5C31;&#x53EA;&#x662F;&#x89C9;&#x5F97;&#x597D;&#x770B;&#xFF0C;&#x6D0B;&#x6C14;&#xFF0C;&#x4E5F;&#x6CA1;&#x60F3;&#x8FC7;&#x81EA;&#x5DF1;&#x5728;iOS&#x4E0A;&#x5B9E;&#x73B0;&#x4E00;&#x4E0B;&#x3002;&#x6628;&#x5929;&#x4E0D;&#x77E5;&#x600E;&#x4E48;&#x7684;&#x5C31;&#x5F00;&#x59CB;&#x60F3;&#x5176;&#x4E2D;&#x7684;&#x7B97;&#x6CD5;&#x4E86;&#xFF0C;&#x73B0;&#x5728;&#x6211;&#x628A;&#x601D;&#x8003;&#x7684;&#x8FC7;&#x7A0B;&#x5728;&#x8FD9;&#x91CC;&#x8D34;&#x51FA;&#x6765;&#x5206;&#x4EAB;&#x4E00;&#x4E0B;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x6709;&#x66F4;&#x597D;&#x7684;&#x7B97;&#x6CD5;&#x6B22;&#x8FCE;&#x63A2;&#x8BA8;&#x3002; </p>
+<p>&#x6700;&#x7EC8;&#x6211;&#x505A;&#x51FA;&#x7684;&#x6548;&#x679C;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;</p>
+<h3 id="&#x5782;&#x76F4;&#x6EDA;&#x52A8;">&#x5782;&#x76F4;&#x6EDA;&#x52A8;</h3><p><img src="http://img2.tuicool.com/77RZfuq.gif" alt=""></p>
+<p><img src="http://img0.tuicool.com/Y36NZb.gif" alt=""></p>
+<h3 id="&#x6C34;&#x5E73;&#x6EDA;&#x52A8;">&#x6C34;&#x5E73;&#x6EDA;&#x52A8;</h3><p><img src="http://img2.tuicool.com/vMBfAv.gif" alt=""></p>
+<p><img src="http://img2.tuicool.com/6ze6ZrZ.gif" alt=""></p>
+<h3 id="&#x7B97;&#x6CD5;&#x603B;&#x4F53;&#x601D;&#x8DEF;">&#x7B97;&#x6CD5;&#x603B;&#x4F53;&#x601D;&#x8DEF;</h3><p>&#x5148;&#x8BF4;&#x4E00;&#x4E0B;&#x603B;&#x4F53;&#x4E0A;&#x7684;&#x601D;&#x8DEF;&#x3002;&#x65E2;&#x7136;&#x56FE;&#x7247;&#x7684;&#x5927;&#x5C0F;&#x3001;&#x4F4D;&#x7F6E;&#x5404;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x6211;&#x4EEC;&#x5F88;&#x81EA;&#x7136;&#x5730;&#x4F1A;&#x60F3;&#x5230;&#x9700;&#x8981;&#x7B97;&#x51FA;&#x6BCF;&#x4E2A;item&#x7684;frame&#xFF0C;&#x7136;&#x540E;&#x628A;&#x8FD9;&#x4E9B;frame&#x8D4B;&#x503C;&#x7ED9;&#x5F53;&#x524D;item&#x7684; UICollectionViewLayoutAttributes &#x3002; </p>
+<p>&#x81EA;&#x5B9A;&#x4E49; UICollectionViewLayout &#x7684;&#x5173;&#x952E;&#x4E24;&#x6B65;&#x662F;&#x5148;&#x540E;&#x91CD;&#x8F7D;&#x4E0B;&#x9762;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#xFF1A; </p>
+<pre><code>- <span class="list">(<span class="keyword">void</span>)</span>prepareLayout<span class="comment">;</span>
+</code></pre><p>&#x548C;</p>
+<pre><code><span class="tag">-</span> (<span class="tag">NSArray</span> *)<span class="rule"><span class="attribute">layoutAttributesForElementsInRect</span>:<span class="value">(CGRect)rect</span></span>;
+</code></pre><p>&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x7684;&#x601D;&#x8DEF;&#x662F;&#x5728; - (void)prepareLayout; &#x65B9;&#x6CD5;&#x4E2D;&#x7B97;&#x51FA;&#x6240;&#x6709;item&#x7684;frame&#xFF0C;&#x5E76;&#x8D4B;&#x503C;&#x7ED9;&#x5F53;&#x524D;item&#x7684; UICollectionViewLayoutAttributes &#x3002;&#x7528;&#x56FE;&#x7247;&#x7684;&#x5F62;&#x5F0F;&#x6BD4;&#x8F83;&#x76F4;&#x89C2;&#xFF1A; </p>
+<p><img src="http://img2.tuicool.com/q67fAb.png" alt=""></p>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x95EE;&#x9898;&#x5C31;&#x5316;&#x5F52;&#x5230;&#x4E86;&#x5982;&#x4F55;&#x6C42;&#x6BCF;&#x4E2A;item&#x7684;frame&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x62BD;&#x8C61;&#x51FA;&#x4E00;&#x4E2A; &#x5217; &#x7684;&#x6982;&#x5FF5;&#xFF1A; </p>
+<p><img src="http://img1.tuicool.com/B7fA7fv.png" alt=""></p>
+<p>&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x9700;&#x8981;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;&#x5B58;&#x50A8;&#x9AD8;&#x5EA6;&#x7684;&#x6570;&#x7EC4; COLUMNSHEIGHTS &#x3002;&#x6570;&#x7EC4;&#x4E2D;&#x6709; n &#x4E2A;&#x5143;&#x7D20;&#xFF0C; n &#x8868;&#x793A;&#x6240;&#x6709;&#x5217;&#x6570;&#xFF0C;&#x5982;&#x4E0A;&#x56FE;&#xFF0C;n = 3&#x3002;&#x7F13;&#x5B58;&#x7684;&#x503C;&#x8868;&#x793A;&#x5F53;&#x524D;&#x5217;&#x7684;&#x9AD8;&#x5EA6;&#xFF0C;&#x4E0A;&#x56FE;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C; COLUMNSHEIGHTS = [104,123,89] &#x3002; </p>
+<p>&#x7136;&#x540E;&#x6211;&#x4EEC;&#x628A;item&#x9010;&#x4E2A;&#x653E;&#x5165;&#x5217;&#x4E2D;&#xFF0C;&#x4EE5;&#x8FD9;&#x6837;&#x7684;&#x89C4;&#x5219;&#xFF1A;&#x4ECE;&#x5DE6;&#x5230;&#x53F3;&#xFF0C;item&#x4F18;&#x5148;&#x653E;&#x5165; COLUMNSHEIGHTS &#x4E2D;&#x6700;&#x77ED;&#x7684;&#x5217;&#x3002; </p>
+<p>&#x6253;&#x4E2A;&#x6BD4;&#x65B9;&#xFF0C;&#x4E0B;&#x4E00;&#x4E2A;item&#x5C31;&#x5E94;&#x8BE5;&#x653E;&#x5165;&#x6700;&#x77ED;&#x7684;&#x5217;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x7B2C;&#x4E09;&#x5217;:</p>
+<p><img src="http://img1.tuicool.com/qEjIrun.png" alt=""></p>
+<p>&#x4EE5;&#x6B64;&#x89C4;&#x5219;&#xFF0C;&#x5FAA;&#x73AF;&#x4E0B;&#x53BB;&#xFF0C;&#x76F4;&#x5230;&#x6240;&#x6709;item&#x90FD;&#x653E;&#x7F6E;&#x5B8C;&#x6BD5;&#x3002;</p>
+<h3 id="&#x7EC6;&#x8282;">&#x7EC6;&#x8282;</h3><h4 id="item-frame-origin:">item.frame.origin:</h4><p>&#x7528;&#x81EA;&#x7136;&#x8BED;&#x8A00;&#x63CF;&#x8FF0;&#xFF0C;</p>
+<p>&#x5750;&#x6807;x&#x5E94;&#x8BE5;&#x662F;&#x8FD9;&#x6837;&#x7684;: <em>&#xFF08;&#x6700;&#x77ED;&#x5217;&#x7684;&#x7F16;&#x53F7;-1&#xFF09;x &#x5217;&#x5BBD;</em></p>
+<p>&#x5750;&#x6807;y&#x5E94;&#x8BE5;&#x662F;&#x8FD9;&#x6837;&#x7684;: <em>&#x4ECE; COLUMNSHEIGHTS &#x4E2D;&#x53D6;&#x51FA;&#x6700;&#x77ED;&#x5217;&#x5BF9;&#x5E94;&#x7684;&#x9AD8;&#x5EA6;</em></p>
+<p>&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x7B97;&#x6CD5;&#x6765;&#x627E;&#x51FA;&#x5F53;&#x524D; COLUMNSHEIGHTS &#x4E2D;&#x7684;&#x6700;&#x77ED;&#x7684;&#x5217;&#xFF0C;&#x6700;&#x76F4;&#x63A5;&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x662F;0(n)&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;&#x7684;&#x5FAA;&#x73AF;&#x6BD4;&#x8F83;&#xFF0C;&#x8FD9;&#x91CC;&#x8FD8;&#x597D;&#x56E0;&#x4E3A;&#x6570;&#x636E;&#x91CF;&#x6BD4;&#x8F83;&#x5C11;&#xFF0C;&#x5982;&#x679C;&#x9047;&#x5230;&#x6570;&#x636E;&#x91CF;&#x5927;&#x7684;&#x60C5;&#x51B5;&#x53EF;&#x80FD;&#x5C31;&#x9700;&#x8981;&#x8003;&#x8651;&#x5206;&#x6CBB;&#x6CD5;&#x4E86;&#x3002; </p>
+<pre><code>//&amp;<span class="symbol">#x5BFB</span>;&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x9AD8</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x77ED</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5217</span>;.&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>
+-(<span class="class">NSUInteger</span>)findShortestColumn{
+    <span class="class">NSUInteger</span> shortestIndex = <span class="number">0</span>;
+    <span class="class">CGFloat</span> shortestValue = <span class="class">MAXFLOAT</span>;
+    <span class="class">NSUInteger</span> index=<span class="number">0</span>;//&amp;<span class="symbol">#x6E38</span>;&amp;<span class="symbol">#x6807</span>;
+    for (<span class="class">NSNumber</span> *columnHeight in <span class="keyword">self</span>.<span class="class">COLUMNSHEIGHTS</span>) {
+        if ([columnHeight floatValue] &amp;lt; shortestValue) {
+            shortestValue = [columnHeight floatValue];
+            shortestIndex = index;
+        }
+        index++;
+    }
+    return shortestIndex;
+}
+</code></pre><p>&#x627E;&#x5230;&#x4E86;&#x6700;&#x77ED;&#x5217;&#xFF0C;&#x8868;&#x8FBE;&#x51FA;item&#x7684;x&#x5750;&#x6807;&#x548C;y&#x5750;&#x6807;&#x5C31;&#x5F88;&#x5BB9;&#x6613;&#x4E86;&#xFF1A;</p>
+<pre><code><span class="built_in">NSUInteger</span> origin_x = [<span class="keyword">self</span> findShortestColumn] * [<span class="keyword">self</span> columnWidth];
+
+<span class="built_in">NSUInteger</span> origin_y = [<span class="keyword">self</span><span class="variable">.COLUMNSHEIGHTS</span>[shtIndex] integerValue] ;  
+</code></pre><h4 id="item-frame-size-width:">item.frame.size.width:</h4><p>&#x7531;&#x4E8E;&#x5217;&#x6570;&#x662F;&#x6709;&#x7528;&#x6237;&#x51B3;&#x5B9A;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x662F;&#x4E2A;&#x53D8;&#x91CF;&#xFF0C;&#x7531;&#x6B64;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x5217;&#x5BBD; columnWidth = self.collectionView.bounds.size.width / self.columnsCount</p>
+<p>&#x7136;&#x540E;&#x6211;&#x4EEC;&#x89C4;&#x5B9A;&#xFF0C; <em>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;item&#x7684;&#x5BBD;&#x5EA6;&#x7B49;&#x4E8E; columnWidth &#x3002;&#x5F53;&#x6EE1;&#x8DB3;&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;(&#x5982;&#x4E0A;&#x56FE;&#x7EA2;&#x8272;&#x65B9;&#x5757;&#xFF0C;&#x5C31;&#x662F;&#x5C5E;&#x4E8E;&#x5F53;&#x524D;&#x5217;&#x4F4D;&#x4E8E;&#x5217;2&#xFF0C;&#x4E0B;&#x4E00;&#x5217;&#x5217;3)&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x6A2A;&#x8DE8;&#x4E24;&#x680F;&#x3002;(&#x518D;&#x770B;&#x7EA2;&#x8272;&#x65B9;&#x5757;&#xFF0C;&#x56E0;&#x4E3A;&#x5728;&#x5B83;&#x653E;&#x8FDB;&#x53BB;&#x4E4B;&#x524D;&#xFF0C;&#x7B2C;&#x4E8C;&#x5217;&#x9AD8;&#x5EA6;&#x4E3A;0&#xFF0C;&#x7B2C;&#x4E09;&#x5217;&#x9AD8;&#x5EA6;&#x4E5F;&#x4E3A;0&#xFF0C;&#x6EE1;&#x8DB3;&#x6A2A;&#x8DE8;&#x7684;&#x6761;&#x4EF6;)</em></p>
+<h4 id="&#x4F46;&#x662F;&#xFF01;">&#x4F46;&#x662F;&#xFF01;</h4><p>&#x5982;&#x679C;&#x51FA;&#x73B0;&#x4E86;&#x4E0B;&#x9762;&#x7684;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#xFF1A;</p>
+<p><img src="http://img0.tuicool.com/6zuQf2.png" alt=""></p>
+<p>&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x5355;&#x5355;&#x6EE1;&#x8DB3; <strong>&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;</strong> &#x9AD8;&#x5EA6;&#x76F8;&#x7B49;&#x8FD8;&#x4E0D;&#x591F;&#xFF0C;&#x56E0;&#x4E3A;&#x53EA;&#x8981;&#x4E00;&#x65E6;&#x6EE1;&#x8DB3;&#x8FD9;&#x4E2A;&#x6761;&#x4EF6;&#xFF0C;&#x63A5;&#x4E0B;&#x53BB;&#x5C06;&#x4F1A;&#x4E00;&#x76F4;&#x662F;&#x6A2A;&#x8DE8;&#x7684;&#x72B6;&#x6001;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x8FD8;&#x9700;&#x8981;&#x518D;&#x52A0;&#x4E00;&#x4E2A;&#x6761;&#x4EF6;&#x6765;&#x7B5B;&#x9009;&#x8FD9;&#x4E9B;&#x5373;&#x4F7F;&#x6EE1;&#x8DB3; <strong>&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;</strong> &#x7684;item&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x7528;&#x968F;&#x673A;&#x6570;&#xFF1A; </p>
+<pre><code><span class="class">NSUInteger</span> randomOfWhetherDouble = arc4random() % <span class="number">100</span>;//&amp;<span class="symbol">#x968F</span>;&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x53CC</span>;&amp;<span class="symbol">#x884C</span>;
+</code></pre><p>arc4random() % 100; &#x4F1A;&#x968F;&#x673A;&#x751F;&#x6210;&#x4E00;&#x4E2A;0&#xFF5E;100&#x7684;&#x6574;&#x6570;&#x3002;&#x7136;&#x540E;&#x6211;&#x4EEC;&#x8BBE;&#x5B9A;&#x4E00;&#x4E2A;&#x9608;&#x503C;&#xFF0C;&#x6BD4;&#x5982; 40 .&#x53EA;&#x6709;&#x5F53;&#x540C;&#x65F6;&#x6EE1;&#x8DB3; <strong>&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;</strong> &#x548C; <strong>randomOfWhetherDouble &lt; 40</strong> &#x7684;item&#x624D;&#x80FD;&#x771F;&#x6B63;&#x5B9E;&#x73B0;&#x8DE8;&#x884C;&#x3002;&#x6362;&#x53E5;&#x8BDD;&#x8BF4;&#xFF0C;&#x5373;&#x4F7F;&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;&#xFF0C;&#x4E5F;&#x53EA;&#x6709;&#x767E;&#x5206;&#x4E4B;40&#x7684;&#x51E0;&#x7387;&#x51FA;&#x73B0;&#x8DE8;&#x884C;&#x7684;item&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x5F88;&#x597D;&#x7684;&#x4FDD;&#x8BC1;&#x4E86;&#x5BBD;&#x5EA6;&#x4E0D;&#x4E00;&#x7684;item&#x968F;&#x673A;&#x51FA;&#x73B0;&#xFF01; </p>
+<p>&#x6240;&#x4EE5;&#x5BBD;&#x5EA6;&#x7684;&#x4EE3;&#x7801;&#x662F;:</p>
+<pre><code><span class="keyword">if</span> (shtIndex &amp;lt; <span class="keyword">self</span>.columnsCount - <span class="number">1</span> &amp;amp;&amp;amp; [<span class="keyword">self</span>.<span class="constant">COLUMNSHEIGHTS</span>[shtIndex] floatValue] == [<span class="keyword">self</span>.<span class="constant">COLUMNSHEIGHTS</span>[shtIndex+<span class="number">1</span>] floatValue] &amp;amp;&amp;amp; randomOfWhetherDouble &amp;lt; <span class="number">40</span>) {
+
+    size_width = <span class="number">2</span>*[<span class="keyword">self</span> columnWidth];
+
+}<span class="keyword">else</span>{
+
+    size_width = [<span class="keyword">self</span> columnWidth];
+}
+</code></pre><h4 id="item-frame-size-height:">item.frame.size.height:</h4><p>&#x8FD9;&#x4E2A;&#x53EF;&#x4EE5;&#x81EA;&#x7531;&#x89C4;&#x5B9A;&#xFF0C;&#x56E0;&#x4E3A;&#x5728;&#x7AD6;&#x76F4;&#x65B9;&#x5411;&#x9AD8;&#x5EA6;&#x6CA1;&#x6709;&#x7279;&#x522B;&#x7684;&#x9650;&#x5236;&#x3002;&#x6BD4;&#x5982;&#x6211;&#x89C4;&#x5B9A;&#xFF1A;</p>
+<p>1.&#x5982;&#x679C;&#x662F;&#x6A2A;&#x8DE8;&#x7684;,&#x9AD8;&#x5EA6; &#xFF1D; &#x5BBD;&#x5EA6; * (0.75~1&#x968F;&#x673A;)</p>
+<pre><code>float extraRandomHeight = arc4random() % 25<span class="comment">;  </span>
+retVal = 0.75 + (extraRandomHeight / 100)<span class="comment">;  </span>
+size_height = size_width * retVal<span class="comment">; </span>
+</code></pre><p>2.&#x5982;&#x679C;&#x662F;&#x5355;&#x5217;&#x7684;&#xFF0C;&#x9AD8;&#x5EA6; &#xFF1D; &#x5BBD;&#x5EA6; * (0.75~1.25&#x968F;&#x673A;)</p>
+<pre><code>float extraRandomHeight = arc4random() % <span class="number">50</span>;  
+retVal = <span class="number">0.75</span> + (extraRandomHeight / <span class="number">100</span>);  
+size_height = size_width * retVal; // &amp;<span class="symbol">#x9AD8</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x5BBD</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x7684</span>;<span class="number">0.75</span>~<span class="number">1.25</span>&amp;<span class="symbol">#x500D</span>;
+</code></pre><h2 id="&#x8865;&#x5145;&#xFF1A;">&#x8865;&#x5145;&#xFF1A;</h2><p>&#x5B9E;&#x9645;&#x6D4B;&#x8BD5;&#x4E2D;&#x53D1;&#x73B0;&#xFF0C;&#x5373;&#x4F7F;&#x628A;&#x51FA;&#x73B0;&#x6A2A;&#x8DE8;item&#x7684;&#x9608;&#x503C;&#x8C03;&#x6210;0&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x53EA;&#x8981;&#x6EE1;&#x8DB3; <strong>&#x5F53;&#x524D;&#x5217;&#x548C;&#x4E0B;&#x4E00;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;</strong> &#xFF0C;100%&#x51FA;&#x73B0;&#x6A2A;&#x8DE8;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x51FA;&#x73B0;&#x6A2A;&#x8DE8;&#x7684;&#x60C5;&#x51B5;&#x4E5F;&#x662F;&#x5C11;&#x4E4B;&#x53C8;&#x5C11;&#x3002;&#x4E3A;&#x4EC0;&#x4E48;&#x5462;&#xFF1F;&#x539F;&#x56E0;&#x51FA;&#x5728;&#x4E86;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E0A;&#xFF0C;&#x4E4B;&#x524D;&#x6211;&#x7684;&#x7528;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x5168;&#x662F; CGFloat &#x6216;&#x8005; float &#x7684;&#x6D6E;&#x70B9;&#x7C7B;&#x578B;&#xFF0C;&#x4E24;&#x4E2A;&#x6D6E;&#x70B9;&#x6570;&#x8981;&#x76F8;&#x7B49;&#x7684;&#x6982;&#x7387;&#x53EF;&#x60F3;&#x800C;&#x77E5;&#x3002;&#x6539;&#x6210; NSUInteger &#x4E4B;&#x540E;&#x5C31;&#x597D;&#x591A;&#x4E86;&#x3002;&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x4E3A;&#x4E86;&#x589E;&#x52A0;&#x6A2A;&#x8DE8;&#x60C5;&#x51B5;&#x51FA;&#x73B0;&#x7684;&#x6982;&#x7387;&#xFF0C;&#x6211;&#x8FD8;&#x7528;&#x5230;&#x4E86; &#x56DB;&#x820D;&#x4E94;&#x5165; &#x3002;&#x62FF;&#x56FE;&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF1A; </p>
+<p><img src="http://img1.tuicool.com/eeiqa2a.png" alt=""></p>
+<p>&#x6211;&#x4EEC;&#x8BA9;item&#x7684;&#x9AD8;&#x5EA6;&#x5BF9;&#x67D0;&#x4E2A;&#x6574;&#x6570;&#x53D6;&#x4F59;&#xFF0C;&#x6BD4;&#x5982;&#x4EE5;40&#x4E3A;&#x5355;&#x4F4D;&#xFF0C;&#x8BA9;&#x9AD8;&#x5EA6;&#x5BF9;40&#x53D6;&#x4F59;&#xFF0C;&#x518D;&#x8BA9;item&#x7684;&#x9AD8;&#x5EA6;&#x526A;&#x6389;&#x8FD9;&#x4E9B;&#x4F59;&#x6570;&#x3002;&#x5269;&#x4E0B;&#x7684;&#x9AD8;&#x5EA6;&#x80AF;&#x5B9A;&#x662F;40&#x7684;&#x6574;&#x6570;&#x500D;&#x3002;</p>
+<p>&#x4EE3;&#x7801;&#x5F88;&#x7B80;&#x5355;&#xFF1A;</p>
+<pre><code>size_height = size_height - <span class="list">(<span class="keyword">size_height</span> % <span class="number">40</span>)</span><span class="comment">;  </span>
+</code></pre><p>&#x8FD9;&#x53EF;&#x4EE5;&#x628A;&#x67D0;&#x4E2A;&#x8303;&#x56F4;&#x5185;&#x7684;&#x9AD8;&#x5EA6;&#x90FD;&#x5F52;&#x7EA6;&#x5230;&#x7528;&#x4E00;&#x4E2A;&#x9AD8;&#x5EA6;&#xFF0C;&#x4E5F;&#x5C31;&#x8BA9;&#x5DE6;&#x53F3;&#x4E24;&#x5217;&#x9AD8;&#x5EA6;&#x76F8;&#x7B49;&#x7684;&#x6982;&#x7387;&#x589E;&#x52A0;&#x4E86;&#xFF0C;&#x51FA;&#x73B0;&#x6A2A;&#x8DE8;item&#x7684;&#x53EF;&#x80FD;&#x6027;&#x4E5F;&#x53D8;&#x5927;&#x4E86;&#x3002;</p>
+<p>&#x7136;&#x540E;&#xFF0C;&#x5728;&#x5FAA;&#x73AF;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x628A;&#x6BCF;&#x4E2A;item&#x7684;frame&#x8D4B;&#x503C;&#x7ED9;&#x5BF9;&#x5E94;&#x7684;attributes,&#x5E76;&#x628A;&#x8FD9;&#x4E9B;attributes&#x4FDD;&#x5B58;&#x5230;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x91CC;&#x3002;</p>
+<pre><code>//&amp;<span class="symbol">#x7ED9</span>;attributes.frame &amp;<span class="symbol">#x8D4B</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5165</span>; <span class="keyword">self</span>.itemsAttributes
+<span class="class">NSIndexPath</span> *indexPath = [<span class="class">NSIndexPath</span> <span class="method">indexPathForItem:</span>i <span class="method">inSection:</span><span class="number">0</span>];  
+<span class="class">UICollectionViewLayoutAttributes</span> *attributes = [<span class="class">UICollectionViewLayoutAttributes</span> <span class="method">layoutAttributesForCellWithIndexPath:</span>indexPath];  
+attributes.frame = <span class="class">CGRectMake</span>(origin_x, origin_y, size_width, size_height);  
+[<span class="keyword">self</span>.itemsAttributes <span class="method">addObject:</span>attributes];
+</code></pre><p>&#x7136;&#x540E;&#x5728; layoutAttributesForElementsInRect &#x65B9;&#x6CD5;&#x4E2D;&#x8FD4;&#x56DE;&#xFF1A; </p>
+<pre><code>- (<span class="built_in">NSArray</span> *)layoutAttributesForElementsInRect:(<span class="built_in">CGRect</span>)rect{
+
+   <span class="keyword">return</span> <span class="keyword">self</span><span class="variable">.itemsAttributes</span>;
+
+}
+</code></pre><h4 id="&#x6700;&#x540E;">&#x6700;&#x540E;</h4><p>&#x4E3A;&#x4E86;&#x80FD;&#x8BA9;collectionView&#x6ED1;&#x8D77;&#x6765;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x5B83;&#x7684; ContentSize .&#x5176;&#x5B9E;&#x53EA;&#x8981;&#x8BA9;ContentSize&#x7684;&#x9AD8;&#x5EA6;&#x53D8;&#x6210; COLUMNSHEIGHTS &#x4E2D;&#x6700;&#x957F;&#x5217;&#x7684;&#x9AD8;&#x5EA6;&#x5373;&#x53EF;&#x3002;&#x81F3;&#x4E8E;&#x8FD9;&#x4E2A;&#x6C42;&#x6570;&#x7EC4;&#x4E2D;&#x6700;&#x957F;&#x5217;&#x7684;&#x7B97;&#x6CD5;&#xFF0C;&#x548C;&#x524D;&#x9762;&#x7684;&#x6C42;&#x6700;&#x77ED;&#x5217;&#x7C7B;&#x4F3C;&#x3002; </p>
+<pre><code>-(<span class="built_in">CGSize</span>)collectionViewContentSize{
+    <span class="built_in">CGSize</span> size = <span class="keyword">self</span><span class="variable">.collectionView</span><span class="variable">.bounds</span><span class="variable">.size</span>;
+    <span class="built_in">NSUInteger</span> longstIndex = [<span class="keyword">self</span> findLongestColumn];
+    <span class="keyword">float</span> columnMax = [<span class="keyword">self</span><span class="variable">.COLUMNSHEIGHTS</span>[longstIndex] floatValue];
+    size<span class="variable">.height</span> = columnMax;
+    <span class="keyword">return</span> size;
+}
+</code></pre><h3 id="&#x7ED3;&#x8BED;">&#x7ED3;&#x8BED;</h3><p>&#x5982;&#x679C;&#x4F60;&#x6709;&#x5174;&#x8DA3;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x8BD5;&#x8BD5;</p>
+<p>1&#x3001;&#x8BA9;&#x56FE;&#x7247;&#x5728;&#x7AD6;&#x5C4F;&#x548C;&#x6A2A;&#x5C4F;&#x65F6;&#x62E5;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x5217;&#x6570;&#xFF0C;&#x5E76;&#x4EE5;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x5207;&#x6362;&#x3002;</p>
+<p>2&#x3001;&#x5B9E;&#x73B0;contentView&#x7684;&#x6C34;&#x5E73;&#x6EDA;&#x52A8;&#x5E76;&#x5B9E;&#x73B0;&#x4E0A;&#x9762;&#x7684;&#x4E0D;&#x89C4;&#x5219;&#x5E03;&#x5C40;&#x3002;</p>
+<p>&#x4EE5;&#x4E0A;&#x4E24;&#x4E2A;&#x529F;&#x80FD;&#x6211;&#x5DF2;&#x7ECF;&#x5B9E;&#x73B0;&#x5E76;&#x8FDB;&#x884C;&#x4E86;&#x5C01;&#x88C5;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x50CF;&#x666E;&#x901A;&#x7684;UICollectionViewLayout&#x4E00;&#x6837;&#x4F7F;&#x7528;&#x3002;&#x53EF;&#x4EE5;&#x5728; <a href="https://github.com/KittenYang/KYTilePhotoLayout" target="_blank" rel="external">&#x8FD9;&#x91CC;</a> &#x4F7F;&#x7528;&#x548C;&#x5B66;&#x4E60;&#x3002; </p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/Vri6za6">iOS-Runtime&#x77E5;&#x8BC6;&#x70B9;&#x6574;&#x7406;</a></li>
+<li>2.<a href="/articles/zA7JNbn">Replace-iOS&#xFF1A;&#x8BA9;&#x4EBA;&#x773C;&#x524D;&#x4E00;&#x4EAE;&#x7684;&#x4E0B;&#x62C9;&#x5237;&#x65B0;&#xFF08;iOS&#xFF09;</a></li>
+<li>3.<a href="/articles/2qUjUba">&#x767E;&#x5EA6; OCR &#x6587;&#x5B57;&#x8BC6;&#x522B;&#x670D;&#x52A1;&#x6B63;&#x5F0F;&#x5BF9;&#x5916;&#x5F00;&#x653E;</a></li>
+<li>4.<a href="/articles/vA7zMra">ios&#x5F00;&#x53D1;——&#x5E94;&#x7528;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x7684;&#x5E38;&#x7528;&#x65B9;&#x6CD5;&#x4E4B;plist&#x5B58;&#x53D6;&#x65B9;&#x6CD5;</a></li>
+<li>5.<a href="/articles/vYzIVn">Swift&#x5B66;&#x4E60;&#x7B14;&#x8BB0;&#x4E94;</a></li>
+<li><p>6.<a href="/articles/2QVbMvu">Objective-c &#x5185;&#x5B58;&#x7BA1;&#x7406;&#x7684;&#x5386;&#x53F2;&#x548C;&#x53C2;&#x8003;&#x8D44;&#x6599;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/6FrY3uZ">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;6FrY3uZ&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iOS开发/">iOS开发</a><a href="/tags/算法/">算法</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/06/bdb3fed/" title="iOS-Runtime知识点整理" itemprop="url">iOS-Runtime知识点整理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-06T03:07:25.000Z" itemprop="datePublished"> 发表于 2015-06-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="iOS-Runtime&#x77E5;&#x8BC6;&#x70B9;&#x6574;&#x7406;">iOS-Runtime&#x77E5;&#x8BC6;&#x70B9;&#x6574;&#x7406;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 17:48:00  <a href="/sites/Fn2umm">&#x535A;&#x5BA2;&#x56ED;-&#x539F;&#x521B;&#x7CBE;&#x534E;&#x533A;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/Mike-zh/p/4557014.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/Mike-zh/p/4557014.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11080052">Objective-C</a></p>
+<p>&#x56DE;&#x5230;&#x9876;&#x90E8; </p>
+<h2 id="1-Runtime&#x7B80;&#x4ECB;_&#x56E0;&#x4E3A;Objc&#x662F;&#x4E00;&#x95E8;&#x52A8;&#x6001;&#x8BED;&#x8A00;&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x603B;&#x662F;&#x60F3;&#x529E;&#x6CD5;&#x628A;&#x4E00;&#x4E9B;&#x51B3;&#x5B9A;&#x5DE5;&#x4F5C;&#x4ECE;&#x7F16;&#x8BD1;&#x8FDE;&#x63A5;&#x63A8;&#x8FDF;&#x5230;&#x8FD0;&#x884C;&#x65F6;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x53EA;&#x6709;&#x7F16;&#x8BD1;&#x5668;&#x662F;&#x4E0D;&#x591F;&#x7684;&#xFF0C;&#x8FD8;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x8FD0;&#x884C;&#x65F6;&#x7CFB;&#x7EDF;_(runtime_system)_&#x6765;&#x6267;&#x884C;&#x7F16;&#x8BD1;&#x540E;&#x7684;&#x4EE3;&#x7801;&#x3002;&#x8FD9;&#x5C31;&#x662F;_Objective-C_Runtime_&#x7CFB;&#x7EDF;&#x5B58;&#x5728;&#x7684;&#x610F;&#x4E49;&#xFF0C;&#x5B83;&#x662F;&#x6574;&#x4E2A;Objc&#x8FD0;&#x884C;&#x6846;&#x67B6;&#x7684;&#x4E00;&#x5757;&#x57FA;&#x77F3;&#x3002;">1.Runtime&#x7B80;&#x4ECB; &#x56E0;&#x4E3A;Objc&#x662F;&#x4E00;&#x95E8;&#x52A8;&#x6001;&#x8BED;&#x8A00;&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x603B;&#x662F;&#x60F3;&#x529E;&#x6CD5;&#x628A;&#x4E00;&#x4E9B;&#x51B3;&#x5B9A;&#x5DE5;&#x4F5C;&#x4ECE;&#x7F16;&#x8BD1;&#x8FDE;&#x63A5;&#x63A8;&#x8FDF;&#x5230;&#x8FD0;&#x884C;&#x65F6;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x53EA;&#x6709;&#x7F16;&#x8BD1;&#x5668;&#x662F;&#x4E0D;&#x591F;&#x7684;&#xFF0C;&#x8FD8;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x8FD0;&#x884C;&#x65F6;&#x7CFB;&#x7EDF; (runtime system) &#x6765;&#x6267;&#x884C;&#x7F16;&#x8BD1;&#x540E;&#x7684;&#x4EE3;&#x7801;&#x3002;&#x8FD9;&#x5C31;&#x662F; Objective-C Runtime &#x7CFB;&#x7EDF;&#x5B58;&#x5728;&#x7684;&#x610F;&#x4E49;&#xFF0C;&#x5B83;&#x662F;&#x6574;&#x4E2A;Objc&#x8FD0;&#x884C;&#x6846;&#x67B6;&#x7684;&#x4E00;&#x5757;&#x57FA;&#x77F3;&#x3002;</h2><p>Runtime&#x5176;&#x5B9E;&#x6709;&#x4E24;&#x4E2A;&#x7248;&#x672C;:&#x201C;modern&#x201D;&#x548C; &#x201C;legacy&#x201D;&#x3002;&#x6211;&#x4EEC;&#x73B0;&#x5728;&#x7528;&#x7684; Objective-C 2.0 &#x91C7;&#x7528;&#x7684;&#x662F;&#x73B0;&#x884C;(Modern)&#x7248;&#x7684;Runtime&#x7CFB;&#x7EDF;&#xFF0C;&#x53EA;&#x80FD;&#x8FD0;&#x884C;&#x5728; iOS &#x548C; OS X 10.5 &#x4E4B;&#x540E;&#x7684;64&#x4F4D;&#x7A0B;&#x5E8F;&#x4E2D;&#x3002;&#x800C;OS X&#x8F83;&#x8001;&#x7684;32&#x4F4D;&#x7A0B;&#x5E8F;&#x4ECD;&#x91C7;&#x7528; Objective-C 1&#x4E2D;&#x7684;&#xFF08;&#x65E9;&#x671F;&#xFF09;Legacy &#x7248;&#x672C;&#x7684; Runtime &#x7CFB;&#x7EDF;&#x3002;&#x8FD9;&#x4E24;&#x4E2A;&#x7248;&#x672C;&#x6700;&#x5927;&#x7684;&#x533A;&#x522B;&#x5728;&#x4E8E;&#x5F53;&#x4F60;&#x66F4;&#x6539;&#x4E00;&#x4E2A;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x53D8;&#x91CF;&#x7684;&#x5E03;&#x5C40;&#x65F6;&#xFF0C;&#x5728;&#x65E9;&#x671F;&#x7248;&#x672C;&#x4E2D;&#x4F60;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x7F16;&#x8BD1;&#x5B83;&#x7684;&#x5B50;&#x7C7B;&#xFF0C;&#x800C;&#x73B0;&#x884C;&#x7248;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x3002;</p>
+<p>Runtime&#x57FA;&#x672C;&#x662F;&#x7528;C&#x548C;&#x6C47;&#x7F16;&#x5199;&#x7684;&#xFF0C;&#x53EF;&#x89C1;&#x82F9;&#x679C;&#x4E3A;&#x4E86;&#x52A8;&#x6001;&#x7CFB;&#x7EDF;&#x7684;&#x9AD8;&#x6548;&#x800C;&#x4F5C;&#x51FA;&#x7684;&#x52AA;&#x529B;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x8FD9;&#x91CC;&#x4E0B;&#x5230;&#x82F9;&#x679C;&#x7EF4;&#x62A4;&#x7684;&#x5F00;&#x6E90;&#x4EE3;&#x7801;&#x3002;&#x82F9;&#x679C;&#x548C;GNU&#x5404;&#x81EA;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x7684;runtime&#x7248;&#x672C;&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;&#x7248;&#x672C;&#x4E4B;&#x95F4;&#x90FD;&#x5728;&#x52AA;&#x529B;&#x7684;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x3002;</p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/6FrY3uZ">&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x4E0D;&#x89C4;&#x5219;&#x6392;&#x5217;&#x7684;&#x56FE;&#x7247;&#x5E03;&#x5C40;&#x7B97;&#x6CD5;</a></li>
+<li>2.<a href="/articles/zA7JNbn">Replace-iOS&#xFF1A;&#x8BA9;&#x4EBA;&#x773C;&#x524D;&#x4E00;&#x4EAE;&#x7684;&#x4E0B;&#x62C9;&#x5237;&#x65B0;&#xFF08;iOS&#xFF09;</a></li>
+<li>3.<a href="/articles/2qUjUba">&#x767E;&#x5EA6; OCR &#x6587;&#x5B57;&#x8BC6;&#x522B;&#x670D;&#x52A1;&#x6B63;&#x5F0F;&#x5BF9;&#x5916;&#x5F00;&#x653E;</a></li>
+<li>4.<a href="/articles/vA7zMra">ios&#x5F00;&#x53D1;——&#x5E94;&#x7528;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x7684;&#x5E38;&#x7528;&#x65B9;&#x6CD5;&#x4E4B;plist&#x5B58;&#x53D6;&#x65B9;&#x6CD5;</a></li>
+<li>5.<a href="/articles/vYzIVn">Swift&#x5B66;&#x4E60;&#x7B14;&#x8BB0;&#x4E94;</a></li>
+<li><p>6.<a href="/articles/2QVbMvu">Objective-c &#x5185;&#x5B58;&#x7BA1;&#x7406;&#x7684;&#x5386;&#x53F2;&#x548C;&#x53C2;&#x8003;&#x8D44;&#x6599;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/Vri6za6">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;Vri6za6&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Objective-C/">Objective-C</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
 
    
     
@@ -188,206 +448,6 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/安卓开发/">安卓开发</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/06/bdade45/" title="腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计" itemprop="url">腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-06T03:07:25.000Z" itemprop="datePublished"> 发表于 2015-06-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#xFF1A;App&#x6027;&#x80FD;&#x4F18;&#x5316;&#x4E0E;&#x7EC8;&#x7AEF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;">&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#xFF1A;App&#x6027;&#x80FD;&#x4F18;&#x5316;&#x4E0E;&#x7EC8;&#x7AEF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 19:49:52  <a href="/sites/7fAnIr">CSDN&#x79FB;&#x52A8;&#x5F00;&#x53D1;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.csdn.net/article/2015-06-06/2824885?utm_source=tuicool" target="_blank" rel="external">http://www.csdn.net/article/2015-06-06/2824885</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11110030">&#x6027;&#x80FD;&#x4F18;&#x5316;</a><a href="/topics/11000077">&#x79FB;&#x52A8;&#x5F00;&#x53D1;</a></p>
-<p>5&#x6708;31&#x65E5;&#xFF0C;&#x7531;&#x817E;&#x8BAF;&#x65E0;&#x7EBF;&#x7814;&#x53D1;&#x90E8;&#x4E3B;&#x529E;&#x7684;&#x201C;&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#x201D;&#x7B2C;&#x4E00;&#x671F;&#x5728;&#x5317;&#x4EAC;&#x8F66;&#x5E93;&#x5496;&#x5561;&#x62C9;&#x5F00;&#x5E8F;&#x5E55;&#x3002;&#x672C;&#x6B21;&#x6C99;&#x9F99;&#x6D3B;&#x52A8;&#x4EE5;&#x201C;&#x79FB;&#x52A8;&#x5E94;&#x7528;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x7B14;&#x8BB0;&#x201D;&#x4E3A;&#x4E3B;&#x9898;&#xFF0C;&#x9080;&#x8BF7;&#x5230;&#x817E;&#x8BAF;&#x79FB;&#x52A8;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x4E13;&#x5BB6;&#x53F6;&#x65B9;&#x6B63;&#x4E0E;&#x624B;&#x673A;QQ&#x8D1F;&#x8D23;&#x4EBA;&#x5F20;&#x65ED;&#x5728;&#x73B0;&#x573A;&#x7ED3;&#x5408;&#x5B9E;&#x6218;&#x5C31;&#x201C;Android&#x5E94;&#x7528;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x201D;&#x4E0E;&#x201C;&#x7EC8;&#x7AEF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x201D;&#x8FDB;&#x884C;&#x4E86;&#x6280;&#x672F;&#x4EA4;&#x6D41;&#x4E0E;&#x5206;&#x4EAB;&#x3002;</p>
-<p><img src="http://img2.tuicool.com/Ub63Yv3.jpg" alt=""></p>
-<p>&#x79FB;&#x52A8;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x4E13;&#x5BB6;&#x53F6;&#x65B9;&#x6B63;&#xFF1A;Android&#x4F18;&#x5316;&#x7B14;&#x8BB0;</p>
-<p>&#x817E;&#x8BAF;&#x79FB;&#x52A8;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x4E13;&#x5BB6; &#x53F6;&#x65B9;&#x6B63;&#x5BF9;Android&#x5E94;&#x7528;&#x6027;&#x80FD;&#x8BC4;&#x6D4B;&#x548C;&#x8C03;&#x4F18;&#x8FDB;&#x884C;&#x4E86;&#x8BE6;&#x7EC6;&#x7684;&#x4ECB;&#x7ECD;&#x3002;&#x5173;&#x4E8E;Android&#x5E94;&#x7528;&#x4F18;&#x5316;&#xFF0C;&#x4E3B;&#x8981;&#x96C6;&#x4E2D;&#x5728;&#x5185;&#x5B58;&#x548C;UI&#x6D41;&#x7545;&#x5EA6;&#x4E24;&#x4E2A;&#x65B9;&#x9762;&#xFF0C;&#x6BD4;&#x5982;&#x5185;&#x5B58;&#x5360;&#x7528;&#x4E0E;&#x6CC4;&#x9732;&#xFF0C;UI&#x6D41;&#x7545;&#x5EA6;&#x7684;&#x5E27;&#x6570;&#x548C;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#xFF0C;IO&#x7684;&#x963B;&#x585E;&#x5F0F;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x7B49;&#x3002;</p>
-<p><img src="http://img0.tuicool.com/qaQnAb.jpg" alt=""></p>
-<p>&#x8C08;&#x5230;&#x4E3A;&#x4EC0;&#x4E48;&#x4F18;&#x5316;&#x5185;&#x5B58;&#x65F6;&#xFF0C;&#x53F6;&#x65B9;&#x6B63;&#x8868;&#x793A;&#xFF0C;&#x5BF9;&#x4E8E;&#x624B;&#x673A;&#x6765;&#x8BF4;&#xFF0C;&#x5185;&#x5B58;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x7A00;&#x7F3A;&#x7684;&#x8D44;&#x6E90;&#xFF0C;&#x5373;&#x4F7F;&#x662F;&#x73B0;&#x5728;&#x666E;&#x904D;&#x62E5;&#x6709;&#x7740;&#x5F88;&#x5927;&#x5185;&#x5B58;&#x7684;Android&#x624B;&#x673A;&#x4E5F;&#x4E0D;&#x53EF;&#x907F;&#x514D;&#xFF0C;&#x800C;Android&#x7684;&#x5185;&#x5B58;&#x95EE;&#x9898;&#x4E3B;&#x8981;&#x5305;&#x62EC;DDMS&#x3001;MAT&#x548C;android.os.Debug&#x3002;&#x6D4B;&#x8BD5;&#x4EBA;&#x5458;&#x5E94;&#x4ECE;&#x7F16;&#x8BD1;&#x4EE3;&#x7801;&#x3001;&#x9009;&#x5B9A;&#x6D4B;&#x8BD5;&#x573A;&#x666F;&#x3001;&#x6D4B;&#x8BD5;&#x573A;&#x666F;&#x8F6C;&#x6362;&#x6210;&#x7528;&#x4F8B;&#x3001;&#x8DD1;&#x8D77;&#x5DE5;&#x5177;Run&#x7528;&#x4F8B;&#x5165;&#x624B;&#xFF0C;&#x5E76;&#x7ED3;&#x5408;&#x4EE3;&#x7801;&#x6DF1;&#x5EA6;&#x5206;&#x6790;&#xFF0C;&#x6765;&#x8FDB;&#x884C;&#x5185;&#x5B58;&#x6D4B;&#x8BD5;&#x3002;</p>
-<p>&#x624B;&#x673A;QQ&#x8D1F;&#x8D23;&#x4EBA;&#x5F20;&#x65ED;&#xFF1A;&#x6700;&#x5408;&#x9002;&#x7684;&#x67B6;&#x6784; &#x6700;&#x5408;&#x9002;&#x7684;&#x91CD;&#x6784;</p>
-<p>&#x624B;&#x673A;QQ&#x8D1F;&#x8D23;&#x4EBA;&#x5F20;&#x65ED;&#x4ECE;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x3001;&#x91CD;&#x6784;&#x4E0E;&#x9879;&#x76EE;&#x8FDB;&#x5EA6;&#x7B49;&#x65B9;&#x9762;&#x5BF9;&#x8F6F;&#x4EF6;&#x67B6;&#x6784;&#x8FDB;&#x884C;&#x4E86;&#x5168;&#x65B9;&#x4F4D;&#x7684;&#x5256;&#x6790;&#x4E0E;&#x8BB2;&#x89E3;&#x3002;&#x4E0D;&#x662F;&#x6BCF;&#x4E00;&#x4E2A;&#x7A0B;&#x5E8F;&#x5458;&#x90FD;&#x80FD;&#x591F;&#x6210;&#x4E3A;&#x4E00;&#x4E2A;&#x67B6;&#x6784;&#x5E08;&#x2014;&#x2014;&#x8FD9;&#x662F;&#x5F00;&#x53D1;&#x754C;&#x5E7F;&#x4E3A;&#x6D41;&#x4F20;&#x7684;&#x4E00;&#x4E2A;&#x8BBA;&#x8C03;&#x3002;&#x8F6F;&#x4EF6;&#x67B6;&#x6784;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5C06;&#x4EA7;&#x54C1;&#x4ECE;&#x9700;&#x6C42;&#x5230;&#x8BBE;&#x8BA1;&#x7684;&#x6BCF;&#x4E2A;&#x7EC6;&#x8282;&#x90FD;&#x8981;&#x8003;&#x8651;&#x5230;&#xFF0C;&#x628A;&#x63E1;&#x6574;&#x4E2A;&#x9879;&#x76EE;&#xFF0C;&#x4F7F;&#x8BBE;&#x8BA1;&#x7684;&#x9879;&#x76EE;&#x5C3D;&#x91CF;&#x6548;&#x7387;&#x9AD8;&#xFF0C;&#x5F00;&#x53D1;&#x5BB9;&#x6613;&#xFF0C;&#x7EF4;&#x62A4;&#x65B9;&#x4FBF;&#xFF0C;&#x5347;&#x7EA7;&#x7B80;&#x5355;&#x3002;</p>
-<p><img src="http://img0.tuicool.com/MJFJ7b.jpg" alt=""></p>
-<p>&#x90A3;&#x4E48;&#xFF0C;&#x7A76;&#x7ADF;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x67B6;&#x6784;&#x624D;&#x662F;&#x6700;&#x5408;&#x9002;&#x7684;&#xFF1F;&#x5F20;&#x65ED;&#x8868;&#x793A;&#xFF0C;&#x8861;&#x91CF;&#x4E00;&#x4E2A;&#x67B6;&#x6784;&#x662F;&#x5426;&#x5408;&#x9002;&#x7684;&#x91CD;&#x8981;&#x6807;&#x51C6;&#x5C31;&#x662F;&#xFF1A;&#x662F;&#x5426;&#x9002;&#x7528;&#x4E8E;&#x5F53;&#x524D;&#x56E2;&#x961F;&#x4E0E;&#x4E1A;&#x52A1;&#x89C4;&#x6A21;&#xFF0C;&#x662F;&#x5426;&#x9002;&#x7528;&#x4E8E;&#x4EA7;&#x54C1;/&#x5546;&#x4E1A;&#x53D1;&#x5C55;&#x7684;&#x4E0B;&#x4E00;&#x6B65;&#x65B9;&#x5411;&#xFF1F;&#x5982;&#x679C;&#x56E2;&#x961F;&#x89C4;&#x6A21;&#x6269;&#x5927;&#x3001;&#x6269;&#x5C55;&#x6027;&#x4E0D;&#x8DB3;&#x3001;&#x7EF4;&#x62A4;&#x6027;&#x5D29;&#x574F;&#x3001;&#x6027;&#x80FD;&#x53D7;&#x5230;&#x5F71;&#x54CD;&#x5C31;&#x5FC5;&#x987B;&#x5F15;&#x5165;&#x91CD;&#x6784;&#x3002;&#x6839;&#x636E;&#x73B0;&#x6709;&#x60C5;&#x51B5;&#xFF0C;&#x91CD;&#x65B0;&#x505A;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#xFF0C;&#x5E76;&#x627E;&#x5230;&#x539F;&#x6709;&#x67B6;&#x6784;&#x53EF;&#x590D;&#x7528;&#x7684;&#x90E8;&#x5206;&#x4EE5;&#x53CA;&#x9700;&#x8981;&#x91CD;/&#x6539;&#x5199;&#x7684;&#x5173;&#x952E;&#x70B9;&#xFF0C;&#x7ED9;&#x51FA;&#x91CD;&#x6784;&#x7684;&#x6539;&#x5584;&#x76EE;&#x6807;&#x3002;</p>
-<p>&#x4F5C;&#x4E3A;&#x817E;&#x8BAF;Bugly&#x79FB;&#x52A8;&#x5F00;&#x53D1;&#x8005;&#x6C99;&#x9F99;&#x7684;&#x9996;&#x79C0;&#xFF0C;&#x672C;&#x6B21;&#x6D3B;&#x52A8;&#x805A;&#x96C6;&#x4E86;&#x7EA6;&#x4E24;&#x767E;&#x591A;&#x540D;&#x5F00;&#x53D1;&#x8005;&#x7684;&#x53C2;&#x4E0E;&#xFF0C;&#x6574;&#x4E2A;&#x5206;&#x4EAB;&#x4F1A;&#x73B0;&#x573A;&#x5EA7;&#x65E0;&#x865A;&#x5E2D;&#xFF0C;&#x4E24;&#x4F4D;&#x6280;&#x672F;&#x5496;&#x4EE5;&#x5E72;&#x8D27;&#x52A0;&#x5B9E;&#x4F8B;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x4F7F;&#x6574;&#x4E2A;&#x5206;&#x4EAB;&#x901A;&#x4FD7;&#x6613;&#x61C2;&#x3001;&#x751F;&#x52A8;&#x6709;&#x8DA3;&#x3002;&#x9664;&#x4E86;&#x6280;&#x672F;&#x5185;&#x5BB9;&#x5206;&#x4EAB;&#x4E4B;&#x5916;&#xFF0C;&#x73B0;&#x573A;&#x8FD8;&#x8BBE;&#x7F6E;&#x4E86;&#x4E92;&#x52A8;&#x3001;&#x8336;&#x6B47;&#x4EA4;&#x6D41;&#x548C;&#x5706;&#x684C;&#x8BBA;&#x575B;&#x7B49;&#x73AF;&#x8282;&#xFF0C;&#x4E24;&#x4F4D;&#x6F14;&#x8BB2;&#x5609;&#x5BBE;&#x76F4;&#x63A5;&#x4E0E;&#x5F00;&#x53D1;&#x8005;&#x4EEC;&#x8FDB;&#x884C;&#x9762;&#x5BF9;&#x9762;&#x7684;&#x7B54;&#x7591;&#x89E3;&#x60D1;&#x3002; </p>
-<p>&#x73B0;&#x573A;&#x82B1;&#x7D6E;&#xFF1A;</p>
-<p><img src="http://img1.tuicool.com/jYNzE3.jpg" alt=""></p>
-<p><img src="http://img0.tuicool.com/fu22Mr.jpg" alt=""></p>
-<p><img src="http://img0.tuicool.com/bMjARre.jpg" alt=""></p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/jQ73Ibn">&#x767E;&#x5EA6;&#x536B;&#x58EB;U&#x76D8;&#x201C;&#x9644;&#x9001;&#x201D;&#x7684;&#x6728;&#x9A6C;&#x5206;&#x6790;</a></li>
-<li>2.<a href="/articles/b2eMne7">&#x518D;&#x56DE;&#x9996;&#xFF0C;Java&#x6E29;&#x6545;&#x77E5;&#x65B0;&#xFF08;&#x516B;&#xFF09;&#xFF1A;Java&#x57FA;&#x7840;&#x4E4B;&#x5B57;&#x7B26;&#x4E32;</a></li>
-<li>3.<a href="/articles/B3muIj">&#x524D;&#x7AEF;&#xFF1A;&#x6C34;&#x5F88;&#x6D45;&#xFF0C;&#x4F46;&#x6C34;&#x5F88;&#x6D51;&#x3002;&#x3002;&#x3002;</a></li>
-<li>4.<a href="/articles/Ajimq2">android&#x81EA;&#x5B9A;&#x4E49;&#x63A7;&#x4EF6;&#x5B9E;&#x73B0;TextView&#x6309;&#x4E0B;&#x540E;&#x5B57;&#x4F53;&#x989C;&#x8272;&#x6539;&#x53D8;</a></li>
-<li>5.<a href="/articles/3I73MfF">&#x7528;&#x5B9E;&#x4F8B;&#x6DF1;&#x5165;&#x6D45;&#x51FA;&#x8BE6;&#x8FF0;canvas</a></li>
-<li><p>6.<a href="/articles/YneiAzy">Hexo &#xFF1A; &#xFF08;&#x4E09;&#xFF09;&#x9AD8;&#x7EA7;&#x8FDB;&#x9636;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/rmmQ3uR">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;rmmQ3uR&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/性能优化/">性能优化</a><a href="/tags/移动开发/">移动开发</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/06/bdab4c4/" title="这就是搜索引擎--读书笔记七--倒排列表压缩算法" itemprop="url">这就是搜索引擎--读书笔记七--倒排列表压缩算法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-06T03:07:25.000Z" itemprop="datePublished"> 发表于 2015-06-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="&#x8FD9;&#x5C31;&#x662F;&#x641C;&#x7D22;&#x5F15;&#x64CE;—&#x8BFB;&#x4E66;&#x7B14;&#x8BB0;&#x4E03;—&#x5012;&#x6392;&#x5217;&#x8868;&#x538B;&#x7F29;&#x7B97;&#x6CD5;">&#x8FD9;&#x5C31;&#x662F;&#x641C;&#x7D22;&#x5F15;&#x64CE;—&#x8BFB;&#x4E66;&#x7B14;&#x8BB0;&#x4E03;—&#x5012;&#x6392;&#x5217;&#x8868;&#x538B;&#x7F29;&#x7B97;&#x6CD5;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-06 21:18:12  <a href="/sites/Mb2Mnqr">&#x535A;&#x5BA2;&#x56ED;_&#x5929;&#x624D;&#x767D;&#x75F4;&#x68A6;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/BaiYiShaoNian/p/4557330.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/BaiYiShaoNian/p/4557330.html</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11120054">&#x94FE;&#x8868;</a></p>
-<p>&#x76EE;&#x524D;&#x6709;&#x5F88;&#x591A;&#x79CD;&#x5012;&#x6392;&#x5217;&#x8868;&#x7B97;&#x6CD5;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x5BF9;&#x8BC4;&#x5224;&#x7B97;&#x6CD5;&#x7684;&#x4F18;&#x52A3;&#x9700;&#x8981;&#x5B9A;&#x91CF;&#x6307;&#x6807;&#x3002;&#x4E00;&#x822C;&#x4F1A;&#x8003;&#x8651;3&#x4E2A;&#x6307;&#x6807;&#xFF1A; &#x538B;&#x7F29;&#x7387; &#x3001; &#x538B;&#x7F29;&#x901F;&#x5EA6; &#x4EE5;&#x53CA; &#x89E3;&#x538B;&#x901F;&#x5EA6; &#x3002; </p>
-<p>&#x538B;&#x7F29;&#x7387;&#x662F;&#x6307;&#x6570;&#x636E;&#x538B;&#x7F29;&#x524D;&#x548C;&#x538B;&#x7F29;&#x540E;&#x5927;&#x5C0F;&#x7684;&#x6BD4;&#x4F8B;&#xFF0C;&#x663E;&#x7136;&#xFF0C;&#x538B;&#x7F29;&#x7387;&#x8D8A;&#x9AD8;&#xFF0C;&#x5C31;&#x8D8A;&#x8282;&#x7EA6;&#x78C1;&#x76D8;&#x7A7A;&#x95F4;&#x3002;&#x800C;&#x538B;&#x7F29;&#x901F;&#x5EA6;&#x662F;&#x538B;&#x7F29;&#x5355;&#x4F4D;&#x91CF;&#x7684;&#x6570;&#x636E;&#x6240;&#x82B1;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x4F46;&#x662F;&#x538B;&#x7F29;&#x5F80;&#x5F80;&#x662F;&#x5728;&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;&#x8FC7;&#x7A0B;&#x4E2D;&#x8FDB;&#x884C;&#x7684;&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x540E;&#x53F0;&#x8FDB;&#x884C;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x53CA;&#x65F6;&#x54CD;&#x5E94;&#x7528;&#x6237;&#x67E5;&#x8BE2;&#xFF0C;&#x5373;&#x4F7F;&#x901F;&#x5EA6;&#x6162;&#x4E00;&#x4E9B;&#x4E5F;&#x6CA1;&#x6709;&#x5173;&#x7CFB;&#x3002;&#x6240;&#x4EE5;&#x666E;&#x904D;&#x6765;&#x8BF4;&#xFF0C;&#x538B;&#x7F29;&#x901F;&#x5EA6;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x6307;&#x6807;&#x3002;</p>
-<p>&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B;&#x89E3;&#x538B;&#x901F;&#x5EA6;&#x3002;&#x987E;&#x540D;&#x601D;&#x4E49;&#xFF0C;&#x89E3;&#x538B;&#x5C31;&#x662F;&#x5C06;&#x538B;&#x7F29;&#x6570;&#x636E;&#x6062;&#x590D;&#x5230;&#x539F;&#x59CB;&#x6570;&#x636E;&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x5B9E;&#x65F6;&#x54CD;&#x5E94;&#x8FC7;&#x7A0B;&#x3002;&#x7528;&#x6237;&#x5728;&#x8FD0;&#x7528;&#x641C;&#x7D22;&#x5F15;&#x64CE;&#x67E5;&#x8BE2;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x641C;&#x7D22;&#x5F15;&#x64CE;&#x4ECE;&#x78C1;&#x76D8;&#x8BFB;&#x5165;&#x7684;&#x6570;&#x636E;&#x662F;&#x538B;&#x7F29;&#x7684;&#xFF0C;&#x9700;&#x8981;&#x5B9E;&#x65F6;&#x89E3;&#x538B;&#x7136;&#x540E;&#x5FEB;&#x901F;&#x54CD;&#x5E94;&#x7ED9;&#x7528;&#x6237;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x4E2A;&#x65F6;&#x95F4;&#x662F;&#x6211;&#x4EEC;&#x5728;&#x767E;&#x5EA6;&#x641C;&#x7D22;&#x7F51;&#x9875;&#x65F6;&#x7B49;&#x5F85;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x5176;&#x91CD;&#x8981;&#x6027;&#x4E0D;&#x8A00;&#x800C;&#x55BB;&#x5427;&#x3002;</p>
-<p>&#x4E00;&#x5143;&#x7F16;&#x7801;&#x548C;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x7801;</p>
-<p>&#x8FD9;&#x4E2A;&#x662F;&#x6240;&#x6709;&#x5012;&#x6392;&#x5217;&#x8868;&#x538B;&#x7F29;&#x7B97;&#x6CD5;&#x7684;&#x57FA;&#x7840;&#x6784;&#x6210;&#x5143;&#x7D20;&#x3002;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x662F;&#x975E;&#x5E38;&#x7B80;&#x5355;&#x76F4;&#x89C2;&#x7684;&#x6570;&#x636E;&#x8868;&#x793A;&#x65B9;&#x5F0F;&#xFF0C;&#x6211;&#x4EEC;&#x5BF9;&#x4E8E;&#x4E00;&#x6574;&#x6570;X&#x6765;&#x8BF4;&#xFF0C;&#x4F7F;&#x7528;X-1&#x4E2A;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x5B57;1&#x548C;&#x672B;&#x5C3E;&#x4E00;&#x4E2A;0&#x6765;&#x8868;&#x793A;&#x8FD9;&#x4E2A;&#x6570;&#x5B57;&#xFF0C;&#x6BD4;&#x5982;5&#x5BF9;&#x5E94;&#x7684;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x5C31;&#x662F;11110, 3&#x5BF9;&#x5E94;&#x7684;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x5C31;&#x662F;110&#xFF0C;&#x4F46;&#x662F;&#x76F8;&#x4FE1;&#x5927;&#x5BB6;&#x90FD;&#x770B;&#x51FA;&#x6765;&#x4E86;&#xFF0C;&#x8FD9;&#x79CD;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x5BF9;&#x4E8E;&#x5904;&#x7406;&#x5927;&#x6574;&#x6570;&#x6765;&#x8BF4;&#x662F;&#x975E;&#x5E38;&#x4E0D;&#x5212;&#x7B97;&#x7684;&#x3002;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x7801;&#x4E0D;&#x7528;&#x591A;&#x8BF4;&#x4E86;&#x5427;&#xFF0C;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x6574;&#x6570;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x8868;&#x793A;&#x6CD5;&#x3002;</p>
-<p>Elias Gamma&#x7B97;&#x6CD5;&#x548C;Elias Delta&#x7B97;&#x6CD5;</p>
-<p>Elias Gamma&#x538B;&#x7F29;&#x7B97;&#x6CD5;&#x5229;&#x7528;&#x5206;&#x89E3;&#x51FD;&#x6570;&#x5C06;&#x5F85;&#x538B;&#x7F29;&#x7684;&#x6570;&#x5B57;&#x5206;&#x89E3;&#x4E3A;&#x4E24;&#x4E2A;&#x56E0;&#x5B50;&#xFF0C;&#x4E4B;&#x540E;&#x5206;&#x522B;&#x7528;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x548C;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x7801;&#x6765;&#x8868;&#x793A;&#x8FD9;&#x4E24;&#x4E2A;&#x56E0;&#x5B50;&#xFF08;&#x521A;&#x624D;&#x90FD;&#x8BF4;&#x4E86;&#x561B;&#xFF0C;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x548C;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x7801;&#x662F;&#x8FD9;&#x4E9B;&#x7B97;&#x6CD5;&#x7684;&#x57FA;&#x7840;&#x6784;&#x4EF6;&#xFF09;&#x3002;</p>
-<p>&#x8BE5;&#x7B97;&#x6CD5;&#x7684;&#x5206;&#x89E3;&#x51FD;&#x6570;&#xFF1A; X = 2 e+ d</p>
-<p>&#x5176;&#x4E2D;&#xFF0C;X&#x4E3A;&#x5F85;&#x538B;&#x7F29;&#x7684;&#x6570;&#x5B57;&#xFF0C;e&#x548C;d&#x5206;&#x522B;&#x4E3A;&#x5176;&#x56E0;&#x5B50;&#xFF0C;&#x5F97;&#x5230;&#x5176;&#x56E0;&#x5B50;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x5BF9;&#x4E8E;&#x56E0;&#x4E3A;e+1&#x91C7;&#x7528;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x6765;&#x8868;&#x793A;&#xFF0C;&#x5BF9;&#x4E8E;&#x56E0;&#x5B50;d&#x91C7;&#x7528;&#x6BD4;&#x7279;&#x5BBD;&#x5EA6;&#x4E3A;e&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6765;&#x8868;&#x793A;&#x3002;&#x6BD4;&#x5982;X&#x4E3A;9&#xFF0C;&#x90A3;&#x4E48;X = 2 3 + 1 &#xFF0C;&#x5BF9;&#x4E8E;e+1&#x4E5F;&#x5C31;&#x662F;4&#x5F97;&#x5230;&#x7684;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x5C31;&#x662F;1110&#xFF0C;&#x5BF9;&#x4E8E;d&#x7528;&#x6BD4;&#x7279;&#x5BBD;&#x5EA6;&#x4E3A;3&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x8868;&#x793A;&#x4E3A;001&#xFF0C;&#x5C06;&#x4E24;&#x8005;&#x62FC;&#x63A5;&#x4E3A;1110:001&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x5341;&#x8FDB;&#x5236;&#x6570;&#x5B57;9&#x6700;&#x540E;&#x7684;Elias Gamma&#x7F16;&#x7801;&#x3002; </p>
-<p>Elias Delta&#x7B97;&#x6CD5;&#x662F;&#x5EFA;&#x7ACB;&#x5728;Elias Gamma&#x7B97;&#x6CD5;&#x57FA;&#x7840;&#x4E0A;&#x7684;&#x6539;&#x8FDB;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x5C31;&#x662F;&#x5B9E;&#x73B0;&#x4E24;&#x6B21;Elias Gamma&#x7B97;&#x6CD5;&#x3002;&#x6211;&#x4EEC;&#x5BF9;&#x6570;&#x5B57;X&#x91C7;&#x7528;Elias Gamma&#x7B97;&#x6CD5;&#x5F97;&#x5230;&#x4E86;e &#x548C; d &#xFF0C;&#x6B64;&#x65F6;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5BF9;e+1&#x518D;&#x6B21;&#x8FDB;&#x884C;Elias Gamma&#x7F16;&#x7801;&#x8868;&#x793A;&#xFF0C;&#x800C;d&#x56E0;&#x5B50;&#x8868;&#x793A;&#x548C;Elias Gamma&#x7B97;&#x6CD5;&#x4E00;&#x6837;&#x3002;&#x6BD4;&#x5982;&#x4E0A;&#x6587;&#x63D0;&#x5230;&#x7684;&#x5341;&#x8FDB;&#x5236;&#x6570;&#x5B57;9&#xFF0C;&#x7B2C;&#x4E00;&#x6B21;Elias Gamma&#x7B97;&#x6CD5;&#x5F97;&#x5230;&#x4E86;9 = 2 3 + 1 &#xFF0C;&#x6B64;&#x65F6;3+1&#x9700;&#x8981;&#x518D;&#x6B21;Elias Gamma&#xFF1A;3+1 = 2 2 + 0 &#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x91C7;&#x7528;Elias Delta&#x7B97;&#x6CD5;&#x5F97;&#x5230;&#x7684;&#x5341;&#x8FDB;&#x5236;&#x6570;&#x5B57;9&#x7684;&#x6700;&#x7EC8;&#x7F16;&#x7801;&#x8868;&#x793A;&#x51FA;&#x6765;&#x5C31;&#x662F;110:00:001&#x3002; </p>
-<p>Golomb&#x7B97;&#x6CD5;&#x548C;Rice&#x7B97;&#x6CD5;</p>
-<p>Golomb&#x7B97;&#x6CD5;&#x548C;Rice&#x7B97;&#x6CD5;&#x5927;&#x81F4;&#x601D;&#x8DEF;&#x548C;&#x4E0A;&#x8FF0;&#x4E24;&#x4E2A;Elias&#x7B97;&#x6CD5;&#x7C7B;&#x4F3C;&#xFF0C;&#x5373;&#x6839;&#x636E;&#x5206;&#x89E3;&#x51FD;&#x6570;&#x5C06;&#x5F85;&#x538B;&#x7F29;&#x6570;&#x5B57;&#x5206;&#x89E3;&#x4E3A;&#x4E24;&#x4E2A;&#x56E0;&#x5B50;&#xFF0C;&#x5206;&#x522B;&#x7528;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x548C;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x7801;&#x8868;&#x793A;&#x5373;&#x53EF;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#x5728;&#x4E8E;&#x91C7;&#x53D6;&#x4E86;&#x4E0D;&#x4E00;&#x6837;&#x7684;&#x5206;&#x89E3;&#x51FD;&#x6570;</p>
-<p>&#x5BF9;&#x4E8E;Golomb &#x548C; Rice &#x7B97;&#x6CD5;&#x6765;&#x8BF4;&#xFF1A;&#x56E0;&#x5B50;1 = &#xFF08;X-1&#xFF09;/b &#x56E0;&#x5B50;2 = &#xFF08;X-1&#xFF09; _mod_b</p>
-<p>&#x7136;&#x540E;&#x5C06;&#x56E0;&#x5B50;1&#x8FD9;&#x4E2A;&#x6570;&#x503C;&#x52A0;&#x4E0A;1&#x4E4B;&#x540E;&#x91C7;&#x7528;&#x4E00;&#x5143;&#x7F16;&#x7801;&#x538B;&#x7F29;&#xFF0C;&#x56E0;&#x5B50;2&#x4F7F;&#x7528;&#x6BD4;&#x7279;&#x5BBD;&#x5EA6;&#x4E3A;log(b)&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x7801;&#x3002;</p>
-<p>&#x90A3;&#x4E48;b&#x5E94;&#x8BE5;&#x53D6;&#x54EA;&#x4E2A;&#x503C;&#x5462;&#xFF1F;&#x8FD9;&#x4E5F;&#x662F;Golomb&#x548C;Rice&#x7B97;&#x6CD5;&#x7684;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#x3002;&#x5047;&#x8BBE;&#x4E00;&#x4E2A;&#x5F85;&#x538B;&#x7F29;&#x6570;&#x5217;&#x7684;&#x5E73;&#x5747;&#x503C;&#x4E3A;Avg&#xFF0C;&#x90A3;&#x4E48;Golomb&#x7B97;&#x6CD5;&#x5C31;&#x8BBE;&#x5B9A;b=0.69*Avg&#xFF0C;&#x8FD9;&#x91CC;&#x7684;0.69&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x7ECF;&#x9A8C;&#x53C2;&#x6570;&#x3002;&#x800C;Rice&#x7B97;&#x6CD5;&#x5C31;&#x8981;&#x6C42;b&#x5F97;&#x662F;2&#x7684;&#x6574;&#x6570;&#x6B21;&#x5E42;&#xFF0C;&#x540C;&#x65F6;b&#x5FC5;&#x987B;&#x662F;&#x5C0F;&#x4E8E;Avg&#x5E76;&#x4E14;&#x6700;&#x8FD1;Avg&#x7684;&#x503C;&#x3002;&#x6BD4;&#x5982;Avg&#x662F;115&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;b&#x5C31;&#x4F1A;&#x8BBE;&#x5B9A;&#x4E3A;64&#xFF1B;&#x5982;&#x679C;Avg&#x4E3A;60&#x7684;&#x8BDD;&#xFF0C;&#x6B64;&#x65F6;b&#x5C31;&#x5F97;&#x4E3A;32&#xFF0C;&#x56E0;&#x4E3A;64&#x8D85;&#x8FC7;Avg&#x4E86;&#x3002;</p>
-<p>&#x53D8;&#x957F;&#x5B57;&#x8282;&#x7B97;&#x6CD5;</p>
-<p>&#x4E0D;&#x77E5;&#x9053;&#x5927;&#x5BB6;&#x5BF9;&#x6211;&#x4E0A;&#x4E00;&#x6B21;&#x603B;&#x7ED3;&#x4E2D;&#x7684; <a href="http://www.cnblogs.com/BaiYiShaoNian/p/4550060.html" target="_blank" rel="external">&#x8DF3;&#x8DC3;&#x6307;&#x9488;</a> &#x8FD8;&#x6709;&#x6CA1;&#x6709;&#x5370;&#x8C61;&#xFF0C;&#x5B83;&#x662F;&#x628A;&#x6574;&#x4E2A;&#x5012;&#x6392;&#x5217;&#x8868;&#x5206;&#x6210;&#x4E86;&#x597D;&#x51E0;&#x5757;&#xFF0C;&#x7136;&#x540E;&#x8FDB;&#x884C;&#x5206;&#x5757;&#x67E5;&#x8BE2;&#x5904;&#x7406;&#x3002;&#x8FD9;&#x4E2A;&#x7B97;&#x6CD5;&#x7684;&#x601D;&#x60F3;&#x4E0A;&#x548C;&#x8DF3;&#x8DC3;&#x6307;&#x9488;&#x5DEE;&#x4E0D;&#x591A;&#xFF0C;&#x5C31;&#x662F;&#x628A;&#x6574;&#x6570;&#x62C6;&#x5206;&#x5F00;&#x3002; </p>
-<p>&#x53D8;&#x957F;&#x5B57;&#x8282;&#x7B97;&#x6CD5;&#x4EE5;&#x5B57;&#x8282;&#xFF08;&#x5373;&#x6BD4;&#x7279;&#x5BBD;&#x5EA6;&#x4E3A;8&#xFF09;&#x4E3A;&#x4E00;&#x4E2A;&#x57FA;&#x672C;&#x5B58;&#x50A8;&#x5355;&#x4F4D;&#xFF0C;&#x7136;&#x800C;&#x4E4B;&#x524D;&#x4ECB;&#x7ECD;&#x7684;&#x538B;&#x7F29;&#x7B97;&#x6CD5;&#xFF0C;&#x90FD;&#x662F;&#x4EE5;&#x6BD4;&#x7279;&#x4F4D;&#xFF08;Bit&#xFF09;&#x4F5C;&#x4E3A;&#x57FA;&#x672C;&#x5B58;&#x50A8;&#x5355;&#x4F4D;&#x3002;&#x4E4B;&#x6240;&#x4EE5;&#x79F0;&#x4E4B;&#x4E3A;&#x201C;&#x53D8;&#x957F;&#x5B57;&#x8282;&#x201D;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x5BF9;&#x4E8E;&#x4E0D;&#x7528;&#x7684;&#x6570;&#x5B57;&#x6765;&#x8BF4;&#xFF0C;&#x6700;&#x540E;&#x538B;&#x7F29;&#x7F16;&#x7801;&#x540E;&#x8868;&#x793A;&#x7684;&#x7ED3;&#x679C;&#x6240;&#x5360;&#x7528;&#x7684;&#x5B57;&#x8282;&#x6570;&#x76EE;&#x4E0D;&#x4E00;&#x5B9A;&#x76F8;&#x540C;&#xFF0C;&#x53EF;&#x957F;&#x53EF;&#x77ED;&#x3002;</p>
-<p>&#x6211;&#x4EEC;&#x5728;&#x7528;&#x8FD9;&#x4E2A;&#x7B97;&#x6CD5;&#x538B;&#x7F29;&#x6570;&#x636E;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E3A;&#x4E86;&#x786E;&#x5B9A;&#x4E24;&#x4E2A;&#x8FDE;&#x7EED;&#x6570;&#x5B57;&#x538B;&#x7F29;&#x540E;&#x7684;&#x8FB9;&#x754C;&#xFF0C;&#x9700;&#x8981;&#x5229;&#x7528;&#x5B57;&#x8282;&#x4E2D;&#x4E00;&#x4E2A;&#x6BD4;&#x7279;&#x4F4D;&#x4F5C;&#x4E3A;&#x8FB9;&#x754C;&#x5224;&#x65AD;&#x3002;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5982;&#x679C;&#x8FB9;&#x754C;&#x5224;&#x65AD;&#x8BBE;&#x5B9A;&#x4E3A;0&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A;&#x8FD9;&#x4E2A;&#x5B57;&#x8282;&#x662F;&#x6570;&#x5B57;&#x538B;&#x7F29;&#x7F16;&#x7801;&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#xFF0C;&#x800C;&#x5982;&#x679C;&#x662F;1&#xFF0C;&#x5219;&#x8BF4;&#x660E;&#x540E;&#x7EED;&#x7684;&#x5B57;&#x8282;&#x4ECD;&#x7136;&#x662F;&#x5C5E;&#x4E8E;&#x5F53;&#x524D;&#x7684;&#x538B;&#x7F29;&#x6570;&#x636E;&#x6570;&#x5B57;&#x3002;&#x6240;&#x4EE5;&#x6BCF;&#x4E2A;&#x5B57;&#x8282;&#x91CC;&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;&#x6BD4;&#x7279;&#x4F4D;&#x662F;&#x7528;&#x6765;&#x505A;&#x8FB9;&#x754C;&#x5224;&#x65AD;&#xFF0C;&#x540E;&#x9762;7&#x4E2A;&#x6BD4;&#x7279;&#x4F4D;&#x91C7;&#x7528;&#x4E8C;&#x8FDB;&#x5236;&#x7F16;&#x7801;&#x6765;&#x5B58;&#x50A8;&#x538B;&#x7F29;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5373;&#x6BCF;&#x4E2A;&#x5B57;&#x8282;&#x53EA;&#x53EF;&#x4EE5;&#x5B58;&#x50A8;&#x7684;&#x6570;&#x503C;&#x8303;&#x56F4;&#x4E3A;0~127&#x3002;</p>
-<p>&#x4E0B;&#x56FE;&#x8868;&#x793A;&#x5341;&#x8FDB;&#x5236;&#x6570;&#x5B57;33549&#x91C7;&#x7528;&#x53D8;&#x957F;&#x5B57;&#x8282;&#x7B97;&#x6CD5;&#x7F16;&#x7801;&#x540E;&#x7684;&#x8868;&#x793A;&#x7ED3;&#x679C;</p>
-<p><img src="http://img1.tuicool.com/Mzu2Qz.png" alt=""></p>
-<p>PForDelta&#x7B97;&#x6CD5;</p>
-<p>PForDelta&#x538B;&#x7F29;&#x7B97;&#x6CD5;&#x662F;&#x76EE;&#x524D;&#x89E3;&#x538B;&#x7F29;&#x901F;&#x5EA6;&#x6700;&#x5FEB;&#x7684;&#x4E00;&#x79CD;&#x5012;&#x6392;&#x6587;&#x4EF6;&#x538B;&#x7F29;&#x7B97;&#x6CD5;&#x3002;</p>
-<p>&#x8BE5;&#x7B97;&#x6CD5;&#x57FA;&#x672C;&#x51FA;&#x53D1;&#x70B9;&#x5C31;&#x662F;&#x5C3D;&#x53EF;&#x80FD;&#x4E00;&#x6B21;&#x6027;&#x538B;&#x7F29;&#x548C;&#x89E3;&#x538B;&#x591A;&#x4E2A;&#x6570;&#x503C;&#x3002;&#x5BF9;&#x4E8E;&#x5F85;&#x7F16;&#x7801;&#x7684;&#x8FDE;&#x7EED;K&#x4E2A;&#x6570;&#x503C;&#xFF08;&#x4E00;&#x822C;&#x53D6;128&#xFF0C;&#x5373;&#x4E00;&#x6B21;&#x6027;&#x538B;&#x7F29;&#x89E3;&#x538B;128&#x4E2A;&#x6570;&#x503C;&#xFF09;&#xFF0C;&#x627E;&#x51FA;&#x5176;&#x4E2D;10%&#x6BD4;&#x4F8B;&#x7684;&#x8F83;&#x5927;&#x6570;&#xFF0C;&#x5BF9;&#x5269;&#x4E0B;90%&#x7684;&#x6570;&#x503C;&#x91C7;&#x53D6;&#x4E00;&#x4E2A;&#x8BBE;&#x5B9A;&#x7684;&#x6BD4;&#x7279;&#x5BBD;&#x5EA6;&#xFF0C;&#x800C;10%&#x7684;&#x5927;&#x6570;&#x5F53;&#x505A;&#x5F02;&#x5E38;&#x6570;&#x636E;&#x5355;&#x72EC;&#x5B58;&#x50A8;&#x3002;&#x5047;&#x8BBE;&#x4E00;&#x6B21;&#x6027;&#x8981;&#x538B;&#x7F29;&#x7684;&#x6570;&#x503C;&#x5E8F;&#x5217;&#x4E3A;&#xFF1A;24,40,9,13,31,67,19,44,22,10&#xFF0C;&#x5373;K&#x53D6;10&#xFF0C;&#x4E0B;&#x56FE;&#x662F;PForDelta&#x7B97;&#x6CD5;&#x538B;&#x7F29;&#x4EE5;&#x4E0A;&#x6570;&#x636E;&#x5E8F;&#x5217;&#x540E;&#x5F62;&#x6210;&#x7684;&#x9759;&#x6001;&#x7ED3;&#x6784;&#xFF0C;&#x538B;&#x7F29;&#x540E;&#x7684;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x5212;&#x5206;&#x4E3A;3&#x5757;&#xFF1A;&#x5F02;&#x5E38;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x533A;&#x3001;&#x5E38;&#x89C4;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x533A;&#x4EE5;&#x53CA;&#x5F02;&#x5E38;&#x94FE;&#x8868;&#x5934;&#x3002;</p>
-<p> <img src="http://img0.tuicool.com/eyQrmq.png" alt=""></p>
-<p>&#x4E0B;&#x9762;&#x8BE6;&#x89E3;&#x4E00;&#x4E0B;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#xFF1A;&#x9664;&#x4E86;30%&#x7684;3&#x4E2A;&#x5927;&#x6570;&#x5916;&#xFF0C;&#x6700;&#x5927;&#x7684;&#x6570;&#x503C;&#x4E3A;31&#xFF0C;&#x6240;&#x4EE5;&#x4E3A;&#x4E86;&#x80FD;&#x591F;&#x8868;&#x793A;&#x8FD9;70%&#x7684;&#x6570;&#x503C;&#xFF0C;&#x6BD4;&#x7279;&#x5BBD;&#x5EA6;&#x9700;&#x8981;&#x8BBE;&#x5B9A;&#x4E3A;5&#xFF0C;&#x8FD9;&#x4E2A;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x5427;&#x3002;&#x8BE5;&#x7B97;&#x6CD5;&#x5728;&#x5E38;&#x89C4;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x533A;&#x7EF4;&#x62A4;&#x4E86;&#x5F02;&#x5E38;&#x5927;&#x6570;&#x7684;&#x4E00;&#x4E2A;&#x987A;&#x5E8F;&#x94FE;&#x8868;&#xFF0C;&#x6BD4;&#x5982;&#x5BF9;&#x4E8E;&#x5F02;&#x5E38;&#x6570;&#x503C;40&#xFF0C;&#x5176;&#x5E38;&#x89C4;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x533A;&#x5BF9;&#x5E94;&#x4F4D;&#x7F6E;&#x8BBE;&#x5B9A;&#x4E3A;3&#xFF0C;&#x542B;&#x4E49;&#x662F;&#x6307;&#x8DF3;&#x8FC7;&#x540E;&#x9762;3&#x4E2A;&#x6570;&#x503C;&#x5373;&#x662F;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x5F02;&#x5E38;&#x5927;&#x6570;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x901A;&#x8FC7;&#x8FD9;&#x6837;&#x5C31;&#x5C06;&#x5F02;&#x5E38;&#x5927;&#x6570;&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#x4FDD;&#x7559;&#x4E0B;&#x6765;&#xFF0C;&#x8FD9;&#x6837;&#x5728;&#x89E3;&#x538B;&#x7684;&#x65F6;&#x5019;&#x80FD;&#x591F;&#x5FEB;&#x901F;&#x6062;&#x590D;&#x539F;&#x59CB;&#x6570;&#x636E;&#x3002;</p>
-<p>&#x5F02;&#x5E38;&#x94FE;&#x8868;&#x5934;&#x5219;&#x5B58;&#x653E;&#x4E00;&#x4E2A;&#x6307;&#x9488;&#xFF0C;&#x6307;&#x5411;&#x4E86;&#x5F02;&#x5E38;&#x94FE;&#x8868;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x6570;&#x503C;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x672C;&#x4F8B;&#x4E2D;&#x94FE;&#x8868;&#x5934;&#x7684;&#x503C;&#x4E3A;1&#xFF0C;&#x610F;&#x5373;&#x8DF3;&#x8FC7;&#x540E;&#x7EED;&#x4E00;&#x4E2A;&#x5E38;&#x89C4;&#x6570;&#x503C;&#x5373;&#x53EF;&#x83B7;&#x5F97;&#x7B2C;&#x4E00;&#x4E2A;&#x5F02;&#x5E38;&#x5927;&#x6570;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x901A;&#x8FC7;&#x94FE;&#x8868;&#x5934;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5C06;&#x6240;&#x6709;&#x5F02;&#x5E38;&#x5927;&#x6570;&#x5FEB;&#x901F;&#x4E32;&#x8054;&#x8D77;&#x6765;&#x3002;</p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/2QfMjiu">&#x6DF1;&#x5165;&#x6D45;&#x51FA;LSTM&#x795E;&#x7ECF;&#x7F51;&#x7EDC;</a></li>
-<li>2.<a href="/articles/ZFNJNn">&#x5F3A;&#x4EBA;&#x5DE5;&#x667A;&#x80FD;&#x57FA;&#x672C;&#x95EE;&#x9898;&#xFF1A;&#x5168;&#x5C40;&#x63A7;&#x5236;&#x4E0E;&#x81EA;&#x7EC4;&#x7EC7;</a></li>
-<li>3.<a href="/articles/jeeyMv">DMLC&#xFF1A;&#x6700;&#x5927;&#x5F00;&#x6E90;&#x5206;&#x5E03;&#x5F0F;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x9879;&#x76EE;</a></li>
-<li>4.<a href="/articles/iI7ZvmB">&#x7D22;&#x5F15;&#x65F6;&#x5229;&#x7528;K-&#x90BB;&#x8FD1;&#x7B97;&#x6CD5;&#x8FC7;&#x6EE4;&#x91CD;&#x590D;&#x6B4C;&#x66F2;</a></li>
-<li>5.<a href="/articles/qqmEjm">&#x4E2D;&#x56FD;&#x5927;&#x6570;&#x636E;&#x4E13;&#x5BB6;&#x59D4;&#x5458;&#x4F1A;&#x987E;&#x95EE;&#x3001;&#x4E2D;&#x56FD;&#x79D1;&#x5B66;&#x9662;&#x9662;&#x58EB;&#x5F20;&#x94B9;&#xFF1A;&#x5927;&#x6570;&#x636E;&#x4E0E;&#x4EBA;&#x5DE5;&#x667A;&#x80FD;..</a></li>
-<li><p>6.<a href="/articles/VBzQFba">&#x3010;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x3011;EM&#x7B97;&#x6CD5;&#x8BE6;&#x7EC6;&#x63A8;&#x5BFC;&#x548C;&#x8BB2;&#x89E3;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/I3AVJba">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;I3AVJba&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/链表/">链表</a>
   </div>
 
 </div>
@@ -634,27 +694,15 @@
 			
 		
 			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/数据库/" title="数据库">数据库<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/安卓开发/" title="安卓开发">安卓开发<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DaoCloud/" title="DaoCloud">DaoCloud<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/技术/" title="技术">技术<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
 			
 		
 			
@@ -666,11 +714,7 @@
 			
 		
 			
-				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/链表/" title="链表">链表<sup>2</sup></a></li>
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>2</sup></a></li>
 			
 		
 			
@@ -678,7 +722,23 @@
 			
 		
 			
-				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>2</sup></a></li>
+				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DaoCloud/" title="DaoCloud">DaoCloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/链表/" title="链表">链表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/技术/" title="技术">技术<sup>2</sup></a></li>
 			
 		
 			
@@ -690,15 +750,15 @@
 			
 		
 			
-				<li><a href="/tags/Visual-Studio/" title="Visual Studio">Visual Studio<sup>1</sup></a></li>
+				<li><a href="/tags/FTP/" title="FTP">FTP<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/AIDL/" title="AIDL">AIDL<sup>1</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/文件系统/" title="文件系统">文件系统<sup>1</sup></a></li>
+				<li><a href="/tags/Facebook/" title="Facebook">Facebook<sup>1</sup></a></li>
 			
 		
 		</ul>
