@@ -1,0 +1,664 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Java知多少（85）文本框和文本区 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Java&amp;#x77E5;&amp;#x591A;&amp;#x5C11;&amp;#xFF08;85&amp;#xFF09;&amp;#x6587;&amp;#x672C;&amp;#x6846;&amp;#x548C;&amp;#x6587;&amp;#x672C;&amp;#x533A; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 12:52:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;_Coda
+&amp;#x539F;&amp;#x6587;&amp;#xA0; h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java知多少（85）文本框和文本区 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/06/07/e31056f/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Java&amp;#x77E5;&amp;#x591A;&amp;#x5C11;&amp;#xFF08;85&amp;#xFF09;&amp;#x6587;&amp;#x672C;&amp;#x6846;&amp;#x548C;&amp;#x6587;&amp;#x672C;&amp;#x533A; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 12:52:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;_Coda
+&amp;#x539F;&amp;#x6587;&amp;#xA0; h">
+<meta property="og:updated_time" content="2015-06-07T10:56:45.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java知多少（85）文本框和文本区 -">
+<meta name="twitter:description" content="Java&amp;#x77E5;&amp;#x591A;&amp;#x5C11;&amp;#xFF08;85&amp;#xFF09;&amp;#x6587;&amp;#x672C;&amp;#x6846;&amp;#x548C;&amp;#x6587;&amp;#x672C;&amp;#x533A; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 12:52:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;_Coda
+&amp;#x539F;&amp;#x6587;&amp;#xA0; h">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/07/e31056f/" title="Java知多少（85）文本框和文本区 -" itemprop="url">Java知多少（85）文本框和文本区 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-06T22:56:45.000Z" itemprop="datePublished"> 发表于 2015-06-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java知多少（85）文本框和文本区"><span class="toc-number">1.</span> <span class="toc-text">Java知多少（85）文本框和文本区</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文本框"><span class="toc-number">1.1.</span> <span class="toc-text">文本框</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文本区"><span class="toc-number">1.2.</span> <span class="toc-text">文本区</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.2.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Java&#x77E5;&#x591A;&#x5C11;&#xFF08;85&#xFF09;&#x6587;&#x672C;&#x6846;&#x548C;&#x6587;&#x672C;&#x533A;">Java&#x77E5;&#x591A;&#x5C11;&#xFF08;85&#xFF09;&#x6587;&#x672C;&#x6846;&#x548C;&#x6587;&#x672C;&#x533A;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-07 12:52:00  <a href="/sites/nI7bueF">&#x535A;&#x5BA2;&#x56ED;_Coda</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/Coda/p/4558275.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/Coda/p/4558275.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11000072">Java</a></p>
+<p>&#x5728;&#x56FE;&#x5F62;&#x754C;&#x9762;&#x4E2D;&#xFF0C;&#x6587;&#x672C;&#x6846;&#x548C;&#x6587;&#x672C;&#x533A;&#x662F;&#x7528;&#x4E8E;&#x4FE1;&#x606F;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x7684;&#x7EC4;&#x4EF6;&#x3002;</p>
+<h2 id="&#x6587;&#x672C;&#x6846;">&#x6587;&#x672C;&#x6846;</h2><p>&#x6587;&#x672C;&#x6846;(JTextField)&#x662F;&#x754C;&#x9762;&#x4E2D;&#x7528;&#x4E8E;&#x8F93;&#x5165;&#x548C;&#x8F93;&#x51FA;&#x4E00;&#x884C;&#x6587;&#x672C;&#x7684;&#x6846;&#x3002;JTextField&#x7C7B;&#x7528;&#x6765;&#x5EFA;&#x7ACB;&#x6587;&#x672C;&#x6846;&#x3002;&#x4E0E;&#x6587;&#x672C;&#x6846;&#x76F8;&#x5173;&#x7684;&#x63A5;&#x53E3;&#x662F;ActionListener&#x3002;</p>
+<p>&#x6587;&#x672C;&#x6846;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x7684;&#x57FA;&#x672C;&#x5185;&#x5BB9;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x65B9;&#x9762;&#xFF1A;</p>
+<ol>
+<li>&#x58F0;&#x660E;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x6846;&#x540D;&#x3002;</li>
+<li>&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x6846;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>&#x5C06;&#x6587;&#x672C;&#x6846;&#x5BF9;&#x8C61;&#x52A0;&#x5165;&#x5230;&#x67D0;&#x4E2A;&#x5BB9;&#x5668;&#x3002;</li>
+<li>&#x5BF9;&#x9700;&#x8981;&#x63A7;&#x5236;&#x7684;&#x6587;&#x672C;&#x6846;&#x5BF9;&#x8C61;&#x6CE8;&#x518C;&#x76D1;&#x89C6;&#x5668;&#xFF0C;&#x76D1;&#x542C;&#x6587;&#x672C;&#x6846;&#x7684;&#x8F93;&#x5165;&#x7ED3;&#x675F;(&#x5373;&#x8F93;&#x5165;&#x56DE;&#x8F66;&#x952E;)&#x4E8B;&#x4EF6;&#x3002;</li>
+<li>&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x6587;&#x672C;&#x6846;&#x4E8B;&#x4EF6;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5B8C;&#x6210;&#x5BF9;&#x622A;&#x83B7;&#x4E8B;&#x4EF6;&#x8FDB;&#x884C;&#x5224;&#x65AD;&#x548C;&#x5904;&#x7406;&#x3002;</li>
+</ol>
+<p>JTextField&#x7C7B;&#x7684;&#x4E3B;&#x8981;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF1A; </p>
+<ol>
+<li>JTextField()&#xFF0C;&#x6587;&#x672C;&#x6846;&#x7684;&#x5B57;&#x7B26;&#x957F;&#x5EA6;&#x4E3A;1&#x3002;</li>
+<li>JTextField(int columns)&#xFF0C;&#x6587;&#x672C;&#x6846;&#x521D;&#x59CB;&#x503C;&#x4E3A;&#x7A7A;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x6587;&#x672C;&#x6846;&#x7684;&#x5B57;&#x7B26;&#x957F;&#x5EA6;&#x8BBE;&#x4E3A;columns.</li>
+<li>JTextField(String text),&#x6587;&#x672C;&#x6846;&#x521D;&#x59CB;&#x503C;&#x4E3A;text&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</li>
+<li>JTextField(String text,int columns);&#x6587;&#x672C;&#x6846;&#x521D;&#x59CB;&#x503C;&#x4E3A;text&#xFF0C;&#x6587;&#x672C;&#x6846;&#x7684;&#x5B57;&#x7B26;&#x957F;&#x5EA6;&#x4E3A;columns&#x3002;</li>
+</ol>
+<p>JTextField&#x7C7B;&#x7684;&#x5176;&#x4ED6;&#x65B9;&#x6CD5;&#xFF1A; </p>
+<ol>
+<li>setFont(Font f),&#x8BBE;&#x7F6E;&#x5B57;&#x4F53;</li>
+<li>setText(String text)&#xFF0C;&#x5728;&#x6587;&#x672C;&#x6846;&#x4E2D;&#x8BBE;&#x7F6E;&#x6587;&#x672C;</li>
+<li>getText()&#xFF0C;&#x83B7;&#x53D6;&#x6587;&#x672C;&#x6846;&#x4E2D;&#x7684;&#x6587;&#x672C;&#x3002;</li>
+<li>setEditable(boolean)&#xFF0C;&#x6307;&#x5B9A;&#x6587;&#x672C;&#x6846;&#x7684;&#x53EF;&#x7F16;&#x8F91;&#x6027;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;true&#xFF0C;&#x53EF;&#x7F16;&#x8F91;&#x3002;</li>
+<li>setHorizontalAlignment(int alignment)&#x8BBE;&#x7F6E;&#x6587;&#x672C;&#x5BF9;&#x9F50;&#x65B9;&#x5F0F;&#x3002;&#x5BF9;&#x9F50;&#x65B9;&#x5F0F;&#x6709;&#xFF1A;JTextField.LEFT, JTextField.CENTER, JTextField.RIGHT&#x3002;</li>
+<li>requestFocus()&#xFF0C;&#x8BBE;&#x7F6E;&#x7126;&#x70B9;&#x3002;</li>
+<li>addActionListener(ActionListener )&#xFF0C;&#x4E3A;&#x6587;&#x672C;&#x6846;&#x8BBE;&#x7F6E;&#x52A8;&#x4F5C;&#x76D1;&#x89C6;&#x5668;&#xFF0C;&#x6307;&#x5B9A;ActionListener&#x5BF9;&#x8C61;&#x63A5;&#x6536;&#x8BE5;&#x6587;&#x672C;&#x6846;&#x4E0A;&#x53D1;&#x751F;&#x7684;&#x8F93;&#x5165;&#x7ED3;&#x675F;&#x52A8;&#x4F5C;&#x4E8B;&#x4EF6;&#x3002;</li>
+<li>removeActionListener(ActionListener)&#x79FB;&#x53BB;&#x6587;&#x672C;&#x6846;&#x76D1;&#x89C6;&#x5668;&#x3002;</li>
+<li>getColumns(),&#x8FD4;&#x56DE;&#x6587;&#x672C;&#x6846;&#x7684;&#x5217;&#x6570;&#x3002;</li>
+<li>getMinimumSize(),&#x8FD4;&#x56DE;&#x6587;&#x672C;&#x6846;&#x6240;&#x9700;&#x7684;&#x6700;&#x5C0F;&#x5C3A;&#x5BF8;&#x3002;</li>
+<li>getMinimumSize(int), &#x8FD4;&#x56DE;&#x6587;&#x672C;&#x6846;&#x5728;&#x6307;&#x5B9A;&#x7684;&#x5B57;&#x7B26;&#x6570;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6240;&#x9700;&#x7684;&#x6700;&#x5C0F;&#x5C3A;&#x5BF8;&#x3002;</li>
+<li>getPreferredSize(),&#x8FD4;&#x56DE;&#x6587;&#x672C;&#x6846;&#x5E0C;&#x671B;&#x5177;&#x6709;&#x7684;&#x5C3A;&#x5BF8;&#x3002;</li>
+<li>getPreferredSize(int),&#x8FD4;&#x56DE;&#x6587;&#x672C;&#x6846;&#x5728;&#x6307;&#x5B9A;&#x5B57;&#x7B26;&#x6570;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5E0C;&#x671B;&#x5177;&#x6709;&#x7684;&#x5C3A;&#x5BF8;&#x3002;</li>
+</ol>
+<p>&#x3010;&#x4F8B; 11-8&#x3011;&#x5C0F;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6709;&#x4E24;&#x4E2A;&#x6587;&#x672C;&#x6846;&#x3002;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x7528;&#x4E8E;&#x8F93;&#x5165;&#x4E00;&#x4E2A;&#x6574;&#x6570;&#xFF0C;&#x53E6;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x6846;&#x663E;&#x793A;&#x8FD9;&#x4E2A;&#x6574;&#x6570;&#x7684;&#x5E73;&#x65B9;&#x503C;&#x3002;&#x7A0B;&#x5E8F;&#x7528;&#x5B57;&#x7B26;&#x4E32;&#x8F6C;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x7684;&#x65B9;&#x6CD5;Long.parseLong(text1.getText())&#xFF0C;&#x8BFB;&#x53D6;&#x6587;&#x672C;&#x6846;text1&#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x5E76;&#x5C06;&#x5B83;&#x8F6C;&#x6362;&#x6210;&#x6574;&#x6570;&#x3002;&#x7A0B;&#x5E8F;&#x7528;Sqr&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x4F5C;&#x4E3A;&#x76D1;&#x89C6;&#x5668;&#xFF0C;&#x4F46;&#x4E3A;&#x4E86;&#x8BA9;&#x76D1;&#x89C6;&#x5668;&#x80FD;&#x8BBF;&#x95EE;&#x4E3B;&#x7C7B;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x4E3B;&#x7C7B;&#x4E2D;&#x7684;&#x53D8;&#x91CF;&#x88AB;&#x58F0;&#x660E;&#x4E3A;&#x7C7B;&#x53D8;&#x91CF;&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x8BBE;&#x7F6E;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x3002; </p>
+<pre><code><span class="xml"> 1 import java.applet.*;import javax.swing.*;import java.awt.event.*;
+ 2 public class J508 extends Applet</span><span class="expression">{
+ 3     <span class="variable">static</span> <span class="variable">JTextField</span> <span class="variable">text</span>1,<span class="variable">text</span>2;
+ 4     <span class="variable">Sqr</span> <span class="variable">s</span>=<span class="variable">new</span> <span class="variable">Sqr</span>();//&amp;<span class="begin-block">#x</span>521<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">EFA</span>;&amp;<span class="begin-block">#x</span>76<span class="variable">D</span>1;&amp;<span class="begin-block">#x</span>89<span class="variable">C</span>6;&amp;<span class="begin-block">#x</span>5668;
+ 5     <span class="variable">public</span> <span class="variable">void</span> <span class="variable">init</span>(){
+ 6         <span class="variable">text</span>1=<span class="variable">new</span> <span class="variable">JTextField</span>(10);
+ 7         <span class="variable">text</span>2=<span class="variable">new</span> <span class="variable">JTextField</span>(10);
+ 8         <span class="variable">add</span>(<span class="variable">text</span>1);
+ 9         <span class="variable">add</span>(<span class="variable">text</span>2);
+10         <span class="variable">text</span>1<span class="variable">.addActionListener</span>(<span class="variable">s</span>);//&amp;<span class="begin-block">#x</span>7<span class="variable">C</span>7<span class="variable">B</span>;<span class="variable">Sqr</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>9<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>8<span class="variable">B</span>;<span class="variable">s</span>&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>5<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">A</span>;<span class="variable">text</span>1&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>76<span class="variable">D</span>1;&amp;<span class="begin-block">#x</span>89<span class="variable">C</span>6;&amp;<span class="begin-block">#x</span>5668;
+11     }</span><span class="xml">
+12 }
+13 class Sqr implements ActionListener</span><span class="expression">{
+14     <span class="variable">public</span> <span class="variable">void</span> <span class="variable">actionPerformed</span>(<span class="variable">ActionEvent</span> <span class="variable">e</span>){//&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>9<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>73<span class="variable">B</span>0;&amp;<span class="begin-block">#x</span>63<span class="variable">A</span>5;&amp;<span class="begin-block">#x</span>53<span class="variable">E</span>3;<span class="variable">ActionListener</span>
+15         <span class="variable"><span class="keyword">if</span></span>(<span class="variable">e.getSource</span>()==<span class="variable">J</span>508<span class="variable">.text</span>1){
+16             <span class="variable">long</span> <span class="variable">n</span>=<span class="variable">Long.parseLong</span>(<span class="variable">J</span>508<span class="variable">.text</span>1<span class="variable">.getText</span>());
+17             //&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>06;<span class="variable">text</span>1&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>672<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>8<span class="variable">F</span>6<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>6362;&amp;<span class="begin-block">#x</span>6210;<span class="variable">long</span>&amp;<span class="begin-block">#x</span>578<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;
+18             <span class="variable">J</span>508<span class="variable">.text</span>2<span class="variable">.setText</span>(<span class="variable">String.valueOf</span>(<span class="variable">n</span>*<span class="variable">n</span>));
+19             //&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>06;<span class="variable">n</span>*<span class="variable">n</span>&amp;<span class="begin-block">#x</span>8<span class="variable">F</span>6<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>5316;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>57;&amp;<span class="begin-block">#x</span>7<span class="variable">B</span>26;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>32;
+20         }</span><span class="xml">
+21         else</span><span class="expression">{}</span><span class="xml">
+22     }
+23 }</span>
+</code></pre><p>&#x5BC6;&#x7801;&#x6846;(JPasswordField)&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x884C;&#x7684;&#x8F93;&#x5165;&#x7EC4;&#x4EF6;&#xFF0C;&#x4E0E;JTextField&#x57FA;&#x672C;&#x7C7B;&#x4F3C;&#x3002;&#x5BC6;&#x7801;&#x6846;&#x591A;&#x4E00;&#x4E2A;&#x5C4F;&#x853D;&#x529F;&#x80FD;&#xFF0C;&#x5C31;&#x662F;&#x5728;&#x8F93;&#x5165;&#x65F6;&#xFF0C;&#x90FD;&#x4F1A;&#x4EE5;&#x4E00;&#x4E2A;&#x522B;&#x7684;&#x6307;&#x5B9A;&#x7684;&#x5B57;&#x7B26;(&#x4E00;&#x822C;&#x662F;*&#x5B57;&#x7B26;)&#x8F93;&#x51FA;&#x3002;&#x9664;&#x4E86;&#x524D;&#x9762;&#x4ECB;&#x7ECD;&#x7684;&#x6587;&#x672C;&#x6846;&#x7684;&#x65B9;&#x6CD5;&#x5916;&#xFF0C;&#x53E6;&#x6709;&#x4E00;&#x4E9B;&#x5BC6;&#x7801;&#x6846;&#x5E38;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<ol>
+<li>getEchoChar(),&#x8FD4;&#x56DE;&#x5BC6;&#x7801;&#x7684;&#x56DE;&#x663E;&#x5B57;&#x7B26;&#x3002;</li>
+<li>setEchoChar(char)&#xFF0C;&#x8BBE;&#x7F6E;&#x5BC6;&#x7801;&#x6846;&#x7684;&#x56DE;&#x663E;&#x5B57;&#x7B26;&#x3002;</li>
+</ol>
+<h2 id="&#x6587;&#x672C;&#x533A;">&#x6587;&#x672C;&#x533A;</h2><p>&#x6587;&#x672C;&#x533A;(JTextArea)&#x662F;&#x7A97;&#x4F53;&#x4E2D;&#x4E00;&#x4E2A;&#x653E;&#x7F6E;&#x6587;&#x672C;&#x7684;&#x533A;&#x57DF;&#x3002;&#x6587;&#x672C;&#x533A;&#x4E0E;&#x6587;&#x672C;&#x6846;&#x7684;&#x4E3B;&#x8981;&#x533A;&#x522B;&#x662F;&#x6587;&#x672C;&#x533A;&#x53EF;&#x5B58;&#x653E;&#x591A;&#x884C;&#x6587;&#x672C;&#x3002;javax.swing&#x5305;&#x4E2D;&#x7684;JTextArea&#x7C7B;&#x7528;&#x6765;&#x5EFA;&#x7ACB;&#x6587;&#x672C;&#x533A;&#x3002;JTextArea&#x7EC4;&#x4EF6;&#x6CA1;&#x6709;&#x4E8B;&#x4EF6;&#x3002;</p>
+<p>&#x6587;&#x672C;&#x533A;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x7684;&#x57FA;&#x672C;&#x5185;&#x5BB9;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x65B9;&#x9762;&#xFF1A;</p>
+<ol>
+<li>&#x58F0;&#x660E;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x533A;&#x540D;&#x3002;</li>
+<li>&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x533A;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>&#x5C06;&#x6587;&#x672C;&#x533A;&#x5BF9;&#x8C61;&#x52A0;&#x5165;&#x5230;&#x67D0;&#x4E2A;&#x5BB9;&#x5668;&#x3002;</li>
+</ol>
+<p>JTextArea&#x7C7B;&#x7684;&#x4E3B;&#x8981;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF1A; </p>
+<ol>
+<li>JTextArea()&#xFF0C;&#x4EE5;&#x9ED8;&#x8BA4;&#x7684;&#x5217;&#x6570;&#x548C;&#x884C;&#x6570;&#xFF0C;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x533A;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>JTextArea(String s),&#x4EE5;s&#x4E3A;&#x521D;&#x59CB;&#x503C;&#xFF0C;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x533A;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>JTextArea(Strings ,int x,int y)&#xFF0C;&#x4EE5;s&#x4E3A;&#x521D;&#x59CB;&#x503C;&#xFF0C;&#x884C;&#x6570;&#x4E3A;x,&#x5217;&#x6570;&#x4E3A;y,&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x533A;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>JTextArea(int x,int y)&#x4EE5;&#x884C;&#x6570;&#x4E3A;x,&#x4EE5;&#x5217;&#x6570;&#x4E3A;y&#xFF0C;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x533A;&#x5BF9;&#x8C61;&#x3002;</li>
+</ol>
+<p>JTextArea&#x7C7B;&#x7684;&#x5176;&#x4ED6;&#x5E38;&#x7528;&#x65B9;&#x6CD5;&#xFF1A; </p>
+<ol>
+<li>setText(String s),&#x8BBE;&#x7F6E;&#x663E;&#x793A;&#x6587;&#x672C;&#xFF0C;&#x540C;&#x65F6;&#x6E05;&#x9664;&#x539F;&#x6709;&#x6587;&#x672C;&#x3002;</li>
+<li>getText()&#xFF0C;&#x83B7;&#x53D6;&#x6587;&#x672C;&#x533A;&#x7684;&#x6587;&#x672C;&#x3002;</li>
+<li>insert(String s,int x),&#x5728;&#x6307;&#x5B9A;&#x7684;&#x4F4D;&#x7F6E;&#x63D2;&#x5165;&#x6307;&#x5B9A;&#x7684;&#x6587;&#x672C;&#x3002;</li>
+<li>replace(String s,int x,int y),&#x7528;&#x7ED9;&#x5B9A;&#x7684;&#x4E00;&#x66FF;&#x6362;&#x4ECE;x&#x4F4D;&#x7F6E;&#x5F00;&#x59CB;&#x5230;y&#x4F4D;&#x7F6E;&#x7ED3;&#x675F;&#x7684;&#x6587;&#x672C;&#x3002;</li>
+<li>append(String s)&#xFF0C;&#x5728;&#x6587;&#x672C;&#x533A;&#x8FFD;&#x52A0;&#x6587;&#x672C;&#x3002;</li>
+<li>getCarePosition(),&#x83B7;&#x53D6;&#x6587;&#x672C;&#x533A;&#x4E2D;&#x6D3B;&#x52A8;&#x5149;&#x6807;&#x7684;&#x4F4D;&#x7F6E;&#x3002;</li>
+<li>setCarePosition(int n)&#xFF0C;&#x8BBE;&#x7F6E;&#x6D3B;&#x52A8;&#x5149;&#x6807;&#x7684;&#x4F4D;&#x7F6E;&#x3002;</li>
+<li>setLineWrap(boolean b)&#xFF0C;&#x8BBE;&#x7F6E;&#x81EA;&#x52A8;&#x6362;&#x884C;&#xFF0C;&#x7F3A;&#x7701;&#x60C5;&#x51B5;&#xFF0C;&#x4E0D;&#x81EA;&#x52A8;&#x6362;&#x884C;&#x3002;</li>
+</ol>
+<p>&#x4EE5;&#x4E0B;&#x4EE3;&#x7801;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x533A;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x80FD;&#x81EA;&#x52A8;&#x6362;&#x884C;&#x3002;</p>
+<p>JTextArea textA = new JTextArea(&#x201C;&#x6211;&#x662F;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x533A;&#x201D;,10,15);</p>
+<p>textA.setLineWrap(true);//&#x8BBE;&#x7F6E;&#x81EA;&#x52A8;&#x6362;&#x884C;</p>
+<p>&#x5F53;&#x6587;&#x672C;&#x533A;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x8F83;&#x591A;&#xFF0C;&#x4E0D;&#x80FD;&#x5728;&#x6587;&#x672C;&#x533A;&#x5168;&#x90E8;&#x663E;&#x793A;&#x65F6;&#xFF0C;&#x53EF;&#x7ED9;&#x6587;&#x672C;&#x533A;&#x914D;&#x4E0A;&#x6EDA;&#x52A8;&#x6761;&#x3002;&#x7ED9;&#x6587;&#x672C;&#x533A;&#x8BBE;&#x7F6E;&#x6EDA;&#x52A8;&#x6761;&#x53EF;&#x7528;&#x4EE5;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code><span class="number">1</span>     <span class="class">JTextArea</span> ta = new <span class="class">JTextArea</span>();
+<span class="number">2</span>     <span class="class">JScrollPane</span> jsp = new <span class="class">JScrollPane</span>(ta);//&amp;<span class="symbol">#x7ED9</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x533A</span>;&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x6EDA</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x6761</span>;
+</code></pre><p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/jMVF7bI">.spring jdbctemplate&#x6E90;&#x7801;&#x8DDF;&#x8E2A;</a></li>
+<li>2.<a href="/articles/b2eMne7">&#x518D;&#x56DE;&#x9996;&#xFF0C;Java&#x6E29;&#x6545;&#x77E5;&#x65B0;&#xFF08;&#x516B;&#xFF09;&#xFF1A;Java&#x57FA;&#x7840;&#x4E4B;&#x5B57;&#x7B26;&#x4E32;</a></li>
+<li>3.<a href="/articles/za2Efm3">Java PermGen &#x53BB;&#x54EA;&#x91CC;&#x4E86;?</a></li>
+<li>4.<a href="/articles/677JjyM">&#x4F7F;&#x7528;Ant&#x81EA;&#x52A8;&#x5316;&#x6211;&#x4EEC;&#x7684;java&#x9879;&#x76EE;&#x751F;&#x6210;</a></li>
+<li>5.<a href="/articles/y6jEj23">Java&#x77E5;&#x591A;&#x5C11;&#xFF08;84&#xFF09;&#x56FE;&#x5F62;&#x754C;&#x9762;&#x4E4B;&#x5E03;&#x5C40;&#x8BBE;&#x8BA1;</a></li>
+<li><p>6.<a href="/articles/vaMvIzm">&#x5173;&#x4E8E;Java&#x914D;&#x7F6E;&#x6587;&#x4EF6;properties&#x7684;&#x5B66;&#x4E60;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/meYF3ir">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;meYF3ir&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://taojinke.github.io/2015/06/07/e31056f/" data-title="Java知多少（85）文本框和文本区 - | dianzi blog" data-tsina="512316815" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/07/e31bc8a/" title="Hadoop环境搭建过程中可能遇到的问题 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Hadoop环境搭建过程中可能遇到的问题 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/07/e2f1f98/"  title="cowplot：基于ggplot的可视化系统 -">
+ <strong>下一篇：</strong><br/> 
+ <span>cowplot：基于ggplot的可视化系统 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java知多少（85）文本框和文本区"><span class="toc-number">1.</span> <span class="toc-text">Java知多少（85）文本框和文本区</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文本框"><span class="toc-number">1.1.</span> <span class="toc-text">文本框</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文本区"><span class="toc-number">1.2.</span> <span class="toc-text">文本区</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.2.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>25</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/加密解密/" title="加密解密">加密解密<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/技术/" title="技术">技术<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Html/" title="Html">Html<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVC模式/" title="MVC模式">MVC模式<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线性回归/" title="线性回归">线性回归<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JDBC/" title="JDBC">JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/github生成/" title="github生成">github生成<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/keepalived/" title="keepalived">keepalived<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/我/" title="我">我<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/原型模式/" title="原型模式">原型模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Prototype/" title="Prototype">Prototype<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Backbone-js/" title="Backbone.js">Backbone.js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BroadcastReceiver/" title="BroadcastReceiver">BroadcastReceiver<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

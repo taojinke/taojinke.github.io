@@ -1,0 +1,584 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Backbone.js 1.2.1 发布，JavaScript 的 MVC 框架 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Backbone.js 1.2.1 &amp;#x53D1;&amp;#x5E03;&amp;#xFF0C;JavaScript &amp;#x7684; MVC &amp;#x6846;&amp;#x67B6; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 08:07:23  &amp;#x5F00;&amp;#x6E90;&amp;#x4E2D;&amp;#x56FD;&amp;#x65B0;&amp;#x95FB;
+&amp;#x539F;&amp;#x6587;&amp;#xA0; ht">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Backbone.js 1.2.1 发布，JavaScript 的 MVC 框架 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/06/07/e332fa2/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Backbone.js 1.2.1 &amp;#x53D1;&amp;#x5E03;&amp;#xFF0C;JavaScript &amp;#x7684; MVC &amp;#x6846;&amp;#x67B6; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 08:07:23  &amp;#x5F00;&amp;#x6E90;&amp;#x4E2D;&amp;#x56FD;&amp;#x65B0;&amp;#x95FB;
+&amp;#x539F;&amp;#x6587;&amp;#xA0; ht">
+<meta property="og:updated_time" content="2015-06-07T10:56:45.253Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Backbone.js 1.2.1 发布，JavaScript 的 MVC 框架 -">
+<meta name="twitter:description" content="Backbone.js 1.2.1 &amp;#x53D1;&amp;#x5E03;&amp;#xFF0C;JavaScript &amp;#x7684; MVC &amp;#x6846;&amp;#x67B6; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 08:07:23  &amp;#x5F00;&amp;#x6E90;&amp;#x4E2D;&amp;#x56FD;&amp;#x65B0;&amp;#x95FB;
+&amp;#x539F;&amp;#x6587;&amp;#xA0; ht">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/07/e332fa2/" title="Backbone.js 1.2.1 发布，JavaScript 的 MVC 框架 -" itemprop="url">Backbone.js 1.2.1 发布，JavaScript 的 MVC 框架 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-06T22:56:45.000Z" itemprop="datePublished"> 发表于 2015-06-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Backbone-js_1-2-1_发布，JavaScript_的_MVC_框架"><span class="toc-number">1.</span> <span class="toc-text">Backbone.js 1.2.1 发布，JavaScript 的 MVC 框架</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Backbone-js_1-2-1_&#x53D1;&#x5E03;&#xFF0C;JavaScript_&#x7684;_MVC_&#x6846;&#x67B6;">Backbone.js 1.2.1 &#x53D1;&#x5E03;&#xFF0C;JavaScript &#x7684; MVC &#x6846;&#x67B6;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-07 08:07:23  <a href="/sites/JNzQre">&#x5F00;&#x6E90;&#x4E2D;&#x56FD;&#x65B0;&#x95FB;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.oschina.net/news/63144/backbone-js-1-2-1?utm_source=tuicool" target="_blank" rel="external">http://www.oschina.net/news/63144/backbone-js-1-2-1</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11060048">Backbone.js</a><a href="/topics/11080033">MVC&#x6A21;&#x5F0F;</a></p>
+<p><a href="http://www.oschina.net/question/1765084_236572" target="_blank" rel="external">6&#x6708;14&#x65E5;&#x4E0A;&#x6D77; OSC &#x6E90;&#x521B;&#x4F1A;&#x5F00;&#x59CB;&#x62A5;&#x540D;&#xFF0C;&#x9001;&#x673A;&#x68B0;&#x952E;&#x76D8;&#x548C;&#x5F00;&#x6E90;&#x65E0;&#x7801;&#x5185;&#x88E4;</a></p>
+<p>Backbone.js 1.2.1 &#x53D1;&#x5E03;&#xFF0C;&#x6B64;&#x7248;&#x672C;&#x66F4;&#x65B0;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A; </p>
+<ul>
+<li>Collection#add now avoids trying to parse a model instance when passing parse: true .</li>
+<li>Bug fix in Collection#remove .</li>
+<li>Model#fetch no longer parses the response when passing patch: false .</li>
+<li>Bug fix for iframe-based History when used with JSDOM.</li>
+<li>Bug fix where Collection#invoke was not taking additional arguments.</li>
+<li>When using on with an event map, you can now pass the context as the second argument. &#xA0;This was previously an undocumented behavior from 1.1.2 removed in 1.2.0.</li>
+</ul>
+<p>&#x6B64;&#x7248;&#x672C;&#x73B0;&#x5DF2;&#x63D0;&#x4F9B;&#x4E0B;&#x8F7D;&#xFF1A; <a href="https://github.com/jashkenas/backbone/archive/1.2.1.zip" target="_blank" rel="external">https://github.com/jashkenas/backbone/archive/1.2.1.zip</a> &#x3002; </p>
+<p>Backbone.js &#x662F;&#x4E00;&#x79CD;&#x91CD;&#x91CF;&#x7EA7;javascript&#xA0; MVC &#x5E94;&#x7528;&#x6846;&#x67B6;,&#x901A;&#x8FC7;Models&#x8FDB;&#x884C;key-value&#x7ED1;&#x5B9A;&#x53CA;custom&#x4E8B;&#x4EF6;&#x5904;&#x7406;,&#x901A;&#x8FC7;Collections&#x63D0;&#x4F9B;&#x4E00;&#x5957;&#x4E30;&#x5BCC;&#x7684;API&#x7528;&#x4E8E;&#x679A;&#x4E3E;&#x529F;&#x80FD;,&#x901A;&#x8FC7; Views&#x6765;&#x8FDB;&#x884C;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x53CA;&#x4E0E;&#x73B0;&#x6709;&#x7684;Application&#x901A;&#x8FC7;RESTful JSON&#x63A5;&#x53E3;&#x8FDB;&#x884C;&#x4EA4;&#x4E92;.</p>
+<p>&#x6BD4;&#x8F83;&#x9002;&#x5408;&#x4E8E;&#x73B0;&#x5728;&#x7684;&#x7C7B;Twitter web2.0&#x7F51;&#x7AD9;&#x7684;&#x5F00;&#x53D1;!</p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/bui6Rrq">&#x5E38;&#x7528;&#x8DE8;&#x57DF;&#x65B9;&#x6CD5;&#x5B9E;&#x8DF5;&#xFF08;&#x4E00;&#xFF09;</a></li>
+<li>2.<a href="/articles/Mzqyaay">&#x524D;&#x7AEF;&#x5F00;&#x53D1;&#x9762;&#x8BD5;&#x5C0F;&#x7ED3;</a></li>
+<li>3.<a href="/articles/MjYZvm3">chrome&#x6269;&#x5C55;&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x6559;&#x7A0B;&#x4E4B;&#x5F00;&#x53D1;chrome&#x5E94;&#x7528;&#x57FA;&#x7840;</a></li>
+<li>4.<a href="/articles/FvUfAzE">[Network] HTML&#x3001;XML&#x548C;JSON&#x5B66;&#x4E60;&#x6C47;&#x603B;</a></li>
+<li>5.<a href="/articles/I7FrQ3j">ValidationSuar&#x8868;&#x5355;&#x9A8C;&#x8BC1;&#x6846;&#x67B6;-&#x652F;&#x6301;ASP.NET MVC ASP.NET WebFroM</a></li>
+<li><p>6.<a href="/articles/NjA3Yzn">JavaScript OOP &#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#x7684;7&#x79CD;&#x65B9;&#x5F0F;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/BbaINzQ">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;BbaINzQ&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Backbone-js/">Backbone.js</a><a href="/tags/MVC模式/">MVC模式</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://taojinke.github.io/2015/06/07/e332fa2/" data-title="Backbone.js 1.2.1 发布，JavaScript 的 MVC 框架 - | dianzi blog" data-tsina="512316815" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/07/e341520/" title="MachineLearning ---- lesson 2 Linear Regression with One Variable -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  MachineLearning ---- lesson 2 Linear Regression with One Variable -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/07/e32d2dc/"  title="百度卫士U盘“附送”的木马分析 -">
+ <strong>下一篇：</strong><br/> 
+ <span>百度卫士U盘“附送”的木马分析 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Backbone-js_1-2-1_发布，JavaScript_的_MVC_框架"><span class="toc-number">1.</span> <span class="toc-text">Backbone.js 1.2.1 发布，JavaScript 的 MVC 框架</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>25</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/加密解密/" title="加密解密">加密解密<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/技术/" title="技术">技术<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Html/" title="Html">Html<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVC模式/" title="MVC模式">MVC模式<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线性回归/" title="线性回归">线性回归<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JDBC/" title="JDBC">JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/github生成/" title="github生成">github生成<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/keepalived/" title="keepalived">keepalived<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/我/" title="我">我<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/原型模式/" title="原型模式">原型模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Prototype/" title="Prototype">Prototype<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Backbone-js/" title="Backbone.js">Backbone.js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BroadcastReceiver/" title="BroadcastReceiver">BroadcastReceiver<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
