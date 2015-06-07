@@ -3,96 +3,12 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e3d072a/</loc>
-    <lastmod>2015-06-07T10:56:46.297Z</lastmod>
-    <data>
-        <display>
-        <title>JavaScript OOP 创建对象的7种方式 -</title>
-        <pubTime>2015-06-06T22:56:46.000Z</pubTime>
-        
-        <tag>Prototype </tag>
-         
-        <tag>原型模式 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e3bfa9c/</loc>
-    <lastmod>2015-06-07T10:56:46.294Z</lastmod>
-    <data>
-        <display>
-        <title>Android 学习笔记 BroadcastReceiver广播... -</title>
-        <pubTime>2015-06-06T22:56:46.000Z</pubTime>
-        
-        <tag>BroadcastReceiver </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e3ba79a/</loc>
-    <lastmod>2015-06-07T10:56:46.148Z</lastmod>
-    <data>
-        <display>
-        <title>.spring jdbctemplate源码跟踪 -</title>
-        <pubTime>2015-06-06T22:56:46.000Z</pubTime>
-        
-        <tag>JDBC </tag>
-         
-        <tag>Spring </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e3aa25f/</loc>
-    <lastmod>2015-06-07T10:56:46.148Z</lastmod>
-    <data>
-        <display>
-        <title>ADO.NET学习系列（二） -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
-        
-        <tag>数据库 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e397d67/</loc>
-    <lastmod>2015-06-07T10:56:46.139Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2fe013c/</loc>
+    <lastmod>2015-06-07T11:06:03.402Z</lastmod>
     <data>
         <display>
         <title>“强网杯”网络安全挑战赛WriteUp -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <pubTime>2015-06-06T23:06:03.000Z</pubTime>
         
         <tag>加密解密 </tag>
          
@@ -109,32 +25,12 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e37ad89/</loc>
-    <lastmod>2015-06-07T10:56:45.726Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2fab6f3/</loc>
+    <lastmod>2015-06-07T11:06:03.045Z</lastmod>
     <data>
         <display>
-        <title>Nginx+Keepalived实现站点高可用 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
-        
-        <tag>keepalived </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e370514/</loc>
-    <lastmod>2015-06-07T10:56:45.656Z</lastmod>
-    <data>
-        <display>
-        <title>PAT Gas Station -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <title>USACO 2.2 Party Lamps 派对灯 (lamps) -</title>
+        <pubTime>2015-06-06T23:06:03.000Z</pubTime>
         
         <tag>技术 </tag>
          
@@ -149,12 +45,116 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e3559d5/</loc>
-    <lastmod>2015-06-07T10:56:45.486Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2f0f082/</loc>
+    <lastmod>2015-06-07T11:06:02.022Z</lastmod>
+    <data>
+        <display>
+        <title>.spring jdbctemplate源码跟踪 -</title>
+        <pubTime>2015-06-06T23:06:01.000Z</pubTime>
+        
+        <tag>JDBC </tag>
+         
+        <tag>Spring </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2e97dc5/</loc>
+    <lastmod>2015-06-07T11:06:01.248Z</lastmod>
+    <data>
+        <display>
+        <title>ADO.NET学习系列（二） -</title>
+        <pubTime>2015-06-06T23:06:01.000Z</pubTime>
+        
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2e83b81/</loc>
+    <lastmod>2015-06-07T11:06:01.239Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript OOP 创建对象的7种方式 -</title>
+        <pubTime>2015-06-06T23:06:01.000Z</pubTime>
+        
+        <tag>Prototype </tag>
+         
+        <tag>原型模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2e74eb0/</loc>
+    <lastmod>2015-06-07T11:06:01.106Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习笔记 BroadcastReceiver广播... -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
+        
+        <tag>BroadcastReceiver </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2e70090/</loc>
+    <lastmod>2015-06-07T11:06:01.008Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx+Keepalived实现站点高可用 -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
+        
+        <tag>keepalived </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2e6bc34/</loc>
+    <lastmod>2015-06-07T11:06:00.984Z</lastmod>
     <data>
         <display>
         <title>一个丝滑的全屏滑动返回手势 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
         <tag>iOS开发 </tag>
          
@@ -169,16 +169,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e344ad6/</loc>
-    <lastmod>2015-06-07T10:56:45.371Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2e5fdc6/</loc>
+    <lastmod>2015-06-07T11:06:00.878Z</lastmod>
     <data>
         <display>
-        <title>ValidationSuar表单验证框架-支持ASP.NET MVC ASP.NET WebFroM -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <title>PAT Gas Station -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
-        <tag>Html </tag>
-         
-        <tag>JavaScript </tag>
+        <tag>技术 </tag>
          
          
            
@@ -191,14 +189,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e341520/</loc>
-    <lastmod>2015-06-07T10:56:45.369Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2e40e2b/</loc>
+    <lastmod>2015-06-07T11:06:00.672Z</lastmod>
     <data>
         <display>
-        <title>MachineLearning ---- lesson 2 Linear Regression with One Variable -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <title>如何在 CentOS 中设置 NTP 服务器 -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
-        <tag>线性回归 </tag>
+        <tag>Centos </tag>
          
          
            
@@ -211,12 +209,32 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e332fa2/</loc>
-    <lastmod>2015-06-07T10:56:45.253Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2e251d5/</loc>
+    <lastmod>2015-06-07T11:06:00.499Z</lastmod>
+    <data>
+        <display>
+        <title>百度卫士U盘“附送”的木马分析 -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
+        
+        <tag>计算机病毒 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2e20897/</loc>
+    <lastmod>2015-06-07T11:06:00.488Z</lastmod>
     <data>
         <display>
         <title>Backbone.js 1.2.1 发布，JavaScript 的 MVC 框架 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
         <tag>Backbone.js </tag>
          
@@ -233,14 +251,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e3303b0/</loc>
-    <lastmod>2015-06-07T10:56:45.241Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2e1d552/</loc>
+    <lastmod>2015-06-07T11:06:00.488Z</lastmod>
     <data>
         <display>
-        <title>如何在 CentOS 中设置 NTP 服务器 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <title>Java知多少（85）文本框和文本区 -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
-        <tag>Centos </tag>
+        <tag>Java </tag>
          
          
            
@@ -253,14 +271,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e32d2dc/</loc>
-    <lastmod>2015-06-07T10:56:45.240Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2e184c1/</loc>
+    <lastmod>2015-06-07T11:06:00.456Z</lastmod>
     <data>
         <display>
-        <title>百度卫士U盘“附送”的木马分析 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <title>《算法导论》读书笔记之排序算法—Merge Sort 归并排序算法 -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
-        <tag>计算机病毒 </tag>
+        <tag>归并排序 </tag>
          
          
            
@@ -273,16 +291,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e3290f1/</loc>
-    <lastmod>2015-06-07T10:56:45.239Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2e153ed/</loc>
+    <lastmod>2015-06-07T11:06:00.456Z</lastmod>
     <data>
         <display>
-        <title>算法-链表实现栈 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <title>MachineLearning ---- lesson 2 Linear Regression with One Variable -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
-        <tag>iOS开发 </tag>
-         
-        <tag>链表 </tag>
+        <tag>线性回归 </tag>
          
          
            
@@ -295,12 +311,32 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e325b3b/</loc>
-    <lastmod>2015-06-07T10:56:45.166Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2e0f727/</loc>
+    <lastmod>2015-06-07T11:06:00.349Z</lastmod>
+    <data>
+        <display>
+        <title>远程搭建服务器端环境遇到的一些问题 -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
+        
+        <tag>Oracle数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2e0671c/</loc>
+    <lastmod>2015-06-07T11:06:00.298Z</lastmod>
     <data>
         <display>
         <title>skynet 对客户端广播的方案 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
         <tag>Socket </tag>
          
@@ -315,12 +351,54 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e3211fd/</loc>
-    <lastmod>2015-06-07T10:56:45.138Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2e01b6d/</loc>
+    <lastmod>2015-06-07T11:06:00.269Z</lastmod>
+    <data>
+        <display>
+        <title>ValidationSuar表单验证框架-支持ASP.NET MVC ASP.NET WebFroM -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
+        
+        <tag>Html </tag>
+         
+        <tag>JavaScript </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2dfd4a0/</loc>
+    <lastmod>2015-06-07T11:06:00.257Z</lastmod>
+    <data>
+        <display>
+        <title>Hadoop环境搭建过程中可能遇到的问题 -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
+        
+        <tag>Hadoop </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2dfa63d/</loc>
+    <lastmod>2015-06-07T11:06:00.257Z</lastmod>
     <data>
         <display>
         <title>开始使用 HTTP/2 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
         <tag>Html </tag>
          
@@ -337,114 +415,12 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e31bc8a/</loc>
-    <lastmod>2015-06-07T10:56:45.101Z</lastmod>
-    <data>
-        <display>
-        <title>Hadoop环境搭建过程中可能遇到的问题 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
-        
-        <tag>Hadoop </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e31056f/</loc>
-    <lastmod>2015-06-07T10:56:45.036Z</lastmod>
-    <data>
-        <display>
-        <title>Java知多少（85）文本框和文本区 -</title>
-        <pubTime>2015-06-06T22:56:45.000Z</pubTime>
-        
-        <tag>Java </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e30c384/</loc>
-    <lastmod>2015-06-07T10:56:45.002Z</lastmod>
-    <data>
-        <display>
-        <title>USACO 2.2 Party Lamps 派对灯 (lamps) -</title>
-        <pubTime>2015-06-06T22:56:44.000Z</pubTime>
-        
-        <tag>技术 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e3077d5/</loc>
-    <lastmod>2015-06-07T10:56:44.997Z</lastmod>
-    <data>
-        <display>
-        <title>远程搭建服务器端环境遇到的一些问题 -</title>
-        <pubTime>2015-06-06T22:56:44.000Z</pubTime>
-        
-        <tag>Oracle数据库 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e2fe7ca/</loc>
-    <lastmod>2015-06-07T10:56:44.967Z</lastmod>
-    <data>
-        <display>
-        <title>MacBook的10个快捷功能：让你的Mac更便捷 -</title>
-        <pubTime>2015-06-06T22:56:44.000Z</pubTime>
-        
-        <tag>MacBook </tag>
-         
-        <tag>MacOS </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/06/07/e2fb485/</loc>
-    <lastmod>2015-06-07T10:56:44.967Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2df5cff/</loc>
+    <lastmod>2015-06-07T11:06:00.257Z</lastmod>
     <data>
         <display>
         <title>Expression Tree 扩展MVC HtmlHelper 和 UrlHelper -</title>
-        <pubTime>2015-06-06T22:56:44.000Z</pubTime>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
         <tag>.Net </tag>
          
@@ -461,14 +437,16 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e2f8d75/</loc>
-    <lastmod>2015-06-07T10:56:44.960Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2df1d85/</loc>
+    <lastmod>2015-06-07T11:06:00.228Z</lastmod>
     <data>
         <display>
-        <title>《算法导论》读书笔记之排序算法—Merge Sort 归并排序算法 -</title>
-        <pubTime>2015-06-06T22:56:44.000Z</pubTime>
+        <title>MacBook的10个快捷功能：让你的Mac更便捷 -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
-        <tag>归并排序 </tag>
+        <tag>MacBook </tag>
+         
+        <tag>MacOS </tag>
          
          
            
@@ -481,12 +459,34 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e2f68d6/</loc>
-    <lastmod>2015-06-07T10:56:44.960Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2deb6fb/</loc>
+    <lastmod>2015-06-07T11:06:00.176Z</lastmod>
+    <data>
+        <display>
+        <title>算法-链表实现栈 -</title>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
+        
+        <tag>iOS开发 </tag>
+         
+        <tag>链表 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/07/2de5f17/</loc>
+    <lastmod>2015-06-07T11:06:00.152Z</lastmod>
     <data>
         <display>
         <title>常用跨域方法实践（一） -</title>
-        <pubTime>2015-06-06T22:56:44.000Z</pubTime>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
         <tag>JSONP </tag>
          
@@ -503,12 +503,12 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/07/e2f1f98/</loc>
-    <lastmod>2015-06-07T10:56:44.903Z</lastmod>
+    <loc>http://taojinke.github.io/2015/06/07/2de8627/</loc>
+    <lastmod>2015-06-07T11:06:00.152Z</lastmod>
     <data>
         <display>
         <title>cowplot：基于ggplot的可视化系统 -</title>
-        <pubTime>2015-06-06T22:56:44.000Z</pubTime>
+        <pubTime>2015-06-06T23:06:00.000Z</pubTime>
         
         <tag>ggplot2 </tag>
          
