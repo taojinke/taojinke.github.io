@@ -1,0 +1,641 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>一个丝滑的全屏滑动返回手势 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x4E00;&amp;#x4E2A;&amp;#x4E1D;&amp;#x6ED1;&amp;#x7684;&amp;#x5168;&amp;#x5C4F;&amp;#x6ED1;&amp;#x52A8;&amp;#x8FD4;&amp;#x56DE;&amp;#x624B;&amp;#x52BF; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 10:15:04  sunnyxx&amp;#x7684;&amp;#x6280;&amp;#x672F;&amp;#x535A;&amp;#x5BA2;
+&amp;#x5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个丝滑的全屏滑动返回手势 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/06/07/cc2d5b6/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x4E00;&amp;#x4E2A;&amp;#x4E1D;&amp;#x6ED1;&amp;#x7684;&amp;#x5168;&amp;#x5C4F;&amp;#x6ED1;&amp;#x52A8;&amp;#x8FD4;&amp;#x56DE;&amp;#x624B;&amp;#x52BF; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 10:15:04  sunnyxx&amp;#x7684;&amp;#x6280;&amp;#x672F;&amp;#x535A;&amp;#x5BA2;
+&amp;#x5">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cc293cb.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cc2963c.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cc298ad.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cc298ad.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cc29b1e.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cc29b1e.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cc29d8f.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cc29d8f.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cc2a000.png">
+<meta property="og:updated_time" content="2015-06-07T14:16:32.542Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个丝滑的全屏滑动返回手势 -">
+<meta name="twitter:description" content="&amp;#x4E00;&amp;#x4E2A;&amp;#x4E1D;&amp;#x6ED1;&amp;#x7684;&amp;#x5168;&amp;#x5C4F;&amp;#x6ED1;&amp;#x52A8;&amp;#x8FD4;&amp;#x56DE;&amp;#x624B;&amp;#x52BF; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 10:15:04  sunnyxx&amp;#x7684;&amp;#x6280;&amp;#x672F;&amp;#x535A;&amp;#x5BA2;
+&amp;#x5">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/07/cc2d5b6/" title="一个丝滑的全屏滑动返回手势 -" itemprop="url">一个丝滑的全屏滑动返回手势 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-07T02:16:32.000Z" itemprop="datePublished"> 发表于 2015-06-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一个丝滑的全屏滑动返回手势"><span class="toc-number">1.</span> <span class="toc-text">一个丝滑的全屏滑动返回手势</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#全屏返回手势"><span class="toc-number">1.1.</span> <span class="toc-text">全屏返回手势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FDFullscreenPopGesture"><span class="toc-number">1.2.</span> <span class="toc-text">FDFullscreenPopGesture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丝滑的处理导航栏的显示和隐藏"><span class="toc-number">1.3.</span> <span class="toc-text">丝滑的处理导航栏的显示和隐藏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于私有API"><span class="toc-number">1.4.</span> <span class="toc-text">关于私有API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0_代码的_Demo"><span class="toc-number">1.5.</span> <span class="toc-text">0 代码的 Demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加入到你的工程中"><span class="toc-number">1.6.</span> <span class="toc-text">加入到你的工程中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广告时间"><span class="toc-number">1.7.</span> <span class="toc-text">广告时间</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.7.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="&#x4E00;&#x4E2A;&#x4E1D;&#x6ED1;&#x7684;&#x5168;&#x5C4F;&#x6ED1;&#x52A8;&#x8FD4;&#x56DE;&#x624B;&#x52BF;">&#x4E00;&#x4E2A;&#x4E1D;&#x6ED1;&#x7684;&#x5168;&#x5C4F;&#x6ED1;&#x52A8;&#x8FD4;&#x56DE;&#x624B;&#x52BF;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-07 10:15:04  <a href="/sites/f6neMjn">sunnyxx&#x7684;&#x6280;&#x672F;&#x535A;&#x5BA2;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://blog.sunnyxx.com/2015/06/07/fullscreen-pop-gesture/?utm_source=tuicool" target="_blank" rel="external">http://blog.sunnyxx.com/2015/06/07/fullscreen-pop-gesture/</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11080009">iOS&#x5F00;&#x53D1;</a></p>
+<h2 id="&#x5168;&#x5C4F;&#x8FD4;&#x56DE;&#x624B;&#x52BF;">&#x5168;&#x5C4F;&#x8FD4;&#x56DE;&#x624B;&#x52BF;</h2><p>&#x81EA; iOS7 &#x4E4B;&#x540E;&#xFF0C;Apple &#x589E;&#x52A0;&#x4E86; <strong>&#x5C4F;&#x5E55;&#x8FB9;&#x7F18;&#x53F3;&#x5212;&#x8FD4;&#x56DE;</strong> &#x4EA4;&#x4E92;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x518D;&#x914D;&#x5408;&#x4E0A; UINavigationController &#x7684;&#x4EA4;&#x4E92;&#x5F0F;&#x52A8;&#x753B;&#xFF0C;pop &#x5230;&#x4E0A;&#x4E00;&#x7EA7;&#x9875;&#x9762;&#x7684;&#x64CD;&#x4F5C;&#x53D8;&#xFFFD;&#xFFFD;&#xFFFD;&#x975E;&#x5E38;&#x987A;&#x7545;&#x548C;&#x4E1D;&#x6ED1;&#xFF0C;&#x4ECE;&#x6B64;&#xFF0C;&#x6211;&#x5F88;&#x5C11;&#x518D;&#x4F7F;&#x7528;&#x70B9;&#x51FB;&#x5DE6;&#x4E0A;&#x89D2;&#x5BFC;&#x822A;&#x680F;&#x4E0A;&#x7684;&#x8FD4;&#x56DE;&#x6309;&#x94AE;&#x7684;&#x65B9;&#x5F0F;&#x8FD4;&#x56DE;&#x4E86;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x5BF9;&#x5355;&#x624B;&#x64CD;&#x4F5C;&#x5341;&#x5206;&#x4E0D;&#x53CB;&#x597D;&#xFF1B;&#x5982;&#x679C;&#x4E00;&#x4E2A; App &#x5C45;&#x7136;&#x80C6;&#x6562;&#x4E0D;&#x652F;&#x6301;&#x6ED1;&#x52A8;&#x8FD4;&#x56DE;&#xFF0C;&#x90A3;&#x79BB;&#x88AB;&#x5378;&#x8F7D;&#x5C31;&#x4E0D;&#x8FDC;&#x4E86;&#x3002; </p>
+<p>&#x8BF4;&#x5230; <strong>&#x5168;&#x5C4F;&#x8FD4;&#x56DE;&#x624B;&#x52BF;</strong> &#xFF0C;&#x9996;&#x5148;&#x6211;&#x611F;&#x89C9;&#x8FD9;&#x4EF6;&#x4E8B;&#x672C;&#x8EAB;&#x53EF;&#x80FD;&#x5C31;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x6BD5;&#x7ADF;&#x6709;&#x70B9;&#x53CD;&#x82F9;&#x679C;&#x5B98;&#x65B9;&#x7684;&#x4EA4;&#x4E92;&#xFF0C;&#x8BA9;&#x7528;&#x6237;&#x4ECE;&#x4EFB;&#x610F;&#x7684;&#x5730;&#x65B9;&#x90FD;&#x80FD;&#x591F;&#x6ED1;&#x52A8;&#x8FD4;&#x56DE;&#x8FD9;&#x4E2A;&#x4EA4;&#x4E92;&#x5728;&#x56FD;&#x5185;&#x7684; App &#x4E2D;&#x975E;&#x5E38;&#x666E;&#x904D;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x624B;&#x673A;&#x4E2D;&#x7684;&#x624B;Q&#x3001;&#x5FAE;&#x535A;&#x3001;&#x7F51;&#x6613;&#x65B0;&#x95FB;&#x3001;&#x5927;&#x4F17;&#x70B9;&#x8BC4;&#x7B49;&#xFF0C;&#x5F53;&#x7136;&#x8FD8;&#x6709;&#x767E;&#x5EA6;&#x77E5;&#x9053;- -&#x3002;&#x8FD9;&#x91CC;&#x5F97;&#x5BF9;&#x5FAE;&#x4FE1;&#x7684;&#x4EA7;&#x54C1;&#x7ECF;&#x7406;&#x4EEC;&#x5F97;&#x70B9;&#x4E2A;&#x8D5E;&#xFF0C;&#x4ECE;&#x6574;&#x4E2A; App &#x6765;&#x770B;&#xFF0C;&#x4E0D;&#x8BBA;&#x662F;&#x4EA4;&#x4E92;&#x8FD8;&#x662F; UI &#x7ED3;&#x6784;&#x548C;&#x6837;&#x5F0F;&#x90FD;&#x975E;&#x5E38;&#x7684; iOS&#xFF0C;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x7279;&#x522B;&#x5947;&#x8469;&#x7684;&#x9875;&#x9762;&#x548C;&#x4EA4;&#x4E92;&#xFF0C;&#x4EE5;&#x81F3;&#x4E8E;&#x4F7F;&#x7528; UIKit &#x539F;&#x751F;&#x7684;&#x6846;&#x67B6;&#x53EF;&#x4EE5;&#x975E;&#x5E38;&#x7B80;&#x5355;&#x7684;&#x642D;&#x5EFA;&#x8D77;&#x6765;&#xFF0C;&#x8FD9;&#x4E5F;&#x7B26;&#x5408;&#x6211;&#x4E2A;&#x4EBA;&#x5BF9; App &#x7684;&#x4E00;&#x4E2A;&#x613F;&#x666F;&#xFF1A; &#x4E00;&#x4E2A;&#x4F18;&#x79C0;&#x7684; App &#x4E0D;&#x8BBA;&#x4ECE;&#x7528;&#x6237;&#x89D2;&#x5EA6;&#x770B;&#x8FD8;&#x662F;&#x4ECE;&#x4EE3;&#x7801;&#x89D2;&#x5EA6;&#x770B;&#x90FD;&#x5E94;&#x8BE5;&#x662F;&#x7B80;&#x5355;&#x4E14;&#x4F18;&#x96C5;&#x7684; &#xFF0C;&#x547C;&#x5401;&#x5404;&#x5BB6;&#x4EA7;&#x54C1;&#x7ECF;&#x7406;&#x53EF;&#x4EE5;&#x591A;&#x501F;&#x9274;&#x4E0B;&#x50CF;&#x5FAE;&#x4FE1;&#x8FD9;&#x6837;&#x5F88;&#x672C;&#x8272;&#x7684; App &#x8BBE;&#x8BA1;&#x3002;&#xFF08;&#x4EE5;&#x540E;&#x53EF;&#x4EE5;&#x5206;&#x4EAB;&#x4E0B;&#x5982;&#x4F55;&#x4F7F;&#x7528; Storyboard &#x5728;&#x4E00;&#x5C0F;&#x65F6;&#x5185;&#x5FEB;&#x901F;&#x642D;&#x5EFA;&#x8D77;&#x5FAE;&#x4FE1; UI&#xFF09; </p>
+<h2 id="FDFullscreenPopGesture">FDFullscreenPopGesture</h2><p>&#x5DE5;&#x4F5C;&#x6BD5;&#x7ADF;&#x662F;&#x5DE5;&#x4F5C;&#xFF0C;&#x4E8E;&#x662F;&#x4E4E;&#x6240;&#x4EE5;&#x5C31;&#x88AB;&#x8FEB;&#x5B9E;&#x73B0;&#x4E86;&#x5957; pan &#x624B;&#x52BF;&#x5904;&#x7406;&#x52A0;&#x622A;&#x56FE;&#x548C;&#x89C6;&#x5DEE;&#xFF0C;&#x867D;&#x7136;&#x5728;&#x8FD0;&#x52A8;&#x66F2;&#x7EBF;&#x4E0A;&#x3001;bar &#x622A;&#x56FE;&#x5904;&#x7406;&#x4E0A;&#x4E0B;&#x4E86;&#x4E0D;&#x5C11;&#x529F;&#x592B;&#xFF0C;&#x4F46;&#x8DDD;&#x79BB;&#x7CFB;&#x7EDF;&#x7684;&#x4E1D;&#x6ED1;&#x6548;&#x679C;&#x8FD8;&#x662F;&#x5DEE;&#x8DDD;&#x633A;&#x8FDC;&#x3002;&#x968F;&#x65F6;&#x95F4;&#x63A8;&#x79FB;&#xFF0C;&#x7EC8;&#x4E8E;&#x80FD;&#x591F;&#x6700;&#x4F4E;&#x652F;&#x6301; iOS7 &#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x628A;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x518D;&#x6B21;&#x62FF;&#x51FA;&#x6765;&#x8BA8;&#x8BBA;&#x548C;&#x7814;&#x7A76;&#xFF0C;&#x76F4;&#x5230;&#x5728;&#x5FAE;&#x535A;&#x4E0A;&#x770B;&#x5230;&#x4E86; <strong>J_&#x96E8;</strong> &#x540C;&#x5B66;&#x7684; <a href="http://www.jianshu.com/p/d39f7d22db6c" target="_blank" rel="external">&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;</a> &#x540E;&#x624D;&#x627E;&#x5230;&#x4E86;&#x8FD9;&#x4E2A;&#x8FC4;&#x4ECA;&#x4E3A;&#x6B62;&#x6700;&#x7B80;&#x5355;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;&#x4E8E;&#x662F;&#x4E4E;&#x5728;&#x4ED6;&#x7684;&#x6388;&#x6743;&#x4E0B;&#xFF0C;&#x6211;&#x4EEC;&#x5728; forkingdog &#x4E0A;&#x628A;&#x8FD9;&#x4E2A;&#x8FD4;&#x56DE;&#x624B;&#x52BF;&#x5F00;&#x6E90;&#xFF0C; <a href="https://github.com/forkingdog/FDFullscreenPopGesture" target="_blank" rel="external">github&#x5730;&#x5740;</a> &#xFF0C;&#x5E76;&#x679C;&#x65AD;&#x5E94;&#x7528;&#x5230;&#x4E86;&#x767E;&#x5EA6;&#x77E5;&#x9053; App &#x5185;&#xFF0C;&#x8FD9;&#x662F; Demo &#x6548;&#x679C;&#xFF1A; </p>
+<p><img src="http://taojinke.github.io/img/20150607/cc293cb.gif" alt=""></p>
+<p>&#x5229;&#x7528;&#x4E86;&#x7CFB;&#x7EDF;&#x81EA;&#x5DF1;&#x7684;&#x8FB9;&#x7F18;&#x8FD4;&#x56DE;&#x624B;&#x52BF;&#x5904;&#x7406;&#x51FD;&#x6570;&#x540E;&#xFF0C;&#x4E00;&#x5207;&#x52A8;&#x753B;&#x548C;&#x66F2;&#x7EBF;&#x90FD;&#x548C;&#x539F;&#x751F;&#x6548;&#x679C;&#x4E00;&#x6BDB;&#x4E00;&#x6837;&#x4E86;&#x3002;</p>
+<p>&#x4E8E;&#x662F;&#x4E4E;&#x53D1;&#x5E03;&#x4E86; FDFullscreenPopGesture 1.0 &#x7248;&#x672C;&#xFF0C;&#x800C;&#x4E14;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A; AOP &#x5F62;&#x5F0F;&#x7684; API&#xFF0C;&#x628A;&#x5B83;&#x6DFB;&#x52A0;&#x5230;&#x5DE5;&#x7A0B;&#x91CC;&#x9762;&#xFF0C;&#x4EC0;&#x4E48;&#x4EE3;&#x7801;&#x90FD;&#x4E0D;&#x7528;&#x5199;&#xFF0C;&#x6240;&#x6709; UINavigationController &#x5C31;&#x81EA;&#x5E26;&#x8FD9;&#x4E2A;&#x5168;&#x5C4F;&#x8FD4;&#x56DE;&#x6548;&#x679C;&#x4E86;&#x3002; </p>
+<h2 id="&#x4E1D;&#x6ED1;&#x7684;&#x5904;&#x7406;&#x5BFC;&#x822A;&#x680F;&#x7684;&#x663E;&#x793A;&#x548C;&#x9690;&#x85CF;">&#x4E1D;&#x6ED1;&#x7684;&#x5904;&#x7406;&#x5BFC;&#x822A;&#x680F;&#x7684;&#x663E;&#x793A;&#x548C;&#x9690;&#x85CF;</h2><p>&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x53D1;&#x73B0;&#x5229;&#x7528;&#x7CFB;&#x7EDF;&#x7684; UINavigationBar &#x65F6;&#xFF0C;&#x8FD4;&#x56DE;&#x624B;&#x52BF;&#x4E2D;&#x82E5;&#x78B0;&#x5230;&#x524D;&#x4E00;&#x4E2A;&#x9875;&#x9762;&#x6709; bar&#xFF0C;&#x540E;&#x4E00;&#x4E2A;&#x9875;&#x9762;&#x6CA1; bar&#xFF0C;&#x6216;&#x8005;&#x53CD;&#x8FC7;&#x6765;&#x65F6;&#xFF0C;&#x52A8;&#x753B;&#x5C31;&#x975E;&#x5E38;&#x96BE;&#x770B;&#xFF0C;&#x4E3E;&#x4E24;&#x4E2A;&#x53CD;&#x4F8B;&#xFF1A;</p>
+<p>&#x624B;Q iOS&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150607/cc2963c.gif" alt=""></p>
+<p>&#x5B83;&#x7684;&#x4E2A;&#x4EBA;&#x4E2D;&#x5FC3;&#x9875;&#x9762;&#x4E0A;&#x9762;&#x7684; bar &#x662F;&#x9690;&#x85CF;&#x72B6;&#x6001;&#xFF0C;&#x7136;&#x540E;&#x505A;&#x4E86;&#x4E2A;&#x548C;&#x5176;&#x4ED6;&#x9875;&#x9762;&#x5F88;&#x50CF;&#x7684;&#x5047; bar&#xFF0C;&#x4F46;&#x8FD4;&#x56DE;&#x624B;&#x52BF;&#x4E00;&#x5F00;&#x59CB;&#x5C31;&#x9732;&#x9985;&#x4E86;&#xFF0C;&#x4E3A;&#x4E86;&#x5F25;&#x8865;&#xFF0C;&#x8FD8;&#x505A;&#x4E86;&#x4E0B;&#x540E;&#x9762;&#x771F; bar &#x7684; alpha &#x503C;&#x52A8;&#x753B;&#xFF0C;&#x4E24;&#x4E2A;&#x8FD4;&#x56DE;&#x6309;&#x94AE;&#x8FD8;&#x662F;&#x91CD;&#x53E0;&#x5728;&#x4E86;&#x4E00;&#x8D77;&#x3002;</p>
+<p>&#x65B0;&#x6D6A;&#x5FAE;&#x535A; iOS&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150607/cc298ad.gif" alt=""></p>
+<p>&#x548C;&#x624B;Q&#x4E00;&#x6837;&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#x6CA1;&#x505A; alpha &#x52A8;&#x753B;&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x975E;&#x5E38;&#x660E;&#x663E;&#x4E86;&#x3002;</p>
+<p>&#x4E3A;&#x5565;&#x4F1A;&#x8FD9;&#x6837;&#x5462;&#xFF1F;&#x8FD9;&#x53EF;&#x80FD;&#x5C31;&#x662F; UINavigationController &#x5728;&#x5BFC;&#x822A;&#x680F;&#x63A7;&#x5236; API &#x4E0A;&#x8BBE;&#x8BA1;&#x7684;&#x7F3A;&#x9677;&#x4E86;&#x3002; &#x4E00;&#x4E2A; UINavigationController &#x7BA1;&#x7406;&#x4E86;&#x4E32;&#x884C;&#x7684; N &#x4E2A; UIViewController &#x6808;&#x5F0F;&#x7684; push &#x548C; pop&#xFF0C;&#x800C; UINavigationBar &#x7531; UINavigationController &#x7BA1;&#x7406;&#xFF0C;&#x8FD9;&#x5C31;&#x5BFC;&#x81F4;&#x4E86; UIViewController &#x65E0;&#x6CD5;&#x63A7;&#x5236;&#x81EA;&#x5DF1;&#x4E0A;&#x9762;&#x7684; bar &#x5355;&#x72EC;&#x7684;&#x9690;&#x85CF;&#x6216;&#x663E;&#x793A;&#x3002; &#x8FD9;&#x975E;&#x5E38;&#x50CF; UIApplication &#x5168;&#x5C40;&#x7684; status bar&#xFF0C;&#x7275;&#x4E00;&#x53D1;&#x8FD8;&#x5F97;&#x52A8;&#x5168;&#x8EAB;&#xFF0C;&#x4E0D;&#x8FC7; Apple &#x5728; iOS7 &#x4E4B;&#x540E;&#x4E3A; vc &#x63A7;&#x5236;&#x81EA;&#x5DF1;&#x7684; status bar &#x63D0;&#x4F9B;&#x4E86;&#x4E0B;&#x9762;&#x51E0;&#x4E2A;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code>- <span class="list">(<span class="keyword">UIStatusBarStyle</span>)</span>preferredStatusBarStyle NS_AVAILABLE_IOS<span class="list">(<span class="number">7</span>_0)</span><span class="comment">;</span>
+- <span class="list">(<span class="keyword">BOOL</span>)</span>prefersStatusBarHidden NS_AVAILABLE_IOS<span class="list">(<span class="number">7</span>_0)</span><span class="comment">;</span>
+- <span class="list">(<span class="keyword">UIStatusBarAnimation</span>)</span>preferredStatusBarUpdateAnimation NS_AVAILABLE_IOS<span class="list">(<span class="number">7</span>_0)</span><span class="comment">;</span>
+</code></pre><p>&#x7EC8;&#x4E8E;&#x8BA9;&#x8FD9;&#x4E2A; <strong>&#x5168;&#x5C40;&#x53D8;&#x91CF;</strong> &#x53D8;&#x6210;&#x4E86; <strong>&#x5C40;&#x90E8;&#x53D8;&#x91CF;</strong> &#xFF0C;&#x867D;&#x7136;&#x5199;&#x8D77;&#x6765;&#x8D39;&#x52B2;&#x4E86;&#x4E9B;&#x3002; </p>
+<p>&#x4F46;&#x662F;&#x5BF9; UINavigationBar &#x7684;&#x63A7;&#x5236;&#xFF0C;&#x4F9D;&#x7136;&#x662F;&#x5168;&#x5C40;&#x7684;&#xFF0C;&#x53EF;&#x80FD; Apple &#x89C9;&#x5F97; App &#x4E0D;&#x5E94;&#x8BE5;&#x6709;&#x8FD9;&#x79CD;&#x5947;&#x602A;&#x7684;&#x9875;&#x9762;&#x7ED3;&#x6784;&#xFF1F;</p>
+<p>&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x7684;&#x65B9;&#x6CD5;&#x4E5F;&#x4E0D;&#x96BE;&#xFF0C;&#x5728;&#x6ED1;&#x52A8;&#x8FD4;&#x56DE;&#x7684;&#x540E;&#x8981;&#x51FA;&#x73B0;&#x7684;&#x90A3;&#x4E2A; view controller &#x4E2D;&#x5199;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code><span class="tag">-</span> (void)<span class="tag">viewWillAppear</span>:(BOOL)<span class="tag">animated</span> {
+    <span class="attr_selector">[super viewWillAppear:animated]</span>;
+    <span class="attr_selector">[self.navigationController setNavigationBarHidden:YES animated:animated]</span>;
+}
+</code></pre><p>&#x7CFB;&#x7EDF;&#x5C31;&#x4F1A;&#x628A;&#x6709; bar &#x548C; &#x65E0; bar &#x7684; transition &#x52A8;&#x753B;&#x8854;&#x63A5;&#x8D77;&#x6765;&#x3002;&#x4F46;&#x662F;&#x5982;&#x4E0A;&#x9762;&#x6240;&#x8BF4;&#xFF0C;&#x8FD9;&#x662F;&#x4E2A;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF0C;&#x8FD8;&#x5F97;&#x5728;&#x6240;&#x6709;&#x7531;&#x8FD9;&#x4E2A;&#x6CA1;&#x6709; bar &#x7684;&#x7279;&#x6B8A;&#x9875;&#x9762;&#x80FD; push &#x548C; pop &#x7684;&#x9875;&#x9762;&#x90FD;&#x8FDB;&#x884C;&#x53CD;&#x5411;&#x7684;&#x5904;&#x7406;&#xFF0C;&#x4EE3;&#x7801;&#x975E;&#x5E38;&#x7684;&#x4E71;&#x4E4E;&#x3002;&#x4E8E;&#x662F;&#x4E4E;&#xFF0C;&#x6211;&#x4EEC;&#x8BD5;&#x7740;&#x89E3;&#x51B3;&#x4E86;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x5148;&#x770B;&#x6548;&#x679C;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150607/cc298ad.gif" alt=""></p>
+<p>&#x6211;&#x7279;&#x610F;&#x6311;&#x4E86;&#x4E2A;&#x4ECE;&#x771F; bar &#x5230;&#x5047; bar&#xFF0C;&#x518D;&#x4ECE;&#x5047; bar &#x5230; &#x771F; bar &#x7684;&#x9875;&#x9762;&#xFF0C;&#x8FD8;&#x7B97;&#x86EE;&#x4E1D;&#x6ED1;&#x7684;&#xFF0C;transition &#x52A8;&#x753B;&#x5168;&#x662F;&#x7CFB;&#x7EDF;&#x81EA;&#x5DF1;&#x641E;&#x5B9A;&#x7684;&#x3002;</p>
+<p>&#x5C31;&#x4E8B;&#x628A; FDFullscreenPopGesture &#x66F4;&#x65B0;&#x5230;&#x4E86; 1.1 &#x7248;&#x672C;&#xFF0C;&#x8D2F;&#x5F7B;&#x6211;&#x4EEC;&#x4E00;&#x5411;&#x7684;&#x7CBE;&#x7B80; API&#xFF0C;&#x4F60;&#x53EA;&#x9700;&#x8981;&#x5728; bar &#x8981;&#x9690;&#x85CF;&#x7684; view controller &#x4E2D;&#x5199;&#x4E00;&#x53E5;&#x8BDD;&#xFF1A; </p>
+<pre><code>- (<span class="keyword">void</span>)viewDidLoad
+    [<span class="keyword">super</span> viewDidLoad];
+    <span class="keyword">self</span><span class="variable">.navigationController</span><span class="variable">.fd_prefersNavigationBarHidden</span> = <span class="literal">YES</span>;
+}
+</code></pre><p>&#x6216;&#x8005;&#x559C;&#x6B22;&#x91CD;&#x8F7D;&#x7684;&#x5199;&#x6CD5;&#x4E5F;&#x884C;&#xFF1A;</p>
+<pre><code>- (<span class="built_in">BOOL</span>)fd_prefersNavigationBarHidden {
+    <span class="keyword">return</span> <span class="literal">YES</span>;
+}
+</code></pre><p>&#x523B;&#x610F;&#x7684;&#x6A21;&#x4EFF;&#x4E86;&#x4E0B;&#x7CFB;&#x7EDF;&#x7684;&#x547D;&#x540D;&#x98CE;&#x683C;&#xFF0C;&#x5C31;&#x8FD9;&#x4E00;&#x53E5;&#x8BDD;&#xFF0C;&#x5269;&#x4E0B;&#x7684;&#x5C31;&#x90FD;&#x4E0D;&#x7528;&#x64CD;&#x5FC3;&#x4E86;&#x3002;</p>
+<h2 id="&#x5173;&#x4E8E;&#x79C1;&#x6709;API">&#x5173;&#x4E8E;&#x79C1;&#x6709;API</h2><p>&#x5927;&#x5BB6;&#x4F1A;&#x8D28;&#x7591;&#x8BF4;&#xFF0C;&#x8FD9;&#x7528;&#x5230;&#x4E86; UIKit &#x7684;&#x79C1;&#xFFFD;&#xFFFD;&#xFFFD;&#x5C5E;&#x6027;&#x548C;&#x79C1;&#x6709; API&#xFF0C;&#x8981;&#x662F;&#x7CFB;&#x7EDF;&#x5347;&#x7EA7;&#x53D8;&#x4E86;&#x548B;&#x529E;&#xFF1F;&#x8981;&#x662F;&#x5BA1;&#x6838;&#x88AB;&#x62D2;&#x4E86;&#x548B;&#x529E;&#xFF1F;</p>
+<p>&#x9996;&#x5148;&#xFF0C;iOS &#x7CFB;&#x7EDF;&#x7684; SDK &#x4E3A;&#x4E86;&#x5411;&#x4E0B;&#x517C;&#x5BB9;&#xFF0C;&#x4E00;&#x822C;&#x53EA;&#x4F1A;&#x589E;&#x52A0;&#x65B9;&#x6CD5;&#x6216;&#x8005;&#x4FEE;&#x6539;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;&#xFF0C;&#x4E0D;&#x592A;&#x53EF;&#x80FD;&#x76F4;&#x63A5;&#x5220;&#x9664;&#x4E00;&#x4E2A;&#x5171;&#x6709;&#x65B9;&#x6CD5;&#xFF0C;&#x800C;&#x79C1;&#x6709;&#x65B9;&#x6CD5;&#x7684;&#x884C;&#x4E3A;&#x786E;&#x5B9E;&#x53EF;&#x80FD;&#x6709;&#x53D8;&#x5316;&#xFF0C;&#x4F46;&#x7CFB;&#x7EDF; release &#x9891;&#x7387;&#x6BD5;&#x7ADF;&#x5F88;&#x4F4E;&#xFF0C;&#x6BCF;&#x5F53;&#x65B0;&#x7248;&#x672C;&#x53D1;&#x5E03;&#x65F6; check &#x4E0B;&#x539F;&#x6765;&#x7684;&#x529F;&#x80FD;&#x662F;&#x5426;&#x80FD; work &#x5C31;&#x597D;&#x4E86;&#xFF0C;&#x5927;&#x53EF;&#x4E0D;&#x5FC5;&#x62C5;&#x5FC3;&#x8FD9;&#x4E48;&#x8FDC;&#xFF0C;SDK &#x662F;&#x6B7B;&#x7684;&#x4EBA;&#x662F;&#x6D3B;&#x7684;&#x3002;</p>
+<p>&#x53E6;&#x4E00;&#x4E2A;&#x5C31;&#x662F;&#x5BA1;&#x6838;&#x95EE;&#x9898;&#xFF0C;FDFullscreenPopGesture &#x7684;&#x5B9E;&#x73B0;&#x4E2D;&#x6709;&#x4E3B;&#x8981;&#x6709;&#x4E24;&#x5904;&#x89E6;&#x78B0;&#x5230;&#x4E86;&#x79C1;&#x6709; API&#xFF1A;</p>
+<pre><code>// <span class="number">1.</span> &amp;<span class="symbol">#x79C1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x91CF</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x5FD7</span>;transition&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x753B</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x6B63</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;
+[<span class="keyword">self</span>.navigationController <span class="method">valueForKey:</span>@&amp;quot;_isTransitioning&amp;quot;];
+// <span class="number">2.</span> &amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x7684</span>;selector
+<span class="class">NSSelectorFromString</span>(@&amp;quot;<span class="method">handleNavigationTransition:</span>&amp;quot;);
+</code></pre><p>&#x4E0D;&#x8BBA;&#x662F; kvc &#x8FD8;&#x662F; selector &#x53CD;&#x5C04;&#xFF0C;&#x90FD;&#x662F;&#x5229;&#x7528; objc runtime &#x5B8C;&#x6210;&#x7684;&#xFF0C;&#x800C;&#x5230;&#x4E86;&#x8FD9;&#x4E00;&#x5C42;&#xFF0C;&#x771F;&#x7684;&#x5C31;&#x6CA1;&#x5565;&#x516C;&#x6709;&#x79C1;&#x6709;&#x53EF;&#x8A00;&#x4E86;&#x3002;&#x8BBE;&#x60F3;&#x4F60;&#x5C31;&#x662F;&#x5F00;&#x53D1; Apple &#x79C1;&#x6709; API &#x68C0;&#x67E5;&#x5DE5;&#x5177;&#x7684;&#x5DE5;&#x7A0B;&#x5E08;&#xFF0C;&#x7ED9;&#x4F60;&#x4E00;&#x4E2A; ipa &#x7684;&#x5305;&#xFF0C;&#x4F60;&#x4F1A;&#x5982;&#x4F55;&#x68C0;&#x67E5;&#x51FA;&#x5176;&#x4E2D;&#x6709;&#x6CA1;&#x6709;&#x79C1;&#x6709; API &#x5462;&#xFF1F;</p>
+<p>&#x9996;&#x5148;&#xFF0C;&#x8FD9;&#x4E2A;&#x68C0;&#x67E5;&#x4E00;&#x5B9A;&#x662F;&#x4E2A;&#x9759;&#x6001;&#x68C0;&#x67E5;&#x5427;&#xFF0C;&#x4E0D;&#x53EF;&#x80FD;&#x662F;&#x8FD0;&#x884C;&#x65F6;&#x68C0;&#x67E5;&#xFF0C;&#x56E0;&#x4E3A;&#x4EE3;&#x7801;&#x903B;&#x8F91;&#x90A3;&#x4E48;&#x590D;&#x6742;&#xFF0C;&#x628A;&#x7A0B;&#x5E8F;&#x8DD1;&#x8D77;&#x6765;&#x770B;&#x6240;&#x6709; objc_msgSend &#x4E2D;&#x5305;&#x4E0D;&#x5305;&#x62EC;&#x79C1;&#x6709;&#x8C03;&#x7528;&#x8FD9;&#x4EF6;&#x4E8B;&#x592A;&#x4E0D;&#x73B0;&#x5B9E;&#x4E86;&#x3002;&#x5BF9; ipa &#x6587;&#x4EF6;&#x505A;&#x9759;&#x6001;&#x68C0;&#x67E5;&#x7684;&#x8BDD;&#x80AF;&#x5B9A;&#x662F;&#x53BB;&#x5206;&#x6790; Mach-O &#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x65F6;&#x5F88;&#x591A;&#x6E90;&#x4EE3;&#x7801;&#x7EA7;&#x522B;&#x7684;&#x4FE1;&#x606F;&#x5DF2;&#x7ECF;&#x4E22;&#x5931;&#xFF0C;&#x7ECF;&#x5206;&#x6790;&#x53EF;&#x4EE5;&#x91C7;&#x53D6;&#x4E0B;&#x9762;&#x51E0;&#x79CD;&#x624B;&#x6BB5;&#xFF1A; </p>
+<ul>
+<li>&#x662F;&#x5426; link &#x4E86;&#x79C1;&#x6709; framework &#x6216;&#x8005;&#x516C;&#x5F00; framework &#x4E2D;&#x7684;&#x79C1;&#x6709;&#x7B26;&#x53F7;&#xFF0C;&#x8FD9;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x5F00;&#x53D1;&#x8005;&#x628A;&#x79C1;&#x6709; header &#x90FD; dump &#x51FA;&#x6765;&#x4F9B;&#x7A0B;&#x5E8F;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x3002;</li>
+<li>&#x540C;&#x4E0A;&#xFF0C;&#x4F7F;&#x7528; @selector(_private_sel) &#x52A0;&#x4E0A; -performSelector: &#x7684;&#x65B9;&#x5F0F;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x79C1;&#x6709; API&#x3002;</li>
+<li>&#x626B;&#x63CF;&#x6240;&#x6709;&#x7B26;&#x53F7;&#xFF0C;&#x67E5;&#x770B;&#x662F;&#x5426;&#x6709;&#x7EE7;&#x627F;&#x81EA;&#x79C1;&#x6709;&#x7C7B;&#xFF0C;&#x91CD;&#x8F7D;&#x79C1;&#x6709;&#x65B9;&#x6CD5;&#xFF0C;&#x65B9;&#x6CD5;&#x540D;&#x662F;&#x5426;&#x6709;&#x91CD;&#x5408;&#x3002;</li>
+<li>&#x626B;&#x63CF;&#x6240;&#x6709; <strong>string</strong> &#xFF0C;&#x770B;&#x5B57;&#x7B26;&#x4E32;&#x5E38;&#x91CF;&#x6BB5;&#x662F;&#x5426;&#x51FA;&#x73B0;&#x548C;&#x79C1;&#x6709; API &#x5BF9;&#x5E94;&#x7684;&#x3002;</li>
+</ul>
+<p>&#x6211;&#x89C9;&#x5F97;&#x524D;&#x4E09;&#x6761;&#x88AB; catch &#x4F4F;&#x7684;&#x53EF;&#x80FD;&#x6027;&#x6700;&#x9AD8;&#xFF0C;&#x4E5F;&#x6700;&#x5BB9;&#x6613;&#x88AB;&#x68C0;&#x67E5;&#x51FA;&#x6765;&#x3002;&#x518D;&#x6765;&#x770B;&#x6211;&#x4EEC;&#x7528;&#x5230;&#x7528;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x65B9;&#x6CD5; kvc &#x548C; &#x53CD;&#x5C04; selector&#xFF0C;&#x5E94;&#x8BE5;&#x5C5E;&#x4E8E;&#x6700;&#x540E;&#x4E00;&#x6761;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x5C31;&#x5F88;&#x96BE;&#x6289;&#x62E9;&#x4E86;&#xFF0C;&#x62FF; handleNavigationTransition: &#x6765;&#x8BF4;&#xFF0C;&#x770B;&#x4E0A;&#x53BB;&#x4EBA;&#x755C;&#x65E0;&#x5BB3;&#x554A;&#xFF0C;&#x6211;&#x81EA;&#x5DF1;&#x7C7B;&#x91CC;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x4E5F;&#x5B8C;&#x5168;&#x53EF;&#x80FD;&#x547D;&#x540D;&#x51FA;&#x8FD9;&#x4E2A;&#x6765;&#xFF0C;&#x6240;&#x4EE5;&#x5355;&#x5355;&#x51ED;&#x501F;&#x5B57;&#x7B26;&#x4E32;&#x547D;&#x4E2D;&#x79C1;&#x6709; API &#x5224;&#x5B9A;&#xFF0C;&#x82F9;&#x679C;&#x5F88;&#x5BB9;&#x6613;&#x8BEF;&#x4F24;&#x4E00;&#x5927;&#x7968;&#x5F00;&#x53D1;&#x8005;&#x3002; </p>
+<p>&#x7EFC;&#x4E0A;&#xFF0C;&#x6211;&#x89C9;&#x5F97;&#x4F7F;&#x7528;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x65B9;&#x5F0F;&#x4F7F;&#x7528;&#x79C1;&#x6709; API &#x662F;&#x76F8;&#x5BF9;&#x5B89;&#x5168;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x7684; App &#x9A6C;&#x4E0A;&#x8981;&#x63D0;&#x4EA4;&#x5BA1;&#x6838;&#xFF0C;&#x5982;&#x679C;&#x8FC7;&#x4E86;&#x51E0;&#x5929;&#x4F60;&#x8FD8;&#x80FD;&#x8BFB;&#x5230;&#x8FD9;&#x6BB5;&#x6587;&#x5B57;&#xFF0C;&#x8BF4;&#x660E;&#x6211;&#x7684;&#x731C;&#x60F3;&#x662F;&#x6728;&#x6709;&#x9519;&#x7684;&#xFF0C;&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x653E;&#x5FC3;&#x4F7F;&#x7528;&#x3002;</p>
+<h2 id="0_&#x4EE3;&#x7801;&#x7684;_Demo">0 &#x4EE3;&#x7801;&#x7684; Demo</h2><p>&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x6709;&#x610F;&#x601D;&#x7684;&#x4E8B;&#xFF0C;&#x6211;&#x4EEC;&#x5728; github &#x4E0A;&#x7684; <a href="https://github.com/forkingdog/FDFullscreenPopGesture" target="_blank" rel="external">demo&#x5DE5;&#x7A0B;</a> &#x6728;&#x6709;&#x5199;&#x4E00;&#x884C;&#x4EE3;&#x7801;&#xFF0C;&#x5C31;&#x5B9E;&#x73B0;&#x4E86;&#x4E0B;&#x9762;&#x7684;&#x6548;&#x679C;&#xFF1A; </p>
+<p><img src="http://taojinke.github.io/img/20150607/cc29b1e.gif" alt=""></p>
+<p>&#x5DE5;&#x7A0B;&#x957F;&#x8FD9;&#x4E2A;&#x6837;&#x5B50;&#xFF0C;view controller &#x7C7B;&#x4E5F;&#x6CA1;&#x5199;&#xFF0C;&#x4E3A;&#x4E86;&#x4F53;&#x73B0; FDFullscreenPopGesture &#x7684; AOP &#x6027;&#x8D28;&#xFF1A; </p>
+<p><img src="http://taojinke.github.io/img/20150607/cc29b1e.jpg" alt=""></p>
+<p>&#x9875;&#x9762;&#x7531; Storyboard &#x6784;&#x5EFA;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150607/cc29d8f.jpg" alt=""></p>
+<p>&#x800C;&#x63A7;&#x5236;&#x9875;&#x9762;&#x9690;&#x85CF; bar &#x7684;&#x5C5E;&#x6027;&#x4E5F;&#x80FD;&#x7528; Runtime Attributes &#x6A21;&#x62DF;&#x8C03;&#x7528;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150607/cc29d8f.jpg" alt=""></p>
+<p>&#x8FD9;&#x6837;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x5E72;&#x51C0;&#x7684; Demo</p>
+<h2 id="&#x52A0;&#x5165;&#x5230;&#x4F60;&#x7684;&#x5DE5;&#x7A0B;&#x4E2D;">&#x52A0;&#x5165;&#x5230;&#x4F60;&#x7684;&#x5DE5;&#x7A0B;&#x4E2D;</h2><p>&#x9996;&#x5148;&#x8981;&#x6C42;&#x6700;&#x4F4E;&#x652F;&#x6301; iOS7&#xFF0C;&#x6211;&#x60F3;&#x5728; WWDC 2015 &#x7ED3;&#x675F;&#xFF0C;iOS9 &#x53D1;&#x5E03;&#x540E;&#xFF0C;&#x4E3B;&#x6D41;&#x7684; App &#x5C31;&#x90FD;&#x4F1A; iOS7 &#x8D77;&#x8DF3;&#x4E86;&#x3002;&#x4F9D;&#x7136;&#x662F;&#x719F;&#x6089;&#x7684; cocoapods &#x5B89;&#x88C5;&#xFF1A; </p>
+<pre><code><span class="tag">pod</span> &amp;<span class="tag">apos</span>;<span class="tag">FDFullscreenPopGesture</span>&amp;<span class="tag">apos</span>;, &amp;<span class="tag">apos</span>;~&amp;<span class="tag">gt</span>; 1<span class="class">.1</span>&amp;<span class="tag">apos</span>;
+</code></pre><p>&#x8981;&#x662F;&#x6CA1;&#x6709;&#x641C;&#x5230;&#x5C31; pod setup &#x4E0B;&#x3002; </p>
+<h2 id="&#x5E7F;&#x544A;&#x65F6;&#x95F4;">&#x5E7F;&#x544A;&#x65F6;&#x95F4;</h2><p>&#x6211;&#x8FD9;&#x8FB9;&#x6B63;&#x5728;&#x62DB;&#x8058; iOS&#xFF0C;&#x5750;&#x6807;&#x5317;&#x4EAC;&#xFF0C;&#x5E0C;&#x671B;&#x627E;&#x5230;&#x4E00;&#x4E2A;&#x4EE3;&#x7801;&#x89C4;&#x8303;&#x7684;&#x3001;&#x7231;&#x7528; IB &#x7684;&#x3001;&#x61D2;&#x5F97;&#x5199;&#x91CD;&#x590D;&#x4EE3;&#x7801;&#x3001;&#x4E0D;&#x7231;&#x52A0;&#x73ED;&#x7684;&#x540C;&#x5B66;&#xFF0C;&#x76F8;&#x4FE1;&#x8FD9;&#x91CC;&#x6709;&#x5F88;&#x5927;&#x7A7A;&#x95F4;&#x4F9B;&#x4F60;&#x5B66;&#x4E60;&#x548C;&#x63D0;&#x5347;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x53C2;&#x4E0E;&#x5230; forkingdog &#x5F00;&#x6E90;&#x5C0F;&#x7EC4;&#x4E2D;&#x505A;&#x70B9;&#x5C4C;&#x5C4C;&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x6B22;&#x8FCE;&#x79C1;&#x804A;&#x6216;&#x628A;&#x7B80;&#x5386;&#x4E22;&#x5230; sunyuan01@baidu.com</p>
+<p><img src="http://taojinke.github.io/img/20150607/cc2a000.png" alt=""></p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/QJ7Fbi">&#x4F7F;&#x7528;UITableView&#x7684;&#x5206;&#x7EC4;&#x6837;&#x5F0F;</a></li>
+<li>2.<a href="/articles/Nn6rimu">QQ&#x804A;&#x5929;&#x754C;&#x9762;&#x7684;&#x5E03;&#x5C40;&#x548C;&#x8BBE;&#x8BA1;(IOS&#x7BC7;)-&#x7B2C;&#x4E00;&#x5B63;</a></li>
+<li>3.<a href="/articles/UzqiUr">[oc&#x5B66;&#x4E60;&#x65E5;&#x8BB0;]kvc,kvo&#x548C;&#x901A;&#x77E5;</a></li>
+<li>4.<a href="/articles/NF7bUv">&#x7B97;&#x6CD5;-&#x94FE;&#x8868;&#x5B9E;&#x73B0;&#x6808;</a></li>
+<li>5.<a href="/articles/IZFFfm">[&#x539F;]Objective-C &#x5947;&#x5DE7;&#x6DEB;&#x6280;—&#x7528;&#x6C49;&#x8BED;&#x5199;Objective-C</a></li>
+<li><p>6.<a href="/articles/umEzyyA">&#x4F7F;&#x7528;UITableView&#x5C55;&#x793A;&#x6570;&#x636E;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/Zv2eYrf">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;Zv2eYrf&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iOS开发/">iOS开发</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/07/cc62ea5/" title="Android 学习笔记 BroadcastReceiver广播... -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Android 学习笔记 BroadcastReceiver广播... -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/07/cbfcfc9/"  title="USACO 2.2 Party Lamps 派对灯 (lamps) -">
+ <strong>下一篇：</strong><br/> 
+ <span>USACO 2.2 Party Lamps 派对灯 (lamps) -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一个丝滑的全屏滑动返回手势"><span class="toc-number">1.</span> <span class="toc-text">一个丝滑的全屏滑动返回手势</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#全屏返回手势"><span class="toc-number">1.1.</span> <span class="toc-text">全屏返回手势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FDFullscreenPopGesture"><span class="toc-number">1.2.</span> <span class="toc-text">FDFullscreenPopGesture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丝滑的处理导航栏的显示和隐藏"><span class="toc-number">1.3.</span> <span class="toc-text">丝滑的处理导航栏的显示和隐藏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于私有API"><span class="toc-number">1.4.</span> <span class="toc-text">关于私有API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0_代码的_Demo"><span class="toc-number">1.5.</span> <span class="toc-text">0 代码的 Demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加入到你的工程中"><span class="toc-number">1.6.</span> <span class="toc-text">加入到你的工程中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广告时间"><span class="toc-number">1.7.</span> <span class="toc-text">广告时间</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.7.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>51</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Html/" title="Html">Html<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/技术/" title="技术">技术<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/加密解密/" title="加密解密">加密解密<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVC模式/" title="MVC模式">MVC模式<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BroadcastReceiver/" title="BroadcastReceiver">BroadcastReceiver<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JDBC/" title="JDBC">JDBC<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/计算机病毒/" title="计算机病毒">计算机病毒<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Http/" title="Http">Http<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/keepalived/" title="keepalived">keepalived<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MacOS/" title="MacOS">MacOS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MacBook/" title="MacBook">MacBook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络安全/" title="网络安全">网络安全<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,593 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>cowplot：基于ggplot的可视化系统 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="cowplot&amp;#xFF1A;&amp;#x57FA;&amp;#x4E8E;ggplot&amp;#x7684;&amp;#x53EF;&amp;#x89C6;&amp;#x5316;&amp;#x7CFB;&amp;#x7EDF; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 10:55:58  Biostack.org
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http://www.biostack.org/?p=175
+ &amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cowplot：基于ggplot的可视化系统 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/06/07/cbb7b63/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="cowplot&amp;#xFF1A;&amp;#x57FA;&amp;#x4E8E;ggplot&amp;#x7684;&amp;#x53EF;&amp;#x89C6;&amp;#x5316;&amp;#x7CFB;&amp;#x7EDF; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 10:55:58  Biostack.org
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http://www.biostack.org/?p=175
+ &amp;#x">
+<meta property="og:image" content="http://taojinke.github.io/img/20150607/cbb67db.png">
+<meta property="og:updated_time" content="2015-06-07T14:16:31.801Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cowplot：基于ggplot的可视化系统 -">
+<meta name="twitter:description" content="cowplot&amp;#xFF1A;&amp;#x57FA;&amp;#x4E8E;ggplot&amp;#x7684;&amp;#x53EF;&amp;#x89C6;&amp;#x5316;&amp;#x7CFB;&amp;#x7EDF; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 10:55:58  Biostack.org
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http://www.biostack.org/?p=175
+ &amp;#x">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/07/cbb7b63/" title="cowplot：基于ggplot的可视化系统 -" itemprop="url">cowplot：基于ggplot的可视化系统 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-07T02:16:31.000Z" itemprop="datePublished"> 发表于 2015-06-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#cowplot：基于ggplot的可视化系统"><span class="toc-number">1.</span> <span class="toc-text">cowplot：基于ggplot的可视化系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GitHub_主页："><span class="toc-number">1.0.0.1.</span> <span class="toc-text">GitHub 主页：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CRAN_包地址："><span class="toc-number">1.0.0.2.</span> <span class="toc-text">CRAN 包地址：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包描述："><span class="toc-number">1.0.0.3.</span> <span class="toc-text">包描述：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包解读："><span class="toc-number">1.0.0.4.</span> <span class="toc-text">包解读：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码实例："><span class="toc-number">1.0.0.5.</span> <span class="toc-text">代码实例：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.5.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="cowplot&#xFF1A;&#x57FA;&#x4E8E;ggplot&#x7684;&#x53EF;&#x89C6;&#x5316;&#x7CFB;&#x7EDF;">cowplot&#xFF1A;&#x57FA;&#x4E8E;ggplot&#x7684;&#x53EF;&#x89C6;&#x5316;&#x7CFB;&#x7EDF;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-07 10:55:58  <a href="/sites/iE32am">Biostack.org</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.biostack.org/?p=175&amp;utm_source=tuicool" target="_blank" rel="external">http://www.biostack.org/?p=175</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11080136">ggplot2</a><a href="/topics/11100078">&#x52A0;&#x5BC6;&#x89E3;&#x5BC6;</a></p>
+<h4 id="GitHub_&#x4E3B;&#x9875;&#xFF1A;">GitHub &#x4E3B;&#x9875;&#xFF1A;</h4><p><a href="https://github.com/wilkelab/cowplot" target="_blank" rel="external">https://github.com/wilkelab/cowplot</a></p>
+<h4 id="CRAN_&#x5305;&#x5730;&#x5740;&#xFF1A;">CRAN &#x5305;&#x5730;&#x5740;&#xFF1A;</h4><p><a href="http://cran.r-project.org/web/packages/cowplot/index.html" target="_blank" rel="external">http://cran.r-project.org/web/packages/cowplot/index.html</a></p>
+<h4 id="&#x5305;&#x63CF;&#x8FF0;&#xFF1A;">&#x5305;&#x63CF;&#x8FF0;&#xFF1A;</h4><p>The cowplot package is a simple add-on to ggplot2. It is meant to provide a publication-ready theme for ggplot2, one that requires a minimum amount of fiddling with sizes of axis labels, plot backgrounds, etc. Its primary purpose is to give my students and postdocs an easy way to make figures that I will approve of. Thus, this package meets my personal needs and tastes. Yours may be different.</p>
+<p>Some helpful extensions and modifications to the &#x2018;ggplot2&#x2032; library. In particular, this package makes it easy to combine multiple &#x2018;ggplot2&#x2032; plots into one and label them with letters, e.g. A, B, C, etc., as is often required for scientific publications. The package also provides a streamlined and clean theme that is used in the Wilke lab, hence the package name, which stands for Claus O. Wilke&#x2019;s plot library.</p>
+<h4 id="&#x5305;&#x89E3;&#x8BFB;&#xFF1A;">&#x5305;&#x89E3;&#x8BFB;&#xFF1A;</h4><p>&#x73B0;&#x5728;&#x6BCF;&#x6B21;&#x7ED8;&#x5236;GGplot&#x7684;&#x56FE;&#xFF0C;&#x90FD;&#x4F1A;&#x4F7F;&#x7528; theme_bw&#xFF08;&#xFF09;&#x53BB;&#x9664;&#x7070;&#x8272;&#x7684;&#x80CC;&#x666F;&#x4FE1;&#x606F;&#xFF0C;&#x73B0;&#x5728;&#x4F7F;&#x7528;cowplot &#x4F3C;&#x4E4E;&#x53D8;&#x7684;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x56FE;&#x7684;&#x6392;&#x5217;&#x548C;&#x6CE8;&#x91CA;&#x4E5F;&#x53D8;&#x5F97;&#x5F88;&#x7B80;&#x5355;&#x3002;</p>
+<h4 id="&#x4EE3;&#x7801;&#x5B9E;&#x4F8B;&#xFF1A;">&#x4EE3;&#x7801;&#x5B9E;&#x4F8B;&#xFF1A;</h4><p>&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code>library<span class="params">(ggplot2)</span>
+require<span class="params">(cowplot)</span>
+plot.mpg &amp;lt;- ggplot<span class="params">(mpg, aes<span class="params">(x = cty, y = hwy, colour = factor<span class="params">(cyl)</span>)</span>)</span> +
+            geom_point<span class="params">(size=<span class="number">2.5</span>)</span>
+plot.diamonds &amp;lt;- ggplot<span class="params">(diamonds, aes<span class="params">(clarity, fill = cut)</span>)</span> +
+                 geom_bar<span class="params">()</span> +
+                 theme<span class="params">(axis.text.x = element_text<span class="params">(angle=<span class="number">70</span>, vjust=<span class="number">0.5</span>)</span>)</span>
+plot.iris &amp;lt;- ggplot<span class="params">(iris, aes<span class="params">(Sepal.Length, Sepal.Width)</span>)</span> +
+             geom_point<span class="params">()</span> + facet_grid<span class="params">(. ~ Species)</span> +
+             stat_smooth<span class="params">(method = &amp;quot;lm&amp;quot;)</span> +
+             background_grid<span class="params">(major = &amp;apos;y&amp;apos;, minor = &amp;quot;none&amp;quot;)</span> +
+             panel_border<span class="params">()</span>
+ggdraw<span class="params">()</span> +
+  draw_plot<span class="params">(plot.iris, <span class="number">0</span>, .<span class="number">5</span>, <span class="number">1</span>, .<span class="number">5</span>)</span> +
+  draw_plot<span class="params">(plot.mpg, <span class="number">0</span>, <span class="number">0</span>, .<span class="number">5</span>, .<span class="number">5</span>)</span> +
+  draw_plot<span class="params">(plot.diamonds, .<span class="number">5</span>, <span class="number">0</span>, .<span class="number">5</span>, .<span class="number">5</span>)</span> +
+  draw_plot_label<span class="params">(c<span class="params">(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;, &amp;quot;C&amp;quot;)</span>, c<span class="params">(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0.5</span>)</span>, c<span class="params">(<span class="number">1</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)</span>, size = <span class="number">15</span>)</span>
+</code></pre><p>&#x7ED3;&#x679C;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150607/cbb67db.png" alt=""></p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/r2EVJr2">&#x4E92;&#x8054;&#x7F51;+&#x7684;&#x65F6;&#x4EE3;&#xFF0C;&#x4F60;&#x5230;&#x5E95;&#x8981;&#x505A;&#x4EC0;&#x4E48;&#xFF1F;</a></li>
+<li>2.<a href="/articles/N3iMFni">&#x8C01;&#x662F; Bill Gross | &#x7845;&#x53D1;&#x5E03;&#x56DE;&#x987E;</a></li>
+<li>3.<a href="/articles/32yMNjq">&#x8FC7;&#x53BB;&#x4E00;&#x5468;&#x864E;&#x55C5;&#x4E0A;&#x7684;&#x5341;&#x7BC7;&#x70ED;&#x6587; (6.1&#x2014;6.7)</a></li>
+<li>4.<a href="/articles/V7Vn6ry">&#x5BF9;&#x8BDD;&#x5EB7;&#x590F;&#xFF1A;&#x5929;&#x5802;&#x7684;19&#x5929;&#x548C;&#x5730;&#x72F1;&#x7684;24&#x5C0F;&#x65F6;</a></li>
+<li>5.<a href="/articles/nEzUzqM">&#x770B;&#x5230;&#x8FD9;&#x4E9B;&#x673A;&#x5668;&#x4EBA;&#x6454;&#x5012;&#xFF0C;&#x4F60;&#x5FC3;&#x91CC;&#x662F;&#x4EC0;&#x4E48;&#x611F;&#x89C9;&#xFF1F;</a></li>
+<li><p>6.<a href="/articles/f2uiQbN">&#x5173;&#x7FBD;&#x90FD;&#x60CA;&#x5446;&#x4E86;&#xFF1A;&#x5728;&#x5F00;&#x9885;&#x624B;&#x672F;&#x4E2D;&#x5F39;&#x5409;&#x4ED6;&#x7684;&#x7537;&#x4EBA;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/vEn6Fr">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;vEn6Fr&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ggplot2/">ggplot2</a><a href="/tags/加密解密/">加密解密</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/07/cbbb38a/" title="Java知多少（85）文本框和文本区 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java知多少（85）文本框和文本区 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/07/cbb51e2/"  title="常用跨域方法实践（一） -">
+ <strong>下一篇：</strong><br/> 
+ <span>常用跨域方法实践（一） -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#cowplot：基于ggplot的可视化系统"><span class="toc-number">1.</span> <span class="toc-text">cowplot：基于ggplot的可视化系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GitHub_主页："><span class="toc-number">1.0.0.1.</span> <span class="toc-text">GitHub 主页：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CRAN_包地址："><span class="toc-number">1.0.0.2.</span> <span class="toc-text">CRAN 包地址：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包描述："><span class="toc-number">1.0.0.3.</span> <span class="toc-text">包描述：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包解读："><span class="toc-number">1.0.0.4.</span> <span class="toc-text">包解读：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码实例："><span class="toc-number">1.0.0.5.</span> <span class="toc-text">代码实例：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.5.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>51</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Html/" title="Html">Html<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/技术/" title="技术">技术<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/加密解密/" title="加密解密">加密解密<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVC模式/" title="MVC模式">MVC模式<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BroadcastReceiver/" title="BroadcastReceiver">BroadcastReceiver<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JDBC/" title="JDBC">JDBC<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/计算机病毒/" title="计算机病毒">计算机病毒<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Http/" title="Http">Http<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/keepalived/" title="keepalived">keepalived<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MacOS/" title="MacOS">MacOS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MacBook/" title="MacBook">MacBook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络安全/" title="网络安全">网络安全<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
