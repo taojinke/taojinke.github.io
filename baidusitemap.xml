@@ -3,16 +3,14 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/bea9a97/</loc>
-    <lastmod>2015-06-06T15:07:27.496Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/07/ee0b304/</loc>
+    <lastmod>2015-06-07T01:47:14.662Z</lastmod>
     <data>
         <display>
-        <title>统计信息内幕：直方图和密度向量 - 推酷</title>
-        <pubTime>2015-06-06T03:07:27.000Z</pubTime>
+        <title>Calculate Linux 14.16.2 发布</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
         
-        <tag>SQL Server </tag>
-         
-        <tag>向量 </tag>
+        <tag>Linux </tag>
          
          
            
@@ -25,16 +23,14 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/be9d9b8/</loc>
-    <lastmod>2015-06-06T15:07:27.417Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/07/edec84b/</loc>
+    <lastmod>2015-06-07T01:47:14.656Z</lastmod>
     <data>
         <display>
-        <title><Linux内核源码>文件系统VFS内核4.0.4版本基本概念源码 - 推酷</title>
-        <pubTime>2015-06-06T03:07:27.000Z</pubTime>
+        <title>咸蛋系列一●《随机数生成篇》1 序</title>
+        <pubTime>2015-06-07T01:45:51.000Z</pubTime>
         
-        <tag>Linux内核 </tag>
-         
-        <tag>文件系统 </tag>
+        <tag>.Net </tag>
          
          
            
@@ -47,12 +43,364 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/be9c3bf/</loc>
-    <lastmod>2015-06-06T15:07:27.408Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/07/efbcfef/</loc>
+    <lastmod>2015-06-07T01:47:14.650Z</lastmod>
     <data>
         <display>
-        <title>Restful风格wcf调用2——增删改查 - 推酷</title>
-        <pubTime>2015-06-06T03:07:27.000Z</pubTime>
+        <title>我的 RSS 订阅列表</title>
+        <pubTime>2015-06-07T01:45:55.000Z</pubTime>
+        
+        <tag>RSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/eec5588/</loc>
+    <lastmod>2015-06-07T01:47:14.644Z</lastmod>
+    <data>
+        <display>
+        <title>php ftp ftp上传文件的脚本</title>
+        <pubTime>2015-06-07T01:45:53.000Z</pubTime>
+        
+        <tag>FTP </tag>
+         
+        <tag>PHP </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee391e1/</loc>
+    <lastmod>2015-06-07T01:47:14.637Z</lastmod>
+    <data>
+        <display>
+        <title>Python文件读取编码错误问题解决之（PyCharm开发工具默认设置的坑。。。）</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>PyCharm </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee06ea8/</loc>
+    <lastmod>2015-06-07T01:47:14.632Z</lastmod>
+    <data>
+        <display>
+        <title>腾讯移动性能评测专家叶方正：Android优化笔记</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>安卓开发 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee5afdf/</loc>
+    <lastmod>2015-06-07T01:47:14.626Z</lastmod>
+    <data>
+        <display>
+        <title>Oracle Data Pump 导出和导入数据</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>Oracle数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee0c41b/</loc>
+    <lastmod>2015-06-07T01:47:14.618Z</lastmod>
+    <data>
+        <display>
+        <title>超慢的 Facebook...</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>Facebook </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ef843bb/</loc>
+    <lastmod>2015-06-07T01:47:14.613Z</lastmod>
+    <data>
+        <display>
+        <title>MongooseJS 4.0.5 发布，MongonDB 连接包</title>
+        <pubTime>2015-06-07T01:45:54.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+        <tag>Mongoose </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee2e6fb/</loc>
+    <lastmod>2015-06-07T01:47:14.607Z</lastmod>
+    <data>
+        <display>
+        <title>Vim - 适合自己的，才是最好的</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>VIM </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/edfcff7/</loc>
+    <lastmod>2015-06-07T01:47:14.595Z</lastmod>
+    <data>
+        <display>
+        <title>这就是搜索引擎--读书笔记七--倒排列表压缩算法</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>链表 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/edf70c0/</loc>
+    <lastmod>2015-06-07T01:47:14.582Z</lastmod>
+    <data>
+        <display>
+        <title>iOS-Runtime知识点整理</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>Objective-C </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/edea13b/</loc>
+    <lastmod>2015-06-07T01:47:14.577Z</lastmod>
+    <data>
+        <display>
+        <title>再回首，Java温故知新（八）：Java基础之字符串</title>
+        <pubTime>2015-06-07T01:45:51.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee09f7c/</loc>
+    <lastmod>2015-06-07T01:47:14.572Z</lastmod>
+    <data>
+        <display>
+        <title>再谈 JavaScript 异步编程</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>JavaScript </tag>
+         
+        <tag>异步编程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/edcceec/</loc>
+    <lastmod>2015-06-07T01:47:14.566Z</lastmod>
+    <data>
+        <display>
+        <title>OWebl 0.2 发布，OCaml 的 Web 框架</title>
+        <pubTime>2015-06-07T01:45:51.000Z</pubTime>
+        
+        <tag>OCaml </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee5d20d/</loc>
+    <lastmod>2015-06-07T01:47:14.561Z</lastmod>
+    <data>
+        <display>
+        <title>如何实现一个不规则排列的图片布局算法</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>iOS开发 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ede6432/</loc>
+    <lastmod>2015-06-07T01:47:14.556Z</lastmod>
+    <data>
+        <display>
+        <title>腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计</title>
+        <pubTime>2015-06-07T01:45:51.000Z</pubTime>
+        
+        <tag>性能优化 </tag>
+         
+        <tag>移动开发 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/edcb8f3/</loc>
+    <lastmod>2015-06-07T01:47:14.550Z</lastmod>
+    <data>
+        <display>
+        <title>Git 2.4.3 发布</title>
+        <pubTime>2015-06-07T01:45:51.000Z</pubTime>
+        
+        <tag>Git </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee3833b/</loc>
+    <lastmod>2015-06-07T01:47:14.543Z</lastmod>
+    <data>
+        <display>
+        <title>构建最小Docker Image运行网站程序并部署到DaoCloud中</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>DaoCloud </tag>
+         
+        <tag>Docker </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee1a246/</loc>
+    <lastmod>2015-06-07T01:47:14.538Z</lastmod>
+    <data>
+        <display>
+        <title>Restful风格wcf调用3——Stream</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
         
         <tag>REST </tag>
          
@@ -69,12 +417,12 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/be85f4d/</loc>
-    <lastmod>2015-06-06T15:07:27.408Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/07/edce003/</loc>
+    <lastmod>2015-06-07T01:47:14.533Z</lastmod>
     <data>
         <display>
-        <title>编程模拟自然(一)：如何画一颗静态树 - 推酷</title>
-        <pubTime>2015-06-06T03:07:27.000Z</pubTime>
+        <title>Aspose.Tasks for .NET 8.4.1 发布</title>
+        <pubTime>2015-06-07T01:45:51.000Z</pubTime>
         
         <tag>.Net </tag>
          
@@ -89,160 +437,12 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/be3b092/</loc>
-    <lastmod>2015-06-06T15:07:26.771Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/07/ee343c1/</loc>
+    <lastmod>2015-06-07T01:47:14.527Z</lastmod>
     <data>
         <display>
-        <title>Hibernate学习-Hibernate查询语言HQL（一） - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
-        
-        <tag>数据库 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/be369c5/</loc>
-    <lastmod>2015-06-06T15:07:26.771Z</lastmod>
-    <data>
-        <display>
-        <title>Mock session,cookie,querystring in ASB.NET MVC - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
-        
-        <tag>.Net </tag>
-         
-        <tag>MVC模式 </tag>
-         
-        <tag>测试技术 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/be34c79/</loc>
-    <lastmod>2015-06-06T15:07:26.771Z</lastmod>
-    <data>
-        <display>
-        <title>SharePoint 2013 搭建负载均衡(NLB) - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
-        
-        <tag>SharePoint </tag>
-         
-        <tag>负载均衡 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/be2b9fd/</loc>
-    <lastmod>2015-06-06T15:07:26.771Z</lastmod>
-    <data>
-        <display>
-        <title>Android 学习笔记 Service服务与远程通信...（AIDL） - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
-        
-        <tag>AIDL </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/be30cff/</loc>
-    <lastmod>2015-06-06T15:07:26.770Z</lastmod>
-    <data>
-        <display>
-        <title>Oracle Data Pump 导出和导入数据 - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
-        
-        <tag>Oracle数据库 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/be32087/</loc>
-    <lastmod>2015-06-06T15:07:26.770Z</lastmod>
-    <data>
-        <display>
-        <title>从RTSP协议SDP数据中获得二进制的SPS、PPS - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
-        
-        <tag>PPS </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/be27f65/</loc>
-    <lastmod>2015-06-06T15:07:26.770Z</lastmod>
-    <data>
-        <display>
-        <title>如何真正成为一个在路上的Linuxer - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
-        
-        <tag>Linux </tag>
-         
-        <tag>Windows </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/be0923b/</loc>
-    <lastmod>2015-06-06T15:07:26.444Z</lastmod>
-    <data>
-        <display>
-        <title>常见面试题系列1——原地消除字符串连续的空白字符 - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        <title>常见面试题系列1——原地消除字符串连续的空白字符</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
         
         <tag>技术 </tag>
          
@@ -257,11 +457,91 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/be02e22/</loc>
-    <lastmod>2015-06-06T15:07:26.403Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/07/ede2c0b/</loc>
+    <lastmod>2015-06-07T01:47:14.519Z</lastmod>
     <data>
         <display>
-        <title>构建最小Docker Image运行网站程序并部署到DaoCloud中 - 推酷</title>
+        <title>几种锁算法的实现</title>
+        <pubTime>2015-06-07T01:45:51.000Z</pubTime>
+        
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ede8db3/</loc>
+    <lastmod>2015-06-07T01:47:14.513Z</lastmod>
+    <data>
+        <display>
+        <title>爱立信开源物联网应用开发平台：Calvin</title>
+        <pubTime>2015-06-07T01:45:51.000Z</pubTime>
+        
+        <tag>开源 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/edc881f/</loc>
+    <lastmod>2015-06-07T01:47:14.507Z</lastmod>
+    <data>
+        <display>
+        <title>笔记, Cirru Table Redo 失败, 经验教训</title>
+        <pubTime>2015-06-07T01:45:51.000Z</pubTime>
+        
+        <tag>软件开发 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/07/ee084a1/</loc>
+    <lastmod>2015-06-07T01:47:14.498Z</lastmod>
+    <data>
+        <display>
+        <title>Datazen安装</title>
+        <pubTime>2015-06-07T01:45:52.000Z</pubTime>
+        
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be02e22/</loc>
+    <lastmod>2015-06-07T01:41:41.275Z</lastmod>
+    <data>
+        <display>
+        <title>构建最小Docker Image运行网站程序并部署到DaoCloud中</title>
         <pubTime>2015-06-06T03:07:26.000Z</pubTime>
         
         <tag>DaoCloud </tag>
@@ -279,11 +559,301 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/bdf1f23/</loc>
-    <lastmod>2015-06-06T15:07:26.293Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/06/bdc2089/</loc>
+    <lastmod>2015-06-07T01:41:41.269Z</lastmod>
     <data>
         <display>
-        <title>js调DLL类库中的方法实现(非com组件形式) - 推酷</title>
+        <title>如何实现一个不规则排列的图片布局算法</title>
+        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
+        
+        <tag>iOS开发 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be30cff/</loc>
+    <lastmod>2015-06-07T01:41:41.262Z</lastmod>
+    <data>
+        <display>
+        <title>Oracle Data Pump 导出和导入数据</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>Oracle数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bde2d70/</loc>
+    <lastmod>2015-06-07T01:41:41.254Z</lastmod>
+    <data>
+        <display>
+        <title>angular.js 1.3.16 发布，HTML的Web框架</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>JavaScript </tag>
+         
+        <tag>iOS8 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be85f4d/</loc>
+    <lastmod>2015-06-07T01:41:41.240Z</lastmod>
+    <data>
+        <display>
+        <title>编程模拟自然(一)：如何画一颗静态树</title>
+        <pubTime>2015-06-06T03:07:27.000Z</pubTime>
+        
+        <tag>.Net </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bdade45/</loc>
+    <lastmod>2015-06-07T01:41:41.233Z</lastmod>
+    <data>
+        <display>
+        <title>腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计</title>
+        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
+        
+        <tag>性能优化 </tag>
+         
+        <tag>移动开发 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bda7068/</loc>
+    <lastmod>2015-06-07T01:41:41.227Z</lastmod>
+    <data>
+        <display>
+        <title>Calculate Linux 14.16.2 发布</title>
+        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bde9dbe/</loc>
+    <lastmod>2015-06-07T01:41:41.221Z</lastmod>
+    <data>
+        <display>
+        <title>用VS2010检查两个MSSQL数据库的架构差异并同步</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>Visual Studio </tag>
+         
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bdc42b7/</loc>
+    <lastmod>2015-06-07T01:41:41.214Z</lastmod>
+    <data>
+        <display>
+        <title>Javascript的setTimeOut和setInterval的定时器用法</title>
+        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
+        
+        <tag>JavaScript </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be2b9fd/</loc>
+    <lastmod>2015-06-07T01:41:41.207Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习笔记 Service服务与远程通信...（AIDL）</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>AIDL </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be3b092/</loc>
+    <lastmod>2015-06-07T01:41:41.199Z</lastmod>
+    <data>
+        <display>
+        <title>Hibernate学习-Hibernate查询语言HQL（一）</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be32087/</loc>
+    <lastmod>2015-06-07T01:41:41.191Z</lastmod>
+    <data>
+        <display>
+        <title>从RTSP协议SDP数据中获得二进制的SPS、PPS</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>PPS </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bdd5698/</loc>
+    <lastmod>2015-06-07T01:41:41.183Z</lastmod>
+    <data>
+        <display>
+        <title>Montage Framework 6月11日北京技术讨论会</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>GitHub </tag>
+         
+        <tag>Html5 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bdb166c/</loc>
+    <lastmod>2015-06-07T01:41:41.176Z</lastmod>
+    <data>
+        <display>
+        <title>腾讯移动性能评测专家叶方正：Android优化笔记</title>
+        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
+        
+        <tag>安卓开发 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bdc6003/</loc>
+    <lastmod>2015-06-07T01:41:41.168Z</lastmod>
+    <data>
+        <display>
+        <title>咸蛋系列一●《随机数生成篇》1 序</title>
+        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
+        
+        <tag>.Net </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bdf1f23/</loc>
+    <lastmod>2015-06-07T01:41:41.160Z</lastmod>
+    <data>
+        <display>
+        <title>js调DLL类库中的方法实现(非com组件形式)</title>
         <pubTime>2015-06-06T03:07:26.000Z</pubTime>
         
         <tag>.Net </tag>
@@ -303,11 +873,139 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/bde8ca7/</loc>
-    <lastmod>2015-06-06T15:07:26.239Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/06/be0923b/</loc>
+    <lastmod>2015-06-07T01:41:41.152Z</lastmod>
     <data>
         <display>
-        <title>说好的 OOM Killer 去哪了 - 推酷</title>
+        <title>常见面试题系列1——原地消除字符串连续的空白字符</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>技术 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be9d9b8/</loc>
+    <lastmod>2015-06-07T01:41:41.143Z</lastmod>
+    <data>
+        <display>
+        <title><Linux内核源码>文件系统VFS内核4.0.4版本基本概念源码</title>
+        <pubTime>2015-06-06T03:07:27.000Z</pubTime>
+        
+        <tag>Linux内核 </tag>
+         
+        <tag>文件系统 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bdab4c4/</loc>
+    <lastmod>2015-06-07T01:41:41.135Z</lastmod>
+    <data>
+        <display>
+        <title>这就是搜索引擎--读书笔记七--倒排列表压缩算法</title>
+        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
+        
+        <tag>链表 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be27f65/</loc>
+    <lastmod>2015-06-07T01:41:41.127Z</lastmod>
+    <data>
+        <display>
+        <title>如何真正成为一个在路上的Linuxer</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Windows </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be369c5/</loc>
+    <lastmod>2015-06-07T01:41:41.118Z</lastmod>
+    <data>
+        <display>
+        <title>Mock session,cookie,querystring in ASB.NET MVC</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>.Net </tag>
+         
+        <tag>MVC模式 </tag>
+         
+        <tag>测试技术 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bde5bd3/</loc>
+    <lastmod>2015-06-07T01:41:41.108Z</lastmod>
+    <data>
+        <display>
+        <title>android国际化操作</title>
+        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        
+        <tag>安卓开发 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/bde8ca7/</loc>
+    <lastmod>2015-06-07T01:41:41.100Z</lastmod>
+    <data>
+        <display>
+        <title>说好的 OOM Killer 去哪了</title>
         <pubTime>2015-06-06T03:07:26.000Z</pubTime>
         
         <tag>Linux </tag>
@@ -325,36 +1023,38 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/bde9dbe/</loc>
-    <lastmod>2015-06-06T15:07:26.239Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/06/be9c3bf/</loc>
+    <lastmod>2015-06-07T01:41:41.092Z</lastmod>
     <data>
         <display>
-        <title>用VS2010检查两个MSSQL数据库的架构差异并同步 - 推酷</title>
+        <title>Restful风格wcf调用2——增删改查</title>
+        <pubTime>2015-06-06T03:07:27.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>WCF </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://fblog.github.io/2015/06/06/be34c79/</loc>
+    <lastmod>2015-06-07T01:41:41.078Z</lastmod>
+    <data>
+        <display>
+        <title>SharePoint 2013 搭建负载均衡(NLB)</title>
         <pubTime>2015-06-06T03:07:26.000Z</pubTime>
         
-        <tag>Visual Studio </tag>
+        <tag>SharePoint </tag>
          
-        <tag>数据库 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/bde5bd3/</loc>
-    <lastmod>2015-06-06T15:07:26.212Z</lastmod>
-    <data>
-        <display>
-        <title>android国际化操作 - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
-        
-        <tag>安卓开发 </tag>
+        <tag>负载均衡 </tag>
          
          
            
@@ -367,100 +1067,16 @@
 
     
   <url>
-    <loc>http://fblog.github.io/2015/06/06/bde2d70/</loc>
-    <lastmod>2015-06-06T15:07:26.194Z</lastmod>
+    <loc>http://fblog.github.io/2015/06/06/bea9a97/</loc>
+    <lastmod>2015-06-07T01:41:41.068Z</lastmod>
     <data>
         <display>
-        <title>angular.js 1.3.16 发布，HTML的Web框架 - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
+        <title>统计信息内幕：直方图和密度向量</title>
+        <pubTime>2015-06-06T03:07:27.000Z</pubTime>
         
-        <tag>JavaScript </tag>
+        <tag>SQL Server </tag>
          
-        <tag>iOS8 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/bdd5698/</loc>
-    <lastmod>2015-06-06T15:07:26.106Z</lastmod>
-    <data>
-        <display>
-        <title>Montage Framework 6月11日北京技术讨论会 - 推酷</title>
-        <pubTime>2015-06-06T03:07:26.000Z</pubTime>
-        
-        <tag>GitHub </tag>
-         
-        <tag>Html5 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/bdc6003/</loc>
-    <lastmod>2015-06-06T15:07:26.004Z</lastmod>
-    <data>
-        <display>
-        <title>咸蛋系列一●《随机数生成篇》1 序 - 推酷</title>
-        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
-        
-        <tag>.Net </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/bdc42b7/</loc>
-    <lastmod>2015-06-06T15:07:25.992Z</lastmod>
-    <data>
-        <display>
-        <title>Javascript的setTimeOut和setInterval的定时器用法 - 推酷</title>
-        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
-        
-        <tag>JavaScript </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/bdc2089/</loc>
-    <lastmod>2015-06-06T15:07:25.991Z</lastmod>
-    <data>
-        <display>
-        <title>如何实现一个不规则排列的图片布局算法 - 推酷</title>
-        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
-        
-        <tag>iOS开发 </tag>
-         
-        <tag>算法 </tag>
+        <tag>向量 </tag>
          
          
            
@@ -474,95 +1090,13 @@
     
   <url>
     <loc>http://fblog.github.io/2015/06/06/bdb3fed/</loc>
-    <lastmod>2015-06-06T15:07:25.886Z</lastmod>
+    <lastmod>2015-06-07T01:41:41.058Z</lastmod>
     <data>
         <display>
-        <title>iOS-Runtime知识点整理 - 推酷</title>
+        <title>iOS-Runtime知识点整理</title>
         <pubTime>2015-06-06T03:07:25.000Z</pubTime>
         
         <tag>Objective-C </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/bdb166c/</loc>
-    <lastmod>2015-06-06T15:07:25.870Z</lastmod>
-    <data>
-        <display>
-        <title>腾讯移动性能评测专家叶方正：Android优化笔记 - 推酷</title>
-        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
-        
-        <tag>安卓开发 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/bdade45/</loc>
-    <lastmod>2015-06-06T15:07:25.847Z</lastmod>
-    <data>
-        <display>
-        <title>腾讯Bugly移动开发者沙龙：App性能优化与终端架构设计 - 推酷</title>
-        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
-        
-        <tag>性能优化 </tag>
-         
-        <tag>移动开发 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/bda7068/</loc>
-    <lastmod>2015-06-06T15:07:25.847Z</lastmod>
-    <data>
-        <display>
-        <title>Calculate Linux 14.16.2 发布 - 推酷</title>
-        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
-        
-        <tag>Linux </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://fblog.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://fblog.github.io/2015/06/06/bdab4c4/</loc>
-    <lastmod>2015-06-06T15:07:25.847Z</lastmod>
-    <data>
-        <display>
-        <title>这就是搜索引擎--读书笔记七--倒排列表压缩算法 - 推酷</title>
-        <pubTime>2015-06-06T03:07:25.000Z</pubTime>
-        
-        <tag>链表 </tag>
          
          
            
