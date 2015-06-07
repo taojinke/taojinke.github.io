@@ -1,0 +1,798 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>JavaScript OOP 创建对象的7种方式 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="JavaScript OOP &amp;#x521B;&amp;#x5EFA;&amp;#x5BF9;&amp;#x8C61;&amp;#x7684;7&amp;#x79CD;&amp;#x65B9;&amp;#x5F0F; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 09:24:04  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;&amp;#x7CBE;&amp;#x534E;&amp;#x533A;
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript OOP 创建对象的7种方式 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/06/07/20150607/f8fffa6/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="JavaScript OOP &amp;#x521B;&amp;#x5EFA;&amp;#x5BF9;&amp;#x8C61;&amp;#x7684;7&amp;#x79CD;&amp;#x65B9;&amp;#x5F0F; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 09:24:04  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;&amp;#x7CBE;&amp;#x534E;&amp;#x533A;
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http">
+<meta property="og:image" content="http://img1.tuicool.com/uUZrMbj.png">
+<meta property="og:updated_time" content="2015-06-07T10:21:34.343Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript OOP 创建对象的7种方式 -">
+<meta name="twitter:description" content="JavaScript OOP &amp;#x521B;&amp;#x5EFA;&amp;#x5BF9;&amp;#x8C61;&amp;#x7684;7&amp;#x79CD;&amp;#x65B9;&amp;#x5F0F; &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-07 09:24:04  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;&amp;#x7CBE;&amp;#x534E;&amp;#x533A;
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/07/20150607/f8fffa6/" title="JavaScript OOP 创建对象的7种方式 -" itemprop="url">JavaScript OOP 创建对象的7种方式 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-06T22:21:34.000Z" itemprop="datePublished"> 发表于 2015-06-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript_OOP_创建对象的7种方式"><span class="toc-number">1.</span> <span class="toc-text">JavaScript OOP 创建对象的7种方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、工厂模式"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">1、工厂模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、构造函数模式"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">2、构造函数模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、原型模式"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">3、原型模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、构造函数与原型对象方式组合的模式"><span class="toc-number">1.0.0.4.</span> <span class="toc-text">4、构造函数与原型对象方式组合的模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、动态原型模式"><span class="toc-number">1.0.0.5.</span> <span class="toc-text">5、动态原型模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、寄生构造模式"><span class="toc-number">1.0.0.6.</span> <span class="toc-text">6、寄生构造模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、稳妥构造函数模式"><span class="toc-number">1.0.0.7.</span> <span class="toc-text">7、稳妥构造函数模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.7.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="JavaScript_OOP_&#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#x7684;7&#x79CD;&#x65B9;&#x5F0F;">JavaScript OOP &#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#x7684;7&#x79CD;&#x65B9;&#x5F0F;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-07 09:24:04  <a href="/sites/bAzeYv">&#x535A;&#x5BA2;&#x56ED;&#x7CBE;&#x534E;&#x533A;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/lvyahui/p/4557452.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/lvyahui/p/4557452.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11080073">&#x539F;&#x578B;&#x6A21;&#x5F0F;</a><a href="/topics/11060022">Prototype</a></p>
+<p>&#x6211;&#x5199;JS&#x4EE3;&#x7801;&#xFF0C;&#x53EF;&#x4EE5;&#x8BF4;&#x4E00;&#x76F4;&#x90FD;&#x662F;&#x9762;&#x5411;&#x8FC7;&#x7A0B;&#x7684;&#x5199;&#x6CD5;&#xFF0C;&#x9664;&#x4E86;&#x4E00;&#x4E9B;&#x7528;&#x6765;&#x5C01;&#x88C5;&#x6570;&#x636E;&#x7684;&#x5BF9;&#x8C61;&#x6216;&#x8005;jQuery&#x63D2;&#x4EF6;&#xFF0C;&#x53EF;&#x4EE5;&#x8BF4;&#x5BF9;&#x539F;&#x751F;&#x5BF9;&#x8C61;&#x4E86;&#x89E3;&#x7684;&#x662F;&#x5C11;&#x4E4B;&#x53C8;&#x5C11;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x62FF;&#x7740;&#x300A;JavaScript&#x9AD8;&#x7EA7;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1; &#x7B2C;3&#x7248;&#x300B;&#x6076;&#x8865;&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x8FD9;&#x91CC;&#x5750;&#x4E0B;&#x603B;&#x7ED3;&#x7B14;&#x8BB0;&#xFF0C;&#x5C5E;&#x4E8E;&#x83DC;&#x9E1F;&#x7EA7;&#x522B;&#xFF0C;&#x5927;&#x795E;&#x8BF7;&#x76F4;&#x63A5;&#x65E0;&#x89C6;&#x3002;</p>
+<h4 id="1&#x3001;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;">1&#x3001;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;</h4><pre><code> <span class="number">1</span> <span class="comment">/**
+ 2  * &amp;#x5DE5;&amp;#x5382;&amp;#x6A21;&amp;#x5F0F;
+ 3  */</span>
+ <span class="number">4</span> <span class="function"><span class="keyword">function</span> <span class="title">createPerson</span>(<span class="params">name,age,job</span>)</span>{
+ <span class="number">5</span>     <span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();
+ <span class="number">6</span>     o.name = name;
+ <span class="number">7</span>     o.age  = age;
+ <span class="number">8</span>     o.job = job;
+ <span class="number">9</span>     o.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{
+<span class="number">10</span>         <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);
+<span class="number">11</span>     };
+<span class="number">12</span>     <span class="comment">// &amp;#x7B49;&amp;#x4EF7;&amp;#x4E8E;  o.sayName = new Function(&amp;quot;console.log(this.name);&amp;quot;);</span>
+<span class="number">13</span>     <span class="keyword">return</span> o;
+<span class="number">14</span> }
+<span class="number">15</span> <span class="keyword">var</span> p1 = createPerson(&amp;apos;lvyahui1&amp;apos;,<span class="number">12</span>,&amp;apos;devloper&amp;apos;);
+<span class="number">16</span> <span class="keyword">var</span> p2 = createPerson(&amp;apos;lvyahui2&amp;apos;,<span class="number">23</span>,&amp;apos;desigen&amp;apos;);
+<span class="number">17</span> p1.sayName();
+<span class="number">18</span> p2.sayName();
+<span class="number">19</span> <span class="built_in">console</span>.log(p1.sayName === p2.sayName); <span class="comment">// false</span>
+</code></pre><p>&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x5B58;&#x5728;&#x5F88;&#x591A;&#x95EE;&#x9898;&#xFF0C;&#x6BD4;&#x5982;&#x591A;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x72EC;&#x7ACB;&#x7684;&#xFF0C;&#x6CA1;&#x7528;&#x5171;&#x4EAB;&#x3002;&#x4E0D;&#x80FD;&#x5224;&#x65AD;&#x5BF9;&#x8C61;&#x7684;&#x7C7B;&#x578B;</p>
+<h4 id="2&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;&#x6A21;&#x5F0F;">2&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;&#x6A21;&#x5F0F;</h4><pre><code> 1 /**
+ 2  * &amp;#x6784;&amp;#x9020;&amp;#x51FD;&amp;#x6570;&amp;#x6A21;&amp;#x5F0F;
+ 3  */
+ 4 function <span class="keyword">Person</span> (name,age,job){
+ 5     this.name = name;
+ 6     this.age = age;
+ 7     this.job = job;
+ 8     this.sayName = function(){
+ 9         console.log(this.name);
+10     };
+11 }
+12 var pp1 = new <span class="keyword">Person</span>(&amp;apos;lvyahui1&amp;apos;,12,&amp;apos;dev&amp;apos;);
+13 var pp2 = new <span class="keyword">Person</span>(&amp;apos;lvyahui2&amp;apos;,12,&amp;apos;desien&amp;apos;);
+14 pp1.sayName();
+15 pp2.sayName();
+16 console.log(pp1.constructor === <span class="keyword">Person</span>);    //  true
+17 console.log(pp2.constructor === <span class="keyword">Person</span>);    //  true
+18 console.log(pp1 instanceof Object);         //  true
+19 console.log(pp2 instanceof <span class="keyword">Person</span>);         //  true
+</code></pre><p> &#x8FD9;&#x4E2D;&#x65B9;&#x5F0F;&#x89E3;&#x51B3;&#x4E86;&#x5BF9;&#x8C61;&#x7C7B;&#x578B;&#x5224;&#x65AD;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x5374;&#x6CA1;&#x6709;&#x89E3;&#x51B3;&#x65B9;&#x6CD5;&#x5171;&#x4EAB;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x65B9;&#x6CD5;&#x4F9D;&#x7136;&#x5728;&#x6BCF;&#x4E2A;&#x5BF9;&#x8C61;&#x91CC;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x904D; &#x3002;&#x8981;&#x89E3;&#x51B3;&#x8FD9;&#x6837;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x4EE5;&#x50CF;&#x4E0B;&#x9762;&#x8FD9;&#x6837; </p>
+<pre><code><span class="number">1</span> <span class="function"><span class="keyword">function</span> <span class="title">Home</span> (<span class="params">name,age,job</span>)</span>{
+<span class="number">2</span>     <span class="keyword">this</span>.name = name;
+<span class="number">3</span>     <span class="keyword">this</span>.age = age;
+<span class="number">4</span>     <span class="keyword">this</span>.job = job;
+<span class="number">5</span>     <span class="keyword">this</span>.sayAge = sayAge;
+<span class="number">6</span> }
+<span class="number">7</span> <span class="function"><span class="keyword">function</span> <span class="title">sayAge</span>(<span class="params"></span>)</span>{
+<span class="number">8</span>     <span class="built_in">console</span>.log(<span class="keyword">this</span>.age);
+<span class="number">9</span> }
+</code></pre><p>&#x4F46;&#x8FD9;&#x6837;&#x6709;&#x5E26;&#x6765;&#x4E86;&#x65B0;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x5728;&#x5168;&#x5C40;&#x4F5C;&#x7528;&#x57DF;&#x5B9A;&#x4E49;&#x7684;function&#x53EA;&#x80FD;&#x5728;&#x5BF9;&#x8C61;&#x73AF;&#x5883;&#x8FD0;&#x884C;&#xFF0C;&#x8FDD;&#x80CC;&#x4E86;&#x5168;&#x5C40;&#x7684;&#x6982;&#x5FF5;&#xFF1B;&#x800C;&#x4E14;&#xFF0C;&#x5F53;&#x8981;&#x5B9A;&#x4E49;&#x7684;&#x65B9;&#x6CD5;&#x975E;&#x5E38;&#x591A;&#x7684;&#x77F3;&#x7334;&#x3002;&#x5C31;&#x8981;&#x5B9A;&#x4E49;n&#x591A;&#x7684;&#x5168;&#x5C40;&#x51FD;&#x6570;&#xFF0C;&#x6BEB;&#x65E0;&#x5C01;&#x88C5;&#x6027;&#x53EF;&#x8A00;&#x3002;</p>
+<p>&#x53E6;&#x5916;&#xFF0C;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C; &#x6784;&#x9020;&#x51FD;&#x6570;&#x4E5F;&#x662F;&#x51FD;&#x6570;&#xFF0C;&#x5B83;&#x4E0E;&#x666E;&#x901A;&#x51FD;&#x6570;&#x7684;&#x552F;&#x4E00;&#x533A;&#x522B;&#xFF0C;&#x5C31;&#x5728;&#x4E8E;&#x8C03;&#x7528;&#x65B9;&#x5F0F;&#x7684;&#x4E0D;&#x540C; &#x3002;&#x5982;&#x4E0B;&#x9762;&#x8FD9;&#x6837;&#xFF0C;&#x6211;&#x95E8;&#x53EF;&#x4EE5;&#x62FF;&#x5B83;&#x5F53;&#x666E;&#x901A;&#x51FD;&#x6570;&#x7528;&#xFF0C;&#x8FD9;&#x6837;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#x5C06;&#x88AB;&#x7ED1;&#x5B9A;&#x5230;&#x6D4F;&#x89C8;&#x5668;&#x5168;&#x5C40;&#x7684;&#x6267;&#x884C;&#x73AF;&#x5883;window&#x4E0A;&#xFF0C;&#x6216;&#x8005;&#x7ED1;&#x5B9A;&#x5230;&#x522B;&#x7684;&#x5BF9;&#x8C61;&#x4E0A;&#x8FD0;&#x884C;&#xFF0C;&#x5C06;&#x5C5E;&#x6027;&#x65B9;&#x6CD5;&#x7ED1;&#x5B9A;&#x5230;&#x522B;&#x7684;&#x5BF9;&#x8C61; </p>
+<pre><code> 1 // &amp;#x6784;&amp;#x9020;&amp;#x51FD;&amp;#x6570;&amp;#x4E5F;&amp;#x662F;&amp;#x51FD;&amp;#x6570;
+ 2 //  1
+ 3 var <span class="keyword">person</span> = new <span class="keyword">Person</span>(&amp;apos;hahha&amp;apos;,23,&amp;apos;ddd&amp;apos;);
+ 4 //  2 &amp;#x505A;&amp;#x666E;&amp;#x901A;&amp;#x51FD;&amp;#x6570;
+ 5 <span class="keyword">Person</span>(&amp;apos;window&amp;apos;,11,&amp;apos;2323dd&amp;apos;);
+ 6 //window.sayName();
+ 7 
+ 8 //  3 &amp;#x5728;&amp;#x53E6;&amp;#x4E00;&amp;#x4E2A;&amp;#x5BF9;&amp;#x8C61;&amp;#x7684;&amp;#x4F5C;&amp;#x7528;&amp;#x57DF;&amp;#x4E2D;&amp;#x4F7F;&amp;#x7528;
+ 9 var o = new Object();
+10 <span class="keyword">Person</span>.call(o,&amp;apos;lvyahui&amp;apos;,23,&amp;apos;2323&amp;apos;),
+11 o.sayName();
+</code></pre><h4 id="3&#x3001;&#x539F;&#x578B;&#x6A21;&#x5F0F;">3&#x3001;&#x539F;&#x578B;&#x6A21;&#x5F0F;</h4><p> js&#x4E2D;&#x6BCF;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;&#x5C5E;&#x6027;-prototype(&#x539F;&#x578B;)&#xFF0C;&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#x662F;&#x4E00;&#x4E2A;&#x6307;&#x9488;&#xFF0C;&#x6307;&#x5411;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x3002;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x5305;&#x542B;&#x6240;&#x6709;&#x4EE5;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x4E3A;&#x6784;&#x9020;&#x51FD;&#x6570;&#x521B;&#x5EFA;&#x7684;&#x5BF9;&#x8C61;&#x5171;&#x4EAB;&#x7684;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5; &#xFF0C;&#x9996;&#x5148;&#x770B;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801; </p>
+<pre><code> <span class="number">1</span> <span class="comment">/**
+ 2  * &amp;#x539F;&amp;#x578B;&amp;#x6A21;&amp;#x5F0F;
+ 3  */</span>
+ <span class="number">4</span> <span class="function"><span class="keyword">function</span> <span class="title">Dog</span><span class="params">()</span>{</span>}
+ <span class="number">5</span> Dog.prototype.name = &amp;apos;a mi&amp;apos;;
+ <span class="number">6</span> Dog.prototype.age = <span class="number">1</span>;
+ <span class="number">7</span> Dog.prototype.sayName = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+ <span class="number">8</span>     console.<span class="built_in">log</span><span class="params">(this.name)</span>;
+ <span class="number">9</span> }
+<span class="number">10</span> 
+<span class="number">11</span> var d1 = new Dog<span class="params">()</span>,
+<span class="number">12</span>     d2 = new Dog<span class="params">()</span>;
+<span class="number">13</span> d1.sayName<span class="params">()</span>;
+<span class="number">14</span> d2.sayName<span class="params">()</span>;
+<span class="number">15</span> console.<span class="built_in">log</span><span class="params">(d1.sayName === d2.sayName)</span>;         <span class="comment">//  true</span>
+<span class="number">16</span> console.<span class="built_in">log</span><span class="params">(Dog.prototype.isPrototypeOf<span class="params">(d1)</span>)</span>;   <span class="comment">//  true</span>
+<span class="number">17</span> console.<span class="built_in">log</span><span class="params">(Object.getPrototypeOf<span class="params">(d1)</span>)</span>; <span class="comment">//&amp;#x8FD4;&amp;#x56DE; [[prototype]]&amp;#x7684;&amp;#x503C;</span>
+<span class="number">18</span> console.<span class="built_in">log</span><span class="params">(Object.getPrototypeOf<span class="params">(d1)</span> === Dog.prototype)</span>;
+</code></pre><p>&#x8FD9;&#x91CC;&#x5C06;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#x90FD;&#x6DFB;&#x52A0;&#x5230;&#x4E86;&#x51FD;&#x6570;&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x4E2D;&#x3002;&#x5728;&#x7B2C;4&#x884C;&#x7684;&#x4EE3;&#x7801;&#x4E2D;&#x6211;&#x5B9A;&#x4E49;&#x4E86;Dog&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x8BA9;Dog&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x7684; <strong>constructor</strong> &#x5C5E;&#x6027;&#x6307;&#x5411;&#x4E86;Dog&#x3002;5-7&#x884C;&#x4EE3;&#x7801;&#x53C8;&#x4E3A;Dog&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x6DFB;&#x52A0;&#x4E86;2&#x4E2A;&#x5C5E;&#x6027;&#x548C;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x3002; </p>
+<p>&#x7B2C;11&#x884C;&#x3001;12&#x884C;&#x4EE3;&#x7801;&#x521B;&#x5EFA;&#x4E86;&#x4E24;&#x4E2A;&#x5BF9;&#x8C61;&#x5B9E;&#x4F8B;&#xFF0C; &#x8FD9;&#x4E24;&#x4E2A;&#x5B9E;&#x4F8B;&#x4E2D;&#x90FD;&#x53EA;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;&#x5C5E;&#x6027;[[Prototype]]&#xFF0C;&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#x6307;&#x5411;&#x4E86;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;prototype&#xFF0C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;prototype&#x5C5E;&#x6027;&#x6307;&#x5411;&#x4E86;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#xFF0C;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x7684;constructor&#x5C5E;&#x6027;&#x6709;&#x6307;&#x4F1A;&#x4E86;Dog&#x6784;&#x9020;&#x65B9;&#x6CD5; &#xFF0C;&#x8FD9;&#x91CC;&#x6BD4;&#x8F83;&#x7ED5;&#xFF0C;&#x6211;&#x76F4;&#x63A5;&#x53D6;&#x4E66;&#x4E0A;&#x9762;&#x7684;&#x56FE;&#x7ED9;&#x5927;&#x5BB6;&#x770B;&#xFF0C;&#x7A0D;&#x4F5C;&#x4E86;&#x4FEE;&#x6539;&#xFF0C;&#x56FE;&#x91CC;&#x9762;&#x7684;&#x662F;Person&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x91CC;&#x5B9E;&#x5728;&#x62B1;&#x6B49;&#xFF0C;&#x6682;&#x65F6;&#x6CA1;&#x5728;ubuntu&#x7CFB;&#x7EDF;&#x4E0A;&#x627E;&#x5230;&#x597D;&#x7684;&#x4F5C;&#x56FE;&#x5DE5;&#x5177;&#xFF0C;&#x53EA;&#x80FD;&#x5C06;&#x5C31;&#x4E86;&#xFF0C;&#x6709;&#x77E5;&#x9053;&#x7684;&#x53EF;&#x4EE5;&#x4ECB;&#x7ECD;&#x7ED9;&#x6211;&#x7528;&#x7528;&#x3002; </p>
+<p><img src="http://img1.tuicool.com/uUZrMbj.png" alt=""></p>
+<p>&#x53E6;&#x5916;&#x8FD9;&#x4E2A;&#x56FE;&#x5176;&#x5B9E;&#x8FD8;&#x7701;&#x7565;&#x4E86;&#x4EE5;&#x4E2A;&#x7EE7;&#x627F;&#x5173;&#x7CFB;&#xFF0C;&#x5C31;&#x662F;Person&#x5BF9;&#x8C61;&#x5176;&#x5B9E;&#x662F;&#x7EE7;&#x627F;Obejct&#x7684;&#xFF0C;&#x8FD9;&#x662F;&#x9ED8;&#x8BA4;&#x89C4;&#x5219;&#xFF0C;&#x522B;&#x7684;&#x8BED;&#x8A00;&#x4E5F;&#x6709;&#x3002;&#x8FD9;&#x4E5F;&#x662F;js&#x5BF9;&#x8C61;&#x4E00;&#x521B;&#x5EFA;&#x5C31;&#x6709;object&#x7684;&#x65B9;&#x6CD5;&#x548C;&#x5C5E;&#x6027;&#x7684;&#x539F;&#x56E0;&#x3002;</p>
+<p>&#x518D;&#x4E00;&#x4E2A;&#xFF0C;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x4E2D;&#x7684;</p>
+<ul>
+<li>isPrototypeOf&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x7684;&#x662F;&#x53C2;&#x6570;&#x5BF9;&#x8C61;&#x7684;[[Prototype]]&#x5C5E;&#x6027;&#x662F;&#x5426;&#x6307;&#x5411;&#x8C03;&#x7528;isPrototypeOf&#x7684;&#x5BF9;&#x8C61;&#x3002;</li>
+<li><p>getPrototype&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;[[Prototype]]&#x5C5E;&#x6027;&#x7684;&#x503C;&#x3002;</p>
+<p>&#x539F;&#x578B;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x4E2A;&#x6982;&#x5FF5;&#x662F;&#x5C5E;&#x6027;&#x641C;&#x7D22;&#xFF08;&#x65B9;&#x6CD5;&#x6211;&#x8BA4;&#x4E3A;&#x4E5F;&#x662F;&#x5C5E;&#x6027;&#xFF09;&#xFF0C;&#x4ECE;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;&#x5F00;&#x59CB;&#x4E00;&#x76F4;&#x5F80;&#x539F;&#x578B;&#x94FE;&#x4E0A;&#x6E38;&#x641C;&#x7D22;&#xFF0C;&#x5982;&#x679C;&#x627E;&#x5230;&#x4E86;&#x5C31;&#x505C;&#x6B62;&#x641C;&#x7D22;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x8FC7;&#x6211;&#x4EEC;&#x5728;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;&#x4E2D;&#x6DFB;&#x52A0;&#x539F;&#x578B;&#x4E2D;&#x5DF2;&#x6709;&#x7684;&#x5C5E;&#x6027;&#x6216;&#x65B9;&#x6CD5;&#xFF0C;&#x4F1A;&#x5C4F;&#x853D;&#x6389;&#x539F;&#x578B;&#x94FE;&#x4E2D;&#x7684;&#x5C5E;&#x6027;&#x6216;&#x65B9;&#x6CD5;&#x3002; &#x770B;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801; </p>
+<p>  1 d1.name = &apos;sai mao&apos;;    // &#x5C4F;&#x853D;&#x539F;&#x578B;&#x4E2D;&#x7684;&#x5C5E;&#x6027;<br>  2 console.log(d1.name);<br>  3 // &#x8981;&#x6062;&#x590D;&#x539F;&#x578B;&#x4E2D;&#x7684;&#x5C5E;&#x6027;&#xFF0C;&#x5FC5;&#x987B;&#x663E;&#x793A;&#x5220;&#x9664;&#x5B9E;&#x4F8B;&#x4E2D;&#x7684;&#x5C5E;&#x6027;<br>  4 delete d1.name;<br>  5 console.log(d1.name);</p>
+</li>
+</ul>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;delete&#x6062;&#x590D;&#x539F;&#x578B;&#x4E2D;&#x7684;&#x5C5E;&#x6027;&#xFF0C;&#x800C;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x68C0;&#x6D4B;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;&#x662F;&#x5728;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;&#x4E2D;&#xFF0C;&#x8FD8;&#x662F;&#x5728;&#x539F;&#x578B;&#x94FE;&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x4E2D;&#x3002;</p>
+<pre><code> <span class="number">1</span> // &amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x6D4B</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5C5E</span>;&amp;<span class="symbol">#x6027</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD8</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x539F</span>;&amp;<span class="symbol">#x578B</span>;&amp;<span class="symbol">#x4E2D</span>;
+ <span class="number">2</span> d1.name = &amp;apos;hhhh&amp;apos;;
+ <span class="number">3</span> console.log(d1.hasOwnProperty(&amp;apos;name&amp;apos;)); // &amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x7ED9</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5C5E</span>;&amp;<span class="symbol">#x6027</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x624D</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">true</span>
+ <span class="number">4</span> delete d1.name;
+ <span class="number">5</span> console.log(d1.hasOwnProperty(&amp;apos;name&amp;apos;));
+ <span class="number">6</span> 
+ <span class="number">7</span> //&amp;<span class="symbol">#x5355</span>;&amp;<span class="symbol">#x72EC</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;in&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x5C5E</span>;&amp;<span class="symbol">#x6027</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">true</span>
+ <span class="number">8</span> d1.name = &amp;apos;dsfdsfsd&amp;apos;;
+ <span class="number">9</span> console.log(&amp;apos;name&amp;apos; in d1);  // <span class="keyword">true</span>
+<span class="number">10</span> console.log(&amp;apos;name&amp;apos; in d2);  // ture
+<span class="number">11</span> 
+<span class="number">12</span> //&amp;<span class="symbol">#x540C</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;hasOwnProperty &amp;<span class="symbol">#x548C</span>; in&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x786E</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5C5E</span>;&amp;<span class="symbol">#x6027</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x5E95</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x539F</span>;&amp;<span class="symbol">#x578B</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x8FD8</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x4E2D</span>;
+<span class="number">13</span> function hasPrototypeProperty(object,name){
+<span class="number">14</span>     return !object.hasOwnProperty(name) &amp;amp;&amp;amp; name in object;
+<span class="number">15</span> }
+<span class="number">16</span> console.log(&amp;apos;d1 hasPrototypeProperty :&amp;apos;+hasPrototypeProperty(d1, &amp;apos;name&amp;apos;));
+<span class="number">17</span> console.log(&amp;apos;d2 hasPrototypeProperty :&amp;apos;+hasPrototypeProperty(d2, &amp;apos;name&amp;apos;));
+</code></pre><p>&#x4F8B;&#x5916;&#x6709;&#x4E00;&#x79CD;&#x66F4;&#x7B80;&#x5355;&#x7684;&#x539F;&#x578B;&#x5199;&#x6CD5;</p>
+<pre><code> <span class="number">1</span> <span class="comment">// &amp;#x66F4;&amp;#x7B80;&amp;#x5355;&amp;#x7684;&amp;#x539F;&amp;#x578B;&amp;#x8BED;&amp;#x6CD5;</span>
+ <span class="number">2</span> <span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params"></span>)</span>{}
+ <span class="number">3</span> Cat.prototype = {
+ <span class="number">4</span>     name    :   &amp;apos;mimi&amp;apos;,
+ <span class="number">5</span>     age     :   <span class="number">12</span>,
+ <span class="number">6</span>     job     :   &amp;apos;doubi&amp;apos;,
+ <span class="number">7</span>     sayName :   <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{
+ <span class="number">8</span>         <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);
+ <span class="number">9</span>     }
+<span class="number">10</span> };
+<span class="number">11</span> 
+<span class="number">12</span> <span class="keyword">var</span> cat = <span class="keyword">new</span> Cat();
+<span class="number">13</span> <span class="built_in">console</span>.log(cat <span class="keyword">instanceof</span> <span class="built_in">Object</span>);
+<span class="number">14</span> <span class="built_in">console</span>.log(cat <span class="keyword">instanceof</span> Cat);
+<span class="number">15</span> <span class="built_in">console</span>.log(cat.constructor === Cat);<span class="comment">//false</span>
+<span class="number">16</span> <span class="built_in">console</span>.log(cat.constructor === <span class="built_in">Object</span>);<span class="comment">//true</span>
+</code></pre><p>&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x5176;&#x5B9E;&#x662F;&#x4EE5;&#x5B57;&#x9762;&#x91CF;&#x7684;&#x65B9;&#x6CD5; &#x91CD;&#x65B0;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x7136;&#x540E;&#x8D4B;&#x503C;&#x7ED9;&#x4E86;&#x539F;&#x578B;&#x6307;&#x9488; &#x3002;&#x5B83;&#x4E22;&#x5F03;&#x4E86;&#x539F;&#x6765;&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#xFF0C;&#x6240;&#x4EE5; &#x5F88;&#x663E;&#x7136;&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x7684;constructor&#x5C5E;&#x6027;&#x4E0D;&#x518D;&#x6307;&#x5411;Cat&#xFF0C;&#x800C;&#x662F;&#x6307;&#x5411;&#x4E86;Obejct &#xFF0C;&#x6709;&#x591A;&#x79CD;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x4FEE;&#x590D;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x6BD4;&#x5982;&#x5728;&#x5B9A;&#x4E49;&#x5B57;&#x9762;&#x91CF;&#x5BF9;&#x8C61;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x663E;&#x793A;&#x5236;&#xFFFD;&#xFFFD;&#xFFFD;constructor&#x5C5E;&#x6027;&#x4E3A;Cat&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x3002; </p>
+<pre><code> <span class="number">1</span> <span class="comment">// &amp;#x91CD;&amp;#x8BBE;Cat&amp;#x7684;constructor&amp;#x5C5E;&amp;#x6027;</span>
+ <span class="number">2</span> Cat.prototype.constructor = Cat;
+ <span class="number">3</span> <span class="comment">//  &amp;#x4F46;&amp;#x8FD9;&amp;#x6837;constructor&amp;#x53D8;&amp;#x6210;&amp;#x53EF;&amp;#x679A;&amp;#x4E3E;&amp;#x7684;&amp;#x4E86;</span>
+ <span class="number">4</span> <span class="keyword">var</span> cat_keys = <span class="built_in">Object</span>.keys(Cat.prototype);
+ <span class="number">5</span> <span class="built_in">console</span>.log(cat_keys);<span class="comment">//[ &amp;apos;name&amp;apos;, &amp;apos;age&amp;apos;, &amp;apos;job&amp;apos;, &amp;apos;sayName&amp;apos;, &amp;apos;constructor&amp;apos; ]</span>
+ <span class="number">6</span> <span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(cat));<span class="comment">//[]</span>
+ <span class="number">7</span> 
+ <span class="number">8</span> <span class="comment">// &amp;#x91CD;&amp;#x8BBE;constructor&amp;#x7684;&amp;#x5C5E;&amp;#x6027;</span>
+ <span class="number">9</span> <span class="built_in">Object</span>.defineProperty(Cat.prototype,&amp;apos;<span class="constructor"><span class="keyword">constructor</span>&amp;apos;,</span>{
+<span class="number">10</span>     enumerable:<span class="literal">false</span>,
+<span class="number">11</span>     value:Cat
+<span class="number">12</span> });
+<span class="number">13</span> cat_keys = <span class="built_in">Object</span>.keys(Cat.prototype);
+<span class="number">14</span> <span class="built_in">console</span>.log(cat_keys);<span class="comment">//[ &amp;apos;name&amp;apos;, &amp;apos;age&amp;apos;, &amp;apos;job&amp;apos;, &amp;apos;sayName&amp;apos; ]</span>
+</code></pre><p>&#x539F;&#x578B;&#x6A21;&#x5F0F;&#x4E5F;&#x4E0D;&#x662F;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x6BD4;&#x5982;&#x4E0D;&#x597D;&#x5411;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4F20;&#x9012;&#x53C2;&#x6570;&#x3002;&#x5B83; &#x6700;&#x5927;&#x7684;&#x95EE;&#x9898;&#x662F;&#x5BF9;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x539F;&#x578B;&#x5C5E;&#x6027;&#x7684;&#x5171;&#x4EAB;&#x95EE;&#x9898; &#xFF0C;&#x770B;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801; </p>
+<pre><code> <span class="number">1</span> // &amp;<span class="symbol">#x539F</span>;&amp;<span class="symbol">#x578B</span>;&amp;<span class="symbol">#x6A21</span>;&amp;<span class="symbol">#x5F0F</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x95EE</span>;&amp;<span class="symbol">#x9898</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x5F15</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x578B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5C5E</span>;&amp;<span class="symbol">#x6027</span>;&amp;<span class="symbol">#x5171</span>;&amp;<span class="symbol">#x4EAB</span>;&amp;<span class="symbol">#x95EE</span>;&amp;<span class="symbol">#x9898</span>;
+ <span class="number">2</span> 
+ <span class="number">3</span> function <span class="class">House</span>(){}
+ <span class="number">4</span> 
+ <span class="number">5</span> <span class="class">House</span>.prototype = {
+ <span class="number">6</span>     <span class="method">constructor:</span><span class="class">House</span>,
+ <span class="number">7</span>     <span class="method">friends:</span>[&amp;apos;lvyahui&amp;apos;,&amp;apos;d&amp;apos;]
+ <span class="number">8</span> };
+ <span class="number">9</span> 
+<span class="number">10</span> var h1 = new <span class="class">House</span>(),
+<span class="number">11</span>     h2 = new <span class="class">House</span>();
+<span class="number">12</span> h1.friends.push(&amp;apos;li&amp;apos;);
+<span class="number">13</span> console.log(h1.friends);//[ &amp;apos;lvyahui&amp;apos;, &amp;apos;d&amp;apos;, &amp;apos;li&amp;apos; ]
+<span class="number">14</span> console.log(h2.friends);//[ &amp;apos;lvyahui&amp;apos;, &amp;apos;d&amp;apos;, &amp;apos;li&amp;apos; ]
+</code></pre><h4 id="4&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E0E;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x65B9;&#x5F0F;&#x7EC4;&#x5408;&#x7684;&#x6A21;&#x5F0F;">4&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E0E;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x65B9;&#x5F0F;&#x7EC4;&#x5408;&#x7684;&#x6A21;&#x5F0F;</h4><p>&#x7EC4;&#x5408;&#x6A21;&#x5F0F;&#x53EF;&#x4EE5;&#x8BF4;&#x5438;&#x53D6;&#x4E86;&#x6784;&#x9020;&#x51FD;&#x6570;&#x6A21;&#x5F0F;&#x4E0E;&#x539F;&#x578B;&#x6A21;&#x5F0F;&#x7684;&#x4F18;&#x70B9;&#xFF0C;&#x65E2;&#x4FDD;&#x8BC1;&#x4E86;&#x6BCF;&#x4E2A;&#x5BF9;&#x8C61;&#x5B9E;&#x4F8B;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x72EC;&#x7ACB;&#x7684;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#xFF0C;&#x540C;&#x65F6;&#x6709;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x5171;&#x4EAB;&#x7684;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#x3002;</p>
+<pre><code> <span class="number">1</span> <span class="comment">/**
+ 2  * &amp;#x5E38;&amp;#x7528;&amp;#x65B9;&amp;#x5F0F;&amp;#xFF0C;&amp;#x7EC4;&amp;#x5408;&amp;#x4F7F;&amp;#x7528;&amp;#x6784;&amp;#x9020;&amp;#x51FD;&amp;#x6570;&amp;#x6A21;&amp;#x5F0F;&amp;#x548C;&amp;#x539F;&amp;#x578B;&amp;#x6A21;&amp;#x5F0F;
+ 3  */</span>
+ <span class="number">4</span> 
+ <span class="number">5</span> <span class="function"><span class="keyword">function</span> <span class="title">Movie</span>(<span class="params">name,length</span>)</span>{
+ <span class="number">6</span>     <span class="keyword">this</span>.name= name;
+ <span class="number">7</span>     <span class="keyword">this</span>.length = length;
+ <span class="number">8</span>     <span class="keyword">this</span>.links = [&amp;apos;h1&amp;apos;,&amp;apos;h2&amp;apos;];
+ <span class="number">9</span> }
+<span class="number">10</span> Movie.prototype = {
+<span class="number">11</span>     <span class="constructor"><span class="keyword">constructor</span>:Movie,
+12     sayName : <span class="keyword">function</span> ()</span>{
+<span class="number">13</span>         <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);
+<span class="number">14</span>     }
+<span class="number">15</span> };
+<span class="number">16</span> <span class="keyword">var</span> m1 = <span class="keyword">new</span> Movie(&amp;apos;diany1&amp;apos;,<span class="number">14</span>),
+<span class="number">17</span>     m2 = <span class="keyword">new</span> Movie(&amp;apos;diany2&amp;apos;,<span class="number">23</span>);
+<span class="number">18</span> m1.links.push(&amp;apos;h3&amp;apos;);
+<span class="number">19</span> 
+<span class="number">20</span> <span class="built_in">console</span>.log(m1.links);
+<span class="number">21</span> <span class="built_in">console</span>.log(m2.links);
+<span class="number">22</span> <span class="built_in">console</span>.log(m1.links === m2.links);
+<span class="number">23</span> <span class="built_in">console</span>.log(m1.sayName === m2.sayName);
+</code></pre><p>&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x96C6;&#x5404;&#x5BB6;&#x4E4B;&#x957F;&#xFF0C;&#x6211;&#x60F3;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x5E94;&#x8BE5;&#x662F;&#x7528;&#x7684;&#x6BD4;&#x8F83;&#x591A;&#x7684;&#x4E86;&#x5427;&#xFF08;&#x672C;&#x4EBA;&#x8FD8;&#x672A;&#x6BD5;&#x4E1A;&#xFF0C;&#x5BF9;&#x4F01;&#x4E1A;&#x91CC;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x4E0D;&#x592A;&#x4E86;&#x89E3;&#xFF0C;&#x6709;&#x77E5;&#x9053;&#x7684;&#x53EF;&#x4EE5;&#x6084;&#x6084;&#x544A;&#x8BC9;&#x6211;&#xFF09;</p>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x8FD8;&#x6709;&#x4E00;&#x79CD;&#x66F4;&#x597D;&#x7684;&#x5199;&#x6CD5;&#xFF0C;&#x5C31;&#x662F;&#x6240;&#x8C13;&#x7684;&#x52A8;&#x6001;&#x539F;&#x578B;&#x6A21;&#x5F0F;</p>
+<h4 id="5&#x3001;&#x52A8;&#x6001;&#x539F;&#x578B;&#x6A21;&#x5F0F;">5&#x3001;&#x52A8;&#x6001;&#x539F;&#x578B;&#x6A21;&#x5F0F;</h4><pre><code> <span class="number">1</span> <span class="function"><span class="keyword">function</span> <span class="title">Miss</span>(<span class="params">name,age</span>)</span>{
+ <span class="number">2</span>     <span class="keyword">this</span>.name = name;
+ <span class="number">3</span>     <span class="keyword">this</span>.age = age;
+ <span class="number">4</span> 
+ <span class="number">5</span>     <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="keyword">this</span>.sayName != &amp;apos;<span class="function"><span class="keyword">function</span>&amp;<span class="title">apos</span>;)</span>{
+ <span class="number">6</span>         Miss.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{
+ <span class="number">7</span>             <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);
+ <span class="number">8</span>         }
+ <span class="number">9</span>     }
+<span class="number">10</span> }
+<span class="number">11</span> 
+<span class="number">12</span> <span class="keyword">var</span> miss = <span class="keyword">new</span> Miss(&amp;apos;lvyahui&amp;apos;,<span class="number">12</span>);
+<span class="number">13</span> miss.sayName();
+</code></pre><p>&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x7684;&#x5728;&#x4FDD;&#x6301;&#x4E86;&#x7EC4;&#x5408;&#x6A21;&#x5F0F;&#x7684;&#x4F18;&#x70B9;&#x7684;&#x524D;&#x63D0;&#x4E0B;&#xFF0C;&#x8BA9;&#x4EE3;&#x7801;&#x770B;&#x8D77;&#x4E86;&#x5C01;&#x88C5;&#x6027;&#x66F4;&#x597D;&#xFF0C;&#x4E5F;&#x66F4;&#x5B89;&#x5168;&#x3002;</p>
+<h4 id="6&#x3001;&#x5BC4;&#x751F;&#x6784;&#x9020;&#x6A21;&#x5F0F;">6&#x3001;&#x5BC4;&#x751F;&#x6784;&#x9020;&#x6A21;&#x5F0F;</h4><p>&#x8FD9;&#x4E2D;&#x65B9;&#x5F0F;&#x4E0E;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;&#xFF0C;&#x5C31;&#x53EA;&#x6709;&#x4E00;&#x70B9;&#x533A;&#x522B;&#xFF0C;&#x901A;&#x8FC7;new &#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x5F62;&#x5F0F;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#xFF0C;&#x50CF;&#x4E0B;&#x9762;&#x8FD9;&#x6837;&#xFF0C;&#x6CE8;&#x610F;&#x5B83;&#x53EA;&#x5E26;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#x7684;&#x65F6;&#x5019;&#x4E0E;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;&#x6709;&#x533A;&#x522B;&#xFF08;16&#x884C; new&#xFF09;</p>
+<pre><code> <span class="number">1</span> <span class="comment">/**
+ 2  * &amp;#x5BC4;&amp;#x751F;&amp;#x6784;&amp;#x9020;&amp;#x6A21;&amp;#x5F0F;
+ 3  */</span>
+ <span class="number">4</span> 
+ <span class="number">5</span> <span class="function"><span class="keyword">function</span> <span class="title">createPerson2</span>(<span class="params">name,age,job</span>)</span>{
+ <span class="number">6</span>     <span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();
+ <span class="number">7</span>     o.name = name;
+ <span class="number">8</span>     o.age  = age;
+ <span class="number">9</span>     o.job = job;
+<span class="number">10</span>     o.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{
+<span class="number">11</span>         <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);
+<span class="number">12</span>     };
+<span class="number">13</span>     <span class="comment">// &amp;#x7B49;&amp;#x4EF7;&amp;#x4E8E;  o.sayName = new Function(&amp;quot;console.log(this.name);&amp;quot;);</span>
+<span class="number">14</span>     <span class="keyword">return</span> o;
+<span class="number">15</span> }
+<span class="number">16</span> <span class="keyword">var</span> p1 = <span class="keyword">new</span> createPerson2(&amp;apos;lvyahui1&amp;apos;,<span class="number">12</span>,&amp;apos;devloper&amp;apos;);
+</code></pre><h4 id="7&#x3001;&#x7A33;&#x59A5;&#x6784;&#x9020;&#x51FD;&#x6570;&#x6A21;&#x5F0F;">7&#x3001;&#x7A33;&#x59A5;&#x6784;&#x9020;&#x51FD;&#x6570;&#x6A21;&#x5F0F;</h4><p>&#x8FD9;&#x79CD;&#x6A21;&#x5F0F;&#x57FA;&#x4E8E;&#x7A33;&#x59A5;&#x5BF9;&#x8C61;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x8FD9;&#x79CD;&#x5BF9;&#x8C61;&#x662F;&#x6CA1;&#x6709;&#x516C;&#x5171;&#x5C5E;&#x6027;&#xFF0C;&#x5B83;&#x7684;&#x65B9;&#x6CD5;&#x4E2D;&#x4E5F;&#x4E0D;&#x4F7F;&#x7528;this&#x7684;&#x5BF9;&#x8C61;&#x3002;&#x5927;&#x5BB6;&#x90FD;&#x77E5;&#x9053;js&#x4E2D;&#x7684;this&#x4E00;&#x76F4;&#x90FD;&#x662F;&#x8BA9;&#x4EBA;&#x5934;&#x75BC;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+<p>&#x7A33;&#x59A5;&#x6A21;&#x5F0F;&#x4E0E;&#x5BC4;&#x751F;&#x6A21;&#x5F0F;&#x7C7B;&#x4F3C;&#xFF0C;&#x533A;&#x522B;&#x5728;&#x4E8E;</p>
+<ul>
+<li>&#x4E0D;&#x901A;&#x8FC7;new&#x64CD;&#x4F5C;&#x7B26;&#x8C03;&#x7528;&#x6784;&#x9020;&#x51FD;&#x6570;</li>
+<li><p>&#x4E0D;&#x5728;&#x884C;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#x7684;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;this</p>
+<p>   1 /<em>*<br>   2  </em> &#x7A33;&#x59A5;&#x6784;&#x9020;&#x6A21;&#x5F0F;<br>   3  */<br>   4 function Girl(name,age){<br>   5     var o = new Object();<br>   6     o.sayName = function(){<br>   7         console.log(name);<br>   8     };<br>   9     o.sayAge = function(){<br>  10         console.log(age);<br>  11     };<br>  12     return o;<br>  13 }<br>  14 var gril = Girl(&apos;d&apos;,21);<br>  15 console.log(gril.sayName());<br>  16 console.log(gril.sayAge());<br>  17 //    &#x8F93;&#x51FA;<br>  18 //    d<br>  19 //    undefined<br>  20 //    21<br>  21 //    undefined<br>  22 //    &#x4E3A;&#x4EC0;&#x4E48;&#x5462;&#xFF1F;</p>
+</li>
+</ul>
+<p>&#x5927;&#x5BB6;&#x77E5;&#x9053;&#x8FD9;&#x4E2A;&#x8F93;&#x51FA;&#x4E3A;&#x4EC0;&#x4E48;&#xFFFD;&#xFFFD;&#xFFFD;&#x8FD9;&#x4E48;&#x5417;&#xFF1F;&#x77E5;&#x9053;&#x7684;&#x7559;&#x8A00;&#x544A;&#x8BC9;&#x6211;&#x5427;&#x3002;</p>
+<p>&#x597D;&#x4E86;&#xFF0C;&#x5C31;&#x5199;&#x8FD9;&#x4E48;&#x591A;&#x4E86;&#xFF0C;&#x603B;&#x7ED3;&#x4E00;&#x4E0B;&#xFF0C;&#x539F;&#x751F;&#x7684;&#x521B;&#x5EFA;js&#x5BF9;&#x8C61;&#x7684;&#x6700;&#x666E;&#x9002;&#x7684;&#x65B9;&#x6CD5;&#x5E94;&#x8BE5;&#x662F;&#x7EC4;&#x5408;&#x6A21;&#x5F0F;&#x4E86;&#x5427;&#x3002;</p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/bui6Rrq">&#x5E38;&#x7528;&#x8DE8;&#x57DF;&#x65B9;&#x6CD5;&#x5B9E;&#x8DF5;&#xFF08;&#x4E00;&#xFF09;</a></li>
+<li>2.<a href="/articles/Mzqyaay">&#x524D;&#x7AEF;&#x5F00;&#x53D1;&#x9762;&#x8BD5;&#x5C0F;&#x7ED3;</a></li>
+<li>3.<a href="/articles/MjYZvm3">chrome&#x6269;&#x5C55;&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x6559;&#x7A0B;&#x4E4B;&#x5F00;&#x53D1;chrome&#x5E94;&#x7528;&#x57FA;&#x7840;</a></li>
+<li>4.<a href="/articles/FvUfAzE">[Network] HTML&#x3001;XML&#x548C;JSON&#x5B66;&#x4E60;&#x6C47;&#x603B;</a></li>
+<li>5.<a href="/articles/I7FrQ3j">ValidationSuar&#x8868;&#x5355;&#x9A8C;&#x8BC1;&#x6846;&#x67B6;-&#x652F;&#x6301;ASP.NET MVC ASP.NET WebFroM</a></li>
+<li><p>6.<a href="/articles/BbaINzQ">Backbone.js 1.2.1 &#x53D1;&#x5E03;&#xFF0C;JavaScript &#x7684; MVC &#x6846;&#x67B6;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/NjA3Yzn">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;NjA3Yzn&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Prototype/">Prototype</a><a href="/tags/原型模式/">原型模式</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://taojinke.github.io/2015/06/07/20150607/f8fffa6/" data-title="JavaScript OOP 创建对象的7种方式 - | dianzi blog" data-tsina="512316815" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/07/20150607/f8f1a28/" title="一个丝滑的全屏滑动返回手势 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  一个丝滑的全屏滑动返回手势 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/07/20150607/f90bba3/"  title=".spring jdbctemplate源码跟踪 -">
+ <strong>下一篇：</strong><br/> 
+ <span>.spring jdbctemplate源码跟踪 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript_OOP_创建对象的7种方式"><span class="toc-number">1.</span> <span class="toc-text">JavaScript OOP 创建对象的7种方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、工厂模式"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">1、工厂模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、构造函数模式"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">2、构造函数模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、原型模式"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">3、原型模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、构造函数与原型对象方式组合的模式"><span class="toc-number">1.0.0.4.</span> <span class="toc-text">4、构造函数与原型对象方式组合的模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、动态原型模式"><span class="toc-number">1.0.0.5.</span> <span class="toc-text">5、动态原型模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、寄生构造模式"><span class="toc-number">1.0.0.6.</span> <span class="toc-text">6、寄生构造模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、稳妥构造函数模式"><span class="toc-number">1.0.0.7.</span> <span class="toc-text">7、稳妥构造函数模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.7.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>78</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/技术/" title="技术">技术<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安卓开发/" title="安卓开发">安卓开发<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/链表/" title="链表">链表<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle数据库/" title="Oracle数据库">Oracle数据库<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MVC模式/" title="MVC模式">MVC模式<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Html/" title="Html">Html<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能优化/" title="性能优化">性能优化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动开发/" title="移动开发">移动开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/加密解密/" title="加密解密">加密解密<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
