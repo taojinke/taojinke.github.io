@@ -1,0 +1,757 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>邮箱mail 发送类  ASP.NET C# - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x90AE;&amp;#x7BB1;mail &amp;#x53D1;&amp;#x9001;&amp;#x7C7B; ASP.NET C &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-08 22:29:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;-&amp;#x539F;&amp;#x521B;&amp;#x7CBE;&amp;#x534E;&amp;#x533A;
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http://www.c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="邮箱mail 发送类  ASP.NET C# -">
+<meta property="og:url" content="http://taojinke.github.io/2015/06/09/e0438ff/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x90AE;&amp;#x7BB1;mail &amp;#x53D1;&amp;#x9001;&amp;#x7C7B; ASP.NET C &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-08 22:29:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;-&amp;#x539F;&amp;#x521B;&amp;#x7CBE;&amp;#x534E;&amp;#x533A;
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http://www.c">
+<meta property="og:updated_time" content="2015-06-09T01:07:19.286Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="邮箱mail 发送类  ASP.NET C# -">
+<meta name="twitter:description" content="&amp;#x90AE;&amp;#x7BB1;mail &amp;#x53D1;&amp;#x9001;&amp;#x7C7B; ASP.NET C &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-08 22:29:00  &amp;#x535A;&amp;#x5BA2;&amp;#x56ED;-&amp;#x539F;&amp;#x521B;&amp;#x7CBE;&amp;#x534E;&amp;#x533A;
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http://www.c">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/e0438ff/" title="邮箱mail 发送类  ASP.NET C# -" itemprop="url">邮箱mail 发送类  ASP.NET C# -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:07:19.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#邮箱mail_发送类_ASP-NET_C"><span class="toc-number">1.</span> <span class="toc-text">邮箱mail 发送类 ASP.NET C</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="&#x90AE;&#x7BB1;mail_&#x53D1;&#x9001;&#x7C7B;_ASP-NET_C">&#x90AE;&#x7BB1;mail &#x53D1;&#x9001;&#x7C7B; ASP.NET C</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-08 22:29:00  <a href="/sites/Fn2umm">&#x535A;&#x5BA2;&#x56ED;-&#x539F;&#x521B;&#x7CBE;&#x534E;&#x533A;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/sunkaixuan/p/4562147.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/sunkaixuan/p/4562147.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11050000">.Net</a></p>
+<p>&#x6CA1;&#x6709;&#x725B;B&#x7684;&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;&#xFF0C;&#x4EE3;&#x7801;&#x7CBE;&#x7EC3;&#x7CBE;&#x7EC3;&#x5B9E;&#x7528;&#xFF0C;&#x529F;&#x80FD;&#x9F50;&#x5168;&#xFF0C;&#x8C03;&#x7528;&#x7B80;&#x5355; &#x3002;&#x3002;&#x5168;&#x5168;&#x5B8C;&#x5B8C;&#x4E3A;&#x7801;&#x519C;&#x8003;&#x8651;</p>
+<pre><code><span class="class">MailSmtp</span> ms = new <span class="class">MailSmtp</span>(&amp;quot;smtp.qq.com&amp;quot;,&amp;quot;<span class="number">1215247044</span>&amp;quot;,&amp;quot;<span class="class">JJHL52771jhl</span>&amp;quot;);
+
+            //&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x9009</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;
+            ms.<span class="class">SetCC</span>(&amp;quot;<span class="number">610262374</span>@qq.com&amp;quot;);//&amp;<span class="symbol">#x6284</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;
+            ms.<span class="class">SetBC</span>(&amp;quot;<span class="number">610262374</span>@qq.com&amp;quot;);//&amp;<span class="symbol">#x6697</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;
+            ms.<span class="class">SetIsHtml</span>(<span class="keyword">true</span>);//&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;:<span class="keyword">true</span>
+            ms.<span class="class">SetEncoding</span>(<span class="class">System</span>.<span class="class">Text</span>.<span class="class">Encoding</span>.<span class="class">UTF8</span>);//&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x683C</span>;&amp;<span class="symbol">#x5F0F</span>; &amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;utf-<span class="number">8</span>
+
+            //&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x51FD</span>;&amp;<span class="symbol">#x6570</span>;
+            bool isSuccess = ms.<span class="class">Send</span>(&amp;quot;<span class="number">1215247044</span>@qq.com&amp;quot;, &amp;quot;test&amp;quot;, &amp;quot;<span class="number">610262374</span>@qq.com&amp;quot;, &amp;quot;&amp;<span class="symbol">#x54C8</span>;&amp;<span class="symbol">#x54C8</span>;&amp;quot;, &amp;quot;&amp;<span class="symbol">#x54C8</span>;&amp;<span class="symbol">#x54C8</span>;&amp;quot;, <span class="class">Server</span>.<span class="class">MapPath</span>(&amp;quot;~/<span class="class">Test</span>.dll&amp;quot;)); //&amp;<span class="symbol">#x9644</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x586B</span>; &amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x4EBA</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>; &amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>;
+
+            //&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x679C</span>;
+            <span class="class">Response</span>.<span class="class">Write</span>(ms.<span class="class">Result</span>);
+</code></pre><p>&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code><span class="keyword">using</span> System;
+<span class="keyword">using</span> System.IO;
+<span class="keyword">using</span> System.Web.UI.WebControls;
+<span class="keyword">using</span> System.Text;
+<span class="keyword">using</span> System.Net.Mail;
+<span class="keyword">using</span> System.Net;
+<span class="keyword">using</span> System.Linq;
+<span class="keyword">using</span> System.Text.RegularExpressions;
+<span class="keyword">namespace</span> <span class="title">SyntacticSugar.Work</span>
+{
+    <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;     </span>
+    <span class="comment"><span class="xmlDocTag">///</span> 1. &amp;#x529F;&amp;#x80FD;&amp;#xFF1A;&amp;#x53D1;&amp;#x9001;&amp;#x90AE;&amp;#x7BB1;</span>
+    <span class="comment"><span class="xmlDocTag">///</span> 2. &amp;#x4F5C;&amp;#x8005;&amp;#xFF1A;kaixuan</span>
+    <span class="comment"><span class="xmlDocTag">///</span> 3. &amp;#x521B;&amp;#x5EFA;&amp;#x65E5;&amp;#x671F;&amp;#xFF1A;2014-10-31</span>
+    <span class="comment"><span class="xmlDocTag">///</span> 4. &amp;#x6700;&amp;#x540E;&amp;#x4FEE;&amp;#x6539;&amp;#x65E5;&amp;#x671F;&amp;#xFF1A;2014-10-31</span>
+    <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;  </span>
+    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MailSmtp</span>
+    {
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x8BBE;&amp;#x7F6E;&amp;#x90AE;&amp;#x4EF6;&amp;#x7F16;&amp;#x7801;&amp;#x7C7B;&amp;#x578B;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;contentEncoding&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetEncoding</span>(<span class="params">Encoding contentEncoding</span>)
+        </span>{
+            <span class="keyword">this</span>._encoding = contentEncoding;
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span>&amp;#x8BBE;&amp;#x7F6E;&amp;#x90AE;&amp;#x4EF6;&amp;#x6B63;&amp;#x6587;&amp;#x662F;&amp;#x5426;&amp;#x4E3A; Html &amp;#x683C;&amp;#x5F0F; </span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;isHtml&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetIsHtml</span>(<span class="params"><span class="keyword">bool</span> isHtml</span>)
+        </span>{
+            <span class="keyword">this</span>._isHtml = isHtml;
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x6284;&amp;#x9001;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;cc&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetCC</span>(<span class="params"><span class="keyword">params</span> <span class="keyword">string</span>[] cc</span>)
+        </span>{
+            <span class="keyword">this</span>._cc = cc;
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x6697;&amp;#x9001;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;cc&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetBC</span>(<span class="params"><span class="keyword">params</span> <span class="keyword">string</span>[] bc</span>)
+        </span>{
+            <span class="keyword">this</span>._bcc = bc;
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x6784;&amp;#x9020;&amp;#x51FD;&amp;#x6570;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;host&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;username&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x8D26;&amp;#x53F7;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;password&amp;quot;&amp;gt;&amp;#x5BC6;&amp;#x7801;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="title">MailSmtp</span>(<span class="params"><span class="keyword">string</span> host, <span class="keyword">string</span> username, <span class="keyword">string</span> password</span>)
+        </span>{
+            <span class="keyword">this</span>._smtp.Host = host;
+            <span class="keyword">this</span>._smtp.Port = <span class="number">0x19</span>;
+            <span class="keyword">this</span>._isHtml = <span class="keyword">true</span>;
+            <span class="keyword">this</span>._encoding = Encoding.UTF8;
+            <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrEmpty(username) || <span class="keyword">string</span>.IsNullOrEmpty(password))
+            {
+                <span class="keyword">this</span>._smtp.UseDefaultCredentials = <span class="keyword">false</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">this</span>._smtp.Credentials = <span class="keyword">new</span> NetworkCredential(username, password);
+            }
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x53D1;&amp;#x9001;&amp;#x90AE;&amp;#x4EF6;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;from&amp;quot;&amp;gt;&amp;#x53D1;&amp;#x4EF6;&amp;#x4EBA;&amp;#x90AE;&amp;#x4EF6;&amp;#x5730;&amp;#x5740;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;sender&amp;quot;&amp;gt;&amp;#x53D1;&amp;#x4EF6;&amp;#x4EBA;&amp;#x663E;&amp;#x793A;&amp;#x540D;&amp;#x79F0;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;to&amp;quot;&amp;gt;&amp;#x6536;&amp;#x4EF6;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;subject&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x6807;&amp;#x9898;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;body&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x6B63;&amp;#x6587;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;file&amp;quot;&amp;gt;&amp;#x9644;&amp;#x4EF6;&amp;#x5730;&amp;#x5740;&amp;#x6570;&amp;#x7EC4;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;returns&amp;gt;bool &amp;#x662F;&amp;#x5426;&amp;#x6210;&amp;#x529F; &amp;lt;/returns&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">Send</span>(<span class="params"><span class="keyword">string</span> <span class="keyword">from</span>, <span class="keyword">string</span> sender, <span class="keyword">string</span> to, <span class="keyword">string</span> subject, <span class="keyword">string</span> body, <span class="keyword">params</span> <span class="keyword">string</span>[] file</span>)
+        </span>{
+            <span class="keyword">return</span> Send(<span class="keyword">from</span>, sender, <span class="keyword">new</span> <span class="keyword">string</span>[] { to }, subject, body, file);
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x53D1;&amp;#x9001;&amp;#x90AE;&amp;#x4EF6;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;from&amp;quot;&amp;gt;&amp;#x53D1;&amp;#x4EF6;&amp;#x4EBA;&amp;#x90AE;&amp;#x4EF6;&amp;#x5730;&amp;#x5740;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;sender&amp;quot;&amp;gt;&amp;#x53D1;&amp;#x4EF6;&amp;#x4EBA;&amp;#x663E;&amp;#x793A;&amp;#x540D;&amp;#x79F0;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;to&amp;quot;&amp;gt;&amp;#x6536;&amp;#x4EF6;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;subject&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x6807;&amp;#x9898;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;body&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x6B63;&amp;#x6587;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;file&amp;quot;&amp;gt;&amp;#x9644;&amp;#x4EF6;&amp;#x5730;&amp;#x5740;&amp;#x6570;&amp;#x7EC4;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;returns&amp;gt;bool &amp;#x662F;&amp;#x5426;&amp;#x6210;&amp;#x529F; &amp;lt;/returns&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">Send</span>(<span class="params"><span class="keyword">string</span> <span class="keyword">from</span>, <span class="keyword">string</span> sender, <span class="keyword">string</span>[] to, <span class="keyword">string</span> subject, <span class="keyword">string</span> body, <span class="keyword">params</span> <span class="keyword">string</span>[] file</span>)
+        </span>{
+            <span class="keyword">string</span> mailReg = @&amp;quot;^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$&amp;quot;;
+            <span class="keyword">if</span> (to == <span class="keyword">null</span>)
+            {
+                <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(&amp;quot;MailSmtp.Send.to&amp;quot;);
+            }
+            <span class="keyword">if</span> (to.Any(oit =&amp;gt; !Regex.IsMatch(oit + &amp;quot;&amp;quot;, mailReg)))
+            {
+                <span class="keyword">this</span>.Result = &amp;quot;&amp;<span class="preprocessor">#x6536;&amp;#x4EF6;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;#x4E0D;&amp;#x5408;&amp;#x6CD5;&amp;quot;;</span>
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            }
+            <span class="keyword">if</span> (_bcc != <span class="keyword">null</span> &amp;amp;&amp;amp; _bcc.Length &amp;gt; <span class="number">0</span>)
+            {
+                <span class="keyword">if</span> (_bcc.Any(oit =&amp;gt; !Regex.IsMatch(oit + &amp;quot;&amp;quot;, mailReg)))
+                {
+                    <span class="keyword">this</span>.Result = &amp;quot;&amp;<span class="preprocessor">#x6697;&amp;#x9001;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;#x4E0D;&amp;#x5408;&amp;#x6CD5;&amp;quot;;</span>
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                }
+            }
+            <span class="keyword">if</span> (_cc != <span class="keyword">null</span> &amp;amp;&amp;amp; _cc.Length &amp;gt; <span class="number">0</span>)
+            {
+                <span class="keyword">if</span> (_cc.Any(oit =&amp;gt; !Regex.IsMatch(oit + &amp;quot;&amp;quot;, mailReg)))
+                {
+                    <span class="keyword">this</span>.Result = &amp;quot;&amp;<span class="preprocessor">#x6284;&amp;#x9001;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;#x4E0D;&amp;#x5408;&amp;#x6CD5;&amp;quot;;</span>
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                }
+            }
+            MailMessage message = <span class="keyword">new</span> MailMessage();
+            <span class="comment">// &amp;#x521B;&amp;#x5EFA;&amp;#x4E00;&amp;#x4E2A;&amp;#x9644;&amp;#x4EF6;&amp;#x5BF9;&amp;#x8C61;</span>
+            <span class="keyword">foreach</span> (<span class="keyword">var</span> r <span class="keyword">in</span> file)
+            {
+                Attachment objMailAttachment;
+                objMailAttachment = <span class="keyword">new</span> Attachment(r);<span class="comment">//&amp;#x53D1;&amp;#x9001;&amp;#x90AE;&amp;#x4EF6;&amp;#x7684;&amp;#x9644;&amp;#x4EF6;</span>
+                message.Attachments.Add(objMailAttachment);
+            }
+            message.From = <span class="keyword">new</span> MailAddress(<span class="keyword">from</span>, sender);
+            message.Subject = subject;
+            message.SubjectEncoding = <span class="keyword">this</span>._encoding;
+            message.Body = body;
+            message.BodyEncoding = <span class="keyword">this</span>._encoding;
+            message.IsBodyHtml = <span class="keyword">this</span>._isHtml;
+            message.Priority = MailPriority.Normal;
+            <span class="keyword">foreach</span> (<span class="keyword">string</span> str <span class="keyword">in</span> to)
+            {
+                message.To.Add(str);
+            }
+            <span class="keyword">if</span> (<span class="keyword">this</span>._bcc != <span class="keyword">null</span> &amp;amp;&amp;amp; <span class="keyword">this</span>._bcc.Length &amp;gt; <span class="number">0</span>)
+            {
+                <span class="keyword">foreach</span> (<span class="keyword">string</span> b <span class="keyword">in</span> <span class="keyword">this</span>._bcc)
+                {
+                    message.Bcc.Add(b);
+                }
+            }
+            <span class="keyword">if</span> (<span class="keyword">this</span>._cc != <span class="keyword">null</span> &amp;amp;&amp;amp; <span class="keyword">this</span>._cc.Length &amp;gt; <span class="number">0</span>)
+            {
+                <span class="keyword">foreach</span> (<span class="keyword">string</span> c <span class="keyword">in</span> <span class="keyword">this</span>._cc)
+                {
+                    message.CC.Add(c);
+                }
+            }
+            <span class="keyword">try</span>
+            {
+                <span class="keyword">this</span>._smtp.Send(message);
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            }
+            <span class="keyword">catch</span> (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+        <span class="keyword">private</span> SmtpClient _smtp = <span class="keyword">new</span> SmtpClient();
+        <span class="keyword">private</span> Encoding _encoding { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">private</span> <span class="keyword">bool</span> _isHtml { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">private</span> <span class="keyword">string</span>[] _cc { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">private</span> <span class="keyword">string</span>[] _bcc { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x83B7;&amp;#x53D6;&amp;#x53D1;&amp;#x9001;&amp;#x7ED3;&amp;#x679C;&amp;#xFF0C;&amp;#x6210;&amp;#x529F;&amp;#x5219;&amp;#x4E3A;&amp;#x7A7A;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="keyword">public</span> <span class="keyword">string</span> Result { <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }
+    }
+}
+</code></pre><p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/7riYbm">&#x5341;&#x4E94;&#x5929;&#x7CBE;&#x901A;WCF&#x2014;&#x2014;&#x7B2C;&#x4E8C;&#x5929; &#x544A;&#x522B;&#x70E6;&#x607C;&#x7684;config&#x914D;&#x7F6E;</a></li>
+<li>2.<a href="/articles/jYVbu2z">&#x8FDF;&#x5230;&#x7684;&#x513F;&#x7AE5;&#x8282;&#x793C;&#x7269;&#x2014;&#x2014;&#x5C0F;&#x6E38;&#x620F;&#x4E09;&#x4EF6;&#x5957;&#xFF1A;&#x626B;&#x96F7;&#xFF0C;&#x4FC4;&#x7F57;&#x65AF;&#x65B9;&#x5757;&#xFF0C;&#x6570;&#x72EC;</a></li>
+<li>3.<a href="/articles/jaMbAzR">&#x6298;&#x817E; async/await &#x8C03;&#x7528;&#x4F20;&#x7EDF; Begin/End &#x5F02;&#x6B65;&#x65B9;&#x6CD5;</a></li>
+<li>4.<a href="/articles/NRbMjem">[ASP.NET MVC] &#x4F7F;&#x7528;CLK.AspNet.Identity&#x63D0;&#x4F9B;&#x4EE5;&#x89D2;&#x8272;&#x4E3A;&#x57FA;&#x7840;&#x7684;&#x8BBF;&#x95EE;&#x63A7;&#x5236;..</a></li>
+<li>5.<a href="/articles/emmuqmB">&#x57FA;&#x4E8E;DDD&#x7684;&#x73B0;&#x4EE3;ASP.NET&#x5F00;&#x53D1;&#x6846;&#x67B6;—ABP&#x7CFB;&#x5217;&#x4E4B;8&#x3001;ABP&#x65E5;&#x5FD7;&#x7BA1;&#x7406;</a></li>
+<li><p>6.<a href="/articles/bQZ7vaZ">&#x7269;&#x4EE5;&#x7C7B;&#x805A;&#xFF1A;&#x5BF9;&#x8C61;&#x4E5F;&#x6709;&#x751F;&#x547D;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/yqEnya">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;yqEnya&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Net/">.Net</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/09/e033b17/" title="WildFly Swarm Alpha2 发布 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  WildFly Swarm Alpha2 发布 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/09/e03956c/"  title="门头沟信息网 1.2 发布，资讯网站开源啦 -">
+ <strong>下一篇：</strong><br/> 
+ <span>门头沟信息网 1.2 发布，资讯网站开源啦 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#邮箱mail_发送类_ASP-NET_C"><span class="toc-number">1.</span> <span class="toc-text">邮箱mail 发送类 ASP.NET C</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>50</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Twitter/" title="Twitter">Twitter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/我/" title="我">我<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

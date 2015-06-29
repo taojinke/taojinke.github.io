@@ -1,0 +1,577 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Swift 2.0发布：即将开源，支持Linux - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Swift 2.0&amp;#x53D1;&amp;#x5E03;&amp;#xFF1A;&amp;#x5373;&amp;#x5C06;&amp;#x5F00;&amp;#x6E90;&amp;#xFF0C;&amp;#x652F;&amp;#x6301;Linux &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-09 06:51:00  InfoQ
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http://www.infoq.com/cn/news/2015">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift 2.0发布：即将开源，支持Linux -">
+<meta property="og:url" content="http://taojinke.github.io/2015/06/09/c1c132d/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Swift 2.0&amp;#x53D1;&amp;#x5E03;&amp;#xFF1A;&amp;#x5373;&amp;#x5C06;&amp;#x5F00;&amp;#x6E90;&amp;#xFF0C;&amp;#x652F;&amp;#x6301;Linux &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-09 06:51:00  InfoQ
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http://www.infoq.com/cn/news/2015">
+<meta property="og:updated_time" content="2015-06-09T01:06:28.121Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift 2.0发布：即将开源，支持Linux -">
+<meta name="twitter:description" content="Swift 2.0&amp;#x53D1;&amp;#x5E03;&amp;#xFF1A;&amp;#x5373;&amp;#x5C06;&amp;#x5F00;&amp;#x6E90;&amp;#xFF0C;&amp;#x652F;&amp;#x6301;Linux &amp;#x65F6;&amp;#x95F4;&amp;#xA0;2015-06-09 06:51:00  InfoQ
+&amp;#x539F;&amp;#x6587;&amp;#xA0; http://www.infoq.com/cn/news/2015">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/c1c132d/" title="Swift 2.0发布：即将开源，支持Linux -" itemprop="url">Swift 2.0发布：即将开源，支持Linux -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:06:28.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift_2-0发布：即将开源，支持Linux"><span class="toc-number">1.</span> <span class="toc-text">Swift 2.0发布：即将开源，支持Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Swift_2-0&#x53D1;&#x5E03;&#xFF1A;&#x5373;&#x5C06;&#x5F00;&#x6E90;&#xFF0C;&#x652F;&#x6301;Linux">Swift 2.0&#x53D1;&#x5E03;&#xFF1A;&#x5373;&#x5C06;&#x5F00;&#x6E90;&#xFF0C;&#x652F;&#x6301;Linux</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 06:51:00  <a href="/sites/Qzm6Zz">InfoQ</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.infoq.com/cn/news/2015/06/swift-2-0?utm_source=tuicool" target="_blank" rel="external">http://www.infoq.com/cn/news/2015/06/swift-2-0</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11080038">&#x5F00;&#x6E90;</a><a href="/topics/11000069">Linux</a></p>
+<p>&#x5728;6&#x6708;9&#x65E5;&#x51CC;&#x6668;&#x4E3E;&#x884C;&#x7684;WWDC 2015&#x5168;&#x7403;&#x5F00;&#x53D1;&#x8005;&#x5927;&#x4F1A;&#x4E0A;&#xFF0C;&#x82F9;&#x679C;&#x53D1;&#x5E03;&#x4E86;Swift 2.0&#xFF0C;&#x5E76;&#x5BA3;&#x5E03;&#x5C06;&#x4E8E;&#x4ECA;&#x5E74;&#x5E74;&#x5E95;&#x5F00;&#x6E90;Swift&#x8BED;&#x8A00;&#x3002;Swift 2.0&#x5F15;&#x5165;&#x4E86;&#x5F88;&#x591A;&#x7684;&#x65B0;&#x7279;&#x6027;&#x4EE5;&#x786E;&#x4FDD;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x66F4;&#x5FEB;&#x3001;&#x66F4;&#x7B80;&#x5355;&#x7684;&#x6784;&#x5EFA;&#x5E94;&#x7528;&#xFF0C;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#x5305;&#x62EC;&#x66F4;&#x597D;&#x7684;&#x6027;&#x80FD;&#x3001;&#x65B0;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;API&#x3001;&#x53EF;&#x7528;&#x6027;&#x68C0;&#x67E5;&#x3001;&#x652F;&#x6301;Linux&#x7B49;&#x3002;&#x82F9;&#x679C;&#x5C06;&#x4F1A;&#x5728;&#x65B0;&#x53D1;&#x5E03;&#x7684;iOS 9&#x4E2D;&#x5168;&#x9762;&#x652F;&#x6301;Swift&#xFF0C;iOS 9 beta&#x4E5F;&#x4F1A;&#x5728;&#x4ECA;&#x5929;&#x5BF9;&#x6240;&#x6709;&#x6CE8;&#x518C;&#x7684;&#x82F9;&#x679C;&#x5F00;&#x53D1;&#x8005;&#x5F00;&#x653E;&#x3002;</p>
+<p>Swift 2.0&#x5305;&#x542B;&#x4E86;&#x8BB8;&#x591A;&#x7684;&#x65B0;&#x7279;&#x6027;&#x4EE5;&#x53CA;&#x6539;&#x8FDB;&#xFF0C;&#x5728;&#x672C;&#x5468;&#x7684;WWDC&#x5927;&#x4F1A;&#x4E0A;&#x82F9;&#x679C;&#x5C06;&#x4F1A;&#x6DF1;&#x5165;&#x4ECB;&#x7ECD;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x5728;&#x82F9;&#x679C;&#x7684; <a href="https://developer.apple.com/swift/blog/?id=29" target="_blank" rel="external">&#x5F00;&#x53D1;&#x8005;&#x535A;&#x5BA2;</a> &#x4E0A;&#xFF0C;&#x5B98;&#x65B9;&#x4E5F;&#x5BF9;&#x5176;&#x4E2D;&#x7684;&#x67D0;&#x51E0;&#x4E2A;&#x65B0;&#x529F;&#x80FD;&#x505A;&#x4E86;&#x4ECB;&#x7ECD;&#xFF1A; </p>
+<p>&#x5F02;&#x5E38;&#x5904;&#x7406;&#x6A21;&#x578B;&#xFF1A;&#x65B0;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x6A21;&#x578B;&#x4F7F;&#x7528;&#x4E86;&#x5F00;&#x53D1;&#x8005;&#x6700;&#x4E3A;&#x719F;&#x6089;&#x7684;try&#x3001;catch&#x3001;throw&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x5E76;&#x4E14;&#x8FD8;&#x5C06;&#x5B8C;&#x7F8E;&#x652F;&#x6301;&#x82F9;&#x679C;&#x7684;SDK&#x4EE5;&#x53CA;NSError&#x3002; </p>
+<p>&#x53EF;&#x7528;&#x6027;&#xFF1A;&#x901A;&#x8FC7;&#x4F7F;&#x7528;&#x65B0;&#x7684;SDK&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x64CD;&#x4F5C;&#x5E73;&#x53F0;&#x7684;&#x65B0;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x67D0;&#x4E9B;&#x8001;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x53EF;&#x80FD;&#x5E76;&#x4E0D;&#x652F;&#x6301;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x5F00;&#x53D1;&#x8005;&#x5C31;&#x9700;&#x8981;&#x989D;&#x5916;&#x7684;&#x68C0;&#x67E5;&#x3002;&#x5728;&#x5904;&#x7406;&#x7C7B;&#x4F3C;&#x7684;&#x517C;&#x5BB9;&#x95EE;&#x9898;&#x4E0A;&#xFF0C;Swift&#x975E;&#x5E38;&#x7684;&#x5F97;&#x5FC3;&#x5E94;&#x624B;&#x3002;&#x5982;&#x679C;&#x76EE;&#x6807;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E0D;&#x652F;&#x6301;&#x67D0;&#x4E2A;API&#xFF0C;&#x90A3;&#x5728;&#x7F16;&#x8BD1;&#x65F6;Swift&#x5C06;&#x4F1A;&#x62A5;&#x9519;&#x3002;&#x540C;&#x6837;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;#available&#x6765;&#x786E;&#x4FDD;&#x4EE3;&#x7801;&#x5757;&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#x4E8E;&#x6B63;&#x786E;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7248;&#x672C;&#x4E0A;&#x3002; </p>
+<p>&#x534F;&#x8BAE;&#x53EF;&#x6269;&#xFFFD;&#xFFFD;&#xFFFD;&#xFF1A;&#x534F;&#x8BAE;&#xFF08;Protocol&#xFF09;&#x7528;&#x4E8E;&#x7EDF;&#x4E00;&#x65B9;&#x6CD5;&#x548C;&#x5C5E;&#x6027;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x800C;&#x4E0D;&#x5B9E;&#x73B0;&#x4EFB;&#x4F55;&#x529F;&#x80FD;&#x3002;Swift 2.0&#x589E;&#x52A0;&#x4E86;&#x534F;&#x8BAE;&#x6269;&#x5C55;&#xFF0C;&#x5728;&#x6807;&#x51C6;&#x5305;&#x4E2D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5B83;&#x3002;&#x5F53;&#x4F7F;&#x7528;&#x5168;&#x5C40;&#x51FD;&#x6570;&#x65F6;&#xFF0C;Swift 2.0&#x5DF2;&#x7ECF;&#x4E3A;&#x65B9;&#x6CD5;&#x6DFB;&#x52A0;&#x4E86;&#x7EDF;&#x4E00;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x8FD9;&#x6837;&#x5F00;&#x53D1;&#x8005;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x94FE;&#xFF0C;&#x4EE5;&#x63D0;&#x9AD8;&#x4EE3;&#x7801;&#x7684;&#x53EF;&#x8BFB;&#x6027;&#x3002; </p>
+<p>&#x9664;&#x4E86;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#x4E4B;&#x5916;&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x91CD;&#x78C5;&#x6D88;&#x606F;&#x662F;&#x82F9;&#x679C;&#x5C06;&#x5728;&#x4ECA;&#x5E74;&#x665A;&#x4E9B;&#x65F6;&#x5019;&#x5F00;&#x6E90;Swfit&#x3002;&#x82F9;&#x679C;&#x7684;&#x8F6F;&#x4EF6;&#x7814;&#x53D1;&#x526F;&#x603B;&#x88C1;Craig Federighi&#x5728;WWDC&#x5927;&#x4F1A;&#x4E0A;&#x8868;&#x793A;Swift&#x5C06;&#x4F1A;&#x662F;&#x672A;&#x6765;&#x7684;&#x4E3B;&#x6D41;&#x5F00;&#x53D1;&#x8BED;&#x8A00;&#xFF0C;&#x5B83;&#x5E94;&#x8BE5;&#x5F97;&#x5230;&#x66F4;&#x4E3A;&#x5E7F;&#x6CDB;&#x7684;&#x5E94;&#x7528;&#x3002;&#x4F46;&#x5728;&#x5927;&#x4F1A;&#x4E0A;&#x82F9;&#x679C;&#x5E76;&#x6CA1;&#x6709;&#x8FC7;&#x591A;&#x7684;&#x89E3;&#x91CA;&#x5173;&#x4E8E;Swift&#x5F00;&#x6E90;&#x7684;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#xFF0C;&#x82F9;&#x679C;&#x66FE;&#x5728;2005&#x5E74;&#x5F00;&#x6E90;&#x8FC7; <a href="https://www.webkit.org/" target="_blank" rel="external">WebKit</a> &#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x51FA;&#x6240;&#x6599;&#xFF0C;Swift&#x9879;&#x76EE;&#x7684;&#x5F00;&#x6E90;&#x7BA1;&#x7406;&#x548C;&#x8FD0;&#x8425;&#x6A21;&#x5F0F;&#x5E94;&#x8BE5;&#x548C;WebKit&#x7C7B;&#x4F3C;&#x3002;&#x76EE;&#x524D;&#x53EF;&#x4EE5;&#x786E;&#x8BA4;&#x7684;&#x4FE1;&#x606F;&#x5305;&#x62EC;&#xFF1A; </p>
+<ol>
+<li>Swift&#x7684;&#x6E90;&#x4EE3;&#x7801;&#x5C06;&#x4F1A;&#x57FA;&#x4E8E;&#x67D0;&#x4E2A;OSI&#x7EC4;&#x7EC7;&#x6279;&#x51C6;&#x7684;&#x5F00;&#x6E90;&#x534F;&#x8BAE;&#x8FDB;&#x884C;&#x5F00;&#x6E90;&#x3002;</li>
+<li>&#x82F9;&#x679C;&#x5C06;&#x4F1A;&#x5141;&#x8BB8;&#x5E76;&#x9F13;&#x52B1;&#x793E;&#x533A;&#x5F00;&#x53D1;&#x8005;&#x8D21;&#x732E;&#x4EE3;&#x7801;&#x3002;</li>
+<li>&#x672A;&#x6765;Swift&#x5C06;&#x4F1A;&#x91CD;&#x70B9;&#x652F;&#x6301; OS X&#x3001;iOS&#x548C;Linux&#x4E09;&#x4E2A;&#x5E73;&#x53F0;&#x3002;</li>
+<li>&#x6E90;&#x4EE3;&#x7801;&#x5C06;&#x4F1A;&#x5305;&#x62EC;Swift&#x7F16;&#x8BD1;&#x5668;&#x4EE5;&#x53CA;&#x6807;&#x51C6;&#x5E93;&#x3002;</li>
+</ol>
+<p>Swift&#x5F00;&#x6E90;&#x7684;&#x6D88;&#x606F;&#x5728; <a href="https://news.ycombinator.com/item?id=9680982" target="_blank" rel="external">Hacker News</a> &#x4E0A;&#x5F15;&#x8D77;&#x4E86;&#x6FC0;&#x70C8;&#x8BA8;&#x8BBA;&#x3002;&#x603B;&#x4F53;&#x6765;&#x770B;&#xFF0C;&#x5F00;&#x6E90;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x7684;&#x4FC3;&#x8FDB;Swift&#x7684;&#x53D1;&#x5C55;&#xFF0C;&#x4E00;&#x65B9;&#x9762;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5411;Swift&#x8D21;&#x732E;&#x4EE3;&#x7801;&#xFF0C;&#x53E6;&#x5916;&#x5F00;&#x6E90;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x7684;&#x5E2E;&#x52A9;&#x82F9;&#x679C;&#x6784;&#x5EFA;&#x5176;&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5173;&#x4E8E;Swift&#x7684;&#x8BE6;&#x7EC6;&#x5185;&#x5BB9;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x9605;&#x8BFB;InfoQ&#x7684;Swift&#x4E13;&#x680F;&#xFF0C;&#x66F4;&#x591A;&#x5173;&#x4E8E;WWDC 2015&#x7684;&#x5185;&#x5BB9;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x9605;&#x8BFB;&#x300A; <a href="http://www.infoq.com/cn/news/2015/06/wwdc2015-everything-we-know" target="_blank" rel="external">WWDC 2015&#x5927;&#x4F1A;&#x5341;&#x5927;&#x770B;&#x70B9;&#x603B;&#x7ED3;&#xFF1A;Swift&#x8981;&#x5F00;&#x6E90;&#x4E86;</a> &#x300B;&#x3002; </p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/reEFbeV">&#x5BF9;Linux&#x521D;&#x5B66;&#x8005;&#x7684;&#x4E00;&#x4E9B;&#x5EFA;&#x8BAE;</a></li>
+<li>2.<a href="/articles/3UFFvi">Electron &#x5B9E;&#x9A8C;&#x9879;&#x76EE;&#xFF1A;&#x96EA;&#x7403;&#x80A1;&#x7968;&#x52A9;&#x624B;</a></li>
+<li>3.<a href="/articles/6NraQbE">&#x4ECE; 0 &#x5F00;&#x59CB;&#x642D;&#x5EFA; Vim &#x7F16;&#x8F91;&#x5668;</a></li>
+<li>4.<a href="/articles/qUNVFrI">&#x5982;&#x4F55;&#x4ECE;&#x6E90;&#x4EE3;&#x7801;&#x6784;&#x5EFA; Go 1.5 &#x5F00;&#x53D1;&#x73AF;&#x5883;</a></li>
+<li>5.<a href="/articles/MNb2Ifu">FlashSim&#x5B89;&#x88C5;&#x53CA;&#x6D4B;&#x8BD5;</a></li>
+<li><p>6.<a href="/articles/VRZNrqZ">&#x89E3;&#x8BFB;&#xFF1A;LG webOS 2.0&#x7CFB;&#x7EDF;&#x6709;&#x4EC0;&#x4E48;&#x7279;&#x70B9;&#xFF1F;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/EnqEVn">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;EnqEVn&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开源/">开源</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/09/c1c4190/" title="Debian 8.1 发布， -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Debian 8.1 发布， -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/09/c1bec1d/"  title="REMnux 6.0 发布，基于 Ubuntu 的 Linux 发行 -">
+ <strong>下一篇：</strong><br/> 
+ <span>REMnux 6.0 发布，基于 Ubuntu 的 Linux 发行 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift_2-0发布：即将开源，支持Linux"><span class="toc-number">1.</span> <span class="toc-text">Swift 2.0发布：即将开源，支持Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>50</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Twitter/" title="Twitter">Twitter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/我/" title="我">我<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

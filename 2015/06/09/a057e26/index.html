@@ -1,0 +1,597 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x56FE;&amp;#x7075;&amp;#x8BBF;&amp;#x8C08; &amp;#xFF1A; [&amp;#x82F1;] &amp;#x300A;Java 8&amp;#x51FD;&amp;#x6570;&amp;#x5F0F;&amp;#x7F16;&amp;#x7A0B;&amp;#x300B;&amp;#x4F5C;&amp;#x8005;Richard Warbourton&amp;#xFF1A;Java&amp;#x7684;&amp;#x4EAE;&amp;#x70B9;&amp;#x4E0D;&amp;#x662F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/06/09/a057e26/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x56FE;&amp;#x7075;&amp;#x8BBF;&amp;#x8C08; &amp;#xFF1A; [&amp;#x82F1;] &amp;#x300A;Java 8&amp;#x51FD;&amp;#x6570;&amp;#x5F0F;&amp;#x7F16;&amp;#x7A0B;&amp;#x300B;&amp;#x4F5C;&amp;#x8005;Richard Warbourton&amp;#xFF1A;Java&amp;#x7684;&amp;#x4EAE;&amp;#x70B9;&amp;#x4E0D;&amp;#x662F">
+<meta property="og:image" content="http://taojinke.github.io/img/20150609/a0560da.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150609/a05634b.jpg">
+<meta property="og:updated_time" content="2015-06-09T01:05:32.063Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈） -">
+<meta name="twitter:description" content="&amp;#x56FE;&amp;#x7075;&amp;#x8BBF;&amp;#x8C08; &amp;#xFF1A; [&amp;#x82F1;] &amp;#x300A;Java 8&amp;#x51FD;&amp;#x6570;&amp;#x5F0F;&amp;#x7F16;&amp;#x7A0B;&amp;#x300B;&amp;#x4F5C;&amp;#x8005;Richard Warbourton&amp;#xFF1A;Java&amp;#x7684;&amp;#x4EAE;&amp;#x70B9;&amp;#x4E0D;&amp;#x662F">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/a057e26/" title="图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈） -" itemprop="url">图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:05:32.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#图灵访谈_：_[英]_《Java_8函数式编程》作者Richard_Warbourton：Java的亮点不是语言本身（图灵访谈）"><span class="toc-number">1.</span> <span class="toc-text">图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#更多精彩，加入图灵访谈微信！"><span class="toc-number">1.1.</span> <span class="toc-text">更多精彩，加入图灵访谈微信！</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.1.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="&#x56FE;&#x7075;&#x8BBF;&#x8C08;_&#xFF1A;_[&#x82F1;]_&#x300A;Java_8&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x300B;&#x4F5C;&#x8005;Richard_Warbourton&#xFF1A;Java&#x7684;&#x4EAE;&#x70B9;&#x4E0D;&#x662F;&#x8BED;&#x8A00;&#x672C;&#x8EAB;&#xFF08;&#x56FE;&#x7075;&#x8BBF;&#x8C08;&#xFF09;">&#x56FE;&#x7075;&#x8BBF;&#x8C08; &#xFF1A; [&#x82F1;] &#x300A;Java 8&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x300B;&#x4F5C;&#x8005;Richard Warbourton&#xFF1A;Java&#x7684;&#x4EAE;&#x70B9;&#x4E0D;&#x662F;&#x8BED;&#x8A00;&#x672C;&#x8EAB;&#xFF08;&#x56FE;&#x7075;&#x8BBF;&#x8C08;&#xFF09;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 08:24:53  <a href="/sites/AzQnIz">&#x56FE;&#x7075;&#x793E;&#x533A;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.ituring.com.cn/article/199302?utm_source=tuicool" target="_blank" rel="external">http://www.ituring.com.cn/article/199302</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11070119">Java8</a><a href="/topics/11080087">&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;</a></p>
+<p>Richard Warburton&#x662F;&#x4E00;&#x4F4D;&#x7ECF;&#x9A8C;&#x4E30;&#x5BCC;&#x7684;&#x6280;&#x672F;&#x4E13;&#x5BB6;&#xFF0C;&#x5584;&#x4E8E;&#x89E3;&#x51B3;&#x590D;&#x6742;&#x6DF1;&#x5965;&#x7684;&#x6280;&#x672F;&#x95EE;&#x9898;&#xFF0C;&#x62E5;&#x6709;&#x534E;&#x5A01;&#x5927;&#x5B66;&#x8BA1;&#x7B97;&#x673A;&#x79D1;&#x5B66;&#x4E13;&#x4E1A;&#x535A;&#x58EB;&#x5B66;&#x4F4D;&#x3002;&#x8FD1;&#x671F;&#x4ED6;&#x4E00;&#x76F4;&#x4ECE;&#x4E8B;&#x9AD8;&#x6027;&#x80FD;&#x8BA1;&#x7B97;&#x65B9;&#x9762;&#x7684;&#x6570;&#x636E;&#x5206;&#x6790;&#x5DE5;&#x4F5C;&#x3002;&#x4ED6;&#x662F;&#x82F1;&#x56FD;&#x4F26;&#x6566;Java&#x793E;&#x533A;&#x7684;&#x9886;&#x5BFC;&#x8005;&#xFF0C;&#x7EC4;&#x7EC7;&#x8FC7;&#x9762;&#x5411;Java 8&#x4E2D;Lambda&#x8868;&#x8FBE;&#x5F0F;&#x3001;&#x65E5;&#x671F;&#x548C;&#x65F6;&#x95F4;&#x7684;Adopt-a-JSR&#x9879;&#x76EE;&#xFF0C;&#x4EE5;&#x53CA;Openjdk Hackdays&#x6D3B;&#x52A8;&#x3002;Richard&#x8FD8;&#x662F;&#x77E5;&#x540D;&#x7684;&#x4F1A;&#x8BAE;&#x6F14;&#x8BB2;&#x5609;&#x5BBE;&#xFF0C;&#x66FE;&#x5728;JavaOne&#x3001;DevoxxUK&#x548C;JAX London&#x7B49;&#x4F1A;&#x8BAE;&#x4E0A;&#x6F14;&#x8BB2;&#x3002;&#x6839;&#x636E;&#x5BF9;Java&#x793E;&#x533A;&#x548C;Java 8&#x65B0;&#x7279;&#x6027;&#x7684;&#x6DF1;&#x523B;&#x7406;&#x89E3;&#xFF0C;&#x4ED6;&#x521B;&#x4F5C;&#x4E86;&#x300A;Java 8&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x300B;&#x4E00;&#x4E66;&#x3002; </p>
+<p><img src="http://taojinke.github.io/img/20150609/a0560da.jpg" alt=""></p>
+<p>iTuring: How did you become a coder? And how did you become a coder specialized in Java?</p>
+<p>I was always always interested in technology and when I was at school I fell in with &quot;the wrong crowd&quot; - programmers. It was great to see people who could make useful and interesting things. So I picked up a book on visual basic - the first programming language I ever learnt - read it and started programming. As I later found out visual basic leaves much to be desired in a programming language and at university I learnt Java. Despite using a number of other programming languages I seem to end up coming back to Java. Its not really the language so much as the ecosystem, tooling and libraries that are available.</p>
+<p>iTuring: Does your experience in London Java Community help you with the idea of your book <a href="http://www.ituring.com.cn/book/1448" target="_blank" rel="external"><em>Java 8 Lambdas</em></a> ? How? </p>
+<p>Yes, definitely. I initially started playing around with Java 8 prototypes before it was released by organising the LJC hackdays on the topic and sending feedback back to the expert group. I also got in touch with O&apos;Reilly at a London event. <a href="http://www.ituring.com.cn/book/1448" target="_blank" rel="external"><em>Java 8 Lambdas</em></a> would never have happened with the LJC. </p>
+<p>iTuring: Lambdas are invisible on JVM, in your opinion, why did Java choose to support the syntactic feature by integrating it into Java 8 instead of building a plug-in?</p>
+<p>I think this really derives from a bunch of other design decisions in Java 8. It was decided that there would be no special function types added to represent lambdas - they would just use interfaces with single abstract methods (functional interfaces). Once that&apos;s in place any library that wants to call a lambda expression just needs to call a method on an interface. There&apos;s no need to make any bytecode changes to implement that.</p>
+<p>Its worth noting that there&apos;s quite a lot of mechanics going on to make lambdas work, which are described in some detail in an article I co-authored at <a href="http://www.infoq.com/articles/Java-8-Lambdas-A-Peek-Under-the-Hood" target="_blank" rel="external">http://www.infoq.com/articles/Java-8-Lambdas-A-Peek-Under-the-Hood</a> . </p>
+<p>iTuring: Scala, Groovy and Clojure are genetically built on functional programming, do you think Java has any unique advantages comparing to these languages?</p>
+<p>Absolutely, but its not the language! Java is a perfectly solid language but languages like Scala are always going to add more features than Java has. Clojure will always be simpler, less syntax and less concepts. Groovy offers a mix of static and dynamic typing and a scripting focus that Java lacks. All of these languages have compelling reasons for being used over Java, but at the same time they&apos;re also missing a lot of other things.</p>
+<p>Java has excellent mature tooling and IDE support that things like Scala and Clojure lack. To me these tools contribute to your productivity just as much as the language itself and remove a lot of the day-to-day development frustrations. I&apos;d pick Java for many projects over Scala or Clojure for the tooling.</p>
+<p>iTuring: Stability and simplicity are Java&apos;s biggest advantages, do you agree that functional programming of Java 8 and multiple inheritance mechanism of Java 9 will increase complexity and maintenance cost of Java?</p>
+<p>It depends upon how you view things. In my opinion the introduction of functional programming simplifies things for many programming tasks. Collections and data processing are a very commonly performed tasks by Java developers and they&apos;re ideally suited to a functional paradigm. There&apos;s an overhead to learning these new concepts and there is an added complexity in the sense that you need to decide when to write functional and when to write imperative code. So to me its not clear-cut either way. Functional programming does make things easier, but there&apos;s more to learn.</p>
+<p>iTuring: In Java 8, which is more important, maintaining the system or solving problems?</p>
+<p>I&apos;m not sure what this question is actually asking I&apos;m afraid.</p>
+<p>iTuring: How does the ecosystem of Java respond to functional programming of Java 8? How long would you expect before functional feature of Java 8 be used universally across the board?</p>
+<p>I think if you&apos;re thinking about adopting Java 8 then you should go incrementally. First thinking about using core library features such as streams and collectors in conjunction with lambda expressions. I think this adoption phase is well under way and has begun to happen and I&apos;m seeing people use these features in real code.</p>
+<p>I think over time we&apos;ll start to see a more functional style of Java evolve - using some of the functional design patterns, more immutable classes. There&apos;s already a few libraries beginning to adopt this style. I&apos;ve written a testing framework ( <a href="http://richardwarburton.github.io/lambda-behave/" target="_blank" rel="external">http://richardwarburton.github.io/lambda-behave/</a> ) that gives an example of the thing kind of thing you can do. </p>
+<p>So I think eventually there will be strong adoption of all the Java 8 functional features, but it&apos;ll be a gradual process.</p>
+<p>iTuring: Java used to be object oriented, now it fully supports functional programming. As a coder, what can we do to facilitate the transition and make the best of functional programming?</p>
+<p>I think there&apos;s a few steps to the transition.</p>
+<p>Step 1 is to learn more about Java 8. Reading books, tutorial and trying out a few simple examples of functional code. Once you know the basics move to step 2.</p>
+<p>Step 2 is to adopt Java 8 on a work project. In my opinion its good to have a small and low risk project to try things out on, but to try it in the context of solving real world business problems. Once you&apos;re familiar with Java 8 in a real world setting move to step 3.</p>
+<p>Step 3 is to bump all your code to Java 8 and test it out without using any Java 8 features. This is because even though Java SE maintains really strong binary compatibility some third party libraries may break and you&apos;ll have to upgrade them. If you&apos;re already using the latest libraries this may not be a problem for you. Once everything is working move to step 4.</p>
+<p>Step 4 is start writing Java 8 code across your main code-base and have fun doing so.</p>
+<p>iTuring: In functional programming of Java, do you have some best practices that you would like to recommend? And have you identified any traps during the way?</p>
+<p>I&apos;ve never liked the idea of &quot;best practices&quot; - these things change over time and depend upon context. Let&apos;s talk about some things which are good things to use.</p>
+<ol>
+<li>Streams and Collectors. If you&apos;re writing code that involves the collections API then these are your new best friend.</li>
+<li>Immutable Data. Often its simpler and less error to return new objects rather than mutate existing ones.</li>
+<li>Think functional. Instead of thinking &quot;how can I update this blob of state?&quot; ask yourself &quot;how can I transform this input into an output?&quot;</li>
+</ol>
+<h2 id="&#x66F4;&#x591A;&#x7CBE;&#x5F69;&#xFF0C;&#x52A0;&#x5165;&#x56FE;&#x7075;&#x8BBF;&#x8C08;&#x5FAE;&#x4FE1;&#xFF01;">&#x66F4;&#x591A;&#x7CBE;&#x5F69;&#xFF0C;&#x52A0;&#x5165;&#x56FE;&#x7075;&#x8BBF;&#x8C08;&#x5FAE;&#x4FE1;&#xFF01;</h2><p><img src="http://taojinke.github.io/img/20150609/a05634b.jpg" alt=""></p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/mUbq2uE">WildFly Swarm Alpha2 &#x53D1;&#x5E03;</a></li>
+<li>2.<a href="/articles/MvARZbI">appium java &#x73AF;&#x5883;&#x642D;&#x5EFA;</a></li>
+<li>3.<a href="/articles/YfQBbmB">jquery&#x4E2D;ajax &#x4ECE;&#x524D;&#x7AEF;&#x5230;&#x540E;&#x7AEF; &#x5B8C;&#x6574;&#x8FC7;&#x7A0B;&#x89E3;&#x6790;</a></li>
+<li>4.<a href="/articles/AzeIbe7">Java&#x77E5;&#x591A;&#x5C11;&#xFF08;86&#xFF09;&#x6587;&#x672C;&#x6846;&#x548C;&#x6587;&#x672C;&#x533A;&#x7684;&#x8F93;&#x5165;&#x8F93;&#x51FA;</a></li>
+<li>5.<a href="/articles/EFnIJb">spring security&#x6E90;&#x7801;&#x5206;&#x6790;&#x4E4B;core&#x5305;</a></li>
+<li><p>6.<a href="/articles/jmMRzea">&#x5E38;&#x91CF;&#x3001;&#x53D8;&#x91CF;&#x4E0E;&#x8FD0;&#x7B97;&#x7B26;&#xFF08;&#x4E94;&#xFF09;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/uQZ3uuv">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;uQZ3uuv&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java8/">Java8</a><a href="/tags/函数式编程/">函数式编程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/09/a05ac89/" title="">
+  <strong>上一篇：</strong><br/>
+  <span>
+  (no title)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/06/09/a054d52/"  title="Swift 2.0发布：即将开源，支持Linux -">
+ <strong>下一篇：</strong><br/> 
+ <span>Swift 2.0发布：即将开源，支持Linux -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#图灵访谈_：_[英]_《Java_8函数式编程》作者Richard_Warbourton：Java的亮点不是语言本身（图灵访谈）"><span class="toc-number">1.</span> <span class="toc-text">图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#更多精彩，加入图灵访谈微信！"><span class="toc-number">1.1.</span> <span class="toc-text">更多精彩，加入图灵访谈微信！</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我来评几句"><span class="toc-number">1.1.0.0.1.</span> <span class="toc-text">我来评几句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>50</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Twitter/" title="Twitter">Twitter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/我/" title="我">我<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
