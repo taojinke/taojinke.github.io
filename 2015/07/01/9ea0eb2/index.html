@@ -1,0 +1,555 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>DevOps渐成气候 红帽推出OpenShift Enterprise 3 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x7EA2;&amp;#x5E3D;&amp;#x5BA3;&amp;#x5E03;&amp;#x63A8;&amp;#x51FA;OpenShift Enterprise 3&amp;#x3002;&amp;#x8FD9;&amp;#x6B3E;&amp;#x4EA7;&amp;#x54C1;&amp;#x662F;&amp;#x57FA;&amp;#x4E8E;Docker Linux&amp;#x5BB9;&amp;#x5668;&amp;#x3001;Kubernetes&amp;#x7F16;&amp;#x6392;&amp;#x5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DevOps渐成气候 红帽推出OpenShift Enterprise 3 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/01/9ea0eb2/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x7EA2;&amp;#x5E3D;&amp;#x5BA3;&amp;#x5E03;&amp;#x63A8;&amp;#x51FA;OpenShift Enterprise 3&amp;#x3002;&amp;#x8FD9;&amp;#x6B3E;&amp;#x4EA7;&amp;#x54C1;&amp;#x662F;&amp;#x57FA;&amp;#x4E8E;Docker Linux&amp;#x5BB9;&amp;#x5668;&amp;#x3001;Kubernetes&amp;#x7F16;&amp;#x6392;&amp;#x5">
+<meta property="og:updated_time" content="2015-06-30T23:06:20.335Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DevOps渐成气候 红帽推出OpenShift Enterprise 3 -">
+<meta name="twitter:description" content="&amp;#x7EA2;&amp;#x5E3D;&amp;#x5BA3;&amp;#x5E03;&amp;#x63A8;&amp;#x51FA;OpenShift Enterprise 3&amp;#x3002;&amp;#x8FD9;&amp;#x6B3E;&amp;#x4EA7;&amp;#x54C1;&amp;#x662F;&amp;#x57FA;&amp;#x4E8E;Docker Linux&amp;#x5BB9;&amp;#x5668;&amp;#x3001;Kubernetes&amp;#x7F16;&amp;#x6392;&amp;#x5">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/01/9ea0eb2/" title="DevOps渐成气候 红帽推出OpenShift Enterprise 3 -" itemprop="url">DevOps渐成气候 红帽推出OpenShift Enterprise 3 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-30T23:06:20.000Z" itemprop="datePublished"> 发表于 2015-07-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x7EA2;&#x5E3D;&#x5BA3;&#x5E03;&#x63A8;&#x51FA;OpenShift Enterprise 3&#x3002;&#x8FD9;&#x6B3E;&#x4EA7;&#x54C1;&#x662F;&#x57FA;&#x4E8E;Docker Linux&#x5BB9;&#x5668;&#x3001;Kubernetes&#x7F16;&#x6392;&#x548C;&#x7EA2;&#x5E3D;&#x4F01;&#x4E1A;Linux 7&#x7684;&#x9996;&#x4E2A;&#x4F01;&#x4E1A;&#x5C31;&#x7EEA;&#x578B;Web&#x7EA7;&#x5BB9;&#x5668;&#x5E94;&#x7528;&#x5E73;&#x53F0;&#xFF0C;&#x5BF9;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x548C;&#x5E94;&#x7528;&#x8FD0;&#x884C;&#x65F6;&#x73AF;&#x5883;&#x63D0;&#x4F9B;&#x4E86;&#x5168;&#x9762;&#x7684;&#x652F;&#x6301;&#x3002;OpenShift Enterprise 3&#x662F;&#x7EA2;&#x5E3D;&#x5C61;&#x83B7;&#x6B8A;&#x8363;&#x7684;PaaS &#x4EA7;&#x54C1;&#x7684;&#x65B0;&#x4E00;&#x4EE3;&#x7248;&#x672C;&#xFF0C;&#x4F7F;&#x5F97;&#x5F00;&#x53D1;&#x548C;&#x8FD0;&#x8425;&#x56E2;&#x961F;&#x66F4;&#x654F;&#x6377;&#x3001;&#x66F4;&#x5177;&#x54CD;&#x5E94;&#x80FD;&#x529B;&#x548C;&#x66F4;&#x9AD8;&#x6548;&#xFF0C;&#x4ECE;&#x800C;&#x5E2E;&#x52A9;&#x4F01;&#x4E1A;&#x52A0;&#x5FEB;&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x548C;&#x4EA4;&#x4ED8;&#x3002;</p>
+<p>OpenShift Enterprise 3&#x63D0;&#x4F9B;&#x4E86;&#x57FA;&#x4E8E;Docker&#x548C;&#x7EA2;&#x5E3D;&#x4F01;&#x4E1A;Linux&#x7684;&#x5E94;&#x7528;&#x5E73;&#x53F0;&#xFF0C;&#x4E3A;&#x5F00;&#x53D1;&#x3001;&#x90E8;&#x7F72;&#x548C;&#x8FD0;&#x884C;&#x5E94;&#x7528;&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x4E86;&#x5B89;&#x5168;&#x3001;&#x9AD8;&#x6548;&#x800C;&#x4E14;&#x53EF;&#x79FB;&#x52A8;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x8FD9;&#x4E5F;&#x4F7F;OpenShift&#x7528;&#x6237;&#x80FD;&#x591F;&#x63A5;&#x5165;&#x6700;&#x5E7F;&#x6CDB;&#x7684;&#x5C01;&#x88C5;&#x5E94;&#x7528;&#x7EC4;&#x4EF6;&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#xFF0C;&#x5E76;&#x4E14;&#x4EAB;&#x7528;&#x7EA2;&#x5E3D;&#x5BB9;&#x5668;&#x8BA4;&#x8BC1;&#x8BA1;&#x5212;&#x6240;&#x4FDD;&#x969C;&#x7684;&#x5B89;&#x5168;&#x6027;&#x548C;&#x53EF;&#x4FE1;&#x5EA6;&#x3002;&#x4E3A;&#x4E86;&#x534F;&#x8C03;&#x901A;&#x5E38;&#x9700;&#x8981;&#x8DE8;&#x8D8A;&#x591A;&#x4E2A;&#x5BB9;&#x5668;&#x548C;&#x4E3B;&#x673A;&#x7684;&#x4F01;&#x4E1A;&#x5E94;&#x7528;&#xFF0C;OpenShift Enterprise 3&#x8FD8;&#x878D;&#x5408;&#x4E86;Kubernetes &#x2014;&#x2014; &#x7531;Google&#x5F00;&#x53D1;&#x7684;&#x5F3A;&#x5927;&#x7684;Web&#x7EA7;&#x5F00;&#x6E90;&#x5BB9;&#x5668;&#x7F16;&#x6392;&#x548C;&#x7BA1;&#x7406;&#x5F15;&#x64CE;&#x3002;&#x4F5C;&#x4E3A;Docker&#x548C;Kubernetes&#x5F00;&#x6E90;&#x9879;&#x76EE;&#x7684;&#x9886;&#x5148;&#x8D21;&#x732E;&#x8005;&#xFF0C;&#x7EA2;&#x5E3D;&#x4E0D;&#x4EC5;&#x91C7;&#x7528;&#x4E86;&#x8FD9;&#x4E9B;&#x6280;&#x672F;&#xFF0C;&#x800C;&#x4E14;&#x6B63;&#x5728;&#x4E0A;&#x6E38;&#x793E;&#x533A;&#x79EF;&#x6781;&#x6784;&#x5EFA;&#x8FD9;&#x4E9B;&#x6280;&#x672F;&#x3002;</p>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x6838;&#x5FC3;&#x5BB9;&#x5668;&#x57FA;&#x7840;&#x67B6;&#x6784;&#x5E73;&#x53F0;&#x4E0A;&#xFF0C;OpenShift&#x589E;&#x52A0;&#x4E86;&#x5927;&#x91CF;&#x5DE5;&#x5177;&#xFF0C;&#x4F9B;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x5229;&#x7528;OpenShift Web&#x3001;&#x547D;&#x4EE4;&#x884C;&#x6216;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x96C6;&#x6210;&#x63A5;&#x53E3;&#x521B;&#x5EFA;&#x5E76;&#x534F;&#x4F5C;&#x5F00;&#x5C55;&#x5E94;&#x7528;&#x9879;&#x76EE;&#xFF0C;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4ECE;GIT&#x63A8;&#x9001;&#x5E94;&#x7528;&#x4EE3;&#x7801;&#xFF0C;&#x5E76;&#x4E14;&#x91C7;&#x7528;OpenShift&#x521B;&#x65B0;&#xFFFD;&#xFFFD;&#xFFFD;&#x6765;&#x6E90;&#x81F3;&#x955C;&#x50CF;(source-to-image)&#x529F;&#x80FD;&#x5B9E;&#x73B0;Docker&#x955C;&#x50CF;&#x6784;&#x5EFA;&#x6D41;&#x7A0B;&#x7684;&#x81EA;&#x52A8;&#x5316;&#x3002;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x8FD8;&#x53EF;&#x4EE5;&#x7BA1;&#x7406;&#x5E94;&#x7528;&#x90E8;&#x7F72;&#x548C;&#x56DE;&#x9000;&#xFF0C;&#x5E76;&#x4E14;&#x4E0E;&#x73B0;&#x6709;&#x7684;&#x5F00;&#x53D1;&#x548C;&#x6301;&#x7EED;&#x96C6;&#x6210;&#x5DE5;&#x5177;&#x6574;&#x5408;&#x3002;OpenShift Enterprise 3&#x8FD8;&#x5305;&#x542B;&#x7EA2;&#x5E3D;JBoss&#x4E2D;&#x95F4;&#x4EF6;&#x7CFB;&#x5217;&#x7684;&#x4F01;&#x4E1A;&#x4E2D;&#x95F4;&#x4EF6;&#x670D;&#x52A1;&#xFF0C;&#x5305;&#x62EC;&#x7EA2;&#x5E3D;JBoss&#x4F01;&#x4E1A;&#x5E94;&#x7528;&#x5E73;&#x53F0;&#x7684;&#x5E94;&#x7528;&#x5BB9;&#x5668;&#x670D;&#x52A1;&#x3001;&#x7EA2;&#x5E3D;JBoss Web Server (Tomcat) &#x548C;&#x7EA2;&#x5E3D;JBoss A-MQ&#x7684;&#x6D88;&#x606F;&#x670D;&#x52A1;&#x3002;</p>
+<p>&#x968F;&#x7740;&#x4F01;&#x4E1A;&#x8D8A;&#x6765;&#x8D8A;&#x591A;&#x5730;&#x91C7;&#x7528;&#x57FA;&#x4E8E;&#x5BB9;&#x5668;&#x7684;&#x5E94;&#x7528;&#x4EA4;&#x4ED8;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#xFF0C;&#x5B83;&#x4EEC;&#x9700;&#x8981;&#x66F4;&#x9AD8;&#x6548;&#x3001;&#x66F4;&#x4E00;&#x81F4;&#x5730;&#x90E8;&#x7F72;&#x3001;&#x8FD0;&#x884C;&#x548C;&#x7BA1;&#x7406;&#x5E94;&#x7528;&#x3002;&#x8FD9;&#x79CD;&#x5411;&#x5BB9;&#x5668;&#x5316;&#x5E94;&#x7528;&#x548C;&#x4E0D;&#x53EF;&#x53D8;&#x57FA;&#x7840;&#x67B6;&#x6784;&#x7684;&#x8F6C;&#x53D8;&#xFF0C;&#x4F7F;&#x4F01;&#x4E1A;&#x80FD;&#x591F;&#x8F7B;&#x677E;&#x5730;&#x90E8;&#x7F72;&#x57FA;&#x4E8E;&#x5FAE;&#x670D;&#x52A1;&#x7684;&#x65B0;&#x5E94;&#x7528;&#x67B6;&#x6784;&#xFF0C;&#x540C;&#x65F6;&#x7BA1;&#x7406;&#x7269;&#x7406;&#x3001;&#x865A;&#x62DF;&#x3001;&#x79C1;&#x6709;&#x4E91;&#x548C;&#x516C;&#x5171;&#x4E91;&#x73AF;&#x5883;&#x4E2D;&#x73B0;&#x6709;&#x7684;&#x5E94;&#x7528;&#x3002;OpenShift Enterprise 3&#x4E3A;&#x7BA1;&#x7406;&#x6574;&#x4E2A;&#x751F;&#x547D;&#x5468;&#x671F;&#x4E2D;&#x7684;&#x8FD9;&#x4E9B;&#x5E94;&#x7528;&#xFF0C;&#x63D0;&#x4F9B;&#x4E86;&#x5F3A;&#x5927;&#x4E14;&#x5168;&#x9762;&#x652F;&#x6301;&#x7684;&#x3001;&#x57FA;&#x4E8E;&#x5BB9;&#x5668;&#x7684;&#x5F00;&#x53D1;&#x548C;&#x90E8;&#x7F72;&#x5E73;&#x53F0;&#x3002;</p>
+<p>OpenShift Dedicated &#x7248;&#x9884;&#x89C8; </p>
+<p>&#x9664;&#x4E86;&#x53D1;&#x5E03;OpenShift Enterprise 3&#x4E4B;&#x5916;&#xFF0C;&#x7EA2;&#x5E3D;&#x8FD8;&#x5BA3;&#x5E03;&#x63A8;&#x51FA;OpenShift Dedicated&#x6D4B;&#x8BD5;&#x7248;&#x3002;&#x8FD9;&#x662F;&#x57FA;&#x4E8E;OpenShift 3&#x5E73;&#x53F0;&#x7684;&#x5168;&#x65B0;&#x516C;&#x5171;&#x4E91;&#x670D;&#x52A1;&#x3002;&#x8BE5;&#x670D;&#x52A1;&#x57FA;&#x4E8E;OpenShift Online &#x2013; &#x7EA2;&#x5E3D;&#x6781;&#x53D7;&#x6B22;&#x8FCE;&#x7684;&#x516C;&#x5171;PaaS&#x4EA7;&#x54C1;&#xFF0C;&#x4ECE;2011&#x5E74;11&#x6708;&#x63A8;&#x51FA;&#x4EE5;&#x6765;&#x6258;&#x7BA1;&#x4E86;&#x8D85;&#x8FC7;250&#x4E07;&#x4E2A;&#x5E94;&#x7528;&#x3002;&#x65B0;&#x7684;OpenShift Dedicated&#x670D;&#x52A1;&#x4F7F;&#x4F01;&#x4E1A;&#x80FD;&#x591F;&#x5728;&#x5B8C;&#x5168;&#x7531;OpenShift&#x8FD0;&#x8425;&#x56E2;&#x961F;&#x7BA1;&#x7406;&#x7684;&#x516C;&#x5171;&#x4E91;&#x4E2D;&#xFF0C;&#x4E3A;&#x4F01;&#x4E1A;&#x63D0;&#x4F9B;OpenShift&#x4E13;&#x7528;&#x5B9E;&#x4F8B;&#xFF0C;&#x4F7F;&#x4F01;&#x4E1A;&#x80FD;&#x591F;&#x5728;&#x516C;&#x5171;&#x4E91;&#x4E2D;&#x5FEB;&#x901F;&#x6784;&#x5EFA;&#x3001;&#x63A8;&#x51FA;&#x5E76;&#x6258;&#x7BA1;&#x521B;&#x65B0;&#x7684;&#x5E94;&#x7528;&#x3002;</p>
+<p>&#x5168;&#x65B0;OpenShift&#x670D;&#x52A1;&#x63D0;&#x5347;&#x4E86;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x4F53;&#x9A8C; </p>
+<p>&#x7EA2;&#x5E3D;&#x5728;&#x5176;&#x5168;&#x9762;&#x7684;&#x4F01;&#x4E1A;&#x54A8;&#x8BE2;&#x548C;&#x57F9;&#x8BAD;&#x670D;&#x52A1;&#x4E2D;&#x589E;&#x52A0;&#x4E86;&#x65B0;&#x8BFE;&#x7A0B;&#xFF0C;&#x65E8;&#x5728;&#x5E2E;&#x52A9;&#x7528;&#x6237;&#x548C;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x5411;OpenShift Enterprise 3&#x8FC7;&#x6E21;&#x3002;&#x65B0;&#x7684;OpenShift Enterprise 3&#x7BA1;&#x7406;&#x5458;&#x8BFE;&#x7A0B;&#x53EF;&#x6559;&#x4F1A;&#x5BA2;&#x6237;&#x5982;&#x4F55;&#x90E8;&#x7F72;&#x3001;&#x914D;&#x7F6E;&#x548C;&#x7BA1;&#x7406;&#x5176;OpenShift 3&#x73AF;&#x5883;&#x3002;&#x6B64;&#x540E;&#xFF0C;&#x4ED6;&#x4EEC;&#x53EF;&#x5728;&#x901A;&#x8FC7;&#x7EA2;&#x5E3D;PaaS &#x4E13;&#x4E1A;&#x6280;&#x80FD;&#x8BC1;&#x4E66;&#x8003;&#x8BD5;&#x540E;&#x83B7;&#x5F97;&#x8BA4;&#x8BC1;&#x3002;&#x5168;&#x65B0;OpenShift Enterprise 3&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x8BFE;&#x7A0B;&#x5C06;&#x5411;&#x7528;&#x6237;&#x8BB2;&#x6388;&#x5982;&#x4F55;&#x5728;OpenShift 3&#x5E73;&#x53F0;&#x4E0A;&#x6784;&#x5EFA;&#x548C;&#x90E8;&#x7F72;&#x5E94;&#x7528;&#xFF0C;&#x5E76;&#x4E14;&#x8FDB;&#x884C;&#x6545;&#x969C;&#x6392;&#x9664;&#x3002;&#x901A;&#x8FC7;&#x63A8;&#x51FA;&#x65E8;&#x5728;&#x6539;&#x8FDB;&#x5E94;&#x7528;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;&#x80FD;&#x529B;&#x7684;&#x5DE5;&#x5177;&#x548C;&#x65B9;&#x6CD5;&#x8BBA;&#xFF0C;&#x7EA2;&#x5E3D;&#x54A8;&#x8BE2;&#x90E8;&#x81F4;&#x529B;&#x4E8E;&#x4F7F;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x66F4;&#x5FEB;&#x5730;&#x7F16;&#x5199;&#x5E94;&#x7528;&#xFF0C;&#x5728;&#x7F29;&#x77ED;&#xFFFD;&#xFFFD;&#xFFFD;&#x671F;&#x65F6;&#x95F4;&#xFF0C;&#x63A8;&#x52A8;&#x81EA;&#x52A8;&#x5316;&#x548C;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#x7684;&#x540C;&#x65F6;&#x63D0;&#x9AD8;&#x4E86;&#x751F;&#x4EA7;&#x529B;&#x3002;</p>
+<p>OpenShift Enterprise 3&#x73B0;&#x5DF2;&#x5168;&#x9762;&#x4E0A;&#x5E02;&#xFF0C;&#x5176;&#x4EF7;&#x683C;&#x6839;&#x636E;&#x63D2;&#x69FD;&#x548C;&#x53CC;&#x6838;&#x82AF;&#x7247;&#x6570;&#x91CF;&#x914D;&#x7F6E;&#x800C;&#x5B9A;&#x3002;</p>
+<p>OpenShift&#x56E2;&#x961F;&#x5C06;&#x4E3E;&#x884C;&#x5168;&#x7403;&#x8DEF;&#x6F14;&#xFF0C;&#x5C55;&#x793A;OpenShift 3&#x7684;&#x6700;&#x65B0;&#x7279;&#x6027;&#xFF0C;&#x5E76;&#x901A;&#x8FC7;&#x4E3E;&#x884C;&#x5B9E;&#x9645;&#x64CD;&#x4F5C;&#x7814;&#x8BA8;&#x4F1A;&#x800C;&#x5411;&#x7528;&#x6237;&#x5C55;&#x793A;&#x5B89;&#x88C5;OpenShift 3&#x73AF;&#x5883;&#x3001;&#x4ECE;&#x6E90;&#x4EE3;&#x7801;&#x4E2D;&#x6784;&#x5EFA;&#x5BB9;&#x5668;&#x548C;&#x5728;OpenShift 3&#x4E0A;&#x90E8;&#x7F72;&#x5E94;&#x7528;&#x8303;&#x4F8B;&#x7684;&#x57FA;&#x7840;&#x3002;&#x8DEF;&#x6F14;&#x4E14;&#x9884;&#x8BA1;&#x5728;20&#x591A;&#x5EA7;&#x57CE;&#x5E02;&#x4E3E;&#x884C;&#x3002;</p>
+<p>&#x7EA2;&#x5E3D;&#x526F;&#x603B;&#x88C1;&#x517C;OpenShift&#x603B;&#x7ECF;&#x7406;Ashesh Badani&#x8BF4;&#xFF1A;&#x201C;OpenShift Enterprise 3&#x7684;&#x8FD9;&#x4E00;&#x7248;&#x672C;&#x901A;&#x8FC7;&#x91C7;&#x7528;&#x5F00;&#x6E90;&#x5BB9;&#x5668;&#x548C;&#x7F16;&#x6392;&#x5B9E;&#x8DF5;&#x6539;&#x53D8;&#x4E86;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x4F53;&#x9A8C;&#xFF0C;&#x5E76;&#x4E14;&#x4F7F;&#x5E73;&#x53F0;&#x5411;&#x7740;&#x5BA2;&#x6237;&#x9700;&#x8981;&#x7684;&#x65B9;&#x5411;&#x53D1;&#x5C55; &#x2014;&#x2014; &#x5373;&#x9002;&#x7528;&#x4E8E;&#x5FAE;&#x670D;&#x52A1;&#x67B6;&#x6784;&#x7684;&#x7075;&#x6D3B;&#x5E73;&#x53F0;&#x3002;&#x6211;&#x4EEC;&#x5728;Docker&#x548C;Kubernetes&#x793E;&#x533A;&#x4E2D;&#x6301;&#x7EED;&#x7684;&#x4E0A;&#x6E38;&#x8D21;&#x732E;&#xFF0C;&#x4F7F;&#x6211;&#x4EEC;&#x80FD;&#x591F;&#x4E3A;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x548C;&#x8FD0;&#x8425;&#x5546;&#x63D0;&#x4F9B;&#x6700;&#x65B0;&#x7684;&#x6280;&#x672F;&#x5E73;&#x53F0;&#xFF0C;&#x4F7F;&#x4ED6;&#x4EEC;&#x901A;&#x8FC7;&#x66F4;&#x5FEB;&#x7684;&#x521B;&#x65B0;&#x800C;&#x4FDD;&#x6301;&#x7ADE;&#x4E89;&#x529B;&#x3002;&#x201D;</p>
+<p>451 Research&#x4E91;&#x5E73;&#x53F0;&#x7814;&#x7A76;&#x7ECF;&#x7406;Jay Lyman&#x8868;&#x793A;&#xFF1A;&#x201C;&#x968F;&#x7740;&#x5E94;&#x7528;&#x5BB9;&#x5668;&#x8F6F;&#x4EF6;&#x7684;&#x98A0;&#x8986;&#x529B;&#x91CF;&#x6301;&#x7EED;&#x58EE;&#x5927;&#xFF0C;&#x7EA2;&#x5E3D;&#x6210;&#x4E3A;&#x6700;&#x65E9;&#x3001;&#x6700;&#x6DF1;&#x5165;&#x652F;&#x6301;&#x8BE5;&#x6280;&#x672F;&#x7684;&#x516C;&#x53F8;&#x4E4B;&#x4E00;&#xFF0C;&#x5C24;&#x5176;&#x4F53;&#x73B0;&#x5728;OpenShift Enterprise 3&#x4E2D;&#x6CE8;&#x91CD;&#x5BB9;&#x5668;&#x7684;&#x4F01;&#x4E1A;&#x5C31;&#x7EEA;&#x7684;&#x7A0B;&#x5EA6;&#x3002;&#x901A;&#x8FC7;&#x539F;&#x751F;&#x96C6;&#x6210;&#x7684;Docker&#x5BB9;&#x5668;&#x548C;Kubernetes&#x5BB9;&#x5668;&#x7F16;&#x6392;&#xFF0C;&#x7EA2;&#x5E3D;&#x5DF2;&#x7ECF;&#x5B8C;&#x5168;&#x6293;&#x4F4F;&#x4E86;&#x8FD9;&#x4E00;&#x8D8B;&#x52BF;&#x3002;&#x4E0E;&#x793E;&#x533A;&#x548C;&#x5BA2;&#x6237;&#x643A;&#x624B;&#xFF0C;&#x7EA2;&#x5E3D;&#x901A;&#x8FC7;Openshift Enterprise 3&#x8FD9;&#x4E00;&#x5168;&#x65B0;&#x7684;&#x65E2;&#x652F;&#x6301;&#x4E91;&#x539F;&#x751F;&#x5E94;&#x7528;&#x3001;&#x53C8;&#x652F;&#x6301;&#x73B0;&#x6709;&#x4F01;&#x4E1A;&#x5E94;&#x7528;&#x7684;&#x57FA;&#x4E8E;&#x5BB9;&#x5668;&#x7684;&#x5E94;&#x7528;&#x67B6;&#x6784;&#xFF0C;&#x4FC3;&#x8FDB;&#x5BB9;&#x5668;&#x7684;&#x6700;&#x4F73;&#x5B9E;&#x8DF5;&#x548C;&#x6807;&#x51C6;&#x3002;&#x201D;</p>
+<p>Datacom&#x516C;&#x53F8;&#x603B;&#x7ECF;&#x7406;Andrew Myers&#x8BF4;&#xFF1A;&#x201C;&#x901A;&#x8FC7;&#x53C2;&#x4E0E;OpenShift Enterprise 3&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#xFF0C;Datacom&#x80FD;&#x591F;&#x8BA4;&#x8BC6;&#x5BB9;&#x5668;&#x6280;&#x672F;&#x7684;&#x4E3B;&#x8981;&#x4F18;&#x52BF;&#xFF0C;&#x4EE5;&#x53CA;&#x5982;&#x4F55;&#x5728;&#x5F53;&#x524D;&#x5B9E;&#x8DF5;&#x4E2D;&#x91C7;&#x7528;DevOps&#x65B9;&#x6CD5;&#x8BBA;&#x3002;&#x7EA2;&#x5E3D;OpenShift&#x63D0;&#x4F9B;&#x4E86;&#x6613;&#x7528;&#x7684;PaaS&#x4F53;&#x9A8C;&#xFF0C;&#x800C;&#x4E14;&#x5728;&#x4ECE;&#x65E9;&#x671F;&#x5F00;&#x53D1;&#x9636;&#x6BB5;&#x76F4;&#x5230;&#x90E8;&#x7F72;&#x5230;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x4E2D;&#x7684;&#x6574;&#x4E2A;&#x8FC7;&#x7A0B;&#xFF0C;&#x5B83;&#x5141;&#x8BB8;&#x6211;&#x4EEC;&#x8F7B;&#x677E;&#x5730;&#x7BA1;&#x7406;&#x6574;&#x4E2A;&#x5F00;&#x53D1;&#x751F;&#x547D;&#x5468;&#x671F;&#xFF0C;&#x8BA9;&#x6211;&#x4EEC;&#x770B;&#x5230;&#x8FD9;&#x5BF9;&#x5BA2;&#x6237;&#x7684;&#x660E;&#x663E;&#x597D;&#x5904;&#x3002;&#x201D;</p>
+<p>T-Systems International GmbH&#x6570;&#x5B57;&#x90E8;&#x95E8;Andre Engelbertz&#x535A;&#x58EB;&#x8868;&#x793A;&#xFF1A;&#x201C;&#x6211;&#x4EEC;&#x5728;&#x5065;&#x5EB7;&#x548C;&#x5DE5;&#x4E1A;&#x670D;&#x52A1;&#x9886;&#x57DF;&#x62E5;&#x6709;&#x591A;&#x6837;&#x5316;&#x7684;&#x5BA2;&#x6237;&#x548C;&#x7EC8;&#x7AEF;&#x7528;&#x6237;&#xFF0C;&#x8FD9;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x5F3A;&#x5927;&#x7684;&#x5E73;&#x53F0;&#xFF0C;&#x5B83;&#x5FC5;&#x987B;&#x80FD;&#x591F;&#x7BA1;&#x7406;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x4E2D;&#x5FC3;&#x5185;&#x5E94;&#x7528;&#x7684;&#x6574;&#x4E2A;&#x751F;&#x547D;&#x5468;&#x671F;&#x3002;&#x901A;&#x8FC7;&#x5C06;OpenShift Enterprise&#x589E;&#x52A0;&#x5230;&#x6211;&#x4EEC;&#x7684;&#x7EA2;&#x5E3D;&#x4F01;&#x4E1A;Linux&#x90E8;&#x7F72;&#x73AF;&#x5883;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x80FD;&#x591F;&#x4F9D;&#x9760;&#x503C;&#x5F97;&#x4FE1;&#x4EFB;&#x7684;&#x652F;&#x6301;&#x670D;&#x52A1;&#xFF0C;&#x5BF9;&#x6211;&#x4EEC;&#x7684;PaaS&#x73AF;&#x5883;&#x8FDB;&#x884C;&#x7BA1;&#x63A7;&#x548C;&#x6D1E;&#x5BDF;&#x3002;&#x5982;&#x4ECA;&#xFF0C;&#x6211;&#x4EEC;&#x7684;&#x5BA2;&#x6237;&#x80FD;&#x591F;&#x8F7B;&#x677E;&#x5730;&#x8FC1;&#x79FB;&#x5230;&#x4E91;&#x73AF;&#x5883;&#xFF0C;&#x4ECE;&#x800C;&#x66F4;&#x5FEB;&#x3001;&#x66F4;&#x7075;&#x6D3B;&#x5730;&#x5B9E;&#x73B0;&#x8FC1;&#x79FB;&#x548C;&#x5F00;&#x53D1;&#x521B;&#x65B0;&#x3002;&#x201D;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DevOps/">DevOps</a><a href="/tags/OpenShift/">OpenShift</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/01/9ea35c2/" title="“集群和负载均衡”的通俗版解释 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  “集群和负载均衡”的通俗版解释 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/01/9e9a0d5/"  title="OS X 10.10.4发布：提高网络可靠性，移除Discoveryd -">
+ <strong>下一篇：</strong><br/> 
+ <span>OS X 10.10.4发布：提高网络可靠性，移除Discoveryd -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>68</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Twitter/" title="Twitter">Twitter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ECMAScript/" title="ECMAScript">ECMAScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端开发/" title="前端开发">前端开发<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
