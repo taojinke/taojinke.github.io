@@ -96,708 +96,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/06/09/c519691/" title="效率提升 Swift语言将开放源代码 -" itemprop="url">效率提升 Swift语言将开放源代码 -</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="&#x6548;&#x7387;&#x63D0;&#x5347;_Swift&#x8BED;&#x8A00;&#x5C06;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;">&#x6548;&#x7387;&#x63D0;&#x5347; Swift&#x8BED;&#x8A00;&#x5C06;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 02:39:36  <a href="/sites/7vQnUb">cnBeta</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnbeta.com/articles/400863.htm?utm_source=tuicool" target="_blank" rel="external">http://www.cnbeta.com/articles/400863.htm</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/10000098">IT</a></p>
-<p>2015&#x5E74;&#x82F9;&#x679C;&#x5168;&#x7403;&#x5F00;&#x53D1;&#x8005;&#x5927;&#x4F1A;(WWDC 2015)&#x5728;&#x7F8E;&#x56FD;&#x65E7;&#x91D1;&#x5C71;&#x6B63;&#x5F0F;&#x5F00;&#x5E55;&#x672C;&#x5C4A;&#x4E3B;&#x9898;&#x4E3A;&#x201C;the epicenter of change.&#xFF08;&#x53D8;&#x9769;&#x7684;&#x4E2D;&#x5FC3;&#xFF09;&#x201D;&#x3002;&#x65B0;&#x7684;Swift&#x8BED;&#x8A00;&#x8BB2;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x4E3A;APP&#x7F16;&#x7A0B;&#x5E26;&#x6765;&#x66F4;&#x591A;&#x53EF;&#x80FD;&#x3002;App Store&#x76EE;&#x524D;&#x6709;&#x8D85;&#x8FC7;15000&#x4E2A;&#x5E94;&#x7528;&#x662F;&#x7528;Swift&#x6765;&#x5F00;&#x53D1;&#x7684;&#xFF0C;&#x8D8A;&#x6765;&#x8D8A;&#x591A;&#x7684;&#x5E94;&#x7528;&#x91C7;&#x7528;&#x4E86;&#x82F9;&#x679C;&#x81EA;&#x5BB6;&#x7684;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x3002;&#x65B0;&#x7684;Swift 2&#x8BED;&#x8A00;&#x53D1;&#x5E03;&#xFF0C;&#x9664;&#x4E86;&#x7F16;&#x8BD1;&#x6027;&#x80FD;&#x7684;&#x63D0;&#x5347;&#xFF0C;&#x5404;&#x79CD;&#x65B0;&#x529F;&#x80FD;&#x4E5F;&#x5C06;&#x6709;&#x6548;&#x63D0;&#x5347;&#x5F00;&#x53D1;&#x8005;&#x6548;&#x7387;&#x3002;</p>
-<p><img src="http://taojinke.github.io/img/20150609/c518309.jpg" alt="apple-wwdc-2015_1480.jpg"></p>
-<p><img src="http://taojinke.github.io/img/20150609/c51857a.jpg" alt="apple-wwdc-2015_1474.jpg"></p>
-<p><img src="http://taojinke.github.io/img/20150609/c51857a.jpg" alt="apple-wwdc-2015_1490.jpg"></p>
-<p>&#x5728;&#x4ECA;&#x5E74;&#x665A;&#x4E9B;&#x65F6;&#x5019;&#xFF0C;Swift&#x4F1A;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x5E76;&#x5BF9;iOS&#x3001;OS X&#x548C;Linux&#x5E73;&#x53F0;&#x90FD;&#x9002;&#x7528;&#x3002;&#x8FD9;&#x5BF9;&#x4E8E;&#x5F00;&#x53D1;&#x8005;&#x6765;&#x8BF4;&#x65E0;&#x7591;&#x662F;&#x4E00;&#x4E2A;&#x4EE4;&#x4EBA;&#x60CA;&#x559C;&#x7684;&#x6D88;&#x606F;&#x3002;</p>
-<p><img src="http://taojinke.github.io/img/20150609/c51857a.jpg" alt="apple-wwdc-2015_1471.jpg"></p>
-<p>&#x6700;&#x540E;iOS 9&#x786E;&#x8BA4;&#x5C06;&#x4E8E;&#x4ECA;&#x5E74;&#x79CB;&#x5B63;&#x968F;&#x7740;&#x65B0;&#x8BBE;&#x5907;&#x7684;&#x53D1;&#x5E03;&#x6B63;&#x5F0F;&#x63A8;&#x51FA;&#xFF0C;&#x800C;&#x9762;&#x5411;&#x975E;&#x5F00;&#x53D1;&#x8005;&#x7684;beta&#x7248;&#x5728;7&#x6708;&#x5C31;&#x80FD;&#x4E0B;&#x8F7D;&#x4F53;&#x9A8C;&#x3002;</p>
-<h4 id="&#x8BBF;&#x95EE;:">&#x8BBF;&#x95EE;:</h4><p><a href="http://aos.prf.hn/click/camref:100lcC/" target="_blank" rel="external">&#x82F9;&#x679C;&#x5728;&#x7EBF;&#x5546;&#x5E97;(&#x4E2D;&#x56FD;)</a></p>
-<p>cnBeta &#x5DF2;&#x7ECF;&#x5165;&#x9A7B;&#x8C4C;&#x8C46;&#x835A;&#x5566;&#xFF0C;&#x626B;&#x63CF;&#x5DE6;&#x4FA7;&#x7684;&#x4E8C;&#x7EF4;&#x7801;&#x5C31;&#x53EF;&#x4EE5;&#x5728;&#x8C4C;&#x8C46;&#x835A;&#x5173;&#x6CE8;&#x6211;&#x4EEC;&#x3002;&#x6700;&#x61C2;&#x5E94;&#x7528;&#x7684;&#x8C4C;&#x8C46;&#x835A;&#xFF0C;&#x53D1;&#x73B0;&#x65E0;&#x6570;&#x597D;&#x5E94;&#x7528;&#x3002; </p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/BBFzY3">&#x8FDB;&#x5316;&#x4F46;&#x6539;&#x53D8;&#x4E0D;&#x4E86;&#x4E16;&#x754C; &#x7B80;&#x8BC4;&#x82F9;&#x679C;WWDC2015</a></li>
-<li>2.<a href="/articles/juq6Jbn">&#x300C;WWDC &#x603B;&#x7ED3;&#x300D;&#x65B0; OSX El Capitan &#x4FE1;&#x606F;&#x5927;&#x6C47;&#x603B;</a></li>
-<li>3.<a href="/articles/YFBZVfv">OS X 10.11 &#x53D1;&#x5E03;&#xFF0C;&#x4EE3;&#x53F7; &#xFF1A;&#x4EE3;&#x53F7; El Capitan</a></li>
-<li>4.<a href="/articles/73uYrar">iOS &#x548C; Mac &#x5F00;&#x53D1;&#x8005;&#x9879;&#x76EE;&#x5408;&#x5E76;&#xFF0C;&#x6210;&#x4E3A;&#x82F9;&#x679C;&#x5F00;&#x53D1;&#x8005;&#x9879;&#x76EE;</a></li>
-<li>5.<a href="/articles/biMVb2A">&#x82F9;&#x679C;&#x66F4;&#x65B0;OS X&#x7248;&#x672C; &#x547D;&#x540D;&#x4E3A;EI Capitan</a></li>
-<li><p>6.<a href="/articles/3aUfyi">&#x82F9;&#x679C;&#xFF1A;55% MAC&#x7528;&#x6237;&#x91C7;&#x7528;Yosemite&#x7CFB;&#x7EDF;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/3UraQr3">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;3UraQr3&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/IT/">IT</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/09/c51682e/" title="Swift 2.0发布：即将开源，支持Linux -" itemprop="url">Swift 2.0发布：即将开源，支持Linux -</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Swift_2-0&#x53D1;&#x5E03;&#xFF1A;&#x5373;&#x5C06;&#x5F00;&#x6E90;&#xFF0C;&#x652F;&#x6301;Linux">Swift 2.0&#x53D1;&#x5E03;&#xFF1A;&#x5373;&#x5C06;&#x5F00;&#x6E90;&#xFF0C;&#x652F;&#x6301;Linux</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 06:51:00  <a href="/sites/Qzm6Zz">InfoQ</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.infoq.com/cn/news/2015/06/swift-2-0?utm_source=tuicool" target="_blank" rel="external">http://www.infoq.com/cn/news/2015/06/swift-2-0</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11080038">&#x5F00;&#x6E90;</a><a href="/topics/11000069">Linux</a></p>
-<p>&#x5728;6&#x6708;9&#x65E5;&#x51CC;&#x6668;&#x4E3E;&#x884C;&#x7684;WWDC 2015&#x5168;&#x7403;&#x5F00;&#x53D1;&#x8005;&#x5927;&#x4F1A;&#x4E0A;&#xFF0C;&#x82F9;&#x679C;&#x53D1;&#x5E03;&#x4E86;Swift 2.0&#xFF0C;&#x5E76;&#x5BA3;&#x5E03;&#x5C06;&#x4E8E;&#x4ECA;&#x5E74;&#x5E74;&#x5E95;&#x5F00;&#x6E90;Swift&#x8BED;&#x8A00;&#x3002;Swift 2.0&#x5F15;&#x5165;&#x4E86;&#x5F88;&#x591A;&#x7684;&#x65B0;&#x7279;&#x6027;&#x4EE5;&#x786E;&#x4FDD;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x66F4;&#x5FEB;&#x3001;&#x66F4;&#x7B80;&#x5355;&#x7684;&#x6784;&#x5EFA;&#x5E94;&#x7528;&#xFF0C;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#x5305;&#x62EC;&#x66F4;&#x597D;&#x7684;&#x6027;&#x80FD;&#x3001;&#x65B0;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;API&#x3001;&#x53EF;&#x7528;&#x6027;&#x68C0;&#x67E5;&#x3001;&#x652F;&#x6301;Linux&#x7B49;&#x3002;&#x82F9;&#x679C;&#x5C06;&#x4F1A;&#x5728;&#x65B0;&#x53D1;&#x5E03;&#x7684;iOS 9&#x4E2D;&#x5168;&#x9762;&#x652F;&#x6301;Swift&#xFF0C;iOS 9 beta&#x4E5F;&#x4F1A;&#x5728;&#x4ECA;&#x5929;&#x5BF9;&#x6240;&#x6709;&#x6CE8;&#x518C;&#x7684;&#x82F9;&#x679C;&#x5F00;&#x53D1;&#x8005;&#x5F00;&#x653E;&#x3002;</p>
-<p>Swift 2.0&#x5305;&#x542B;&#x4E86;&#x8BB8;&#x591A;&#x7684;&#x65B0;&#x7279;&#x6027;&#x4EE5;&#x53CA;&#x6539;&#x8FDB;&#xFF0C;&#x5728;&#x672C;&#x5468;&#x7684;WWDC&#x5927;&#x4F1A;&#x4E0A;&#x82F9;&#x679C;&#x5C06;&#x4F1A;&#x6DF1;&#x5165;&#x4ECB;&#x7ECD;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x5728;&#x82F9;&#x679C;&#x7684; <a href="https://developer.apple.com/swift/blog/?id=29" target="_blank" rel="external">&#x5F00;&#x53D1;&#x8005;&#x535A;&#x5BA2;</a> &#x4E0A;&#xFF0C;&#x5B98;&#x65B9;&#x4E5F;&#x5BF9;&#x5176;&#x4E2D;&#x7684;&#x67D0;&#x51E0;&#x4E2A;&#x65B0;&#x529F;&#x80FD;&#x505A;&#x4E86;&#x4ECB;&#x7ECD;&#xFF1A; </p>
-<p>&#x5F02;&#x5E38;&#x5904;&#x7406;&#x6A21;&#x578B;&#xFF1A;&#x65B0;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x6A21;&#x578B;&#x4F7F;&#x7528;&#x4E86;&#x5F00;&#x53D1;&#x8005;&#x6700;&#x4E3A;&#x719F;&#x6089;&#x7684;try&#x3001;catch&#x3001;throw&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x5E76;&#x4E14;&#x8FD8;&#x5C06;&#x5B8C;&#x7F8E;&#x652F;&#x6301;&#x82F9;&#x679C;&#x7684;SDK&#x4EE5;&#x53CA;NSError&#x3002; </p>
-<p>&#x53EF;&#x7528;&#x6027;&#xFF1A;&#x901A;&#x8FC7;&#x4F7F;&#x7528;&#x65B0;&#x7684;SDK&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x64CD;&#x4F5C;&#x5E73;&#x53F0;&#x7684;&#x65B0;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x67D0;&#x4E9B;&#x8001;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x53EF;&#x80FD;&#x5E76;&#x4E0D;&#x652F;&#x6301;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x5F00;&#x53D1;&#x8005;&#x5C31;&#x9700;&#x8981;&#x989D;&#x5916;&#x7684;&#x68C0;&#x67E5;&#x3002;&#x5728;&#x5904;&#x7406;&#x7C7B;&#x4F3C;&#x7684;&#x517C;&#x5BB9;&#x95EE;&#x9898;&#x4E0A;&#xFF0C;Swift&#x975E;&#x5E38;&#x7684;&#x5F97;&#x5FC3;&#x5E94;&#x624B;&#x3002;&#x5982;&#x679C;&#x76EE;&#x6807;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E0D;&#x652F;&#x6301;&#x67D0;&#x4E2A;API&#xFF0C;&#x90A3;&#x5728;&#x7F16;&#x8BD1;&#x65F6;Swift&#x5C06;&#x4F1A;&#x62A5;&#x9519;&#x3002;&#x540C;&#x6837;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;#available&#x6765;&#x786E;&#x4FDD;&#x4EE3;&#x7801;&#x5757;&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#x4E8E;&#x6B63;&#x786E;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7248;&#x672C;&#x4E0A;&#x3002; </p>
-<p>&#x534F;&#x8BAE;&#x53EF;&#x6269;&#xFFFD;&#xFFFD;&#xFFFD;&#xFF1A;&#x534F;&#x8BAE;&#xFF08;Protocol&#xFF09;&#x7528;&#x4E8E;&#x7EDF;&#x4E00;&#x65B9;&#x6CD5;&#x548C;&#x5C5E;&#x6027;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x800C;&#x4E0D;&#x5B9E;&#x73B0;&#x4EFB;&#x4F55;&#x529F;&#x80FD;&#x3002;Swift 2.0&#x589E;&#x52A0;&#x4E86;&#x534F;&#x8BAE;&#x6269;&#x5C55;&#xFF0C;&#x5728;&#x6807;&#x51C6;&#x5305;&#x4E2D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5B83;&#x3002;&#x5F53;&#x4F7F;&#x7528;&#x5168;&#x5C40;&#x51FD;&#x6570;&#x65F6;&#xFF0C;Swift 2.0&#x5DF2;&#x7ECF;&#x4E3A;&#x65B9;&#x6CD5;&#x6DFB;&#x52A0;&#x4E86;&#x7EDF;&#x4E00;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x8FD9;&#x6837;&#x5F00;&#x53D1;&#x8005;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x94FE;&#xFF0C;&#x4EE5;&#x63D0;&#x9AD8;&#x4EE3;&#x7801;&#x7684;&#x53EF;&#x8BFB;&#x6027;&#x3002; </p>
-<p>&#x9664;&#x4E86;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#x4E4B;&#x5916;&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x91CD;&#x78C5;&#x6D88;&#x606F;&#x662F;&#x82F9;&#x679C;&#x5C06;&#x5728;&#x4ECA;&#x5E74;&#x665A;&#x4E9B;&#x65F6;&#x5019;&#x5F00;&#x6E90;Swfit&#x3002;&#x82F9;&#x679C;&#x7684;&#x8F6F;&#x4EF6;&#x7814;&#x53D1;&#x526F;&#x603B;&#x88C1;Craig Federighi&#x5728;WWDC&#x5927;&#x4F1A;&#x4E0A;&#x8868;&#x793A;Swift&#x5C06;&#x4F1A;&#x662F;&#x672A;&#x6765;&#x7684;&#x4E3B;&#x6D41;&#x5F00;&#x53D1;&#x8BED;&#x8A00;&#xFF0C;&#x5B83;&#x5E94;&#x8BE5;&#x5F97;&#x5230;&#x66F4;&#x4E3A;&#x5E7F;&#x6CDB;&#x7684;&#x5E94;&#x7528;&#x3002;&#x4F46;&#x5728;&#x5927;&#x4F1A;&#x4E0A;&#x82F9;&#x679C;&#x5E76;&#x6CA1;&#x6709;&#x8FC7;&#x591A;&#x7684;&#x89E3;&#x91CA;&#x5173;&#x4E8E;Swift&#x5F00;&#x6E90;&#x7684;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#xFF0C;&#x82F9;&#x679C;&#x66FE;&#x5728;2005&#x5E74;&#x5F00;&#x6E90;&#x8FC7; <a href="https://www.webkit.org/" target="_blank" rel="external">WebKit</a> &#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x51FA;&#x6240;&#x6599;&#xFF0C;Swift&#x9879;&#x76EE;&#x7684;&#x5F00;&#x6E90;&#x7BA1;&#x7406;&#x548C;&#x8FD0;&#x8425;&#x6A21;&#x5F0F;&#x5E94;&#x8BE5;&#x548C;WebKit&#x7C7B;&#x4F3C;&#x3002;&#x76EE;&#x524D;&#x53EF;&#x4EE5;&#x786E;&#x8BA4;&#x7684;&#x4FE1;&#x606F;&#x5305;&#x62EC;&#xFF1A; </p>
-<ol>
-<li>Swift&#x7684;&#x6E90;&#x4EE3;&#x7801;&#x5C06;&#x4F1A;&#x57FA;&#x4E8E;&#x67D0;&#x4E2A;OSI&#x7EC4;&#x7EC7;&#x6279;&#x51C6;&#x7684;&#x5F00;&#x6E90;&#x534F;&#x8BAE;&#x8FDB;&#x884C;&#x5F00;&#x6E90;&#x3002;</li>
-<li>&#x82F9;&#x679C;&#x5C06;&#x4F1A;&#x5141;&#x8BB8;&#x5E76;&#x9F13;&#x52B1;&#x793E;&#x533A;&#x5F00;&#x53D1;&#x8005;&#x8D21;&#x732E;&#x4EE3;&#x7801;&#x3002;</li>
-<li>&#x672A;&#x6765;Swift&#x5C06;&#x4F1A;&#x91CD;&#x70B9;&#x652F;&#x6301; OS X&#x3001;iOS&#x548C;Linux&#x4E09;&#x4E2A;&#x5E73;&#x53F0;&#x3002;</li>
-<li>&#x6E90;&#x4EE3;&#x7801;&#x5C06;&#x4F1A;&#x5305;&#x62EC;Swift&#x7F16;&#x8BD1;&#x5668;&#x4EE5;&#x53CA;&#x6807;&#x51C6;&#x5E93;&#x3002;</li>
-</ol>
-<p>Swift&#x5F00;&#x6E90;&#x7684;&#x6D88;&#x606F;&#x5728; <a href="https://news.ycombinator.com/item?id=9680982" target="_blank" rel="external">Hacker News</a> &#x4E0A;&#x5F15;&#x8D77;&#x4E86;&#x6FC0;&#x70C8;&#x8BA8;&#x8BBA;&#x3002;&#x603B;&#x4F53;&#x6765;&#x770B;&#xFF0C;&#x5F00;&#x6E90;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x7684;&#x4FC3;&#x8FDB;Swift&#x7684;&#x53D1;&#x5C55;&#xFF0C;&#x4E00;&#x65B9;&#x9762;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5411;Swift&#x8D21;&#x732E;&#x4EE3;&#x7801;&#xFF0C;&#x53E6;&#x5916;&#x5F00;&#x6E90;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x7684;&#x5E2E;&#x52A9;&#x82F9;&#x679C;&#x6784;&#x5EFA;&#x5176;&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5173;&#x4E8E;Swift&#x7684;&#x8BE6;&#x7EC6;&#x5185;&#x5BB9;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x9605;&#x8BFB;InfoQ&#x7684;Swift&#x4E13;&#x680F;&#xFF0C;&#x66F4;&#x591A;&#x5173;&#x4E8E;WWDC 2015&#x7684;&#x5185;&#x5BB9;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x9605;&#x8BFB;&#x300A; <a href="http://www.infoq.com/cn/news/2015/06/wwdc2015-everything-we-know" target="_blank" rel="external">WWDC 2015&#x5927;&#x4F1A;&#x5341;&#x5927;&#x770B;&#x70B9;&#x603B;&#x7ED3;&#xFF1A;Swift&#x8981;&#x5F00;&#x6E90;&#x4E86;</a> &#x300B;&#x3002; </p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/reEFbeV">&#x5BF9;Linux&#x521D;&#x5B66;&#x8005;&#x7684;&#x4E00;&#x4E9B;&#x5EFA;&#x8BAE;</a></li>
-<li>2.<a href="/articles/3UFFvi">Electron &#x5B9E;&#x9A8C;&#x9879;&#x76EE;&#xFF1A;&#x96EA;&#x7403;&#x80A1;&#x7968;&#x52A9;&#x624B;</a></li>
-<li>3.<a href="/articles/6NraQbE">&#x4ECE; 0 &#x5F00;&#x59CB;&#x642D;&#x5EFA; Vim &#x7F16;&#x8F91;&#x5668;</a></li>
-<li>4.<a href="/articles/qUNVFrI">&#x5982;&#x4F55;&#x4ECE;&#x6E90;&#x4EE3;&#x7801;&#x6784;&#x5EFA; Go 1.5 &#x5F00;&#x53D1;&#x73AF;&#x5883;</a></li>
-<li>5.<a href="/articles/MNb2Ifu">FlashSim&#x5B89;&#x88C5;&#x53CA;&#x6D4B;&#x8BD5;</a></li>
-<li><p>6.<a href="/articles/VRZNrqZ">&#x89E3;&#x8BFB;&#xFF1A;LG webOS 2.0&#x7CFB;&#x7EDF;&#x6709;&#x4EC0;&#x4E48;&#x7279;&#x70B9;&#xFF1F;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/EnqEVn">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;EnqEVn&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开源/">开源</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/09/c514871/" title="Debian 8.1 发布， -" itemprop="url">Debian 8.1 发布， -</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Debian_8-1_&#x53D1;&#x5E03;&#xFF0C;">Debian 8.1 &#x53D1;&#x5E03;&#xFF0C;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 07:24:22  <a href="/sites/JNzQre">&#x5F00;&#x6E90;&#x4E2D;&#x56FD;&#x65B0;&#x95FB;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.oschina.net/news/63183/debian-8-1?utm_source=tuicool" target="_blank" rel="external">http://www.oschina.net/news/63183/debian-8-1</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11200040">Debian</a></p>
-<p><a href="http://www.oschina.net/question/1765084_236572" target="_blank" rel="external">6&#x6708;14&#x65E5;&#x4E0A;&#x6D77; OSC &#x6E90;&#x521B;&#x4F1A;&#x5F00;&#x59CB;&#x62A5;&#x540D;&#xFF0C;&#x9001;&#x673A;&#x68B0;&#x952E;&#x76D8;&#x548C;&#x5F00;&#x6E90;&#x65E0;&#x7801;&#x5185;&#x88E4;</a></p>
-<p>Debian 8.1 &#x53D1;&#x5E03;&#xFF0C;&#x6539;&#x7248;&#x505A;&#x4E86;&#x4E00;&#x4E9B;&#x6742;&#x9879;&#x9519;&#x8BEF;&#x4FEE;&#x6B63;&#xFF0C;&#x4EE5;&#x53CA;&#x5B89;&#x5168;&#x5347;&#x7EA7;&#x7B49;&#x3002;</p>
-<p>&#x66F4;&#x591A;&#x5185;&#x5BB9;&#x8BF7;&#x67E5;&#x770B;&#x8F6F;&#x4EF6;&#x4E3B;&#x9875;&#xFF1A; <a href="https://www.debian.org/" target="_blank" rel="external">https://www.debian.org/</a></p>
-<p>&#x8BE5;&#x7248;&#x672C;&#x4E0B;&#x8F7D;&#x9875;&#x9762;&#x8BF7;&#x70B9; <a href="https://www.debian.org/mirror/list" target="_blank" rel="external">&#x8FD9;&#x91CC;</a> &#x3002; </p>
-<p><img src="http://taojinke.github.io/img/20150609/c513278.png" alt=""></p>
-<p><img src="http://taojinke.github.io/img/20150609/c5134e9.png" alt=""></p>
-<p>Debian &#x8BA1;&#x5212; &#x662F;&#x4E00;&#x4E2A;&#x81F4;&#x529B;&#x4E8E;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x81EA;&#x7531;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7684;&#x5408;&#x4F5C;&#x7EC4; &#x7EC7;&#x3002;&#x6211;&#x4EEC;&#x6240;&#x521B;&#x5EFA;&#x7684;&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x540D;&#x4E3A; <strong>Debian GNU/Linux</strong> &#xFF0C;&#x7B80;&#x79F0;&#x4E3A; <strong>Debian</strong> &#x3002; </p>
-<p>&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x662F;&#x4F7F;&#x8BA1;&#x7B97;&#x673A;&#x8FD0;&#x884C;&#x7684;&#x57FA;&#x672C;&#x7A0B;&#x5E8F;&#x548C;&#x5DE5;&#x5177;&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x5176;&#x4E2D;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x90E8;&#x5206;&#x79F0;&#x4E3A;&#x5185;&#x6838; (kernel)&#x3002;&#x5185;&#x6838;&#x662F;&#x8BA1;&#x7B97;&#x673A;&#x4E2D;&#x6700;&#x91CD;&#x8981;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x8D1F;&#x8D23;&#x4E00;&#x5207;&#x57FA;&#x672C;&#x7684;&#x8C03;&#x5EA6;&#x5DE5;&#x4F5C;&#xFF0C;&#x5E76; &#x8BA9;&#x60A8;&#x8FD0;&#x884C;&#x5176;&#x4ED6;&#x7A0B;&#x5E8F;&#x3002;</p>
-<p>Debian &#x7CFB;&#x7EDF;&#x76EE;&#x524D;&#x91C7;&#x7528; Linux &#x5185;&#x6838;&#x3002;Linux &#x662F;&#x4E00;&#x4E2A;&#x6700;&#x521D;&#x7531; Linus Torvalds &#x521B;&#x5EFA;&#xFF0C;&#x76EE;&#x524D;&#x7531;&#x5168;&#x7403;&#x6210;&#x5343;&#x7684;&#x7A0B;&#x5E8F;&#x5458;&#x5171;&#x540C;&#x7EF4;&#x62A4;&#x7684;&#x8F6F;&#x4EF6;&#x3002;</p>
-<p>&#x7136;&#x800C;&#xFF0C;&#x8BA9; Debian &#x652F;&#x6301;&#x5176;&#x4ED6;&#x5185;&#x6838;&#x7684;&#x5DE5;&#x4F5C;&#x4E5F;&#x6B63;&#x5728;&#x8FDB;&#x884C;&#xFF0C;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x5C31;&#x662F; Hurd&#x3002;Hurd &#x662F;&#x4E00;&#x7EC4;&#x5728;&#x5FAE;&#x5185; &#x6838; (&#x4F8B;&#x5982; Mach) &#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x63D0;&#x4F9B;&#x5404;&#x79CD;&#x4E0D;&#x540C;&#x529F;&#x80FD;&#x7684;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B; &#x3002;Hurd &#x662F;&#x7531; GNU &#x8BA1;&#x5212; &#x6240;&#x8BBE;&#x8BA1; &#x7684;&#x81EA;&#x7531;&#x8F6F;&#x4EF6;&#x3002;</p>
-<p>&#x6211;&#x4EEC;&#x6240;&#x521B;&#x5EFA;&#x7684;&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x5927;&#x90E8;&#x5206;&#x57FA;&#x672C;&#x5DE5;&#x5177;&#x6765;&#x81EA;&#x4E8E; GNU &#x8BA1;&#x5212;&#xFF1B;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x628A;&#x5B83;&#x4EEC;&#x547D;&#x540D;&#x4E3A; GNU/Linux &#x548C; GNU/Hurd&#x3002;&#x8FD9;&#x4E9B;&#x5DE5;&#x5177;&#x540C;&#x6837;&#x90FD;&#x662F;&#x81EA;&#x7531;&#x7684;&#x3002;</p>
-<p>&#x5F53;&#x7136;&#xFF0C;&#x4EBA;&#x4EEC;&#x771F;&#x6B63;&#x9700;&#x8981;&#x7684;&#x662F;&#x5E94;&#x7528;&#x8F6F;&#x4EF6;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5E2E;&#x52A9;&#x4ED6;&#x4EEC;&#x5B8C;&#x6210;&#x5DE5;&#x4F5C;&#x7684;&#x7A0B;&#x5E8F;: &#x4ECE;&#x6587;&#x6863;&#x7F16;&#x8F91;&#xFF0C; &#x5230;&#x7535;&#x5B50;&#x5546;&#x52A1;&#xFF0C;&#x5230;&#x6E38;&#x620F;&#x5A31;&#x4E50;&#xFF0C;&#x5230;&#x8F6F;&#x4EF6;&#x5F00;&#x53D1;&#x3002;Debian &#x5E26;&#x6765;&#x4E86;&#x8D85;&#x8FC7; 25113 &#x4E2A; &#x8F6F;&#x4EF6;&#x5305; (&#x4E3A;&#x4E86;&#x80FD;&#x5728;&#x60A8;&#x7684;&#x673A;&#x5668;&#x4E0A; &#x8F7B;&#x677E;&#x7684;&#x5B89;&#x88C5;&#xFF0C;&#x8FD9;&#x4E9B;&#x8F6F;&#x4EF6;&#x5305;&#x90FD;&#x5DF2;&#x7ECF;&#x88AB;&#x7F16;&#x8BD1;&#x5305;&#x88C5;&#x4E3A;&#x4E00;&#x79CD;&#x65B9;&#x4FBF;&#x7684;&#x683C;&#x5F0F;) &#x2014; &#x8FD9;&#x4E9B;&#x5168;&#x90E8;&#x90FD;&#x662F; &#x81EA;&#x7531; &#x8F6F;&#x4EF6;&#x3002;</p>
-<p>&#x8FD9;&#x6709;&#x70B9;&#x50CF;&#x4E00;&#x4E2A;&#x9AD8;&#x5854;: &#x5728;&#x6700;&#x5E95;&#x5C42;&#x7684;&#x662F;&#x5185;&#x6838;&#xFF0C;&#x5728;&#x5185;&#x6838;&#x4E0A;&#x9762;&#x7684;&#x662F;&#x6240;&#x6709;&#x7684;&#x57FA;&#x672C;&#x5DE5;&#x5177;&#xFF0C;&#x7136;&#x540E;&#x662F;&#x6240; &#x6709;&#x60A8;&#x5728;&#x8BA1;&#x7B97;&#x673A;&#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x8F6F;&#x4EF6;&#x3002;&#x6700;&#x540E;&#xFF0C;&#x5728;&#x8FD9;&#x4E2A;&#x9AD8;&#x5854;&#x9876;&#x7AEF;&#x7684;&#x5C31;&#x662F; Debian &#x2014; &#x628A;&#x6BCF;&#x4EF6;&#x4E8B;&#x60C5;&#x8C28;&#x614E;&#x7684;&#x7EC4;&#x7EC7;&#x548C;&#x914D;&#x5408;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x4F7F;&#x5F97;&#x5B83;&#x4EEC;&#x80FD;&#x591F;&#x5728;&#x4E00;&#x8D77;&#x548C;&#x8C10;&#x5730;&#x8FD0;&#x4F5C;&#x3002;</p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/aAR7rij">&#x4F7F;&#x7528; Ansible &#x7BA1;&#x7406; CoreOS</a></li>
-<li>2.<a href="/articles/BfuU3m">Linux Module</a></li>
-<li>3.<a href="/articles/RnUbeqr">Linux Shell &#x7A0B;&#x5E8F;&#x8C03;&#x8BD5;</a></li>
-<li>4.<a href="/articles/BFNRFvj">&#x5229;&#x7528;bat&#x6279;&#x5904;&#x7406;&#x505A;&#x542F;&#x52A8;mongodb&#x811A;&#x672C;</a></li>
-<li>5.<a href="/articles/raiQfeJ">&#x5927;&#x6587;&#x4EF6;&#x7684;&#x5E76;&#x884C;&#x5904;&#x7406;&#x95EE;&#x9898;</a></li>
-<li><p>6.<a href="/articles/yme2M3a">Vim&#x63D2;&#x4EF6;&#x5B66;&#x4E60;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/Y3Ibea">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;Y3Ibea&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Debian/">Debian</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/09/c511ef0/" title="Deis v1.7 发布，开源 PaaS 系统 -" itemprop="url">Deis v1.7 发布，开源 PaaS 系统 -</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Deis_v1-7_&#x53D1;&#x5E03;&#xFF0C;&#x5F00;&#x6E90;_PaaS_&#x7CFB;&#x7EDF;">Deis v1.7 &#x53D1;&#x5E03;&#xFF0C;&#x5F00;&#x6E90; PaaS &#x7CFB;&#x7EDF;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 08:10:17  <a href="/sites/JNzQre">&#x5F00;&#x6E90;&#x4E2D;&#x56FD;&#x65B0;&#x95FB;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.oschina.net/news/63198/deis-1-7?utm_source=tuicool" target="_blank" rel="external">http://www.oschina.net/news/63198/deis-1-7</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/10200004">PaaS</a><a href="/topics/11080038">&#x5F00;&#x6E90;</a><a href="/topics/11140000">Ruby</a></p>
-<p><a href="http://www.oschina.net/question/1765084_236572" target="_blank" rel="external">6&#x6708;14&#x65E5;&#x4E0A;&#x6D77; OSC &#x6E90;&#x521B;&#x4F1A;&#x5F00;&#x59CB;&#x62A5;&#x540D;&#xFF0C;&#x9001;&#x673A;&#x68B0;&#x952E;&#x76D8;&#x548C;&#x5F00;&#x6E90;&#x65E0;&#x7801;&#x5185;&#x88E4;</a></p>
-<p>&#x6CE8;&#x610F;&#xFF1A;&#x5347;&#x7EA7;&#x5230; Deis 1.7 &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5E94;&#x7528;&#x4E0B;&#x8F7D;&#x7684;&#x65F6;&#x5019;&#x5DF2;&#x7ECF;&#x8BC1;&#x5B9E;&#x6709;&#x4E2A;&#x91CD;&#x8981;&#x7684; bug&#x3002;&#x73B0;&#x5728;&#x6B63;&#x5728;&#x5FEB;&#x901F;&#x4FEE;&#x590D;&#x6D4B;&#x8BD5;&#xFF0C;&#x5C06;&#x4F1A;&#x5C3D;&#x5FEB;&#x53D1;&#x5E03; Deis v1.7.1 &#x7248;&#x672C;&#x3002;&#x5F3A;&#x70C8;&#x5EFA;&#x8BAE;&#x5927;&#x5BB6;&#x4E0D;&#x8981;&#x5347;&#x7EA7; Deis 1.7&#xFF0C;&#x8BF7;&#x7B49;&#x5F85; Deis 1.7.1 &#x7248;&#x672C;&#x518D;&#x5347;&#x7EA7;&#xFF01;</p>
-<p>Deis v1.7.0 &#x5305;&#x62EC;&#x81EA;&#x52A8;&#x5316;&#x4E3B;&#x673A;&#x79FB;&#x9664;&#xFF1B;&#x66F4;&#x5C0F;&#x7684; Docker &#x955C;&#x50CF;&#xFF1B;&#x5E73;&#x53F0;&#x76F8;&#x5173;&#x7684;&#x4FEE;&#x590D;&#x3002;Deis <a href="http://docs.deis.io/en/latest/roadmap/roadmap/" target="_blank" rel="external">&#x53D1;&#x5E03;&#x8DEF;&#x7EBF;</a> &#x5DF2;&#x7ECF;&#x516C;&#x5E03;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x53C2;&#x4E0E; <a href="http://docs.deis.io/en/latest/roadmap/planning/#release-planning-meetings" target="_blank" rel="external">&#x53D1;&#x5E03;&#x8BA1;&#x5212;</a> &#xFF01; </p>
-<p>&#x5982;&#x679C;&#x9700;&#x8981;&#x5347;&#x7EA7;&#x6700;&#x65B0;&#x7684; Deis &#x7248;&#x672C;&#xFF0C;&#x8BF7;&#x770B; <a href="http://docs.deis.io/en/latest/managing_deis/upgrading-deis/" target="_blank" rel="external">&quot;Upgrading Deis&quot;</a> &#x6587;&#x6863;&#x3002; </p>
-<h2 id="&#x66F4;&#x65B0;&#x5185;&#x5BB9;">&#x66F4;&#x65B0;&#x5185;&#x5BB9;</h2><h3 id="&#x65B0;&#x7279;&#x6027;">&#x65B0;&#x7279;&#x6027;</h3><ul>
-<li>Deis has adopted an <a href="http://docs.deis.io/en/latest/roadmap/roadmap/" target="_blank" rel="external">Open Roadmap</a> and planning process</li>
-<li>Most components use <a href="https://registry.hub.docker.com/_/alpine/" target="_blank" rel="external">alpine:3.1</a> as a base, making Docker images smaller</li>
-<li>Optional scripts allow for <a href="http://docs.deis.io/en/latest/managing_deis/add_remove_host/#automatic-host-removal" target="_blank" rel="external">automatic host removal</a></li>
-<li>All Heroku-compatible buildpacks were updated to recent versions</li>
-<li>Deis <a href="https://github.com/deis?utf8=%E2%9C%93&amp;query=example-" target="_blank" rel="external">example apps</a> have been updated to current languages and frameworks</li>
-<li>Randomly-generated app names won&apos;t collide with existing ones, and the vocabulary is expanded</li>
-<li>deisctl config rm removes an existing deis configuration key</li>
-<li>deis-controller can be customized to appear <a href="http://docs.deis.io/en/latest/customizing_deis/controller_settings/#settings-used-by-controller" target="_blank" rel="external">at a subdomain</a> other than deis.</li>
-<li>deis auth:passwd accepts a —username flag to allow an admin to update a user&apos;s password</li>
-<li>deis-publisher can be profiled with Go&apos;s pprof package</li>
-<li>EC2 provisioning supports custom volume sizes</li>
-<li>deis-publisher exposes its config as flags</li>
-<li>deis-controller doesn&apos;t use deprecated HTTP X- headers</li>
-<li>Azure clusters automatically create a new discovery URL during provisioning</li>
-</ul>
-<h3 id="&#x6539;&#x8FDB;">&#x6539;&#x8FDB;</h3><ul>
-<li>deis-builder removes the git repo and related Docker images after deis destroy</li>
-<li>deis-router won&apos;t keep hashing on an empty string</li>
-<li>some etcd errors which were hidden are now properly raised at component start</li>
-<li>deis logs -n won&apos;t raise an IOError when piped to head</li>
-<li>deis builds:create requires an explicit Docker image tag</li>
-<li>EC2 clusters use an EBS volume to store etcd data</li>
-<li>docker.service now depends on its mount to exist before starting</li>
-<li>better documentation for Deis <a href="http://docs.deis.io/en/latest/managing_deis/backing_up_data/" target="_blank" rel="external">backup/restore</a> and for <a href="http://docs.deis.io/en/latest/managing_deis/upgrading-deis/#upgrading-coreos" target="_blank" rel="external">CoreOS upgrades</a></li>
-<li>deisctl list no longer lists an app named deis-demo , for example</li>
-<li><a href="http://docs.deis.io/en/latest/customizing_deis/choosing-a-scheduler/#swarm-scheduler" target="_blank" rel="external">deis-swarm</a> unit files are now fetched with deisctl refresh-units</li>
-<li><a href="http://docs.deis.io/en/latest/using_deis/config-application/#configure-the-application" target="_blank" rel="external">deis config:push and config:pull</a> validate the .env file syntax</li>
-</ul>
-<h3 id="&#x94A9;&#x5B50;">&#x94A9;&#x5B50;</h3><ul>
-<li>updated CoreOS to <a href="https://github.com/deis/deis/blob/v1.7.0" target="_blank" rel="external">647.2.0</a></li>
-<li>deis honors requests&apos; environment variables such as REQUESTS_CA_BUNDLE</li>
-<li>Ceph uses a lower, more appropriate number of placement groups</li>
-<li>deis-logger won&apos;t query etcd for every log line</li>
-<li>deis-database runs backups in the background</li>
-<li>deis-builder was reorganized around Docker image best practices</li>
-<li>deis-controller&apos;s <a href="http://docs.deis.io/en/latest/customizing_deis/controller_settings/#settings-used-by-controller" target="_blank" rel="external">webEnabled key</a> uses a safer numeric default of 0</li>
-<li>custom clock sync logic in user-data was unneeded and was removed</li>
-<li>$PORT logic was unused and removed from fleet</li>
-<li>deis-builder silenced some benign pipefail errors on boot</li>
-<li>deis-router returns a 404 for a non-existent app</li>
-</ul>
-<p>&#x66F4;&#x591A;&#x8BE6;&#x60C5;&#x8BF7;&#x770B; <a href="https://github.com/deis/deis/blob/master/CHANGELOG.md" target="_blank" rel="external">&#x66F4;&#x65B0;&#x65E5;&#x5FD7;</a> &#x3002; </p>
-<h3 id="&#x4E0B;&#x4E00;&#x6B65;&#x8BA1;&#x5212;">&#x4E0B;&#x4E00;&#x6B65;&#x8BA1;&#x5212;</h3><ul>
-<li>&#x53EF;&#x63D2;&#x62D4;&#x7684;&#x5B58;&#x50A8;&#x5B50;&#x7CFB;&#x7EDF;</li>
-<li>TTY Broker</li>
-<li>Scheduling&#xFF08;Fleet&#xFF09; &#x548C; Orchestration</li>
-</ul>
-<p>&#x66F4;&#x591A;&#x5185;&#x5BB9;&#x8BF7;&#x770B; <a href="https://github.com/deis/deis/releases/tag/v1.7.0" target="_blank" rel="external">&#x53D1;&#x884C;&#x8BF4;&#x660E;</a> &#x3002; </p>
-<p>&#x4E0B;&#x8F7D;&#xFF1A; <a href="https://github.com/deis/deis/archive/v1.7.0.zip" target="_blank" rel="external">https://github.com/deis/deis/archive/v1.7.0.zip</a> &#x3002; </p>
-<p>Deis &#x662F;&#x4E00;&#x4E2A; Django/Celery API &#x670D;&#x52A1;&#x5668;&#x3001;Python CLI &#x548C;&#x4E00;&#x7EC4; <a href="https://github.com/opdemand/deis-cookbook" target="_blank" rel="external">Chef cookbooks</a> &#x5408;&#x5E76;&#x8D77;&#x6765;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x7C7B;&#x4F3C; Heroku &#x7684;&#x5E94;&#x7528;&#x5E73;&#x53F0;&#xFF0C;&#x7528;&#x4E8E;&#x516C;&#x6709;&#x4E91;&#x548C;&#x79C1;&#x6709;&#x4E91;&#x3002;Deis &#x7684;&#x53E3;&#x53F7;&#x662F;&#xFF1A;Your PaaS. Your Rules. </p>
-<p>Deis &#x662F;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x7684; PaaS &#x7CFB;&#x7EDF;&#xFF0C;&#x7B80;&#x5316;&#x548C;LXC &#x5BB9;&#x5668;&#x548C;Chef &#x8282;&#x70B9;&#x7684;&#x53D1;&#x5E03;&#x548C;&#x4F38;&#x7F29;&#x3002;&#x53EF;&#x7528;&#x4E8E;&#x6258;&#x7BA1;&#x5E94;&#x7528;&#x3001;&#x6570;&#x636E;&#x5E93;&#x3001;&#x4E2D;&#x95F4;&#x4EF6;&#x548C;&#x5176;&#x4ED6;&#x670D;&#x52A1;&#x3002;Deis &#x5229;&#x7528; Chef&#x3001;Docker &#x548C;Heroku Buildpacks &#x6765;&#x63D0;&#x4F9B;&#x7684;&#x79C1;&#x6709; PaaS &#x662F;&#x975E;&#x5E38;&#x8F7B;&#x91CF;&#x7EA7;&#x548C;&#x7075;&#x6D3B;&#x7684;&#x3002; </p>
-<p>Deis &#x63D0;&#x4F9B;&#x5F00;&#x7BB1;&#x5373;&#x7528;&#x7684; Ruby, Python, Node.js, Java, Clojure, Scala, Play, PHP, Perl, Dart &#x548C; Go &#x8BED;&#x8A00;&#x7684;&#x652F;&#x6301;&#x3002;&#x6B64;&#x5916; Deis &#x53EF;&#x4F7F;&#x7528; Heroku Buildpacks&#x3001;Docker images &#x548C; Chef recipes &#x53D1;&#x5E03;&#x4EFB;&#x4F55;&#x5185;&#x5BB9;&#x3002;Deis &#x4E3B;&#x8981;&#x8BBE;&#x8BA1;&#x7528;&#x6765;&#x8DDF;&#x4E0D;&#x540C;&#x7684;&#x4E91;&#x63D0;&#x4F9B;&#x5546;&#x8FDB;&#x884C;&#x4EA4;&#x4E92;&#xFF0C;&#x5C3D;&#x7BA1;&#x76EE;&#x524D;&#x53EA;&#x652F;&#x6301; EC2&#x3002;</p>
-<p><img src="http://taojinke.github.io/img/20150609/c50ebab.png" alt=""></p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/FFnmu2">scrape&#xFF1A;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x3001;&#x66F4;&#x9AD8;&#x5C42;&#x6B21;&#x7684; Web &#x722C;&#x866B;&#x63A5;&#x53E3;&#xFF08;Golang&#xFF09;</a></li>
-<li>2.<a href="/articles/iAvq22V">&#x7528;Ruby&#x7684;Enumerator&#x5B9E;&#x73B0;&#x7684;&#x6D41;</a></li>
-<li>3.<a href="/articles/mUjyEjj">&#x5411;&#x300A;&#x4E03;&#x5468;&#x4E03;&#x8BED;&#x8A00;&#x300B;&#x4F5C;&#x8005;Bruce Tate&#x63D0;&#x95EE;&#xFF01;</a></li>
-<li><p>4.<a href="/articles/RJ32yib">Inspect SimpleForm</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/mm6Jzif">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;mm6Jzif&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/PaaS/">PaaS</a><a href="/tags/Ruby/">Ruby</a><a href="/tags/开源/">开源</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/09/c50d823/" title="图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈） -" itemprop="url">图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈） -</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="&#x56FE;&#x7075;&#x8BBF;&#x8C08;_&#xFF1A;_[&#x82F1;]_&#x300A;Java_8&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x300B;&#x4F5C;&#x8005;Richard_Warbourton&#xFF1A;Java&#x7684;&#x4EAE;&#x70B9;&#x4E0D;&#x662F;&#x8BED;&#x8A00;&#x672C;&#x8EAB;&#xFF08;&#x56FE;&#x7075;&#x8BBF;&#x8C08;&#xFF09;">&#x56FE;&#x7075;&#x8BBF;&#x8C08; &#xFF1A; [&#x82F1;] &#x300A;Java 8&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x300B;&#x4F5C;&#x8005;Richard Warbourton&#xFF1A;Java&#x7684;&#x4EAE;&#x70B9;&#x4E0D;&#x662F;&#x8BED;&#x8A00;&#x672C;&#x8EAB;&#xFF08;&#x56FE;&#x7075;&#x8BBF;&#x8C08;&#xFF09;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 08:24:53  <a href="/sites/AzQnIz">&#x56FE;&#x7075;&#x793E;&#x533A;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.ituring.com.cn/article/199302?utm_source=tuicool" target="_blank" rel="external">http://www.ituring.com.cn/article/199302</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11070119">Java8</a><a href="/topics/11080087">&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;</a></p>
-<p>Richard Warburton&#x662F;&#x4E00;&#x4F4D;&#x7ECF;&#x9A8C;&#x4E30;&#x5BCC;&#x7684;&#x6280;&#x672F;&#x4E13;&#x5BB6;&#xFF0C;&#x5584;&#x4E8E;&#x89E3;&#x51B3;&#x590D;&#x6742;&#x6DF1;&#x5965;&#x7684;&#x6280;&#x672F;&#x95EE;&#x9898;&#xFF0C;&#x62E5;&#x6709;&#x534E;&#x5A01;&#x5927;&#x5B66;&#x8BA1;&#x7B97;&#x673A;&#x79D1;&#x5B66;&#x4E13;&#x4E1A;&#x535A;&#x58EB;&#x5B66;&#x4F4D;&#x3002;&#x8FD1;&#x671F;&#x4ED6;&#x4E00;&#x76F4;&#x4ECE;&#x4E8B;&#x9AD8;&#x6027;&#x80FD;&#x8BA1;&#x7B97;&#x65B9;&#x9762;&#x7684;&#x6570;&#x636E;&#x5206;&#x6790;&#x5DE5;&#x4F5C;&#x3002;&#x4ED6;&#x662F;&#x82F1;&#x56FD;&#x4F26;&#x6566;Java&#x793E;&#x533A;&#x7684;&#x9886;&#x5BFC;&#x8005;&#xFF0C;&#x7EC4;&#x7EC7;&#x8FC7;&#x9762;&#x5411;Java 8&#x4E2D;Lambda&#x8868;&#x8FBE;&#x5F0F;&#x3001;&#x65E5;&#x671F;&#x548C;&#x65F6;&#x95F4;&#x7684;Adopt-a-JSR&#x9879;&#x76EE;&#xFF0C;&#x4EE5;&#x53CA;Openjdk Hackdays&#x6D3B;&#x52A8;&#x3002;Richard&#x8FD8;&#x662F;&#x77E5;&#x540D;&#x7684;&#x4F1A;&#x8BAE;&#x6F14;&#x8BB2;&#x5609;&#x5BBE;&#xFF0C;&#x66FE;&#x5728;JavaOne&#x3001;DevoxxUK&#x548C;JAX London&#x7B49;&#x4F1A;&#x8BAE;&#x4E0A;&#x6F14;&#x8BB2;&#x3002;&#x6839;&#x636E;&#x5BF9;Java&#x793E;&#x533A;&#x548C;Java 8&#x65B0;&#x7279;&#x6027;&#x7684;&#x6DF1;&#x523B;&#x7406;&#x89E3;&#xFF0C;&#x4ED6;&#x521B;&#x4F5C;&#x4E86;&#x300A;Java 8&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x300B;&#x4E00;&#x4E66;&#x3002; </p>
-<p><img src="http://taojinke.github.io/img/20150609/c50bad7.jpg" alt=""></p>
-<p>iTuring: How did you become a coder? And how did you become a coder specialized in Java?</p>
-<p>I was always always interested in technology and when I was at school I fell in with &quot;the wrong crowd&quot; - programmers. It was great to see people who could make useful and interesting things. So I picked up a book on visual basic - the first programming language I ever learnt - read it and started programming. As I later found out visual basic leaves much to be desired in a programming language and at university I learnt Java. Despite using a number of other programming languages I seem to end up coming back to Java. Its not really the language so much as the ecosystem, tooling and libraries that are available.</p>
-<p>iTuring: Does your experience in London Java Community help you with the idea of your book <a href="http://www.ituring.com.cn/book/1448" target="_blank" rel="external"><em>Java 8 Lambdas</em></a> ? How? </p>
-<p>Yes, definitely. I initially started playing around with Java 8 prototypes before it was released by organising the LJC hackdays on the topic and sending feedback back to the expert group. I also got in touch with O&apos;Reilly at a London event. <a href="http://www.ituring.com.cn/book/1448" target="_blank" rel="external"><em>Java 8 Lambdas</em></a> would never have happened with the LJC. </p>
-<p>iTuring: Lambdas are invisible on JVM, in your opinion, why did Java choose to support the syntactic feature by integrating it into Java 8 instead of building a plug-in?</p>
-<p>I think this really derives from a bunch of other design decisions in Java 8. It was decided that there would be no special function types added to represent lambdas - they would just use interfaces with single abstract methods (functional interfaces). Once that&apos;s in place any library that wants to call a lambda expression just needs to call a method on an interface. There&apos;s no need to make any bytecode changes to implement that.</p>
-<p>Its worth noting that there&apos;s quite a lot of mechanics going on to make lambdas work, which are described in some detail in an article I co-authored at <a href="http://www.infoq.com/articles/Java-8-Lambdas-A-Peek-Under-the-Hood" target="_blank" rel="external">http://www.infoq.com/articles/Java-8-Lambdas-A-Peek-Under-the-Hood</a> . </p>
-<p>iTuring: Scala, Groovy and Clojure are genetically built on functional programming, do you think Java has any unique advantages comparing to these languages?</p>
-<p>Absolutely, but its not the language! Java is a perfectly solid language but languages like Scala are always going to add more features than Java has. Clojure will always be simpler, less syntax and less concepts. Groovy offers a mix of static and dynamic typing and a scripting focus that Java lacks. All of these languages have compelling reasons for being used over Java, but at the same time they&apos;re also missing a lot of other things.</p>
-<p>Java has excellent mature tooling and IDE support that things like Scala and Clojure lack. To me these tools contribute to your productivity just as much as the language itself and remove a lot of the day-to-day development frustrations. I&apos;d pick Java for many projects over Scala or Clojure for the tooling.</p>
-<p>iTuring: Stability and simplicity are Java&apos;s biggest advantages, do you agree that functional programming of Java 8 and multiple inheritance mechanism of Java 9 will increase complexity and maintenance cost of Java?</p>
-<p>It depends upon how you view things. In my opinion the introduction of functional programming simplifies things for many programming tasks. Collections and data processing are a very commonly performed tasks by Java developers and they&apos;re ideally suited to a functional paradigm. There&apos;s an overhead to learning these new concepts and there is an added complexity in the sense that you need to decide when to write functional and when to write imperative code. So to me its not clear-cut either way. Functional programming does make things easier, but there&apos;s more to learn.</p>
-<p>iTuring: In Java 8, which is more important, maintaining the system or solving problems?</p>
-<p>I&apos;m not sure what this question is actually asking I&apos;m afraid.</p>
-<p>iTuring: How does the ecosystem of Java respond to functional programming of Java 8? How long would you expect before functional feature of Java 8 be used universally across the board?</p>
-<p>I think if you&apos;re thinking about adopting Java 8 then you should go incrementally. First thinking about using core library features such as streams and collectors in conjunction with lambda expressions. I think this adoption phase is well under way and has begun to happen and I&apos;m seeing people use these features in real code.</p>
-<p>I think over time we&apos;ll start to see a more functional style of Java evolve - using some of the functional design patterns, more immutable classes. There&apos;s already a few libraries beginning to adopt this style. I&apos;ve written a testing framework ( <a href="http://richardwarburton.github.io/lambda-behave/" target="_blank" rel="external">http://richardwarburton.github.io/lambda-behave/</a> ) that gives an example of the thing kind of thing you can do. </p>
-<p>So I think eventually there will be strong adoption of all the Java 8 functional features, but it&apos;ll be a gradual process.</p>
-<p>iTuring: Java used to be object oriented, now it fully supports functional programming. As a coder, what can we do to facilitate the transition and make the best of functional programming?</p>
-<p>I think there&apos;s a few steps to the transition.</p>
-<p>Step 1 is to learn more about Java 8. Reading books, tutorial and trying out a few simple examples of functional code. Once you know the basics move to step 2.</p>
-<p>Step 2 is to adopt Java 8 on a work project. In my opinion its good to have a small and low risk project to try things out on, but to try it in the context of solving real world business problems. Once you&apos;re familiar with Java 8 in a real world setting move to step 3.</p>
-<p>Step 3 is to bump all your code to Java 8 and test it out without using any Java 8 features. This is because even though Java SE maintains really strong binary compatibility some third party libraries may break and you&apos;ll have to upgrade them. If you&apos;re already using the latest libraries this may not be a problem for you. Once everything is working move to step 4.</p>
-<p>Step 4 is start writing Java 8 code across your main code-base and have fun doing so.</p>
-<p>iTuring: In functional programming of Java, do you have some best practices that you would like to recommend? And have you identified any traps during the way?</p>
-<p>I&apos;ve never liked the idea of &quot;best practices&quot; - these things change over time and depend upon context. Let&apos;s talk about some things which are good things to use.</p>
-<ol>
-<li>Streams and Collectors. If you&apos;re writing code that involves the collections API then these are your new best friend.</li>
-<li>Immutable Data. Often its simpler and less error to return new objects rather than mutate existing ones.</li>
-<li>Think functional. Instead of thinking &quot;how can I update this blob of state?&quot; ask yourself &quot;how can I transform this input into an output?&quot;</li>
-</ol>
-<h2 id="&#x66F4;&#x591A;&#x7CBE;&#x5F69;&#xFF0C;&#x52A0;&#x5165;&#x56FE;&#x7075;&#x8BBF;&#x8C08;&#x5FAE;&#x4FE1;&#xFF01;">&#x66F4;&#x591A;&#x7CBE;&#x5F69;&#xFF0C;&#x52A0;&#x5165;&#x56FE;&#x7075;&#x8BBF;&#x8C08;&#x5FAE;&#x4FE1;&#xFF01;</h2><p><img src="http://taojinke.github.io/img/20150609/c50bd48.jpg" alt=""></p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/mUbq2uE">WildFly Swarm Alpha2 &#x53D1;&#x5E03;</a></li>
-<li>2.<a href="/articles/MvARZbI">appium java &#x73AF;&#x5883;&#x642D;&#x5EFA;</a></li>
-<li>3.<a href="/articles/YfQBbmB">jquery&#x4E2D;ajax &#x4ECE;&#x524D;&#x7AEF;&#x5230;&#x540E;&#x7AEF; &#x5B8C;&#x6574;&#x8FC7;&#x7A0B;&#x89E3;&#x6790;</a></li>
-<li>4.<a href="/articles/AzeIbe7">Java&#x77E5;&#x591A;&#x5C11;&#xFF08;86&#xFF09;&#x6587;&#x672C;&#x6846;&#x548C;&#x6587;&#x672C;&#x533A;&#x7684;&#x8F93;&#x5165;&#x8F93;&#x51FA;</a></li>
-<li>5.<a href="/articles/EFnIJb">spring security&#x6E90;&#x7801;&#x5206;&#x6790;&#x4E4B;core&#x5305;</a></li>
-<li><p>6.<a href="/articles/jmMRzea">&#x5E38;&#x91CF;&#x3001;&#x53D8;&#x91CF;&#x4E0E;&#x8FD0;&#x7B97;&#x7B26;&#xFF08;&#x4E94;&#xFF09;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/uQZ3uuv">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;uQZ3uuv&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Java8/">Java8</a><a href="/tags/函数式编程/">函数式编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/09/c509d8b/" title="门头沟信息网 1.2 发布，资讯网站开源啦 -" itemprop="url">门头沟信息网 1.2 发布，资讯网站开源啦 -</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51;_1-2_&#x53D1;&#x5E03;&#xFF0C;&#x8D44;&#x8BAF;&#x7F51;&#x7AD9;&#x5F00;&#x6E90;&#x5566;">&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51; 1.2 &#x53D1;&#x5E03;&#xFF0C;&#x8D44;&#x8BAF;&#x7F51;&#x7AD9;&#x5F00;&#x6E90;&#x5566;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 08:10:17  <a href="/sites/JNzQre">&#x5F00;&#x6E90;&#x4E2D;&#x56FD;&#x65B0;&#x95FB;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.oschina.net/news/63199/jflyfox_mtgxxw-1-2?utm_source=tuicool" target="_blank" rel="external">http://www.oschina.net/news/63199/jflyfox_mtgxxw-1-2</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11080038">&#x5F00;&#x6E90;</a><a href="/topics/11000064">&#x6570;&#x636E;&#x5E93;</a></p>
-<p><a href="http://www.oschina.net/question/1765084_236572" target="_blank" rel="external">6&#x6708;14&#x65E5;&#x4E0A;&#x6D77; OSC &#x6E90;&#x521B;&#x4F1A;&#x5F00;&#x59CB;&#x62A5;&#x540D;&#xFF0C;&#x9001;&#x673A;&#x68B0;&#x952E;&#x76D8;&#x548C;&#x5F00;&#x6E90;&#x65E0;&#x7801;&#x5185;&#x88E4;</a></p>
-<h4 id="&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51;_1-2_&#x53D1;&#x5E03;&#x4E86;&#xFF0C;&#x66F4;&#x65B0;&#x8BF4;&#x660E;&#xFF1A;">&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51; 1.2 &#x53D1;&#x5E03;&#x4E86;&#xFF0C;&#x66F4;&#x65B0;&#x8BF4;&#x660E;&#xFF1A;</h4><p>1.&#x53BB;&#x9664;&#x5BF9;&#x4E4B;&#x524D;CRUD&#x4F9D;&#x8D56;&#xFF0C;&#x8BA9;&#x4EE3;&#x7801;&#x66F4;&#x7B80;&#x5355;&#x66F4;&#x6613;&#x61C2;&#x3002;</p>
-<p>2.&#x4FEE;&#x590D;&#x7528;&#x6237;&#x540D;&#x70B9;&#x51FB;&#x62A5;&#x9519;&#x95EE;&#x9898;&#xFF0C;&#x52A0;&#x5165;&#x70B9;&#x51FB;&#x7528;&#x6237;&#x67E5;&#x770B;&#x9875;&#x9762;&#x3002;</p>
-<p>3.&#x4FEE;&#x6539;&#x767B;&#x5F55;&#x6587;&#x5B57;&#x9519;&#x8BEF;&#xFF0C;&#x6587;&#x7AE0;&#x6DFB;&#x52A0;&#x9875;&#x9762;&#x4F18;&#x5316;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x5BC6;&#x7801;&#x9519;&#x8BEF;&#x95EE;&#x9898;&#x4FEE;&#x590D;&#xFF08;&#x4E4B;&#x524D;&#x7531;&#x4E8E;&#x79D8;&#x94A5;&#x4FEE;&#x6539;&#x65E0;&#x6CD5;&#x767B;&#x9646;&#xFF0C;&#x5B9E;&#x5728;&#x62B1;&#x6B49;&#xFF09;&#xFF0C;&#x4E00;&#x4E9B;&#x6613;&#x7528;&#x6027;&#x4F18;&#x5316;&#x3002;</p>
-<p>4.&#x90E8;&#x7F72;&#x540E;&#xFF0C;&#x7BA1;&#x7406;&#x5458;&#x767B;&#x9646;&#x8D26;&#x53F7;&#x5BC6;&#x7801;&#xFF1A;admin/admin123&#xFF1B;&#x8FD9;&#x4E2A;&#x4E4B;&#x524D;&#x5199;&#x7684;&#x5730;&#x65B9;&#x4E0D;&#x660E;&#x663E;&#xFF0C;&#x603B;&#x4F1A;&#x88AB;&#x95EE;&#x5230;&#x3002;</p>
-<p>&#x611F;&#x8C22;&#x5927;&#x5BB6;&#x7684;&#x53CD;&#x9988;&#x4E0E;&#x652F;&#x6301;&#xFF1B;&#x9769;&#x547D;&#x5C1A;&#x672A;&#x6210;&#x529F;&#xFF0C;&#x4ECD;&#x9700;&#x7EE7;&#x7EED;&#x52AA;&#x529B;&#x3002;</p>
-<h4 id="&#x8F6F;&#x4EF6;&#x8BF4;&#x660E;&#xFF1A;">&#x8F6F;&#x4EF6;&#x8BF4;&#x660E;&#xFF1A;</h4><p>&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51;&#x6700;&#x5168;&#x9762;&#x7684;&#x751F;&#x6D3B;&#x3001;&#x65B0;&#x95FB;&#x3001;&#x7F8E;&#x98DF;&#x3001;&#x65C5;&#x6E38;&#x3001;&#x6559;&#x80B2;&#x7B49;&#x8D44;&#x8BAF;&#x3002;</p>
-<p>&#x7F51;&#x7AD9;&#x91C7;&#x7528;&#x4E86;&#x7B80;&#x6D01;&#x5F3A;&#x5927;&#x7684;JFinal&#x4F5C;&#x4E3A;web&#x6846;&#x67B6;&#xFF0C;&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x7528;&#x7684;&#x662F;beetl&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x7528;mysql&#xFF0C;&#x524D;&#x7AEF;bootstrap&#x6846;&#x67B6;&#x3002; &#x652F;&#x6301;oauth2&#x8BA4;&#x8BC1;&#x3001;&#x5E10;&#x53F7;&#x6CE8;&#x518C;&#x3001;&#x5BC6;&#x7801;&#x52A0;&#x5BC6;&#x3001;&#x8BC4;&#x8BBA;&#x53CA;&#x56DE;&#x590D;&#xFF0C;&#x6D88;&#x606F;&#x63D0;&#x793A;&#xFF0C;&#x7F51;&#x7AD9;&#x8BBF;&#x95EE;&#x91CF;&#x7EDF;&#x8BA1;&#xFF0C;&#x6587;&#x7AE0;&#x8BC4;&#x8BBA;&#x6570;&#x548C;&#x6D4F;&#x89C8;&#x91CF;&#x7EDF;&#x8BA1;&#xFF0C;&#x56DE;&#x590D;&#x7BA1;&#x7406;&#xFF0C;&#x652F;&#x6301;&#x6743;&#x9650;&#x7BA1;&#x7406;&#x3002; </p>
-<p>&#x6E90;&#x7801;&#x91C7;&#x7528;jflyfox&#x535A;&#x5BA2;&#x4EE3;&#x7801;&#xFF0C;&#x524D;&#x53F0;&#x9875;&#x9762;&#x91C7;&#x7528;bootstrap3&#x8FDB;&#x884C;&#x91CD;&#x65B0;&#x5E03;&#x5C40;&#x3002;</p>
-<p>&#x9996;&#x9875;&#x6548;&#x679C;&#xFF1A; <a href="http://www.jflyfox.com/mtg" target="_blank" rel="external">http://www.jflyfox.com/mtg</a></p>
-<p>&#x6B22;&#x8FCE;&#x9875;&#xFF1A; <a href="http://www.jflyfox.com/" target="_blank" rel="external">http://www.jflyfox.com</a></p>
-<p>&#x6E90;&#x7801;&#x5730;&#x5740;&#xFF1A; <a href="https://git.oschina.net/flyfox/jflyfox_mtgxxw" target="_blank" rel="external">https://git.oschina.net/flyfox/jflyfox_mtgxxw</a></p>
-<p>&#x7F51;&#x7AD9;&#x9996;&#x9875;&#xFF1A;</p>
-<p><img src="http://taojinke.github.io/img/20150609/c506cb7.jpg" alt=""></p>
-<p>&#x767B;&#x9646;&#x9875;&#x9762;&#xFF1A;</p>
-<p><img src="http://taojinke.github.io/img/20150609/c50740a.jpg" alt=""></p>
-<p>&#x540E;&#x53F0;&#x9875;&#x9762;&#xFF1A;</p>
-<p><img src="http://taojinke.github.io/img/20150609/c5078ec.jpg" alt=""></p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/6fIruaU">Appweb 5.4.2 &#x53D1;&#x5E03;&#xFF0C;&#x5D4C;&#x5165;&#x5F0F; Web &#x670D;&#x52A1;&#x5668;</a></li>
-<li>2.<a href="/articles/j6Fvau">&#x4F7F;&#x7528; BLU Acceleration &#x63D0;&#x9AD8; ETL &#x6027;&#x80FD;</a></li>
-<li>3.<a href="/articles/Zz26Bfb">kubernetes 0.18.1 &#x521D;&#x8BD5;</a></li>
-<li>4.<a href="/articles/63eueiU">&#x5F00;&#x6E90;&#x56FE;&#x8BA1;&#x7B97;&#x6846;&#x67B6;GraphLab&#x4ECB;&#x7ECD;</a></li>
-<li>5.<a href="/articles/nYZvEjJ">PHP FastCGI RCE Vul</a></li>
-<li><p>6.<a href="/articles/m6VvYf">Greenplum &#x6570;&#x636E;&#x5E93;&#x5B89;&#x88C5;&#x90E8;&#x7F72;&#xFF08;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#xFF09;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/zuI3IvM">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;zuI3IvM&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/开源/">开源</a><a href="/tags/数据库/">数据库</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/09/c52af54/" title="苹果更新OS X版本 命名为EI Capitan -" itemprop="url">苹果更新OS X版本 命名为EI Capitan -</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
-		
-  <p class="article-time">
-    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="&#x82F9;&#x679C;&#x66F4;&#x65B0;OS_X&#x7248;&#x672C;_&#x547D;&#x540D;&#x4E3A;EI_Capitan">&#x82F9;&#x679C;&#x66F4;&#x65B0;OS X&#x7248;&#x672C; &#x547D;&#x540D;&#x4E3A;EI Capitan</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 02:37:01  <a href="/sites/eyqyQ3">&#x82F9;&#x679C;&#x5F00;&#x53D1;&#x4E2D;&#x6587;&#x7AD9;</a></p>
-<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cocoachina.com/apple/20150609/12083.html?utm_source=tuicool" target="_blank" rel="external">http://www.cocoachina.com/apple/20150609/12083.html</a></p>
-<p> &#x4E3B;&#x9898; <a href="/topics/11250029">Mac OS X</a><a href="/topics/10200016">Apple</a></p>
-<p><img src="http://taojinke.github.io/img/20150609/c529479.jpg" alt="1433788707681752.jpg"></p>
-<p>&#x5317;&#x4EAC;&#x65F6;&#x95F4;6&#x6708;9&#x65E5;&#x6D88;&#x606F;&#xFF0C;2015&#x82F9;&#x679C;WWDC&#x5F00;&#x53D1;&#x8005;&#x5927;&#x4F1A;&#x5728;&#x7F8E;&#x56FD;&#x65E7;&#x91D1;&#x5C71;&#x62C9;&#x5F00;&#x5E8F;&#x5E55;&#x3002;&#x672C;&#x5C4A;WWDC 15&#x805A;&#x7126;&#x5728;iOS&#x3001;OS X&#x548C;watch OS&#x4E09;&#x5927;&#x4E3B;&#x9898;&#xFF0C;&#x5E76;&#x6709;&#x66F4;&#x591A;&#x8F6F;&#x4EF6;&#x3001;&#x786C;&#x4EF6;&#x65B0;&#x54C1;&#x4EAE;&#x76F8;&#x3002; </p>
-<p>&#x82F9;&#x679C;&#x53D1;&#x5E03;&#x65B0;OS X&#x7684;&#x7248;&#x672C;&#x540D;&#x79F0;&#x4E3A;OS X EI Capitan&#xFF0C;&#x5173;&#x4E8E;&#x4F53;&#x9A8C;&#x548C;&#x6027;&#x80FD;&#xFF0C;&#x5BF9;&#x5E94;&#x7528;&#x548C;&#x7A97;&#x53E3;&#x7684;&#x7BA1;&#x7406;&#x4F5C;&#x51FA;&#x4E86;&#x6539;&#x5584;&#x3002;</p>
-<p>&#x5728;OS X EI Capitan&#x4E2D;&#x62E5;&#x6709;&#x66F4;&#x591A;&#x7684;&#x624B;&#x52BF;&#x529F;&#x80FD;&#xFF0C;&#x4F8B;&#x5982;&#x53EF;&#x4EE5;&#x5728;&#x90AE;&#x4EF6;&#x4E2D;&#x5229;&#x7528;&#x624B;&#x52BF;&#x76F4;&#x63A5;&#x5220;&#x9664;&#x90AE;&#x4EF6;&#xFF0C;&#x5E76;&#x4E14;&#x53EF;&#x4EE5;&#x5C06;&#x7A97;&#x53E3;&#x624B;&#x52A8;&#x9690;&#x85CF;&#x8D77;&#x6765;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x4F60;&#x8FD8;&#x53EF;&#x4EE5;&#x5728;Safari&#x7684;&#x5730;&#x5740;&#x680F;&#x4E2D;&#x76F4;&#x63A5;&#x5BF9;&#x591A;&#x5A92;&#x4F53;&#x8FDB;&#x884C;&#x63A7;&#x5236;&#xFF0C;&#x5305;&#x62EC;&#x64AD;&#x653E;&#x548C;&#x9759;&#x97F3;&#x7B49;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x4F60;&#x8FD8;&#x53EF;&#x4EE5;&#x5728;&#x90AE;&#x4EF6;&#x4E2D;&#x91C7;&#x7528;&#x81EA;&#x7136;&#x8BED;&#x8A00;&#x641C;&#x7D22;&#xFF0C;&#x6BD4;&#x5982;&quot;mail I ignored from Phil&quot;&#x6216;&#x8005;&quot;documents I worked on in June&#x3002;&#x201D;</p>
-<p>&#x5728;&#x6027;&#x80FD;&#x65B9;&#x9762;&#xFF0C;OS X EI Capitan&#x5BF9;&#x5168;&#x7CFB;&#x7EDF;&#x8FDB;&#x884C;&#x4E86;&#x4F18;&#x5316;&#xFF0C;&#x80FD;&#x8BA9;&#x5E94;&#x7528;&#x52A0;&#x901F;1.4&#x500D;&#x3002;</p>
-<p>&#x82F9;&#x679C;&#x8868;&#x793A;&#xFF0C;OS X EI Capitan&#x4ECA;&#x5929;&#x5C31;&#x5C06;&#x63D0;&#x4F9B;&#x7ED9;&#x5404;&#x4F4D;&#x5F00;&#x53D1;&#x8005;&#xFF0C;&#x6D4B;&#x8BD5;&#x7248;&#x5C06;&#x5728;&#x4E03;&#x6708;&#x63A8;&#x51FA;&#xFF0C;&#x800C;&#x6B63;&#x5F0F;&#x7248;&#x672C;&#x5C06;&#x5728;&#x4ECA;&#x5E74;&#x79CB;&#x5B63;&#x514D;&#x8D39;&#x63A8;&#x51FA;&#x3002;</p>
-<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
-<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
-<ul>
-<li>1.<a href="/articles/BBFzY3">&#x8FDB;&#x5316;&#x4F46;&#x6539;&#x53D8;&#x4E0D;&#x4E86;&#x4E16;&#x754C; &#x7B80;&#x8BC4;&#x82F9;&#x679C;WWDC2015</a></li>
-<li>2.<a href="/articles/juq6Jbn">&#x300C;WWDC &#x603B;&#x7ED3;&#x300D;&#x65B0; OSX El Capitan &#x4FE1;&#x606F;&#x5927;&#x6C47;&#x603B;</a></li>
-<li>3.<a href="/articles/YFBZVfv">OS X 10.11 &#x53D1;&#x5E03;&#xFF0C;&#x4EE3;&#x53F7; &#xFF1A;&#x4EE3;&#x53F7; El Capitan</a></li>
-<li>4.<a href="/articles/73uYrar">iOS &#x548C; Mac &#x5F00;&#x53D1;&#x8005;&#x9879;&#x76EE;&#x5408;&#x5E76;&#xFF0C;&#x6210;&#x4E3A;&#x82F9;&#x679C;&#x5F00;&#x53D1;&#x8005;&#x9879;&#x76EE;</a></li>
-<li>5.<a href="/articles/3UraQr3">&#x6548;&#x7387;&#x63D0;&#x5347; Swift&#x8BED;&#x8A00;&#x5C06;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;</a></li>
-<li><p>6.<a href="/articles/3aUfyi">&#x82F9;&#x679C;&#xFF1A;55% MAC&#x7528;&#x6237;&#x91C7;&#x7528;Yosemite&#x7CFB;&#x7EDF;</a></p>
-<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/biMVb2A">()</a></p>
-</li>
-</ul>
-<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
-<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
-<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
-<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
-<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;biMVb2A&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Apple/">Apple</a><a href="/tags/Mac-OS-X/">Mac OS X</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2015/06/09/c52724b/" title="使用 BLU Acceleration 提高 ETL 性能 -" itemprop="url">使用 BLU Acceleration 提高 ETL 性能 -</a>
   </h1>
   <p class="article-author">By
@@ -1051,20 +349,89 @@ VALUES
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/06/09/e0556a4/" title="" itemprop="url"></a>
+      <a href="/2015/06/09/c51f357/" title="MyEclipse 2015 Stable 2.0 发布 -" itemprop="url">MyEclipse 2015 Stable 2.0 发布 -</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
 		
   <p class="article-time">
-    <time datetime="2015-06-09T01:07:19.397Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        
+        <h1 id="MyEclipse_2015_Stable_2-0_&#x53D1;&#x5E03;">MyEclipse 2015 Stable 2.0 &#x53D1;&#x5E03;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-08 22:49:32  <a href="/sites/JNzQre">&#x5F00;&#x6E90;&#x4E2D;&#x56FD;&#x65B0;&#x95FB;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.oschina.net/news/63175/myeclipse-2015-stable-2-0?utm_source=tuicool" target="_blank" rel="external">http://www.oschina.net/news/63175/myeclipse-2015-stable-2-0</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11070073">Myeclipse</a><a href="/topics/11060004">JavaScript</a><a href="/topics/11000072">Java</a></p>
+<p><a href="http://www.oschina.net/question/1765084_236572" target="_blank" rel="external">6&#x6708;14&#x65E5;&#x4E0A;&#x6D77; OSC &#x6E90;&#x521B;&#x4F1A;&#x5F00;&#x59CB;&#x62A5;&#x540D;&#xFF0C;&#x9001;&#x673A;&#x68B0;&#x952E;&#x76D8;&#x548C;&#x5F00;&#x6E90;&#x65E0;&#x7801;&#x5185;&#x88E4;</a></p>
+<p>MyEclipse 2015 Stable 2.0 &#x91CD;&#x70B9;&#x6539;&#x8FDB;&#x4E86;Web&#x548C;Mobile&#x529F;&#x80FD;&#xFF0C;&#x65B0;&#x589E;&#x4E86;&#x975E;&#x5E38;&#x5F3A;&#x5927;&#x7684;Minimap&#x5DE5;&#x5177;&#xFF0C;Emmet&#x4EE3;&#x7801;&#x7F16;&#x8F91;&#x5668;&#xFF0C;&#x4F18;&#x5316;&#x4E86;JavaScript&#x6027;&#x80FD;&#x3002;</p>
+<p><a href="http://www.myeclipsecn.com/download/" target="_blank" rel="external">MyEclipse 2015 Stable 2.0&#x4E0B;&#x8F7D;&#x5730;&#x5740;</a></p>
+<p>Luna SR 2</p>
+<p>MyEclipse Stable 2.0&#x57FA;&#x4E8E;Eclipse Luna SR2 (4.4.2)&#x3002;</p>
+<p>Minimap-&#x5FEB;&#x901F;&#x67E5;&#x770B;&#x6E90;&#x4EE3;&#x7801;</p>
+<p>&#x5F53;&#x4EE3;&#x7801;&#x6BD4;&#x8F83;&#x591A;&#x65F6;&#xFF0C;Minimap&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x5FEB;&#x901F;&#x5B9A;&#x4F4D;&#x5230;&#x76F8;&#x5E94;&#x7684;&#x4EE3;&#x7801;&#x6BB5;&#x3002;Minimap&#x53EF;&#x4EE5;&#x8BA9;&#x7A0B;&#x5E8F;&#x5458;&#x5BF9;&#x6574;&#x4E2A;&#x4EE3;&#x7801;&#x6709;&#x4E00;&#x4E2A;&#x5168;&#x5C40;&#x89C6;&#x56FE;&#xFF0C;&#x4ECE;&#x800C;&#x5728;&#x9700;&#x8981;&#x67E5;&#x627E;&#x67D0;&#x6BB5;&#x4EE3;&#x7801;&#x65F6;&#x53EF;&#x4EE5;&#x5FEB;&#x901F;&#x5B9A;&#x4F4D;&#x5230;&#x76F8;&#x5E94;&#x533A;&#x57DF;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/c51d39a.jpg" alt=""></p>
+<p>&#x4FEE;&#x590D;Tomcat Server&#x8FDE;&#x63A5;&#x5668;</p>
+<p>&#x4FEE;&#x590D;&#x4E86;Tomcat&#x670D;&#x52A1;&#x5668;&#x7684;&#x4E00;&#x7CFB;&#x5217;&#x95EE;&#x9898;&#xFF0C;&#x81EA;&#x52A8;&#x90E8;&#x7F72;&#x548C;&#x5185;&#x5BB9;&#x90E8;&#x7F72;&#x53D8;&#x5F97;&#x66F4;&#x52A0;&#x7075;&#x6D3B;&#x6613;&#x7528;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x51E0;&#x4E2A;&#x5B58;&#x50A8;&#x95EE;&#x9898;&#x4E5F;&#x5F97;&#x5230;&#x4E86;&#x4FEE;&#x590D;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/c51d60b.jpg" alt=""></p>
+<p>WebSphere&#x65B0;&#x589E;&#xFFFD;&#xFFFD;&#xFFFD;&#x63A5;&#x534F;&#x8BAE;</p>
+<p>&#x9664;&#x4E86;IPC&#xFF0C;&#x9488;&#x5BF9;&#x6240;&#x6709;WAS&#x670D;&#x52A1;&#x5668;&#x53C8;&#x65B0;&#x589E;&#x4E86;SOAP&#x534F;&#x8BAE;&#x3002;&#x8FD8;&#x4FEE;&#x590D;&#x4E86;&#x5DE5;&#x4F5C;&#x533A;&#x90E8;&#x7F72;&#x6A21;&#x5F0F;&#x7684;&#x51E0;&#x4E2A;&#x95EE;&#x9898;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/c51d60b.jpg" alt=""></p>
+<p>&#x6539;&#x8FDB;JavaScript&#x6027;&#x80FD;</p>
+<p>MyEclipse Stable 2.0&#x5927;&#x5927;&#x63D0;&#x5347;&#x4E86;JavaScript&#x7684;&#x5206;&#x6790;&#x6027;&#x80FD;&#xFF0C;&#x4E0D;&#x7BA1;&#x9879;&#x76EE;&#x6709;&#x591A;&#x5927;&#xFF0C;&#x90FD;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x6574;&#x4E2A;MyEclipse&#x7684;&#x6027;&#x80FD;&#x3002;</p>
+<p>&#x6B64;&#x5916;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8C03;&#x6574;performance/quality&#x8BBE;&#x7F6E;&#x6216;&#x8005;&#x7ED9;JavaScript&#x5206;&#x6790;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x8303;&#x56F4;&#xFF0C;&#x53EF;&#x4EE5;&#x8FDB;&#x4E00;&#x6B65;&#x4F18;&#x5316;&#x6027;&#x80FD;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x60F3;&#x542F;&#x7528;&#x8FD9;&#x4E9B;&#x529F;&#x80FD;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5173;&#x6389;&#x5B83;(Window&gt;Preferences&gt;MyEclipse&gt;JavaScript&gt;Performance)&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/c51d87c.jpg" alt=""></p>
+<p>&#x96C6;&#x6210;Emmet</p>
+<p>Emmet-HTML/CSS&#x4EE3;&#x7801;&#x5FEB;&#x901F;&#x7F16;&#x5199;&#x795E;&#x5668;&#xFF0C;&#x5DF2;&#x52A0;&#x5165;MyEclipse 2015 Stable 2.0&#x6B63;&#x5F0F;&#x7248;&#x4E2D;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/c51d87c.jpg" alt=""></p>
+<p>&#x96C6;&#x6210;Tern Java 0.8.0</p>
+<p>&#x6700;&#x65B0;&#x7684;Tern&#x5BF9;JavaScript&#x7F16;&#x7801;&#x505A;&#x4E86;&#x4EE5;&#x4E0B;&#x4E00;&#x4E9B;&#x6539;&#x8FDB;&#xFF1A;</p>
+<p>&#x652F;&#x6301;Completion Guess</p>
+<p>&#x4F7F;&#x7528;&#x4E86;&#x5185;&#x5BB9;&#x5E2E;&#x52A9;&#x4E4B;&#x540E;&#xFF0C;&#x5B83;&#x4F1A;&#x6839;&#x636E;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#x5FEB;&#x901F;&#x81EA;&#x52A8;&#x5339;&#x914D;&#xFF0C;&#x4ECE;&#x800C;&#x663E;&#x793A;&#x51FA;&#x5B8C;&#x6574;&#x53C2;&#x6570;&#x3002;</p>
+<p>&#x652F;&#x6301;Completion String</p>
+<p>&#x96C6;&#x6210;&#x4E86;&#x5F88;&#x591A;&#x77ED;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5230;&#x4EE3;&#x7801;&#x4E2D;&#x3002;&#x66F4;&#x591A;&#x8BF7;&#x53C2;&#x9605;<a href="https://github.com/angelozerr/tern.java/wiki/Tern-&amp;-Completion-String-support" target="_blank" rel="external">https://github.com/angelozerr/tern.java/wiki/Tern-&amp;-Completion-String-support</a></p>
+<p>&#x652F;&#x6301;ECMAScript 6</p>
+<p>&#x652F;&#x6301;RequireJS Object Literal Completion</p>
+<p>&#x65B0;&#x589E;&#x652F;&#x6301;Jasmine, Protractor, snabbit.js&#x7B49;&#x6846;&#x67B6;</p>
+<p><img src="http://taojinke.github.io/img/20150609/c51daed.jpg" alt=""></p>
+<p>&#x8981;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x65B0;&#x529F;&#x80FD;&#xFF0C;&#x6253;&#x5F00;project properties&#xFF0C;&#x5728;MyEclipse&#x4E0B;&#x62C9;&#x83DC;&#x5355;&#x4E2D;&#x9009;&#x62E9;JavaScript Resources&#xFF0C;&#x7136;&#x540E;&#x9009;&#x62E9;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x529F;&#x80FD;&#x5373;&#x53EF;&#x3002;</p>
+<p>PhoneGap 4.2 CLI</p>
+<p>&#x4F7F;&#x7528;&#x6700;&#x65B0;&#x7684;PhoneGap 4.2 CLI&#x521B;&#x5EFA;&#x9879;&#x76EE;&#xFF0C;&#x9996;&#x5148;&#x53BB;&#x5B98;&#x7F51;&#x4E0B;&#x8F7D;PhoneGap 4.2 CLI&#xFF0C;&#x7136;&#x540E;&#x5728;Window&gt;Preferences&#x4E0B;&#x62C9;&#x9879;&#x4E2D;&#x9009;&#x62E9;MyEclipse&gt;Mobile Tools&gt;PhoneGap Runtime&#x5373;&#x53EF;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/c51daed.jpg" alt=""></p>
+<p>&#x6539;&#x8FDB;PhoneGap&#x63D2;&#x4EF6;&#x5411;&#x5BFC;&#x6027;&#x80FD;</p>
+<p>&#x65B0;&#x7248;&#x672C;&#x91CD;&#x65B0;&#x8C03;&#x6574;&#x4E86;PhoneGap&#x63D2;&#x4EF6;&#xFF0C;&#x4ECE;&#x800C;&#x8BA9;&#x5411;&#x5BFC;&#x53EF;&#x4EE5;&#x7ACB;&#x5373;&#x88AB;&#x8C03;&#x7528;&#xFF0C;&#x800C;&#x5728;&#x4E4B;&#x524D;&#x7684;&#x7248;&#x672C;&#x4E2D;&#x5411;&#x5BFC;&#x9700;&#x8981;&#x51E0;&#x5206;&#x949F;&#x624D;&#x80FD;&#x6253;&#x5F00;&#x3002;</p>
+<p>&#x5176;&#x4ED6;&#x4E00;&#x4E9B;&#x91CD;&#x8981;&#x4FEE;&#x590D;&#xFF1A;</p>
+<p>EGit&#x66F4;&#x65B0;&#x81F3;v3.7.0&#xFF1B;</p>
+<p>&#x4E0D;&#x518D;&#x9700;&#x8981;&#x5C06;EAR&#x90E8;&#x7F72;&#x5230;WebSphere Portal Servers&#xFF0C;&#x53EF;&#x4EE5;&#x5355;&#x72EC;&#x90E8;&#x7F72;Web&#x6216;EJB&#x9879;&#x76EE;&#xFF1B;</p>
+<p>&#x5728;PhoneGap&#x9879;&#x76EE;&#x4E2D;&#xFF0C;&#x5728;&#x672C;&#x5730;&#x521B;&#x5EFA;iOS&#x5E94;&#x7528;&#x65F6;&#xFF0C;&#x65E0;&#x9700;&#x518D;&#x8BA9;&#x66F4;&#x6539;&#x88AB;&#x8BC6;&#x522B;&#xFF1B;</p>
+<p>HTML&#x548C;JavaScript&#x5185;&#x5BB9;&#x5E2E;&#x52A9;&#x5728;&#x4E4B;&#x524D;&#x7684;&#x5DE5;&#x4F5C;&#x533A;&#x4E2D;&#x65E0;&#x6CD5;&#x5728;&#x5916;&#x90E8;&#x6587;&#x4EF6;&#x4E2D;&#x8FD0;&#x884C;&#xFF1B;</p>
+<p>&#x5982;&#x679C;&#x4F7F;&#x7528;Tomcat&#x81EA;&#x52A8;&#x90E8;&#x7F72;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x81EA;&#x5B9A;&#x4E49;catalina.home&#x76EE;&#x5F55;&#xFF0C;&#x65E0;&#x9700;&#x4FDD;&#x5B58;&#x5DE5;&#x4F5C;&#x533A;&#x4E2D;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1B;</p>
+<p>&#x65B0;&#x7684;Maven Project&#x5411;&#x5BFC;&#x652F;&#x6301;Java v1.7/1.8;</p>
+<p>Maven4MyEclipse&#x53EA;&#x652F;&#x6301;Dependencies Only Maven projects&#xFF0C;&#x652F;&#x6301;Maven-specific&#x64CD;&#x4F5C;&#xFF1B;</p>
+<p>&#x7F16;&#x8F91;&#x5668;&#x989C;&#x8272;&#x73B0;&#x5728;&#x53EF;&#x4EE5;&#x5355;&#x72EC;&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;(Window&gt;Preferences&gt;General&gt;Appearance&gt;Editor Color Theme);</p>
+<p>JAX-WS&#x81EA;&#x5E95;&#x5411;&#x4E0A;&#x7684;Web&#x670D;&#x52A1;&#x751F;&#x6210;&#x4E86;&#x9519;&#x8BEF;&#x7684;service URL&#xFF1B;</p>
+<p>&#x5728;&#x67D0;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5904;&#x7406;Spring&#x9879;&#x76EE;&#x65F6;&#x62A5;&#x51FA;&#x5927;&#x91CF;FileNotFoundExceptions&#xFF1B;</p>
+<p>&#x6539;&#x8FDB;JPA&#x9879;&#x76EE;&#x7684;&#x6027;&#x80FD;&#x95EE;&#x9898;&#x3002;</p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/uQZ3uuv">&#x56FE;&#x7075;&#x8BBF;&#x8C08; &#xFF1A; [&#x82F1;] &#x300A;Java 8&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x300B;&#x4F5C;&#x8005;Richard Warbourton&#xFF1A;Ja..</a></li>
+<li>2.<a href="/articles/mUbq2uE">WildFly Swarm Alpha2 &#x53D1;&#x5E03;</a></li>
+<li>3.<a href="/articles/MvARZbI">appium java &#x73AF;&#x5883;&#x642D;&#x5EFA;</a></li>
+<li>4.<a href="/articles/YfQBbmB">jquery&#x4E2D;ajax &#x4ECE;&#x524D;&#x7AEF;&#x5230;&#x540E;&#x7AEF; &#x5B8C;&#x6574;&#x8FC7;&#x7A0B;&#x89E3;&#x6790;</a></li>
+<li>5.<a href="/articles/AzeIbe7">Java&#x77E5;&#x591A;&#x5C11;&#xFF08;86&#xFF09;&#x6587;&#x672C;&#x6846;&#x548C;&#x6587;&#x672C;&#x533A;&#x7684;&#x8F93;&#x5165;&#x8F93;&#x51FA;</a></li>
+<li><p>6.<a href="/articles/EFnIJb">spring security&#x6E90;&#x7801;&#x5206;&#x6790;&#x4E4B;core&#x5305;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/nuIzaaR">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;nuIzaaR&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
         
         
         <p class="article-more-link">
@@ -1074,6 +441,280 @@ VALUES
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/JavaScript/">JavaScript</a><a href="/tags/Myeclipse/">Myeclipse</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/c519691/" title="效率提升 Swift语言将开放源代码 -" itemprop="url">效率提升 Swift语言将开放源代码 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="&#x6548;&#x7387;&#x63D0;&#x5347;_Swift&#x8BED;&#x8A00;&#x5C06;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;">&#x6548;&#x7387;&#x63D0;&#x5347; Swift&#x8BED;&#x8A00;&#x5C06;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 02:39:36  <a href="/sites/7vQnUb">cnBeta</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnbeta.com/articles/400863.htm?utm_source=tuicool" target="_blank" rel="external">http://www.cnbeta.com/articles/400863.htm</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/10000098">IT</a></p>
+<p>2015&#x5E74;&#x82F9;&#x679C;&#x5168;&#x7403;&#x5F00;&#x53D1;&#x8005;&#x5927;&#x4F1A;(WWDC 2015)&#x5728;&#x7F8E;&#x56FD;&#x65E7;&#x91D1;&#x5C71;&#x6B63;&#x5F0F;&#x5F00;&#x5E55;&#x672C;&#x5C4A;&#x4E3B;&#x9898;&#x4E3A;&#x201C;the epicenter of change.&#xFF08;&#x53D8;&#x9769;&#x7684;&#x4E2D;&#x5FC3;&#xFF09;&#x201D;&#x3002;&#x65B0;&#x7684;Swift&#x8BED;&#x8A00;&#x8BB2;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x4E3A;APP&#x7F16;&#x7A0B;&#x5E26;&#x6765;&#x66F4;&#x591A;&#x53EF;&#x80FD;&#x3002;App Store&#x76EE;&#x524D;&#x6709;&#x8D85;&#x8FC7;15000&#x4E2A;&#x5E94;&#x7528;&#x662F;&#x7528;Swift&#x6765;&#x5F00;&#x53D1;&#x7684;&#xFF0C;&#x8D8A;&#x6765;&#x8D8A;&#x591A;&#x7684;&#x5E94;&#x7528;&#x91C7;&#x7528;&#x4E86;&#x82F9;&#x679C;&#x81EA;&#x5BB6;&#x7684;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x3002;&#x65B0;&#x7684;Swift 2&#x8BED;&#x8A00;&#x53D1;&#x5E03;&#xFF0C;&#x9664;&#x4E86;&#x7F16;&#x8BD1;&#x6027;&#x80FD;&#x7684;&#x63D0;&#x5347;&#xFF0C;&#x5404;&#x79CD;&#x65B0;&#x529F;&#x80FD;&#x4E5F;&#x5C06;&#x6709;&#x6548;&#x63D0;&#x5347;&#x5F00;&#x53D1;&#x8005;&#x6548;&#x7387;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/c518309.jpg" alt="apple-wwdc-2015_1480.jpg"></p>
+<p><img src="http://taojinke.github.io/img/20150609/c51857a.jpg" alt="apple-wwdc-2015_1474.jpg"></p>
+<p><img src="http://taojinke.github.io/img/20150609/c51857a.jpg" alt="apple-wwdc-2015_1490.jpg"></p>
+<p>&#x5728;&#x4ECA;&#x5E74;&#x665A;&#x4E9B;&#x65F6;&#x5019;&#xFF0C;Swift&#x4F1A;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x5E76;&#x5BF9;iOS&#x3001;OS X&#x548C;Linux&#x5E73;&#x53F0;&#x90FD;&#x9002;&#x7528;&#x3002;&#x8FD9;&#x5BF9;&#x4E8E;&#x5F00;&#x53D1;&#x8005;&#x6765;&#x8BF4;&#x65E0;&#x7591;&#x662F;&#x4E00;&#x4E2A;&#x4EE4;&#x4EBA;&#x60CA;&#x559C;&#x7684;&#x6D88;&#x606F;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/c51857a.jpg" alt="apple-wwdc-2015_1471.jpg"></p>
+<p>&#x6700;&#x540E;iOS 9&#x786E;&#x8BA4;&#x5C06;&#x4E8E;&#x4ECA;&#x5E74;&#x79CB;&#x5B63;&#x968F;&#x7740;&#x65B0;&#x8BBE;&#x5907;&#x7684;&#x53D1;&#x5E03;&#x6B63;&#x5F0F;&#x63A8;&#x51FA;&#xFF0C;&#x800C;&#x9762;&#x5411;&#x975E;&#x5F00;&#x53D1;&#x8005;&#x7684;beta&#x7248;&#x5728;7&#x6708;&#x5C31;&#x80FD;&#x4E0B;&#x8F7D;&#x4F53;&#x9A8C;&#x3002;</p>
+<h4 id="&#x8BBF;&#x95EE;:">&#x8BBF;&#x95EE;:</h4><p><a href="http://aos.prf.hn/click/camref:100lcC/" target="_blank" rel="external">&#x82F9;&#x679C;&#x5728;&#x7EBF;&#x5546;&#x5E97;(&#x4E2D;&#x56FD;)</a></p>
+<p>cnBeta &#x5DF2;&#x7ECF;&#x5165;&#x9A7B;&#x8C4C;&#x8C46;&#x835A;&#x5566;&#xFF0C;&#x626B;&#x63CF;&#x5DE6;&#x4FA7;&#x7684;&#x4E8C;&#x7EF4;&#x7801;&#x5C31;&#x53EF;&#x4EE5;&#x5728;&#x8C4C;&#x8C46;&#x835A;&#x5173;&#x6CE8;&#x6211;&#x4EEC;&#x3002;&#x6700;&#x61C2;&#x5E94;&#x7528;&#x7684;&#x8C4C;&#x8C46;&#x835A;&#xFF0C;&#x53D1;&#x73B0;&#x65E0;&#x6570;&#x597D;&#x5E94;&#x7528;&#x3002; </p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/BBFzY3">&#x8FDB;&#x5316;&#x4F46;&#x6539;&#x53D8;&#x4E0D;&#x4E86;&#x4E16;&#x754C; &#x7B80;&#x8BC4;&#x82F9;&#x679C;WWDC2015</a></li>
+<li>2.<a href="/articles/juq6Jbn">&#x300C;WWDC &#x603B;&#x7ED3;&#x300D;&#x65B0; OSX El Capitan &#x4FE1;&#x606F;&#x5927;&#x6C47;&#x603B;</a></li>
+<li>3.<a href="/articles/YFBZVfv">OS X 10.11 &#x53D1;&#x5E03;&#xFF0C;&#x4EE3;&#x53F7; &#xFF1A;&#x4EE3;&#x53F7; El Capitan</a></li>
+<li>4.<a href="/articles/73uYrar">iOS &#x548C; Mac &#x5F00;&#x53D1;&#x8005;&#x9879;&#x76EE;&#x5408;&#x5E76;&#xFF0C;&#x6210;&#x4E3A;&#x82F9;&#x679C;&#x5F00;&#x53D1;&#x8005;&#x9879;&#x76EE;</a></li>
+<li>5.<a href="/articles/biMVb2A">&#x82F9;&#x679C;&#x66F4;&#x65B0;OS X&#x7248;&#x672C; &#x547D;&#x540D;&#x4E3A;EI Capitan</a></li>
+<li><p>6.<a href="/articles/3aUfyi">&#x82F9;&#x679C;&#xFF1A;55% MAC&#x7528;&#x6237;&#x91C7;&#x7528;Yosemite&#x7CFB;&#x7EDF;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/3UraQr3">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;3UraQr3&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/IT/">IT</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/c51682e/" title="Swift 2.0发布：即将开源，支持Linux -" itemprop="url">Swift 2.0发布：即将开源，支持Linux -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:13:43.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Swift_2-0&#x53D1;&#x5E03;&#xFF1A;&#x5373;&#x5C06;&#x5F00;&#x6E90;&#xFF0C;&#x652F;&#x6301;Linux">Swift 2.0&#x53D1;&#x5E03;&#xFF1A;&#x5373;&#x5C06;&#x5F00;&#x6E90;&#xFF0C;&#x652F;&#x6301;Linux</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 06:51:00  <a href="/sites/Qzm6Zz">InfoQ</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.infoq.com/cn/news/2015/06/swift-2-0?utm_source=tuicool" target="_blank" rel="external">http://www.infoq.com/cn/news/2015/06/swift-2-0</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11080038">&#x5F00;&#x6E90;</a><a href="/topics/11000069">Linux</a></p>
+<p>&#x5728;6&#x6708;9&#x65E5;&#x51CC;&#x6668;&#x4E3E;&#x884C;&#x7684;WWDC 2015&#x5168;&#x7403;&#x5F00;&#x53D1;&#x8005;&#x5927;&#x4F1A;&#x4E0A;&#xFF0C;&#x82F9;&#x679C;&#x53D1;&#x5E03;&#x4E86;Swift 2.0&#xFF0C;&#x5E76;&#x5BA3;&#x5E03;&#x5C06;&#x4E8E;&#x4ECA;&#x5E74;&#x5E74;&#x5E95;&#x5F00;&#x6E90;Swift&#x8BED;&#x8A00;&#x3002;Swift 2.0&#x5F15;&#x5165;&#x4E86;&#x5F88;&#x591A;&#x7684;&#x65B0;&#x7279;&#x6027;&#x4EE5;&#x786E;&#x4FDD;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x66F4;&#x5FEB;&#x3001;&#x66F4;&#x7B80;&#x5355;&#x7684;&#x6784;&#x5EFA;&#x5E94;&#x7528;&#xFF0C;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#x5305;&#x62EC;&#x66F4;&#x597D;&#x7684;&#x6027;&#x80FD;&#x3001;&#x65B0;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;API&#x3001;&#x53EF;&#x7528;&#x6027;&#x68C0;&#x67E5;&#x3001;&#x652F;&#x6301;Linux&#x7B49;&#x3002;&#x82F9;&#x679C;&#x5C06;&#x4F1A;&#x5728;&#x65B0;&#x53D1;&#x5E03;&#x7684;iOS 9&#x4E2D;&#x5168;&#x9762;&#x652F;&#x6301;Swift&#xFF0C;iOS 9 beta&#x4E5F;&#x4F1A;&#x5728;&#x4ECA;&#x5929;&#x5BF9;&#x6240;&#x6709;&#x6CE8;&#x518C;&#x7684;&#x82F9;&#x679C;&#x5F00;&#x53D1;&#x8005;&#x5F00;&#x653E;&#x3002;</p>
+<p>Swift 2.0&#x5305;&#x542B;&#x4E86;&#x8BB8;&#x591A;&#x7684;&#x65B0;&#x7279;&#x6027;&#x4EE5;&#x53CA;&#x6539;&#x8FDB;&#xFF0C;&#x5728;&#x672C;&#x5468;&#x7684;WWDC&#x5927;&#x4F1A;&#x4E0A;&#x82F9;&#x679C;&#x5C06;&#x4F1A;&#x6DF1;&#x5165;&#x4ECB;&#x7ECD;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x5728;&#x82F9;&#x679C;&#x7684; <a href="https://developer.apple.com/swift/blog/?id=29" target="_blank" rel="external">&#x5F00;&#x53D1;&#x8005;&#x535A;&#x5BA2;</a> &#x4E0A;&#xFF0C;&#x5B98;&#x65B9;&#x4E5F;&#x5BF9;&#x5176;&#x4E2D;&#x7684;&#x67D0;&#x51E0;&#x4E2A;&#x65B0;&#x529F;&#x80FD;&#x505A;&#x4E86;&#x4ECB;&#x7ECD;&#xFF1A; </p>
+<p>&#x5F02;&#x5E38;&#x5904;&#x7406;&#x6A21;&#x578B;&#xFF1A;&#x65B0;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x6A21;&#x578B;&#x4F7F;&#x7528;&#x4E86;&#x5F00;&#x53D1;&#x8005;&#x6700;&#x4E3A;&#x719F;&#x6089;&#x7684;try&#x3001;catch&#x3001;throw&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x5E76;&#x4E14;&#x8FD8;&#x5C06;&#x5B8C;&#x7F8E;&#x652F;&#x6301;&#x82F9;&#x679C;&#x7684;SDK&#x4EE5;&#x53CA;NSError&#x3002; </p>
+<p>&#x53EF;&#x7528;&#x6027;&#xFF1A;&#x901A;&#x8FC7;&#x4F7F;&#x7528;&#x65B0;&#x7684;SDK&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x64CD;&#x4F5C;&#x5E73;&#x53F0;&#x7684;&#x65B0;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x67D0;&#x4E9B;&#x8001;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x53EF;&#x80FD;&#x5E76;&#x4E0D;&#x652F;&#x6301;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x5F00;&#x53D1;&#x8005;&#x5C31;&#x9700;&#x8981;&#x989D;&#x5916;&#x7684;&#x68C0;&#x67E5;&#x3002;&#x5728;&#x5904;&#x7406;&#x7C7B;&#x4F3C;&#x7684;&#x517C;&#x5BB9;&#x95EE;&#x9898;&#x4E0A;&#xFF0C;Swift&#x975E;&#x5E38;&#x7684;&#x5F97;&#x5FC3;&#x5E94;&#x624B;&#x3002;&#x5982;&#x679C;&#x76EE;&#x6807;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E0D;&#x652F;&#x6301;&#x67D0;&#x4E2A;API&#xFF0C;&#x90A3;&#x5728;&#x7F16;&#x8BD1;&#x65F6;Swift&#x5C06;&#x4F1A;&#x62A5;&#x9519;&#x3002;&#x540C;&#x6837;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;#available&#x6765;&#x786E;&#x4FDD;&#x4EE3;&#x7801;&#x5757;&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#x4E8E;&#x6B63;&#x786E;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7248;&#x672C;&#x4E0A;&#x3002; </p>
+<p>&#x534F;&#x8BAE;&#x53EF;&#x6269;&#xFFFD;&#xFFFD;&#xFFFD;&#xFF1A;&#x534F;&#x8BAE;&#xFF08;Protocol&#xFF09;&#x7528;&#x4E8E;&#x7EDF;&#x4E00;&#x65B9;&#x6CD5;&#x548C;&#x5C5E;&#x6027;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x800C;&#x4E0D;&#x5B9E;&#x73B0;&#x4EFB;&#x4F55;&#x529F;&#x80FD;&#x3002;Swift 2.0&#x589E;&#x52A0;&#x4E86;&#x534F;&#x8BAE;&#x6269;&#x5C55;&#xFF0C;&#x5728;&#x6807;&#x51C6;&#x5305;&#x4E2D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5B83;&#x3002;&#x5F53;&#x4F7F;&#x7528;&#x5168;&#x5C40;&#x51FD;&#x6570;&#x65F6;&#xFF0C;Swift 2.0&#x5DF2;&#x7ECF;&#x4E3A;&#x65B9;&#x6CD5;&#x6DFB;&#x52A0;&#x4E86;&#x7EDF;&#x4E00;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x8FD9;&#x6837;&#x5F00;&#x53D1;&#x8005;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x94FE;&#xFF0C;&#x4EE5;&#x63D0;&#x9AD8;&#x4EE3;&#x7801;&#x7684;&#x53EF;&#x8BFB;&#x6027;&#x3002; </p>
+<p>&#x9664;&#x4E86;&#x8FD9;&#x4E9B;&#x65B0;&#x7279;&#x6027;&#x4E4B;&#x5916;&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x91CD;&#x78C5;&#x6D88;&#x606F;&#x662F;&#x82F9;&#x679C;&#x5C06;&#x5728;&#x4ECA;&#x5E74;&#x665A;&#x4E9B;&#x65F6;&#x5019;&#x5F00;&#x6E90;Swfit&#x3002;&#x82F9;&#x679C;&#x7684;&#x8F6F;&#x4EF6;&#x7814;&#x53D1;&#x526F;&#x603B;&#x88C1;Craig Federighi&#x5728;WWDC&#x5927;&#x4F1A;&#x4E0A;&#x8868;&#x793A;Swift&#x5C06;&#x4F1A;&#x662F;&#x672A;&#x6765;&#x7684;&#x4E3B;&#x6D41;&#x5F00;&#x53D1;&#x8BED;&#x8A00;&#xFF0C;&#x5B83;&#x5E94;&#x8BE5;&#x5F97;&#x5230;&#x66F4;&#x4E3A;&#x5E7F;&#x6CDB;&#x7684;&#x5E94;&#x7528;&#x3002;&#x4F46;&#x5728;&#x5927;&#x4F1A;&#x4E0A;&#x82F9;&#x679C;&#x5E76;&#x6CA1;&#x6709;&#x8FC7;&#x591A;&#x7684;&#x89E3;&#x91CA;&#x5173;&#x4E8E;Swift&#x5F00;&#x6E90;&#x7684;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#xFF0C;&#x82F9;&#x679C;&#x66FE;&#x5728;2005&#x5E74;&#x5F00;&#x6E90;&#x8FC7; <a href="https://www.webkit.org/" target="_blank" rel="external">WebKit</a> &#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x51FA;&#x6240;&#x6599;&#xFF0C;Swift&#x9879;&#x76EE;&#x7684;&#x5F00;&#x6E90;&#x7BA1;&#x7406;&#x548C;&#x8FD0;&#x8425;&#x6A21;&#x5F0F;&#x5E94;&#x8BE5;&#x548C;WebKit&#x7C7B;&#x4F3C;&#x3002;&#x76EE;&#x524D;&#x53EF;&#x4EE5;&#x786E;&#x8BA4;&#x7684;&#x4FE1;&#x606F;&#x5305;&#x62EC;&#xFF1A; </p>
+<ol>
+<li>Swift&#x7684;&#x6E90;&#x4EE3;&#x7801;&#x5C06;&#x4F1A;&#x57FA;&#x4E8E;&#x67D0;&#x4E2A;OSI&#x7EC4;&#x7EC7;&#x6279;&#x51C6;&#x7684;&#x5F00;&#x6E90;&#x534F;&#x8BAE;&#x8FDB;&#x884C;&#x5F00;&#x6E90;&#x3002;</li>
+<li>&#x82F9;&#x679C;&#x5C06;&#x4F1A;&#x5141;&#x8BB8;&#x5E76;&#x9F13;&#x52B1;&#x793E;&#x533A;&#x5F00;&#x53D1;&#x8005;&#x8D21;&#x732E;&#x4EE3;&#x7801;&#x3002;</li>
+<li>&#x672A;&#x6765;Swift&#x5C06;&#x4F1A;&#x91CD;&#x70B9;&#x652F;&#x6301; OS X&#x3001;iOS&#x548C;Linux&#x4E09;&#x4E2A;&#x5E73;&#x53F0;&#x3002;</li>
+<li>&#x6E90;&#x4EE3;&#x7801;&#x5C06;&#x4F1A;&#x5305;&#x62EC;Swift&#x7F16;&#x8BD1;&#x5668;&#x4EE5;&#x53CA;&#x6807;&#x51C6;&#x5E93;&#x3002;</li>
+</ol>
+<p>Swift&#x5F00;&#x6E90;&#x7684;&#x6D88;&#x606F;&#x5728; <a href="https://news.ycombinator.com/item?id=9680982" target="_blank" rel="external">Hacker News</a> &#x4E0A;&#x5F15;&#x8D77;&#x4E86;&#x6FC0;&#x70C8;&#x8BA8;&#x8BBA;&#x3002;&#x603B;&#x4F53;&#x6765;&#x770B;&#xFF0C;&#x5F00;&#x6E90;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x7684;&#x4FC3;&#x8FDB;Swift&#x7684;&#x53D1;&#x5C55;&#xFF0C;&#x4E00;&#x65B9;&#x9762;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5411;Swift&#x8D21;&#x732E;&#x4EE3;&#x7801;&#xFF0C;&#x53E6;&#x5916;&#x5F00;&#x6E90;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x7684;&#x5E2E;&#x52A9;&#x82F9;&#x679C;&#x6784;&#x5EFA;&#x5176;&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5173;&#x4E8E;Swift&#x7684;&#x8BE6;&#x7EC6;&#x5185;&#x5BB9;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x9605;&#x8BFB;InfoQ&#x7684;Swift&#x4E13;&#x680F;&#xFF0C;&#x66F4;&#x591A;&#x5173;&#x4E8E;WWDC 2015&#x7684;&#x5185;&#x5BB9;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x9605;&#x8BFB;&#x300A; <a href="http://www.infoq.com/cn/news/2015/06/wwdc2015-everything-we-know" target="_blank" rel="external">WWDC 2015&#x5927;&#x4F1A;&#x5341;&#x5927;&#x770B;&#x70B9;&#x603B;&#x7ED3;&#xFF1A;Swift&#x8981;&#x5F00;&#x6E90;&#x4E86;</a> &#x300B;&#x3002; </p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/reEFbeV">&#x5BF9;Linux&#x521D;&#x5B66;&#x8005;&#x7684;&#x4E00;&#x4E9B;&#x5EFA;&#x8BAE;</a></li>
+<li>2.<a href="/articles/3UFFvi">Electron &#x5B9E;&#x9A8C;&#x9879;&#x76EE;&#xFF1A;&#x96EA;&#x7403;&#x80A1;&#x7968;&#x52A9;&#x624B;</a></li>
+<li>3.<a href="/articles/6NraQbE">&#x4ECE; 0 &#x5F00;&#x59CB;&#x642D;&#x5EFA; Vim &#x7F16;&#x8F91;&#x5668;</a></li>
+<li>4.<a href="/articles/qUNVFrI">&#x5982;&#x4F55;&#x4ECE;&#x6E90;&#x4EE3;&#x7801;&#x6784;&#x5EFA; Go 1.5 &#x5F00;&#x53D1;&#x73AF;&#x5883;</a></li>
+<li>5.<a href="/articles/MNb2Ifu">FlashSim&#x5B89;&#x88C5;&#x53CA;&#x6D4B;&#x8BD5;</a></li>
+<li><p>6.<a href="/articles/VRZNrqZ">&#x89E3;&#x8BFB;&#xFF1A;LG webOS 2.0&#x7CFB;&#x7EDF;&#x6709;&#x4EC0;&#x4E48;&#x7279;&#x70B9;&#xFF1F;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/EnqEVn">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;EnqEVn&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开源/">开源</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/e0307d2/" title="REMnux 6.0 发布，基于 Ubuntu 的 Linux 发行 -" itemprop="url">REMnux 6.0 发布，基于 Ubuntu 的 Linux 发行 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:07:19.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="REMnux_6-0_&#x53D1;&#x5E03;&#xFF0C;&#x57FA;&#x4E8E;_Ubuntu_&#x7684;_Linux_&#x53D1;&#x884C;">REMnux 6.0 &#x53D1;&#x5E03;&#xFF0C;&#x57FA;&#x4E8E; Ubuntu &#x7684; Linux &#x53D1;&#x884C;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 07:53:52  <a href="/sites/JNzQre">&#x5F00;&#x6E90;&#x4E2D;&#x56FD;&#x65B0;&#x95FB;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.oschina.net/news/63196/remnux-6-0?utm_source=tuicool" target="_blank" rel="external">http://www.oschina.net/news/63196/remnux-6-0</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11200002">Ubuntu</a></p>
+<p><a href="http://www.oschina.net/question/1765084_236572" target="_blank" rel="external">6&#x6708;14&#x65E5;&#x4E0A;&#x6D77; OSC &#x6E90;&#x521B;&#x4F1A;&#x5F00;&#x59CB;&#x62A5;&#x540D;&#xFF0C;&#x9001;&#x673A;&#x68B0;&#x952E;&#x76D8;&#x548C;&#x5F00;&#x6E90;&#x65E0;&#x7801;&#x5185;&#x88E4;</a></p>
+<p> REMnux 6.0 &#x53D1;&#x5E03;&#xFF0C;&#x6B64;&#x7248;&#x672C;&#x66F4;&#x65B0;&#x4E86;&#x4E00;&#x4E9B;&#x5E94;&#x7528;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x5F15;&#x5165;&#x4E86;&#x4E00;&#x4E9B;&#x65B0;&#x5E94;&#x7528;&#x3002;&#x6B64;&#x7248;&#x672C;&#x4E3B;&#x8981;&#x7684;&#x6539;&#x8FDB;&#x662F;&#x5141;&#x8BB8;&#x7528;&#x6237;&#x66F4;&#x7B80;&#x5355;&#x7684;&#x66F4;&#x65B0;&#xFF0C;&#x800C;&#x4E0D;&#x9700;&#x8981;&#x4E0B;&#x8F7D;&#x6574;&#x4E2A; REMnux &#x73AF;&#x5883;&#x3002;&#x83B7;&#x53D6;&#x6700;&#x65B0; REMnux &#x7248;&#x672C;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#x4E0B;&#x8F7D;&#x865A;&#x62DF;&#x8BBE;&#x5907; OVA &#x6587;&#x4EF6;&#xFF0C;&#x5BFC;&#x5165;&#x5230;&#x559C;&#x6B22;&#x7684;&#x865A;&#x62DF;&#x5316;&#x5E94;&#x7528;&#x4E2D;&#xFF0C;&#x6BD4;&#x5982; VMware &#x548C; VirtualBox&#x3002;&#x5BFC;&#x5165;&#x540E;&#x8FD0;&#x884C; `update-remnux full&apos; &#x547D;&#x4EE4;&#x6765;&#x66F4;&#x65B0;&#x8F6F;&#x4EF6;&#x3002;&#x66F4;&#x591A;&#x5B89;&#x88C5;&#x6559;&#x7A0B;&#x8BF7;&#x770B; <a href="https://remnux.org/docs/distro/get/#download-the-remnux-virtual-appliance" target="_blank" rel="external">REMnux &#x5B89;&#x88C5;&#x6307;&#x5357;</a>&#x3002;&#x66F4;&#x591A;&#x66F4;&#x65B0;&#x5185;&#x5BB9;&#x8BF7;&#x770B; <a href="https://zeltser.com/remnux-v6-release-for-malware-analysis/" target="_blank" rel="external">&#x53D1;&#x884C;&#x8BF4;&#x660E;</a> &#x3002; <a href="https://sourceforge.net/projects/remnux/files/version6/" target="_blank" rel="external">Download (MD5)</a> : <a href="http://downloads.sourceforge.net/remnux/remnux-6.0-ova-public.ova" target="_blank" rel="external">remnux-6.0-ova-public.ova</a> (2,033MB)&#x3002; </p>
+<p>via <a href="http://distrowatch.com/?newsid=08971" target="_blank" rel="external">distrowatch.com</a></p>
+<p>REMnux&#x662F;&#x4E00;&#x4EFD;&#x8F7B;&#x91CF;&#x7EA7;&#x7684;&#x3001;&#x57FA;&#x4E8E;Ubuntu&#x7684;Linux&#x53D1;&#x884C;&#xFF0C;&#x7528;&#x4E8E;&#x8F85;&#x4F50;&#x5206;&#x6790;&#x4EBA;&#x5458;&#x5BF9;&#x6076;&#x610F;&#x8F6F;&#x4EF6;&#x8FDB;&#x884C;&#x53CD;&#x5411;&#x5DE5;&#x7A0B;&#x3002;&#x5B83;&#x5305;&#x542B;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x5DE5;&#x5177;&#x4EE5;&#x8FDB;&#x884C;&#x6076;&#x610F;&#x53EF;&#x6267;&#x884C;&#x4EE3;&#x7801;&#x7684;&#x5206; &#x6790;&#xFF0C;&#x800C;&#x8FD9;&#x4E9B;&#x4EE3;&#x7801;&#x8FD0;&#x884C;&#x4E8E;&#x5FAE;&#x8F6F;Windows&#x7CFB;&#x7EDF;&#x53CA;&#x6D4F;&#x89C8;&#x5668;&#x4E0A;&#xFF0C;&#x4F8B;&#x5982;Flash&#x7A0B;&#x5E8F;&#x53CA;&#x52A0;&#x6270;&#x8FC7;&#x7684;JavaScript&#x811A;&#x672C;&#x3002;&#x8BE5;&#x5DE5;&#x5177;&#x96C6;&#x8FD8;&#x5305;&#x542B;&#x7528;&#x4E8E;&#x5206;&#x6790;&#x5305;&#x62EC;PDF&#x683C;&#x5F0F; &#x5728;&#x5185;&#x7684;&#x6076;&#x610F;&#x6587;&#x6863;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x4EE5;&#x53CA;&#x901A;&#x8FC7;&#x5185;&#x5B58;&#x53D6;&#x8BC1;&#x6765;&#x5BF9;&#x6076;&#x610F;&#x8F6F;&#x4EF6;&#x8FDB;&#x884C;&#x53CD;&#x5411;&#x5DE5;&#x7A0B;&#x7684;&#x5B9E;&#x7528;&#x5DE5;&#x5177;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/e02cfab.png" alt=""></p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/EnqEVn">Swift 2.0&#x53D1;&#x5E03;&#xFF1A;&#x5373;&#x5C06;&#x5F00;&#x6E90;&#xFF0C;&#x652F;&#x6301;Linux</a></li>
+<li>2.<a href="/articles/reEFbeV">&#x5BF9;Linux&#x521D;&#x5B66;&#x8005;&#x7684;&#x4E00;&#x4E9B;&#x5EFA;&#x8BAE;</a></li>
+<li>3.<a href="/articles/3UFFvi">Electron &#x5B9E;&#x9A8C;&#x9879;&#x76EE;&#xFF1A;&#x96EA;&#x7403;&#x80A1;&#x7968;&#x52A9;&#x624B;</a></li>
+<li>4.<a href="/articles/6NraQbE">&#x4ECE; 0 &#x5F00;&#x59CB;&#x642D;&#x5EFA; Vim &#x7F16;&#x8F91;&#x5668;</a></li>
+<li>5.<a href="/articles/qUNVFrI">&#x5982;&#x4F55;&#x4ECE;&#x6E90;&#x4EE3;&#x7801;&#x6784;&#x5EFA; Go 1.5 &#x5F00;&#x53D1;&#x73AF;&#x5883;</a></li>
+<li><p>6.<a href="/articles/MNb2Ifu">FlashSim&#x5B89;&#x88C5;&#x53CA;&#x6D4B;&#x8BD5;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/rayauyF">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;rayauyF&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Ubuntu/">Ubuntu</a>
+  </div>
 
 </div>
 
@@ -1179,9 +820,581 @@ VALUES
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/e033b17/" title="WildFly Swarm Alpha2 发布 -" itemprop="url">WildFly Swarm Alpha2 发布 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:07:19.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="WildFly_Swarm_Alpha2_&#x53D1;&#x5E03;">WildFly Swarm Alpha2 &#x53D1;&#x5E03;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 07:51:55  <a href="/sites/JNzQre">&#x5F00;&#x6E90;&#x4E2D;&#x56FD;&#x65B0;&#x95FB;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.oschina.net/news/63188/wildfly-swarm-alpha2?utm_source=tuicool" target="_blank" rel="external">http://www.oschina.net/news/63188/wildfly-swarm-alpha2</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11070115">WildFly</a></p>
+<p><a href="http://www.oschina.net/question/1765084_236572" target="_blank" rel="external">6&#x6708;14&#x65E5;&#x4E0A;&#x6D77; OSC &#x6E90;&#x521B;&#x4F1A;&#x5F00;&#x59CB;&#x62A5;&#x540D;&#xFF0C;&#x9001;&#x673A;&#x68B0;&#x952E;&#x76D8;&#x548C;&#x5F00;&#x6E90;&#x65E0;&#x7801;&#x5185;&#x88E4;</a></p>
+<p>WildFly Swarm Alpha2 &#x53D1;&#x5E03;&#xFF0C;&#x6B64;&#x7248;&#x672C;&#x5305;&#x62EC;&#x4E00;&#x4E9B;&#x6539;&#x8FDB;&#x548C;&#x4FEE;&#x590D;&#x3002;&#x6B64;&#x7248;&#x672C;&#x89E3;&#x51B3;&#x4E86;&#x6240;&#x6709; Windows &#x7684; issues&#x3002;</p>
+<p>&#x76F8;&#x6BD4; Alpha1 &#x4FEE;&#x6539;&#x4E86;&#x4E00;&#x4E9B;&#x63D2;&#x4EF6;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#xFF0C;&#x7528;&#x6237;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x4E00;&#x4E9B;&#x5E94;&#x7528;&#xFF1A;</p>
+<ul>
+<li>&#x4ECE; wildfly-swarm-plugin &#x79FB;&#x9664;&#x4E86; execution phase</li>
+<li>&#x628A; wildfly-swarm-plugin &#x76EE;&#x6807;&#x4ECE; create &#x4FEE;&#x6539;&#x4E3A; package</li>
+<li>&#x4ECE;&#x6240;&#x6709; pom.xml &#x7684; WildFly Swarm &#x4F9D;&#x8D56;&#x4E2D;&#x79FB;&#x9664;&#x4E86; provided scope</li>
+</ul>
+<h3 id="Weld_&#x548C;_JAX-RS">Weld &#x548C; JAX-RS</h3><p>&#x5F53;&#x4F60;&#x4F7F;&#x7528; Weld &#x548C; JAX-RS &#x65F6;&#xFF0C;&#x6709;&#x4E00;&#x4E9B;&#x6A21;&#x5757;&#x4F1A;&#x5931;&#x6548;&#xFF0C;&#x6240;&#x4EE5;&#x521B;&#x5EFA;&#x4E86;&#x65B0;&#x7684; fraction &#x6765;&#x5F25;&#x8865;&#x8FD9;&#x4E2A;&#x8FDE;&#x63A5;&#x3002;&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x4F9D;&#x8D56;&#xFF1B;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>wildfly<span class="built_in">.</span>swarm<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;wildfly<span class="attribute">-swarm</span><span class="attribute">-weld</span><span class="attribute">-jaxrs</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;${version<span class="built_in">.</span>wildfly<span class="attribute">-swarm</span>}<span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><h3 id="JPA">JPA</h3><p>&#x6B64;&#x7248;&#x672C;&#x521D;&#x6B65;&#x652F;&#x6301; JPA &#x9879;&#x76EE;&#xFF0C;Alpha3 &#x5C06;&#x4F1A;&#x7EE7;&#x7EED;&#x6539;&#x8FDB;&#x3002;</p>
+<pre><code>public class Main {      
+    public static void main<span class="params">(String[] args)</span> throws Exception {Container container = new Container<span class="params">()</span>;
+      container.start<span class="params">()</span>;      <span class="comment">// Create a JDBC driver deployment using maven groupId:artifactId// The version is resolved from your pom.xml&amp;apos;s DriverDeployment driverDeployment = new DriverDeployment(container, &amp;quot;com.h2database:h2&amp;quot;, &amp;quot;h2&amp;quot;);</span>
+      container.deploy<span class="params">(driverDeployment)</span>;      <span class="comment">// Create a DS deploymentDatasourceDeployment dsDeployment = new DatasourceDeployment(container, new Datasource(&amp;quot;ExampleDS&amp;quot;)</span>
+          .connectionURL<span class="params">(&amp;quot;jdbc:h2:mem:test;DB_CLOSE_DELAY=-<span class="number">1</span>;DB_CLOSE_ON_EXIT=FALSE&amp;quot;)</span>
+          .driver<span class="params">(&amp;quot;h2&amp;quot;)</span>
+          .authentication<span class="params">(&amp;quot;sa&amp;quot;, &amp;quot;sa&amp;quot;)</span>
+      );
+      container.deploy<span class="params">(dsDeployment)</span>;      <span class="comment">// Create the WAR and bundle all the JPA Entities and persistence.xmlWarDeployment deployment = new DefaultWarDeployment(container);</span>
+      deployment.getArchive<span class="params">()</span>.addClasses<span class="params">(Employee.class)</span>;
+      deployment.getArchive<span class="params">()</span>.addClass<span class="params">(EmployeeServlet.class)</span>;
+      deployment.getArchive<span class="params">()</span>.addAsWebInfResource<span class="params">(new ClassLoaderAsset<span class="params">(&amp;quot;META-INF/persistence.xml&amp;quot;, Main.class.getClassLoader<span class="params">()</span>)</span>, &amp;quot;classes/META-INF/persistence.xml&amp;quot;)</span>;
+      deployment.getArchive<span class="params">()</span>.addAsWebInfResource<span class="params">(new ClassLoaderAsset<span class="params">(&amp;quot;META-INF/load.sql&amp;quot;, Main.class.getClassLoader<span class="params">()</span>)</span>, &amp;quot;classes/META-INF/load.sql&amp;quot;)</span>;
+      container.deploy<span class="params">(deployment)</span>;
+    }
+}
+</code></pre><p>&#x5927;&#x91CF;&#x793A;&#x4F8B;&#xFF1A;</p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/uQZ3uuv">&#x56FE;&#x7075;&#x8BBF;&#x8C08; &#xFF1A; [&#x82F1;] &#x300A;Java 8&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x300B;&#x4F5C;&#x8005;Richard Warbourton&#xFF1A;Ja..</a></li>
+<li>2.<a href="/articles/MvARZbI">appium java &#x73AF;&#x5883;&#x642D;&#x5EFA;</a></li>
+<li>3.<a href="/articles/YfQBbmB">jquery&#x4E2D;ajax &#x4ECE;&#x524D;&#x7AEF;&#x5230;&#x540E;&#x7AEF; &#x5B8C;&#x6574;&#x8FC7;&#x7A0B;&#x89E3;&#x6790;</a></li>
+<li>4.<a href="/articles/AzeIbe7">Java&#x77E5;&#x591A;&#x5C11;&#xFF08;86&#xFF09;&#x6587;&#x672C;&#x6846;&#x548C;&#x6587;&#x672C;&#x533A;&#x7684;&#x8F93;&#x5165;&#x8F93;&#x51FA;</a></li>
+<li>5.<a href="/articles/EFnIJb">spring security&#x6E90;&#x7801;&#x5206;&#x6790;&#x4E4B;core&#x5305;</a></li>
+<li><p>6.<a href="/articles/jmMRzea">&#x5E38;&#x91CF;&#x3001;&#x53D8;&#x91CF;&#x4E0E;&#x8FD0;&#x7B97;&#x7B26;&#xFF08;&#x4E94;&#xFF09;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/mUbq2uE">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;mUbq2uE&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/WildFly/">WildFly</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/e03956c/" title="门头沟信息网 1.2 发布，资讯网站开源啦 -" itemprop="url">门头沟信息网 1.2 发布，资讯网站开源啦 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:07:19.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51;_1-2_&#x53D1;&#x5E03;&#xFF0C;&#x8D44;&#x8BAF;&#x7F51;&#x7AD9;&#x5F00;&#x6E90;&#x5566;">&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51; 1.2 &#x53D1;&#x5E03;&#xFF0C;&#x8D44;&#x8BAF;&#x7F51;&#x7AD9;&#x5F00;&#x6E90;&#x5566;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 08:10:17  <a href="/sites/JNzQre">&#x5F00;&#x6E90;&#x4E2D;&#x56FD;&#x65B0;&#x95FB;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.oschina.net/news/63199/jflyfox_mtgxxw-1-2?utm_source=tuicool" target="_blank" rel="external">http://www.oschina.net/news/63199/jflyfox_mtgxxw-1-2</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11080038">&#x5F00;&#x6E90;</a><a href="/topics/11000064">&#x6570;&#x636E;&#x5E93;</a></p>
+<p><a href="http://www.oschina.net/question/1765084_236572" target="_blank" rel="external">6&#x6708;14&#x65E5;&#x4E0A;&#x6D77; OSC &#x6E90;&#x521B;&#x4F1A;&#x5F00;&#x59CB;&#x62A5;&#x540D;&#xFF0C;&#x9001;&#x673A;&#x68B0;&#x952E;&#x76D8;&#x548C;&#x5F00;&#x6E90;&#x65E0;&#x7801;&#x5185;&#x88E4;</a></p>
+<h4 id="&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51;_1-2_&#x53D1;&#x5E03;&#x4E86;&#xFF0C;&#x66F4;&#x65B0;&#x8BF4;&#x660E;&#xFF1A;">&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51; 1.2 &#x53D1;&#x5E03;&#x4E86;&#xFF0C;&#x66F4;&#x65B0;&#x8BF4;&#x660E;&#xFF1A;</h4><p>1.&#x53BB;&#x9664;&#x5BF9;&#x4E4B;&#x524D;CRUD&#x4F9D;&#x8D56;&#xFF0C;&#x8BA9;&#x4EE3;&#x7801;&#x66F4;&#x7B80;&#x5355;&#x66F4;&#x6613;&#x61C2;&#x3002;</p>
+<p>2.&#x4FEE;&#x590D;&#x7528;&#x6237;&#x540D;&#x70B9;&#x51FB;&#x62A5;&#x9519;&#x95EE;&#x9898;&#xFF0C;&#x52A0;&#x5165;&#x70B9;&#x51FB;&#x7528;&#x6237;&#x67E5;&#x770B;&#x9875;&#x9762;&#x3002;</p>
+<p>3.&#x4FEE;&#x6539;&#x767B;&#x5F55;&#x6587;&#x5B57;&#x9519;&#x8BEF;&#xFF0C;&#x6587;&#x7AE0;&#x6DFB;&#x52A0;&#x9875;&#x9762;&#x4F18;&#x5316;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x5BC6;&#x7801;&#x9519;&#x8BEF;&#x95EE;&#x9898;&#x4FEE;&#x590D;&#xFF08;&#x4E4B;&#x524D;&#x7531;&#x4E8E;&#x79D8;&#x94A5;&#x4FEE;&#x6539;&#x65E0;&#x6CD5;&#x767B;&#x9646;&#xFF0C;&#x5B9E;&#x5728;&#x62B1;&#x6B49;&#xFF09;&#xFF0C;&#x4E00;&#x4E9B;&#x6613;&#x7528;&#x6027;&#x4F18;&#x5316;&#x3002;</p>
+<p>4.&#x90E8;&#x7F72;&#x540E;&#xFF0C;&#x7BA1;&#x7406;&#x5458;&#x767B;&#x9646;&#x8D26;&#x53F7;&#x5BC6;&#x7801;&#xFF1A;admin/admin123&#xFF1B;&#x8FD9;&#x4E2A;&#x4E4B;&#x524D;&#x5199;&#x7684;&#x5730;&#x65B9;&#x4E0D;&#x660E;&#x663E;&#xFF0C;&#x603B;&#x4F1A;&#x88AB;&#x95EE;&#x5230;&#x3002;</p>
+<p>&#x611F;&#x8C22;&#x5927;&#x5BB6;&#x7684;&#x53CD;&#x9988;&#x4E0E;&#x652F;&#x6301;&#xFF1B;&#x9769;&#x547D;&#x5C1A;&#x672A;&#x6210;&#x529F;&#xFF0C;&#x4ECD;&#x9700;&#x7EE7;&#x7EED;&#x52AA;&#x529B;&#x3002;</p>
+<h4 id="&#x8F6F;&#x4EF6;&#x8BF4;&#x660E;&#xFF1A;">&#x8F6F;&#x4EF6;&#x8BF4;&#x660E;&#xFF1A;</h4><p>&#x95E8;&#x5934;&#x6C9F;&#x4FE1;&#x606F;&#x7F51;&#x6700;&#x5168;&#x9762;&#x7684;&#x751F;&#x6D3B;&#x3001;&#x65B0;&#x95FB;&#x3001;&#x7F8E;&#x98DF;&#x3001;&#x65C5;&#x6E38;&#x3001;&#x6559;&#x80B2;&#x7B49;&#x8D44;&#x8BAF;&#x3002;</p>
+<p>&#x7F51;&#x7AD9;&#x91C7;&#x7528;&#x4E86;&#x7B80;&#x6D01;&#x5F3A;&#x5927;&#x7684;JFinal&#x4F5C;&#x4E3A;web&#x6846;&#x67B6;&#xFF0C;&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x7528;&#x7684;&#x662F;beetl&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x7528;mysql&#xFF0C;&#x524D;&#x7AEF;bootstrap&#x6846;&#x67B6;&#x3002; &#x652F;&#x6301;oauth2&#x8BA4;&#x8BC1;&#x3001;&#x5E10;&#x53F7;&#x6CE8;&#x518C;&#x3001;&#x5BC6;&#x7801;&#x52A0;&#x5BC6;&#x3001;&#x8BC4;&#x8BBA;&#x53CA;&#x56DE;&#x590D;&#xFF0C;&#x6D88;&#x606F;&#x63D0;&#x793A;&#xFF0C;&#x7F51;&#x7AD9;&#x8BBF;&#x95EE;&#x91CF;&#x7EDF;&#x8BA1;&#xFF0C;&#x6587;&#x7AE0;&#x8BC4;&#x8BBA;&#x6570;&#x548C;&#x6D4F;&#x89C8;&#x91CF;&#x7EDF;&#x8BA1;&#xFF0C;&#x56DE;&#x590D;&#x7BA1;&#x7406;&#xFF0C;&#x652F;&#x6301;&#x6743;&#x9650;&#x7BA1;&#x7406;&#x3002; </p>
+<p>&#x6E90;&#x7801;&#x91C7;&#x7528;jflyfox&#x535A;&#x5BA2;&#x4EE3;&#x7801;&#xFF0C;&#x524D;&#x53F0;&#x9875;&#x9762;&#x91C7;&#x7528;bootstrap3&#x8FDB;&#x884C;&#x91CD;&#x65B0;&#x5E03;&#x5C40;&#x3002;</p>
+<p>&#x9996;&#x9875;&#x6548;&#x679C;&#xFF1A; <a href="http://www.jflyfox.com/mtg" target="_blank" rel="external">http://www.jflyfox.com/mtg</a></p>
+<p>&#x6B22;&#x8FCE;&#x9875;&#xFF1A; <a href="http://www.jflyfox.com/" target="_blank" rel="external">http://www.jflyfox.com</a></p>
+<p>&#x6E90;&#x7801;&#x5730;&#x5740;&#xFF1A; <a href="https://git.oschina.net/flyfox/jflyfox_mtgxxw" target="_blank" rel="external">https://git.oschina.net/flyfox/jflyfox_mtgxxw</a></p>
+<p>&#x7F51;&#x7AD9;&#x9996;&#x9875;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150609/e0370cd.jpg" alt=""></p>
+<p>&#x767B;&#x9646;&#x9875;&#x9762;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150609/e03733e.jpg" alt=""></p>
+<p>&#x540E;&#x53F0;&#x9875;&#x9762;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150609/e03733e.jpg" alt=""></p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/6fIruaU">Appweb 5.4.2 &#x53D1;&#x5E03;&#xFF0C;&#x5D4C;&#x5165;&#x5F0F; Web &#x670D;&#x52A1;&#x5668;</a></li>
+<li>2.<a href="/articles/j6Fvau">&#x4F7F;&#x7528; BLU Acceleration &#x63D0;&#x9AD8; ETL &#x6027;&#x80FD;</a></li>
+<li>3.<a href="/articles/Zz26Bfb">kubernetes 0.18.1 &#x521D;&#x8BD5;</a></li>
+<li>4.<a href="/articles/63eueiU">&#x5F00;&#x6E90;&#x56FE;&#x8BA1;&#x7B97;&#x6846;&#x67B6;GraphLab&#x4ECB;&#x7ECD;</a></li>
+<li>5.<a href="/articles/nYZvEjJ">PHP FastCGI RCE Vul</a></li>
+<li><p>6.<a href="/articles/m6VvYf">Greenplum &#x6570;&#x636E;&#x5E93;&#x5B89;&#x88C5;&#x90E8;&#x7F72;&#xFF08;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#xFF09;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/zuI3IvM">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;zuI3IvM&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开源/">开源</a><a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/e03cb22/" title="Debian 8.1 发布， -" itemprop="url">Debian 8.1 发布， -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:07:19.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Debian_8-1_&#x53D1;&#x5E03;&#xFF0C;">Debian 8.1 &#x53D1;&#x5E03;&#xFF0C;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 07:24:22  <a href="/sites/JNzQre">&#x5F00;&#x6E90;&#x4E2D;&#x56FD;&#x65B0;&#x95FB;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.oschina.net/news/63183/debian-8-1?utm_source=tuicool" target="_blank" rel="external">http://www.oschina.net/news/63183/debian-8-1</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11200040">Debian</a></p>
+<p><a href="http://www.oschina.net/question/1765084_236572" target="_blank" rel="external">6&#x6708;14&#x65E5;&#x4E0A;&#x6D77; OSC &#x6E90;&#x521B;&#x4F1A;&#x5F00;&#x59CB;&#x62A5;&#x540D;&#xFF0C;&#x9001;&#x673A;&#x68B0;&#x952E;&#x76D8;&#x548C;&#x5F00;&#x6E90;&#x65E0;&#x7801;&#x5185;&#x88E4;</a></p>
+<p>Debian 8.1 &#x53D1;&#x5E03;&#xFF0C;&#x6539;&#x7248;&#x505A;&#x4E86;&#x4E00;&#x4E9B;&#x6742;&#x9879;&#x9519;&#x8BEF;&#x4FEE;&#x6B63;&#xFF0C;&#x4EE5;&#x53CA;&#x5B89;&#x5168;&#x5347;&#x7EA7;&#x7B49;&#x3002;</p>
+<p>&#x66F4;&#x591A;&#x5185;&#x5BB9;&#x8BF7;&#x67E5;&#x770B;&#x8F6F;&#x4EF6;&#x4E3B;&#x9875;&#xFF1A; <a href="https://www.debian.org/" target="_blank" rel="external">https://www.debian.org/</a></p>
+<p>&#x8BE5;&#x7248;&#x672C;&#x4E0B;&#x8F7D;&#x9875;&#x9762;&#x8BF7;&#x70B9; <a href="https://www.debian.org/mirror/list" target="_blank" rel="external">&#x8FD9;&#x91CC;</a> &#x3002; </p>
+<p><img src="http://taojinke.github.io/img/20150609/e03b79a.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150609/e03ba0b.png" alt=""></p>
+<p>Debian &#x8BA1;&#x5212; &#x662F;&#x4E00;&#x4E2A;&#x81F4;&#x529B;&#x4E8E;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x81EA;&#x7531;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7684;&#x5408;&#x4F5C;&#x7EC4; &#x7EC7;&#x3002;&#x6211;&#x4EEC;&#x6240;&#x521B;&#x5EFA;&#x7684;&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x540D;&#x4E3A; <strong>Debian GNU/Linux</strong> &#xFF0C;&#x7B80;&#x79F0;&#x4E3A; <strong>Debian</strong> &#x3002; </p>
+<p>&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x662F;&#x4F7F;&#x8BA1;&#x7B97;&#x673A;&#x8FD0;&#x884C;&#x7684;&#x57FA;&#x672C;&#x7A0B;&#x5E8F;&#x548C;&#x5DE5;&#x5177;&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x5176;&#x4E2D;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x90E8;&#x5206;&#x79F0;&#x4E3A;&#x5185;&#x6838; (kernel)&#x3002;&#x5185;&#x6838;&#x662F;&#x8BA1;&#x7B97;&#x673A;&#x4E2D;&#x6700;&#x91CD;&#x8981;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x8D1F;&#x8D23;&#x4E00;&#x5207;&#x57FA;&#x672C;&#x7684;&#x8C03;&#x5EA6;&#x5DE5;&#x4F5C;&#xFF0C;&#x5E76; &#x8BA9;&#x60A8;&#x8FD0;&#x884C;&#x5176;&#x4ED6;&#x7A0B;&#x5E8F;&#x3002;</p>
+<p>Debian &#x7CFB;&#x7EDF;&#x76EE;&#x524D;&#x91C7;&#x7528; Linux &#x5185;&#x6838;&#x3002;Linux &#x662F;&#x4E00;&#x4E2A;&#x6700;&#x521D;&#x7531; Linus Torvalds &#x521B;&#x5EFA;&#xFF0C;&#x76EE;&#x524D;&#x7531;&#x5168;&#x7403;&#x6210;&#x5343;&#x7684;&#x7A0B;&#x5E8F;&#x5458;&#x5171;&#x540C;&#x7EF4;&#x62A4;&#x7684;&#x8F6F;&#x4EF6;&#x3002;</p>
+<p>&#x7136;&#x800C;&#xFF0C;&#x8BA9; Debian &#x652F;&#x6301;&#x5176;&#x4ED6;&#x5185;&#x6838;&#x7684;&#x5DE5;&#x4F5C;&#x4E5F;&#x6B63;&#x5728;&#x8FDB;&#x884C;&#xFF0C;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x5C31;&#x662F; Hurd&#x3002;Hurd &#x662F;&#x4E00;&#x7EC4;&#x5728;&#x5FAE;&#x5185; &#x6838; (&#x4F8B;&#x5982; Mach) &#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x63D0;&#x4F9B;&#x5404;&#x79CD;&#x4E0D;&#x540C;&#x529F;&#x80FD;&#x7684;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B; &#x3002;Hurd &#x662F;&#x7531; GNU &#x8BA1;&#x5212; &#x6240;&#x8BBE;&#x8BA1; &#x7684;&#x81EA;&#x7531;&#x8F6F;&#x4EF6;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x6240;&#x521B;&#x5EFA;&#x7684;&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x5927;&#x90E8;&#x5206;&#x57FA;&#x672C;&#x5DE5;&#x5177;&#x6765;&#x81EA;&#x4E8E; GNU &#x8BA1;&#x5212;&#xFF1B;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x628A;&#x5B83;&#x4EEC;&#x547D;&#x540D;&#x4E3A; GNU/Linux &#x548C; GNU/Hurd&#x3002;&#x8FD9;&#x4E9B;&#x5DE5;&#x5177;&#x540C;&#x6837;&#x90FD;&#x662F;&#x81EA;&#x7531;&#x7684;&#x3002;</p>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x4EBA;&#x4EEC;&#x771F;&#x6B63;&#x9700;&#x8981;&#x7684;&#x662F;&#x5E94;&#x7528;&#x8F6F;&#x4EF6;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5E2E;&#x52A9;&#x4ED6;&#x4EEC;&#x5B8C;&#x6210;&#x5DE5;&#x4F5C;&#x7684;&#x7A0B;&#x5E8F;: &#x4ECE;&#x6587;&#x6863;&#x7F16;&#x8F91;&#xFF0C; &#x5230;&#x7535;&#x5B50;&#x5546;&#x52A1;&#xFF0C;&#x5230;&#x6E38;&#x620F;&#x5A31;&#x4E50;&#xFF0C;&#x5230;&#x8F6F;&#x4EF6;&#x5F00;&#x53D1;&#x3002;Debian &#x5E26;&#x6765;&#x4E86;&#x8D85;&#x8FC7; 25113 &#x4E2A; &#x8F6F;&#x4EF6;&#x5305; (&#x4E3A;&#x4E86;&#x80FD;&#x5728;&#x60A8;&#x7684;&#x673A;&#x5668;&#x4E0A; &#x8F7B;&#x677E;&#x7684;&#x5B89;&#x88C5;&#xFF0C;&#x8FD9;&#x4E9B;&#x8F6F;&#x4EF6;&#x5305;&#x90FD;&#x5DF2;&#x7ECF;&#x88AB;&#x7F16;&#x8BD1;&#x5305;&#x88C5;&#x4E3A;&#x4E00;&#x79CD;&#x65B9;&#x4FBF;&#x7684;&#x683C;&#x5F0F;) &#x2014; &#x8FD9;&#x4E9B;&#x5168;&#x90E8;&#x90FD;&#x662F; &#x81EA;&#x7531; &#x8F6F;&#x4EF6;&#x3002;</p>
+<p>&#x8FD9;&#x6709;&#x70B9;&#x50CF;&#x4E00;&#x4E2A;&#x9AD8;&#x5854;: &#x5728;&#x6700;&#x5E95;&#x5C42;&#x7684;&#x662F;&#x5185;&#x6838;&#xFF0C;&#x5728;&#x5185;&#x6838;&#x4E0A;&#x9762;&#x7684;&#x662F;&#x6240;&#x6709;&#x7684;&#x57FA;&#x672C;&#x5DE5;&#x5177;&#xFF0C;&#x7136;&#x540E;&#x662F;&#x6240; &#x6709;&#x60A8;&#x5728;&#x8BA1;&#x7B97;&#x673A;&#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x8F6F;&#x4EF6;&#x3002;&#x6700;&#x540E;&#xFF0C;&#x5728;&#x8FD9;&#x4E2A;&#x9AD8;&#x5854;&#x9876;&#x7AEF;&#x7684;&#x5C31;&#x662F; Debian &#x2014; &#x628A;&#x6BCF;&#x4EF6;&#x4E8B;&#x60C5;&#x8C28;&#x614E;&#x7684;&#x7EC4;&#x7EC7;&#x548C;&#x914D;&#x5408;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x4F7F;&#x5F97;&#x5B83;&#x4EEC;&#x80FD;&#x591F;&#x5728;&#x4E00;&#x8D77;&#x548C;&#x8C10;&#x5730;&#x8FD0;&#x4F5C;&#x3002;</p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/aAR7rij">&#x4F7F;&#x7528; Ansible &#x7BA1;&#x7406; CoreOS</a></li>
+<li>2.<a href="/articles/BfuU3m">Linux Module</a></li>
+<li>3.<a href="/articles/RnUbeqr">Linux Shell &#x7A0B;&#x5E8F;&#x8C03;&#x8BD5;</a></li>
+<li>4.<a href="/articles/BFNRFvj">&#x5229;&#x7528;bat&#x6279;&#x5904;&#x7406;&#x505A;&#x542F;&#x52A8;mongodb&#x811A;&#x672C;</a></li>
+<li>5.<a href="/articles/raiQfeJ">&#x5927;&#x6587;&#x4EF6;&#x7684;&#x5E76;&#x884C;&#x5904;&#x7406;&#x95EE;&#x9898;</a></li>
+<li><p>6.<a href="/articles/yme2M3a">Vim&#x63D2;&#x4EF6;&#x5B66;&#x4E60;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/Y3Ibea">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;Y3Ibea&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Debian/">Debian</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/09/e0438ff/" title="邮箱mail 发送类  ASP.NET C# -" itemprop="url">邮箱mail 发送类  ASP.NET C# -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-09T01:07:19.000Z" itemprop="datePublished"> 发表于 2015-06-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="&#x90AE;&#x7BB1;mail_&#x53D1;&#x9001;&#x7C7B;_ASP-NET_C">&#x90AE;&#x7BB1;mail &#x53D1;&#x9001;&#x7C7B; ASP.NET C</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-08 22:29:00  <a href="/sites/Fn2umm">&#x535A;&#x5BA2;&#x56ED;-&#x539F;&#x521B;&#x7CBE;&#x534E;&#x533A;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://www.cnblogs.com/sunkaixuan/p/4562147.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/sunkaixuan/p/4562147.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11050000">.Net</a></p>
+<p>&#x6CA1;&#x6709;&#x725B;B&#x7684;&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;&#xFF0C;&#x4EE3;&#x7801;&#x7CBE;&#x7EC3;&#x7CBE;&#x7EC3;&#x5B9E;&#x7528;&#xFF0C;&#x529F;&#x80FD;&#x9F50;&#x5168;&#xFF0C;&#x8C03;&#x7528;&#x7B80;&#x5355; &#x3002;&#x3002;&#x5168;&#x5168;&#x5B8C;&#x5B8C;&#x4E3A;&#x7801;&#x519C;&#x8003;&#x8651;</p>
+<pre><code><span class="class">MailSmtp</span> ms = new <span class="class">MailSmtp</span>(&amp;quot;smtp.qq.com&amp;quot;,&amp;quot;<span class="number">1215247044</span>&amp;quot;,&amp;quot;<span class="class">JJHL52771jhl</span>&amp;quot;);
+
+            //&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x9009</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;
+            ms.<span class="class">SetCC</span>(&amp;quot;<span class="number">610262374</span>@qq.com&amp;quot;);//&amp;<span class="symbol">#x6284</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;
+            ms.<span class="class">SetBC</span>(&amp;quot;<span class="number">610262374</span>@qq.com&amp;quot;);//&amp;<span class="symbol">#x6697</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;
+            ms.<span class="class">SetIsHtml</span>(<span class="keyword">true</span>);//&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;:<span class="keyword">true</span>
+            ms.<span class="class">SetEncoding</span>(<span class="class">System</span>.<span class="class">Text</span>.<span class="class">Encoding</span>.<span class="class">UTF8</span>);//&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x683C</span>;&amp;<span class="symbol">#x5F0F</span>; &amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;utf-<span class="number">8</span>
+
+            //&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x51FD</span>;&amp;<span class="symbol">#x6570</span>;
+            bool isSuccess = ms.<span class="class">Send</span>(&amp;quot;<span class="number">1215247044</span>@qq.com&amp;quot;, &amp;quot;test&amp;quot;, &amp;quot;<span class="number">610262374</span>@qq.com&amp;quot;, &amp;quot;&amp;<span class="symbol">#x54C8</span>;&amp;<span class="symbol">#x54C8</span>;&amp;quot;, &amp;quot;&amp;<span class="symbol">#x54C8</span>;&amp;<span class="symbol">#x54C8</span>;&amp;quot;, <span class="class">Server</span>.<span class="class">MapPath</span>(&amp;quot;~/<span class="class">Test</span>.dll&amp;quot;)); //&amp;<span class="symbol">#x9644</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x586B</span>; &amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x4EBA</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>; &amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>;
+
+            //&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x679C</span>;
+            <span class="class">Response</span>.<span class="class">Write</span>(ms.<span class="class">Result</span>);
+</code></pre><p>&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code><span class="keyword">using</span> System;
+<span class="keyword">using</span> System.IO;
+<span class="keyword">using</span> System.Web.UI.WebControls;
+<span class="keyword">using</span> System.Text;
+<span class="keyword">using</span> System.Net.Mail;
+<span class="keyword">using</span> System.Net;
+<span class="keyword">using</span> System.Linq;
+<span class="keyword">using</span> System.Text.RegularExpressions;
+<span class="keyword">namespace</span> <span class="title">SyntacticSugar.Work</span>
+{
+    <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;     </span>
+    <span class="comment"><span class="xmlDocTag">///</span> 1. &amp;#x529F;&amp;#x80FD;&amp;#xFF1A;&amp;#x53D1;&amp;#x9001;&amp;#x90AE;&amp;#x7BB1;</span>
+    <span class="comment"><span class="xmlDocTag">///</span> 2. &amp;#x4F5C;&amp;#x8005;&amp;#xFF1A;kaixuan</span>
+    <span class="comment"><span class="xmlDocTag">///</span> 3. &amp;#x521B;&amp;#x5EFA;&amp;#x65E5;&amp;#x671F;&amp;#xFF1A;2014-10-31</span>
+    <span class="comment"><span class="xmlDocTag">///</span> 4. &amp;#x6700;&amp;#x540E;&amp;#x4FEE;&amp;#x6539;&amp;#x65E5;&amp;#x671F;&amp;#xFF1A;2014-10-31</span>
+    <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;  </span>
+    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MailSmtp</span>
+    {
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x8BBE;&amp;#x7F6E;&amp;#x90AE;&amp;#x4EF6;&amp;#x7F16;&amp;#x7801;&amp;#x7C7B;&amp;#x578B;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;contentEncoding&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetEncoding</span>(<span class="params">Encoding contentEncoding</span>)
+        </span>{
+            <span class="keyword">this</span>._encoding = contentEncoding;
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span>&amp;#x8BBE;&amp;#x7F6E;&amp;#x90AE;&amp;#x4EF6;&amp;#x6B63;&amp;#x6587;&amp;#x662F;&amp;#x5426;&amp;#x4E3A; Html &amp;#x683C;&amp;#x5F0F; </span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;isHtml&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetIsHtml</span>(<span class="params"><span class="keyword">bool</span> isHtml</span>)
+        </span>{
+            <span class="keyword">this</span>._isHtml = isHtml;
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x6284;&amp;#x9001;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;cc&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetCC</span>(<span class="params"><span class="keyword">params</span> <span class="keyword">string</span>[] cc</span>)
+        </span>{
+            <span class="keyword">this</span>._cc = cc;
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x6697;&amp;#x9001;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;cc&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetBC</span>(<span class="params"><span class="keyword">params</span> <span class="keyword">string</span>[] bc</span>)
+        </span>{
+            <span class="keyword">this</span>._bcc = bc;
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x6784;&amp;#x9020;&amp;#x51FD;&amp;#x6570;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;host&amp;quot;&amp;gt;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;username&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x8D26;&amp;#x53F7;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;password&amp;quot;&amp;gt;&amp;#x5BC6;&amp;#x7801;&amp;lt;/param&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="title">MailSmtp</span>(<span class="params"><span class="keyword">string</span> host, <span class="keyword">string</span> username, <span class="keyword">string</span> password</span>)
+        </span>{
+            <span class="keyword">this</span>._smtp.Host = host;
+            <span class="keyword">this</span>._smtp.Port = <span class="number">0x19</span>;
+            <span class="keyword">this</span>._isHtml = <span class="keyword">true</span>;
+            <span class="keyword">this</span>._encoding = Encoding.UTF8;
+            <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrEmpty(username) || <span class="keyword">string</span>.IsNullOrEmpty(password))
+            {
+                <span class="keyword">this</span>._smtp.UseDefaultCredentials = <span class="keyword">false</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">this</span>._smtp.Credentials = <span class="keyword">new</span> NetworkCredential(username, password);
+            }
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x53D1;&amp;#x9001;&amp;#x90AE;&amp;#x4EF6;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;from&amp;quot;&amp;gt;&amp;#x53D1;&amp;#x4EF6;&amp;#x4EBA;&amp;#x90AE;&amp;#x4EF6;&amp;#x5730;&amp;#x5740;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;sender&amp;quot;&amp;gt;&amp;#x53D1;&amp;#x4EF6;&amp;#x4EBA;&amp;#x663E;&amp;#x793A;&amp;#x540D;&amp;#x79F0;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;to&amp;quot;&amp;gt;&amp;#x6536;&amp;#x4EF6;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;subject&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x6807;&amp;#x9898;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;body&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x6B63;&amp;#x6587;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;file&amp;quot;&amp;gt;&amp;#x9644;&amp;#x4EF6;&amp;#x5730;&amp;#x5740;&amp;#x6570;&amp;#x7EC4;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;returns&amp;gt;bool &amp;#x662F;&amp;#x5426;&amp;#x6210;&amp;#x529F; &amp;lt;/returns&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">Send</span>(<span class="params"><span class="keyword">string</span> <span class="keyword">from</span>, <span class="keyword">string</span> sender, <span class="keyword">string</span> to, <span class="keyword">string</span> subject, <span class="keyword">string</span> body, <span class="keyword">params</span> <span class="keyword">string</span>[] file</span>)
+        </span>{
+            <span class="keyword">return</span> Send(<span class="keyword">from</span>, sender, <span class="keyword">new</span> <span class="keyword">string</span>[] { to }, subject, body, file);
+        }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x53D1;&amp;#x9001;&amp;#x90AE;&amp;#x4EF6;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;from&amp;quot;&amp;gt;&amp;#x53D1;&amp;#x4EF6;&amp;#x4EBA;&amp;#x90AE;&amp;#x4EF6;&amp;#x5730;&amp;#x5740;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;sender&amp;quot;&amp;gt;&amp;#x53D1;&amp;#x4EF6;&amp;#x4EBA;&amp;#x663E;&amp;#x793A;&amp;#x540D;&amp;#x79F0;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;to&amp;quot;&amp;gt;&amp;#x6536;&amp;#x4EF6;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;subject&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x6807;&amp;#x9898;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;body&amp;quot;&amp;gt;&amp;#x90AE;&amp;#x4EF6;&amp;#x6B63;&amp;#x6587;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;param name=&amp;quot;file&amp;quot;&amp;gt;&amp;#x9644;&amp;#x4EF6;&amp;#x5730;&amp;#x5740;&amp;#x6570;&amp;#x7EC4;&amp;lt;/param&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;returns&amp;gt;bool &amp;#x662F;&amp;#x5426;&amp;#x6210;&amp;#x529F; &amp;lt;/returns&amp;gt;</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">Send</span>(<span class="params"><span class="keyword">string</span> <span class="keyword">from</span>, <span class="keyword">string</span> sender, <span class="keyword">string</span>[] to, <span class="keyword">string</span> subject, <span class="keyword">string</span> body, <span class="keyword">params</span> <span class="keyword">string</span>[] file</span>)
+        </span>{
+            <span class="keyword">string</span> mailReg = @&amp;quot;^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$&amp;quot;;
+            <span class="keyword">if</span> (to == <span class="keyword">null</span>)
+            {
+                <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(&amp;quot;MailSmtp.Send.to&amp;quot;);
+            }
+            <span class="keyword">if</span> (to.Any(oit =&amp;gt; !Regex.IsMatch(oit + &amp;quot;&amp;quot;, mailReg)))
+            {
+                <span class="keyword">this</span>.Result = &amp;quot;&amp;<span class="preprocessor">#x6536;&amp;#x4EF6;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;#x4E0D;&amp;#x5408;&amp;#x6CD5;&amp;quot;;</span>
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            }
+            <span class="keyword">if</span> (_bcc != <span class="keyword">null</span> &amp;amp;&amp;amp; _bcc.Length &amp;gt; <span class="number">0</span>)
+            {
+                <span class="keyword">if</span> (_bcc.Any(oit =&amp;gt; !Regex.IsMatch(oit + &amp;quot;&amp;quot;, mailReg)))
+                {
+                    <span class="keyword">this</span>.Result = &amp;quot;&amp;<span class="preprocessor">#x6697;&amp;#x9001;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;#x4E0D;&amp;#x5408;&amp;#x6CD5;&amp;quot;;</span>
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                }
+            }
+            <span class="keyword">if</span> (_cc != <span class="keyword">null</span> &amp;amp;&amp;amp; _cc.Length &amp;gt; <span class="number">0</span>)
+            {
+                <span class="keyword">if</span> (_cc.Any(oit =&amp;gt; !Regex.IsMatch(oit + &amp;quot;&amp;quot;, mailReg)))
+                {
+                    <span class="keyword">this</span>.Result = &amp;quot;&amp;<span class="preprocessor">#x6284;&amp;#x9001;&amp;#x4EBA;&amp;#x5730;&amp;#x5740;&amp;#x4E0D;&amp;#x5408;&amp;#x6CD5;&amp;quot;;</span>
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                }
+            }
+            MailMessage message = <span class="keyword">new</span> MailMessage();
+            <span class="comment">// &amp;#x521B;&amp;#x5EFA;&amp;#x4E00;&amp;#x4E2A;&amp;#x9644;&amp;#x4EF6;&amp;#x5BF9;&amp;#x8C61;</span>
+            <span class="keyword">foreach</span> (<span class="keyword">var</span> r <span class="keyword">in</span> file)
+            {
+                Attachment objMailAttachment;
+                objMailAttachment = <span class="keyword">new</span> Attachment(r);<span class="comment">//&amp;#x53D1;&amp;#x9001;&amp;#x90AE;&amp;#x4EF6;&amp;#x7684;&amp;#x9644;&amp;#x4EF6;</span>
+                message.Attachments.Add(objMailAttachment);
+            }
+            message.From = <span class="keyword">new</span> MailAddress(<span class="keyword">from</span>, sender);
+            message.Subject = subject;
+            message.SubjectEncoding = <span class="keyword">this</span>._encoding;
+            message.Body = body;
+            message.BodyEncoding = <span class="keyword">this</span>._encoding;
+            message.IsBodyHtml = <span class="keyword">this</span>._isHtml;
+            message.Priority = MailPriority.Normal;
+            <span class="keyword">foreach</span> (<span class="keyword">string</span> str <span class="keyword">in</span> to)
+            {
+                message.To.Add(str);
+            }
+            <span class="keyword">if</span> (<span class="keyword">this</span>._bcc != <span class="keyword">null</span> &amp;amp;&amp;amp; <span class="keyword">this</span>._bcc.Length &amp;gt; <span class="number">0</span>)
+            {
+                <span class="keyword">foreach</span> (<span class="keyword">string</span> b <span class="keyword">in</span> <span class="keyword">this</span>._bcc)
+                {
+                    message.Bcc.Add(b);
+                }
+            }
+            <span class="keyword">if</span> (<span class="keyword">this</span>._cc != <span class="keyword">null</span> &amp;amp;&amp;amp; <span class="keyword">this</span>._cc.Length &amp;gt; <span class="number">0</span>)
+            {
+                <span class="keyword">foreach</span> (<span class="keyword">string</span> c <span class="keyword">in</span> <span class="keyword">this</span>._cc)
+                {
+                    message.CC.Add(c);
+                }
+            }
+            <span class="keyword">try</span>
+            {
+                <span class="keyword">this</span>._smtp.Send(message);
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            }
+            <span class="keyword">catch</span> (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+        <span class="keyword">private</span> SmtpClient _smtp = <span class="keyword">new</span> SmtpClient();
+        <span class="keyword">private</span> Encoding _encoding { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">private</span> <span class="keyword">bool</span> _isHtml { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">private</span> <span class="keyword">string</span>[] _cc { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">private</span> <span class="keyword">string</span>[] _bcc { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;summary&amp;gt;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;#x83B7;&amp;#x53D6;&amp;#x53D1;&amp;#x9001;&amp;#x7ED3;&amp;#x679C;&amp;#xFF0C;&amp;#x6210;&amp;#x529F;&amp;#x5219;&amp;#x4E3A;&amp;#x7A7A;</span>
+        <span class="comment"><span class="xmlDocTag">///</span> &amp;lt;/summary&amp;gt;</span>
+        <span class="keyword">public</span> <span class="keyword">string</span> Result { <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }
+    }
+}
+</code></pre><p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/7riYbm">&#x5341;&#x4E94;&#x5929;&#x7CBE;&#x901A;WCF&#x2014;&#x2014;&#x7B2C;&#x4E8C;&#x5929; &#x544A;&#x522B;&#x70E6;&#x607C;&#x7684;config&#x914D;&#x7F6E;</a></li>
+<li>2.<a href="/articles/jYVbu2z">&#x8FDF;&#x5230;&#x7684;&#x513F;&#x7AE5;&#x8282;&#x793C;&#x7269;&#x2014;&#x2014;&#x5C0F;&#x6E38;&#x620F;&#x4E09;&#x4EF6;&#x5957;&#xFF1A;&#x626B;&#x96F7;&#xFF0C;&#x4FC4;&#x7F57;&#x65AF;&#x65B9;&#x5757;&#xFF0C;&#x6570;&#x72EC;</a></li>
+<li>3.<a href="/articles/jaMbAzR">&#x6298;&#x817E; async/await &#x8C03;&#x7528;&#x4F20;&#x7EDF; Begin/End &#x5F02;&#x6B65;&#x65B9;&#x6CD5;</a></li>
+<li>4.<a href="/articles/NRbMjem">[ASP.NET MVC] &#x4F7F;&#x7528;CLK.AspNet.Identity&#x63D0;&#x4F9B;&#x4EE5;&#x89D2;&#x8272;&#x4E3A;&#x57FA;&#x7840;&#x7684;&#x8BBF;&#x95EE;&#x63A7;&#x5236;..</a></li>
+<li>5.<a href="/articles/emmuqmB">&#x57FA;&#x4E8E;DDD&#x7684;&#x73B0;&#x4EE3;ASP.NET&#x5F00;&#x53D1;&#x6846;&#x67B6;—ABP&#x7CFB;&#x5217;&#x4E4B;8&#x3001;ABP&#x65E5;&#x5FD7;&#x7BA1;&#x7406;</a></li>
+<li><p>6.<a href="/articles/bQZ7vaZ">&#x7269;&#x4EE5;&#x7C7B;&#x805A;&#xFF1A;&#x5BF9;&#x8C61;&#x4E5F;&#x6709;&#x751F;&#x547D;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/yqEnya">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;yqEnya&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Net/">.Net</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
   </nav>
 
 </div>
@@ -1197,7 +1410,7 @@ VALUES
 		<ul>
 		
 		  
-			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>68</sup></a></li>
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>66</sup></a></li>
 		  
 		
 		  
@@ -1226,7 +1439,7 @@ VALUES
 			
 		
 			
-				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
 			
 		
 			
@@ -1234,23 +1447,7 @@ VALUES
 			
 		
 			
-				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>4</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
 			
 		
 			
@@ -1258,11 +1455,19 @@ VALUES
 			
 		
 			
-				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
 			
 		
 			
@@ -1270,11 +1475,15 @@ VALUES
 			
 		
 			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>2</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
 			
 		
 			
@@ -1282,7 +1491,7 @@ VALUES
 			
 		
 			
-				<li><a href="/tags/程序员/" title="程序员">程序员<sup>2</sup></a></li>
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>2</sup></a></li>
 			
 		
 			
@@ -1290,7 +1499,11 @@ VALUES
 			
 		
 			
-				<li><a href="/tags/前端开发/" title="前端开发">前端开发<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ICE/" title="ICE">ICE<sup>1</sup></a></li>
 			
 		
 		</ul>

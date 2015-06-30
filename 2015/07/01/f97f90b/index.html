@@ -1,0 +1,583 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>clip-path动画分享 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="CSS&amp;#x6837;&amp;#x5F0F;&amp;#x7684;clip-path&amp;#x6765;&amp;#x6E90;&amp;#x4E8E;SVG&amp;lt;clipPath&amp;gt;&amp;#x5143;&amp;#x7D20;&amp;#xFF0C;&amp;#x5B83;&amp;#x4EEC;&amp;#x7684;&amp;#x672C;&amp;#x8D28;&amp;#x90FD;&amp;#x662F;&amp;#x526A;&amp;#x5207;
+&amp;#x6BCF;&amp;#x4E2A;&amp;#x4EBA;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="clip-path动画分享 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/01/f97f90b/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="CSS&amp;#x6837;&amp;#x5F0F;&amp;#x7684;clip-path&amp;#x6765;&amp;#x6E90;&amp;#x4E8E;SVG&amp;lt;clipPath&amp;gt;&amp;#x5143;&amp;#x7D20;&amp;#xFF0C;&amp;#x5B83;&amp;#x4EEC;&amp;#x7684;&amp;#x672C;&amp;#x8D28;&amp;#x90FD;&amp;#x662F;&amp;#x526A;&amp;#x5207;
+&amp;#x6BCF;&amp;#x4E2A;&amp;#x4EBA;">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/f97cf8a.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/f97cf8a.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/f97d1fb.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/f97d46c.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/f97d6dd.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/f97d94e.gif">
+<meta property="og:updated_time" content="2015-06-30T23:37:30.834Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="clip-path动画分享 -">
+<meta name="twitter:description" content="CSS&amp;#x6837;&amp;#x5F0F;&amp;#x7684;clip-path&amp;#x6765;&amp;#x6E90;&amp;#x4E8E;SVG&amp;lt;clipPath&amp;gt;&amp;#x5143;&amp;#x7D20;&amp;#xFF0C;&amp;#x5B83;&amp;#x4EEC;&amp;#x7684;&amp;#x672C;&amp;#x8D28;&amp;#x90FD;&amp;#x662F;&amp;#x526A;&amp;#x5207;
+&amp;#x6BCF;&amp;#x4E2A;&amp;#x4EBA;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/01/f97f90b/" title="clip-path动画分享 -" itemprop="url">clip-path动画分享 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-06-30T23:37:30.000Z" itemprop="datePublished"> 发表于 2015-07-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#它的剪切元素可以是任意对象"><span class="toc-number">1.</span> <span class="toc-text">它的剪切元素可以是任意对象</span></a></li></ol>
+		
+		</div>
+		
+		<p>CSS&#x6837;&#x5F0F;&#x7684;clip-path&#x6765;&#x6E90;&#x4E8E;SVG&lt;clipPath&gt;&#x5143;&#x7D20;&#xFF0C;&#x5B83;&#x4EEC;&#x7684;&#x672C;&#x8D28;&#x90FD;&#x662F;&#x526A;&#x5207;</p>
+<p>&#x6BCF;&#x4E2A;&#x4EBA;&#x90FD;&#x77E5;&#x9053;&#x526A;&#x5207;&#xFF0C;&#x90A3;&#x4E48;clip-path&#x5B9E;&#x73B0;&#x7684;&#x526A;&#x5207;&#x6709;&#x4EC0;&#x4E48;&#x7279;&#x522B;&#x4E4B;&#x5904;&#x5462;&#xFF1F;</p>
+<h4 id="&#x5B83;&#x7684;&#x526A;&#x5207;&#x5143;&#x7D20;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x610F;&#x5BF9;&#x8C61;">&#x5B83;&#x7684;&#x526A;&#x5207;&#x5143;&#x7D20;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x610F;&#x5BF9;&#x8C61;</h4><p>&#x4F60;&#x6574;&#x4E2A;HTML&#x9875;&#x9762;&#x4E5F;&#x597D;&#xFF0C;&#x4E00;&#x4E2A;form&#x8868;&#x5355;&#x4E5F;&#x597D;&#xFF0C;&#x56FE;&#x7247;&#x4E5F;&#x597D;&#xFF0C;&#x4E00;&#x5207;&#x90FD;&#x53EF;&#x4EE5;&#x53D8;&#x6210;&#x4E00;&#x5757;&#x4E00;&#x5757;&#x7684;</p>
+<p>&#x5728;&#x770B;&#x6548;&#x679C;&#x4E4B;&#x524D;&#x5148;&#x68C0;&#x67E5;&#x4E00;&#x4E2A;&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x517C;&#x5BB9;&#x60C5;&#x51B5;&#xFF0C;&#x5982;&#x4E0B;&#x56FE;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150701/f97cf8a.png" alt=""></p>
+<p>IE&#x662F;&#x5B8C;&#x5168;&#x4E0D;&#x652F;&#x6301;&#xFF0C;&#x5C3D;&#x91CF;&#x4F7F;&#x7528;webkit&#x5185;&#x6838;&#xFF0C;&#x9700;&#x8981;&#x52A0;&#x4E0A;&#x5185;&#x6838;&#x524D;&#x7F00;-webkit-</p>
+<p>&#x597D;&#x4E86;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x5C31;&#x662F;&#x6817;&#x5B50;&#x4E86;&#xFF0C;&#x6574;&#x7247;&#x6587;&#x7AE0;&#x591A;&#x56FE;~</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E2A;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x5668;&#x7684;&#x9759;&#x6001;&#x9875;&#x9762;</p>
+<p><img src="http://taojinke.github.io/img/20150701/f97cf8a.png" alt=""></p>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x5BF9;&#x5176;&#x7B80;&#x5355;&#x7684;&#x526A;&#x5207;&#x4E0B;</p>
+<p><img src="http://taojinke.github.io/img/20150701/f97d1fb.png" alt=""></p>
+<p>&#x53D8;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x4E09;&#x89D2;&#x5F62;&#xFF0C;&#x7B80;&#x5355;&#x7684;&#x4E00;&#x53E5;&#x8BDD;&#x4EE3;&#x7801;</p>
+<table><tr><td> -  webkit  -  clip  -  path  :  polygon  (  0  0  ,  750px  0  ,  750px  500px  )  ;<br><br></td></tr></table>
+
+<p>&#x5229;&#x7528;polygon&#x591A;&#x8FB9;&#x5F62;&#x7ED9;&#x51FA;&#x4E86;&#x4E09;&#x4E2A;&#x70B9;&#xFF0C;&#x753B;&#x4E86;&#x4E00;&#xFFFD;&#xFFFD;&#xFFFD;&#x4E09;&#x89D2;&#x5F62;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5C06;&#x6574;&#x4E2A;&#x56FE;&#x5207;&#x5272;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x4E09;&#x89D2;&#x5F62;</p>
+<p>&#x7ED9;&#x591A;&#x4E86;&#x7684;&#x70B9;&#x7684;&#x8BDD;&#x5C31;&#x53EF;&#x4EE5;&#x751F;&#x6210;&#x5404;&#x79CD;&#x5F62;&#x72B6;&#xFF0C;&#x6BD4;&#x5982;&#x56DB;&#x8FB9;&#x5F62;&#xFF0C;&#x4E94;&#x89D2;&#x661F;&#xFF0C;&#x516D;&#x8FB9;&#x5F62;&#x7B49;&#x7B49;&#x2026;&#x2026;</p>
+<p>&#x76EE;&#x524D;&#x6765;&#x8BF4;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x4EAE;&#x70B9;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;clip-path&#x91CC;&#x9762;&#x7684;&#x6570;&#x503C;&#x53D8;&#x5316;&#x53EF;&#x4EE5;&#x89E6;&#x53D1;transition&#x7684;&#x8BDD;&#x90A3;&#x77AC;&#x95F4;&#x5C31;&#x4E0D;&#x4E00;&#x6837;&#x4E86;</p>
+<p>&#x6240;&#x4EE5;&#x5173;&#x4E8E;clip-path&#x7684;&#x5927;&#x90E8;&#x5206;&#x52A8;&#x753B;&#x90FD;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF0C;&#x6211;&#x7ED9;&#x51FA;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;</p>
+<p><img src="http://taojinke.github.io/img/20150701/f97d46c.gif" alt=""></p>
+<p>&#x672C;&#x8EAB;&#x6548;&#x679C;&#x662F;&#x6BEB;&#x65E0;&#x5361;&#x987F;&#x611F;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x5F55;&#x5236;&#x6210;gif&#x5E0C;&#x671B;&#x6587;&#x4EF6;&#x8F83;&#x5C0F;&#x6240;&#x4EE5;&#x5E27;&#x95F4;&#x9694;&#x8F83;&#x5927;&#xFF0C;&#x663E;&#x5F97;&#x6BD4;&#x8F83;&#x5361;</p>
+<p>&#x7531;&#x4E8E;clip-path&#x526A;&#x5207;&#x51FA;&#x6765;&#x7684;&#x90E8;&#x5206;&#x548C;&#x6B63;&#x5E38;&#x7684;DOM&#x8282;&#x70B9;&#x5176;&#x5B9E;&#x662F;&#x4E00;&#x6837;&#x4E00;&#x6837;&#x7684;&#xFF0C;&#x90A3;&#x4E48;&#x5F88;&#x591A;&#x5173;&#x4E8E;DOM&#x8282;&#x70B9;&#x7684;&#x64CD;&#x4F5C;&#x4E5F;&#x53EF;&#x4EE5;&#x7ED9;&#x5B83;&#x52A0;&#x4E0A;&#xFF0C;&#x6BD4;&#x5982;&#x2026;&#x2026;</p>
+<p>3D&#x52A8;&#x753B;&#xFF01;</p>
+<p>&#x4E4B;&#x524D;&#x7684;&#x957F;&#x65B9;&#x5F62;&#x53D8;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x4E09;&#x89D2;&#x5F62;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x7531;&#x4E00;&#x4E2A;&#x957F;&#x65B9;&#x5F62;&#x53D8;&#x6210;&#x591A;&#x4E2A;&#x4E09;&#x89D2;&#x5F62;&#x5462;&#xFF0C;&#x7136;&#x540E;&#x4ED6;&#x4EEC;&#x8FDB;&#x884C;3D&#x53D8;&#x5316;&#x4E86;&#x5462;&#xFF1F;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x5236;&#x4F5C;&#x7684;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x6548;&#x679C;</p>
+<p><img src="http://taojinke.github.io/img/20150701/f97d6dd.gif" alt=""></p>
+<p>&#x8FD9;&#x91CC;&#x6211;&#x8FDB;&#x884C;&#x4E86;3D&#x53D8;&#x5316;&#xFF0C;&#x968F;&#x673A;&#x52A8;&#x6001;&#x7684;&#x6539;&#x53D8;&#x5176;rotateXYZ&#x3001;translate3D&#x7684;&#x503C;&#xFF0C;&#x5982;&#x679C;&#x5B9E;&#x73B0;&#x786E;&#x5B9A;&#x597D;&#x7684;&#x8BDD;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x4E00;&#x4E9B;&#x6298;&#x7EB8;&#x554A;&#xFF0C;&#x6298;&#x53E0;&#x4E4B;&#x7C7B;&#x7684;&#x6548;&#x679C;&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x6211;&#x5C31;&#x4E0D;&#x6F14;&#x793A;&#x4E86;&#xFF0C;&#x9053;&#x7406;&#x8BF4;&#x9053;&#x5C31;&#x597D;</p>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x7ECF;&#x8FC7;clip-path&#x526A;&#x5207;&#x4E4B;&#x540E;&#x7684;&#x5143;&#x7D20;&#xFF0C;background-color&#x548C;background-image&#x540C;&#x65F6;&#x4F7F;&#x7528;&#x4F1A;&#x4EA7;&#x751F;bug&#xFF0C;&#x4F1A;&#x6709;&#x8FB9;&#x7F18;&#x7EBF;&#x4EA7;&#x751F;&#xFF0C;&#x8BF7;&#x5355;&#x72EC;&#x4F7F;&#x7528;&#x5B83;&#x4EEC;&#xFF01;</p>
+<p>&#x5206;&#x4EAB;&#x4E00;&#x4E2A;&#x52A8;&#x753B;&#x732E;&#x7ED9;AlloyTeam&#xFF0C;&#x6BD5;&#x7ADF;&#x662F;&#x5728;&#x8FD9;&#x91CC;&#x7684;&#x7B2C;&#x4E00;&#x7BC7;&#x6587;&#xFF01;&#x52A8;&#x753B;&#x524D;&#x534A;&#x90E8;&#x5206;&#x548C;&#x540E;&#x534A;&#x90E8;&#x5206;&#x90FD;&#x662F;&#x4F7F;&#x7528;clip-path&#x5B9E;&#x73B0;&#x7684;</p>
+<p><img src="http://taojinke.github.io/img/20150701/f97d94e.gif" alt=""></p>
+<p>&#x7531;&#x4E8E;&#x52A8;&#x753B;&#x65F6;&#x95F4;&#x8F83;&#x957F;&#xFF0C;&#x7279;&#x5730;&#x7F29;&#x5C0F;&#x4E86;&#x5F55;&#x5236;&#x533A;&#x57DF;&#x6765;&#x907F;&#x514D;&#x6587;&#x4EF6;&#x8FC7;&#x5927;&#xFF0C;&#x663E;&#x5F97;&#x8FD8;&#x662F;&#x6709;&#x70B9;&#x5361;&#x987F;&#xFF0C;&#x771F;&#x5B9E;&#x60C5;&#x51B5;&#x4E0B;&#x771F;&#x7684;&#x8FD8;&#x597D;&#x2026;&#x2026;</p>
+<p>&#x6700;&#x540E;&#x63D0;&#x4E00;&#x4E0B;&#x6BD5;&#x7ADF;&#x5229;&#x7528;clip-path&#x9891;&#x7E41;&#x64CD;&#x4F5C;DOM&#xFF0C;&#x7B80;&#x5355;&#x4E00;&#x70B9;&#x7684;&#x8FD8;&#x597D;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x7279;&#x522B;&#x590D;&#x6742;&#xFF0C;&#x6216;&#x8005;&#x50CF;&#x6211;&#x8FD9;&#x4E2A;&#x52A8;&#x753B;&#x91CC;&#x9762;&#x788E;&#x56FE;&#x7684;&#x5757;&#x518D;&#x591A;&#x4E00;&#x70B9;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x4F1A;&#x5361;&#x5230;&#x4F60;&#x6293;&#x72C2;</p>
+<p>&#x6240;&#x4EE5;&#x505A;&#x52A8;&#x753B;&#x8FD8;&#x662F;Canvas&#x5927;&#x6CD5;&#x597D;~&#x90A3;&#x4E48;&#x4E0B;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x786E;&#x5B9A;&#x4E86;&#xFF0C;&#x8FD8;&#x662F;&#x52A8;&#x753B;&#xFF0C;&#x4E0D;&#x8FC7;&#x662F;Canvas&#x76F8;&#x5173;</p>
+<p>&#x7ED3;&#xFFFD;&#xFFFD;&#xFFFD;&#xFF1A;&#x6574;&#x7BC7;&#x6587;&#x7AE0;&#x4EE3;&#x7801;&#x5F88;&#x5C11;&#xFF08;&#x5C31;&#x662F;&#x6CA1;&#x6709;&#x4EE3;&#x7801;&#x2026;&#x2026;&#xFF09;&#xFF0C;&#x6CA1;&#x6709;&#x628A;&#x67D0;&#x4E2A;&#x6548;&#x679C;&#x5177;&#x4F53;&#x4ECE;&#x5F00;&#x59CB;&#x7B2C;&#x4E00;&#x79D2;&#x5230;&#x6700;&#x540E;&#x4E00;&#x79D2;&#x5177;&#x4F53;&#x53BB;&#x5B9E;&#x73B0;&#xFF0C;&#x56E0;&#x4E3A;clip-path&#x672C;&#x8EAB;&#x4E0D;&#x96BE;&#xFF0C;&#x4E5F;&#x4E0D;&#x7B97;&#x4EC0;&#x4E48;&#x65B0;&#x4E1C;&#x897F;~&#x6709;&#x54EA;&#x4E9B;&#x5C5E;&#x6027;&#x503C;&#xFF0C;&#x600E;&#x4E48;&#x4F7F;&#x7528;&#xFF0C;&#x7F51;&#x4E0A;&#x4E00;&#x641C;&#x4E00;&#x5927;&#x5806;&#xFF0C;&#x6211;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x7F57;&#x5217;&#x4E86;&#x554A;~&#x5982;&#x679C;&#x6709;&#x4EC0;&#x4E48;&#x7591;&#x95EE;&#x5927;&#x5BB6;&#x4E00;&#x8D77;&#x4EA4;&#x6D41;&#x543C;&#x543C;~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Canvas/">Canvas</a><a href="/tags/WebKit/">WebKit</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/01/f9900b7/" title="源码推荐(6.30)：图片浏览器 高仿新浪微博，仿QQ未读消息弹性按钮动画 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  源码推荐(6.30)：图片浏览器 高仿新浪微博，仿QQ未读消息弹性按钮动画 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/01/f9730d9/"  title="个人 Wiki 之殇 -">
+ <strong>下一篇：</strong><br/> 
+ <span>个人 Wiki 之殇 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#它的剪切元素可以是任意对象"><span class="toc-number">1.</span> <span class="toc-text">它的剪切元素可以是任意对象</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>66</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Twitter/" title="Twitter">Twitter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS开发/" title="iOS开发">iOS开发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ECMAScript/" title="ECMAScript">ECMAScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ICE/" title="ICE">ICE<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
