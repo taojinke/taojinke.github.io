@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://taojinke.github.io/"/>
-  <updated>2015-06-30T23:06:21.013Z</updated>
+  <updated>2015-06-30T23:06:20.189Z</updated>
   <id>http://taojinke.github.io/</id>
   
   <author>
@@ -13,45 +13,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title></title>
-    <link href="http://taojinke.github.io/2015/07/01/9f16694/"/>
-    <id>http://taojinke.github.io/2015/07/01/9f16694/</id>
-    <published>2015-06-30T23:06:21.013Z</published>
-    <updated>2015-06-30T23:06:21.013Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://taojinke.github.io/2015/07/01/9f10c3f/"/>
-    <id>http://taojinke.github.io/2015/07/01/9f10c3f/</id>
-    <published>2015-06-30T23:06:20.976Z</published>
-    <updated>2015-06-30T23:06:20.976Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://taojinke.github.io/2015/07/01/9f0bbae/"/>
-    <id>http://taojinke.github.io/2015/07/01/9f0bbae/</id>
-    <published>2015-06-30T23:06:20.942Z</published>
-    <updated>2015-06-30T23:06:20.942Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-  </entry>
   
   <entry>
     <title><![CDATA[DBeaver 3.4.2 发布，数据库管理工具 -]]></title>
@@ -961,6 +922,110 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>&#x82F9;&#x679C;&#x4ECA;&#x5929;&#x53D1;&#x5E03;&#x4E86; OS X Yosemite 10.10.4&#xFF0C;&#x8FD9;&#x6B21;&#x5347;&#x7EA7;&#x5BF9;&#x7CFB;&#x]]>
+    </summary>
+    
+      <category term="Mac OS X" scheme="http://taojinke.github.io/tags/Mac-OS-X/"/>
+    
+      <category term="transcribe" scheme="http://taojinke.github.io/categories/transcribe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[svn提交时强制添加注释 -]]></title>
+    <link href="http://taojinke.github.io/2015/07/01/9e93569/"/>
+    <id>http://taojinke.github.io/2015/07/01/9e93569/</id>
+    <published>2015-06-30T23:06:20.000Z</published>
+    <updated>2015-06-30T23:06:20.220Z</updated>
+    <content type="html"><![CDATA[<p>&#x4EBA;&#x5728;&#x5F88;&#x591A;&#x65F6;&#x5019;&#xFF0C;&#x9760;&#x81EA;&#x89C9;&#x6216;&#x8005;&#x8BF4;&#x662F;&#x9760;&#x9053;&#x5FB7;&#xFF0C;&#x662F;&#x4E0D;&#x884C;&#x7684;&#x3002;&#x5FC5;&#x987B;&#x5236;&#x5B9A;&#x89C4;&#x5219;&#xFF0C;&#x8BA9;&#x5176;&#x5F3A;&#x5236;&#x9075;&#x5B88;&#x3002;&#x7A0B;&#x5E8F;&#x5458;&#x4E5F;&#x662F;&#x4EBA;&#xFF0C;&#x4E5F;&#x9700;&#x8981;&#x89C4;&#x5219;&#x3002;</p>
+<p>SVN&#x63D0;&#x4EA4;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6CE8;&#x91CA;&#xFF0C;&#x5728;&#x67E5;&#x9605;&#x5386;&#x53F2;&#x65F6;&#xFF0C;&#x4F1A;&#x975E;&#x5E38;&#x4E0D;&#x65B9;&#x4FBF;&#x3002;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x6709;&#x4E00;&#x4E2A;&#x8BA9;&#x7A0B;&#x5E8F;&#x5458;&#x63D0;&#x4EA4;&#x4EE3;&#x7801;&#x65F6;&#xFF0C;&#x5F3A;&#x5236;&#x6DFB;&#x52A0;&#x6CE8;&#x91CA;&#x7684;&#x89C4;&#x5219;&#x3002;&#x4E0B;&#x9762;&#x770B;&#x770B;&#x5728;SVN&#x4E2D;&#x600E;&#x4E48;&#x5B9E;&#x73B0;&#x3002;</p>
+<ol>
+<li>&#x63A8;&#x8350;&#x4F7F;&#x7528;VisualSVN&#x4F5C;&#x4E3A;&#x670D;&#x52A1;&#x7AEF;&#xFF08;&#x514D;&#x8D39;&#x4E0B;&#x8F7D;&#x5730;&#x5740;&#xFF1A;<a href="http://www.visualsvn.com/&#xFF09;&#x3002;&#x5B89;&#x88C5;&#x5B8C;&#x6BD5;&#x540E;&#xFF0C;&#x6253;&#x5F00;VisualSVN" target="_blank" rel="external">http://www.visualsvn.com/&#xFF09;&#x3002;&#x5B89;&#x88C5;&#x5B8C;&#x6BD5;&#x540E;&#xFF0C;&#x6253;&#x5F00;VisualSVN</a> Server&#x7BA1;&#x7406;&#x5668;&#xFF0C;&#x5728;&#x7248;&#x672C;&#x5E93;&#x4E0A;&#x70B9;&#x51FB;&quot;&#x5C5E;&#x6027;&quot;&#xFF0C;&#x9009;&#x62E9;&quot;Hooks&quot;&#x9009;&#x9879;&#xFF0C;&#x9009;&#x4E2D;&quot;Pre-commit hook&quot;&#x540E;&#xFF0C;&#x70B9;&#x51FB;&quot;Edit&quot;.&#xFF08;&#x5982;&#x4E0B;&#x56FE;&#xFF09;</li>
+</ol>
+<p><img src="http://taojinke.github.io/img/20150701/9e92934.png" alt=""></p>
+<pre><code>@<span class="keyword">echo</span> off
+<span class="keyword">setlocal</span>
+<span class="keyword">set</span> REPOS=%<span class="number">1</span>
+<span class="keyword">set</span> TXN=%<span class="number">2</span>
+<span class="comment">rem check that logmessage contains at least 10 characters</span>
+<span class="comment">rem .....&amp;#x4EE3;&amp;#x8868;5&amp;#x4E2A;&amp;#x5B57;&amp;#x7B26;</span>
+svnlook log &amp;quot;<span class="envvar">%REPOS%</span>&amp;quot; -t &amp;quot;<span class="envvar">%TXN%</span>&amp;quot; | <span class="built_in">findstr</span> &amp;quot;.....&amp;quot; &amp;gt; <span class="stream">nul</span>
+<span class="flow">if</span> <span class="envvar">%errorlevel%</span> <span class="operator">gtr</span> <span class="number">0</span> <span class="flow">goto</span> err
+<span class="flow">exit</span> <span class="number">0</span>
+:err
+<span class="keyword">echo</span> &amp;#x4E0A;&amp;#x4F20;&amp;#x5931;&amp;#x8D25;&amp;#xFF01;&amp;#x8BF7;&amp;#x6DFB;&amp;#x52A0;&amp;#x6CE8;&amp;#x91CA;. &amp;#x6CE8;&amp;#x91CA;&amp;#x957F;&amp;#x5EA6;&amp;#x81F3;&amp;#x5C11;&amp;#x4E3A;<span class="number">5</span>&amp;#x4E2A;&amp;#x5B57;&amp;#x7B26;. Commit aborted! <span class="number">1</span>&amp;gt;&amp;amp;<span class="number">2</span>
+<span class="flow">exit</span> <span class="number">1</span>
+</code></pre><p>&#x786E;&#x5B9A;&#x5373;&#x53EF;&#xFF01;</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>&#x4EBA;&#x5728;&#x5F88;&#x591A;&#x65F6;&#x5019;&#xFF0C;&#x9760;&#x81EA;&#x89C9;&#x6216;&#x8005;&#x8BF4;&#x662F;&#x9760;&#x9053;&#x5FB7;&]]>
+    </summary>
+    
+      <category term="Linux" scheme="http://taojinke.github.io/tags/Linux/"/>
+    
+      <category term="SVN" scheme="http://taojinke.github.io/tags/SVN/"/>
+    
+      <category term="transcribe" scheme="http://taojinke.github.io/categories/transcribe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://taojinke.github.io/2015/06/09/cf5187a/"/>
+    <id>http://taojinke.github.io/2015/06/09/cf5187a/</id>
+    <published>2015-06-09T01:14:00.348Z</published>
+    <updated>2015-06-09T01:14:00.348Z</updated>
+    <content type="html"></content>
+    <summary type="html">
+    
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[OS X El Capitan发布：秋季正式推出 -]]></title>
+    <link href="http://taojinke.github.io/2015/06/09/cf44413/"/>
+    <id>http://taojinke.github.io/2015/06/09/cf44413/</id>
+    <published>2015-06-09T01:14:00.000Z</published>
+    <updated>2015-06-09T01:14:00.268Z</updated>
+    <content type="html"><![CDATA[<h1 id="OS_X_El_Capitan&#x53D1;&#x5E03;&#xFF1A;&#x79CB;&#x5B63;&#x6B63;&#x5F0F;&#x63A8;&#x51FA;">OS X El Capitan&#x53D1;&#x5E03;&#xFF1A;&#x79CB;&#x5B63;&#x6B63;&#x5F0F;&#x63A8;&#x51FA;</h1><p> &#x65F6;&#x95F4;&#xA0;2015-06-09 01:32:47  <a href="/sites/fYzqie">&#x7F51;&#x6613;&#x79D1;&#x6280;</a></p>
+<p><em>&#x539F;&#x6587;</em>&#xA0; <a href="http://tech.163.com/15/0609/01/ARKOG52G000915BD.html?utm_source=tuicool" target="_blank" rel="external">http://tech.163.com/15/0609/01/ARKOG52G000915BD.html</a></p>
+<p> &#x4E3B;&#x9898; <a href="/topics/11250029">Mac OS X</a></p>
+<p><img src="http://taojinke.github.io/img/20150609/cf4356d.jpg" alt=""></p>
+<p>&#x7F51;&#x6613;&#x79D1;&#x6280;&#x8BAF; 6&#x6708;9&#x65E5;&#x51CC;&#x6668;&#x6D88;&#x606F;2015&#x82F9;&#x679C;&#x5168;&#x7403;&#x5F00;&#x53D1;&#x8005;&#x5927;&#x4F1A;&#xFF08;WWDC 2015&#xFF09;&#x5728;&#x65E7;&#x91D1;&#x5C71;&#x53EC;&#x5F00;&#xFF0C;&#x7F51;&#x6613;&#x79D1;&#x6280;&#x8FDB;&#x884C;&#x4E86;&#x5168;&#x7A0B;&#x56FE;&#x6587;&#x76F4;&#x64AD;&#x3002;&#x5927;&#x4F1A;&#x4E0A;&#xFF0C;&#x82F9;&#x679C;&#x53D1;&#x5E03;&#x4E86;&#x6700;&#x65B0;&#x7684;OS X El Capitan&#xFF0C;&#x5BD3;&#x610F;&#x961F;&#x957F;&#x3001;&#x8239;&#x957F;&#x4E4B;&#x610F;&#x3002;&#x65B0;&#x7248;OS X&#x5C06;&#x4E8E;&#x4ECA;&#x5E74;&#x79CB;&#x5B63;&#x6B63;&#x5F0F;&#x63A8;&#x51FA;&#x3002; </p>
+<p>&#x82F9;&#x679C;Craig Federighi&#x9996;&#x5148;&#x4ECB;&#x7ECD;&#x4E86;OS X Yosemite &#x7684;&#x66F4;&#x65B0;&#x7387;&#xFF0C;&#x521B;&#x4E0B;&#x4E86;&#x4E2A;&#x4EBA;&#x7535;&#x8111;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x53F2;&#x4E0A;&#x7684;&#x65B0;&#x7EAA;&#x5F55;&#x3002;&#x76EE;&#x524D;&#x5DF2;&#x7ECF;&#x6709;55%&#x7684;Mac&#x6D3B;&#x8DC3;&#x7528;&#x6237;&#x91C7;&#x7528;Yosemite&#x7CFB;&#x7EDF;&#x3002;&#x5927;&#x4F1A;&#x4E0A;&#xFF0C;&#x82F9;&#x679C;&#x8FD8;&#x53D1;&#x5E03;&#x4E86;&#x4E0B;&#x4E00;&#x4EE3;OS X&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF; EI Capitan&#x3002;</p>
+<p>El Capitan&#x662F;&#x897F;&#x73ED;&#x7259;&#x8BED;&#x7684;&#x201C;&#x961F;&#x957F;&#x201D;&#x3001;&#x201C;&#x8239;&#x957F;&#x201D;&#x4E4B;&#x610F;&#xFF0C;&#x8FD9;&#x4E00;&#x7248;&#x672C;&#x4E3B;&#x8981;&#x7740;&#x91CD;&#x63D0;&#x5347;Mac&#x7684;&#x4F53;&#x9A8C;&#x548C;&#x6027;&#x80FD;&#x3002;</p>
+<p>OS X El Capitan&#x6027;&#x80FD;&#x63D0;&#x5347;</p>
+<p>OS X El Capitan &#x5BF9;&#x7CFB;&#x7EDF;&#x7684;&#x5185;&#x5728;&#x8FDB;&#x884C;&#x4E86;&#x63D0;&#x5347;&#xFF0C;&#x4F7F;&#x5176;&#x66F4;&#x4E3A;&#x5F3A;&#x5927;&#xFF0C;&#x8BA9;&#x4F60;&#x80FD;&#x4EE5;&#x66F4;&#x667A;&#x80FD;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x5904;&#x7406;&#x65E5;&#x5E38;&#x4E8B;&#x52A1;&#x3002;OS X El Capitan&#x624B;&#x52BF;&#x64CD;&#x4F5C;&#x529F;&#x80FD;&#x8BA9;&#x8BB8;&#x591A;&#x5FEB;&#x901F;&#x64CD;&#x4F5C;&#x53D8;&#x5F97;&#x66F4;&#x4E3A;&#x7B80;&#x5355;&#xFF1A;&#x4F8B;&#x5982;&#x4ECE;&#x90AE;&#x4EF6; app &#x91CC;&#x5220;&#x9664;&#x67D0;&#x5C01;&#x90AE;&#x4EF6;&#x3002;Safari &#x4E0A;&#x7684;&#x56FA;&#x5B9A;&#x6807;&#x7B7E;&#x9875;&#x529F;&#x80FD;&#xFF0C;&#x8BA9;&#x4F60;&#x80FD;&#x5C06;&#x65F6;&#x5E38;&#x6D4F;&#x89C8;&#x7684;&#x7F51;&#x7AD9;&#x4FDD;&#x6301;&#x6253;&#x5F00;&#x548C;&#x66F4;&#x65B0;&#x3002;</p>
+<p>&#x641C;&#x7D22;&#x529F;&#x80FD;Spotlight&#x589E;&#x5F3A;&#xFF0C;&#x5C06;&#x4ECE;&#x66F4;&#x591A;&#x6765;&#x6E90;&#x4E3A;&#x7528;&#x6237;&#x641C;&#x7D22;&#x51FA;&#x66F4;&#x6709;&#x6548;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x65E0;&#x8BBA;&#x662F;&#x60F3;&#x67E5;&#x770B;&#x5929;&#x6C14;&#x72B6;&#x51B5;&#x8FD8;&#x662F;&#x8981;&#x8FFD;&#x8E2A;&#x4F53;&#x80B2;&#x8D5B;&#x4E8B;&#x7684;&#x6BD4;&#x5206;&#x3002;</p>
+<p>&#x53E6;&#x5916;&#xFF0C;&#x4F18;&#x5316;&#x7684;&#x90AE;&#x4EF6; app &#x5168;&#x5C4F;&#x663E;&#x793A;&#x529F;&#x80FD;&#xFF0C;&#x8BA9;&#x7528;&#x6237;&#x53EF;&#x4EE5;&#x5728;&#x65B0;&#x7684;&#x90AE;&#x4EF6;&#x7A97;&#x53E3;&#x4E2D;&#x6DFB;&#x52A0;&#x591A;&#x4E2A;&#x6807;&#x7B7E;&#x9875;&#x3002;</p>
+<p>&#x65B0;OS X&#x8FD8;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x7A97;&#x53E3;&#x81EA;&#x9002;&#x5E94;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x6709;&#x70B9;&#x50CF;Windows&#x7684;&#x7A97;&#x53E3;&#x5E76;&#x5217;&#x6392;&#x653E;&#x3002; </p>
+<p>Spaces Bar &#x8BA9;&#x7528;&#x6237;&#x53EF;&#x4EE5;&#xFFFD;&#xFFFD;&#xFFFD;&#x677E;&#x521B;&#x5EFA;&#x591A;&#x4E2A;&#x5C4F;&#x5E55;&#xFF0C;&#x5F97;&#x5230;&#x66F4;&#x591A;&#x64CD;&#x4F5C;&#x7A7A;&#x95F4;&#x3002;Split View &#x5C06;&#x81EA;&#x52A8;&#x5E76;&#x6392;&#x4E24;&#x4E2A; app &#x6765;&#x5171;&#x7528;&#x4E00;&#x4E2A;&#x5C4F;&#x5E55;&#xFF0C;&#x8BA9; Mac &#x663E;&#x793A;&#x5C4F;&#x7684;&#x6BCF;&#x4E00;&#x4E2A;&#x50CF;&#x7D20;&#x90FD;&#x7269;&#x5C3D;&#x5176;&#x7528;&#x3002;</p>
+<p>&#x5728;&#x65B0;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#xFF0C;El Capitan&#x4E2D;&#xFF0C;&#x5E94;&#x7528;&#x7684;&#x542F;&#x52A8;&#x901F;&#x5EA6;&#x662F;Yosemite&#x7684;&#x81F3;&#x5C11;1.4&#x500D;&#x3002;</p>
+<p>&#x65B0;&#x7248;OS X&#x5F15;&#x5165;Metal&#x6280;&#x672F;</p>
+<p>Metal &#x662F;&#x4E00;&#x79CD;&#x6838;&#x5FC3;&#x56FE;&#x50CF;&#x5904;&#x7406;&#x6280;&#x672F;&#xFF0C;&#x8BA9;&#x5404;&#x79CD;app&#x90FD;&#x80FD;&#x66F4;&#x5FEB;&#x6377;&#x5730;&#x8BBF;&#x95EE;&#x56FE;&#x5F62;&#x5904;&#x7406;&#x5668;&#x3002;Metal&#x7EFC;&#x5408;&#x4E86;OpenCL&#x7684;&#x8BA1;&#x7B97;&#x80FD;&#x529B;&#x548C;OpenGL&#x7684;&#x56FE;&#x5F62;&#x80FD;&#x529B;&#xFF0C;&#x4F7F;&#x6E32;&#x67D3;&#x6548;&#x679C;&#x63D0;&#x5347;40%&#xFF0C;Adobe&#x7684;&#x6E32;&#x67D3;&#x6548;&#x679C;&#x5F97;&#x5230;&#x4E86;8&#x500D;&#x63D0;&#x5347;&#x3002; </p>
+<p>&#x636E;&#x900F;&#x9732;&#xFF0C;&#x65B0;&#x7684;El Capitan&#x7CFB;&#x7EDF;&#x5C06;&#x4E8E;&#x4ECA;&#x5E74;&#x79CB;&#x5B63;&#x6B63;&#x5F0F;&#x63A8;&#x51FA;&#xFF0C;&#x9762;&#x5411;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x7684;beta&#x7248;OS X El Capitan&#x5219;&#x4F1A;&#x4E8E;&#x4ECA;&#x5929;&#x63A8;&#x51FA;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150609/cf437de.png" alt=""></p>
+<p><a href="http://tech.163.com/15/0609/01/tech.163.com/special/wwdc2015/" target="_blank" rel="external">&#x3010;&#x4E13;&#x9898;&#x3011;2015&#x82F9;&#x679C;&#x5168;&#x7403;&#x5F00;&#x53D1;&#x8005;&#x5927;&#x4F1A;</a></p>
+<p>&#x8D5E;&#x4E00;&#x4E2A; &#x6536; &#x85CF; </p>
+<p> &#x63A8;&#x8350;&#x6587;&#x7AE0;</p>
+<ul>
+<li>1.<a href="/articles/BBFzY3">&#x8FDB;&#x5316;&#x4F46;&#x6539;&#x53D8;&#x4E0D;&#x4E86;&#x4E16;&#x754C; &#x7B80;&#x8BC4;&#x82F9;&#x679C;WWDC2015</a></li>
+<li>2.<a href="/articles/juq6Jbn">&#x300C;WWDC &#x603B;&#x7ED3;&#x300D;&#x65B0; OSX El Capitan &#x4FE1;&#x606F;&#x5927;&#x6C47;&#x603B;</a></li>
+<li>3.<a href="/articles/YFBZVfv">OS X 10.11 &#x53D1;&#x5E03;&#xFF0C;&#x4EE3;&#x53F7; &#xFF1A;&#x4EE3;&#x53F7; El Capitan</a></li>
+<li>4.<a href="/articles/73uYrar">iOS &#x548C; Mac &#x5F00;&#x53D1;&#x8005;&#x9879;&#x76EE;&#x5408;&#x5E76;&#xFF0C;&#x6210;&#x4E3A;&#x82F9;&#x679C;&#x5F00;&#x53D1;&#x8005;&#x9879;&#x76EE;</a></li>
+<li>5.<a href="/articles/biMVb2A">&#x82F9;&#x679C;&#x66F4;&#x65B0;OS X&#x7248;&#x672C; &#x547D;&#x540D;&#x4E3A;EI Capitan</a></li>
+<li><p>6.<a href="/articles/3UraQr3">&#x6548;&#x7387;&#x63D0;&#x5347; Swift&#x8BED;&#x8A00;&#x5C06;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;</a></p>
+<p>&#x76F8;&#x5173;&#x5FAE;&#x535A; <a href="/articles/weibo_list/qyQfY3">()</a></p>
+</li>
+</ul>
+<h5 id="&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;">&#x6211;&#x6765;&#x8BC4;&#x51E0;&#x53E5;</h5><p>&#x9519;&#x8BEF; </p>
+<p> &#x767B;&#x5F55;&#x540E;&#x8BC4;&#x8BBA; &#x5DF2;&#x53D1;&#x8868;&#x8BC4;&#x8BBA;&#x6570;( ) </p>
+<p>&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x8BC4;&#x8BBA;&#x4E86;^^ </p>
+<p>&#x66F4;&#x591A;&#x8BC4;&#x8BBA;</p>
+<p>&#x8BC4;&#x8BBA;&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#xFF0C;<a href="javascript:reload_comments(&apos;qyQfY3&apos;,1,0,-1);" target="_blank" rel="external">&#x91CD;&#x65B0;&#x52A0;&#x8F7D;</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="OS_X_El_Capitan&#x53D1;&#x5E03;&#xFF1A;&#x79CB;&#x5B63;&#x6B63;&#x5F0F;&#x63A8;&#x51FA;">OS X El Capitan&#x53D1;&#x5E03;&#xFF1A;&#x7]]>
     </summary>
     
       <category term="Mac OS X" scheme="http://taojinke.github.io/tags/Mac-OS-X/"/>
