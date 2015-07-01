@@ -1,0 +1,677 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Spring mvc+hibernate+freemarker(开源项目) - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#xA0;&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4E3A;&amp;#x5927;&amp;#x5BB6;&amp;#x505A;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A; spring3 MVC &amp;#x7684;&amp;#x4F8B;&amp;#x5B50;&amp;#xFF0C;&amp;#x5E0C;&amp;#x671B;&amp;#x80FD;&amp;#x5BF9;&amp;#x521A;&amp;#x63A5;&amp;#x89E6;spring&amp;#x7684">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring mvc+hibernate+freemarker(开源项目) -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/01/37e6a33/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#xA0;&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4E3A;&amp;#x5927;&amp;#x5BB6;&amp;#x505A;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A; spring3 MVC &amp;#x7684;&amp;#x4F8B;&amp;#x5B50;&amp;#xFF0C;&amp;#x5E0C;&amp;#x671B;&amp;#x80FD;&amp;#x5BF9;&amp;#x521A;&amp;#x63A5;&amp;#x89E6;spring&amp;#x7684">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d4a1d.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d4a1d.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d4eff.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d58c3.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d5da5.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d6016.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d6287.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d84b5.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d8997.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d983d.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d9d1f.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37d9f90.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37da201.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37da472.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37da6e3.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37db318.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37db318.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37db7fa.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37dbcdc.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37dbf4d.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37dc911.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37dd2d5.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37dda28.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37de3ec.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37de8ce.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37deb3f.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37e20f5.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37e2ab9.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37e2d2a.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37e2d2a.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37e2f9b.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150701/37e320c.jpg">
+<meta property="og:updated_time" content="2015-07-01T15:38:28.472Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring mvc+hibernate+freemarker(开源项目) -">
+<meta name="twitter:description" content="&amp;#xA0;&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4E3A;&amp;#x5927;&amp;#x5BB6;&amp;#x505A;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A; spring3 MVC &amp;#x7684;&amp;#x4F8B;&amp;#x5B50;&amp;#xFF0C;&amp;#x5E0C;&amp;#x671B;&amp;#x80FD;&amp;#x5BF9;&amp;#x521A;&amp;#x63A5;&amp;#x89E6;spring&amp;#x7684">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/01/37e6a33/" title="Spring mvc+hibernate+freemarker(开源项目) -" itemprop="url">Spring mvc+hibernate+freemarker(开源项目) -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T03:38:27.000Z" itemprop="datePublished"> 发表于 2015-07-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p><a href="http://pan.baidu.com/share/link?shareid=3739316113&amp;uk=4076915866#dir/path=%2Fstudy" target="_blank" rel="external">&#xA0;&#x4ECA;&#x5929;&#x6211;&#x4E3A;&#x5927;&#x5BB6;&#x505A;&#x4E86;&#x4E00;&#x4E2A; spring3 MVC &#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5E0C;&#x671B;&#x80FD;&#x5BF9;&#x521A;&#x63A5;&#x89E6;spring&#x7684;&#x670B;&#x53CB;&#x6709;&#x6240;&#x5E2E;&#x52A9;&#x3002;&#x8BE5;&#x6D41;&#x7A0B;&#x5C5E;&#x4E8E;&#x5927;&#x578B;&#x9879;&#x76EE;&#x7684;&#x6D41;&#x7A0B;&#xFF0C;&#x6D89;&#x53CA;&#x7684;&#x77E5;&#x8BC6;&#x6BD4;&#x8F83;&#x5E0C;&#x671B;&#x5927;&#x5BB6;&#x8010;&#x5FC3;&#x5B66;&#x4E60;&#x3002;</a></p>
+<p><strong>&#x4F01;&#x4E1A;&#x7EA7;&#x9879;&#x76EE;&#x5B9E;&#x6218;(&#x5E26;&#x6E90;&#x7801; &#x5347;&#x7EA7;&#x7248;&#x672C;&#xFF09;&#x5730;&#x5740;&#xFF1A;<a href="http://zz563143188.iteye.com/blog/1845469" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1845469</a></strong></p>
+<p><strong>&#x6536;&#x96C6;&#x4E94;&#x5E74;&#x7684;&#x5F00;&#x53D1;&#x8D44;&#x6599;&#x53CA; &#x6E90;&#x7801; &#x4E0B;&#x8F7D;&#x5730;&#x5740; &#xFF1A;</strong> <a href="http://pan.baidu.com/share/link?shareid=3739316113&amp;uk=4076915866#dir/path=%2Fstudy" target="_blank" rel="external">http://pan.baidu.com/share/link?shareid=3739316113&amp;uk=4076915866#dir/path=%2Fstudy</a></p>
+<p>&#x6F14;&#x793A;&#x9879;&#x76EE;&#x6E90;&#x7801;<a href="http://pan.baidu.com/share/link?shareid=3739316113&amp;uk=4076915866#dir/path=%2Fstudy" target="_blank" rel="external">&#x8BF7;&#x4E0B;&#x8F7D; codeFactory20130321,lib20130321&#x6587;&#x4EF6; ,</a></p>
+<p><strong>&#x4EE5;&#x4E0B;&#x662F;&#x76F8;&#x5173;&#x8D44;&#x6599;&#x8FDE;&#x63A5;&#xFF1A;</strong></p>
+<p>1.&#x672C;&#x5DE5;&#x7A0B;&#x5185;&#x5BB9;&#x8F83;&#x591A;&#xFF0C;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x8BBE;&#x8BA1;&#x7F16;&#x8BD1;&#x76EE;&#x5F55;&#xFF1A; <a href="http://zz563143188.iteye.com/blog/1826517" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1826517</a><br> 2.&#x8C03;&#x8BD5;&#x7F51;&#x9875;&#x5EFA;&#x8BAE;&#x9875;&#x9762;&#x8C03;&#x8BD5;&#x5DE5;&#x5177;firebug <a href="http://zz563143188.iteye.com/blog/1825978" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1825978</a><br> 3.&#x53EF;&#x4EE5;&#x4F7F;&#x7528;Spring mvc &#x5355;&#x5143;&#x6D4B;&#x8BD5; <a href="http://zz563143188.iteye.com/blog/1827454" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1827454</a><br> 4.Spring mvc&#x6574;&#x5408;hibernate <a href="http://zz563143188.iteye.com/blog/1831561" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1831561</a><br> 5.&#x65E5;&#x5FD7;log4j&#x914D;&#x7F6E;springMvc&#x4F8B;&#x5B50; <a href="http://zz563143188.iteye.com/blog/1825387" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1825387</a><br> 6.&#x7531;&#x4E8E;webroot&#x4E0B;&#x9762;&#x7684;&#x5185;&#x5BB9;&#x5F88;&#x591A;&#xFF0C;&#x8BBE;&#x7F6E;&#x4E0D;&#x7F16;&#x8BD1;&#x548C;&#x9A8C;&#x8BC1; <a href="http://zz563143188.iteye.com/blog/1826517" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1826517</a></p>
+<ol>
+<li><p>&#x6839;&#x636E;jar&#x751F;&#x6210;&#x6E90;&#x7801;&#x5DE5;&#x5177; <a href="http://zz563143188.iteye.com/blog/1826988" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1826988</a><br>8.java&#x5E38;&#x7528;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x8BBE;&#x7F6E; <a href="http://zz563143188.iteye.com/blog/1827884" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1827884</a></p>
+</li>
+<li><p>&#x6BD4;&#x8F83;&#x5168;&#x7684;OA&#x7CFB;&#x7EDF;&#x529F;&#x80FD;&#x6A21;&#x5757;&#x5217;&#x8868; <a href="http://zz563143188.iteye.com/blog/1860248" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1860248</a></p>
+</li>
+</ol>
+<p>10.&#x9700;&#x6C42;&#x6587;&#x6863;&#x7BA1;&#x7406;&#x5DE5;&#x5177; <a href="http://zz563143188.iteye.com/blog/1830393" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1830393</a><br> 11.PowerDesinger&#x9006;&#x5411;&#x6570;&#x636E;&#x5E93;&#x7269;&#x7406;&#x6A21;&#x578B;&#x53CA;&#x5173;&#x7CFB;&#x56FE; <a href="http://zz563143188.iteye.com/blog/1829068" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1829068</a><br> 12.&#x53D1;&#x6563;&#x6027;&#x601D;&#x7EF4;&#x5DE5;&#x5177;(&#x601D;&#x7EF4;&#x5BFC;&#x56FE;)&#x63A8;&#x8350; <a href="http://zz563143188.iteye.com/blog/1831562" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1831562</a><br> 13.&#x63A8;&#x8350;&#x4E00;&#x6B3E;&#x597D;&#x7528;&#x7684;&#x7B14;&#x8BB0;&#x7BA1;&#x7406;&#x8F6F;&#x4EF6;(Evernote) <a href="http://zz563143188.iteye.com/blog/1830965" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1830965</a><br> 14.&#x6570;&#x636E;&#x5E93;&#x751F;&#x6210;&#x6570;&#x636E;&#x5B57;&#x5178;&#x5DE5;&#x5177;(PDMREAD)&#x56FE;&#x89E3; <a href="http://zz563143188.iteye.com/blog/1828557" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1828557</a></p>
+<p>15.&#x4EE3;&#x7801;&#x751F;&#x52A8;&#x751F;&#x6210;&#x5DE5;&#x5177;(POJO,DAO,Service,action)&#x7B49;&#x5C42;&#x4EE3;&#x7801;<a href="http://zz563143188.iteye.com/blog/1819765" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1819765</a></p>
+<p><a href="http://zz563143188.iteye.com/blog/182304216.spring3,struts2,hibernate,junit" target="_blank" rel="external">16.spring3,struts2,hibernate,junit</a>,&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;&#x89C6;&#x9891;&#x6559;&#x7A0B;&#x4E0B;&#x8F7D; <a href="http://zz563143188.iteye.com/blog/1839517" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1839517</a></p>
+<p>17.UML &#x7684;&#x4E5D;&#x79CD;&#x6A21;&#x578B;&#x56FE; <a href="http://zz563143188.iteye.com/blog/1841234" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1841234</a></p>
+<p><a href="http://zz563143188.iteye.com/blog/1841225" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1841225</a></p>
+<p>18.Oracle&#x7B14;&#x8BB0; &#x4E94;&#x3001;&#x521B;&#x5EFA;&#x8868;&#x3001;&#x7EA6;&#x675F;&#x3001;&#x89C6;&#x56FE;&#x3001;&#x7D22;&#x5F15;&#x3001;&#x5E8F;&#x5217;&#x3001;&#x540C;&#x4E49;&#x8BCD;&#x3001;&#x8868;&#x7A7A;&#x95F4;</p>
+<p><a href="http://zz563143188.iteye.com/blog/1841239" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1841239</a></p>
+<p>19.Java&#x9762;&#x8BD5;&#x5B9D;&#x5178;2013&#x7248; <a href="http://zz563143188.iteye.com/blog/1843725" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1843725</a></p>
+<p>20.Java&#x6280;&#x672F;&#x4F53;&#x7CFB;&#x56FE;(&#x4ECE;&#x7A0B;&#x5E8F;&#x5458;&#x5230;CTO&#x5404;&#x9636;&#x6BB5;&#x6280; <a href="http://zz563143188.iteye.com/blog/1877266" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1877266</a></p>
+<p>21.&#x767E;&#x4E07;&#x7EA7;&#x8BBF;&#x95EE;&#x7F51;&#x7AD9;&#x524D;&#x671F;&#x7684;&#x6280;&#x672F;&#x51C6;&#x5907;<a href="http://zz563143188.iteye.com/blog/1842135" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1842135</a></p>
+<p>22.&#x5173;&#x4E8E;&#x4E00;&#x4E2A;&#x5927;&#x578B;web&#x7CFB;&#x7EDF;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x548C;&#x6280;&#x672F;&#x9009;&#x578B;&#x7684;&#x8BA8;&#x8BBA; <a href="http://zz563143188.iteye.com/blog/1842128" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1842128</a></p>
+<p>23.&#x9AD8;&#x6027;&#x80FD;&#x7F51;&#x7AD9;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x4E0E;&#x7CFB;&#x7EDF;&#x67B6;&#x6784; <a href="http://zz563143188.iteye.com/blog/1842129" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1842129</a></p>
+<p>24.java23&#x79CD;&#x6A21;&#x5F0F;&#x8BE6;&#x89E3; (&#x5E26;&#x6E90;&#x7801;&#x6709;&#x56FE;) <a href="http://zz563143188.iteye.com/blog/1847029" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1847029</a></p>
+<p>25.&#x8F6F;&#x4EF6;&#x5F00;&#x53D1;&#x6587;&#x6863;&#x8303;&#x4F8B; <a href="http://zz563143188.iteye.com/blog/1835305" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1835305</a></p>
+<p>26.&#x8F6F;&#x4EF6;&#x5F00;&#x53D1;&#x6A21;&#x5F0F;&#x5BF9;&#x6BD4;(&#x7011;&#x5E03;&#x3001;&#x8FED;&#x4EE3;&#x3001;&#x87BA;&#x65CB;&#x3001;&#x654F;&#x6377;) <a href="http://zz563143188.iteye.com/blog/1843691" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1843691</a></p>
+<p>27.<strong>&#x6211;&#x5FC3;&#x76EE;&#x4E2D;&#x6700;&#x597D;&#x7684;&#x6846;&#x67B6;&#x7EC4;&#x5408;</strong><a href="http://zz563143188.iteye.com/blog/1867767" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1867767<em>**</em></a></p>
+<ol>
+<li><a href="http://zz563143188.iteye.com/blog/1823042" target="_blank" rel="external">&#x5168;&#x56FD;(&#x5927;&#x5B66;)&#x9AD8;&#x7B49;&#x6559;&#x80B2;&#x5404;&#x5B66;&#x79D1;&#x89C6;&#x9891;&#x6559;&#x5B66;&#x5168;&#x96C6;</a><a href="http://zz563143188.iteye.com/blog/1823042" target="_blank" rel="external">http://zz563143188.iteye.com/blog/1823042</a></li>
+</ol>
+<p>&#x66F4;&#x591A;&#x9AD8;&#x7EA7;&#x5E94;&#x7528;&#xFF08;&#x9879;&#x76EE;&#x6784;&#x67B6;&#x3001;&#x5DE5;&#x7A0B;&#x3001;&#x6587;&#x6863;&#x3001;&#x7814;&#x53D1;&#x7BA1;&#x7406;&#xFF09; <a href="http://zz563143188.iteye.com/" target="_blank" rel="external">http://zz563143188.iteye.com/</a></p>
+<p><strong>github&#x67E5;&#x770B;&#x9879;&#x76EE;&#x5730;&#x5740;</strong> : <strong><a href="https://github.com/zl19861124/codeFactory" target="_blank" rel="external">https://github.com/zl19861124/codeFactory</a></strong></p>
+<p>&#x672C;&#x4EBA;&#x53EA;&#x662F;&#x5C06;<a href="http://www.jeecms.com/" target="_blank" rel="external">www.jeecms.com</a>&#x8FDB;&#x884C;&#x6539;&#x53D8;&#x3002;&#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x8BA9;&#x5927;&#x5BB6;&#x66F4;&#x52A0;&#x4E86;&#x89E3;jeecms,&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x8BA9;&#x5927;&#x5BB6;&#x5B66;&#x4E60;&#x3002;</p>
+<p>&#x957F;&#x867D;&#x7136;&#x6211;&#x5DE5;&#x4F5C;&#x5F88;&#x5FD9;&#x6CA1;&#x6709;&#x95F2;&#x6687;&#x65F6;&#x95F4;&#xFF0C;&#x4F46;&#x6211;&#x8FD8;&#x662F;&#x613F;&#x610F;&#x62BD;&#x65F6;&#x95F4;&#x5206;&#x4EAB;&#x4F18;&#x79C0;&#x7684;&#x9879;&#x76EE;&#x7ED9;&#x5927;&#x5BB6;&#x5B66;&#x4E60;&#x3002;</p>
+<p><strong>&#x67B6;&#x6784;&#x5206;&#x5C42;&#x56FE;&#x89E3;&#xFF1A;</strong></p>
+<p><strong>1.&#x540E;&#x53F0;&#x5DE5;&#x7A0B; &#x5305;&#x547D;&#x540D;&#x89C4;&#x5219;&#x4EE5;com.jeecms.cms.(&#x5206;&#x4E3A;&#x4EE5;&#x4E0B;&#x56FE;&#x5C42;),&#x9879;&#x76EE;&#x67B6;&#x6784;entity,dao,mng,action,html&#x7B49;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37d4a1d.jpg" alt=""></p>
+<p><strong>2.&#x4E0A;&#x56FE;&#x7ED3;&#x6784;&#x56FE;&#x5728;&#x9879;&#x76EE;&#x5206;&#x5E03;&#x56FE;&#x5982;&#x4E0B;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37d4a1d.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>3.&#x6570;&#x636E;&#x5E93;&#x6620;&#x5C04;&#x6587;&#x4EF6;&#xFF0C;&#x4E0B;&#x9762;&#x6709;&#x5BF9;&#x8C61;&#x5904;&#x5728;&#x7684;&#x5305;&#x5C42;&#x53CA;&#x5BF9;&#x8C61;&#x5BF9;&#x5E94;&#x7684;&#x6570;&#x636E;&#x5E93;&#x8868;&#x3002;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37d4eff.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>4.java bean&#x914D;&#x7F6E;&#x5728;entity&#x5305;&#x4E0B;&#x9762;&#xFF0C;Base&#x5305;&#x4E0B;&#x9762;&#x90FD;&#x662F;&#x76F4;&#x63A5;&#x4E0E;&#x6570;&#x636E;&#x8868;&#x5173;&#x8054;&#x7684;&#x5BF9;&#x8C61;&#x3002;&#x5728;&#x8FD9;&#x91CC;&#x521B;&#x5EFA;&#x5B57;&#x6BB5;&#x5C5E;&#x6027;&#x53CA;&#x5BF9;&#x8C61;&#x5BF9;&#x5E94;&#x7684;xml&#x6620;&#x5C04;&#x7684;&#x8868;&#x5B57;&#x6BB5;&#x5C5E;&#x6027;&#x7684;get,set&#x65B9;&#x6CD5;&#x3002;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37d58c3.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>5.&#x6211;&#x91C7;&#x7528;&#x7684;spring mvc&#x5B9E;&#x73B0;action,dao,manager&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x65B9;&#x6CD5;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x5C06;&#x5B9E;&#x73B0;&#x7C7B;&#x5728;spring&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x8F7D;&#xFF0C;&#x7EDF;&#x4E00;&#x9996;&#x5B57;&#x6BCD;&#x5C0F;&#x5199;&#x65B9;&#x5F0F;&#x547D;&#x540D;&#x3002;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37d5da5.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>6.Dao&#x5728;spring&#x6587;&#x4EF6;&#x4E2D;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37d6016.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>7.&#x4E1A;&#x52A1;&#x5C42;&#x7684;&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#x901A;&#x8FC7;spring&#x7684;&#x6CE8;&#x89E3;&#x5B9E;&#x73B0;&#xFF0C;&#x4E8B;&#x52A1;&#x4E5F;&#x4EA4;&#x7ED9;spring&#xFF08;&#x6709;&#x7F51;&#x53CB;&#x5EFA;&#x8BAE;readonly&#x5F00;&#x5173;&#x8BBE;&#x7F6E;&#xFF09;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37d6287.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>8.action&#x63A7;&#x5236;&#x5C42;&#x662F;&#x4E1A;&#x52A1;&#x5C42;&#x4E0E;&#x89C6;&#x56FE;&#x5C42;&#x7684;&#x6865;&#x6881;&#xFF0C;&#x8FD9;&#x91CC;&#x9700;&#x8981;&#x7533;&#x660E;&#x4E1A;&#x52A1;&#x5C42;&#x63A5;&#x53E3;&#xFF0C;&#x5F53;&#x7136;spring&#x5DF2;&#x7ECF;&#x6309;&#x7C7B;&#x578B;&#x6CE8;&#x89E3;&#x3002;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37d84b5.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>9.&#x8D44;&#x6E90;&#x6587;&#x4EF6;&#x662F;&#x652F;&#x6301;&#x56FD;&#x9645;&#x5316;&#x7684;&#x91CD;&#x8981;&#x6587;&#x4EF6;&#xFF0C;&#x8FD9;&#x4E2A;&#x4E5F;&#x9700;&#x8981;&#x5728;springmvc&#x4E2D;&#x6307;&#x5B9A;&#x3002;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37d8997.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>10.html&#x7684;&#x547D;&#x540D;&#x7EDF;&#x4E00;&#xFF0C;&#x4E0A;&#x4E00;&#x6B21;&#x76EE;&#x5F55;&#x90FD;&#x662F;&#x6309;&#x7167;&#x8868;&#x540D;&#x6765;&#x5B9A;&#x4E49;&#x3002;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37d983d.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>&#x5F00;&#x53D1;&#x6D41;&#x7A0B;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;&#xFF1A;</strong></p>
+<p><strong>1.web.xml&#x6587;&#x4EF6;&#x662F;&#x5DE5;&#x7A0B;&#x8FD0;&#x884C;&#x7684;&#x8D77;&#x70B9;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x8FD9;&#x91CC;</strong>&#x914D;&#x7F6E;&#x597D;&#x6240;&#x6709;&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x3002;&#x5F15;&#x5BFC;&#x9875;&#x3001;spring&#x3001;log4j,struts&#x3001;hibernate&#x3001;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x76D1;&#x542C;&#x3001;&#x7B49;&#x7B49;&#x90FD;&#x662F;&#x5728;&#x8FD9;&#x91CC;&#x914D;&#x7F6E;&#x597D;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150701/37d9d1f.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>2.jeecms&#x5DE5;&#x7A0B;&#x7684;&#x8BBF;&#x95EE;&#x76EE;&#x5F55;&#x53CA;&#x8BBF;&#x95EE;&#x8DEF;&#x5F84;&#x5728;web.xml&#x4E2D;&#x7684;&#x914D;&#x7F6E;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37d9f90.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>3.&#x8D44;&#x6E90;&#x6587;&#x4EF6;&#x914D;&#x7F6E;,&#x8D44;&#x6E90;&#x6587;&#x4EF6;&#x7684;key&#x547D;&#x540D;&#x89C4;&#x5219;&#x7528;(&#x5BF9;&#x8C61;.&#x529F;&#x80FD;.&#x4FE1;&#x606F;)</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37da201.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>4.&#x6570;&#x636E;&#x5E93;&#x8FDE;&#x63A5;&#x6587;&#x4EF6;jdbc.propertiy&#x7684;&#x914D;&#x7F6E;&#x540C;spring&#x653E;&#x7F6E;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;&#x9762;&#x3002;</strong></p>
+<p><strong>&#x5982;&#x679C;&#x662F;&#x5355;&#x5143;&#x5C31;&#x5728;classpath:config&#x4E0B;&#x9762;&#xFF0C;&#x5982;&#x679C;&#x662F;web.xml&#x52A0;&#x8F7D;&#x5219;&#x5728;web-inf/config&#x4E0B;&#x9762;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37da472.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>5.spring&#x52A0;&#x8F7D;&#x6570;&#x636E;&#x5E93;jdbc&#x6587;&#x4EF6;&#xFF0C;&#x901A;&#x8FC7;&#x901A;&#x914D;&#x7B26;&#x6765;&#x8BFB;&#x51FA;.properity&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6B63;&#x3002; &#x5982;&#x679C;&#x662F;&#x5355;&#x5143;&#x5C31;&#x5728;classpath:config&#x4E0B;&#x9762;&#xFF0C;&#x5982;&#x679C;&#x662F;web.xml&#x52A0;&#x8F7D;&#x5219;&#x5728;web-inf/config&#x4E0B;&#x9762;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37da6e3.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>6.jeecms&#x81EA;&#x5B9A;&#x4E49;&#x6807;&#x7B7E;&#x5728;spring&#x4E2D;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x8FD9;&#x4E9B;&#x6807;&#x7B7E;&#x901A;&#x8FC7;java&#x5B9E;&#x73B0;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37db318.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>7.springmvc&#x5728;&#x63A7;&#x5236;&#x5C42;&#x8FD4;&#x56DE;&#x7684;&#x8DEF;&#x5F84;&#x8BBE;&#x7F6E;&#xFF0C;jeecms_sys&#x662F;action&#x9ED8;&#x8BA4;&#x8FD4;&#x56DE;&#x7684;&#x76EE;&#x5F55;&#x3002;&#x5982;&#x679C;&#x6587;&#x4EF6;&#x4E0D;&#x5728;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x5219;&#x65E0;&#x6CD5;&#x627E;&#x5230;&#x76F8;&#x5E94;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x4E14;&#x914D;&#x7F6E;&#x4E86;&#x53EA;&#x80FD;&#x5339;&#x914D;.html&#x6587;&#x4EF6;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37db318.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>8.&#x5B9A;&#x4E49;springmvc&#x7684;view&#x76EE;&#x5F55;&#x53CA;&#x767B;&#x9646;&#x5730;&#x5740;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37db7fa.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>9.&#x5728;spring&#x4E2D;&#x914D;&#x7F6E;&#x597D;&#x8D44;&#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x4F7F;spring mvc&#x5728;html&#x6587;&#x4EF6;&#x80FD;&#x591F;&#x8BFB;&#x5230;&#x8D44;&#x6E90;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37dbcdc.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>10.&#x914D;&#x7F6E;&#x6570;&#x636E;&#x5E93;hibernate&#x7684;xml&#x6587;&#x4EF6;hbm.xml&#x6587;&#x4EF6;</strong></p>
+<p><strong><img src="http://taojinke.github.io/img/20150701/37dbf4d.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></strong></p>
+<p><strong>11.java&#x5BF9;&#x8C61;&#x4E0E;hbm.xml&#x6587;&#x4EF6;&#x4EA4;&#x6362;&#x5BF9;&#x8C61;&#x7684;bean&#x5BF9;&#x8C61;&#x521B;&#x5EFA;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37dc911.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>12.DAO&#x5C42;&#x914D;&#x7F6E;&#xFF0C;&#x8FD9;&#x662F;&#x76F4;&#x63A5;&#x4E0E;&#x6570;&#x636E;&#x5E93;&#x627E;&#x4EA4;&#x9053;&#x7684;&#x5C42;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37dd2d5.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>13.&#x4E1A;&#x52A1;&#x5C42;&#xFF08;service&#xFF09;&#x5BF9;&#x8C61;&#x914D;&#x7F6E;,&#x4E5F;&#x5C31;&#x662F;&#x5E38;&#x8BF4;&#x7684;&#x4E0A;&#x901A;DAO&#x5C42;&#x4E0B;&#x8FBE;&#x63A7;&#x5236;&#x5C42;&#x7684;&#x4E2D;&#x95F4;&#x5C42;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37dda28.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>14.&#x63A7;&#x5236;&#x5C42;&#x4E5F;&#x5C31;&#x662F;action&#x5C42;&#xFF0C;&#x662F;&#x4E1A;&#x52A1;&#x5C42;&#x4E0E;view&#x5C42;&#x7684;&#x6865;&#x6881;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37de3ec.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>15.&#x5728;spring&#x6587;&#x4EF6;&#x4E2D;&#x914D;&#x7F6E;dao&#x3001;service&#x5BF9;&#x8C61;&#x5F62;&#x6210;&#x5355;&#x4F8B;&#xFF0C;&#x4EE5;&#x4FBF;&#x5728;&#x670D;&#x52A1;&#x5668;&#x542F;&#x52A8;&#x7684;&#x65F6;&#x5019;&#x52A0;&#x8F7D; &#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37de8ce.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>16.&#x5230;&#x8FD9;&#x91CC;&#x901A;&#x8FC7;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x7C7B;test&#x7C7B;&#x6D4B;&#x8BD5;&#x4E1A;&#x52A1;&#x5C42;&#x4E0E;&#x6570;&#x636E;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x9700;&#x8981;&#x6DFB;&#x52A0;junit4&#x5230;&#x5DE5;&#x7A0B;&#x4E2D;&#x3002;</strong><a href="https://github.com/zl19861124/jeecms/blob/master/src/com/jeecms/cms/test/test.java" target="_blank" rel="external">https://github.com/zl19861124/jeecms/blob/master/src/com/jeecms/cms/test/test.java</a></p>
+<p><img src="http://taojinke.github.io/img/20150701/37deb3f.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>17.&#x597D;&#x4E86;&#x5230;&#x73B0;&#x5728;&#x4E3A;&#x6B62;&#xFF0C;springmvc&#x4E1A;&#x52A1;&#x4EE3;&#x7801;&#x5C31;OK&#x4E86;&#x3002;&#x63A5;&#x4E0B;&#x6765;&#x5F00;&#x53D1;html&#x6587;&#x4EF6;&#xFF08;&#x6570;&#x636E;&#x663E;&#x793A;&#x7528;&#x6807;&#x7B7E;&#x5B9E;&#x73B0;&#xFF09;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37e20f5.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>18.&#x7F16;&#x8F91;&#x754C;&#x9762;&#x4EE3;&#x7801;&#x901A;&#x8FC7;freemarker&#x6765;&#x5B9E;&#x73B0;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37e2ab9.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>19.&#x5230;&#x8FD9;&#x91CC;&#x4EE3;&#x7801;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#x8868;&#x5230;&#x4E1A;&#x52A1;&#x5C42;&#x5230;&#x89C6;&#x56FE;&#x5C42;&#x7684;&#x4EE3;&#x7801;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;codeFactory&#x53D1;&#x5E03;&#x5230;tomcat&#x4E2D;&#x53BB;<a href="http://user.qzone.qq.com/563143188" target="_blank" rel="external">tomcat&#x7528;&#x6237;&#x540D;&#x662F;admin&#x5BC6;&#x7801;admin)</a></strong></p>
+<p><strong>20.&#x9879;&#x76EE;&#x53D1;&#x5E03;&#x6210;&#x529F;&#x540E;&#x8BBF;&#x95EE;&#x5730;&#x5740; <a href="http://127.0.0.1:8088/codeFactory/jeeadmin/jeecms/index.do" target="_blank" rel="external">http://127.0.0.1:8088/codeFactory/jeeadmin/jeecms/index.do</a></strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37e2d2a.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>21.&#x767B;&#x9646;&#x6210;&#x529F;&#x540E;&#x8FDB;&#x5165;&#x540E;&#x53F0;&#x754C;&#x9762;&#xFF1A;&#x5F3A;&#x5927;&#x7684;&#x540E;&#x53F0;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x4E0D;&#x9700;&#x8981;&#x4E00;&#x884C;&#x4EE3;&#x7801;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x3002;&#x5230;&#x8FD9;&#x91CC;&#x4E00;&#x6B65;&#x76F8;&#x4FE1;&#x5F88;&#x591A;&#x4EBA;&#x5DF2;&#x7ECF;&#x7CCA;&#x6D82;&#x4E86;&#xFF0C;&#x8FD9;&#x4E2A;&#x6D41;&#x7A0B;&#x592A;&#x590D;&#x6742;&#x4E86;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37e2d2a.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>22. &#x5F3A;&#x5927;&#x7684;&#x529F;&#x80FD;&#x5236;&#x5B9A;&#xFF0C;&#x53EF;&#x4EE5;&#x4EFB;&#x7531;&#x4F60;&#x9009;&#x62E9;&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37e2f9b.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><strong>23.&#x5F53;&#x8FD9;&#x4E00;&#x6B65;&#x9879;&#x76EE;&#x5C31;&#x6F14;&#x793A;&#x7ED3;&#x675F;&#x4E86;&#xFF0C;&#x6B22;&#x8FCE;&#x5927;&#x5BB6;&#x5B66;&#x4E60;&#xFF0C;&#x4E25;&#x7981;&#x5546;&#x7528;(&#x6D88;&#x5316;&#x7406;&#x89E3;jeecms&#x540E;&#x6539;&#x8FDB;&#x7684;&#xFF0C;&#x53EA;&#x5E0C;&#x671B;&#x66F4;&#x591A;&#x4EBA;&#x4E86;&#x89E3;cms)&#x3002;</strong></p>
+<p><img src="http://taojinke.github.io/img/20150701/37e320c.jpg" alt="&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x539F;&#x59CB;&#x5927;&#x5C0F;&#x56FE;&#x7247;"></p>
+<p><a href="http://user.qzone.qq.com/563143188" target="_blank" rel="external"><strong>24&#x3001;&#x611F;&#x8C22; www.jeecms.com&#x63D0;&#x4F9B;&#x4E86;&#x5982;&#x4F55;&#x4F18;&#x79C0;&#x7684;&#x5F00;&#x6E90;&#x9879;&#x76EE;&#xFF0C;&#x4EE5;&#x540E;&#x8FD8;&#x4F1A;&#x63A8;&#x51FA;&#x6743;&#x9650;&#x3001;&#x6D41;&#x7A0B;&#x5BA1;&#x6279;&#x3001;maven&#x3001;svn&#x3001;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x751F;&#x6210;(&#x4ECE;&#x5EFA;&#x8868;&#x5230;&#x4E1A;&#x52A1;&#x5C42;&#x4EE3;&#x7801;&#x754C;&#x9762;&#x663E;&#x793A;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x5199;&#x4E00;&#x884C;&#x4EE3;&#x7801;&#x5C31;&#x81EA;&#x52A8;&#x5B9E;&#x73B0;)&#x3002;</strong></a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/分类：-java/">分类： java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/01/37e9fe9/" title="maven 项目 spring mvc + jdbc 配置文件 - hfmbook的专栏">
+  <strong>上一篇：</strong><br/>
+  <span>
+  maven 项目 spring mvc + jdbc 配置文件 - hfmbook的专栏</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/01/37cc8b8/"  title="spring mvc rest 优雅风格 - tang7837010的专栏">
+ <strong>下一篇：</strong><br/> 
+ <span>spring mvc rest 优雅风格 - tang7837010的专栏
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>97</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Twitter/" title="Twitter">Twitter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ECMAScript/" title="ECMAScript">ECMAScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

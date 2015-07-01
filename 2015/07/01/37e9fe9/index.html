@@ -1,0 +1,782 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>maven 项目 spring mvc + jdbc 配置文件 - hfmbook的专栏 | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;amp;lt;?xml version=&amp;amp;quot;1.0&amp;amp;quot; encoding=&amp;amp;quot;UTF-8&amp;amp;quot;?&amp;amp;gt;
+&amp;amp;lt;beans xmlns=&amp;amp;quot;http://www.springframework.org/schema/beans&amp;amp;quot;
+    xmlns:xsi=&amp;amp;quot;htt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="maven 项目 spring mvc + jdbc 配置文件 - hfmbook的专栏">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/01/37e9fe9/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;amp;lt;?xml version=&amp;amp;quot;1.0&amp;amp;quot; encoding=&amp;amp;quot;UTF-8&amp;amp;quot;?&amp;amp;gt;
+&amp;amp;lt;beans xmlns=&amp;amp;quot;http://www.springframework.org/schema/beans&amp;amp;quot;
+    xmlns:xsi=&amp;amp;quot;htt">
+<meta property="og:updated_time" content="2015-07-01T15:38:28.472Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="maven 项目 spring mvc + jdbc 配置文件 - hfmbook的专栏">
+<meta name="twitter:description" content="&amp;amp;lt;?xml version=&amp;amp;quot;1.0&amp;amp;quot; encoding=&amp;amp;quot;UTF-8&amp;amp;quot;?&amp;amp;gt;
+&amp;amp;lt;beans xmlns=&amp;amp;quot;http://www.springframework.org/schema/beans&amp;amp;quot;
+    xmlns:xsi=&amp;amp;quot;htt">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/01/37e9fe9/" title="maven 项目 spring mvc + jdbc 配置文件 - hfmbook的专栏" itemprop="url">maven 项目 spring mvc + jdbc 配置文件 - hfmbook的专栏</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T03:38:27.000Z" itemprop="datePublished"> 发表于 2015-07-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">?</span><span class="built_in">xml</span> version<span class="subst">=&amp;</span>quot;<span class="number">1.0</span><span class="subst">&amp;</span>quot; encoding<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">?&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;beans xmlns<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/beans&amp;quot;</span>
+    xmlns:xsi<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.w3.org/2001/XMLSchema-instance&amp;quot; xmlns:mvc=&amp;quot;http://www.springframework.org/schema/mvc&amp;quot;</span>
+    xmlns:context<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/context&amp;quot; xmlns:p=&amp;quot;http://www.springframework.org/schema/p&amp;quot;</span>
+    xmlns:util<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/util&amp;quot; xmlns:tx=&amp;quot;http://www.springframework.org/schema/tx&amp;quot;</span>
+    xmlns:aop<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/aop&amp;quot;</span>
+    xmlns:task<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/task&amp;quot;</span>
+    xsi:schemaLocation<span class="subst">=&amp;</span>quot;
+        http:<span class="comment">//www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/task   </span>
+        http:<span class="comment">//www.springframework.org/schema/task/spring-task-3.0.xsd&amp;quot;&amp;gt;</span>
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x542F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x89E3</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;context:annotation<span class="attribute">-config</span> <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x89E3</span>;<span class="subst">&amp;</span><span class="variable">#x626B</span>;<span class="subst">&amp;</span><span class="variable">#x63CF</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5305</span>;<span class="subst">&amp;</span><span class="variable">#x8DEF</span>;<span class="subst">&amp;</span><span class="variable">#x5F84</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;context:component<span class="attribute">-scan</span> base<span class="attribute">-package</span><span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>power<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> jsp<span class="subst">&amp;</span><span class="variable">#x8BBF</span>;<span class="subst">&amp;</span><span class="variable">#x95EE</span>;<span class="subst">&amp;</span><span class="variable">#x8DEF</span>;<span class="subst">&amp;</span><span class="variable">#x5F84</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean class<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>springframework<span class="built_in">.</span>web<span class="built_in">.</span>servlet<span class="built_in">.</span>view<span class="built_in">.</span>InternalResourceViewResolver<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;prefix<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;/WEB<span class="attribute">-INF</span>/page<span class="subst">/</span><span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;suffix<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;<span class="built_in">.</span>jsp<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x4F01</span>;<span class="subst">&amp;</span><span class="variable">#x4E1A</span>;mvc<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x89E3</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean
+        class<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>springframework<span class="built_in">.</span>web<span class="built_in">.</span>servlet<span class="built_in">.</span>mvc<span class="built_in">.</span>annotation<span class="built_in">.</span>AnnotationMethodHandlerAdapter<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x6DFB</span>;<span class="subst">&amp;</span><span class="variable">#x52A0</span>;<span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>;<span class="subst">&amp;</span><span class="variable">#x6587</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>; <span class="subst">&amp;</span><span class="variable">#x5230</span>;spring<span class="subst">&amp;</span><span class="variable">#x4E0A</span>;<span class="subst">&amp;</span><span class="variable">#x4E0B</span>;<span class="subst">&amp;</span><span class="variable">#x6587</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;context:property<span class="attribute">-placeholder</span> location<span class="subst">=&amp;</span>quot;classpath<span class="subst">*</span>:dataSourceConfig<span class="built_in">.</span>properties<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">**************</span> DataSource: dbcp <span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#x5E93</span>;<span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>;<span class="subst">****************</span> <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean id<span class="subst">=&amp;</span>quot;dataSource<span class="subst">&amp;</span>quot; class<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>commons<span class="built_in">.</span>dbcp<span class="built_in">.</span>BasicDataSource<span class="subst">&amp;</span>quot;
+        destroy<span class="attribute">-method</span><span class="subst">=&amp;</span>quot;close<span class="subst">&amp;</span>quot; lazy<span class="attribute">-init</span><span class="subst">=&amp;</span>quot;<span class="literal">false</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;driverClassName<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>driverClassName}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;url<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>url}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;connectionProperties<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>connectionProperties}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;username<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>username}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;password<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>password}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;initialSize<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>initialSize}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;maxActive<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>maxActive}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;maxIdle<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>maxIdle}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;minIdle<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>minIdle}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;maxWait<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>maxWait}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;logAbandoned<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>logAbandoned}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;removeAbandonedTimeout<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>removeAbandonedTimeout}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;removeAbandoned<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>removeAbandoned}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;poolPreparedStatements<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${dbcp<span class="built_in">.</span>poolPreparedStatements}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">*********&amp;</span><span class="variable">#x4E8B</span>;<span class="subst">&amp;</span><span class="variable">#x7269</span>;<span class="subst">&amp;</span><span class="variable">#x7BA1</span>;<span class="subst">&amp;</span><span class="variable">#x7406</span>;<span class="subst">**************</span> <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean id<span class="subst">=&amp;</span>quot;transactionManager<span class="subst">&amp;</span>quot;
+        class<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>springframework<span class="built_in">.</span>jdbc<span class="built_in">.</span>datasource<span class="built_in">.</span>DataSourceTransactionManager<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;dataSource<span class="subst">&amp;</span>quot; ref<span class="subst">=&amp;</span>quot;dataSource<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x4E8B</span>;<span class="subst">&amp;</span><span class="variable">#x7269</span>;<span class="subst">&amp;</span><span class="variable">#x62E6</span>;<span class="subst">&amp;</span><span class="variable">#x622A</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5305</span>;<span class="subst">&amp;</span><span class="variable">#x8DEF</span>;<span class="subst">&amp;</span><span class="variable">#x5F84</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;aop:config<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;aop:advisor pointcut<span class="subst">=&amp;</span>quot;execution(<span class="subst">*</span> com<span class="built_in">.</span>power<span class="built_in">.</span>dao<span class="built_in">.</span><span class="subst">*</span><span class="built_in">.</span><span class="subst">*</span>(<span class="built_in">..</span>))<span class="subst">&amp;</span>quot; 
+            advice<span class="attribute">-ref</span><span class="subst">=&amp;</span>quot;txAdvice<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/aop:config<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x4E8B</span>;<span class="subst">&amp;</span><span class="variable">#x7269</span>;<span class="subst">&amp;</span><span class="variable">#x62E6</span>;<span class="subst">&amp;</span><span class="variable">#x622A</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x7C7B</span>;<span class="subst">&amp;</span><span class="variable">#x578B</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;tx:advice id<span class="subst">=&amp;</span>quot;txAdvice<span class="subst">&amp;</span>quot; transaction<span class="attribute">-manager</span><span class="subst">=&amp;</span>quot;transactionManager<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;tx:attributes<span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;tx:method name<span class="subst">=&amp;</span>quot;get<span class="subst">*&amp;</span>quot; read<span class="attribute">-only</span><span class="subst">=&amp;</span>quot;<span class="literal">true</span><span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;tx:method name<span class="subst">=&amp;</span>quot;query<span class="subst">*&amp;</span>quot; read<span class="attribute">-only</span><span class="subst">=&amp;</span>quot;<span class="literal">true</span><span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;tx:method name<span class="subst">=&amp;</span>quot;find<span class="subst">*&amp;</span>quot; read<span class="attribute">-only</span><span class="subst">=&amp;</span>quot;<span class="literal">true</span><span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;tx:method name<span class="subst">=&amp;</span>quot;load<span class="subst">*&amp;</span>quot; read<span class="attribute">-only</span><span class="subst">=&amp;</span>quot;<span class="literal">true</span><span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;tx:method name<span class="subst">=&amp;</span>quot;<span class="keyword">select</span><span class="subst">*&amp;</span>quot; read<span class="attribute">-only</span><span class="subst">=&amp;</span>quot;<span class="literal">true</span><span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;tx:method name<span class="subst">=&amp;</span>quot;<span class="subst">*&amp;</span>quot; propagation<span class="subst">=&amp;</span>quot;REQUIRED<span class="subst">&amp;</span>quot; rollback<span class="attribute">-for</span><span class="subst">=&amp;</span>quot;Exception<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/tx:attributes<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/tx:advice<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x521B</span>;<span class="subst">&amp;</span><span class="variable">#x5EFA</span>;spring jdbcTemplate<span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean class<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>springframework<span class="built_in">.</span>jdbc<span class="built_in">.</span>core<span class="built_in">.</span>JdbcTemplate<span class="subst">&amp;</span>quot; id<span class="subst">=&amp;</span>quot;jdbcTemplate<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;dataSource<span class="subst">&amp;</span>quot; ref<span class="subst">=&amp;</span>quot;dataSource<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x5B9A</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#x4EFB</span>;<span class="subst">&amp;</span><span class="variable">#x52A1</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>; 
+     <span class="subst">&amp;</span><span class="literal">lt</span>;task:scheduled<span class="attribute">-tasks</span><span class="subst">&amp;</span><span class="literal">gt</span>;                                                            
+        <span class="subst">&amp;</span><span class="literal">lt</span>;task:scheduled ref<span class="subst">=&amp;</span>quot;taskTrigger<span class="subst">&amp;</span>quot; method<span class="subst">=&amp;</span>quot;showTime<span class="subst">&amp;</span>quot; cron<span class="subst">=&amp;</span>quot;<span class="number">0</span> <span class="number">1</span>/<span class="number">1</span> <span class="subst">*</span> <span class="subst">*</span> <span class="subst">*</span> <span class="subst">?&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/task:scheduled<span class="attribute">-tasks</span><span class="subst">&amp;</span><span class="literal">gt</span>; 
+
+<span class="subst">&amp;</span><span class="literal">lt</span>;/beans<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>pom&#x6587;&#x4EF6; spring jdbc + mvc&#x9700;&#x8981;&#x7684;&#x5305;<br>    &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;project xmlns<span class="subst">=&amp;</span>quot;http:<span class="comment">//maven.apache.org/POM/4.0.0&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot; xsi:schemaLocation=&amp;quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&amp;quot;&amp;gt;</span>
+
+  <span class="subst">&amp;</span><span class="literal">lt</span>;modelVersion<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">4.0</span><span class="built_in">.0</span><span class="subst">&amp;</span><span class="literal">lt</span>;/modelVersion<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;packaging<span class="subst">&amp;</span><span class="literal">gt</span>;war<span class="subst">&amp;</span><span class="literal">lt</span>;/packaging<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+  <span class="subst">&amp;</span><span class="literal">lt</span>;name<span class="subst">&amp;</span><span class="literal">gt</span>;power<span class="built_in">.</span>plugins<span class="subst">&amp;</span><span class="literal">lt</span>;/name<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;com<span class="built_in">.</span>framework<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;power<span class="built_in">.</span>plugins<span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">0.0</span><span class="built_in">.1</span><span class="attribute">-SNAPSHOT</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+  <span class="subst">&amp;</span><span class="literal">lt</span>;build<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;plugins<span class="subst">&amp;</span><span class="literal">gt</span>;
+      <span class="subst">&amp;</span><span class="literal">lt</span>;plugin<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>mortbay<span class="built_in">.</span>jetty<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;maven<span class="attribute">-jetty</span><span class="attribute">-plugin</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">6.1</span><span class="built_in">.7</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;configuration<span class="subst">&amp;</span><span class="literal">gt</span>;
+          <span class="subst">&amp;</span><span class="literal">lt</span>;connectors<span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;connector implementation<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>mortbay<span class="built_in">.</span>jetty<span class="built_in">.</span>nio<span class="built_in">.</span>SelectChannelConnector<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+              <span class="subst">&amp;</span><span class="literal">lt</span>;port<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">8888</span><span class="subst">&amp;</span><span class="literal">lt</span>;/port<span class="subst">&amp;</span><span class="literal">gt</span>;
+              <span class="subst">&amp;</span><span class="literal">lt</span>;maxIdleTime<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">30000</span><span class="subst">&amp;</span><span class="literal">lt</span>;/maxIdleTime<span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;/connector<span class="subst">&amp;</span><span class="literal">gt</span>;
+          <span class="subst">&amp;</span><span class="literal">lt</span>;/connectors<span class="subst">&amp;</span><span class="literal">gt</span>;
+          <span class="subst">&amp;</span><span class="literal">lt</span>;webAppSourceDirectory<span class="subst">&amp;</span><span class="literal">gt</span>;${project<span class="built_in">.</span>build<span class="built_in">.</span>directory}<span class="subst">/</span>${pom<span class="built_in">.</span>artifactId}<span class="subst">-</span>${pom<span class="built_in">.</span>version}<span class="subst">&amp;</span><span class="literal">lt</span>;/webAppSourceDirectory<span class="subst">&amp;</span><span class="literal">gt</span>;
+          <span class="subst">&amp;</span><span class="literal">lt</span>;contextPath<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">lt</span>;/contextPath<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/configuration<span class="subst">&amp;</span><span class="literal">gt</span>;
+      <span class="subst">&amp;</span><span class="literal">lt</span>;/plugin<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/plugins<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;/build<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+  <span class="subst">&amp;</span><span class="literal">lt</span>;dependencies<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;commons<span class="attribute">-io</span><span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;commons<span class="attribute">-io</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;${commons<span class="attribute">-version</span>}<span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;commons<span class="attribute">-lang</span><span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;commons<span class="attribute">-lang</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;${commons<span class="attribute">-version</span>}<span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+     <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;log4j<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;log4j<span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">1.2</span><span class="built_in">.17</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;commons<span class="attribute">-fileupload</span><span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;commons<span class="attribute">-fileupload</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">1.3</span><span class="built_in">.1</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>apache<span class="built_in">.</span>commons<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;commons<span class="attribute">-lang3</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">3.3</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;commons<span class="attribute">-dbcp</span><span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;commons<span class="attribute">-dbcp</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">1.4</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> SPRING JDBC <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>springframework<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;spring<span class="attribute">-jdbc</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;${spring<span class="attribute">-version</span>}<span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>springframework<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;spring<span class="attribute">-webmvc</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;${spring<span class="attribute">-version</span>}<span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>springframework<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;spring<span class="attribute">-tx</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;${spring<span class="attribute">-version</span>}<span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>springframework<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;spring<span class="attribute">-context</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;${spring<span class="attribute">-version</span>}<span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;javax<span class="built_in">.</span>transaction<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;transaction<span class="attribute">-api</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">1.1</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;mysql<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;mysql<span class="attribute">-connector</span><span class="attribute">-java</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">5.1</span><span class="built_in">.34</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>aspectj<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;aspectjweaver<span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">1.8</span><span class="built_in">.4</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;junit<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;junit<span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">4.11</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+<span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+<span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>quartz<span class="attribute">-scheduler</span><span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;quartz<span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">2.2</span><span class="built_in">.1</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+
+      <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+          <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>apache<span class="built_in">.</span>lucene<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+          <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;lucene<span class="attribute">-core</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+          <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">4.10</span><span class="built_in">.2</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+      <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;/dependencies<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+  <span class="subst">&amp;</span><span class="literal">lt</span>;properties<span class="subst">&amp;</span><span class="literal">gt</span>;
+      <span class="subst">&amp;</span><span class="literal">lt</span>;spring<span class="attribute">-version</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">4.1</span><span class="built_in">.2</span><span class="built_in">.</span>RELEASE<span class="subst">&amp;</span><span class="literal">lt</span>;/spring<span class="attribute">-version</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+      <span class="subst">&amp;</span><span class="literal">lt</span>;commons<span class="attribute">-version</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">2.2</span><span class="subst">&amp;</span><span class="literal">lt</span>;/commons<span class="attribute">-version</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;/properties<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+  <span class="subst">&amp;</span><span class="literal">lt</span>;url<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">lt</span>;/url<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/project<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x7248;&#x6743;&#x58F0;&#x660E;&#xFF1A;&#x672C;&#x6587;&#x4E3A;&#x535A;&#x4E3B;&#x539F;&#x521B;&#x6587;&#x7AE0;&#xFF0C;&#x672A;&#x7ECF;&#x535A;&#x4E3B;&#x5141;&#x8BB8;&#x4E0D;&#x5F97;&#x8F6C;&#x8F7D;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/分类：-JAVA/">分类： JAVA</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/01/0369715/" title="">
+  <strong>上一篇：</strong><br/>
+  <span>
+  (no title)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/01/37e6a33/"  title="Spring mvc+hibernate+freemarker(开源项目) -">
+ <strong>下一篇：</strong><br/> 
+ <span>Spring mvc+hibernate+freemarker(开源项目) -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>97</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Twitter/" title="Twitter">Twitter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ECMAScript/" title="ECMAScript">ECMAScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

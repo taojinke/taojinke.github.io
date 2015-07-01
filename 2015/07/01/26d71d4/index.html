@@ -1,0 +1,564 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Java Concurrent并发库实例 - flyingpig4的专栏 | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Concurrent&amp;#x5E76;&amp;#x53D1;&amp;#x5E93;&amp;#x5E95;&amp;#x5C42;&amp;#x5B9E;&amp;#x73B0;&amp;#x4E3B;&amp;#x8981;&amp;#x57FA;&amp;#x4E8E;AbstractQueuedSynchorizer&amp;#x5BF9;&amp;#x8C61;&amp;#xFF0C;&amp;#x901A;&amp;#x8FC7;&amp;#x63A7;&amp;#x5236;&amp;#x4FE1;&amp;#x53F7;&amp;#x91">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Concurrent并发库实例 - flyingpig4的专栏">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/01/26d71d4/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Concurrent&amp;#x5E76;&amp;#x53D1;&amp;#x5E93;&amp;#x5E95;&amp;#x5C42;&amp;#x5B9E;&amp;#x73B0;&amp;#x4E3B;&amp;#x8981;&amp;#x57FA;&amp;#x4E8E;AbstractQueuedSynchorizer&amp;#x5BF9;&amp;#x8C61;&amp;#xFF0C;&amp;#x901A;&amp;#x8FC7;&amp;#x63A7;&amp;#x5236;&amp;#x4FE1;&amp;#x53F7;&amp;#x91">
+<meta property="og:updated_time" content="2015-07-01T15:37:59.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java Concurrent并发库实例 - flyingpig4的专栏">
+<meta name="twitter:description" content="Concurrent&amp;#x5E76;&amp;#x53D1;&amp;#x5E93;&amp;#x5E95;&amp;#x5C42;&amp;#x5B9E;&amp;#x73B0;&amp;#x4E3B;&amp;#x8981;&amp;#x57FA;&amp;#x4E8E;AbstractQueuedSynchorizer&amp;#x5BF9;&amp;#x8C61;&amp;#xFF0C;&amp;#x901A;&amp;#x8FC7;&amp;#x63A7;&amp;#x5236;&amp;#x4FE1;&amp;#x53F7;&amp;#x91">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/01/26d71d4/" title="Java Concurrent并发库实例 - flyingpig4的专栏" itemprop="url">Java Concurrent并发库实例 - flyingpig4的专栏</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T03:37:59.000Z" itemprop="datePublished"> 发表于 2015-07-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>Concurrent&#x5E76;&#x53D1;&#x5E93;&#x5E95;&#x5C42;&#x5B9E;&#x73B0;&#x4E3B;&#x8981;&#x57FA;&#x4E8E;AbstractQueuedSynchorizer&#x5BF9;&#x8C61;&#xFF0C;&#x901A;&#x8FC7;&#x63A7;&#x5236;&#x4FE1;&#x53F7;&#x91CF;&#xFF0C;&#x8C03;&#x7528;tryAcquire(),tryRelease()&#x7B49;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#x4E86;&#x4EE5;&#x4E0B;&#x529F;&#x80FD;</p>
+<p>1.AllenThread:Thread&#x5B9E;&#x4F8B;</p>
+<p>/<em>* </em> @author fuweiwei.pt <em> </em>/ public class AllenThread extends Thread { @Override public void run() { // TODO Auto-generated method stub System.out.println(&quot;hello allen&quot;); } public static void main(String[] args){ for(int i=0;i&lt;10;i++){ Thread t=new AllenThread(); t.start(); } } } </p>
+<p>&#xA0;</p>
+<p>2.BlockingQueueTest&#x5B9E;&#x4F8B;</p>
+<p>import java.io.File; import java.util.concurrent.BlockingQueue; import java.util.concurrent.ExecutorService; import java.util.concurrent.Executors; import java.util.concurrent.LinkedBlockingDeque; import java.util.concurrent.LinkedBlockingQueue; import com.sun.org.apache.bcel.internal.generic.NEW; public class BlockingQueueTest { public static File extFile = new File(&quot;&quot;); /<em>* </em> @param args */ public static void main(String[] args) { // TODO Auto-generated method stub BlockingQueue queue = new LinkedBlockingQueue&lt;File&gt;(100); ExecutorService exe = Executors.newFixedThreadPool(5); exe.submit(new WriteRunnable(queue)); for (int i = 0; i &lt; 4; i++) { exe.submit(new ReadRunnable(&quot;&#x7EBF;&#x7A0B;&quot;+i,queue)); } exe.shutdown(); } } class WriteRunnable implements Runnable { private BlockingQueue queue; public BlockingQueue getQueue() { return queue; } public void setQueue(BlockingQueue queue) { this.queue = queue; } public WriteRunnable(BlockingQueue queue) { this.queue = queue; } @Override public void run() { // TODO Auto-generated method stub try { writeFile(new File(&quot;d://fun&quot;)); writeFile(new File(&quot;&quot;)); // queue.put(new File(&quot;D://jboss&quot;)); } catch (InterruptedException e) { // TODO Auto-generated catch block e.printStackTrace(); } } public void writeFile(File file) throws InterruptedException { if (file.isDirectory()) { for (File newFile : file.listFiles()) { writeFile(newFile); } } else { queue.put(file); // if (file != new File(&quot;D://jboss&quot;)) if (file != new File(&quot;&quot;)) System.out.println(&quot;&#x961F;&#x5217;&#x6DFB;&#x52A0;:&quot; + file.getName()); } } } class ReadRunnable implements Runnable { private BlockingQueue queue; private String str; public String getStr() { return str; } public void setStr(String str) { this.str = str; } public BlockingQueue getQueue() { return queue; } public void setQueue(BlockingQueue queue) { this.queue = queue; } public ReadRunnable(String str,BlockingQueue queue) { this.queue = queue; this.str=str; } @Override public void run() { // TODO Auto-generated method stub try { while (true) { Thread.sleep(1000); File file = (File) queue.take(); // if (file.getName() .equals( new File(&quot;D://jboss&quot;).getName())) // { if (file.getName() == new File(&quot;&quot;).getName()) { queue.put(file); break; } else System.out.println(this.str+&quot;&#x4ECE;&#x961F;&#x5217;&#x4E2D;&#x53D6;&#x51FA;&#x6587;&#x4EF6;&#xFF1A;&quot; + file.getName()); } } catch (InterruptedException e) { // TODO Auto-generated catch block e.printStackTrace(); } } }</p>
+<p>3.CallableThread&#x5B9E;&#x4F8B;:&#x53EF;&#x7528;&#x7EBF;&#x7A0B;&#x6C60;&#x7684;submit()&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x63D0;&#x4EA4;&#xFF0C;&#x540C;&#x6837;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;Future&#x5BF9;&#x8C61;</p>
+<p>import java.util.concurrent.Callable; import java.util.concurrent.ExecutionException; import java.util.concurrent.FutureTask; public class CallableThread { public static void main(String[] args) { FutureTask&lt;Integer[]&gt; ft = new FutureTask&lt;Integer[]&gt;(new MyCallable(3)); new Thread(ft).start(); try { Integer[] output=(Integer[])ft.get(); for(int i=0;i&lt;output.length;i++) { System.out.println(output[i]); } } catch (InterruptedException e) { // TODO Auto-generated catch block e.printStackTrace(); } catch (ExecutionException e) { // TODO Auto-generated catch block e.printStackTrace(); } } } class MyCallable implements Callable&lt;Integer[]&gt; { private int max; public MyCallable(int i) { this.max = i; } @Override public Integer[] call() throws Exception { // TODO Auto-generated method stub Integer[] count = new Integer[max]; for (int i = 0; i &lt; max; i++) { count[i] = 10 + i + 200; } return count; } } </p>
+<p>4.CountDownLatchTest&#x5B9E;&#x4F8B;</p>
+<p>import java.util.concurrent.CountDownLatch; public class CountDownLatchTest { /<em>* </em> @param args */ public static void main(String[] args) { // TODO Auto-generated method stub CountDownLatch latch=new CountDownLatch(2); for(int i=0;i&lt;3;i++) { new Thread(new HelloThread(&quot;hello &quot;+i)).start(); latch.countDown(); } try { latch.await(); } catch (InterruptedException e) { // TODO Auto-generated catch block e.printStackTrace(); } System.out.println(&quot;main &#x4E3B;&#x7EBF;&#x7A0B;&#x7ED3;&#x675F;&quot;); } } </p>
+<p>5.CyclicBarrierTest&#x5B9E;&#x4F8B;</p>
+<p>import java.util.concurrent.BrokenBarrierException; import java.util.concurrent.CyclicBarrier; import java.util.concurrent.ExecutorService; import java.util.concurrent.Executors; public class CyclicBarrierTest { /<em>* </em> @param args */ public static void main(String[] args) { // TODO Auto-generated method stub CyclicBarrier barrier = new CyclicBarrier(3); ExecutorService exe = Executors.newFixedThreadPool(3); exe.submit(new Thread(new CyclicBarrierThread(&quot;hello&quot;, barrier))); exe.submit(new Thread(new CyclicBarrierThread(&quot;china&quot;, barrier))); exe.submit(new Thread(new CyclicBarrierThread(&quot;world&quot;, barrier))); exe.shutdown(); System.out.println(&quot;CyclicBarrier Test is over&quot;); } } class CyclicBarrierThread implements Runnable { private String str; private CyclicBarrier barrier; public CyclicBarrier getBarrier() { return barrier; } public void setBarrier(CyclicBarrier barrier) { this.barrier = barrier; } public String getStr() { return str; } public void setStr(String str) { this.str = str; } public CyclicBarrierThread(String str, CyclicBarrier barrier) { this.str = str; this.barrier = barrier; } @Override public void run() { try { // TODO Auto-generated method stub for (int i = 0; i &lt; 10; i++) { System.out.println(i + this.str); } barrier.await(); System.out.println(this.str+&quot;&#x7ED3;&#x675F;Action&quot;); } catch (InterruptedException e) { // TODO Auto-generated catch block e.printStackTrace(); } catch (BrokenBarrierException e) { // TODO Auto-generated catch block e.printStackTrace(); } } }</p>
+<p>6.ExecutorTest&#x5B9E;&#x4F8B;</p>
+<p>import java.util.concurrent.ExecutorService; import java.util.concurrent.Executors; public class ExecutorTest { /<em>* </em> @param args */ public static void main(String[] args) { // TODO Auto-generated method stub ExecutorService exe=Executors.newFixedThreadPool(2); for (int i = 0; i &lt; 100; i++) { Runnable r=new ExecutorRunnable(&quot;this is :&quot;+i); exe.submit(r); } exe.shutdown(); } } class ExecutorRunnable implements Runnable{ private String str; public ExecutorRunnable(String str){ this.str=str; } @Override public void run() { //TODO Auto-generated method stub System.out.println(str+&quot;&#x8F93;&#x51FA;&#x7EBF;&#x7A0B;&#x4E3A;:&quot;+Thread.currentThread().getName()); } public String getStr() { return str; } public void setStr(String str) { this.str = str; } }</p>
+<p>7.GameBarrier&#x5B9E;&#x4F8B;</p>
+<p>import java.util.concurrent.BrokenBarrierException; import java.util.concurrent.CyclicBarrier; public class GameBarrier { public static void main(String[] args) { CyclicBarrier cyclicBarrier = new CyclicBarrier(4, new Runnable() { @Override public void run() { // TODO Auto-generated method stub System.out.println(&quot;&#x5168;&#x90E8;&#x5DF2;&#x7ECF;&#x8FC7;&#x5173; &quot;); } }); for (int i = 0; i &lt; 4; i++) { new Thread(new Player(i, cyclicBarrier)).start(); } System.out.println(&quot;&#x6D4B;&#x8BD5;&#x7ED3;&#x675F;&quot;); } } class Player implements Runnable { private CyclicBarrier cyclicBarrier; private int id; public Player(int id, CyclicBarrier cyclicBarrier) { this.cyclicBarrier = cyclicBarrier; this.id = id; } @Override public void run() { try { System.out.println(&quot;&#x73A9;&#x5BB6;&quot; + id + &quot;&#x6B63;&#x5728;&#x73A9;&#x7B2C;&#x4E00;&#x5173;…&quot;); cyclicBarrier.await(); System.out.println(&quot;&#x73A9;&#x5BB6;&quot; + id + &quot;&#x8FDB;&#x5165;&#x7B2C;&#x4E8C;&#x5173;…&quot;); } catch (InterruptedException e) { e.printStackTrace(); } catch (BrokenBarrierException e) { e.printStackTrace(); } } }</p>
+<p>8.MuFutureTask&#x5B9E;&#x4F8B;</p>
+<p>import java.util.concurrent.Callable; import java.util.concurrent.CountDownLatch; import java.util.concurrent.ExecutionException; import java.util.concurrent.ExecutorService; import java.util.concurrent.Executors; import java.util.concurrent.Future; public class MyFutureTask { /<em>* </em> @param args <em> @throws InterruptedException </em> @throws ExecutionException <em> @throws InterruptedException </em> @throws ExecutionException <em>/ public static void main(String[] args) throws InterruptedException, ExecutionException { // TODO Auto-generated method stub /</em> <em> try { CallThread thread = new CallThread(3); FutureTask&lt;int[]&gt; </em> futureTask = new FutureTask&lt;int[]&gt;(thread); Thread t = new <em> Thread(futureTask); t.start(); Thread.sleep(2000); String a = null; </em> MyThreadTest mt = new MyThreadTest(&quot;hello more&quot;); Thread t2 = new <em> Thread(mt); t2.start(); System.out.println(mt.getStr()); // </em> &#x5148;&#x505A;&#x5176;&#x5B83;&#x4E8B;&#x60C5;&#xFF0C;&#x518D;&#x505A;FutureTas&#x7684;&#x4E1C;&#x897F; System.out.println(&quot;&#x662F;&#x5426;&#x63D0;&#x524D;&#x7ED3;&#x675F;&quot;); <em> </em> if (futureTask.isDone()) { int[] count = futureTask.get(); <em> System.out.println(count[0]); } </em> } catch (Exception e) { // TODO: handle exception <em> System.out.println(&quot;error&quot;); } </em>/ // CountDownLatch latch = new CountDownLatch(10); // for (int i = 0; i &lt; args.length; i++) { // MyThreadTest myRunnable=new MyThreadTest(&quot;aaa&quot;); // t.sleep(1000); // latch.countDown(); // } // try { // latch.await(); // } catch (InterruptedException e) { // // TODO Auto-generated catch block // e.printStackTrace(); // } // System.out.println(myRunnable.getStr()); //sayHello(); final ExecutorService exe=Executors.newFixedThreadPool(3); Callable&lt;String&gt; call=new Callable&lt;String&gt;(){ public String call() throws InterruptedException { // Thread.sleep(2000); return &quot;Thread is finished&quot;; } }; Future&lt;String&gt; task=exe.submit(call); String obj=task.get(); System.out.println(obj+&quot;&#x8FDB;&#x7A0B;&#x7ED3;&#x675F;&quot;); System.out.println(&quot;&#x603B;&#x8FDB;&#x7A0B;&#x7ED3;&#x675F;&quot;); exe.shutdown(); } private static void sayHello(){ MyThreadTest myRunnable = new MyThreadTest(&quot;aaa&quot;); Thread t = new Thread(myRunnable); t.start(); String a=myRunnable.getStr();//&#x6B64;&#x65F6;&#x5E94;&#x8BE5;&#x8F93;&#x51FA;allen;aaa System.out.println(a); System.out.println(&quot;my world&quot;); } } class MyThreadTest implements Runnable { private String str; private CountDownLatch latch; // public MyThreadTest(String str) { public MyThreadTest(String str) { this.str = str; this.latch = latch; } public void run() { // TODO Auto-generated method stub this.setStr(&quot;allen&quot;+str); // addString(str); } public void addString(String str) { this.str = &quot;allen:&quot; + str; } public String getStr() { return str; } public void setStr(String str) { this.str = str; } } </p>
+<p>9.SemaphoreTest&#x5B9E;&#x4F8B;</p>
+<p>import java.util.concurrent.ExecutorService; import java.util.concurrent.Executors; import java.util.concurrent.Semaphore; public class SemaphoreTest { /<em>* </em> @param args */ public static void main(String[] args) { // TODO Auto-generated method stub ExecutorService exe=Executors.newCachedThreadPool(); Semaphore semp=new Semaphore(5); for (int i = 0; i &lt; 20; i++) { exe.execute(new SemaphoreRunnable(&quot;&#x7EBF;&#x7A0B;&quot;+i,semp)); } exe.shutdown(); } } class SemaphoreRunnable implements Runnable{ private String string; private Semaphore semp; public Semaphore getSemp() { return semp; } public void setSemp(Semaphore semp) { this.semp = semp; } public String getString() { return string; } public void setString(String string) { this.string = string; } public SemaphoreRunnable(String string,Semaphore semp){ this.semp=semp; this.string=string; } @Override public void run() { // TODO Auto-generated method stub try { semp.acquire(); System.out.println(&quot;&#x7EBF;&#x7A0B;&quot;+this.string+&quot;&#x5F00;&#x59CB;&#x5904;&#x7406;&#x5BF9;&#x8C61;&quot;); semp.release(); } catch (InterruptedException e) { // TODO Auto-generated catch block e.printStackTrace(); } } }</p>
+<p>10.TestCompletionService&#x5B9E;&#x4F8B;</p>
+<p>import java.util.concurrent.Callable; import java.util.concurrent.CompletionService; import java.util.concurrent.ExecutionException; import java.util.concurrent.ExecutorCompletionService; import java.util.concurrent.ExecutorService; import java.util.concurrent.Executors; import java.util.concurrent.Future; public class TestCompletionService { public static void main(String[] args) throws InterruptedException, ExecutionException { ExecutorService exec = Executors.newFixedThreadPool(10); CompletionService serv = new ExecutorCompletionService(exec); for (int index = 0; index &lt; 5; index++) { final int NO = index; Callable downImg = new Callable() { public String call() throws Exception { Thread.sleep((long) (Math.random() <em> 10000)); return &quot;Downloaded Image &quot; + NO; } }; serv.submit(downImg); } Thread.sleep(1000 </em> 2); System.out.println(&quot;Show web content&quot;); for (int index = 0; index &lt; 5; index++) { Future task = serv.take(); String img = (String)task.get(); System.out.println(img); } System.out.println(&quot;End&quot;); // &#x5173;&#x95ED;&#x7EBF;&#x7A0B;&#x6C60; exec.shutdown(); } }</p>
+<p>&#x7248;&#x6743;&#x58F0;&#x660E;&#xFF1A;&#x672C;&#x6587;&#x4E3A;&#x535A;&#x4E3B;&#x539F;&#x521B;&#x6587;&#x7AE0;&#xFF0C;&#x672A;&#x7ECF;&#x535A;&#x4E3B;&#x5141;&#x8BB8;&#x4E0D;&#x5F97;&#x8F6C;&#x8F7D;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/分类：-java应用/">分类： java应用</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/01/2710cae/" title="采用java.util.concurrent包来重新实现生产者-消费者模型 - fengzhe0411的专栏">
+  <strong>上一篇：</strong><br/>
+  <span>
+  采用java.util.concurrent包来重新实现生产者-消费者模型 - fengzhe0411的专栏</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/01/273ae82/"  title="线程池(java.util.concurrent.ThreadPoolExecutor)的使用(一) - yangdengfeng2003的专栏">
+ <strong>下一篇：</strong><br/> 
+ <span>线程池(java.util.concurrent.ThreadPoolExecutor)的使用(一) - yangdengfeng2003的专栏
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>97</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Twitter/" title="Twitter">Twitter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ECMAScript/" title="ECMAScript">ECMAScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

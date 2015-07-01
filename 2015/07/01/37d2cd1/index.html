@@ -1,0 +1,641 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>web框架之Spring-MVC环境搭建 - 倚风语的专栏 | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="** spring&amp;#x6846;&amp;#x67B6;jar&amp;#x5305;**
+1&amp;#x3001;&amp;#x4E0B;&amp;#x8F7D;spring&amp;#x6E90;&amp;#x5305;spring&amp;#x5730;&amp;#x5740;&amp;#xFF1A; http://www.springsource.org/download &amp;#x6211;&amp;#x4E0B;&amp;#x7684;&amp;#x662F; spring-framew">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web框架之Spring-MVC环境搭建 - 倚风语的专栏">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/01/37d2cd1/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="** spring&amp;#x6846;&amp;#x67B6;jar&amp;#x5305;**
+1&amp;#x3001;&amp;#x4E0B;&amp;#x8F7D;spring&amp;#x6E90;&amp;#x5305;spring&amp;#x5730;&amp;#x5740;&amp;#xFF1A; http://www.springsource.org/download &amp;#x6211;&amp;#x4E0B;&amp;#x7684;&amp;#x662F; spring-framew">
+<meta property="og:updated_time" content="2015-07-01T15:38:28.472Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web框架之Spring-MVC环境搭建 - 倚风语的专栏">
+<meta name="twitter:description" content="** spring&amp;#x6846;&amp;#x67B6;jar&amp;#x5305;**
+1&amp;#x3001;&amp;#x4E0B;&amp;#x8F7D;spring&amp;#x6E90;&amp;#x5305;spring&amp;#x5730;&amp;#x5740;&amp;#xFF1A; http://www.springsource.org/download &amp;#x6211;&amp;#x4E0B;&amp;#x7684;&amp;#x662F; spring-framew">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/01/37d2cd1/" title="web框架之Spring-MVC环境搭建 - 倚风语的专栏" itemprop="url">web框架之Spring-MVC环境搭建 - 倚风语的专栏</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T03:38:27.000Z" itemprop="datePublished"> 发表于 2015-07-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p><strong>** </strong>spring&#x6846;&#x67B6;jar&#x5305;**</p>
+<p>1&#x3001;&#x4E0B;&#x8F7D;spring&#x6E90;&#x5305;<br>spring&#x5730;&#x5740;&#xFF1A; <a href="http://www.springsource.org/download" target="_blank" rel="external">http://www.springsource.org/download</a><br> &#x6211;&#x4E0B;&#x7684;&#x662F; <a href="http://s3.amazonaws.com/dist.springframework.org/release/SPR/spring-framework-3.1.0.RELEASE-with-docs.zip" target="_blank" rel="external">spring-framework-3.1.0.RELEASE-with-docs.zip</a><br> &#x4E0B;&#x8F7D;&#x4F9D;&#x8D56;&#x5305;&#xFF1A;spring-framework-3.0.5.RELEASE-dependencies.zip<br>&#x6CE8;&#x610F;&#x5B98;&#x7F51;&#x4E0A;3.0.3&#x7248;&#x672C;&#x4EE5;&#x540E;&#x540C;&#x7248;&#x672C;&#x4F9D;&#x8D56;&#x5305;&#x4E0D;&#x63D0;&#x4F9B;&#x4E0B;&#x8F7D;</p>
+<p>2&#x3001;&#x5BFC;&#x5165;&#x6240;&#x9700;jar&#x5305;<br>&#x5F15;&#x5165;dist&#x76EE;&#x5F55;&#x4E0B;&#x9664;&#x4E86;&#x4E0B;&#x9762;&#x4E09;&#x4E2A;&#x5176;&#x4F59;&#x6240;&#x6709;&#x5305;<br>org.springframework.web.struts-3.1.0.RELEASE.jar<br>org.springframework.spring-library-3.1.0.RELEASE.libd<br>org.springframework.web.portlet-3.1.0.RELEASE.jar<br>&#x5F15;&#x5165;&#x4F9D;&#x8D56;&#x5305;&#x4E0B;com.springsource.org.apache.commons.logging-1.1.1.jar&#x53CA;com.springsource.org.aopalliance-1.0.0.jar</p>
+<p><strong>spring&#x6846;&#x67B6;&#x914D;&#x7F6E;</strong></p>
+<p>1&#x3001;web.xml&#x914D;&#x7F6E;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">?</span><span class="built_in">xml</span> version<span class="subst">=&amp;</span>quot;<span class="number">1.0</span><span class="subst">&amp;</span>quot; encoding<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">?&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;web<span class="attribute">-app</span> 
+    xmlns:xsi<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.w3.org/2001/XMLSchema-instance&amp;quot;</span>
+    xmlns<span class="subst">=&amp;</span>quot;http:<span class="comment">//java.sun.com/xml/ns/javaee&amp;quot; </span>
+    xmlns:web<span class="subst">=&amp;</span>quot;http:<span class="comment">//java.sun.com/xml/ns/javaee/web-app_2_5.xsd&amp;quot;</span>
+    xsi:schemaLocation<span class="subst">=&amp;</span>quot;http:<span class="comment">//java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&amp;quot;</span>
+    id<span class="subst">=&amp;</span>quot;WebApp_ID<span class="subst">&amp;</span>quot; 
+    version<span class="subst">=&amp;</span>quot;<span class="number">3.0</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;context<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;contextConfigLocation<span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x5E94</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#x4E0A</span>;<span class="subst">&amp;</span><span class="variable">#x4E0B</span>;<span class="subst">&amp;</span><span class="variable">#x6587</span>;<span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>;<span class="subst">&amp;</span><span class="variable">#x6587</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;/WEB<span class="attribute">-INF</span>/spring<span class="attribute">-servlet</span><span class="built_in">.</span><span class="built_in">xml</span><span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+      <span class="subst">&amp;</span><span class="literal">lt</span>;/context<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;listener<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;listener<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>springframework<span class="built_in">.</span>web<span class="built_in">.</span>context<span class="built_in">.</span>ContextLoaderListener<span class="subst">&amp;</span><span class="literal">lt</span>;/listener<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;/listener<span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>;spring<span class="subst">&amp;</span><span class="variable">#x6838</span>;<span class="subst">&amp;</span><span class="variable">#x5FC3</span>;servlet <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;servlet<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;servlet<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;spring<span class="subst">&amp;</span><span class="literal">lt</span>;/servlet<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;servlet<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>springframework<span class="built_in">.</span>web<span class="built_in">.</span>servlet<span class="built_in">.</span>DispatcherServlet<span class="subst">&amp;</span><span class="literal">lt</span>;/servlet<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;load<span class="attribute">-on</span><span class="attribute">-startup</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">1</span><span class="subst">&amp;</span><span class="literal">lt</span>;/load<span class="attribute">-on</span><span class="attribute">-startup</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/servlet<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> url<span class="attribute">-pattern</span><span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>;<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="subst">/</span><span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x5E26</span>;<span class="subst">&amp;</span><span class="variable">#x6587</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>;<span class="subst">&amp;</span><span class="variable">#x540E</span>;<span class="subst">&amp;</span><span class="variable">#x7F00</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x4F1A</span>;<span class="subst">&amp;</span><span class="variable">#x9020</span>;<span class="subst">&amp;</span><span class="variable">#x6210</span>;<span class="subst">&amp;</span><span class="variable">#x5176</span>;<span class="subst">&amp;</span><span class="variable">#x5B83</span>;<span class="subst">&amp;</span><span class="variable">#x9759</span>;<span class="subst">&amp;</span><span class="variable">#x6001</span>;<span class="subst">&amp;</span><span class="variable">#x6587</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>;(js<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;css<span class="subst">&amp;</span><span class="variable">#x7B49</span>;)<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x80FD</span>;<span class="subst">&amp;</span><span class="variable">#x8BBF</span>;<span class="subst">&amp;</span><span class="variable">#x95EE</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;<span class="subst">&amp;</span><span class="variable">#x5982</span>;<span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="subst">*</span><span class="built_in">.</span><span class="keyword">do</span><span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5219</span>;<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x5F71</span>;<span class="subst">&amp;</span><span class="variable">#x54CD</span>;<span class="subst">&amp;</span><span class="variable">#x9759</span>;<span class="subst">&amp;</span><span class="variable">#x6001</span>;<span class="subst">&amp;</span><span class="variable">#x6587</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x8BBF</span>;<span class="subst">&amp;</span><span class="variable">#x95EE</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;servlet<span class="attribute">-mapping</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;servlet<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;spring<span class="subst">&amp;</span><span class="literal">lt</span>;/servlet<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;url<span class="attribute">-pattern</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">lt</span>;/url<span class="attribute">-pattern</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/servlet<span class="attribute">-mapping</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/web<span class="attribute">-app</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>2&#x3001;&#x5E94;&#x7528;&#x4E0A;&#x4E0B;&#x6587;&#x914D;&#x7F6E;<br>spring-servlet.xml&#x5373;&#x914D;&#x7F6E;&#x7528;&#x4E8E;&#x5F00;&#x542F;&#x57FA;&#x4E8E;&#x6CE8;&#x89E3;&#x7684;springMVC&#x529F;&#x80FD;&#xFF0C;&#x7167;web.xml&#x4E2D;&#x8BBE;&#x5B9A;&#xFF0C;&#x8DEF;&#x5F84;&#x4E3A;WEB-INF&#x4E0B;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;beans xmlns<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/beans&amp;quot;</span>
+ xmlns:context<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/context&amp;quot;</span>
+ xmlns:p<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/p&amp;quot;</span>
+ xmlns:mvc<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/mvc&amp;quot;</span>
+ xmlns:xsi<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.w3.org/2001/XMLSchema-instance&amp;quot;</span>
+ xsi:schemaLocation<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/beans</span>
+      http:<span class="comment">//www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+      http:<span class="comment">//www.springframework.org/schema/context</span>
+      http:<span class="comment">//www.springframework.org/schema/context/spring-context.xsd</span>
+      http:<span class="comment">//www.springframework.org/schema/mvc</span>
+      http:<span class="comment">//www.springframework.org/schema/mvc/spring-mvc-3.0.xsd&amp;quot;&amp;gt;</span>
+     <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x542F</span>;<span class="subst">&amp;</span><span class="variable">#x52A8</span>;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x89E3</span>;<span class="subst">&amp;</span><span class="variable">#x9A71</span>;<span class="subst">&amp;</span><span class="variable">#x52A8</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;Spring MVC<span class="subst">&amp;</span><span class="variable">#x529F</span>;<span class="subst">&amp;</span><span class="variable">#x80FD</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x518C</span>;<span class="subst">&amp;</span><span class="variable">#x8BF7</span>;<span class="subst">&amp;</span><span class="variable">#x6C42</span>;url<span class="subst">&amp;</span><span class="variable">#x548C</span>;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x89E3</span>;POJO<span class="subst">&amp;</span><span class="variable">#x7C7B</span>;<span class="subst">&amp;</span><span class="variable">#x65B9</span>;<span class="subst">&amp;</span><span class="variable">#x6CD5</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6620</span>;<span class="subst">&amp;</span><span class="variable">#x5C04</span>;<span class="subst">--&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;mvc:annotation<span class="attribute">-driven</span> <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x542F</span>;<span class="subst">&amp;</span><span class="variable">#x52A8</span>;<span class="subst">&amp;</span><span class="variable">#x5305</span>;<span class="subst">&amp;</span><span class="variable">#x626B</span>;<span class="subst">&amp;</span><span class="variable">#x63CF</span>;<span class="subst">&amp;</span><span class="variable">#x529F</span>;<span class="subst">&amp;</span><span class="variable">#x80FD</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>;<span class="subst">&amp;</span><span class="variable">#x4FBF</span>;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x518C</span>;<span class="subst">&amp;</span><span class="variable">#x5E26</span>;<span class="subst">&amp;</span><span class="variable">#x6709</span>;@Controller<span class="subst">&amp;</span><span class="variable">#x3001</span>;@Service<span class="subst">&amp;</span><span class="variable">#x3001</span>;@repository<span class="subst">&amp;</span><span class="variable">#x3001</span>;@Component<span class="subst">&amp;</span><span class="variable">#x7B49</span>;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x89E3</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x7C7B</span>;<span class="subst">&amp;</span><span class="variable">#x6210</span>;<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;spring<span class="subst">&amp;</span><span class="variable">#x7684</span>;bean <span class="subst">--&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;context:component<span class="attribute">-scan</span> base<span class="attribute">-package</span><span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>mvc<span class="built_in">.</span>rest<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x6A21</span>;<span class="subst">&amp;</span><span class="variable">#x578B</span>;<span class="subst">&amp;</span><span class="variable">#x89C6</span>;<span class="subst">&amp;</span><span class="variable">#x56FE</span>;<span class="subst">&amp;</span><span class="variable">#x540D</span>;<span class="subst">&amp;</span><span class="variable">#x79F0</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x89E3</span>;<span class="subst">&amp;</span><span class="variable">#x6790</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x8BF7</span>;<span class="subst">&amp;</span><span class="variable">#x6C42</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#x6A21</span>;<span class="subst">&amp;</span><span class="variable">#x578B</span>;<span class="subst">&amp;</span><span class="variable">#x89C6</span>;<span class="subst">&amp;</span><span class="variable">#x56FE</span>;<span class="subst">&amp;</span><span class="variable">#x540D</span>;<span class="subst">&amp;</span><span class="variable">#x79F0</span>;<span class="subst">&amp;</span><span class="variable">#x6DFB</span>;<span class="subst">&amp;</span><span class="variable">#x52A0</span>;<span class="subst">&amp;</span><span class="variable">#x524D</span>;<span class="subst">&amp;</span><span class="variable">#x540E</span>;<span class="subst">&amp;</span><span class="variable">#x7F00</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;bean class<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>springframework<span class="built_in">.</span>web<span class="built_in">.</span>servlet<span class="built_in">.</span>view<span class="built_in">.</span>InternalResourceViewResolver<span class="subst">&amp;</span>quot; p:prefix<span class="subst">=&amp;</span>quot;/WEB<span class="attribute">-INF</span>/view<span class="subst">/</span><span class="subst">&amp;</span>quot; p:suffix<span class="subst">=&amp;</span>quot;<span class="built_in">.</span>jsp<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/beans<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p><strong>Demo&#x4F8B;&#x5B50;</strong> 1&#x3001;&#x6839;&#x636E;spring-servlet.xml&#x914D;&#x7F6E;&#x7684;&#x5305;&#x8DEF;&#x5F84;&#xFF08;com.mvc.rest&#xFF09;&#x65B0;&#x5EFA;Constroller</p>
+<pre><code>package com.mvc.rest;
+<span class="preprocessor"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span>
+<span class="preprocessor"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span>
+<span class="preprocessor"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span>
+<span class="preprocessor"><span class="keyword">import</span> org.springframework.ui.ModelMap;</span>
+<span class="preprocessor"><span class="keyword">import</span> org.springframework.web.bind.annotation.PathVariable;</span>
+<span class="preprocessor"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span>
+<span class="preprocessor"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</span>
+<span class="preprocessor"><span class="keyword">import</span> org.springframework.web.servlet.ModelAndView;</span>
+@Controller
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RestConstroller</span> {</span>
+    <span class="keyword">public</span> RestConstroller() {}
+    @RequestMapping(value = &amp;quot;/login/{user}&amp;quot;, <span class="function"><span class="keyword">method</span> =</span> RequestMethod.GET)
+    <span class="keyword">public</span> ModelAndView myMethod(HttpServletRequest request,HttpServletResponse response, 
+            @PathVariable(&amp;quot;user&amp;quot;) String user, ModelMap modelMap) throws Exception {
+        modelMap.put(&amp;quot;loginUser&amp;quot;, user);
+        <span class="keyword">return</span> <span class="keyword">new</span> ModelAndView(&amp;quot;/login/hello&amp;quot;, modelMap);
+    }
+    @RequestMapping(value = &amp;quot;/welcome&amp;quot;, <span class="function"><span class="keyword">method</span> =</span> RequestMethod.GET)
+    <span class="keyword">public</span> String registPost() {
+        <span class="keyword">return</span> &amp;quot;/welcome&amp;quot;;
+    }
+}
+</code></pre><p>2&#x3001;&#x5EFA;jsp&#x89C6;&#x56FE;</p>
+<p>&#x89C6;&#x56FE;&#x8DEF;&#x5F84;&#x5728;spring-servlet.xml&#x914D;&#x7F6E;&#xFF08;/WEB-INF/view/&#xFF09;&#xFF0C;&#x636E;&#x4E0A;&#x8FF0;RestConstroller &#x7C7B;&#xFF0C;&#x6211;&#x4EEC;&#x5728;WEB-INF&#x4E0B;&#x5EFA;&#x7ACB;view&#x76EE;&#x5F55;&#xFF0C;&#x5728;view&#x4E0B;&#x5EFA;&#x7ACB;welcome.jsp&#x53CA;login/hello.jsp<br>welcome.jsp&#x968F;&#x610F;&#xFF0C;hello.jsp&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%</span>@ page language<span class="subst">=&amp;</span>quot;java<span class="subst">&amp;</span>quot; <span class="keyword">import</span><span class="subst">=&amp;</span>quot;java<span class="built_in">.</span>util<span class="built_in">.</span><span class="subst">*&amp;</span>quot; pageEncoding<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">%&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%</span>
+<span class="built_in">String</span> path <span class="subst">=</span> request<span class="built_in">.</span>getContextPath();
+<span class="built_in">String</span> basePath <span class="subst">=</span> request<span class="built_in">.</span>getScheme()<span class="subst">+&amp;</span>quot;:<span class="comment">//&amp;quot;+request.getServerName()+&amp;quot;:&amp;quot;+request.getServerPort()+path+&amp;quot;/&amp;quot;;</span>
+<span class="subst">%&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!</span>DOCTYPE HTML <span class="keyword">PUBLIC</span> <span class="subst">&amp;</span>quot;<span class="subst">-</span><span class="comment">//W3C//DTD HTML 4.01 Transitional//EN&amp;quot;&amp;gt;</span>
+<span class="subst">&amp;</span><span class="literal">lt</span>;html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;head<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;base href<span class="subst">=&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span>basePath<span class="subst">%&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;title<span class="subst">&amp;</span><span class="literal">gt</span>;My JSP <span class="subst">&amp;</span>apos;hello<span class="built_in">.</span>jsp<span class="subst">&amp;</span>apos; starting page<span class="subst">&amp;</span><span class="literal">lt</span>;/title<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;meta http<span class="attribute">-equiv</span><span class="subst">=&amp;</span>quot;pragma<span class="subst">&amp;</span>quot; content<span class="subst">=&amp;</span>quot;no<span class="attribute">-cache</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;meta http<span class="attribute">-equiv</span><span class="subst">=&amp;</span>quot;<span class="keyword">cache</span><span class="attribute">-control</span><span class="subst">&amp;</span>quot; content<span class="subst">=&amp;</span>quot;no<span class="attribute">-cache</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/head<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;body<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="variable">#x4F60</span>;<span class="subst">&amp;</span><span class="variable">#x597D</span>;:<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span>request<span class="built_in">.</span>getAttribute(<span class="subst">&amp;</span>quot;loginUser<span class="subst">&amp;</span>quot;) <span class="subst">%&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x73B0</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#x95F4</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span> <span class="literal">new</span> <span class="built_in">Date</span>() <span class="subst">%&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/html<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>3&#x3001;&#x90E8;&#x7F72;&#x8BBF;&#x95EE;<br> <a href="http://localhost:8080/SpringMvcDemo/welcome" target="_blank" rel="external">http://localhost:8080/SpringMvcDemo/welcome</a></p>
+<p>&#x7248;&#x6743;&#x58F0;&#x660E;&#xFF1A;&#x672C;&#x6587;&#x4E3A;&#x535A;&#x4E3B;&#x539F;&#x521B;&#x6587;&#x7AE0;&#xFF0C;&#x672A;&#x7ECF;&#x535A;&#x4E3B;&#x5141;&#x8BB8;&#x4E0D;&#x5F97;&#x8F6C;&#x8F7D;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/分类：-爪哇之web开发/">分类： 爪哇之web开发</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/01/37cfe6e/" title="Spring mvc interceptor配置拦截器 - 王者归来">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Spring mvc interceptor配置拦截器 - 王者归来</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/01/2773f98/"  title="java.util.concurrent介绍 - super_marioli的专栏">
+ <strong>下一篇：</strong><br/> 
+ <span>java.util.concurrent介绍 - super_marioli的专栏
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>97</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ETL/" title="ETL">ETL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Twitter/" title="Twitter">Twitter<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ECMAScript/" title="ECMAScript">ECMAScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
