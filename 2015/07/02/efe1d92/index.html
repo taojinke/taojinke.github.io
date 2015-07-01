@@ -1,0 +1,602 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Java中的 WeakReference 和 SoftReference - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x6211;&amp;#x4EEC;&amp;#x77E5;&amp;#x9053;Java&amp;#x8BED;&amp;#x8A00;&amp;#x4E2D;&amp;#x6CA1;&amp;#x6709;&amp;#x6307;&amp;#x9488;&amp;#xFF0C;&amp;#x53D6;&amp;#x800C;&amp;#x4EE3;&amp;#x4E4B;&amp;#x7684;&amp;#x662F;&amp;#x5F15;&amp;#x7528;reference&amp;#x3002;Java&amp;#x4E2D;&amp;#x7684">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的 WeakReference 和 SoftReference -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/efe1d92/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x6211;&amp;#x4EEC;&amp;#x77E5;&amp;#x9053;Java&amp;#x8BED;&amp;#x8A00;&amp;#x4E2D;&amp;#x6CA1;&amp;#x6709;&amp;#x6307;&amp;#x9488;&amp;#xFF0C;&amp;#x53D6;&amp;#x800C;&amp;#x4EE3;&amp;#x4E4B;&amp;#x7684;&amp;#x662F;&amp;#x5F15;&amp;#x7528;reference&amp;#x3002;Java&amp;#x4E2D;&amp;#x7684">
+<meta property="og:updated_time" content="2015-07-01T23:50:22.405Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java中的 WeakReference 和 SoftReference -">
+<meta name="twitter:description" content="&amp;#x6211;&amp;#x4EEC;&amp;#x77E5;&amp;#x9053;Java&amp;#x8BED;&amp;#x8A00;&amp;#x4E2D;&amp;#x6CA1;&amp;#x6709;&amp;#x6307;&amp;#x9488;&amp;#xFF0C;&amp;#x53D6;&amp;#x800C;&amp;#x4EE3;&amp;#x4E4B;&amp;#x7684;&amp;#x662F;&amp;#x5F15;&amp;#x7528;reference&amp;#x3002;Java&amp;#x4E2D;&amp;#x7684">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/efe1d92/" title="Java中的 WeakReference 和 SoftReference -" itemprop="url">Java中的 WeakReference 和 SoftReference -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:50:22.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_总结"><span class="toc-number">1.</span> <span class="toc-text">4. 总结</span></a></li></ol>
+		
+		</div>
+		
+		<p> &#x6211;&#x4EEC;&#x77E5;&#x9053;Java&#x8BED;&#x8A00;&#x4E2D;&#x6CA1;&#x6709;&#x6307;&#x9488;&#xFF0C;&#x53D6;&#x800C;&#x4EE3;&#x4E4B;&#x7684;&#x662F;&#x5F15;&#x7528;reference&#x3002;Java&#x4E2D;&#x7684;&#x5F15;&#x7528;&#x53C8;&#x53EF;&#x4EE5;&#x5206;&#x4E3A;&#x56DB;&#x79CD;&#xFF1A;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x5F31;&#x5F15;&#x7528;(WeakReference)&#xFF0C;&#x8F6F;&#x5F15;&#x7528;(SoftReference)&#xFF0C;&#x865A;&#x5F15;&#x7528;(PhantomReference)&#x3002;&#x5176;&#x4E2D;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x5E73;&#x65F6;&#x4F7F;&#x7528;&#x7684;&#x6700;&#x591A;&#x7684;&#x6700;&#xFFFD;&#xFFFD;&#xFFFD;&#x901A;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x865A;&#x5F15;&#x7528;&#x4E00;&#x822C;&#x6211;&#x4EEC;&#x662F;&#x6CA1;&#x6709;&#x673A;&#x4F1A;&#x4F7F;&#x7528;&#x5230;&#x7684;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x4E3B;&#x8981;&#x4E86;&#x89E3;&#x4E0B; <strong>WeakReference &#x548C; SoftReference</strong> &#x3002; </p>
+<p> <strong>1.</strong> &#x5148;&#x4E0A;&#x4E00;&#x6BB5;&#x4EE3;&#x7801;&#xFF1A; </p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ReferenceTest</span> {
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>)</span>{
+        LinkedList&amp;lt;<span class="keyword">byte</span>[]&amp;gt; list = <span class="keyword">new</span> LinkedList&amp;lt;&amp;gt;();
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&amp;lt;<span class="number">1024</span>; i++){
+            list.add(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>*<span class="number">1024</span>]);
+        }
+    }
+}
+</code></pre><p>&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x4F1A;&#x629B;&#x51FA;&#xFF1A; Exception in thread &quot;main&quot; java.lang.OutOfMemoryError: Java heap space</p>
+<p>&#x5806;&#x5185;&#x5B58;&#x6EA2;&#x51FA;&#x3002;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x4E0D;&#x65AD;&#x7684;&#x5728;&#x5806;&#x4E0A;&#x5206;&#x914D;&#x4E00;&#x4E2A; 1M &#x5927;&#x5C0F;&#x7684; byte[]&#x5BF9;&#x8C61;&#xFF0C;&#x5E76;&#x4E14;&#x5C06;&#x8BE5;&#x5F15;&#x7528;&#x52A0;&#x5165;&#x5230; list &#x4E2D;&#xFF0C;&#x5FAA;&#x73AF;1024&#x6B21;&#xFF0C;&#x9700;&#x8981;&#x5360;&#x7528; 1G &#x7684;&#x5806;&#x5185;&#x5B58;&#xFF0C;&#x4ECE;&#x800C;&#x5BFC;&#x81F4; heap space OutOfMemory.</p>
+<ol>
+<li><p>&#x6211;&#x4EEC;&#x4F7F;&#x7528; <strong>WeekReference</strong> &#x5BF9;&#x4EE3;&#x7801;&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#xFF1A; </p>
+<p>public class ReferenceTest {</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) {
+    <span class="keyword">long</span> beginTime = System.nanoTime();
+    LinkedList&amp;lt;WeakReference&amp;lt;<span class="built_in">byte</span>[]&amp;gt;&amp;gt; list = <span class="keyword">new</span> LinkedList&amp;lt;&amp;gt;();
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &amp;lt; <span class="number">1024</span>; i++) {
+        list.<span class="built_in">add</span>(<span class="keyword">new</span> WeakReference&amp;lt;&amp;gt;(<span class="keyword">new</span> <span class="built_in">byte</span>[<span class="number">1024</span> * <span class="number">1024</span>]));
+    }
+    <span class="keyword">long</span> endTime = System.nanoTime();
+    System.out.<span class="built_in">println</span>(endTime - beginTime);
+}
+</code></pre><p>}</p>
+</li>
+</ol>
+<p>&#x8F93;&#x51FA;&#x7684;&#x7ED3;&#x679C;&#xFF1A;195947704 (0.19&#x79D2;)</p>
+<p>&#x6211;&#x4EEC;&#x53D1;&#x73B0;&#x5806;&#x5185;&#x5B58;&#x6EA2;&#x51FA;&#x7684;&#x9519;&#x8BEF;&#x6CA1;&#x6709;&#x4E86;&#x3002;&#x8FD9;&#x662F;&#x4EC0;&#x4E48;&#x539F;&#x56E0;&#x5462;&#x3002;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x4E86; &#x5F31;&#x5F15;&#x7528;WeekReference &#x6765;&#x5F15;&#x7528;&#x5806;&#x4E0A;&#x7684; 1M &#x7684;byte[]&#x5BF9;&#x8C61;&#xFF0C; &#x800C;&#x5F31;&#x5F15;&#x7528;WeekReference&#x5F15;&#x7528;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x679C;&#x4EC5;&#x4EC5;&#x53EA;&#x88AB;&#x5F31;&#x5F15;&#x7528;&#xFF0C;&#x800C;&#x6CA1;&#x6709;&#x88AB;&#x5F3A;&#x5F15;&#x7528;&#x7684;&#x8BDD;&#xFF0C;&#x5728;&#x4E0B;&#x4E00;&#x6B21;GC&#x65F6;&#xFF0C;&#x5C31;&#x4F1A;&#x56DE;&#x6536;&#x8BE5;&#x5BF9;&#x8C61;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58; &#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x4F1A;&#x5185;&#x5B58;&#x6EA2;&#x51FA;&#x3002; </p>
+<ol>
+<li><p>&#x6211;&#x4EEC;&#x4F7F;&#x7528; <strong>SoftReference</strong> &#x5BF9;&#x4EE3;&#x7801;&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#xFF1A; </p>
+<p>public class ReferenceTest {</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) {
+    <span class="keyword">long</span> beginTime = System.nanoTime();
+    LinkedList&amp;lt;SoftReference&amp;lt;<span class="built_in">byte</span>[]&amp;gt;&amp;gt; list = <span class="keyword">new</span> LinkedList&amp;lt;&amp;gt;();
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &amp;lt; <span class="number">1024</span>; i++) {
+        list.<span class="built_in">add</span>(<span class="keyword">new</span> SoftReference&amp;lt;&amp;gt;(<span class="keyword">new</span> <span class="built_in">byte</span>[<span class="number">1024</span> * <span class="number">1024</span>]));
+    }
+    <span class="keyword">long</span> endTime = System.nanoTime();
+    System.out.<span class="built_in">println</span>(endTime - beginTime);
+}
+</code></pre><p>}</p>
+</li>
+</ol>
+<p>&#x8F93;&#x51FA;&#x7ED3;&#x679C;&#xFF1A;1499904286 (1.5&#x79D2;)</p>
+<p>&#x6211;&#x4EEC;&#x53D1;&#x73B0;&#x5806;&#x5185;&#x5B58;&#x6EA2;&#x51FA;&#x7684;&#x9519;&#x8BEF;&#x4E5F;&#x6CA1;&#x6709;&#x4E86;&#x3002;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x4E86; &#x8F6F;&#x5F15;&#x7528;SoftReference &#x6765;&#x5F15;&#x7528;&#x5806;&#x4E0A;&#x7684; 1M &#x7684;byte[]&#x5BF9;&#x8C61;&#xFF0C; &#x800C;&#x8F6F;&#x5F15;&#x7528;SoftReference&#x5F15;&#x7528;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x679C;&#x4EC5;&#x4EC5;&#x53EA;&#x88AB;&#x8F6F;&#x5F15;&#x7528;&#xFF0C;&#x800C;&#x6CA1;&#x6709;&#x88AB;&#x5F3A;&#x5F15;&#x7528;&#x7684;&#x8BDD;&#xFF0C;&#x5728;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x4E0D;&#x8DB3;&#x65F6;&#xFF0C;GC &#x5C31;&#x4F1A;&#x56DE;&#x6536;&#x8BE5;&#x5BF9;&#x8C61;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58; &#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x4F1A;&#x5185;&#x5B58;&#x6EA2;&#x51FA;&#x3002; </p>
+<p>&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x6CE8;&#x610F;&#x5230; &#x91C7;&#x7528;WeekReference&#x548C;&#x91C7;&#x7528;SoftReference&#x6240;&#x82B1;&#x8D39;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x6709;&#x63A5;&#x8FD1;10&#x88AB;&#x7684;&#x5DEE;&#x8DDD;&#x3002;&#x539F;&#x56E0;&#x5E94;&#x8BE5;&#x662F;&#xFF0C;SoftReference&#x53EA;&#x6709;&#x5728;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x4E0D;&#x8DB3;&#x65F6;&#xFF0C;GC&#x624D;&#x4F1A;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#x5360;&#x7528;&#x7684;&#x7A7A;&#x95F4;&#xFF0C;&#x800C;&#x8FD9;&#x65F6;&#x8FDB;&#x884C;&#x7684;&#x662F; full GC&#xFF0C;full GC&#x4F1A;&#x5BFC;&#x81F4; STW &#x7A0B;&#x5E8F;&#x6682;&#x505C;&#xFF0C;&#x6240;&#x4EE5;&#x82B1;&#x8D39;&#x7684;&#x65F6;&#x95F4;&#x8FC7;&#x591A;&#x3002;</p>
+<h4 id="4-_&#x603B;&#x7ED3;">4. &#x603B;&#x7ED3;</h4><p>&#x5F3A;&#x5F15;&#x7528;&#xFF1A;&#x53EA;&#x8981;&#x5806;&#x4E0A;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x88AB;&#x81F3;&#x5C11;&#x4E00;&#x4E2A;&#x5F3A;&#x5F15;&#x7528;&#x6240;&#x6307;&#x5411;&#xFF0C;&#x90A3;&#x4E48;GC&#x5C31;&#x4E0D;&#x4F1A;&#x56DE;&#x6536;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x3002;</p>
+<p>&#x5F31;&#x5F15;&#x7528;&#xFF1A;&#x53EA;&#x8981;&#x5806;&#x4E0A;&#x7684;&#x5BF9;&#x8C61;&#x4EC5;&#x4EC5;&#x53EA;&#x88AB;&#x5F31;&#x5F15;&#x7528;&#x6240;&#x6307;&#x5411;&#xFF0C;&#x4E0D;&#x7BA1;&#x5F53;&#x524D;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x662F;&#x5426;&#x8DB3;&#x591F;&#xFF0C;&#x4E0B;&#x6B21;GC&#x90FD;&#x4F1A;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x3002;</p>
+<p>&#x8F6F;&#x5F15;&#x7528;&#xFF1A;&#x53EA;&#x8981;&#x5806;&#x4E0A;&#x7684;&#x5BF9;&#x8C61;&#x4EC5;&#x4EC5;&#x53EA;&#x88AB;&#x8F6F;&#x5F15;&#x7528;&#x6240;&#x6307;&#x5411;&#xFF0C;&#x5E76;&#x4E14;&#x5F53;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x4E0D;&#x8DB3;&#x65F6;&#xFF0C;GC&#x624D;&#x4F1A;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x3002;</p>
+<p>WeakReference &#x548C; SoftReference&#x4E00;&#x822C;&#x4F7F;&#x7528;&#x5728;&#x6784;&#x9020;&#x4E00;&#x4E2A;&#x7F13;&#x5B58;&#x7CFB;&#x7EDF;&#xFF0C;&#x6BD4;&#x5982;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;map&#x6765;&#x6784;&#x9020;&#x3002;&#x56E0;&#x4E3A;&#x7F13;&#x5B58;&#x7CFB;&#x7EDF;&#x662F;&#x4E00;&#x4E2A;&#x201C;&#x5168;&#x751F;&#x547D;&#x671F;&#x201D;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x7CFB;&#x7EDF;&#x505C;&#x6B62;&#xFF0C;&#x7F13;&#x5B58;&#x5BF9;&#x8C61;&#x624D;&#x4F1A;&#x88AB;&#x9500;&#x6BC1;&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x6211;&#x4EEC;&#x4E0D;&#x65AD;&#x7684;&#x60F3;&#x7F13;&#x5B58;&#x5BF9;&#x8C61;&#x4E2D;&#x6DFB;&#x52A0;&#x5BF9;&#x8C61;&#x65F6;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x4F1A;&#x5BFC;&#x81F4;&#x8BE5;&#x7F13;&#x5B58;&#x5BF9;&#x8C61;map&#x6240;&#x5F15;&#x7528;&#x7684;&#x5BF9;&#x8C61;&#x8D8A;&#x6765;&#x8D8A;&#x591A;&#xFF0C;&#x800C;&#x56E0;&#x4E3A;&#x662F;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x4E9B;&#x88AB;&#x653E;&#x8FDB;map&#x7F13;&#x5B58;&#x4E86;&#x7684;&#x5BF9;&#x8C61;&#x4E0D;&#x80FD;&#x88AB;GC&#x9501;&#x56DE;&#x6536;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x5BFC;&#x81F4;&#x7CFB;&#x7EDF;&#x5806;&#x5185;&#x5B58;&#x5360;&#x7528;&#x4F1A;&#x8D8A;&#x6765;&#x8D8A;&#x5927;&#xFF0C;&#x4ECE;&#x800C;&#x6700;&#x7EC8;&#x5BFC;&#x81F4;&#x5185;&#x5B58;&#x6EA2;&#x51FA;&#x3002;</p>
+<p>&#x90A3;&#x4E48;&#x6B64;&#x65F6;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; WeakReference &#x6216; SoftReference&#x4E86;&#xFF0C;&#x5C06;&#x5F3A;&#x5F15;&#x7528;&#x901A;&#x8FC7;WeakReference &#x548C; SoftReference &#x5305;&#x88C5;&#x4E4B;&#x540E;&#xFF0C;&#x53D8;&#x6210;&#x5F31;&#x5F15;&#x7528;&#x548C;&#x8F6F;&#x5F15;&#x7528;&#xFF0C;&#x90A3;&#x4E48;&#x5F53;&#x7F13;&#x5B58;&#x4E2D;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x4EC5;&#x4EC5;&#x88AB;&#x7F13;&#x5B58;map&#x9501;&#x5F15;&#x7528;&#x65F6;&#xFF0C;&#x90A3;&#x4E48;&#x5206;&#x522B;&#x5728;&#x4E0B;&#x6B21;GC&#x548C;&#x5185;&#x5B58;&#x4E0D;&#x8DB3;GC&#x65F6;&#x5C31;&#x4F1A;&#x56DE;&#x6536;&#x8FD9;&#x4E9B;&#x5BF9;&#x8C61;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58;&#x3002;&#x5176;&#x5B9E;JDK&#x7ED9;&#x6211;&#x4EEC;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x4E13;&#x95E8;&#x7684;&#x7C7B;&#xFF1A;WeakHashMap &#xFF0C;&#x5F31;&#x5F15;&#x7528;&#x7684;hashMap&#xFF0C;&#x6240;&#x4EE5;&#x6784;&#x9020;&#x7F13;&#x5B58;&#x7CFB;&#x7EDF;&#x662F;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x4F7F;&#x7528;&#x5B83;&#x3002;</p>
+<p>&#x5176;&#x5B9E;&#x8FD9;&#x91CC;&#x6D89;&#x53CA;&#x5230;jdk&#x4E2D;&#x4F17;&#x591A;&#x7684;map&#xFF0C;&#x6211;&#x4EEC;&#x5E94;&#x8BE5;&#x5982;&#x4F55;&#x8FDB;&#x884C;&#x9009;&#x62E9;&#x7684;&#x95EE;&#x9898;&#xFF1A;</p>
+<p>HashMap</p>
+<p>ConcurrentHashMap</p>
+<p>TreeMap</p>
+<p>WeakHashMap</p>
+<p>LinkedHashMap</p>
+<p>Collections.synchronizedMap</p>
+<p>Hashtable</p>
+<p>&#x7B49;&#x7B49;&#x3002;&#x6211;&#x4EEC;&#x5728;&#x9009;&#x62E9;&#x4E00;&#x4E2A;map&#x65F6;&#xFF0C;&#x5E94;&#x8BE5;&#x597D;&#x597D;&#x7684;&#x8003;&#x8651;&#x4E0B;&#xFF0C;&#x90A3;&#x4E2A;&#x66F4;&#x52A0;&#x9002;&#x5408;&#x6211;&#x4EEC;&#x7684;&#x9700;&#x6C42;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JVM/">JVM</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/efe81ab/" title="JVM上的并发和Java内存模型之同步块笔记 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JVM上的并发和Java内存模型之同步块笔记 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/efd04cf/"  title="JVM源码分析之堆外内存完全解读 -">
+ <strong>下一篇：</strong><br/> 
+ <span>JVM源码分析之堆外内存完全解读 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_总结"><span class="toc-number">1.</span> <span class="toc-text">4. 总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

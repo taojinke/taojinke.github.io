@@ -1,0 +1,585 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Tuning Spark - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Data Serialization&amp;#x6570;&amp;#x636E;&amp;#x5E8F;&amp;#x5217;&amp;#x5316;&amp;#xFF0C;&amp;#x5BF9;&amp;#x4E8E;&amp;#x4EFB;&amp;#x610F;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7CFB;&amp;#x7EDF;&amp;#x90FD;&amp;#x662F;&amp;#x6027;&amp;#x80FD;&amp;#x7684;&amp;#x5173;&amp;#x952E;&amp;#x70B">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tuning Spark -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/f45b7a6/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Data Serialization&amp;#x6570;&amp;#x636E;&amp;#x5E8F;&amp;#x5217;&amp;#x5316;&amp;#xFF0C;&amp;#x5BF9;&amp;#x4E8E;&amp;#x4EFB;&amp;#x610F;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7CFB;&amp;#x7EDF;&amp;#x90FD;&amp;#x662F;&amp;#x6027;&amp;#x80FD;&amp;#x7684;&amp;#x5173;&amp;#x952E;&amp;#x70B">
+<meta property="og:updated_time" content="2015-07-01T23:50:29.911Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tuning Spark -">
+<meta name="twitter:description" content="Data Serialization&amp;#x6570;&amp;#x636E;&amp;#x5E8F;&amp;#x5217;&amp;#x5316;&amp;#xFF0C;&amp;#x5BF9;&amp;#x4E8E;&amp;#x4EFB;&amp;#x610F;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7CFB;&amp;#x7EDF;&amp;#x90FD;&amp;#x662F;&amp;#x6027;&amp;#x80FD;&amp;#x7684;&amp;#x5173;&amp;#x952E;&amp;#x70B">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/f45b7a6/" title="Tuning Spark -" itemprop="url">Tuning Spark -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:50:29.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Data_Serialization"><span class="toc-number">1.</span> <span class="toc-text">Data Serialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory_Tuning"><span class="toc-number">2.</span> <span class="toc-text">Memory Tuning</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tuning_Data_Structures"><span class="toc-number">2.1.</span> <span class="toc-text">Tuning Data Structures</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Serialized_RDD_Storage"><span class="toc-number">2.2.</span> <span class="toc-text">Serialized RDD Storage</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Garbage_Collection_Tuning"><span class="toc-number">2.3.</span> <span class="toc-text">Garbage Collection Tuning</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h3 id="Data_Serialization">Data Serialization</h3><p>&#x6570;&#x636E;&#x5E8F;&#x5217;&#x5316;&#xFF0C;&#x5BF9;&#x4E8E;&#x4EFB;&#x610F;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x90FD;&#x662F;&#x6027;&#x80FD;&#x7684;&#x5173;&#x952E;&#x70B9;</p>
+<p>Spark&#x9ED8;&#x8BA4;&#x4F7F;&#x7528; <a href="http://docs.oracle.com/javase/6/docs/api/java/io/Serializable.html" target="_blank" rel="external">Java serialization</a> &#xFF0C;&#x8FD9;&#x4E2A;&#x6BD4;&#x8F83;&#x4F4E;&#x6548; </p>
+<p>&#x63A8;&#x8350;&#x4F7F;&#x7528;&#xFF0C; <a href="https://github.com/EsotericSoftware/kryo" target="_blank" rel="external">Kryo serialization</a> &#xFF0C;&#x4F1A;&#x6BD4;Java&#x5E8F;&#x5217;&#x5316;&#xFF0C;&#x66F4;&#x5FEB;&#x66F4;&#x5C0F;&#xFF0C; Spark&#x4F7F;&#x7528; <a href="https://github.com/twitter/chill" target="_blank" rel="external">Twitter chill</a> library&#xFF08;Kryo&#x7684;scala&#x6269;&#x5C55;&#xFF09; </p>
+<p>conf.set(&quot;spark.serializer&quot;, &quot;org.apache.spark.serializer.KryoSerializer&quot;)</p>
+<p>conf.set(&quot; spark.kryoserializer.buffer.mb&#x201C;, 2), &#x9700;&#x8981;&#x5927;&#x4E8E;&#x6700;&#x5927;&#x7684;&#x9700;&#x8981;&#x5E8F;&#x5217;&#x5316;&#x7684;&#x5BF9;&#x8C61;size</p>
+<p>&#x4E4B;&#x6240;&#x4EE5;&#xFF0C;spark&#x4E0D;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;Kryo&#xFF0C;&#x56E0;&#x4E3A;Kryo&#x9700;&#x8981;&#x663E;&#x5F0F;&#x7684;&#x6CE8;&#x518C;program&#x4E2D;&#x4F7F;&#x7528;&#x5230;&#x7684;class&#xFF0C;&#x53C2;&#x8003;</p>
+<pre><code>val conf = new <span class="function"><span class="title">SparkConf</span><span class="params">()</span></span>.<span class="function"><span class="title">setMaster</span><span class="params">(...)</span></span>.<span class="function"><span class="title">setAppName</span><span class="params">(...)</span></span>
+conf.<span class="function"><span class="title">registerKryoClasses</span><span class="params">(Array(classOf[MyClass1], classOf[MyClass2])</span></span>)
+val sc = new <span class="function"><span class="title">SparkContext</span><span class="params">(conf)</span></span>
+</code></pre><p>&#x53EA;&#x6240;&#x4EE5;&#x8981;&#x505A;&#x6CE8;&#x518C;&#x662F;&#x56E0;&#x4E3A;&#xFF0C;&#x5728;&#x628A;&#x5BF9;&#x8C61;&#x5E8F;&#x5217;&#x5316;&#x6210;byte[]&#x65F6;&#xFF0C;&#x8981;&#x8BB0;&#x5F55;&#x4E0B;classname&#xFF0C;classname&#x5E26;namespace&#x4E00;&#x822C;&#x5F88;&#x957F;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x6BCF;&#x4E2A;&#x91CC;&#x9762;&#x52A0;&#x4E0A;&#x8FD9;&#x4E2A;classname&#x6BD4;&#x8F83;&#x8D39;&#x7A7A;&#x95F4;</p>
+<p>&#x5728;kryo&#x91CC;&#x9762;&#x6CE8;&#x518C;&#x8FC7;&#x540E;&#xFF0C;&#x4F1A;&#x7528;&#x4E00;&#x4E2A;int&#x6765;&#x66FF;&#x4EE3;classname</p>
+<p>&#x5F53;&#x7136;&#x4E0D;&#x6CE8;&#x518C;kryo&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7528;&#x7684;&#xFF0C;&#x53EA;&#x662F;&#x4F1A;&#x591A;&#x5360;&#x7A7A;&#x95F4;</p>
+<h3 id="Memory_Tuning">Memory Tuning</h3><p>Tuning&#x4E4B;&#x524D;&#x9700;&#x8981;&#x77E5;&#x9053;&#x5F53;&#x524D;dataset&#x7684;&#x5185;&#x5B58;&#x6D88;&#x8017;&#x662F;&#x591A;&#x5C11;&#xFF0C;</p>
+<p>&#x7B80;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#xFF0C;&#x4EE5;&#x8BE5;dataset&#x521B;&#x5EFA;rdd&#xFF0C;&#x7136;&#x540E;cache</p>
+<p>&#x8FD9;&#x6837;&#x4ECE;SparkContext&#x7684;&#x65E5;&#x5FD7;&#x91CC;&#x9762;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6BCF;&#x4E2A;partition&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x52A0;&#x4E00;&#x4E0B;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x6574;&#x4E2A;&#x6570;&#x636E;&#x96C6;&#x7684;&#x5927;&#x5C0F;</p>
+<pre><code>INFO BlockManagerMasterActor: Added rdd_0_1 <span class="keyword">in</span> memory <span class="keyword">on</span> mbk<span class="built_in">.</span><span class="built_in">local</span>:<span class="number">50311</span> (size: <span class="number">717.5</span> KB, free: <span class="number">332.3</span> MB)
+
+This means that partition <span class="number">1</span> of RDD <span class="number">0</span> consumed <span class="number">717.5</span> KB<span class="built_in">.
+
+</span><span class="subst">&amp;</span><span class="variable">#x7136</span>;<span class="subst">&amp;</span><span class="variable">#x540E</span>;<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>;<span class="subst">&amp;</span><span class="variable">#x4ECE</span>;<span class="subst">&amp;</span><span class="variable">#x51E0</span>;<span class="subst">&amp;</span><span class="variable">#x4E2A</span>;<span class="subst">&amp;</span><span class="variable">#x65B9</span>;<span class="subst">&amp;</span><span class="variable">#x9762</span>;<span class="subst">&amp;</span><span class="variable">#x53BB</span>;<span class="subst">&amp;</span><span class="variable">#x8FDB</span>;<span class="subst">&amp;</span><span class="variable">#x884C</span>;<span class="subst">&amp;</span><span class="variable">#x4F18</span>;<span class="subst">&amp;</span><span class="variable">#x5316</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;
+</code></pre><h4 id="Tuning_Data_Structures">Tuning Data Structures</h4><pre><code>Java<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x867D</span>;<span class="subst">&amp;</span><span class="variable">#x7136</span>;<span class="subst">&amp;</span><span class="variable">#x4FBF</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x8BBF</span>;<span class="subst">&amp;</span><span class="variable">#x95EE</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x4F46</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="subst">&amp;</span><span class="variable">#x548C</span>;raw <span class="built_in">data</span><span class="subst">&amp;</span><span class="variable">#x6BD4</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;java<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;size<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="number">2</span><span class="subst">&amp;</span><span class="variable">#xFF5E</span>;<span class="number">5</span><span class="subst">&amp;</span><span class="variable">#x500D</span>;  
+</code></pre><p>Each distinct Java object has an &#x201C;object header&#x201D;, which is about 16 bytes<br>Java Strings have about 40 bytes of overhead over the raw string data, and store each character as <em>two</em> bytes due to String&#x2019;s internal usage of UTF-16 encoding</p>
+<pre><code><span class="subst">&amp;</span><span class="variable">#x5176</span>;<span class="subst">&amp;</span><span class="variable">#x4ED6</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6BD4</span>;<span class="subst">&amp;</span><span class="variable">#x5982</span>;HashMap<span class="subst">&amp;</span><span class="variable">#x6216</span>;LinkedList<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x9664</span>;<span class="subst">&amp;</span><span class="variable">#x4E86</span>;<span class="keyword">header</span><span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x8FD8</span>;<span class="subst">&amp;</span><span class="variable">#x9700</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="number">8</span> <span class="built_in">bytes</span> pointer<span class="subst">&amp;</span><span class="variable">#x6765</span>;<span class="subst">&amp;</span><span class="variable">#x6307</span>;<span class="subst">&amp;</span><span class="variable">#x5411</span>;<span class="subst">&amp;</span><span class="variable">#x4E0B</span>;<span class="subst">&amp;</span><span class="variable">#x4E2A</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;
+
+<span class="subst">&amp;</span><span class="variable">#x603B</span>;<span class="subst">&amp;</span><span class="variable">#x4E4B</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5C31</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x5185</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x654F</span>;<span class="subst">&amp;</span><span class="variable">#x611F</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5E94</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x63A5</span>;<span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;Java<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="subst">&amp;</span><span class="variable">#x975E</span>;<span class="subst">&amp;</span><span class="variable">#x5E38</span>;<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x7ECF</span>;<span class="subst">&amp;</span><span class="variable">#x6D4E</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;
+
+<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>;<span class="subst">&amp;</span><span class="variable">#x4ECE</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>;<span class="subst">&amp;</span><span class="variable">#x4E0B</span>;<span class="subst">&amp;</span><span class="variable">#x51E0</span>;<span class="subst">&amp;</span><span class="variable">#x70B9</span>;<span class="subst">&amp;</span><span class="variable">#x53BB</span>;<span class="subst">&amp;</span><span class="variable">#x4F18</span>;<span class="subst">&amp;</span><span class="variable">#x5316</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;  
+</code></pre><p>a, &#x4F18;&#x5148;&#x4F7F;&#x7528;arrays of objects, and primitive types&#xFF0C;&#x800C;&#x975E;java&#x6216;scala&#x7684;&#x6807;&#x51C6;collection class<br>   &#x6216;&#x8005;&#x4F7F;&#x7528;<a href="http://fastutil.di.unimi.it/" target="_blank" rel="external">fastutil</a> library&#xFF0C;&#x8FD9;&#x4E2A;&#x5E93;&#x63D0;&#x4F9B;&#x4E86;&#x7528;primitive types&#x5B9E;&#x73B0;&#x7684;collection class</p>
+<pre><code><span class="tag">b</span>, &amp;<span class="id">#x907F</span>;&amp;<span class="id">#x514D</span>;&amp;<span class="id">#x542B</span>;&amp;<span class="id">#x6709</span>;&amp;<span class="id">#x5927</span>;&amp;<span class="id">#x91CF</span>;&amp;<span class="id">#x5C0F</span>;&amp;<span class="id">#x5BF9</span>;&amp;<span class="id">#x8C61</span>;&amp;<span class="id">#x6216</span>;<span class="tag">pointer</span>&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x5D4C</span>;&amp;<span class="id">#x5957</span>;&amp;<span class="id">#x6570</span>;&amp;<span class="id">#x636E</span>;&amp;<span class="id">#x7ED3</span>;&amp;<span class="id">#x6784</span>;  
+</code></pre><p>c, Consider using numeric IDs or enumeration objects instead of strings for keys<br>d, If you have less than 32 GB of RAM, set the JVM flag -XX:+UseCompressedOops to make pointers be four bytes instead of eight. You can add these options in <a href="https://spark.apache.org/docs/1.2.1/configuration.html#environment-variables" target="_blank" rel="external">spark-env.sh</a>.</p>
+<h4 id="Serialized_RDD_Storage">Serialized RDD Storage</h4><pre><code><span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;MEMORY_ONLY_SER<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;memory<span class="subst">&amp;</span><span class="variable">#x4E2D</span>;<span class="keyword">cache</span><span class="subst">&amp;</span><span class="variable">#x5E8F</span>;<span class="subst">&amp;</span><span class="variable">#x5217</span>;<span class="subst">&amp;</span><span class="variable">#x5316</span>;<span class="subst">&amp;</span><span class="variable">#x540E</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x964D</span>;<span class="subst">&amp;</span><span class="variable">#x4F4E</span>;<span class="subst">&amp;</span><span class="variable">#x5185</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5F53</span>;<span class="subst">&amp;</span><span class="variable">#x7136</span>;<span class="subst">&amp;</span><span class="variable">#x54CD</span>;<span class="subst">&amp;</span><span class="variable">#x5E94</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x8BBF</span>;<span class="subst">&amp;</span><span class="variable">#x95EE</span>;<span class="subst">&amp;</span><span class="variable">#x901F</span>;<span class="subst">&amp;</span><span class="variable">#x5EA6</span>;<span class="subst">&amp;</span><span class="variable">#x4F1A</span>;<span class="subst">&amp;</span><span class="variable">#x964D</span>;<span class="subst">&amp;</span><span class="variable">#x4F4E</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x7531</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x9700</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x53CD</span>;<span class="subst">&amp;</span><span class="variable">#x5E8F</span>;<span class="subst">&amp;</span><span class="variable">#x5217</span>;<span class="subst">&amp;</span><span class="variable">#x5316</span>;  
+</code></pre><h4 id="Garbage_Collection_Tuning">Garbage Collection Tuning</h4><p>&#x9996;&#x5148;&#x9700;&#x8981;&#x6253;&#x5F00;gc&#x65E5;&#x5FD7;&#xFF0C;</p>
+<p>adding -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps to the Java options </p>
+<pre><code>**<span class="tag">Cache</span> <span class="tag">Size</span> <span class="tag">Tuning</span>**
+
+&amp;<span class="id">#x9ED8</span>;&amp;<span class="id">#x8BA4</span>;<span class="tag">Spark</span>&amp;<span class="id">#x4F7F</span>;&amp;<span class="id">#x7528</span>;60% &amp;<span class="id">#x7684</span>;<span class="tag">executor</span> <span class="tag">memory</span>(<span class="tag">spark</span><span class="class">.executor</span><span class="class">.memory</span>)&amp;<span class="id">#x6765</span>;<span class="tag">cache</span> <span class="tag">RDDs</span>.  
+</code></pre><p>&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x53EA;&#x6709;40%&#x7684;memory&#x7528;&#x4E8E;task&#x6267;&#x884C;&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x73B0;&#x9891;&#x7E41;gc&#x6216;&#x662F;oom&#xFF0C;&#x53EF;&#x4EE5;&#x8C03;&#x4F4E;&#x7528;&#x4E8E;cache&#x7684;&#x6BD4;&#x4F8B;&#xFF0C;<br>conf.set(&quot;spark.storage.memoryFraction&quot;, &quot;0.5&quot;)&#xFF0C; &#x8FD9;&#x6837;&#x8BBE;&#x6210;50%</p>
+<pre><code><span class="subst">**</span>Advanced GC Tuning<span class="subst">**</span>
+
+Spark<span class="subst">&amp;</span><span class="variable">#x505A</span>;gc tuning<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x76EE</span>;<span class="subst">&amp;</span><span class="variable">#x6807</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x907F</span>;<span class="subst">&amp;</span><span class="variable">#x514D</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;task<span class="subst">&amp;</span><span class="variable">#x6267</span>;<span class="subst">&amp;</span><span class="variable">#x884C</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x7A0B</span>;<span class="subst">&amp;</span><span class="variable">#x4E2D</span>;<span class="subst">&amp;</span><span class="variable">#x53D1</span>;<span class="subst">&amp;</span><span class="variable">#x751F</span>;<span class="literal">full</span> gc<span class="subst">&amp;</span><span class="variable">#xFF0C</span>; <span class="subst">&amp;</span><span class="variable">#x5373</span>;<span class="subst">&amp;</span><span class="variable">#x9700</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x8BA9</span>;Young<span class="subst">&amp;</span><span class="variable">#x533A</span>;<span class="subst">&amp;</span><span class="variable">#x8DB3</span>;<span class="subst">&amp;</span><span class="variable">#x591F</span>;<span class="subst">&amp;</span><span class="variable">#x5BB9</span>;<span class="subst">&amp;</span><span class="variable">#x7EB3</span>;short<span class="attribute">-lived</span> objects  
+</code></pre><p>a, &#x5982;&#x679C;&#x53D1;&#x751F;&#x591A;&#x6B21;full gc&#x6216;&#x662F;OldGen&#x5DF2;&#x7ECF;&#x63A5;&#x8FD1;full&#xFF0C;&#x8BF4;&#x660E;&#x5185;&#x5B58;&#x4E0D;&#x591F;&#xFF0C;&#x53EF;&#x4EE5;&#x964D;&#x4F4E;cache&#x6BD4;&#x4F8B;<br>b, &#x5982;&#x679C;&#x5F88;&#x591A;minor gc&#xFF0C;&#x4F46;&#x6CA1;&#x6709;major gc&#xFF0C;&#x8BF4;&#x660E;young&#x533A;&#x8FC7;&#x5C0F;&#xFF0C; &#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6839;&#x636E;task dataset&#x9700;&#x8981;&#x6D88;&#x8017;&#x5185;&#x5B58;&#x6765;&#x9884;&#x4F30;eden&#x533A;&#xFF0C;young&#x533A;&#x5927;&#x5C0F;= eden&#x533A; &#xD7; &#xFF08;4/3&#xFF09;&#xFF0C;&#x56E0;&#x4E3A;&#x8981;&#x52A0;&#x4E0A;survivor&#x533A;<br>c, &#x5982;&#x679C;&#x4ECE;hdfs&#x8BFB;&#x53D6;&#x6570;&#x636E;&#xFF0C;&#x53EF;&#x4EE5;&#x6839;&#x636E;hdfs block&#x5927;&#x5C0F;&#x6765;&#x9884;&#x4F30;eden&#x533A;&#x5927;&#x5C0F;&#xFF0C;&#x6BD4;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x89E3;&#x538B;&#x6BD4;&#x4F8B;3&#x500D;&#xFF0C;4&#x4E2A;tasks&#x5E76;&#x884C;&#xFF0C;block&#x5927;&#x5C0F;64M&#xFF0C;&#x90A3;&#x4E48;eden&#x533A;&#x5927;&#x5C0F; = 3&#xD7;4&#xD7;64M</p>
+<p>&#x5176;&#x4ED6;&#x7684;&#x4E00;&#x4E9B;&#x8003;&#x8651;&#xFF0C;</p>
+<p>&#x8C03;&#x6574;&#x5E76;&#x53D1;&#x7684;level&#xFF0C; &#x901A;&#x8FC7;&#x589E;&#x52A0;&#x5E76;&#x53D1;&#x6765;&#x964D;&#x4F4E;reduce task&#x7684;&#x5185;&#x5B58;&#x6D88;&#x8017;</p>
+<p>&#x7528; <a href="https://spark.apache.org/docs/1.2.1/programming-guide.html#broadcast-variables" target="_blank" rel="external">broadcast functionality</a> &#x6765;&#x5904;&#x7406;&#x5927;&#x7684;&#x53D8;&#x91CF;&#xFF0C; data locality </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JVM/">JVM</a><a href="/tags/Spark/">Spark</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/f442260/" title="Jvm原理剖析与调优之内存结构 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Jvm原理剖析与调优之内存结构 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/f3dea94/"  title="kafka-web-console -">
+ <strong>下一篇：</strong><br/> 
+ <span>kafka-web-console -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Data_Serialization"><span class="toc-number">1.</span> <span class="toc-text">Data Serialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory_Tuning"><span class="toc-number">2.</span> <span class="toc-text">Memory Tuning</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tuning_Data_Structures"><span class="toc-number">2.1.</span> <span class="toc-text">Tuning Data Structures</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Serialized_RDD_Storage"><span class="toc-number">2.2.</span> <span class="toc-text">Serialized RDD Storage</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Garbage_Collection_Tuning"><span class="toc-number">2.3.</span> <span class="toc-text">Garbage Collection Tuning</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,640 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>springMVC 接收数组参数，mybatis 接收数组参数，mybatis批量插入/批量删除案例 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x6848;&amp;#x4F8B;&amp;#x662F;&amp;#x7ED9;&amp;#x4E00;&amp;#x4E2A;&amp;#x7528;&amp;#x6237;&amp;#x8D4B;&amp;#x4E88;&amp;#x591A;&amp;#x4E2A;&amp;#x6743;&amp;#x9650;&amp;#xFF0C;&amp;#x591A;&amp;#x4E2A;&amp;#x6743;&amp;#x9650;&amp;#x7528;&amp;#x5176;&amp;#x5BF9;&amp;#x5E94;&amp;#x7684;&amp;#x4E3B;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springMVC 接收数组参数，mybatis 接收数组参数，mybatis批量插入/批量删除案例 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/13e9a23/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x6848;&amp;#x4F8B;&amp;#x662F;&amp;#x7ED9;&amp;#x4E00;&amp;#x4E2A;&amp;#x7528;&amp;#x6237;&amp;#x8D4B;&amp;#x4E88;&amp;#x591A;&amp;#x4E2A;&amp;#x6743;&amp;#x9650;&amp;#xFF0C;&amp;#x591A;&amp;#x4E2A;&amp;#x6743;&amp;#x9650;&amp;#x7528;&amp;#x5176;&amp;#x5BF9;&amp;#x5E94;&amp;#x7684;&amp;#x4E3B;">
+<meta property="og:updated_time" content="2015-07-01T23:51:22.852Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springMVC 接收数组参数，mybatis 接收数组参数，mybatis批量插入/批量删除案例 -">
+<meta name="twitter:description" content="&amp;#x6848;&amp;#x4F8B;&amp;#x662F;&amp;#x7ED9;&amp;#x4E00;&amp;#x4E2A;&amp;#x7528;&amp;#x6237;&amp;#x8D4B;&amp;#x4E88;&amp;#x591A;&amp;#x4E2A;&amp;#x6743;&amp;#x9650;&amp;#xFF0C;&amp;#x591A;&amp;#x4E2A;&amp;#x6743;&amp;#x9650;&amp;#x7528;&amp;#x5176;&amp;#x5BF9;&amp;#x5E94;&amp;#x7684;&amp;#x4E3B;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/13e9a23/" title="springMVC 接收数组参数，mybatis 接收数组参数，mybatis批量插入/批量删除案例 -" itemprop="url">springMVC 接收数组参数，mybatis 接收数组参数，mybatis批量插入/批量删除案例 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:51:22.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x6848;&#x4F8B;&#x662F;&#x7ED9;&#x4E00;&#x4E2A;&#x7528;&#x6237;&#x8D4B;&#x4E88;&#x591A;&#x4E2A;&#x6743;&#x9650;&#xFF0C;&#x591A;&#x4E2A;&#x6743;&#x9650;&#x7528;&#x5176;&#x5BF9;&#x5E94;&#x7684;&#x4E3B;&#x952E; id &#x4E3A;&#x53C2;&#x6570;&#xFF0C;&#x7EC4;&#x6210;&#x4E86; &#x4E00;&#x4E2A;id&#x6570;&#x7EC4;&#xFF0C;&#x4F20;&#x7ED9;springMVC&#xFF0C;&#x7136;&#x540E;springMVC&#x4F20;&#x7ED9;mybatis&#xFF0C;&#x7136;&#x540E;mybatis&#x6279;&#x91CF;&#x63D2;&#x5165;&#x3002;&#x5176;&#x5B9E;&#x7C7B;&#x4F3C;&#x7684;&#x573A;&#x666F;&#x8FD8;&#x6709;&#x6279;&#x91CF;&#x5220;&#x9664;&#x591A;&#x4E2A;&#xFF0C;&#x4E5F;&#x662F;&#x7C7B;&#x4F3C;&#x7684;&#x3002;</p>
+<ol>
+<li><p>&#x524D;&#x53F0;&#x9875;&#x9762; </p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;thead<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;tr<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;th<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="variable">#x6743</span>;<span class="subst">&amp;</span><span class="variable">#x9650</span>;<span class="subst">&amp;</span><span class="variable">#x9009</span>;<span class="subst">&amp;</span><span class="variable">#x62E9</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/th<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;th<span class="subst">&amp;</span><span class="literal">gt</span>;name<span class="subst">&amp;</span><span class="literal">lt</span>;/th<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;th<span class="subst">&amp;</span><span class="literal">gt</span>;permission<span class="subst">&amp;</span><span class="literal">lt</span>;/th<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/tr<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/thead<span class="subst">&amp;</span><span class="literal">gt</span>;
+          <span class="subst">&amp;</span><span class="literal">lt</span>;c:forEach <span class="built_in">var</span><span class="subst">=&amp;</span>quot;priv<span class="subst">&amp;</span>quot; items<span class="subst">=&amp;</span>quot;${<span class="built_in">list</span> }<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+               <span class="subst">&amp;</span><span class="literal">lt</span>;tr class<span class="subst">=&amp;</span>quot;odd gradeX<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+              <span class="subst">&amp;</span><span class="literal">lt</span>;td<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;input <span class="keyword">type</span><span class="subst">=&amp;</span>quot;checkbox<span class="subst">&amp;</span>quot; name<span class="subst">=&amp;</span>quot;priv_id<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;${priv<span class="built_in">.</span>id}<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/td<span class="subst">&amp;</span><span class="literal">gt</span>;
+              <span class="subst">&amp;</span><span class="literal">lt</span>;td<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;c:out value<span class="subst">=&amp;</span>quot;${priv<span class="built_in">.</span>name}<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/td<span class="subst">&amp;</span><span class="literal">gt</span>;
+              <span class="subst">&amp;</span><span class="literal">lt</span>;td<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;c:out value<span class="subst">=&amp;</span>quot;${priv<span class="built_in">.</span>permission}<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/td<span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;/tr<span class="subst">&amp;</span><span class="literal">gt</span>;
+          <span class="subst">&amp;</span><span class="literal">lt</span>;/c:forEach<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre></li>
+<li><p>jquery&#x83B7;&#x5F97;&#x9009;&#x4E2D;&#x7684;&#x9879;&#x7684;id&#x503C;&#xFF1A; </p>
+<p>//jquery&#x83B7;&#x53D6;&#x590D;&#x9009;&#x6846;&#x503C;    </p>
+<pre><code>var priv_ids =[];//&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x4E49</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>;    
+<span class="char">$(</span>&amp;apos;input[name=&amp;quot;priv_id&amp;quot;]:checked&amp;apos;).each(function(){    // &amp;<span class="symbol">#x904D</span>;&amp;<span class="symbol">#x5386</span>;&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;name&amp;<span class="symbol">#x4E3A</span>;priv_id&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x590D</span>;&amp;<span class="symbol">#x9009</span>;&amp;<span class="symbol">#x6846</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x9009</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6267</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x51FD</span>;&amp;<span class="symbol">#x6570</span>;    
+    priv_ids.push(<span class="char">$.</span>trim(<span class="char">$(</span>this).val()));    // &amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x9009</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>;priv_ids&amp;<span class="symbol">#x4E2D</span>;    
+});
+console.log(priv_ids);
+var indata = {<span class="method">userId:</span>user_id, <span class="method">privIds:</span>priv_ids};
+<span class="char">$.</span>post(&amp;quot;/ems/priv/setPrivilege&amp;quot;, indata, function(data){
+    if(data != null &amp;amp;&amp;amp; data.result == &amp;apos;ok&amp;apos;){
+        console.log(data.msg);
+        alert(data.msg);
+    }else{
+        alert(data.msg);
+    }
+}, &amp;apos;json&amp;apos;);
+</code></pre></li>
+</ol>
+<p>&#x63D0;&#x4EA4;&#x7684;json&#x683C;&#x5F0F;&#x7684;&#x6570;&#x636E;&#xFF1A; var indata = {userId:user_id, privIds:priv_ids};</p>
+<p>&#x5176;&#x4E2D;&#x7684;  priv_ids  &#x662F;&#x4E00;&#x4E2A;&#x6709; id &#x7EC4;&#x6210;&#x7684;&#x6570;&#x7EC4;&#x3002; </p>
+<p> <strong>3.</strong> springMVC&#x63A5;&#x6536;&#x6570;&#x7EC4;&#x53C2;&#x6570;&#xFF1A; </p>
+<pre><code>@<span class="type">RequestMapping</span>(value=&amp;quot;/setPrivilege&amp;quot;)
+@<span class="type">ResponseBody</span>
+public <span class="type">void</span> setPrivilege(@<span class="type">RequestParam</span>(value = &amp;quot;privIds[]&amp;quot;) <span class="type">Integer</span>[] privIds, <span class="type">Integer</span> userId, <span class="type">PrintWriter</span> writer){
+    <span class="type">System</span>.<span class="keyword">out</span>.println(<span class="type">JSON</span>.toJSONString(privIds));
+    <span class="type">System</span>.<span class="keyword">out</span>.println(<span class="type">JSON</span>.toJSONString(userId));
+    <span class="type">int</span> <span class="literal">result</span> = this.privilegeService.setPrivilegeForUser(privIds, userId);
+    <span class="type">System</span>.<span class="keyword">out</span>.println(&amp;quot;<span class="literal">result</span>=&amp;quot; + <span class="type">JSON</span>.toJSONString(<span class="literal">result</span>));
+    <span class="type">Map</span>&amp;lt;<span class="type">String</span>, <span class="type">String</span>&amp;gt; map = new <span class="type">HashMap</span>&amp;lt;&amp;gt;();
+    <span class="keyword">if</span>(<span class="literal">result</span> &amp;gt; <span class="number">0</span>){
+        map.put(&amp;quot;<span class="literal">result</span>&amp;quot;, &amp;quot;ok&amp;quot;);
+        map.put(&amp;quot;msg&amp;quot;, &amp;quot;&amp;<span class="comment">#x8BBE;&amp;#x7F6E;&amp;#x6210;&amp;#x529F;&amp;quot;);</span>
+        writer.write(<span class="type">JSON</span>.toJSONString(map));
+    }
+}
+</code></pre><p>&#x6211;&#x4EEC;&#x770B;&#x5230;&#x4F7F;&#x7528;&#x4E86;&#xFF1A; <strong>@RequestParam(value = &quot;privIds[]&quot;</strong> ) Integer[] privIds &#x6765;&#x83B7;&#x53D6;&#x524D;&#x53F0;&#x4F20;&#x6765;&#x7684;&#x6570;&#x7EC4;&#x53C2;&#x6570;&#x3002; </p>
+<p>springMVC&#x63A5;&#x6536;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x6700;&#x597D;&#x4E0D;&#x8981;&#x4F7F;&#x7528; int, long&#x7B49;&#x539F;&#x59CB;&#x7C7B;&#x578B;&#xFF0C;&#x800C;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;&#x5B83;&#x4EEC;&#x5BF9;&#x5E94;&#x7684;&#x5305;&#x88C5;&#x7C7B;&#x578B;&#xFF0C;&#x4E0D;&#x7136;&#x5F53;&#x4F20;&#x5165;&#x7684;&#x53C2;&#x6570;&#x4E3A;&#x7A7A;&#x65F6;&#xFF0C;&#x4F1A;&#x62A5;&#x9519;&#xFF0C;&#x800C;&#x5305;&#x88C5;&#x7C7B;&#x578B;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;null&#x8868;&#x793A;&#x4F20;&#x5165;&#x7684;&#x7A7A;&#x503C;&#x3002;</p>
+<ol>
+<li><p>service&#x5C42;&#x7684;&#x5904;&#x7406;&#xFF0C;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x76F4;&#x63A5;&#x4F7F;&#x7528;map&#x5411;mybatis&#x4F20;&#x9012;&#x53C2;&#x6570;&#xFF1A; </p>
+<p>@Service(&quot;privilegeService&quot;)<br>@Transactional<br>public class PrivilegeServiceImpl implements PrivilegeService {</p>
+<pre><code><span class="variable">@Autowired</span>
+private PrivilegeMapper privilegeMapper;
+<span class="variable">@Override</span>
+<span class="variable">@Transactional</span>(readOnly=true)
+public List&amp;<span class="keyword">lt</span>;Privilege&amp;<span class="keyword">gt</span>; getAllPrivilege() {
+    <span class="keyword">return</span> privilegeMapper.getAllPrivilege();
+}
+<span class="variable">@Override</span>
+public <span class="keyword">int</span> setPrivilegeForUser(Integer[] privIds, Integer userId) {
+    Map&amp;<span class="keyword">lt</span>;String, Object&amp;<span class="keyword">gt</span>; <span class="keyword">map</span> = new HashMap&amp;<span class="keyword">lt</span>;&amp;<span class="keyword">gt</span>;();
+    <span class="keyword">map</span>.put(&amp;quot;privIds&amp;quot;, privIds);
+    <span class="keyword">map</span>.put(&amp;quot;userId&amp;quot;, userId);
+    <span class="keyword">return</span> this.privilegeMapper.setPrivilegeForUser(<span class="keyword">map</span>);
+}
+</code></pre><p>}</p>
+</li>
+</ol>
+<ol>
+<li><p>&#x6700;&#x540E;&#x770B; mybatis &#x7684; xml &#x4E2D;&#x7684;sql&#x5982;&#x4F55;&#x5199;&#xFF1A; </p>
+<p>&lt;insert id=&quot;setPrivilegeForUser&quot; parameterType=&quot;map&quot;&gt;</p>
+<pre><code>insert into user_privilege(user_id, privilege_id) <span class="keyword">values</span> 
+&amp;<span class="keyword">lt</span>;<span class="keyword">foreach</span> collection=&amp;quot;privIds&amp;quot; <span class="keyword">index</span>=&amp;quot;<span class="keyword">index</span>&amp;quot; item=&amp;quot;item&amp;quot; separator=&amp;quot;,&amp;quot;&amp;<span class="keyword">gt</span>;
+    ( <span class="comment">#{userId}, #{item} )</span>
+&amp;<span class="keyword">lt</span>;<span class="regexp">/foreach&amp;gt;</span>
+</code></pre><p>  &lt;/insert&gt;</p>
+</li>
+</ol>
+<p>&#x6211;&#x4EEC;&#x770B;&#x5230;&#x4F7F;&#x7528;&#x4E86; foreach &#x6765;&#x5FAA;&#x73AF;&#x4F20;&#x9012;&#x8FDB;&#x6765;&#x7684;&#x6570;&#x7EC4; privIds &#xFF0C;&#x6700;&#x540E;&#x7EC4;&#x6210;&#x7684;sql&#x8BED;&#x53E5;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A; </p>
+<pre><code>insert into user_privilege<span class="params">(user_id, privilege_id)</span> values <span class="params">(<span class="number">3</span>, <span class="number">1</span>)</span>,<span class="params">(<span class="number">3</span>,<span class="number">2</span>)</span>,<span class="params">(<span class="number">3</span>&amp;#xFF0C;<span class="number">3</span>)</span>,<span class="params">(<span class="number">3</span>,<span class="number">4</span>)</span>
+</code></pre><p>user_id &#x4E0D;&#x53D8;&#xFF0C;&#x800C;privilege_id &#x662F;&#x6570;&#x7EC4; privIds &#x4E2D;&#x7684;&#x5FAA;&#x73AF;&#x51FA;&#x6765;&#x7684; id &#x503C;&#x3002;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x6570;&#x636E;&#x5E93;&#x7684;&#x6279;&#x91CF;&#x63D2;&#x5165;&#x3002; </p>
+<p> <strong>6.</strong> &#x6279;&#x91CF;&#x5220;&#x9664;&#x591A;&#x4E2A;&#x7684;&#x5904;&#x7406; </p>
+<p>&#x5220;&#x9664;&#x65F6;&#xFF0C;&#x548C;&#x524D;&#x9762;&#x6279;&#x91CF;&#x63D2;&#x5165;&#x5904;&#x7406;&#x4E5F;&#x662F;&#x6781;&#x5176;&#x7C7B;&#x4F3C;&#x7684;&#xFF0C;&#x53EA;&#x5728;&#x6700;&#x540E;mybatis&#x4E2D;xml&#x4E2D;sql&#x7684;&#x5199;&#x6CD5;&#x6709;&#x70B9;&#x533A;&#x522B;&#xFF1A;</p>
+<pre><code>&amp;<span class="keyword">lt</span>;<span class="keyword">delete</span> id=&amp;quot;deleteByIds&amp;quot; parameterType=&amp;quot;java.util.List&amp;quot;&amp;<span class="keyword">gt</span>;
+      <span class="keyword">delete</span> from user_privilege where id in
+      &amp;<span class="keyword">lt</span>;<span class="keyword">foreach</span> collection=&amp;quot;list&amp;quot; <span class="keyword">index</span>=&amp;quot;<span class="keyword">index</span>&amp;quot; item=&amp;quot;item&amp;quot; <span class="keyword">open</span>=&amp;quot;(&amp;quot; separator=&amp;quot;,&amp;quot; <span class="keyword">close</span>=&amp;quot;)&amp;quot;&amp;<span class="keyword">gt</span>;   
+        <span class="comment">#{item}   </span>
+      &amp;<span class="keyword">lt</span>;<span class="regexp">/foreach&amp;gt;  
+  &amp;lt;/delete</span>&amp;<span class="keyword">gt</span>;
+</code></pre><p>&#x6BD4;&#x8F83;&#x6279;&#x91CF;&#x5220;&#x9664;&#x548C;&#x6279;&#x91CF;&#x63D2;&#x5165;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;  foreach &#x4E2D;&#x7684; open=&quot;(&quot; &#x548C; close=&quot;)&quot; &#x53EA;&#x5728;&#x5FAA;&#x73AF;&#x7684;&#x5F00;&#x59CB;&#x548C;&#x7ED3;&#x675F;&#x4F1A;&#x52A0;&#x4E0A;  &#xFF0C;&#x800C; <strong>separator=&quot;,&quot; &#x662F;&#x6BCF;&#x5FAA;&#x73AF;&#x4E00;&#x6B21;&#xFF0C;&#x5C31;&#x52A0;&#x4E00;&#x6B21;&#x9017;&#x53F7;</strong> &#x3002; </p>
+<p> <strong>7.</strong> &#x6279;&#x91CF;&#x63D2;&#x5165;&#x4F20;&#x5165;&#x5BF9;&#x8C61;List&#x7684;&#x4F8B;&#x5B50;&#xFF1A; </p>
+<pre><code>&amp;<span class="keyword">lt</span>;insert id=&amp;quot;batchInsertStudent&amp;quot; parameterType=&amp;quot;java.util.List&amp;quot;&amp;<span class="keyword">gt</span>;  
+    insert into student (id,name,sex,tel,address) <span class="keyword">values</span>
+    &amp;<span class="keyword">lt</span>;<span class="keyword">foreach</span> collection=&amp;quot;list&amp;quot; item=&amp;quot;item&amp;quot; <span class="keyword">index</span>=&amp;quot;<span class="keyword">index</span>&amp;quot; separator=&amp;quot;,&amp;quot; &amp;<span class="keyword">gt</span>;  
+        (<span class="comment">#{item.id},#{item.name},#{item.sex},#{item.tel},#{item.address})  </span>
+    &amp;<span class="keyword">lt</span>;<span class="regexp">/foreach&amp;gt;  
+&amp;lt;/insert</span>&amp;<span class="keyword">gt</span>;
+</code></pre><p>&#x5176;&#x5B9E;&#x638C;&#x63E1;&#x4E86; &#x6279;&#x91CF;&#x63D2;&#x5165;&#x548C;&#x6279;&#x91CF;&#x5220;&#x9664;&#xFF0C;&#x6279;&#x91CF;&#x66F4;&#x65B0;&#x4E5F;&#x662F;&#x4E00;&#x6837;&#x7684;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MyBatis/">MyBatis</a><a href="/tags/Spring-MVC/">Spring MVC</a><a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/2400704/" title="基于SpringMVC与jquery的ajax提交表单的若干情况详解 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  基于SpringMVC与jquery的ajax提交表单的若干情况详解 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/13be9a9/"  title="（一）spring MVC基本概念和流程 -">
+ <strong>下一篇：</strong><br/> 
+ <span>（一）spring MVC基本概念和流程 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

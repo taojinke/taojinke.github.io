@@ -1,0 +1,1016 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>JAVA深入研究——Method的Invoke方法。 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Method&amp;#x7684;invoke&amp;#x65B9;&amp;#x6CD5;
+1.&amp;#x5148;&amp;#x68C0;&amp;#x67E5;&amp;#xA0;AccessibleObject&amp;#x7684;override&amp;#x5C5E;&amp;#x6027;&amp;#x662F;&amp;#x5426;&amp;#x4E3A;true&amp;#x3002;
+AccessibleObject&amp;#x662F;Method,Field,Construct">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA深入研究——Method的Invoke方法。 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/f48ee67/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Method&amp;#x7684;invoke&amp;#x65B9;&amp;#x6CD5;
+1.&amp;#x5148;&amp;#x68C0;&amp;#x67E5;&amp;#xA0;AccessibleObject&amp;#x7684;override&amp;#x5C5E;&amp;#x6027;&amp;#x662F;&amp;#x5426;&amp;#x4E3A;true&amp;#x3002;
+AccessibleObject&amp;#x662F;Method,Field,Construct">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f489412.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f489412.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f489683.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f4898f4.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f489b65.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f489dd6.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f489dd6.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48a047.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48a047.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48a2b8.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48a529.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48a529.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48a79a.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48a79a.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48aa0b.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48aa0b.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48ac7c.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48aeed.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48aeed.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48b15e.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48b15e.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/f48b3cf.gif">
+<meta property="og:updated_time" content="2015-07-01T23:50:30.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA深入研究——Method的Invoke方法。 -">
+<meta name="twitter:description" content="Method&amp;#x7684;invoke&amp;#x65B9;&amp;#x6CD5;
+1.&amp;#x5148;&amp;#x68C0;&amp;#x67E5;&amp;#xA0;AccessibleObject&amp;#x7684;override&amp;#x5C5E;&amp;#x6027;&amp;#x662F;&amp;#x5426;&amp;#x4E3A;true&amp;#x3002;
+AccessibleObject&amp;#x662F;Method,Field,Construct">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/f48ee67/" title="JAVA深入研究——Method的Invoke方法。 -" itemprop="url">JAVA深入研究——Method的Invoke方法。 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:50:30.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>Method&#x7684;invoke&#x65B9;&#x6CD5;</p>
+<p>1.&#x5148;&#x68C0;&#x67E5;&#xA0;AccessibleObject&#x7684;override&#x5C5E;&#x6027;&#x662F;&#x5426;&#x4E3A;true&#x3002;</p>
+<p>AccessibleObject&#x662F;Method,Field,Constructor&#x7684;&#x7236;&#x7C7B;&#xFF0C;override&#x5C5E;&#x6027;&#x9ED8;&#x8BA4;&#x4E3A;false,&#x53EF;&#x8C03;&#x7528;setAccessible&#x65B9;&#x6CD5;&#x6539;&#x53D8;&#xFF0C;&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x4E3A;true,&#x5219;&#xFFFD;&#xFFFD;&#xFFFD;&#x793A;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x3002;</p>
+<p>2.&#x5982;&#x679C;&#x4E0D;&#x662F;ture,&#x5219;&#x8981;&#x8FDB;&#x884C;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x68C0;&#x6D4B;&#x3002;&#x7528;Reflection&#x7684;quickCheckMemberAccess&#x65B9;&#x6CD5;&#x5148;&#x68C0;&#x67E5;&#x662F;&#x4E0D;&#x662F;public&#x7684;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x662F;&#x518D;&#x7528;Reflection.getCallerClass(1)&#x65B9;&#x6CD5;&#x83B7;</p>
+<p>&#x5F97;&#x5230;&#x8C03;&#x7528;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x7684;Class,&#x7136;&#x540E;&#x505A;&#x662F;&#x5426;&#x6709;&#x6743;&#x9650;&#x8BBF;&#x95EE;&#x7684;&#x6821;&#x9A8C;&#xFF0C;&#x6821;&#x9A8C;&#x4E4B;&#x540E;&#x7F13;&#x5B58;&#x4E00;&#x6B21;&#xFF0C;&#x4EE5;&#x4FBF;&#x4E0B;&#x6B21;&#x5982;&#x679C;&#x8FD8;&#x662F;&#x8FD9;&#x4E2A;&#x7C7B;&#x6765;&#x8C03;&#x7528;&#x5C31;&#x4E0D;&#x7528;&#x53BB;&#x505A;&#x6821;&#x9A8C;&#x4E86;&#xFF0C;&#x76F4;&#x63A5;&#x7528;&#x4E0A;&#x6B21;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#xFF08;&#x5F88;&#x5947;&#x602A;&#x7528;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x7F13;&#x5B58;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x5982;&#x679C;&#x4E0B;&#x6B21;&#x6362;&#x4E2A;&#x7C7B;&#x6765;&#x8C03;&#x7528;&#x7684;&#x8BDD;&#xFF0C;&#x5C31;&#x4E0D;&#x7528;&#x4F1A;&#x7F13;&#x5B58;&#x4E86;&#xFF0C;&#x800C;&#x518D;&#x9A8C;&#x8BC1;&#x4E00;&#x904D;&#xFF0C;&#x628A;&#x8FD9;&#x6B21;&#x7684;&#x7ED3;&#x679C;&#x505A;&#x4E3A;&#x7F13;&#x5B58;&#xFF0C;&#x4F46;&#x4E0A;&#x4E00;&#x6B21;&#x7684;&#x7F13;&#x5B58;&#x7ED3;&#x679C;&#x5C31;&#x88AB;&#x51B2;&#x6389;&#x4E86;&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x5F88;&#x7B80;&#x5355;&#x7684;&#x7F13;&#x51B2;&#x673A;&#x5236;&#xFF0C;&#x53EA;&#x9002;&#x7528;&#x4E8E;&#x4E00;&#x4E2A;&#x7C7B;&#x7684;&#x91CD;&#x590D;&#x8C03;&#x7528;)&#x3002;</p>
+<p>3.&#x8C03;&#x7528;MethodAccessor&#x7684;invoke&#x65B9;&#x6CD5;&#x3002;&#x6BCF;&#x4E2A;Method&#x5BF9;&#x8C61;&#x5305;&#x542B;&#x4E00;&#x4E2A;root&#x5BF9;&#x8C61;&#xFF0C;root&#x5BF9;&#x8C61;&#x91CC;&#x6301;&#x6709;&#x4E00;&#x4E2A;MethodAccessor&#x5BF9;&#x8C61;&#x3002;&#x6211;&#x4EEC;&#x83B7;&#x5F97;&#x7684;Method&#x72EC;&#x4EAB;&#x76F8;&#x5F53;&#x4E8E;&#x4E00;&#x4E2A;root&#x5BF9;&#x8C61;&#x7684;&#x955C;&#x50CF;&#xFF0C;&#x6240;&#x6709;&#x8FD9;&#x7C7B;Method&#x5171;&#x4EAB;root&#x91CC;&#x7684;MethodAccessor&#x5BF9;&#x8C61;,(&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x7531;ReflectionFactory&#x65B9;&#x6CD5;&#x751F;&#x6210;,ReflectionFactory&#x5BF9;&#x8C61;&#x5728;Method&#x7C7B;&#x4E2D;&#x662F;static&#xA0;final&#x7684;&#x7531;native&#x65B9;&#x6CD5;&#x5B9E;&#x4F8B;&#x5316;)&#x3002;</p>
+<p>ReflectionFactory&#x751F;&#x6210;MethodAccessor&#xFF1A;&#x5982;&#x679C;noInflation&#x7684;&#x5C5E;&#x6027;&#x4E3A;true&#x5219;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;MethodAccessorGenerator&#x521B;&#x5EFA;&#x7684;&#x4E00;&#x4E2A;MethodAccessor&#x3002;</p>
+<p>&#x5426;&#x5219;&#x8FD4;&#x56DE;DelegatingMethodAccessorImpl&#xFF0C;&#x5E76;&#x5C06;&#x4ED6;&#x4E0E;&#x4E00;&#x4E2A;NativeMethodAccessorImpl&#x4E92;&#x76F8;&#x5F15;&#x7528;&#x3002;&#x4F46;DelegatingMethodAccessorImpl&#x6267;&#x884C;invoke&#x65B9;&#x6CD5;&#x7684;&#x65F6;&#x5019;&#x53C8;&#x59D4;&#x6258;&#x7ED9;NativeMethodAccessorImpl&#x4E86;&#x3002;</p>
+<p>&#x518D;&#x4E00;&#x6B65;&#x6DF1;&#x5165;</p>
+<p>4.NativeMethodAccessorImpl&#x7684;invkoe&#x65B9;&#x6CD5;:</p>
+<p>&#x8C03;&#x7528;natiave&#x65B9;&#x6CD5;invoke0&#x6267;&#x884C;&#x65B9;&#x6CD5;&#x8C03;&#x7528;.</p>
+<p>&#x6CE8;&#x610F;&#x8FD9;&#x91CC;&#x6709;&#x4E00;&#x4E2A;&#x8BA1;&#x6570;&#x5668;numInvocations&#xFF0C;&#x6BCF;&#x8C03;&#x7528;&#x4E00;&#x6B21;&#x65B9;&#x6CD5;+1,&#x5F53;&#x6BD4;&#xA0;ReflectionFactory.inflationThreshold(15)&#x5927;&#x7684;&#x65F6;&#x5019;,&#x7528;MethodAccessorGenerator&#x521B;&#x5EFA;&#x4E00;&#x4E2A;MethodAccessor,&#x5E76;&#x628A;&#x4E4B;&#x524D;&#x7684;DelegatingMethodAccessorImpl&#x5F15;&#x7528;&#x66FF;&#x6362;&#x4E3A;&#x73B0;&#x5728;&#x65B0;&#x521B;&#x5EFA;&#x7684;&#x3002;&#x4E0B;&#x4E00;&#x6B21;DelegatingMethodAccessorImpl&#x5C31;&#x4E0D;&#x4F1A;&#x518D;&#x4EA4;&#x7ED9;NativeMethodAccessorImpl&#x6267;&#x884C;&#x4E86;&#xFF0C;&#x800C;&#x662F;&#x4EA4;&#x7ED9;&#x65B0;&#x751F;&#x6210;&#x7684;java&#x5B57;&#x8282;&#x7801;&#x7684;MethodAccessor&#x3002;</p>
+<p>MethodAccessorGenerator&#x4F7F;&#x7528;&#x4E86;asm&#x5B57;&#x8282;&#x7801;&#x52A8;&#x6001;&#x52A0;&#x8F7D;&#x6280;&#x672F;&#xFF0C;&#x6682;&#x4E0D;&#x6DF1;&#x5165;&#x7814;&#x7A76;&#x3002;</p>
+<p>&#x603B;&#x7ED3;&#xA0;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x751F;&#x6210;&#x591A;&#x4E2A;Method&#x5BF9;&#x8C61;&#xFF0C;&#x4F46;&#x53EA;&#x6709;&#x4E00;&#x4E2A;root&#x5BF9;&#x8C61;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x6301;&#x6709;&#x4E00;&#x4E2A;MethodAccessor&#x5BF9;&#x8C61;&#xFF0C;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x4E5F;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x662F;static&#x7684;&#x3002;&#x56E0;&#x4E3A;Method&#x7684;invoke&#x662F;&#x4EA4;&#x7ED9;MethodAccessor&#x6267;&#x884C;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x6240;&#x60F3;&#x8981;&#x77E5;&#x9053;&#x7684;&#x7B54;&#x6848;&#x5728;MethodAccessor&#x7684;invoke&#x4E2D;&#xFF0C;&#x6DF1;&#x5165;MethodAccessor&#xFF1A;</p>
+<p>—————————————————————MethodAccessor————————————————-</p>
+<p>&#x5047;&#x5982;&#x6709;&#x8FD9;&#x4E48;&#x4E00;&#x4E2A;&#x7C7B;A&#xFF1A;&#xA0;</p>
+<p>public class A {</p>
+<p>public void foo(String name) {</p>
+<p>System.out.println(&quot;Hello, &quot; + name);</p>
+<p>}</p>
+<p>}</p>
+<p>&#x53EF;&#x4EE5;&#x7F16;&#x5199;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x7C7B;&#x6765;&#x53CD;&#x5C04;&#x8C03;&#x7528;A&#x4E0A;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<p>import java.lang.reflect.Method;</p>
+<p>public class TestClassLoad {</p>
+<p>public static void main(String[] args) throws Exception {</p>
+<p>Class&lt;?&gt; clz = Class.forName(&quot;A&quot;);</p>
+<p>Object o = clz.newInstance();</p>
+<p>Method m = clz.getMethod(&quot;foo&quot;, String.class);</p>
+<p>for (int i = 0; i &lt; 16; i++) {</p>
+<p>m.invoke(o, Integer.toString(i));</p>
+<p>}</p>
+<p>}</p>
+<p>}</p>
+<p>&#x6CE8;&#x610F;&#x5230;TestClassLoad&#x7C7B;&#x4E0A;&#x4E0D;&#x4F1A;&#x6709;&#x5BF9;&#x7C7B;A&#x7684;&#x7B26;&#x53F7;&#x4F9D;&#x8D56;&#x2014;&#x2014;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x5728;&#x52A0;&#x8F7D;&#x5E76;&#x521D;&#x59CB;&#x5316;TestClassLoad&#x7C7B;&#x65F6;&#x4E0D;&#x9700;&#x8981;&#x5173;&#x5FC3;&#x7C7B;A&#x7684;&#x5B58;&#x5728;&#x4E0E;&#x5426;&#xFF0C;&#x800C;&#x662F;&#x7B49;&#x5230;main()&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x5230;&#x8C03;&#x7528;Class.forName()&#x65F6;&#x624D;&#x8BD5;&#x56FE;&#x5BF9;&#x7C7B;A&#x505A;&#x52A8;&#x6001;&#x52A0;&#x8F7D;&#xFF1B;&#x8FD9;&#x91CC;&#x7528;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x7248;&#x7684;forName()&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x5F53;&#x524D;&#x65B9;&#x6CD5;&#x6240;&#x5728;&#x7C7B;&#x7684;ClassLoader&#x6765;&#x52A0;&#x8F7D;&#xFF0C;&#x5E76;&#x4E14;&#x521D;&#x59CB;&#x5316;&#x65B0;&#x52A0;&#x8F7D;&#x7684;&#x7C7B;&#x3002;&#x2026;&#x2026;&#x597D;&#x5427;&#x8FD9;&#x4E2A;&#x7EC6;&#x8282;&#x8DDF;&#x4E3B;&#x9898;&#x6CA1;&#x5565;&#x5173;&#x7CFB;&#x3002;&#xA0;</p>
+<p>&#x56DE;&#x5230;&#x4E3B;&#x9898;&#x3002;&#x8FD9;&#x6B21;&#x6211;&#x7684;&#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#x662F;Sun&#x7684;JDK 1.6.0 update 13 build 03&#x3002;&#x7F16;&#x8BD1;&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#xFF0C;&#x5E76;&#x5728;&#x6267;&#x884C;TestClassLoad&#x65F6;&#x52A0;&#x5165;-XX:+TraceClassLoading&#x53C2;&#x6570;&#xFF08;&#x6216;&#x8005;-verbose:class&#x6216;&#x8005;&#x76F4;&#x63A5;-verbose&#x90FD;&#x884C;&#xFF09;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x63A7;&#x5236;&#x53F0;&#x547D;&#x4EE4;</p>
+<p>java&#xA0;-XX:+TraTestClassLoad &#xA0;ceClassLoading&#xA0;</p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8F93;&#x51FA;&#x4E86;&#x4E00;&#x5927;&#x5806;log&#xFF0C;&#x628A;&#x5176;&#x4E2D;&#x76F8;&#x5173;&#x7684;&#x90E8;&#x5206;&#x622A;&#x53D6;&#x51FA;&#x6765;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p> <img src="http://taojinke.github.io/img/20150702/f489412.gif" alt=""></p>
+<pre><code>[Loaded TestClassLoad from file:/D:/temp_code/test_java_classload/]
+[Loaded A from file:/D:/temp_code/test_java_classload/]
+[Loaded sun<span class="class">.reflect</span><span class="class">.NativeMethodAccessorImpl</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.DelegatingMethodAccessorImpl</span> from shared objects file]
+Hello, <span class="number">0</span>
+Hello, <span class="number">1</span>
+Hello, <span class="number">2</span>
+Hello, <span class="number">3</span>
+Hello, <span class="number">4</span>
+Hello, <span class="number">5</span>
+Hello, <span class="number">6</span>
+Hello, <span class="number">7</span>
+Hello, <span class="number">8</span>
+Hello, <span class="number">9</span>
+Hello, <span class="number">10</span>
+Hello, <span class="number">11</span>
+Hello, <span class="number">12</span>
+Hello, <span class="number">13</span>
+Hello, <span class="number">14</span>
+[Loaded sun<span class="class">.reflect</span><span class="class">.ClassFileConstants</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.AccessorGenerator</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.MethodAccessorGenerator</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.ByteVectorFactory</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.ByteVector</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.ByteVectorImpl</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.ClassFileAssembler</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.UTF8</span> from shared objects file]
+[Loaded java<span class="class">.lang</span><span class="class">.Void</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.Label</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.Label</span><span class="variable">$PatchInfo</span> from shared objects file]
+[Loaded java<span class="class">.util</span><span class="class">.AbstractList</span><span class="variable">$Itr</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.MethodAccessorGenerator</span>$<span class="number">1</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.ClassDefiner</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.ClassDefiner</span>$<span class="number">1</span> from shared objects file]
+[Loaded sun<span class="class">.reflect</span><span class="class">.GeneratedMethodAccessor1</span> from __JVM_DefineClass__]
+Hello, <span class="number">15</span>
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f489412.gif" alt=""></p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x524D;15&#x6B21;&#x53CD;&#x5C04;&#x8C03;&#x7528;A.foo()&#x65B9;&#x6CD5;&#x5E76;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x7A00;&#x5947;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x4F46;&#x5728;&#x7B2C;16&#x6B21;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x65F6;&#x4F3C;&#x4E4E;&#x6709;&#x4EC0;&#x4E48;&#x4E1C;&#x897F;&#x88AB;&#x89E6;&#x53D1;&#x4E86;&#xFF0C;&#x5BFC;&#x81F4;JVM&#x65B0;&#x52A0;&#x8F7D;&#x4E86;&#x4E00;&#x5806;&#x7C7B;&#xFF0C;&#x5176;&#x4E2D;&#x5C31;&#x5305;&#x62EC;[Loaded sun.reflect.GeneratedMethodAccessor1 from <strong>JVM_DefineClass</strong>]&#x8FD9;&#x4E48;&#x4E00;&#x884C;&#x3002;&#x8FD9;&#x662F;&#x54EA;&#x91CC;&#x6765;&#x7684;&#x5462;&#xFF1F;</p>
+<p>&#x5148;&#x6765;&#x770B;&#x770B;JDK&#x91CC;Method.invoke()&#x662F;&#x600E;&#x4E48;&#x5B9E;&#x73B0;&#x7684;&#x3002;java.lang.reflect.Method&#xFF1A;&#xA0; </p>
+<p> <img src="http://taojinke.github.io/img/20150702/f489683.gif" alt=""></p>
+<pre><code><span class="keyword">public</span> <span class="keyword">final</span>
+    <span class="class"><span class="keyword">class</span> <span class="title">Method</span> <span class="keyword">extends</span> <span class="title">AccessibleObject</span> <span class="keyword">implements</span> <span class="title">GenericDeclaration</span>, 
+                             <span class="title">Member</span> </span>{
+    <span class="comment">// ...</span>
+    <span class="keyword">private</span> <span class="keyword">volatile</span> MethodAccessor methodAccessor;
+    <span class="comment">// For sharing of MethodAccessors. This branching structure is</span>
+    <span class="comment">// currently only two levels deep (i.e., one root Method and</span>
+    <span class="comment">// potentially many Method objects pointing to it.)</span>
+    <span class="keyword">private</span> Method              root;
+    <span class="comment">// ...</span>
+    <span class="keyword">public</span> <span class="function">Object <span class="title">invoke</span><span class="params">(Object obj, Object... args)</span>
+            <span class="keyword">throws</span> IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException
+    </span>{
+        <span class="keyword">if</span> (!override) {
+            <span class="keyword">if</span> (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
+                Class caller = Reflection.getCallerClass(<span class="number">1</span>);
+                Class targetClass = ((obj == <span class="keyword">null</span> || !Modifier.isProtected(modifiers))
+                                     ? clazz
+                                     : obj.getClass());
+                <span class="keyword">boolean</span> cached;
+                <span class="keyword">synchronized</span> (<span class="keyword">this</span>) {
+                    cached = (securityCheckCache == caller)
+                        &amp;amp;&amp;amp; (securityCheckTargetClassCache == targetClass);
+                }
+                <span class="keyword">if</span> (!cached) {
+                    Reflection.ensureMemberAccess(caller, clazz, obj, modifiers);
+                    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) {
+                    securityCheckCache = caller;
+                    securityCheckTargetClassCache = targetClass;
+                    }
+                }
+            }
+        }
+        <span class="keyword">if</span> (methodAccessor == <span class="keyword">null</span>) acquireMethodAccessor();
+        <span class="function"><span class="keyword">return</span> methodAccessor.<span class="title">invoke</span><span class="params">(obj, args)</span></span>;
+    }
+    <span class="comment">// <span class="doctag">NOTE</span> that there is no synchronization used here. It is correct</span>
+    <span class="comment">// (though not efficient) to generate more than one MethodAccessor</span>
+    <span class="comment">// for a given Method. However, avoiding synchronization will</span>
+    <span class="comment">// probably make the implementation more scalable.</span>
+    <span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">acquireMethodAccessor</span><span class="params">()</span> </span>{
+        <span class="comment">// First check to see if one has been created yet, and take it</span>
+        <span class="comment">// if so</span>
+        MethodAccessor tmp = <span class="keyword">null</span>;
+        <span class="keyword">if</span> (root != <span class="keyword">null</span>) tmp = root.getMethodAccessor();
+        <span class="keyword">if</span> (tmp != <span class="keyword">null</span>) {
+            methodAccessor = tmp;
+            <span class="keyword">return</span>;
+        }
+        <span class="comment">// Otherwise fabricate one and propagate it up to the root</span>
+        tmp = reflectionFactory.newMethodAccessor(<span class="keyword">this</span>);
+        setMethodAccessor(tmp);
+    }
+    <span class="comment">// ...</span>
+}
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f4898f4.gif" alt=""></p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;Method.invoke()&#x5B9E;&#x9645;&#x4E0A;&#x5E76;&#x4E0D;&#x662F;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;&#x7684;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x903B;&#x8F91;&#xFF0C;&#x800C;&#x662F;&#x59D4;&#x6258;&#x7ED9;sun.reflect.MethodAccessor&#x6765;&#x5904;&#x7406;&#x3002;</p>
+<p>&#x6BCF;&#x4E2A;&#x5B9E;&#x9645;&#x7684;Java&#x65B9;&#x6CD5;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x5BF9;&#x5E94;&#x7684;Method&#x5BF9;&#x8C61;&#x4F5C;&#x4E3A;root&#xFF0C;&#x3002;&#x8FD9;&#x4E2A;root&#x662F;&#x4E0D;&#x4F1A;&#x66B4;&#x9732;&#x7ED9;&#x7528;&#x6237;&#x7684;&#xFF0C;&#x800C;&#x662F;&#x6BCF;&#x6B21;&#x5728;&#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x83B7;&#x53D6;Method&#x5BF9;&#x8C61;&#x65F6;&#x65B0;&#x521B;&#x5EFA;Method&#x5BF9;&#x8C61;&#x628A;root&#x5305;&#x88C5;&#x8D77;&#x6765;&#x518D;&#x7ED9;&#x7528;&#x6237;&#x3002;&#x5728;&#x7B2C;&#x4E00;&#x6B21;&#x8C03;&#x7528;&#x4E00;&#x4E2A;&#x5B9E;&#x9645;Java&#x65B9;&#x6CD5;&#x5BF9;&#x5E94;&#x5F97;Method&#x5BF9;&#x8C61;&#x7684;invoke()&#x65B9;&#x6CD5;&#x4E4B;&#x524D;&#xFF0C;&#x5B9E;&#x73B0;&#x8C03;&#x7528;&#x903B;&#x8F91;&#x7684;MethodAccessor&#x5BF9;&#x8C61;&#x8FD8;&#x6CA1;&#x521B;&#x5EFA;&#xFF1B;&#x7B49;&#x7B2C;&#x4E00;&#x6B21;&#x8C03;&#x7528;&#x65F6;&#x624D;&#x65B0;&#x521B;&#x5EFA;MethodAccessor&#x5E76;&#x66F4;&#x65B0;&#x7ED9;root&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;MethodAccessor.invoke()&#x771F;&#x6B63;&#x5B8C;&#x6210;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x3002;&#xA0;</p>
+<p>&#x90A3;&#x4E48;MethodAccessor&#x662F;&#x5565;&#x5462;&#xFF1F;&#xA0;</p>
+<p>sun.reflect.MethodAccessor&#xFF1A;</p>
+<pre><code><span class="keyword">public</span> <span class="interface"><span class="keyword">interface</span> MethodAccessor </span>{
+    <span class="comment">/** Matches specification in {@link java.lang.reflect.Method} */</span>
+    <span class="keyword">public</span> <span class="built_in">Object</span> invoke(<span class="built_in">Object</span> obj, <span class="built_in">Object</span>[] args)
+        throws IllegalArgumentException, InvocationTargetException;
+}
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5B83;&#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x65B9;&#x6CD5;&#x63A5;&#x53E3;&#xFF0C;&#x5176;invoke()&#x65B9;&#x6CD5;&#x4E0E;Method.invoke()&#x7684;&#x5BF9;&#x5E94;&#x3002;</p>
+<p>&#x521B;&#x5EFA;MethodAccessor&#x5B9E;&#x4F8B;&#x7684;&#x662F;ReflectionFactory&#x3002;</p>
+<p>sun.reflect.ReflectionFactory&#xFF1A;</p>
+<p> <img src="http://taojinke.github.io/img/20150702/f489b65.gif" alt=""></p>
+<pre><code>public class <span class="type">ReflectionFactory</span> {
+    private <span class="keyword">static</span> boolean initted = <span class="literal">false</span>;
+    // ...
+    //
+    // &amp;quot;<span class="type">Inflation</span>&amp;quot; mechanism. <span class="type">Loading</span> bytecodes to implement
+    // <span class="type">Method</span>.invoke() <span class="keyword">and</span> <span class="type">Constructor</span>.newInstance() currently costs
+    // <span class="number">3</span>-<span class="number">4</span>x more than an invocation via native code <span class="keyword">for</span> the first
+    // invocation (though subsequent invocations have been benchmarked
+    // to be over <span class="number">20</span>x faster). <span class="type">Unfortunately</span> this cost increases
+    // startup time <span class="keyword">for</span> certain applications that use reflection
+    // intensively (but only once per class) to bootstrap themselves.
+    // <span class="type">To</span> avoid this penalty we reuse the existing <span class="type">JVM</span> entry points
+    // <span class="keyword">for</span> the first few invocations <span class="keyword">of</span> <span class="type">Methods</span> <span class="keyword">and</span> <span class="type">Constructors</span> <span class="keyword">and</span>
+    // then switch to the bytecode-based implementations.
+    //
+    // <span class="type">Package</span>-private to be accessible to <span class="type">NativeMethodAccessorImpl</span>
+    // <span class="keyword">and</span> <span class="type">NativeConstructorAccessorImpl</span>
+    private <span class="keyword">static</span> boolean noInflation        = <span class="literal">false</span>;
+    private <span class="keyword">static</span> <span class="type">int</span>     inflationThreshold = <span class="number">15</span>;
+    // ...
+    /** <span class="type">We</span> have to defer full initialization <span class="keyword">of</span> this class until after
+        the <span class="keyword">static</span> initializer <span class="keyword">is</span> run since java.lang.reflect.<span class="type">Method</span>&amp;apos;s
+        <span class="keyword">static</span> initializer (more properly, that <span class="keyword">for</span>
+        java.lang.reflect.<span class="type">AccessibleObject</span>) causes this class&amp;apos;s to be
+        run, before the system properties are <span class="type">set</span> up. */
+    private <span class="keyword">static</span> <span class="type">void</span> checkInitted() {
+        <span class="keyword">if</span> (initted) <span class="keyword">return</span>;
+        <span class="type">AccessController</span>.doPrivileged(new <span class="type">PrivilegedAction</span>() {
+                public <span class="type">Object</span> run() {
+                    // <span class="type">Tests</span> to ensure the system properties table <span class="keyword">is</span> fully
+                    // initialized. <span class="type">This</span> <span class="keyword">is</span> needed because reflection code <span class="keyword">is</span>
+                    // called very early <span class="keyword">in</span> the initialization process (before
+                    // command-line arguments have been parsed <span class="keyword">and</span> therefore
+                    // these user-settable properties installed.) <span class="type">We</span> assume that
+                    // <span class="keyword">if</span> <span class="type">System</span>.<span class="keyword">out</span> <span class="keyword">is</span> non-null then the <span class="type">System</span> class has been
+                    // fully initialized <span class="keyword">and</span> that the bulk <span class="keyword">of</span> the startup code
+                    // has been run.
+                    <span class="keyword">if</span> (<span class="type">System</span>.<span class="keyword">out</span> == null) {
+                        // java.lang.<span class="type">System</span> <span class="keyword">not</span> yet fully initialized
+                        <span class="keyword">return</span> null;
+                    }
+                    <span class="type">String</span> val = <span class="type">System</span>.getProperty(&amp;quot;sun.reflect.noInflation&amp;quot;);
+                    <span class="keyword">if</span> (val != null &amp;amp;&amp;amp; val.equals(&amp;quot;<span class="literal">true</span>&amp;quot;)) {
+                        noInflation = <span class="literal">true</span>;
+                    }
+                    val = <span class="type">System</span>.getProperty(&amp;quot;sun.reflect.inflationThreshold&amp;quot;);
+                    <span class="keyword">if</span> (val != null) {
+                        <span class="keyword">try</span> {
+                            inflationThreshold = <span class="type">Integer</span>.parseInt(val);
+                        } catch (<span class="type">NumberFormatException</span> e) {
+                            throw (<span class="type">RuntimeException</span>) 
+                                new <span class="type">RuntimeException</span>(&amp;quot;<span class="type">Unable</span> to parse property sun.reflect.inflationThreshold&amp;quot;).
+                                    initCause(e);
+                        }
+                    }
+                    initted = <span class="literal">true</span>;
+                    <span class="keyword">return</span> null;
+                }
+            });
+    }
+    // ...
+    public <span class="type">MethodAccessor</span> newMethodAccessor(<span class="type">Method</span> <span class="keyword">method</span>) {
+        checkInitted();
+        <span class="keyword">if</span> (noInflation) {
+            <span class="keyword">return</span> new <span class="type">MethodAccessorGenerator</span>().
+                generateMethod(<span class="keyword">method</span>.getDeclaringClass(),
+                               <span class="keyword">method</span>.getName(),
+                               <span class="keyword">method</span>.getParameterTypes(),
+                               <span class="keyword">method</span>.getReturnType(),
+                               <span class="keyword">method</span>.getExceptionTypes(),
+                               <span class="keyword">method</span>.getModifiers());
+        } <span class="keyword">else</span> {
+            <span class="type">NativeMethodAccessorImpl</span> acc =
+                new <span class="type">NativeMethodAccessorImpl</span>(<span class="keyword">method</span>);
+            <span class="type">DelegatingMethodAccessorImpl</span> res =
+                new <span class="type">DelegatingMethodAccessorImpl</span>(acc);
+            acc.setParent(res);
+            <span class="keyword">return</span> res;
+        }
+    }
+}
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f489dd6.gif" alt=""></p>
+<p>&#x8FD9;&#x91CC;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6709;&#x8DA3;&#x7684;&#x5730;&#x65B9;&#x4E86;&#x3002;&#x5982;&#x6CE8;&#x91CA;&#x6240;&#x8FF0;&#xFF0C;&#x5B9E;&#x9645;&#x7684;MethodAccessor&#x5B9E;&#x73B0;&#x6709;&#x4E24;&#x4E2A;&#x7248;&#x672C;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;Java&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x53E6;&#x4E00;&#x4E2A;&#x662F;native code&#x5B9E;&#x73B0;&#x7684;&#x3002;Java&#x5B9E;&#x73B0;&#x7684;&#x7248;&#x672C;&#x5728;&#x521D;&#x59CB;&#x5316;&#x65F6;&#x9700;&#x8981;&#x8F83;&#x591A;&#x65F6;&#x95F4;&#xFF0C;&#x4F46;&#x957F;&#x4E45;&#x6765;&#x8BF4;&#x6027;&#x80FD;&#x8F83;&#x597D;&#xFF1B;native&#x7248;&#x672C;&#x6B63;&#x597D;&#x76F8;&#x53CD;&#xFF0C;&#x542F;&#x52A8;&#x65F6;&#x76F8;&#x5BF9;&#x8F83;&#x5FEB;&#xFF0C;&#x4F46;&#x8FD0;&#x884C;&#x65F6;&#x95F4;&#x957F;&#x4E86;&#x4E4B;&#x540E;&#x901F;&#x5EA6;&#x5C31;&#x6BD4;&#x4E0D;&#x8FC7;Java&#x7248;&#x4E86;&#x3002;&#x8FD9;&#x662F;HotSpot&#x7684;&#x4F18;&#x5316;&#x65B9;&#x5F0F;&#x5E26;&#x6765;&#x7684;&#x6027;&#x80FD;&#x7279;&#x6027;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x662F;&#x8BB8;&#x591A;&#x865A;&#x62DF;&#x673A;&#x7684;&#x5171;&#x540C;&#x70B9;&#xFF1A;&#x8DE8;&#x8D8A;native&#x8FB9;&#x754C;&#x4F1A;&#x5BF9;&#x4F18;&#x5316;&#x6709;&#x963B;&#x788D;&#x4F5C;&#x7528;&#xFF0C;&#x5B83;&#x5C31;&#x50CF;&#x4E2A;&#x9ED1;&#x7BB1;&#x4E00;&#x6837;&#x8BA9;&#x865A;&#x62DF;&#x673A;&#x96BE;&#x4EE5;&#x5206;&#x6790;&#x4E5F;&#x5C06;&#x5176;&#x5185;&#x8054;&#xFF0C;&#x4E8E;&#x662F;&#x8FD0;&#x884C;&#x65F6;&#x95F4;&#x957F;&#x4E86;&#x4E4B;&#x540E;&#x53CD;&#x800C;&#x662F;&#x6258;&#x7BA1;&#x7248;&#x672C;&#x7684;&#x4EE3;&#x7801;&#x66F4;&#x5FEB;&#x4E9B;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x6743;&#x8861;&#x4E24;&#x4E2A;&#x7248;&#x672C;&#x7684;&#x6027;&#x80FD;&#xFF0C;Sun&#x7684;JDK&#x4F7F;&#x7528;&#x4E86;&#x201C;inflation&#x201D;&#x7684;&#x6280;&#x5DE7;&#xFF1A;&#x8BA9;Java&#x65B9;&#x6CD5;&#x5728;&#x88AB;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x65F6;&#xFF0C;&#x5F00;&#x5934;&#x82E5;&#x5E72;&#x6B21;&#x4F7F;&#x7528;native&#x7248;&#xFF0C;&#x7B49;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x6B21;&#x6570;&#x8D85;&#x8FC7;&#x9608;&#x503C;&#x65F6;&#x5219;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x4E13;&#x7528;&#x7684;MethodAccessor&#x5B9E;&#x73B0;&#x7C7B;&#xFF0C;&#x751F;&#x6210;&#x5176;&#x4E2D;&#x7684;invoke()&#x65B9;&#x6CD5;&#x7684;&#x5B57;&#x8282;&#x7801;&#xFF0C;&#x4EE5;&#x540E;&#x5BF9;&#x8BE5;Java&#x65B9;&#x6CD5;&#x7684;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x5C31;&#x4F1A;&#x4F7F;&#x7528;Java&#x7248;&#x3002;&#xA0;</p>
+<p>Sun&#x7684;JDK&#x662F;&#x4ECE;1.4&#x7CFB;&#x5F00;&#x59CB;&#x91C7;&#x7528;&#x8FD9;&#x79CD;&#x4F18;&#x5316;&#x7684;&#x3002;</p>
+<p>PS.&#x53EF;&#x4EE5;&#x5728;&#x542F;&#x52A8;&#x547D;&#x4EE4;&#x91CC;&#x52A0;&#x4E0A;-D <em>sun.reflect.noInflation</em> =true&#xFF0C;&#x5C31;&#x4F1A;RefactionFactory&#x7684;noInflation&#x5C5E;&#x6027;&#x5C31;&#x53D8;&#x6210;true&#x4E86;&#xFF0C;&#x8FD9;&#x6837;&#x4E0D;&#x7528;&#x7B49;&#x5230;15&#x8C03;&#x7528;&#x540E;&#xFF0C;&#x7A0B;&#x5E8F;&#x4E00;&#x5F00;&#x59CB;&#x5C31;&#x4F1A;&#x7528;java&#x7248;&#x7684;MethodAccessor&#x4E86;&#x3002; </p>
+<p>&#x4E0A;&#x9762;&#x770B;&#x5230;&#x4E86;ReflectionFactory.newMethodAccessor()&#x751F;&#x4EA7;MethodAccessor&#x7684;&#x903B;&#x8F91;&#xFF0C;&#x5728;&#x201C;&#x5F00;&#x5934;&#x82E5;&#x5E72;&#x6B21;&#x201D;&#x65F6;&#x7528;&#x5230;&#x7684;DelegatingMethodAccessorImpl&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>sun.reflect.DelegatingMethodAccessorImpl&#xFF1A;</p>
+<p> <img src="http://taojinke.github.io/img/20150702/f489dd6.gif" alt=""></p>
+<pre><code><span class="comment">/** Delegates its invocation to another MethodAccessorImpl and can
+    change its delegate at run time. */</span>
+<span class="class"><span class="keyword">class</span> <span class="title">DelegatingMethodAccessorImpl</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">MethodAccessorImpl</span> {</span>
+    <span class="keyword">private</span> <span class="type">MethodAccessorImpl</span> delegate;
+    <span class="type">DelegatingMethodAccessorImpl</span>(<span class="type">MethodAccessorImpl</span> delegate) {
+        setDelegate(delegate);
+    }    
+    public <span class="type">Object</span> invoke(<span class="type">Object</span> obj, <span class="type">Object</span>[] args)
+        <span class="keyword">throws</span> <span class="type">IllegalArgumentException</span>, <span class="type">InvocationTargetException</span>
+    {
+        <span class="keyword">return</span> delegate.invoke(obj, args);
+    }
+    void setDelegate(<span class="type">MethodAccessorImpl</span> delegate) {
+        <span class="keyword">this</span>.delegate = delegate;
+    }
+}
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f48a047.gif" alt=""></p>
+<p>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x95F4;&#x63A5;&#x5C42;&#xFF0C;&#x65B9;&#x4FBF;&#x5728;native&#x4E0E;Java&#x7248;&#x7684;MethodAccessor&#x4E4B;&#x95F4;&#x5B9E;&#x73B0;&#x5207;&#x6362;&#x3002;</p>
+<p>&#x7136;&#x540E;&#x4E0B;&#x9762;&#x5C31;&#x662F;native&#x7248;MethodAccessor&#x7684;Java&#x4E00;&#x4FA7;&#x7684;&#x58F0;&#x660E;:</p>
+<p>sun.reflect.NativeMethodAccessorImpl&#xFF1A;</p>
+<p> <img src="http://taojinke.github.io/img/20150702/f48a047.gif" alt=""></p>
+<pre><code>/** <span class="type">Used</span> only <span class="keyword">for</span> the first few invocations <span class="keyword">of</span> a <span class="type">Method</span>; afterward,
+    switches to bytecode-based implementation */
+class <span class="type">NativeMethodAccessorImpl</span> extends <span class="type">MethodAccessorImpl</span> {
+    private <span class="type">Method</span> <span class="keyword">method</span>;
+    private <span class="type">DelegatingMethodAccessorImpl</span> parent;
+    private <span class="type">int</span> numInvocations;
+    <span class="type">NativeMethodAccessorImpl</span>(<span class="type">Method</span> <span class="keyword">method</span>) {
+        this.<span class="keyword">method</span> = <span class="keyword">method</span>;
+    }    
+    public <span class="type">Object</span> invoke(<span class="type">Object</span> obj, <span class="type">Object</span>[] args)
+        throws <span class="type">IllegalArgumentException</span>, <span class="type">InvocationTargetException</span>
+    {
+        <span class="keyword">if</span> (++numInvocations &amp;gt; <span class="type">ReflectionFactory</span>.inflationThreshold()) {
+            <span class="type">MethodAccessorImpl</span> acc = (<span class="type">MethodAccessorImpl</span>)
+                new <span class="type">MethodAccessorGenerator</span>().
+                    generateMethod(<span class="keyword">method</span>.getDeclaringClass(),
+                                   <span class="keyword">method</span>.getName(),
+                                   <span class="keyword">method</span>.getParameterTypes(),
+                                   <span class="keyword">method</span>.getReturnType(),
+                                   <span class="keyword">method</span>.getExceptionTypes(),
+                                   <span class="keyword">method</span>.getModifiers());
+            parent.setDelegate(acc);
+        }
+        <span class="keyword">return</span> invoke0(<span class="keyword">method</span>, obj, args);
+    }
+    <span class="type">void</span> setParent(<span class="type">DelegatingMethodAccessorImpl</span> parent) {
+        this.parent = parent;
+    }
+    private <span class="keyword">static</span> native <span class="type">Object</span> invoke0(<span class="type">Method</span> m, <span class="type">Object</span> obj, <span class="type">Object</span>[] args);
+}
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f48a2b8.gif" alt=""></p>
+<p>&#x6BCF;&#x6B21;NativeMethodAccessorImpl.invoke()&#x65B9;&#x6CD5;&#x88AB;&#x8C03;&#x7528;&#x65F6;&#xFF0C;&#x90FD;&#x4F1A;&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x8C03;&#x7528;&#x6B21;&#x6570;&#x8BA1;&#x6570;&#x5668;&#xFF0C;&#x770B;&#x8D85;&#x8FC7;&#x9608;&#x503C;&#x6CA1;&#x6709;&#xFF1B;&#x4E00;&#x65E6;&#x8D85;&#x8FC7;&#xFF0C;&#x5219;&#x8C03;&#x7528;MethodAccessorGenerator.generateMethod()&#x6765;&#x751F;&#x6210;Java&#x7248;&#x7684;MethodAccessor&#x7684;&#x5B9E;&#x73B0;&#x7C7B;&#xFF0C;&#x5E76;&#x4E14;&#x6539;&#x53D8;DelegatingMethodAccessorImpl&#x6240;&#x5F15;&#x7528;&#x7684;MethodAccessor&#x4E3A;Java&#x7248;&#x3002;&#x540E;&#x7EED;&#x7ECF;&#x7531;DelegatingMethodAccessorImpl.invoke()&#x8C03;&#x7528;&#x5230;&#x7684;&#x5C31;&#x662F;Java&#x7248;&#x7684;&#x5B9E;&#x73B0;&#x4E86;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#x5230;&#x5173;&#x952E;&#x7684;invoke0()&#x65B9;&#x6CD5;&#x662F;&#x4E2A;native&#x65B9;&#x6CD5;&#x3002;&#x5B83;&#x5728;HotSpot VM&#x91CC;&#x662F;&#x7531;JVM_InvokeMethod()&#x51FD;&#x6570;&#x6240;&#x652F;&#x6301;&#x7684;&#xFF1A;</p>
+<p>&#x7531;C&#x7F16;&#x5199;</p>
+<pre><code>JNIEXPORT jobject JNICALL Java_sun_reflect_NativeMethodAccessorImpl_invoke0
+(JNIEnv *env, jclass unused, jobject <span class="keyword">m</span>, jobject obj, jobjectArray <span class="keyword">args</span>)
+{
+    <span class="keyword">return</span> JVM_InvokeMethod(env, <span class="keyword">m</span>, obj, <span class="keyword">args</span>);
+}
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f48a529.gif" alt=""></p>
+<pre><code><span class="type">JVM_ENTRY</span>(jobject, <span class="type">JVM_InvokeMethod</span>(<span class="type">JNIEnv</span> *env, jobject <span class="keyword">method</span>, jobject obj, jobjectArray args0))
+  <span class="type">JVMWrapper</span>(&amp;quot;<span class="type">JVM_InvokeMethod</span>&amp;quot;);
+  <span class="type">Handle</span> method_handle;
+  <span class="keyword">if</span> (thread-&amp;gt;stack_available((address) &amp;amp;method_handle) &amp;gt;= <span class="type">JVMInvokeMethodSlack</span>) {
+    method_handle = <span class="type">Handle</span>(<span class="type">THREAD</span>, <span class="type">JNIHandles</span>::resolve(<span class="keyword">method</span>));
+    <span class="type">Handle</span> receiver(<span class="type">THREAD</span>, <span class="type">JNIHandles</span>::resolve(obj));
+    objArrayHandle args(<span class="type">THREAD</span>, objArrayOop(<span class="type">JNIHandles</span>::resolve(args0)));
+    oop <span class="literal">result</span> = <span class="type">Reflection</span>::invoke_method(method_handle(), receiver, args, <span class="type">CHECK_NULL</span>);
+    jobject res = <span class="type">JNIHandles</span>::make_local(env, <span class="literal">result</span>);
+    <span class="keyword">if</span> (<span class="type">JvmtiExport</span>::should_post_vm_object_alloc()) {
+      oop ret_type = java_lang_reflect_Method::return_type(method_handle());
+      assert(ret_type != <span class="type">NULL</span>, &amp;quot;sanity check: ret_type oop must <span class="keyword">not</span> be <span class="type">NULL</span>!&amp;quot;);
+      <span class="keyword">if</span> (java_lang_Class::is_primitive(ret_type)) {
+        // <span class="type">Only</span> <span class="keyword">for</span> primitive <span class="keyword">type</span> vm allocates memory <span class="keyword">for</span> java <span class="keyword">object</span>.
+        // <span class="type">See</span> box() <span class="keyword">method</span>.
+        <span class="type">JvmtiExport</span>::post_vm_object_alloc(<span class="type">JavaThread</span>::current(), <span class="literal">result</span>);
+      }
+    }
+    <span class="keyword">return</span> res;
+  } <span class="keyword">else</span> {
+    <span class="type">THROW_0</span>(vmSymbols::java_lang_StackOverflowError());
+  }
+<span class="type">JVM_END</span>
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f48a529.gif" alt=""></p>
+<p>&#x5176;&#x4E2D;&#x7684;&#x5173;&#x952E;&#x53C8;&#x662F;Reflection::invoke_method()&#xFF1A;</p>
+<p> <img src="http://taojinke.github.io/img/20150702/f48a79a.gif" alt=""></p>
+<pre><code><span class="comment">// This would be nicer if, say, java.lang.reflect.Method was a subclass</span>
+<span class="comment">// of java.lang.reflect.Constructor</span>
+
+oop Reflection::invoke_method(oop method_mirror, Handle receiver, objArrayHandle args, TRAPS) <span class="comment">{
+  oop mirror             = java_lang_reflect_Method::clazz(method_mirror);
+  int slot               = java_lang_reflect_Method::slot(method_mirror);
+  bool override          = java_lang_reflect_Method::override(method_mirror) != 0;
+  objArrayHandle ptypes(THREAD, objArrayOop(java_lang_reflect_Method::parameter_types(method_mirror)));
+
+  oop return_type_mirror = java_lang_reflect_Method::return_type(method_mirror);
+  BasicType rtype;
+  if (java_lang_Class::is_primitive(return_type_mirror)) {
+    rtype = basic_type_mirror_to_basic_type(return_type_mirror, CHECK_NULL);
+  }</span> <span class="keyword">else</span> <span class="comment">{
+    rtype = T_OBJECT;
+  }</span>
+
+  instanceKlassHandle klass(THREAD, java_lang_Class::as_klassOop(mirror));
+  methodOop m = klass-&amp;gt;method_with_idnum(slot);
+  <span class="keyword">if</span> (m == NULL) <span class="comment">{
+    THROW_MSG_0(vmSymbols::java_lang_InternalError(), &amp;quot;invoke&amp;quot;);
+  }</span>
+  methodHandle <span class="function"><span class="keyword">method</span><span class="params">(THREAD, m)</span>;</span>
+
+  return invoke(klass, <span class="function"><span class="keyword">method</span>, <span class="title">receiver</span>, <span class="title">override</span>, <span class="title">ptypes</span>, <span class="title">rtype</span>, <span class="title">args</span>, <span class="title">true</span>, <span class="title">THREAD</span>);</span>
+}
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f48a79a.gif" alt=""></p>
+<p>&#x518D;&#x4E0B;&#x53BB;&#x5C31;&#x6DF1;&#x5165;&#x5230;HotSpot VM&#x7684;&#x5185;&#x90E8;&#x4E86;&#xFF0C;&#x672C;&#x6587;&#x5C31;&#x5728;&#x8FD9;&#x91CC;&#x6253;&#x4F4F;&#x5427;&#x3002;&#x6709;&#x540C;&#x5B66;&#x6709;&#x5174;&#x8DA3;&#x6DF1;&#x7A76;&#x7684;&#x8BDD;&#x4EE5;&#x540E;&#x53EF;&#x4EE5;&#x518D;&#x5199;&#x4E00;&#x7BC7;&#x8BA8;&#x8BBA;native&#x7248;&#x7684;&#x5B9E;&#x73B0;&#x3002;</p>
+<p>&#x56DE;&#x5230;Java&#x7684;&#x4E00;&#x4FA7;&#x3002;MethodAccessorGenerator&#x957F;&#x5565;&#x6837;&#x5462;&#xFF1F;&#x7531;&#x4E8E;&#x4EE3;&#x7801;&#x592A;&#x957F;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x5B8C;&#x6574;&#x8D34;&#x4E86;&#xFF0C;&#x6709;&#x5174;&#x8DA3;&#x7684;&#x53EF;&#x4EE5;&#x5230;OpenJDK 6&#x7684;Mercurial&#x4ED3;&#x5E93;&#x770B;&#xFF1A; <a href="http://hg.openjdk.java.net/jdk6/jdk6/jdk/file/b202c79afde3/src/share/classes/sun/reflect/MethodAccessorGenerator.java" target="_blank" rel="external">OpenJDK 6 build 17&#x7684;MethodAccessorGenerator</a> &#x3002;&#x5B83;&#x7684;&#x57FA;&#x672C;&#x5DE5;&#x4F5C;&#x5C31;&#x662F;&#x5728;&#x5185;&#x5B58;&#x91CC;&#x751F;&#x6210;&#x65B0;&#x7684;&#x4E13;&#x7528;Java&#x7C7B;&#xFF0C;&#x5E76;&#x5C06;&#x5176;&#x52A0;&#x8F7D;&#x3002;&#x5C31;&#x8D34;&#x8FD9;&#x4E48;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#xFF1A; </p>
+<p> <img src="http://taojinke.github.io/img/20150702/f48aa0b.gif" alt=""></p>
+<pre><code><span class="keyword">private</span> static synchronized <span class="built_in">String</span> generateName(<span class="built_in">boolean</span> isConstructor,
+                                                <span class="built_in">boolean</span> forSerialization)
+{
+    <span class="keyword">if</span> (isConstructor) {
+        <span class="keyword">if</span> (forSerialization) {
+            int num = ++serializationConstructorSymnum;
+            <span class="keyword">return</span> &amp;quot;sun/reflect/GeneratedSerializationConstructorAccessor&amp;quot; + num;
+        } <span class="keyword">else</span> {
+            int num = ++<span class="constructor">constructorSymnum;
+            <span class="keyword">return</span> &amp;quot;sun/reflect/GeneratedConstructorAccessor&amp;quot; + num;
+        }
+    } <span class="keyword">else</span> </span>{
+        int num = ++methodSymnum;
+        <span class="keyword">return</span> &amp;quot;sun/reflect/GeneratedMethodAccessor&amp;quot; + num;
+    }
+}
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f48aa0b.gif" alt=""></p>
+<p>&#x53BB;&#x9605;&#x8BFB;&#x6E90;&#x7801;&#x7684;&#x8BDD;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;MethodAccessorGenerator&#x662F;&#x5982;&#x4F55;&#x4E00;&#x70B9;&#x70B9;&#x628A;Java&#x7248;&#x7684;MethodAccessor&#x5B9E;&#x73B0;&#x7C7B;&#x751F;&#x4EA7;&#x51FA;&#x6765;&#x7684;&#x3002;&#x4E5F;&#x53EF;&#x4EE5;&#x770B;&#x5230;GeneratedMethodAccessor+&#x6570;&#x5B57;&#x8FD9;&#x79CD;&#x540D;&#x5B57;&#x662F;&#x4ECE;&#x54EA;&#x91CC;&#x6765;&#x7684;&#x4E86;&#xFF0C;&#x5C31;&#x5728;&#x4E0A;&#x9762;&#x7684;generateName()&#x65B9;&#x6CD5;&#x91CC;&#x3002;&#x5BF9;&#x672C;&#x6587;&#x5F00;&#x5934;&#x7684;&#x4F8B;&#x5B50;&#x7684;A.foo()&#xFF0C;&#x751F;&#x6210;&#x7684;Java&#x7248;MethodAccessor&#x5927;&#x81F4;&#x5982;&#x4E0B;&#xFF1A; </p>
+<p> <img src="http://taojinke.github.io/img/20150702/f48ac7c.gif" alt=""></p>
+<pre><code><span class="keyword">package</span> sun.reflect;
+public <span class="class"><span class="keyword">class</span> <span class="title">GeneratedMethodAccessor1</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">MethodAccessorImpl</span> {</span>    
+    public <span class="type">GeneratedMethodAccessor1</span>() {
+        <span class="keyword">super</span>();
+    }
+    public <span class="type">Object</span> invoke(<span class="type">Object</span> obj, <span class="type">Object</span>[] args)   
+        <span class="keyword">throws</span> <span class="type">IllegalArgumentException</span>, <span class="type">InvocationTargetException</span> {
+        <span class="comment">// prepare the target and parameters</span>
+        <span class="keyword">if</span> (obj == <span class="literal">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">NullPointerException</span>();
+        <span class="keyword">try</span> {
+            <span class="type">A</span> target = (<span class="type">A</span>) obj;
+            <span class="keyword">if</span> (args.length != <span class="number">1</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">IllegalArgumentException</span>();
+            <span class="type">String</span> arg0 = (<span class="type">String</span>) args[<span class="number">0</span>];
+        } <span class="keyword">catch</span> (<span class="type">ClassCastException</span> e) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">IllegalArgumentException</span>(e.toString());
+        } <span class="keyword">catch</span> (<span class="type">NullPointerException</span> e) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">IllegalArgumentException</span>(e.toString());
+        }
+        <span class="comment">// make the invocation</span>
+        <span class="keyword">try</span> {
+            target.foo(arg0);
+        } <span class="keyword">catch</span> (<span class="type">Throwable</span> t) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">InvocationTargetException</span>(t);
+        }
+    }
+}
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f48aeed.gif" alt=""></p>
+<p>&#x5C31;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x800C;&#x8A00;&#xFF0C;&#x8FD9;&#x4E2A;invoke()&#x65B9;&#x6CD5;&#x975E;&#x5E38;&#x5E72;&#x51C0;&#xFF08;&#x7136;&#x800C;&#x5C31;&#x201C;&#x6B63;&#x5E38;&#x8C03;&#x7528;&#x201D;&#x800C;&#x8A00;&#x8FD9;&#x989D;&#x5916;&#x5F00;&#x9500;&#x8FD8;&#x662F;&#x660E;&#x663E;&#x7684;&#xFF09;&#x3002;&#x6CE8;&#x610F;&#x5230;&#x53C2;&#x6570;&#x6570;&#x7EC4;&#x88AB;&#x62C6;&#x5F00;&#x4E86;&#xFF0C;&#x628A;&#x6BCF;&#x4E2A;&#x53C2;&#x6570;&#x90FD;&#x6062;&#x590D;&#x5230;&#x539F;&#x672C;&#x6CA1;&#x6709;&#x88AB;Object[]&#x5305;&#x88C5;&#x524D;&#x7684;&#x6837;&#x5B50;&#xFF0C;&#x7136;&#x540E;&#x5BF9;&#x76EE;&#x6807;&#x65B9;&#x6CD5;&#x505A;&#x6B63;&#x5E38;&#x7684;invokevirtual&#x8C03;&#x7528;&#x3002;&#x7531;&#x4E8E;&#x5728;&#x751F;&#x6210;&#x4EE3;&#x7801;&#x65F6;&#x5DF2;&#x7ECF;&#x5FAA;&#x73AF;&#x904D;&#x5386;&#x8FC7;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x751F;&#x6210;&#x51FA;&#x6765;&#x7684;&#x4EE3;&#x7801;&#x91CC;&#x5C31;&#x4E0D;&#x518D;&#x5305;&#x542B;&#x5FAA;&#x73AF;&#x4E86;&#x3002;</p>
+<p>&#x81F3;&#x6B64;&#x627E;&#x5230;&#x6211;&#x7684;&#x7B54;&#x6848;&#x4E86;&#xFF0C;&#x56E0;&#x4E3A;MethodAccessor&#x4F1A;&#x505A;&#x5F3A;&#x5236;&#x7C7B;&#x578B;&#xFFFD;&#xFFFD;&#xFFFD;&#x6362;&#x518D;&#x8FDB;&#x884C;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#xFF0C;&#x4F46;&#x7236;&#x7C7B;&#x5F3A;&#x5236;&#x8F6C;&#x5316;&#x6210;&#x5B50;&#x7C7B;&#x7684;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x4F1A;&#x62A5;&#x9519;&#x7C7B;&#x578B;&#x4E0D;&#x5339;&#x914D;&#x9519;&#x8BEF;&#x4E86;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x53D8;&#x91CF;&#x7684;&#x5F15;&#x7528;&#x58F0;&#x660E;&#x662F;&#x7236;&#x4F46;&#x5B9E;&#x9645;&#x6307;&#x5411;&#x7684;&#x5BF9;&#x8C61;&#x662F;&#x5B50;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x79CD;&#x8C03;&#x7528;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#x3002;</p>
+<p>—————————————————————————————&#x9898;&#x5916;&#x8BDD;—————————————————————</p>
+<p>&#x5F53;&#x8BE5;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x6210;&#x4E3A;&#x70ED;&#x70B9;&#x65F6;&#xFF0C;&#x5B83;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x88AB;&#x5185;&#x8054;&#x5230;&#x9760;&#x8FD1;Method.invoke()&#x7684;&#x4E00;&#x4FA7;&#xFF0C;&#x5927;&#x5927;&#x964D;&#x4F4E;&#x4E86;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x7684;&#x5F00;&#x9500;&#x3002;&#x800C;native&#x7248;&#x7684;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x5219;&#x65E0;&#x6CD5;&#x88AB;&#x6709;&#x6548;&#x5185;&#x8054;&#xFF0C;&#x56E0;&#x800C;&#x8C03;&#x7528;&#x5F00;&#x9500;&#x65E0;&#x6CD5;&#x968F;&#x7A0B;&#x5E8F;&#x7684;&#x8FD0;&#x884C;&#x800C;&#x964D;&#x4F4E;&#x3002;&#xA0;</p>
+<p>&#x867D;&#x8BF4;Sun&#x7684;JDK&#x8FD9;&#x79CD;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;&#x4F7F;&#x5F97;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x65B9;&#x6CD5;&#x6210;&#x672C;&#x6BD4;&#x4EE5;&#x524D;&#x964D;&#x4F4E;&#x4E86;&#x5F88;&#x591A;&#xFF0C;&#x4F46;Method.invoke()&#x672C;&#x8EAB;&#x8981;&#x7528;&#x6570;&#x7EC4;&#x5305;&#x88C5;&#x53C2;&#x6570;&#xFF1B;&#x800C;&#x4E14;&#x6BCF;&#x6B21;&#x8C03;&#x7528;&#x90FD;&#x5FC5;&#x987B;&#x68C0;&#x67E5;&#x65B9;&#x6CD5;&#x7684;&#x53EF;&#x89C1;&#x6027;&#xFF08;&#x5728;Method.invoke()&#x91CC;&#xFF09;&#xFF0C;&#x4E5F;&#x5FC5;&#x987B;&#x68C0;&#x67E5;&#x6BCF;&#x4E2A;&#x5B9E;&#x9645;&#x53C2;&#x6570;&#x4E0E;&#x5F62;&#x5F0F;&#x53C2;&#x6570;&#x7684;&#x7C7B;&#x578B;&#x5339;&#x914D;&#x6027;&#xFF08;&#x5728;NativeMethodAccessorImpl.invoke0()&#x91CC;&#x6216;&#x8005;&#x751F;&#x6210;&#x7684;Java&#x7248;MethodAccessor.invoke()&#x91CC;&#xFF09;&#xFF1B;&#x800C;&#x4E14;Method.invoke()&#x5C31;&#x50CF;&#x662F;&#x4E2A;&#x72EC;&#x6728;&#x6865;&#x4E00;&#x6837;&#xFF0C;&#x5404;&#x5904;&#x7684;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x90FD;&#x8981;&#x6324;&#x8FC7;&#x53BB;&#xFF0C;&#x5728;&#x8C03;&#x7528;&#x70B9;&#x4E0A;&#x6536;&#x96C6;&#x5230;&#x7684;&#x7C7B;&#x578B;&#x4FE1;&#x606F;&#x5C31;&#x4F1A;&#x5F88;&#x4E71;&#xFF0C;&#x5F71;&#x54CD;&#x5185;&#x8054;&#x7A0B;&#x5E8F;&#x7684;&#x5224;&#x65AD;&#xFF0C;&#x4F7F;&#x5F97;Method.invoke()&#x81EA;&#x8EAB;&#x96BE;&#x4EE5;&#x88AB;&#x5185;&#x8054;&#x5230;&#x8C03;&#x7528;&#x65B9;&#x3002;&#xA0;</p>
+<p>&#x76F8;&#x6BD4;&#x4E4B;&#x4E0B;JDK7&#x91CC;&#x65B0;&#x7684;MethodHandler&#x5219;&#x66F4;&#x6709;&#x6F5C;&#x529B;&#xFF0C;&#x5728;&#x5176;&#x529F;&#x80FD;&#x5B8C;&#x5168;&#x5B9E;&#x73B0;&#x540E;&#x80FD;&#x8FBE;&#x5230;&#x6BD4;&#x666E;&#x901A;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x65B9;&#x6CD5;&#x66F4;&#x9AD8;&#x7684;&#x6027;&#x80FD;&#x3002;&#x5728;&#x4F7F;&#x7528;MethodHandle&#x6765;&#x505A;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x65F6;&#xFF0C;MethodHandle.invoke()&#x7684;&#x5F62;&#x5F0F;&#x53C2;&#x6570;&#x4E0E;&#x8FD4;&#x56DE;&#x503C;&#x7C7B;&#x578B;&#x90FD;&#x662F;&#x51C6;&#x786E;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x9700;&#x8981;&#x5728;&#x94FE;&#x63A5;&#x65B9;&#x6CD5;&#x7684;&#x65F6;&#x5019;&#x624D;&#x9700;&#x8981;&#x68C0;&#x67E5;&#x7C7B;&#x578B;&#x7684;&#x5339;&#x914D;&#x6027;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#xFFFD;&#xFFFD;&#xFFFD;&#x6BCF;&#x6B21;&#x8C03;&#x7528;&#x65F6;&#x90FD;&#x68C0;&#x67E5;&#x3002;&#x800C;&#x4E14;MethodHandle&#x662F;&#x4E0D;&#x53EF;&#x53D8;&#x503C;&#xFF0C;&#x5728;&#x521B;&#x5EFA;&#x540E;&#x5176;&#x5185;&#x90E8;&#x72B6;&#x6001;&#x5C31;&#x4E0D;&#x4F1A;&#x518D;&#x6539;&#x53D8;&#x4E86;&#xFF1B;JVM&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x8FD9;&#x4E2A;&#x77E5;&#x8BC6;&#x800C;&#x653E;&#x5FC3;&#x7684;&#x5BF9;&#x5B83;&#x505A;&#x6FC0;&#x8FDB;&#x4F18;&#x5316;&#xFF0C;&#x4F8B;&#x5982;&#x5C06;&#x5B9E;&#x9645;&#x7684;&#x8C03;&#x7528;&#x76EE;&#x6807;&#x5185;&#x8054;&#x5230;&#x505A;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x7684;&#x4E00;&#x4FA7;&#x3002;&#xA0;</p>
+<p>&#x672C;&#x6765;Java&#x7684;&#x5B89;&#x5168;&#x673A;&#x5236;&#x4F7F;&#x5F97;&#x4E0D;&#x540C;&#x7C7B;&#x4E4B;&#x95F4;&#x4E0D;&#x662F;&#x4EFB;&#x610F;&#x4FE1;&#x606F;&#x90FD;&#x53EF;&#x89C1;&#xFF0C;&#x4F46;Sun&#x7684;JDK&#x91CC;&#x5F00;&#x4E86;&#x4E2A;&#x53E3;&#xFF0C;&#x6709;&#x4E00;&#x4E2A;&#x6807;&#x8BB0;&#x7C7B;&#x4E13;&#x95E8;&#x7528;&#x4E8E;&#x5F00;&#x540E;&#x95E8;&#xFF1A;</p>
+<p> <img src="http://taojinke.github.io/img/20150702/f48aeed.gif" alt=""></p>
+<pre><code>package sun.reflect;
+/** &amp;lt;P&amp;gt; MagicAccessorImpl (named <span class="keyword">for</span> parity <span class="keyword">with</span> FieldAccessorImpl <span class="keyword">and</span>
+    others, <span class="keyword">not</span> because <span class="keyword">it</span> actually implements an interface) <span class="keyword">is</span> a
+    marker <span class="type">class</span> <span class="keyword">in</span> <span class="keyword">the</span> hierarchy. All subclasses <span class="keyword">of</span> this <span class="type">class</span> are
+    &amp;quot;magically&amp;quot; granted access <span class="keyword">by</span> <span class="keyword">the</span> VM <span class="keyword">to</span> otherwise inaccessible
+    fields <span class="keyword">and</span> methods <span class="keyword">of</span> other classes. It <span class="keyword">is</span> used <span class="keyword">to</span> hold <span class="keyword">the</span> code
+    <span class="keyword">for</span> dynamically-generated FieldAccessorImpl <span class="keyword">and</span> MethodAccessorImpl
+    subclasses. (Use <span class="keyword">of</span> <span class="keyword">the</span> <span class="property">word</span> &amp;quot;unsafe&amp;quot; was avoided <span class="keyword">in</span> this <span class="type">class</span>&amp;apos;s
+    <span class="property">name</span> <span class="keyword">to</span> avoid confusion <span class="keyword">with</span> {@link sun.misc.Unsafe}.) &amp;lt;/P&amp;gt;
+    &amp;lt;P&amp;gt; The bug fix <span class="keyword">for</span> <span class="number">4486457</span> also necessitated disabling
+    verification <span class="keyword">for</span> this <span class="type">class</span> <span class="keyword">and</span> all subclasses, <span class="keyword">as</span> opposed <span class="keyword">to</span> just
+    SerializationConstructorAccessorImpl <span class="keyword">and</span> subclasses, <span class="keyword">to</span> avoid
+    having <span class="keyword">to</span> indicate <span class="keyword">to</span> <span class="keyword">the</span> VM which <span class="keyword">of</span> these dynamically-generated
+    stub classes were known <span class="keyword">to</span> be able <span class="keyword">to</span> pass <span class="keyword">the</span> verifier. &amp;lt;/P&amp;gt;
+    &amp;lt;P&amp;gt; Do <span class="keyword">not</span> change <span class="keyword">the</span> <span class="property">name</span> <span class="keyword">of</span> this <span class="type">class</span> <span class="keyword">without</span> also changing <span class="keyword">the</span>
+    VM&amp;apos;s code. &amp;lt;/P&amp;gt; */
+<span class="type">class</span> MagicAccessorImpl {
+}
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f48b15e.gif" alt=""></p>
+<p>&#x90A3;&#x4E2A;&quot;<strong>JVM_DefineClass</strong>&quot;&#x7684;&#x6765;&#x6E90;&#x662F;&#x8FD9;&#x91CC;&#xFF1A;src/share/vm/prims/jvm.cpp&#xA0; </p>
+<p> <img src="http://taojinke.github.io/img/20150702/f48b15e.gif" alt=""></p>
+<pre><code><span class="comment">// common code for JVM_DefineClass() and JVM_DefineClassWithSource()</span>
+<span class="comment">// and JVM_DefineClassWithSourceCond()</span>
+<span class="keyword">static</span> <span class="function">jclass <span class="title">jvm_define_class_common</span><span class="params">(JNIEnv *env, <span class="keyword">const</span> <span class="keyword">char</span> *name,
+                                      jobject loader, <span class="keyword">const</span> jbyte *buf,
+                                      jsize len, jobject pd, <span class="keyword">const</span> <span class="keyword">char</span> *source,
+                                      jboolean verify, TRAPS)</span> </span>{
+  <span class="keyword">if</span> (source == NULL)  source = &amp;quot;__JVM_DefineClass__&amp;quot;;
+</code></pre><p> <img src="http://taojinke.github.io/img/20150702/f48b3cf.gif" alt=""></p>
+<p>P.S. log&#x91CC;&#x7684;&quot;shared objects file&quot;,&#x5176;&#x5B9E;&#x5C31;&#x662F;rt.jar,&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x8FD9;&#x4E48;&#x663E;&#x793A;&#xFF0C;Stack OverFlow&#x4E0A;&#x6709;&#x8FD9;&#x6837;&#x7684;&#x56DE;&#x7B54;&#xFF1A;</p>
+<p>This is Class Data Sharing. When running the Sun/Oracle Client HotSpot and sharing enable (either -Xshare:auto which is the default, or&#xA0; -Xshare:on ), the&#xA0; classes.jsa file is memory mapped. This file contains a number of classes (listed in the&#xA0; classlist file) in internal representation suitable for the exact configuration of the machine running it. The idea is that the classes can be loaded quickly, getting the the JVM up faster. Soon enough a class not covered will be hit, and&#xA0; rt.jar will need to be opened and classes loaded conventionally as required. </p>
+<p>&#x4E0D;&#x80FD;&#x5F88;&#x597D;&#x7406;&#x89E3;&#xFF0C;&#x5927;&#x6982;&#x7406;&#x89E3;&#x5C31;&#x662F;&#x6240;&#x6709;jvm&#x5171;&#x4EAB;&#xFF0C;&#x5E76;&#x53EF;&#x4EE5;&#x5FEB;&#x901F;&#x52A0;&#x8F7D;&#x91CC;&#x9762;&#x7684;class.&#x6709;&#x82F1;&#x6587;&#x597D;&#x7684;&#x670B;&#x53CB;&#x53EF;&#x4EE5;&#x7559;&#x8A00;&#x5E2E;&#x52A9;&#x4E0B;&#x3002;</p>
+<p>P.S java&#x5185;&#x8054;&#x51FD;&#x6570;</p>
+<p>C++&#x662F;&#x5426;&#x4E3A;&#x5185;&#x8054;&#x51FD;&#x6570;&#x7531;&#x81EA;&#x5DF1;&#x51B3;&#x5B9A;&#xFF0C;Java&#x7531;&#x7F16;&#x8BD1;&#x5668;&#x51B3;&#x5B9A;&#x3002;&#x5185;&#x8054;&#x51FD;&#x6570;&#x5C31;&#x662F;&#x6307;&#x51FD;&#x6570;&#x5728;&#x88AB;&#x8C03;&#x7528;&#x7684;&#x5730;&#x65B9;&#x76F4;&#x63A5;&#x5C55;&#x5F00;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x5728;&#x8C03;&#x7528;&#x65F6;&#x4E0D;&#x7528;&#x50CF;&#x4E00;&#x822C;&#x51FD;&#x6570;&#x90A3;&#x6837;&#xFF0C;&#x53C2;&#x6570;&#x538B;&#x6808;&#xFF0C;&#x8FD4;&#x56DE;&#x65F6;&#x53C2;&#x6570;&#x51FA;&#x6808;&#x4EE5;&#x53CA;&#x8D44;&#x6E90;&#x91CA;&#x653E;&#x7B49;&#xFF0C;&#x8FD9;&#x6837;&#x63D0;&#x9AD8;&#x4E86;&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x901F;&#x5EA6;&#x3002;</p>
+<p>Java&#x4E0D;&#x652F;&#x6301;&#x76F4;&#x63A5;&#x58F0;&#x660E;&#x4E3A;&#x5185;&#x8054;&#x51FD;&#x6570;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x8BA9;&#x4ED6;&#x5185;&#x8054;&#xFF0C;&#x5219;&#x662F;&#x7531;&#x7F16;&#x8BD1;&#x5668;&#x8BF4;&#x4E86;&#x7B97;&#xFF0C;&#x4F60;&#x53EA;&#x80FD;&#x591F;&#x5411;&#x7F16;&#x8BD1;&#x5668;&#x63D0;&#x51FA;&#x8BF7;&#x6C42;&#x3002;</p>
+<p>final&#x9664;&#x4E86;&#x4E0D;&#x80FD;&#x88AB;override&#x5916;&#xFF0C;&#x8FD8;&#x53EF;&#x80FD;&#x5B9E;&#x73B0;&#x5185;&#x8054;&#x3002;&#x5982;&#x679C;&#x51FD;&#x6570;&#x4E3A;private&#xFF0C;&#x5219;&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x5185;&#x8054;&#x7684;&#x3002;</p>
+<p>&#x603B;&#x7684;&#x6765;&#x8BF4;&#xFF0C;&#x4E00;&#x822C;&#x7684;&#x51FD;&#x6570;&#x90FD;&#x4E0D;&#x4F1A;&#x88AB;&#x5F53;&#x505A;&#x5185;&#x8054;&#x51FD;&#x6570;&#xFF0C;&#x53EA;&#x6709;&#x58F0;&#x660E;&#x4E86;final&#x540E;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x624D;&#x4F1A;&#x8003;&#x8651;&#x662F;&#x4E0D;&#x662F;&#x8981;&#x628A;&#x4F60;&#x7684;&#x51FD;&#x6570;&#x53D8;&#x6210;&#x5185;&#x8054;&#x51FD;&#x6570;&#x3002;</p>
+<p>&#x5185;&#x8054;&#x4E0D;&#x4E00;&#x5B9A;&#x597D;&#xFF0C;&#x5F53;&#x88AB;&#x6307;&#x5B9A;&#x4E3A;&#x5185;&#x8054;&#x7684;&#x65B9;&#x6CD5;&#x4F53;&#x5F88;&#x5927;&#x65F6;&#xFF0C;&#x5C55;&#x5F00;&#x7684;&#x5F00;&#x9500;&#x53EF;&#x80FD;&#x5C31;&#x5DF2;&#x7ECF;&#x8D85;&#x8FC7;&#x4E86;&#x666E;&#x901A;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x8C03;&#x7528;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x5F15;&#x5165;&#x4E86;&#x5185;&#x8054;&#x53CD;&#x800C;&#x964D;&#x4F4E;&#x4E86;&#x6027;&#x80FD;&#xFF0C;&#x56E0;&#x4E3A;&#x5728;&#x9009;&#x62E9;&#x8FD9;&#x4E2A;&#x5173;&#x952E;&#x5B57;&#x5E94;&#x8BE5;&#x614E;&#x91CD;&#x4E9B;&#xFF0C;&#x4E0D;&#x8FC7;&#xFF0C;&#x5728;&#x4EE5;&#x540E;&#x9AD8;&#x7248;&#x672C;&#x7684;JVM&#x4E2D;&#xFF0C;&#x5728;&#x5904;&#x7406;&#x5185;&#x8054;&#x65F6;&#x505A;&#x51FA;&#x4E86;&#x4F18;&#x5316;&#xFF0C;&#x5B83;&#x4F1A;&#x6839;&#x636E;&#x65B9;&#x6CD5;&#x7684;&#x89C4;&#x6A21;&#x6765;&#x786E;&#x5B9A;&#x662F;&#x5426;&#x5C55;&#x5F00;&#x8C03;&#x7528;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JVM/">JVM</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/f482d88/" title="深入JVM内部了解Java线程的创建与执行 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  深入JVM内部了解Java线程的创建与执行 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/f487ba8/"  title="分析一个Java Class文件 -">
+ <strong>下一篇：</strong><br/> 
+ <span>分析一个Java Class文件 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

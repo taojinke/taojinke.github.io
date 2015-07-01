@@ -1,0 +1,749 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>struts2和spring mvc，孰优孰劣？ - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x6211;&amp;#x5728;&amp;#x5C06; APDPlat &amp;#x5347;&amp;#x7EA7;&amp;#x5230;Java8&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;&amp;#x6700;&amp;#x65B0;&amp;#x7248;&amp;#x672C;&amp;#x7684;struts2&amp;#x4E0D;&amp;#x652F;&amp;#x6301;Java8&amp;#xFF0C;&amp;#x540C;&amp;#x65F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="struts2和spring mvc，孰优孰劣？ -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/2a6036a/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x6211;&amp;#x5728;&amp;#x5C06; APDPlat &amp;#x5347;&amp;#x7EA7;&amp;#x5230;Java8&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;&amp;#x6700;&amp;#x65B0;&amp;#x7248;&amp;#x672C;&amp;#x7684;struts2&amp;#x4E0D;&amp;#x652F;&amp;#x6301;Java8&amp;#xFF0C;&amp;#x540C;&amp;#x65F">
+<meta property="og:updated_time" content="2015-07-01T23:52:00.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="struts2和spring mvc，孰优孰劣？ -">
+<meta name="twitter:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x6211;&amp;#x5728;&amp;#x5C06; APDPlat &amp;#x5347;&amp;#x7EA7;&amp;#x5230;Java8&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;&amp;#x6700;&amp;#x65B0;&amp;#x7248;&amp;#x672C;&amp;#x7684;struts2&amp;#x4E0D;&amp;#x652F;&amp;#x6301;Java8&amp;#xFF0C;&amp;#x540C;&amp;#x65F">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/2a6036a/" title="struts2和spring mvc，孰优孰劣？ -" itemprop="url">struts2和spring mvc，孰优孰劣？ -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:52:00.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p> &#x6700;&#x8FD1;&#x6211;&#x5728;&#x5C06; <a href="https://github.com/ysc/APDPlat" target="_blank" rel="external">APDPlat</a> &#x5347;&#x7EA7;&#x5230;Java8&#xFF0C;&#x53D1;&#x73B0;&#x6700;&#x65B0;&#x7248;&#x672C;&#x7684;struts2&#x4E0D;&#x652F;&#x6301;Java8&#xFF0C;&#x540C;&#x65F6;&#x7531;&#x4E8E;&#x4E4B;&#x524D;&#x6709;&#x5F88;&#x591A;&#x7684;&#x540C;&#x5B66;&#x5E0C;&#x671B;&#x6211;&#x628A; <a href="https://github.com/ysc/APDPlat" target="_blank" rel="external">APDPlat</a> &#x7684;struts2&#x66FF;&#x6362;&#x4E3A;spring mvc&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x5C31;&#x51B3;&#x5B9A;&#x8BD5;&#x8BD5;&#x770B;&#x3002;&#x672C;&#x6587;&#x6211;&#x4EEC;&#x770B;&#x4E24;&#x4E2A;&#x8F6C;&#x6362;&#x524D;&#x540E;&#x7684;&#x4F8B;&#x5B50;&#xFF1A; </p>
+<p>1&#x3001;&#x4E0B;&#x62C9;&#x5217;&#x8868;&#x670D;&#x52A1;&#xFF0C;&#x6B64;&#x7C7B;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#xFF0C;&#x53EA;&#x6D89;&#x53CA;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;store&#xFF1A;</p>
+<p>&#x4F7F;&#x7528;struts2&#xFF1A;</p>
+<pre><code><span class="xml">@Scope(&amp;quot;prototype&amp;quot;)
+@Controller
+@Namespace(&amp;quot;/dictionary&amp;quot;)
+public class DicAction extends ExtJSSimpleAction&amp;lt;Dic&amp;gt; </span><span class="expression">{
+    @<span class="variable">Resource</span>
+    <span class="variable">private</span> <span class="variable">DicService</span> <span class="variable">dicService</span>;
+    <span class="variable">private</span> <span class="variable">String</span> <span class="variable">dic</span>;
+    <span class="variable">private</span> <span class="variable">String</span> <span class="variable">tree</span>;
+    <span class="variable">private</span> <span class="variable">boolean</span> <span class="variable">justCode</span>;
+    /**
+     * 
+     * &amp;<span class="begin-block">#x</span>6<span class="variable">B</span>64;&amp;<span class="begin-block">#x</span>7<span class="variable">C</span>7<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>6765;&amp;<span class="begin-block">#x</span>63<span class="variable">D</span>0;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>9<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>62<span class="variable">C</span>9;&amp;<span class="begin-block">#x</span>5217;&amp;<span class="begin-block">#x</span>8868;&amp;<span class="begin-block">#x</span>670<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>1;,&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>6709;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>24;&amp;<span class="begin-block">#x</span>79<span class="variable">CD</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>5217;&amp;<span class="begin-block">#x</span>7<span class="variable">C</span>7<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>578<span class="variable">B</span>;&amp;<span class="begin-block">#xFF</span>1<span class="variable">A</span>;
+     * 1&amp;<span class="begin-block">#x</span>3001;&amp;<span class="begin-block">#x</span>666<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>901<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>62<span class="variable">C</span>9;&amp;<span class="begin-block">#x</span>9009;&amp;<span class="begin-block">#x</span>9879;
+     * 2&amp;<span class="begin-block">#x</span>3001;&amp;<span class="begin-block">#x</span>6811;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>62;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>62<span class="variable">C</span>9;&amp;<span class="begin-block">#x</span>9009;&amp;<span class="begin-block">#x</span>9879;
+     * @<span class="variable">return</span> &amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>9700;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>8<span class="variable">FD</span>4;&amp;<span class="begin-block">#x</span>56<span class="variable">DE</span>;&amp;<span class="begin-block">#x</span>503<span class="variable">C</span>;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>76<span class="variable">F</span>4;&amp;<span class="begin-block">#x</span>63<span class="variable">A</span>5;&amp;<span class="begin-block">#x</span>7<span class="variable">ED</span>9;&amp;<span class="begin-block">#x</span>5<span class="variable">BA</span>2;&amp;<span class="begin-block">#x</span>6237;&amp;<span class="begin-block">#x</span>7<span class="variable">AEF</span>;&amp;<span class="begin-block">#x</span>5199;&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;
+     * 
+     */
+    <span class="variable">public</span> <span class="variable">String</span> <span class="variable">store</span>(){
+        <span class="variable">Dic</span> <span class="variable">dictionary</span>=<span class="variable">dicService.getDic</span>(<span class="variable">dic</span>);
+        <span class="variable"><span class="keyword">if</span></span>(<span class="variable">dictionary</span>==<span class="variable">null</span>){
+            <span class="variable">LOG.info</span>(&amp;<span class="variable">quot</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">CA</span>1;&amp;<span class="begin-block">#x</span>6709;&amp;<span class="begin-block">#x</span>627<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>5230;&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>8<span class="variable">BCD</span>;&amp;<span class="begin-block">#x</span>5178; &amp;<span class="variable">quot</span>;+<span class="variable">dic</span>);
+            <span class="variable">return</span> <span class="variable">null</span>;
+        }</span><span class="xml">
+        if(&amp;quot;true&amp;quot;.equals(tree))</span><span class="expression">{
+            <span class="variable">String</span> <span class="variable">json</span> = <span class="variable">dicService.toStoreJson</span>(<span class="variable">dictionary</span>);
+            <span class="variable">Struts</span>2<span class="variable">Utils.renderJson</span>(<span class="variable">json</span>);
+        }</span><span class="xml">else</span><span class="expression">{
+            <span class="variable">List</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;<span class="variable">Map</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;<span class="variable">String</span>,<span class="variable">String</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;&amp;<span class="variable"><span class="keyword">gt</span></span>; <span class="variable">data</span>=<span class="variable">new</span> <span class="variable">ArrayList</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">gt</span></span>;();
+            <span class="variable">for</span>(<span class="variable">DicItem</span> <span class="variable">item</span> : <span class="variable">dictionary.getDicItems</span>()){
+                <span class="variable">Map</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;<span class="variable">String</span>,<span class="variable">String</span>&amp;<span class="variable"><span class="keyword">gt</span></span>; <span class="variable">map</span>=<span class="variable">new</span> <span class="variable">HashMap</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">gt</span></span>;();
+                <span class="variable"><span class="keyword">if</span></span>(<span class="variable">justCode</span>){
+                    <span class="variable">map.put</span>(&amp;<span class="variable">quot</span>;<span class="variable">value</span>&amp;<span class="variable">quot</span>;, <span class="variable">item.getCode</span>());
+                }</span><span class="xml">else</span><span class="expression">{
+                    <span class="variable">map.put</span>(&amp;<span class="variable">quot</span>;<span class="variable">value</span>&amp;<span class="variable">quot</span>;, <span class="variable">item.getId</span>()<span class="variable">.toString</span>());
+                }</span><span class="xml">
+                map.put(&amp;quot;text&amp;quot;, item.getName());
+                data.add(map);
+            }
+            Struts2Utils.renderJson(data);
+        }
+        return null;
+    }
+    public void setJustCode(boolean justCode) </span><span class="expression">{
+        <span class="variable">this.justCode</span> = <span class="variable">justCode</span>;
+    }</span><span class="xml">
+    public void setTree(String tree) </span><span class="expression">{
+        <span class="variable">this.tree</span> = <span class="variable">tree</span>;
+    }</span><span class="xml">
+    public void setDic(String dic) </span><span class="expression">{
+        <span class="variable">this.dic</span> = <span class="variable">dic</span>;
+    }</span><span class="xml">
+}</span>
+</code></pre><p>&#x4F7F;&#x7528;spring mvc&#xFF1A;</p>
+<pre><code><span class="xml">@Scope(&amp;quot;prototype&amp;quot;)
+@Controller
+@RequestMapping(&amp;quot;/dictionary&amp;quot;)
+public class DicAction extends ExtJSSimpleAction&amp;lt;Dic&amp;gt; </span><span class="expression">{
+    @<span class="variable">Resource</span>
+    <span class="variable">private</span> <span class="variable">DicService</span> <span class="variable">dicService</span>;
+    /**
+     * 
+     * &amp;<span class="begin-block">#x</span>6<span class="variable">B</span>64;&amp;<span class="begin-block">#x</span>7<span class="variable">C</span>7<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>6765;&amp;<span class="begin-block">#x</span>63<span class="variable">D</span>0;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>9<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>62<span class="variable">C</span>9;&amp;<span class="begin-block">#x</span>5217;&amp;<span class="begin-block">#x</span>8868;&amp;<span class="begin-block">#x</span>670<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>1;,&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>6709;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>24;&amp;<span class="begin-block">#x</span>79<span class="variable">CD</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>62<span class="variable">C</span>9;&amp;<span class="begin-block">#x</span>7<span class="variable">C</span>7<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>578<span class="variable">B</span>;&amp;<span class="begin-block">#xFF</span>1<span class="variable">A</span>;
+     * 1&amp;<span class="begin-block">#x</span>3001;&amp;<span class="begin-block">#x</span>666<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>901<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>62<span class="variable">C</span>9;&amp;<span class="begin-block">#x</span>9009;&amp;<span class="begin-block">#x</span>9879;
+     * 2&amp;<span class="begin-block">#x</span>3001;&amp;<span class="begin-block">#x</span>6811;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>62;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>62<span class="variable">C</span>9;&amp;<span class="begin-block">#x</span>9009;&amp;<span class="begin-block">#x</span>9879;
+     * @<span class="variable">param</span> <span class="variable">dic</span>
+     * @<span class="variable">param</span> <span class="variable">tree</span>
+     * @<span class="variable">param</span> <span class="variable">justCode</span>
+     * @<span class="variable">return</span> &amp;<span class="begin-block">#x</span>8<span class="variable">FD</span>4;&amp;<span class="begin-block">#x</span>56<span class="variable">DE</span>;&amp;<span class="begin-block">#x</span>503<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>76<span class="variable">F</span>4;&amp;<span class="begin-block">#x</span>63<span class="variable">A</span>5;&amp;<span class="begin-block">#x</span>7<span class="variable">ED</span>9;&amp;<span class="begin-block">#x</span>5<span class="variable">BA</span>2;&amp;<span class="begin-block">#x</span>6237;&amp;<span class="begin-block">#x</span>7<span class="variable">AEF</span>;
+     */
+    @<span class="variable">ResponseBody</span>
+    @<span class="variable">RequestMapping</span>(&amp;<span class="variable">quot</span>;<span class="end-block">/dic</span>!<span class="variable">store.action</span>&amp;<span class="variable">quot</span>;)
+    <span class="variable">public</span> <span class="variable">String</span> <span class="variable">store</span>(@<span class="variable">RequestParam</span>(<span class="variable">required</span>=<span class="variable">false</span>) <span class="variable">String</span> <span class="variable">dic</span>,
+                        @<span class="variable">RequestParam</span>(<span class="variable">required</span>=<span class="variable">false</span>) <span class="variable">String</span> <span class="variable">tree</span>,
+                        @<span class="variable">RequestParam</span>(<span class="variable">required</span>=<span class="variable">false</span>) <span class="variable">String</span> <span class="variable">justCode</span>){
+        <span class="variable">Dic</span> <span class="variable">dictionary</span>=<span class="variable">dicService.getDic</span>(<span class="variable">dic</span>);
+        <span class="variable"><span class="keyword">if</span></span>(<span class="variable">dictionary</span>==<span class="variable">null</span>){
+            <span class="variable">LOG.info</span>(&amp;<span class="variable">quot</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">CA</span>1;&amp;<span class="begin-block">#x</span>6709;&amp;<span class="begin-block">#x</span>627<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>5230;&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>8<span class="variable">BCD</span>;&amp;<span class="begin-block">#x</span>5178; &amp;<span class="variable">quot</span>;+<span class="variable">dic</span>);
+            <span class="variable">return</span> &amp;<span class="variable">quot</span>;&amp;<span class="variable">quot</span>;;
+        }</span><span class="xml">
+        if(&amp;quot;true&amp;quot;.equals(tree))</span><span class="expression">{
+            <span class="variable">String</span> <span class="variable">json</span> = <span class="variable">dicService.toStoreJson</span>(<span class="variable">dictionary</span>);
+            <span class="variable">return</span> <span class="variable">json</span>;
+        }</span><span class="xml">else</span><span class="expression">{
+            <span class="variable">List</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;<span class="variable">Map</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;<span class="variable">String</span>,<span class="variable">String</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;&amp;<span class="variable"><span class="keyword">gt</span></span>; <span class="variable">data</span>=<span class="variable">new</span> <span class="variable">ArrayList</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">gt</span></span>;();
+            <span class="variable">dictionary.getDicItems</span>()<span class="variable">.forEach</span>(<span class="variable">item</span> <span class="variable">-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>; {
+                <span class="variable">Map</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;<span class="variable">String</span>,<span class="variable">String</span>&amp;<span class="variable"><span class="keyword">gt</span></span>; <span class="variable">itemMap</span>=<span class="variable">new</span> <span class="variable">HashMap</span>&amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">gt</span></span>;();
+                <span class="variable"><span class="keyword">if</span></span>(&amp;<span class="variable">quot</span>;<span class="variable">true</span>&amp;<span class="variable">quot</span>;<span class="variable">.equals</span>(<span class="variable">justCode</span>)){
+                    <span class="variable">itemMap.put</span>(&amp;<span class="variable">quot</span>;<span class="variable">value</span>&amp;<span class="variable">quot</span>;, <span class="variable">item.getCode</span>());
+                }</span><span class="xml">else</span><span class="expression">{
+                    <span class="variable">itemMap.put</span>(&amp;<span class="variable">quot</span>;<span class="variable">value</span>&amp;<span class="variable">quot</span>;, <span class="variable">item.getId</span>()<span class="variable">.toString</span>());
+                }</span><span class="xml">
+                itemMap.put(&amp;quot;text&amp;quot;, item.getName());
+                data.add(itemMap);
+            });
+            String json = JSONArray.fromObject(data).toString();
+            return json;
+        }
+    }
+}</span>
+</code></pre><p>2&#x3001;&#x6570;&#x636E;&#x5B57;&#x5178;&#x670D;&#x52A1;&#xFF0C;&#x6B64;&#x7C7B;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#xFF0C;&#x6D89;&#x53CA;&#x7684;&#x65B9;&#x6CD5;&#x6709;create&#x3001;delete&#x3001;updatePart&#x3001;retrieve&#x3001;query&#x3001;store&#xFF1A;</p>
+<p>&#x4F7F;&#x7528;struts2&#xFF1A;</p>
+<pre><code><span class="annotation">@Scope</span>(&amp;quot;prototype&amp;quot;)
+<span class="annotation">@Controller</span>
+<span class="annotation">@Namespace</span>(&amp;quot;/dictionary&amp;quot;)
+public <span class="class"><span class="keyword">class</span> <span class="title">DicItemAction</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">ExtJSSimpleAction&amp;lt</span>;</span><span class="type">DicItem</span>&amp;gt; {
+    <span class="annotation">@Resource</span>
+    <span class="keyword">private</span> <span class="type">DicService</span> dicService;
+    <span class="keyword">private</span> <span class="type">String</span> node;
+    <span class="comment">/**
+     * &amp;#x8FD4;&amp;#x56DE;&amp;#x6570;&amp;#x636E;&amp;#x5B57;&amp;#x5178;&amp;#x76EE;&amp;#x5F55;&amp;#x6811;
+     * @return 
+     */</span>
+    public <span class="type">String</span> store() {
+        <span class="keyword">if</span> (node == <span class="literal">null</span>) {
+            <span class="keyword">return</span> <span class="literal">null</span>;
+        }
+        <span class="type">Dic</span> dic=<span class="literal">null</span>;
+        <span class="keyword">if</span>(node.trim().startsWith(&amp;quot;root&amp;quot;)){
+            dic = dicService.getRootDic();
+        }<span class="keyword">else</span>{
+            int id=<span class="type">Integer</span>.parseInt(node);
+            dic = dicService.getDic(id);
+        }
+        <span class="keyword">if</span> (dic != <span class="literal">null</span>) {
+            <span class="type">String</span> json = dicService.toJson(dic);
+            <span class="type">Struts2Utils</span>.renderJson(json);
+        }
+        <span class="keyword">return</span> <span class="literal">null</span>;
+    }
+    public void setNode(<span class="type">String</span> node) {
+        <span class="keyword">this</span>.node = node;
+    }
+}
+</code></pre><p>&#x4F7F;&#x7528;spring mvc&#xFF1A;</p>
+<pre><code><span class="annotation">@Scope</span>(&amp;quot;prototype&amp;quot;)
+<span class="annotation">@Controller</span>
+<span class="annotation">@RequestMapping</span>(&amp;quot;/dictionary&amp;quot;)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DicItemAction</span> <span class="keyword">extends</span> <span class="title">ExtJSSimpleAction</span>&amp;<span class="title">lt</span></span>;DicItem&amp;gt; {
+    <span class="annotation">@Resource</span>
+    <span class="keyword">private</span> DicService dicService;
+    <span class="comment">/**
+     * &amp;#x8FD4;&amp;#x56DE;&amp;#x6570;&amp;#x636E;&amp;#x5B57;&amp;#x5178;&amp;#x76EE;&amp;#x5F55;&amp;#x6811;
+     * <span class="doctag">@param</span> node
+     * <span class="doctag">@return</span> 
+     */</span>
+    <span class="annotation">@ResponseBody</span>
+    <span class="annotation">@RequestMapping</span>(&amp;quot;/dic-item!store.action&amp;quot;)
+    <span class="keyword">public</span> String store(<span class="annotation">@RequestParam</span>(required=<span class="keyword">false</span>) String node) {
+        <span class="keyword">if</span> (node == <span class="keyword">null</span>) {
+            <span class="keyword">return</span> &amp;quot;[]&amp;quot;;
+        }
+        Dic dic=<span class="keyword">null</span>;
+        <span class="keyword">if</span>(node.trim().startsWith(&amp;quot;root&amp;quot;)){
+            dic = dicService.getRootDic();
+        }<span class="keyword">else</span>{
+            <span class="keyword">int</span> id=Integer.parseInt(node);
+            dic = dicService.getDic(id);
+        }
+        <span class="keyword">if</span> (dic != <span class="keyword">null</span>) {
+            String json = dicService.toJson(dic);
+            <span class="keyword">return</span> json;
+        }
+        <span class="keyword">return</span> &amp;quot;[]&amp;quot;;
+    }
+    <span class="annotation">@ResponseBody</span>
+    <span class="annotation">@RequestMapping</span>(&amp;quot;/dic-item!query.action&amp;quot;)
+    <span class="keyword">public</span> String query(<span class="annotation">@RequestParam</span>(required=<span class="keyword">false</span>) Integer start,
+                        <span class="annotation">@RequestParam</span>(required=<span class="keyword">false</span>) Integer limit,
+                        <span class="annotation">@RequestParam</span>(required=<span class="keyword">false</span>) String propertyCriteria,
+                        <span class="annotation">@RequestParam</span>(required=<span class="keyword">false</span>) String orderCriteria,
+                        <span class="annotation">@RequestParam</span>(required=<span class="keyword">false</span>) String queryString,
+                        <span class="annotation">@RequestParam</span>(required=<span class="keyword">false</span>) String search){
+        <span class="keyword">super</span>.setStart(start);
+        <span class="keyword">super</span>.setLimit(limit);
+        <span class="keyword">super</span>.setPropertyCriteria(propertyCriteria);
+        <span class="keyword">super</span>.setOrderCriteria(orderCriteria);
+        <span class="keyword">super</span>.setQueryString(queryString);
+        <span class="keyword">super</span>.setSearch(&amp;quot;<span class="keyword">true</span>&amp;quot;.equals(search));
+        <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">query</span><span class="params">()</span></span>;
+    }
+    <span class="annotation">@ResponseBody</span>
+    <span class="annotation">@RequestMapping</span>(&amp;quot;/dic-item!retrieve.action&amp;quot;)
+    <span class="keyword">public</span> <span class="function">String <span class="title">retrieve</span><span class="params">(@ModelAttribute DicItem model)</span> </span>{
+        <span class="keyword">super</span>.model = model;
+        <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">retrieve</span><span class="params">()</span></span>;
+    }
+    <span class="annotation">@ResponseBody</span>
+    <span class="annotation">@RequestMapping</span>(&amp;quot;/dic-item!delete.action&amp;quot;)
+    <span class="keyword">public</span> <span class="function">String <span class="title">delete</span><span class="params">(@RequestParam String ids)</span> </span>{
+        <span class="keyword">super</span>.setIds(ids);
+        <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">delete</span><span class="params">()</span></span>;
+    }
+    <span class="annotation">@ResponseBody</span>
+    <span class="annotation">@RequestMapping</span>(&amp;quot;/dic-item!create.action&amp;quot;)
+    <span class="keyword">public</span> <span class="function">String <span class="title">create</span><span class="params">(@ModelAttribute DicItem model)</span> </span>{
+        <span class="keyword">super</span>.model = model;
+        <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">create</span><span class="params">()</span></span>;
+    }
+    <span class="annotation">@ResponseBody</span>
+    <span class="annotation">@RequestMapping</span>(&amp;quot;/dic-item!updatePart.action&amp;quot;)
+    <span class="keyword">public</span> <span class="function">String <span class="title">updatePart</span><span class="params">(@ModelAttribute DicItem model)</span> </span>{
+        <span class="keyword">super</span>.model = model;
+        <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">updatePart</span><span class="params">()</span></span>;
+    }
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Net/">.Net</a><a href="/tags/Spring-MVC/">Spring MVC</a><a href="/tags/Struts/">Struts</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/2a725f1/" title="spring MVC 获取请求体 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  spring MVC 获取请求体 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/2a58476/"  title="springMVC中实现servlet依赖注入 -">
+ <strong>下一篇：</strong><br/> 
+ <span>springMVC中实现servlet依赖注入 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

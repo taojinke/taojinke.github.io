@@ -1,0 +1,567 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Java 20年：JVM虚拟化技术的发展 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x865A;&amp;#x62DF;&amp;#x5316;&amp;#x6280;&amp;#x672F;&amp;#x5DF2;&amp;#x7ECF;&amp;#x6709;&amp;#x4E86;&amp;#x51E0;&amp;#x5341;&amp;#x5E74;&amp;#x7684;&amp;#x53D1;&amp;#x5C55;&amp;#x5386;&amp;#x53F2;&amp;#xFF0C;&amp;#x5E76;&amp;#x4E14;&amp;#x5728;&amp;#x786C;&amp;#x4EF6;&amp;#x3001;&amp;#x64CD;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 20年：JVM虚拟化技术的发展 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/e4c54e0/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x865A;&amp;#x62DF;&amp;#x5316;&amp;#x6280;&amp;#x672F;&amp;#x5DF2;&amp;#x7ECF;&amp;#x6709;&amp;#x4E86;&amp;#x51E0;&amp;#x5341;&amp;#x5E74;&amp;#x7684;&amp;#x53D1;&amp;#x5C55;&amp;#x5386;&amp;#x53F2;&amp;#xFF0C;&amp;#x5E76;&amp;#x4E14;&amp;#x5728;&amp;#x786C;&amp;#x4EF6;&amp;#x3001;&amp;#x64CD;">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/e4c3a05.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/e4c3c76.png">
+<meta property="og:updated_time" content="2015-07-01T23:50:03.792Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 20年：JVM虚拟化技术的发展 -">
+<meta name="twitter:description" content="&amp;#x865A;&amp;#x62DF;&amp;#x5316;&amp;#x6280;&amp;#x672F;&amp;#x5DF2;&amp;#x7ECF;&amp;#x6709;&amp;#x4E86;&amp;#x51E0;&amp;#x5341;&amp;#x5E74;&amp;#x7684;&amp;#x53D1;&amp;#x5C55;&amp;#x5386;&amp;#x53F2;&amp;#xFF0C;&amp;#x5E76;&amp;#x4E14;&amp;#x5728;&amp;#x786C;&amp;#x4EF6;&amp;#x3001;&amp;#x64CD;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/e4c54e0/" title="Java 20年：JVM虚拟化技术的发展 -" itemprop="url">Java 20年：JVM虚拟化技术的发展 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:50:03.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义以及历史"><span class="toc-number">1.</span> <span class="toc-text">定义以及历史</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：能介绍下什么是JVM的虚拟化吗？JVM的虚拟化价值在哪里？"><span class="toc-number">2.</span> <span class="toc-text">InfoQ：能介绍下什么是JVM的虚拟化吗？JVM的虚拟化价值在哪里？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：JVM虚拟化的概念是什么时候出现的？能聊聊它的发展历史吗？"><span class="toc-number">3.</span> <span class="toc-text">InfoQ：JVM虚拟化的概念是什么时候出现的？能聊聊它的发展历史吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景以及发展前景"><span class="toc-number">4.</span> <span class="toc-text">应用场景以及发展前景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：JVM虚拟化最适合应用在什么场景中？"><span class="toc-number">5.</span> <span class="toc-text">InfoQ：JVM虚拟化最适合应用在什么场景中？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：你认为多租户JVM的前景如何？为什么现在做多租户JVM的厂商这么少？"><span class="toc-number">6.</span> <span class="toc-text">InfoQ：你认为多租户JVM的前景如何？为什么现在做多租户JVM的厂商这么少？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java语言的发展"><span class="toc-number">7.</span> <span class="toc-text">Java语言的发展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：一晃眼，Java就已经20岁了，你认为Java的发展经历了哪几个阶段？"><span class="toc-number">8.</span> <span class="toc-text">InfoQ：一晃眼，Java就已经20岁了，你认为Java的发展经历了哪几个阶段？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：反过头来看，你认为为什么Java能够如此成功？"><span class="toc-number">9.</span> <span class="toc-text">InfoQ：反过头来看，你认为为什么Java能够如此成功？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#受访嘉宾介绍"><span class="toc-number">10.</span> <span class="toc-text">受访嘉宾介绍</span></a></li></ol>
+		
+		</div>
+		
+		<p>&#x865A;&#x62DF;&#x5316;&#x6280;&#x672F;&#x5DF2;&#x7ECF;&#x6709;&#x4E86;&#x51E0;&#x5341;&#x5E74;&#x7684;&#x53D1;&#x5C55;&#x5386;&#x53F2;&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x786C;&#x4EF6;&#x3001;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5C42;&#x9762;&#x90FD;&#x5DF2;&#x7ECF;&#x5F97;&#x5230;&#x4E86;&#x5E7F;&#x6CDB;&#x7684;&#x5E94;&#x7528;&#x3002;&#x865A;&#x62DF;&#x5316;&#x4E0D;&#x4F46;&#x53EF;&#x4EE5;&#x663E;&#x8457;&#x8282;&#x7701;&#x6210;&#x672C;&#xFF0C;&#x800C;&#x4E14;&#x8FD8;&#x53EF;&#x4EE5;&#x63D0;&#x5347;&#x7BA1;&#x7406;&#x6027;&#x3002;&#x540C;&#x6837;&#xFF0C;&#x865A;&#x62DF;&#x5316;&#x6280;&#x672F;&#x4E5F;&#x53EF;&#x4EE5;&#x5E94;&#x7528;&#x5728;JVM&#x4E2D;&#xFF0C;&#x4EE5;&#x63D0;&#x9AD8;&#x8D44;&#x6E90;&#x5229;&#x7528;&#x7387;&#xFF0C;&#x964D;&#x4F4E;&#x5355;&#x5E94;&#x7528;&#x7684;&#x90E8;&#x7F72;&#x6210;&#x672C;&#x3002;&#x65E9;&#x5728;2004&#x5E74;&#xFF0C;Sun&#x516C;&#x53F8;&#x5C31;&#x63D0;&#x51FA;&#x8FC7;Java&#x5E94;&#x7528;&#x865A;&#x62DF;&#x5316;&#x7684;&#x8BBE;&#x60F3;&#xFF0C;&#x5E76;&#x4E14;&#x8FD8;&#x5236;&#x5B9A;&#x8FC7;&#x4E24;&#x4E2A;JSR&#x89C4;&#x8303;&#x3002;&#x90A3;&#x73B0;&#x5728;JVM&#x865A;&#x62DF;&#x5316;&#x6280;&#x672F;&#x53D1;&#x5C55;&#x5230;&#x4E86;&#x54EA;&#x4E00;&#x6B65;&#xFF1F;&#x57FA;&#x4E8E;JVM&#x7684;&#x865A;&#x62DF;&#x5316;&#x6280;&#x672F;&#x5728;&#x5B9E;&#x73B0;&#x8FC7;&#x7A0B;&#x4E2D;&#x6709;&#x54EA;&#x4E9B;&#x96BE;&#x70B9;&#xFF1F;&#x4E3A;&#x4E86;&#x56DE;&#x7B54;&#x8FD9;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;InfoQ&#x91C7;&#x8BBF;&#x4E86;JVM&#x4E13;&#x5BB6;&#x674E;&#x4E09;&#x7EA2;&#x3002;</p>
+<h4 id="&#x5B9A;&#x4E49;&#x4EE5;&#x53CA;&#x5386;&#x53F2;">&#x5B9A;&#x4E49;&#x4EE5;&#x53CA;&#x5386;&#x53F2;</h4><h4 id="InfoQ&#xFF1A;&#x80FD;&#x4ECB;&#x7ECD;&#x4E0B;&#x4EC0;&#x4E48;&#x662F;JVM&#x7684;&#x865A;&#x62DF;&#x5316;&#x5417;&#xFF1F;JVM&#x7684;&#x865A;&#x62DF;&#x5316;&#x4EF7;&#x503C;&#x5728;&#x54EA;&#x91CC;&#xFF1F;">InfoQ&#xFF1A;&#x80FD;&#x4ECB;&#x7ECD;&#x4E0B;&#x4EC0;&#x4E48;&#x662F;JVM&#x7684;&#x865A;&#x62DF;&#x5316;&#x5417;&#xFF1F;JVM&#x7684;&#x865A;&#x62DF;&#x5316;&#x4EF7;&#x503C;&#x5728;&#x54EA;&#x91CC;&#xFF1F;</h4><p>&#x674E;&#x4E09;&#x7EA2;&#xFF1A;&#x4F20;&#x7EDF;&#x7684;Java&#x5E94;&#x7528;&#x90E8;&#x7F72;&#x6A21;&#x5F0F;&#xFF0C;&#x4E00;&#x822C;&#x9075;&#x5FAA;&#x201C;&#x786C;&#x4EF6;-&gt;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;-&gt;JVM-&gt;Java&#x5E94;&#x7528;&#x201D;&#x8FD9;&#x79CD;&#x81EA;&#x5E95;&#x5411;&#x4E0A;&#x7684;&#x90E8;&#x7F72;&#x7ED3;&#x6784;&#xFF0C;&#x5176;&#x4E2D;Java EE&#x5E94;&#x7528;&#x53EF;&#x4EE5;&#x7EC6;&#x5316;&#x4E3A;&#x201C;&#x786C;&#x4EF6;-&gt;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;-&gt;JVM-&gt;JavaEE&#x5BB9;&#x5668;-&gt;JavaEE&#x5E94;&#x7528;&#x201D;&#x7684;&#x90E8;&#x7F72;&#x7ED3;&#x6784;&#x3002;&#x8FD9;&#x79CD;&#x90E8;&#x7F72;&#x7ED3;&#x6784;&#x5F80;&#x5F80;&#x6BD4;&#x8F83;&#x91CD;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x3001;JVM&#x548C;JavaEE&#x5BB9;&#x5668;&#x9020;&#x6210;&#x7684;overhead&#x5F88;&#x9AD8;&#xFF0C;&#x800C;&#x5F88;&#x591A;&#x65F6;&#x5019;&#x4E00;&#x4E2A;Java&#x5E94;&#x7528;&#x5E76;&#x4E0D;&#x9700;&#x8981;&#x8DD1;&#x6EE1;&#x6574;&#x4E2A;&#x786C;&#x4EF6;&#x7684;&#x8D44;&#x6E90;&#xFF0C;&#x5BFC;&#x81F4;&#x8FD9;&#x79CD;&#x6A21;&#x5F0F;&#x7684;&#x8D44;&#x6E90;&#x5229;&#x7528;&#x7387;&#x662F;&#x6BD4;&#x8F83;&#x4F4E;&#x7684;&#x3002; </p>
+<p>&#x800C;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x786C;&#x4EF6;&#x865A;&#x62DF;&#x5316;&#x6280;&#x672F;&#x9010;&#x6E10;&#x6210;&#x719F;&#xFF1A;VMware Hypervisor&#x3001;Xen&#x3001;KVM&#x3001;Power LPAR&#x7B49;&#x6280;&#x672F;&#x80FD;&#x591F;&#x5E2E;&#x52A9;&#x6211;&#x4EEC;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x786C;&#x4EF6;&#x4E0A;&#x90E8;&#x7F72;&#x591A;&#x4E2A;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5B9E;&#x4F8B;&#xFF08;&#xFFFD;&#xFFFD;&#xFFFD;&#x4E2A;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5B9E;&#x4F8B;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x5BBF;&#x4E3B;&#x673A;&#x7684;&#x79DF;&#x6237;&#xFF09;&#xFF0C;&#x800C;&#x65F6;&#x4E0B;&#x6D41;&#x884C;&#x7684;OS Container&#x6280;&#x672F;&#x5982;LXC&#x3001;Docker&#x7B49;&#xFF0C;&#x5219;&#x662F;&#x628A;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x865A;&#x62DF;&#x5316;&#x4E3A;&#x591A;&#x4E2A;&#x5B9E;&#x4F8B;&#xFF0C;&#x5B9E;&#x73B0;&#x66F4;&#x8F7B;&#x91CF;&#x7EA7;&#x7684;&#x865A;&#x62DF;&#x5316;&#x3002;&#x65E0;&#x8BBA;&#x54EA;&#x4E2A;&#x5C42;&#x9762;&#x7684;&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x5176;&#x76EE;&#x7684;&#x90FD;&#x662F;&#x5BF9;&#x8D44;&#x6E90;&#x5229;&#x7528;&#x7387;&#x66F4;&#x52A0;&#x9AD8;&#x6548;&#x7684;&#x8FFD;&#x6C42;&#x3002;</p>
+<p>&#x540C;&#x6837;&#x7684;&#x601D;&#x8DEF;&#xFF0C;&#x6211;&#x4EEC;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;JVM&#x5C42;&#x9762;&#xFF0C;&#x6216;&#x8005;&#x5BB9;&#x5668;&#x6846;&#x67B6;&#x5C42;&#x9762;&#x505A;&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;Hypervisor&#x6216;&#x8005;OS Container&#xFF0C;&#x8BA9;&#x865A;&#x62DF;&#x5316;&#x7684;JVM/&#x5BB9;&#x5668;&#x6846;&#x67B6;&#x53EF;&#x4EE5;&#x652F;&#x6301;&#x591A;&#x79DF;&#x6237;&#x7684;&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#xFF0C;&#x8FD9;&#x662F;&#x6BD4;OS&#x865A;&#x62DF;&#x5316;&#x66F4;&#x9AD8;&#x4E00;&#x5C42;&#x7684;&#x505A;&#x6CD5;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/e4c3a05.png" alt=""></p>
+<p>&#x5982;&#x4E0A;&#x56FE;&#xFF0C;&#x4ECE;&#x5DE6;&#x5230;&#x53F3;&#x6765;&#x770B;&#xFF0C;&#x968F;&#x7740;&#x865A;&#x62DF;&#x5316;&#x5C42;&#x6B21;&#x7684;&#x63D0;&#x9AD8;&#xFF0C;&#x4ECE;Hardware&#x5230;OS&#xFF0C;&#x5230;JVM&#xFF0C;&#x518D;&#x5230;&#x5BB9;&#x5668;&#xFF0C;&#x5355;&#x4E2A;&#x79DF;&#x6237;&#x5E94;&#x7528;&#x7684;&#x90E8;&#x7F72;&#x6210;&#x672C;&#x4E5F;&#x5728;&#x4E0B;&#x964D;&#xFF0C;&#x6700;&#x53F3;&#x8FB9;&#x7684;&#x201C;&#x591A;&#x79DF;&#x6237;&#x201D;&#x7684;JavaEE Container&#xFF08;Multitenant-Container&#xFF09;&#x662F;&#x5728;&#x5BB9;&#x5668;&#x6846;&#x67B6;&#x5C42;&#x9762;&#x7684;&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x53EF;&#x4EE5;&#x652F;&#x6301;&#x66F4;&#x9AD8;&#x5BC6;&#x5EA6;&#x7684;&#x5E94;&#x7528;&#x90E8;&#x7F72;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4F20;&#x7EDF;&#x7684;APP : Container = 1:1&#x7684;&#x90E8;&#x7F72;&#x65B9;&#x5F0F;&#x3002;</p>
+<p>&#x4EC0;&#x4E48;&#x662F;&#x5355;&#x4E2A;&#x79DF;&#x6237;&#x5E94;&#x7528;&#x90E8;&#x7F72;&#x6210;&#x672C;&#xFF1F;&#x4E3E;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5728;&#x6CA1;&#x6709;&#x865A;&#x62DF;&#x5316;&#x4E4B;&#x524D;&#xFF0C;&#x4F20;&#x7EDF;&#x7684;&#x90E8;&#x7F72;&#x6A21;&#x5F0F;&#xFF0C;&#x4E00;&#x4E2A;JavaEE&#x5E94;&#x7528;&#x9700;&#x8981;&#x72EC;&#x5360;&#x6240;&#x6709;&#x7684;&#x786C;&#x4EF6;&#x8D44;&#x6E90;&#xFF08;CPU&#x3001;MEM&#x3001;&#x7F51;&#x7EDC;&#x7B49;&#xFF09;&#x3002;Hypervisor&#x7684;&#x51FA;&#x73B0;&#xFF0C;&#x4F7F;&#x5F97;&#x4E00;&#x4E2A;&#x5171;&#x4EAB;&#x7684;&#x786C;&#x4EF6;&#x8D44;&#x6E90;&#x4E0A;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x8DD1;&#x591A;&#x4E2A;OS&#xFF0C;&#x8FD9;&#x79CD;&#x8D44;&#x6E90;&#x4F7F;&#x7528;&#x4E0A;&#x7684;&#x8282;&#x7EA6;&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x901A;&#x8FC7;Over-Commit&#xFF08;&#x5373;&#x5141;&#x8BB8;&#x79DF;&#x6237;&#x8D85;&#x91CF;&#x4F7F;&#x7528;&#x7269;&#x7406;&#x8D44;&#x6E90;&#xFF09;&#x6765;&#x8FBE;&#x5230;&#x7684;&#xFF0C;&#x5373;&#x6211;&#x4EEC;&#x5047;&#x8BBE;&#x8DD1;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x865A;&#x62DF;&#x5316;&#x73AF;&#x5883;&#x7684;&#x4E0D;&#x540C;&#x79DF;&#x6237;&#x4E0D;&#x4F1A;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x6D88;&#x8D39;&#x540C;&#x6837;&#x7684;&#x8D44;&#x6E90;&#x3002;&#x540C;&#x6837;&#x7684;&#x9053;&#x7406;&#x53EF;&#x4EE5;&#x6765;&#x7406;&#x89E3;JVM/&#x5BB9;&#x5668;&#x6846;&#x67B6;&#x7684;&#x865A;&#x62DF;&#x5316;&#x3002;</p>
+<p>&#x591A;&#x4E2A;JavaEE&#x5E94;&#x7528;&#x53EF;&#x4EE5;&#x90E8;&#x7F72;&#x5728;&#x540C;&#x4E00;&#x4E2A;JVM/&#x5BB9;&#x5668;&#x5185;&#xFF0C;&#x4F46;&#x903B;&#x8F91;&#x4E0A;&#x5B83;&#x4EEC;&#x5404;&#x81EA;&#x4F1A;&#x8BA4;&#x4E3A;&#x662F;&#x8FD0;&#x884C;&#x5728;&#x4E00;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;JVM/&#x5BB9;&#x5668;&#x5185;&#xFF0C;&#x4ECE;&#x800C;&#x53EF;&#x4EE5;&#x66F4;&#x5927;&#x7A0B;&#x5EA6;&#x7684;&#x63D0;&#x9AD8;&#x8D44;&#x6E90;&#x5229;&#x7528;&#x7387;&#xFF0C;&#x964D;&#x4F4E;&#x5355;&#x5E94;&#x7528;&#x7684;&#x90E8;&#x7F72;&#x6210;&#x672C;&#x3002;</p>
+<h4 id="InfoQ&#xFF1A;JVM&#x865A;&#x62DF;&#x5316;&#x7684;&#x6982;&#x5FF5;&#x662F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x51FA;&#x73B0;&#x7684;&#xFF1F;&#x80FD;&#x804A;&#x804A;&#x5B83;&#x7684;&#x53D1;&#x5C55;&#x5386;&#x53F2;&#x5417;&#xFF1F;">InfoQ&#xFF1A;JVM&#x865A;&#x62DF;&#x5316;&#x7684;&#x6982;&#x5FF5;&#x662F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x51FA;&#x73B0;&#x7684;&#xFF1F;&#x80FD;&#x804A;&#x804A;&#x5B83;&#x7684;&#x53D1;&#x5C55;&#x5386;&#x53F2;&#x5417;&#xFF1F;</h4><p>&#x674E;&#x4E09;&#x7EA2;&#xFF1A;&#x65E9;&#x5728;2004&#x5E74;&#xFF0C;Sun&#x516C;&#x53F8;&#x5C31;&#x63D0;&#x51FA;&#x8FC7;JVM&#x865A;&#x62DF;&#x5316;&#x8FD9;&#x65B9;&#x9762;&#x7684;&#x60F3;&#x6CD5;&#xFF0C;&#x5F53;&#x65F6;Grzegorz Czajkowski&#x9886;&#x5BFC;&#x4E86;&#x4E00;&#x4E2A;&#x53EB;&#x505A;&#x5DF4;&#x585E;&#x7F57;&#x90A3;&#x7684;&#x7814;&#x7A76;&#x9879;&#x76EE;&#xFF0C;&#x8BE5;&#x9879;&#x76EE;&#x57FA;&#x4E8E;Java HotSpot&#x865A;&#x62DF;1.5&#xFFFD;&#xFFFD;&#xFFFD;&#x672C;&#x5F00;&#x53D1;&#x4E86;Multi-Tasking Virtual Machine&#xFF08;MVM&#xFF09;&#x3002;MVM&#x65E8;&#x5728;&#x63D0;&#x9AD8;Java&#x7A0B;&#x5E8F;&#x7684;&#x542F;&#x52A8;&#x901F;&#x5EA6;&#xFF0C;&#x8282;&#x7701;&#x5185;&#x5B58;&#x5F00;&#x9500;&#x3002;&#x4E0D;&#x8FC7;&#x81EA;&#x4ECE;Sun&#x88AB;&#x7532;&#x9AA8;&#x6587;&#x6536;&#x8D2D;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x6CA1;&#x6709;&#x542C;&#x5230;&#x5173;&#x4E8E;&#x8BE5;&#x9879;&#x76EE;&#x7684;&#x4EFB;&#x4F55;&#x65B0;&#x7684;&#x8FDB;&#x5C55;&#x3002;&#x5C3D;&#x7BA1;&#x6CA1;&#x6709;&#x770B;&#x5230;MVM&#x6210;&#x529F;&#x4EA7;&#x54C1;&#x5316;&#xFF0C;&#x4E0D;&#x8FC7;&#x5B83;&#x5374;&#x7559;&#x4E0B;&#x4E24;&#x4E2A;&#x91CD;&#x8981;&#x7684;JSR&#xFF08;Java Specification Request&#xFF09;&#x89C4;&#x8303;&#xFF1A;JSR121&#x548C;JSR284&#x3002;JSR284&#x76EE;&#x524D;&#x5728;java.net&#x4E0A;&#x6709;&#x4E00;&#x4E2A;&#x5B9E;&#x73B0;&#x5B83;&#x7684;&#x5B75;&#x5316;&#x9879;&#x76EE;jsr284-ri-tck&#xFF08;ri: Reference Implementation, tck: Test Compatible Kit&#xFF09;&#x3002; </p>
+<p>&#x4ECE;2009&#x5E74;&#x5F00;&#x59CB;&#xFF0C;IBM Java&#x56E2;&#x961F;&#x4E5F;&#x5F00;&#x59CB;&#x7740;&#x624B;&#x7814;&#x7A76;JVM&#x7684;&#x865A;&#x62DF;&#x5316;&#x6280;&#x672F;&#xFF0C;&#x5E76;&#x4E8E;2013&#x5E74;&#x53D1;&#x5E03;&#x7B2C;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;IBM J9 &#x865A;&#x62DF;&#x673A;&#x7684;Bata&#x7248;&#x672C;&#x3002;IBM Multi-tenant JVM&#x662F;JVM&#x5C42;&#x9762;&#x7684;&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x5176;&#x601D;&#x8DEF;&#x662F;&#x628A;&#x591A;&#x4E2A;&#x6807;&#x51C6;&#x7684;Java&#x5E94;&#x7528;&#x8FD0;&#x884C;&#x5728;&#x540C;&#x4E00;&#x4E2A;JVM&#x4E0A;&#xFF0C;&#x8BA9;&#x8FD9;&#x4E9B;&#x5E94;&#x7528;&#x5171;&#x4EAB;&#x5E95;&#x5C42;&#x7684;GC&#x3001;JIT&#x3001;Java&#x8FD0;&#x884C;&#x65F6;&#x5E93;&#x7B49;&#x57FA;&#x7840;&#x7EC4;&#x4EF6;&#x3002;Waratek&#x4E5F;&#x5728;2012&#x5E74;&#x7684;Red Hat&#x6280;&#x672F;&#x5CF0;&#x4F1A;&#x4E0A;&#x53D1;&#x5E03;&#x4E86;CloudVM Beta&#x7248;&#x672C;&#xFF0C;&#x652F;&#x6301;&#x591A;&#x79DF;&#x6237;&#x3002;&#x4E0E;IBM Multi-tenant JVM&#x7C7B;&#x4F3C;&#xFF0C;Waratek&#x5141;&#x8BB8;&#x591A;&#x4E2A;&#x5E94;&#x7528;&#x8FD0;&#x884C;&#x5728;&#x540C;&#x4E00;&#x4E2A;CloudVM&#x4E0A;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;&#x5E94;&#x7528;&#x8FD0;&#x884C;&#x5728;&#x4E00;&#x4E2A;&#x53EB;Java Virtual Container&#xFF08;JVC&#xFF09;&#x7684;&#x5BB9;&#x5668;&#x91CC;&#x3002; </p>
+<h4 id="&#x5E94;&#x7528;&#x573A;&#x666F;&#x4EE5;&#x53CA;&#x53D1;&#x5C55;&#x524D;&#x666F;">&#x5E94;&#x7528;&#x573A;&#x666F;&#x4EE5;&#x53CA;&#x53D1;&#x5C55;&#x524D;&#x666F;</h4><h4 id="InfoQ&#xFF1A;JVM&#x865A;&#x62DF;&#x5316;&#x6700;&#x9002;&#x5408;&#x5E94;&#x7528;&#x5728;&#x4EC0;&#x4E48;&#x573A;&#x666F;&#x4E2D;&#xFF1F;">InfoQ&#xFF1A;JVM&#x865A;&#x62DF;&#x5316;&#x6700;&#x9002;&#x5408;&#x5E94;&#x7528;&#x5728;&#x4EC0;&#x4E48;&#x573A;&#x666F;&#x4E2D;&#xFF1F;</h4><p>&#x674E;&#x4E09;&#x7EA2;&#xFF1A;&#x865A;&#x62DF;&#x5316;&#x7684;&#x672C;&#x8D28;&#x5C31;&#x662F;&#x628A;&#x672C;&#x6765;&#x72EC;&#x5360;&#x7684;&#x8D44;&#x6E90;&#x5171;&#x4EAB;&#x51FA;&#x6765;&#xFF0C;&#x5373;&#x5728;A&#x4E0D;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#xFF0C;B&#x53EF;&#x4EE5;&#x62FF;&#x6765;&#x7528;&#xFF0C;&#x4ECE;&#x800C;&#x63D0;&#x9AD8;&#x8D44;&#x6E90;&#x7684;&#x5229;&#x7528;&#x7387;&#x3002; </p>
+<p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x80FD;&#x628A;&#x72EC;&#x5360;&#x8D44;&#x6E90;&#x7684;&#x5E94;&#x7528;&#xFF0C;&#x901A;&#x8FC7;JVM&#x7684;&#x865A;&#x62DF;&#x5316;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x540C;&#x65F6;&#x90E8;&#x7F72;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x201C;&#x591A;&#x79DF;&#x6237;&#x201D;JVM&#x91CC;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x201C;&#x591A;&#x79DF;&#x6237;&#x201D;&#x5BB9;&#x5668;&#x91CC;&#xFF0C; CPU&#x3001;Heap&#x8FD9;&#x4E9B;&#x8D44;&#x6E90;&#x5C31;&#x53EF;&#x4EE5;&#x6781;&#x5927;&#x7A0B;&#x5EA6;&#x5730;&#x5171;&#x4EAB;&#x4E86;&#xFF0C;&#x90E8;&#x7F72;&#x7684;&#x5BC6;&#x5EA6;&#x4E5F;&#x5C31;&#x53EF;&#x4EE5;&#x6210;&#x500D;&#x7684;&#x63D0;&#x9AD8;&#xFF0C;&#x5176;&#x7ED3;&#x679C;&#x5C31;&#x662F;&#x5355;&#x5E94;&#x7528;&#x7684;&#x90E8;&#x7F72;&#x6210;&#x672C;&#x6210;&#x500D;&#x7684;&#x4E0B;&#x964D;&#x3002;&#x6253;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x6BD4;&#x55BB;&#xFF0C;&#x5982;&#x679C;&#x6309;&#x7167;1&#xFF1A;1&#x7684;&#x90E8;&#x7F72;&#x5BC6;&#x5EA6;&#xFF0C;&#x673A;&#x5668;&#x7684;&#x6210;&#x672C;&#x662F;1000&#x53F0;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x80FD;&#x628A;&#x90E8;&#x7F72;&#x7684;&#x5BC6;&#x5EA6;&#x63D0;&#x9AD8;&#x5230;1:10&#xFF0C;&#x673A;&#x5668;&#x7684;&#x6210;&#x672C;&#x5C31;&#x662F;1000/10=100&#x53F0;&#x3002;</p>
+<p>&#x591A;&#x79DF;&#x6237;&#x7684;JVM&#x6216;&#x8005;&#x5BB9;&#x5668;&#xFF0C;&#x5176;&#x6700;&#x5927;&#x7684;&#x5E94;&#x7528;&#x573A;&#x666F;&#x5C31;&#x662F;&#x9AD8;&#x5BC6;&#x5EA6;&#x7684;&#x5E94;&#x7528;&#x90E8;&#x7F72;&#x573A;&#x666F;&#x3002;&#x4E5F;&#x8BB8;&#x6709;&#x4EBA;&#x6709;&#x7591;&#x95EE;&#xFF0C;OS&#x865A;&#x62DF;&#x5316;&#x4E5F;&#x53EF;&#x4EE5;&#x63D0;&#x9AD8;&#x90E8;&#x7F72;&#x5BC6;&#x5EA6;&#xFF0C; &#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x9009;&#x62E9;JVM&#x865A;&#x62DF;&#x5316;&#xFF1F;</p>
+<p>&#x6211;&#x4EEC;&#x5C31;&#x62FF;Docker&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#x6765;&#x6BD4;&#x8F83;&#x4E00;&#x4E0B;&#x3002;&#x6BD4;&#x5982;&#x5229;&#x7528;Docker&#x53EF;&#x4EE5;&#x628A;&#x8FD0;&#x884C;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x5B9E;&#x9645;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E0A;&#x7684;&#x5355;&#x4E2A;JVM&#x8FDB;&#x7A0B;&#x4E92;&#x76F8;&#x9694;&#x79BB;&#xFF0C;&#x6BCF;&#x4E2A;JVM&#x8FDB;&#x7A0B;&#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x662F;&#x5B9E;&#x9645;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7684;&#x4E00;&#x4E2A;&#x79DF;&#x6237;&#xFF0C;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5316;&#x7684;&#x4F8B;&#x5B50;&#xFF08;&#x5148;&#x4E0D;&#x8003;&#x8651;&#x590D;&#x6742;&#x7684;OS&#x5185;&#x5B58;&#x4EA4;&#x6362;&#x573A;&#x666F;&#xFF09;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/e4c3c76.png" alt=""></p>
+<p>&#x5DE6;&#x56FE;&#x8868;&#x793A;&#x5728;OS&#x4E4B;&#x4E0A;&#xFF0C;&#x4F7F;&#x7528;Docker&#x865A;&#x62DF;&#x51FA;&#x6765;&#x4E24;&#x4E2A;&#x79DF;&#x6237;&#xFF0C;&#x5373;&#x4E24;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;JVM&#x8FDB;&#x7A0B;&#x5206;&#x522B;&#x8FD0;&#x884C;&#x5728;&#x4E24;&#x4E2A;&#x9694;&#x79BB;&#x7684;Docker&#x5BB9;&#x5668;&#x91CC;&#x3002;&#x53F3;&#x56FE;&#x5219;&#x8868;&#x793A;JVM/&#x5BB9;&#x5668;&#x7684;&#x865A;&#x62DF;&#x5316;&#x65B9;&#x6848;&#x3002;&#x5728;Docker&#x7684;&#x65B9;&#x6848;&#x91CC;&#xFF0C;&#x7531;&#x4E8E;&#x4E24;&#x4E2A;App1&#x548C;App2&#x662F;&#x8DE8;JVM&#x8FDB;&#x7A0B;&#x7684;&#xFF0C;&#x6240;&#x4EE5;Heap&#x8D44;&#x6E90;&#x5BF9;&#x4E8E;&#x5B83;&#x4EEC;&#x6765;&#x8BF4;&#x4E0D;&#x662F;&#x5171;&#x4EAB;&#x7684;&#xFF0C;&#x5F88;&#x96BE;&#x5728;Heap&#x5185;&#x5B58;&#x5728;App1&#x4E0D;&#x4F7F;&#x7528;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EF;&#x4EE5;&#x62FF;&#x6765;&#x7ED9;App2&#x4F7F;&#x7528;&#xFF0C;&#x8FD9;&#x4E2A;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x9650;&#x5236;Docker&#x8FD9;&#x79CD;&#x65B9;&#x6848;&#x90E8;&#x7F72;&#x5BC6;&#x5EA6;&#x7684;&#x56E0;&#x7D20;&#xFF0C;&#x6BD4;&#x5982;&#x4F60;&#x6709;8G&#x5185;&#x5B58;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x4F1A;&#x9009;&#x62E9;&#x90E8;&#x7F72;&#x4E24;&#x4E2A;Docker&#x5BB9;&#x5668;&#xFF0C;&#x6BCF;&#x4E2A;4G&#x3002;&#x800C;&#x8FD9;&#x4E2A;&#x56E0;&#x7D20;&#x5BF9;&#x4E8E;JVM&#x865A;&#x62DF;&#x5316;&#x65B9;&#x6848;&#xFF0C;&#x5219;&#x4E0D;&#x5B58;&#x5728;&#x8FD9;&#x6837;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x56E0;&#x4E3A;&#x6240;&#x6709;&#x7684;App&#x90FD;&#x662F;&#x5728;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x91CC;&#x7684;&#xFF0C;Heap&#x5BF9;&#x5927;&#x5BB6;&#x6765;&#x8BF4;&#x90FD;&#x662F;&#x5171;&#x4EAB;&#x7684;&#xFF0C;&#x5B8C;&#x5168;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5408;&#x7406;&#x7684;&#x5B89;&#x6392;&#x9009;&#x62E9;&#x90E8;&#x7F72;&#x66F4;&#x591A;&#x7684;App&#x3002;</p>
+<h4 id="InfoQ&#xFF1A;&#x4F60;&#x8BA4;&#x4E3A;&#x591A;&#x79DF;&#x6237;JVM&#x7684;&#x524D;&#x666F;&#x5982;&#x4F55;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x73B0;&#x5728;&#x505A;&#x591A;&#x79DF;&#x6237;JVM&#x7684;&#x5382;&#x5546;&#x8FD9;&#x4E48;&#x5C11;&#xFF1F;">InfoQ&#xFF1A;&#x4F60;&#x8BA4;&#x4E3A;&#x591A;&#x79DF;&#x6237;JVM&#x7684;&#x524D;&#x666F;&#x5982;&#x4F55;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x73B0;&#x5728;&#x505A;&#x591A;&#x79DF;&#x6237;JVM&#x7684;&#x5382;&#x5546;&#x8FD9;&#x4E48;&#x5C11;&#xFF1F;</h4><p>&#x674E;&#x4E09;&#x7EA2;&#xFF1A;&#x5728;IBM&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5176;&#x5B9E;&#x6211;&#x4EEC;&#x5185;&#x90E8;&#x6709;&#x8FC7;&#x5F88;&#x591A;&#x6B21;&#x7684;&#x8BA8;&#x8BBA;&#x3002;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x4ECE;&#x865A;&#x62DF;&#x5316;&#x7684;&#x8FD9;&#x4E2A;&#x89D2;&#x5EA6;&#x6765;&#x770B;&#xFF0C;&#x4ECE;&#x786C;&#x4EF6;&#xFF0C; &#x5230;OS&#xFF0C; &#x518D;&#x5230;JVM&#xFF0C; &#x4EE5;&#x53CA;&#x5BB9;&#x5668;&#xFF0C; JVM&#x7684;&#x865A;&#x62DF;&#x5316;&#xFF08;&#x591A;&#x79DF;&#x6237;JVM&#xFF09;&#x4EE5;&#x53CA;&#x5BB9;&#x5668;&#x7684;&#x865A;&#x62DF;&#x5316;&#xFF08;&#x591A;&#x79DF;&#x6237;&#x5BB9;&#x5668;&#xFF09;&#x662F;&#x4E00;&#x4E2A;&#x6280;&#x672F;&#x7684;&#x53D1;&#x5C55;&#x8D8B;&#x52BF;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x73B0;&#x5B9E;&#x7684;&#x60C5;&#x51B5;&#x662F;&#xFF0C;&#x6839;&#x636E;&#x6211;&#x4EEC;&#x8FD9;&#x4E9B;&#x5E74;&#x5728;&#x8FD9;&#x4E2A;&#x9886;&#x57DF;&#x7684;&#x7ECF;&#x9A8C;&#x4E0E;&#x79EF;&#x7D2F;&#xFF0C;&#x57FA;&#x4E8E;&#x4F20;&#x7EDF;&#x7684;JVM&#x5B9E;&#x73B0;JVM&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x6280;&#x672F;&#x4E0A;&#x78B0;&#x5230;&#x7684;&#x5F88;&#x591A;&#x7684;&#x6311;&#x6218;&#xFF0C;&#x5176;&#x4E2D;&#x4E00;&#x4E9B;&#x7684;&#x786E;&#x96BE;&#x4E8E;&#x5728;&#x77ED;&#x671F;&#x5185;&#x627E;&#x5230;&#x4E00;&#x4E2A;&#x597D;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;&#xFF08;&#x5173;&#x4E8E;&#x91CC;&#x9762;&#x7684;&#x4E00;&#x4E9B;&#x5B9E;&#x73B0;&#x7EC6;&#x8282;&#xFF0C;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x6211;&#x4E4B;&#x524D;&#x7684;&#x6587;&#x7AE0;&#xFF0C; <a href="http://www.infoq.com/cn/articles/java-application-deployment-practise" target="_blank" rel="external">&#x9AD8;&#x5BC6;&#x5EA6;Java&#x5E94;&#x7528;&#x90E8;&#x7F72;&#x7684;&#x4E00;&#x4E9B;&#x5B9E;&#x8DF5;</a> &#xFF09; &#x3002;&#x7B80;&#x5355;&#x5217;&#x4E3E;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x5728;&#x591A;&#x79DF;&#x6237;JVM&#x4E2D;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;&#x79DF;&#x6237;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x72EC;&#x7ACB;&#x7684;Region&#xFF0C; &#x4F46;&#x662F;&#x5982;&#x679C;&#x79DF;&#x6237;&#x4E0E;&#x79DF;&#x6237;&#x4E4B;&#x95F4;&#x51FA;&#x73B0;&#x4EA4;&#x53C9;&#x5F15;&#x7528;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5C31;&#x4F1A;&#x5BFC;&#x81F4;object leakage&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;&#x6211;&#x4EEC;&#x5185;&#x90E8;&#x4F7F;&#x7528;&#x7684;&#x4E00;&#x4E2A;&#x6280;&#x672F;&#x672F;&#x8BED;&#x3002;&#x5176;&#x7ED3;&#x679C;&#x662F;&#xFF0C;&#x5728;&#x67D0;&#x4E9B;&#x6761;&#x4EF6;&#x4E0B;&#xFF0C;&#x67D0;&#x4E2A;&#x79DF;&#x6237;&#x9000;&#x51FA;Region&#x4E0D;&#x80FD;&#x5408;&#x7406;&#x91CA;&#x653E;&#x3002;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x5934;&#x75DB;&#x7684;&#x5730;&#x65B9;&#x5728;&#x4E8E;&#xFF0C;&#x6BCF;&#x6B21;Java class library&#x7684;&#x4EE3;&#x7801;&#x6539;&#x52A8;&#xFF0C;&#x90FD;&#x6709;&#x53EF;&#x80FD;&#x9020;&#x6210;&#x65B0;&#x7684;object leakage&#x3002;&#x7C7B;&#x4F3C;&#x8FD9;&#x6837;&#x7684;&#x95EE;&#x9898;&#xFF0C; &#x9700;&#x8981;Java Class Library&#x5F00;&#x53D1;&#x8005;&#x548C;&#x591A;&#x79DF;&#x6237;JVM&#x4E4B;&#x95F4;&#x6709;&#x4E00;&#x79CD;&#x7EA6;&#x5B9A;&#xFF0C;&#x6216;&#x8005;&#x8303;&#x5F0F;&#x6765;&#x5171;&#x540C;&#x7EA6;&#x675F;&#x89E3;&#x51B3;&#x8FD9;&#x7C7B;&#x95EE;&#x9898;&#x3002; </p>
+<p>&#x6211;&#x4EEC;&#x518D;&#x6765;&#x8C08;&#x7B2C;&#x4E8C;&#x4E2A;&#x95EE;&#x9898;&#x3002; &#x5C31;&#x50CF;&#x4F60;&#x8BF4;&#x7684;&#xFF0C;&#x76EE;&#x524D;&#x505A;&#x591A;&#x79DF;&#x6237;JVM&#x7684;&#x5382;&#x5546;&#x7684;&#x786E;&#x5F88;&#x5C11;&#xFF0C;&#x4E8B;&#x5B9E;&#x4E0A;&#x672C;&#x6765;&#x505A;&#x5546;&#x4E1A;JVM&#x7684;&#x5382;&#x5546;&#x4E5F;&#x5C31;&#x90A3;&#x4E48;&#x51E0;&#x5BB6;&#x3002;IBM J9&#x662F;&#x6BD4;&#x8F83;&#x65E9;&#x5207;&#x5165;&#x8FD9;&#x4E2A;&#x9886;&#x57DF;&#x7684;JVM&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x7531;&#x4E2D;&#x56FD;&#x548C;&#x52A0;&#x62FF;&#x5927;&#x7684;&#x56E2;&#x961F;&#x4E00;&#x8D77;&#x5F00;&#x53D1;&#xFF0C; IBM &#x4E5F;&#x53EA;&#x662F;&#x505A;&#x4E86;JVM&#x8FD9;&#x5C42;&#x7684;&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x5E76;&#x6CA1;&#x6709;&#x652F;&#x6301;&#x5230;&#x5BB9;&#x5668;&#x7EA7;&#x522B;&#x3002;&#x4E0D;&#x8FC7;&#x636E;&#x6211;&#x6240;&#x77E5;&#xFF0C; &#x8FD9;&#x4E2A;&#x9879;&#x76EE;&#x5DF2;&#x7ECF;&#x505C;&#x4E86;&#xFF0C; &#x505C;&#x7684;&#x539F;&#x56E0;&#x53EF;&#x80FD;&#x5F88;&#x591A;&#xFF0C;&#x6211;&#x4E2A;&#x4EBA;&#x8BA4;&#x4E3A;&#x4E3B;&#x8981;&#x7684;&#x539F;&#x56E0;&#x662F;&#xFF1A; &#x7B2C;&#x4E00;&#xFF0C;IBM&#x6CA1;&#x6709;&#x771F;&#x5B9E;&#x7684;&#x5E94;&#x7528;&#x573A;&#x666F;&#x6765;&#x68C0;&#x89C6;&#x9AD8;&#x5BC6;&#x5EA6;&#x90E8;&#x7F72;&#x7684;&#x5B9E;&#x9645;&#x4EF7;&#x503C;&#x3002;&#x7B2C;&#x4E8C;&#xFF0C;&#x8D44;&#x6E90;&#x548C;&#x4F18;&#x5148;&#x7EA7;&#x4E0A;&#x7684;&#x8003;&#x8651;&#xFF0C;Java&#x6280;&#x672F;&#x4E2D;&#x5FC3;&#x6709;&#x66F4;&#x91CD;&#x8981;&#x7684;&#x4E1C;&#x897F;&#x6765;&#x505A;&#x3002;&#x4E0D;&#x8FC7;&#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#xFF0C;IBM&#x597D;&#x50CF;&#x8FD8;&#x6CA1;&#x6709;&#x5728;&#x6B63;&#x5F0F;&#x573A;&#x5408;&#x516C;&#x5E03;&#x8FD9;&#x4E2A;&#x4E1C;&#x897F;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x5E7F;&#x4E49;&#x4E0A;&#x6765;&#x8C08;JVM&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x800C;&#x4E0D;&#x8981;&#x5C40;&#x9650;&#x4E8E;&#x591A;&#x79DF;&#x6237;JVM&#xFF08;&#x5373;&#x4E00;&#x4E2A;JVM&#x4E0A;&#x8DD1;&#x591A;&#x4E2A;Java&#x5E94;&#x7528;&#x7684;&#x573A;&#x666F;&#xFF09;&#xFF0C; &#x6211;&#x4E2A;&#x4EBA;&#x89C9;&#x5F97;JVM&#x865A;&#x62DF;&#x5316;&#x6280;&#x672F;&#x5728;&#x9AD8;&#x5BC6;&#x5EA6;&#x90E8;&#x7F72;&#x9886;&#x57DF;&#x662F;&#x6709;&#x975E;&#x5E38;&#x5927;&#x7684;&#x4EF7;&#x503C;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x5728;&#x4E91;&#x8BA1;&#x7B97;&#x5927;&#x884C;&#x5176;&#x9053;&#x7684;&#x5F53;&#x4ECA;&#xFF0C; &#x6211;&#x60F3;&#x8FD9;&#x4E5F;&#x662F;Waratek&#x4E00;&#x76F4;&#x6240;&#x4FE1;&#x5949;&#x7684;&#x3002; &#x8FD9;&#x91CC;&#x8C08;&#x5230;&#x5E94;&#x7528;&#x7684;&#x524D;&#x666F;&#xFF0C;&#x6211;&#x60F3;&#x6709;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#x503C;&#x5F97;&#x518D;&#x6DF1;&#x5165;&#x8003;&#x8651;&#xFF1A; &#x7B2C;&#x4E00;&#xFF0C;&#x5728;&#x4E91;&#x8BA1;&#x7B97;&#x7684;&#x73AF;&#x5883;&#x4E0B;&#x4E3A;JVM&#x865A;&#x62DF;&#x5316;&#x627E;&#x5230;&#x9AD8;&#x5BC6;&#x5EA6;&#x90E8;&#x7F72;&#x7684;&#x5E94;&#x7528;&#x573A;&#x666F;&#xFF0C;&#x5355;&#x4E2A;&#x79DF;&#x6237;&#x5E94;&#x7528;&#x90E8;&#x7F72;&#x6210;&#x672C;&#x662F;&#x5173;&#x952E;&#x7684;&#x8003;&#x91CF;&#x56E0;&#x7D20;&#x3002;&#x7B2C;&#x4E8C;&#xFF0C;&#x57FA;&#x4E8E;&#x7279;&#x5B9A;&#x7684;&#x573A;&#x666F;&#xFF0C;&#x89C4;&#x907F;&#x4E00;&#x4E9B;&#x6280;&#x672F;&#x5B9E;&#x73B0;&#x4E0A;&#x96BE;&#x70B9;&#x3002;</p>
+<h4 id="Java&#x8BED;&#x8A00;&#x7684;&#x53D1;&#x5C55;">Java&#x8BED;&#x8A00;&#x7684;&#x53D1;&#x5C55;</h4><h4 id="InfoQ&#xFF1A;&#x4E00;&#x6643;&#x773C;&#xFF0C;Java&#x5C31;&#x5DF2;&#x7ECF;20&#x5C81;&#x4E86;&#xFF0C;&#x4F60;&#x8BA4;&#x4E3A;Java&#x7684;&#x53D1;&#x5C55;&#x7ECF;&#x5386;&#x4E86;&#x54EA;&#x51E0;&#x4E2A;&#x9636;&#x6BB5;&#xFF1F;">InfoQ&#xFF1A;&#x4E00;&#x6643;&#x773C;&#xFF0C;Java&#x5C31;&#x5DF2;&#x7ECF;20&#x5C81;&#x4E86;&#xFF0C;&#x4F60;&#x8BA4;&#x4E3A;Java&#x7684;&#x53D1;&#x5C55;&#x7ECF;&#x5386;&#x4E86;&#x54EA;&#x51E0;&#x4E2A;&#x9636;&#x6BB5;&#xFF1F;</h4><p>&#x674E;&#x4E09;&#x7EA2;&#xFF1A;James Gosling&#x5E26;&#x9886;&#x56E2;&#x961F;&#x5728;1991&#x5E74;&#x5F00;&#x59CB;&#x4E86;&#x4E00;&#x4E2A;&#x53EB;&#x201D;Oak&#x201D;&#x7684;&#x9879;&#x76EE;&#xFF0C;&#x8FD9;&#x4E2A;&#x5C31;&#x662F;Java&#x7684;&#x524D;&#x8EAB;&#x3002;1995&#x5E74;&#xFF0C;Java1.0&#x53D1;&#x5E03;&#x3002;&#x201C;Write once, run anywhere&#x201D; &#x8FD9;&#x53E5;Java&#x53E3;&#x53F7;&#x60F3;&#x5FC5;&#x5927;&#x5BB6;&#x8033;&#x719F;&#x80FD;&#x8BE6;&#x3002;Java&#x521A;&#x5F00;&#x59CB;&#x51FA;&#x73B0;&#x7684;&#x65F6;&#x5019;&#x4E3B;&#x8981;&#x9762;&#x5411;Interactive Television&#x9886;&#x57DF;&#xFF0C;&#x76F4;&#x81F3;&#x540E;&#x6765;&#x51E0;&#x5E74;&#x7684;&#x53D1;&#x5C55;&#xFF0C;SUN&#x4E00;&#x5EA6;&#x60F3;&#x7528;Java&#x6765;&#x6253;&#x9020;&#x684C;&#x9762;&#x7684;&#x7F51;&#x7EDC;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#xFF0C;&#x53D6;&#x4EE3;&#x5F53;&#x65F6;&#x5982;&#x65E5;&#x4E2D;&#x5929;&#x7684;Windows&#x3002;&#x4E0D;&#x8FC7;&#x4E0D;&#x66FE;&#x60F3;&#xFF0C;Java&#x867D;&#x672A;&#x5728;Embedded&#x3001;Desktop&#x9886;&#x57DF;&#x5185;&#x53D6;&#x5F97;&#x591A;&#x5927;&#x7684;&#x5EFA;&#x6811;&#xFF0C;&#x51FA;&#x4E4E;&#x610F;&#x6599;&#x5730;&#xFF0C;&#x5374;&#x5728;&#x4F01;&#x4E1A;&#x7EA7;&#x5E94;&#x7528;&#x9886;&#x57DF;&#x5F00;&#x82B1;&#x7ED3;&#x679C;&#xFF0C;&#x5360;&#x636E;&#x4E86;&#x5982;&#x4ECA;&#x51E0;&#x4E4E;&#x7EDF;&#x6CBB;&#x7684;&#x5730;&#x4F4D;&#x3002;&#x5931;&#x4E4B;&#x6771;&#x9685;&#xFF0C;&#x5374;&#x6536;&#x4E4B;&#x6851;&#x6986;&#x3002; </p>
+<p>Sun&#x5728;2006&#x5E74;&#x7684;Java One &#x5927;&#x4F1A;&#x4E0A;&#xFF0C;&#x5BA3;&#x5E03;Java&#x6280;&#x672F;&#x5F00;&#x6E90;&#xFF0C;&#x968F;&#x540E;&#x5E74;&#x5E95;&#x7684;&#x65F6;&#x5019;&#x5728;GPL&#x534F;&#x8BAE;&#x4E0B;&#x53D1;&#x5E03;HotSpot&#x4EE5;&#x53CA;javac&#xFF0C;&#x8FD9;&#x662F;Java&#x53D1;&#x5C55;&#x4E2D;&#x7684;&#x91CC;&#x7A0B;&#x7891;&#x4E8B;&#x4EF6;&#x3002;&#x4ECE;2006&#x5230;2010&#x5E74;&#xFF0C;&#x8FD9;&#x671F;&#x95F4;SUN&#x4E00;&#x8DEF;&#x78D5;&#x78D5;&#x7ECA;&#x7ECA;&#xFF0C;&#x5C3D;&#x7BA1;&#x624B;&#x63E1;Java&#x8FD9;&#x4E2A;&#x91D1;&#x77FF;&#xFF0C;&#x4F46;&#x5728;&#x5546;&#x4E1A;&#x4E0A;&#x4E00;&#x76F4;&#x627E;&#x4E0D;&#x5230;&#x597D;&#x7684;&#x76C8;&#x5229;&#x70B9;&#xFF0C;&#x76F4;&#x5230;2010&#x88AB;Oracle&#x6536;&#x8D2D;&#x3002; 2010&#x5E74;&#xFF0C;&#x4E5F;&#x662F;Java&#x53D1;&#x5C55;&#x7684;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x7684;&#x5206;&#x6C34;&#x5CAD;&#xFF0C;Java&#x9762;&#x4E34;&#x5206;&#x5BB6;&#x7684;&#x98CE;&#x9669;&#xFF0C; &#x4E00;&#x65B9;&#x662F;Apache Harmony&#x4E3A;&#x4EE3;&#x8868;&#x7684;&#xFF0C; &#x5176;&#x540E;&#x662F;IBM&#x7684;&#x652F;&#x6301;&#xFF0C; &#x53E6;&#x4E00;&#x65B9;&#x662F;OpenJDK&#x53CA;&#x5176;&#x80CC;&#x540E;&#x7684;Oracle&#x3002;&#x6700;&#x540E;&#x535A;&#x5F08;&#x7684;&#x7ED3;&#x679C;&#x73B0;&#x5728;&#x5927;&#x5BB6;&#x90FD;&#x77E5;&#x9053;&#x4E86;&#xFF0C; IBM&#x8F6C;&#x5411;OpenJDK&#xFF0C;Apache Harmony&#x4E5F;&#x7ED3;&#x675F;&#x4E86;&#x5B83;&#x7684;&#x5386;&#x53F2;&#x4F7F;&#x547D;&#xFF0C;&#x88AB;Apache&#x4E4B;&#x540E;&#x675F;&#x4E4B;&#x9AD8;&#x9601;&#x3002;Harmony&#x4E3A;IBM&#x5728;Java&#x4E0A;&#x8D62;&#x5F97;&#x7684;&#x5E94;&#x6709;&#x7684;&#x8BDD;&#x8BED;&#x6743;&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x526F;&#x4EA7;&#x54C1;&#xFF0C;&#x5C31;&#x662F;&#x7ED9;&#x79FB;&#x52A8;&#x7AEF;Android&#x5E73;&#x53F0;&#x8D21;&#x732E;&#x4E86;Java&#x6838;&#x5FC3;&#x7C7B;&#x5E93;&#x4EE3;&#x7801;&#x3002; 2010&#x5E74;&#x662F;Java&#x91CD;&#x751F;&#x7684;&#x4E00;&#x5E74;&#x3002;&#x968F;&#x540E;2011&#x5E74;OpenJDK 7&#x53D1;&#x5E03;&#xFF0C; OpenJDK 7&#x662F;&#x7B2C;&#x4E00;&#x4E2A;Java SE&#x7684;&#x53C2;&#x8003;&#x5B9E;&#x73B0;&#x3002;</p>
+<h4 id="InfoQ&#xFF1A;&#x53CD;&#x8FC7;&#x5934;&#x6765;&#x770B;&#xFF0C;&#x4F60;&#x8BA4;&#x4E3A;&#x4E3A;&#x4EC0;&#x4E48;Java&#x80FD;&#x591F;&#x5982;&#x6B64;&#x6210;&#x529F;&#xFF1F;">InfoQ&#xFF1A;&#x53CD;&#x8FC7;&#x5934;&#x6765;&#x770B;&#xFF0C;&#x4F60;&#x8BA4;&#x4E3A;&#x4E3A;&#x4EC0;&#x4E48;Java&#x80FD;&#x591F;&#x5982;&#x6B64;&#x6210;&#x529F;&#xFF1F;</h4><p>&#x674E;&#x4E09;&#x7EA2;&#xFF1A;&#x597D;&#x50CF;&#x6709;&#x8FD9;&#x4E48;&#x4E00;&#x53E5;&#x8BDD;&#xFF0C;&#x539F;&#x8BDD;&#x4E0D;&#x592A;&#x8BB0;&#x5F97;&#x4E86;&#xFF0C;&#x4E00;&#x6D41;&#x7684;&#x516C;&#x53F8;&#x5EFA;&#x751F;&#x6001;&#xFF0C;&#x4E8C;&#x6D41;&#x7684;&#x516C;&#x53F8;&#x5B9A;&#x6807;&#x51C6;&#xFF0C;&#x4E09;&#x6D41;&#x7684;&#x516C;&#x53F8;&#x5356;&#x4EA7;&#x54C1;&#x3002; &#x8FD9;&#x53E5;&#x8BDD;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x5728;Java&#x4E0A;&#x3002; Java&#x7684;&#x6210;&#x529F;&#xFF0C;&#x79BB;&#x4E0D;&#x5F00;&#x9010;&#x6B65;&#x5B8C;&#x5584;&#xFF0C;&#x65E5;&#x81FB;&#x6210;&#x719F;&#x7684;Java&#x6280;&#x672F;&#x751F;&#x6001;&#x5708;&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;&#x8FDC;&#x8FDC;&#x8D85;&#x51FA;&#x8BED;&#x8A00;&#x5C42;&#x9762;&#x4F18;&#x52A3;&#x7684;&#x4E1C;&#x897F;&#x3002; &#x5728;&#x4EA7;&#x54C1;&#x7684;&#x9009;&#x578B;&#x4E0A;&#xFF0C;&#x65E0;&#x8BBA;&#x7EB5;&#x5411;&#x4E0A;&#xFF0C;&#x8FD8;&#x662F;&#x6A2A;&#x5411;&#x4E0A;&#xFF0C;&#x4EE5;Java&#x6280;&#x672F;&#x6784;&#x5EFA;&#x7684;&#x4EA7;&#x54C1;&#x90FD;&#x6709;&#x7740;&#x65E0;&#x6BD4;&#x7684;&#x4E30;&#x5BCC;&#x6027;&#xFF0C;Apache&#x793E;&#x533A;&#x7684;&#x7E41;&#x8363;&#xFF0C;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x8FD9;&#x4E2A;&#x6545;&#x4E8B;&#x7684;&#x4F50;&#x8BC1;&#x3002;&#x8FD9;&#x4E2A;&#x4E5F;&#x662F;&#x8BB8;&#x591A;&#x5C0F;&#x4F17;&#x8BED;&#x8A00;&#x8BF8;&#x5982;Scala&#x3001;JRuby&#x613F;&#x610F;&#x9009;&#x62E9;&#x8FD0;&#x884C;&#x5728;JVM&#x4E0A;&#x7684;&#x539F;&#x56E0;&#x3002; </p>
+<p>&#x5982;&#x679C;&#x5355;&#x4ECE;&#x8BED;&#x8A00;&#x8FD9;&#x4E2A;&#x5C42;&#x9762;&#xFF0C;&#x8C08;&#x8BBA;Java&#x7684;&#x6210;&#x529F;&#xFF0C;&#x6211;&#x5C31;&#x501F;&#x7528;Mark Reinhold&#x7684;&#x4E00;&#x53E5;&#x603B;&#x7ED3;&#xFF0C;&#x56DB;&#x4E2A;&#x8BCD;&#x6982;&#x62EC;Java&#x7684;&#x7279;&#x5F81;&#xFF1A;Readability&#x3001;Simplicity&#x3001; Universality&#x548C;Compatibility&#x3002;&#x8FD9;&#x4E5F;&#x662F;Java&#x8BED;&#x8A00;&#x80FD;&#x591F;&#x98CE;&#x884C;&#xFF0C;&#x5E76;&#x88AB;&#x5927;&#x5BB6;&#x6240;&#x63A5;&#x53D7;&#x7684;&#x91CD;&#x8981;&#x56E0;&#x7D20;&#x3002;</p>
+<h4 id="&#x53D7;&#x8BBF;&#x5609;&#x5BBE;&#x4ECB;&#x7ECD;">&#x53D7;&#x8BBF;&#x5609;&#x5BBE;&#x4ECB;&#x7ECD;</h4><p>&#x674E;&#x4E09;&#x7EA2;&#xFF0C;&#x8682;&#x8681;&#x91D1;&#x670D; JVM Architect&#xFF0C;&#x524D;IBM Multi-tenant JVM&#x9879;&#x76EE;&#x6280;&#x672F;&#x8D1F;&#x8D23;&#x4EBA;&#x3002;&#x76EE;&#x524D;&#x5728;&#x8682;&#x8681;&#x91D1;&#x670D;&#x57FA;&#x7840;&#x6280;&#x672F;&#x90E8;&#xFF0C;&#x8D1F;&#x8D23;OpenJDK/HotSpot&#x76F8;&#x5173;&#x7684;&#x5F00;&#x53D1;&#x4F18;&#x5316;&#x5DE5;&#x4F5C;&#x3002; &#x5341;&#x591A;&#x5E74;&#x7684;Java&#x5F00;&#x53D1;&#x7ECF;&#x9A8C;&#xFF0C;2008&#x5E74;&#x52A0;&#x5165;IBM&#xFF0C;&#x53C2;&#x4E0E;&#x57FA;&#x4E8E;OSGi&#x6846;&#x67B6;&#x7684;&#x5B89;&#x5168;&#x65B9;&#x9762;&#x7684;&#x5F00;&#x53D1;&#xFF0C;2010&#x5E74;&#x52A0;&#x5165;Java&#x6280;&#x672F;&#x4E2D;&#x5FC3;&#xFF0C;&#x53C2;&#x4E0E;IBM Java&#x865A;&#x62DF;&#x673A; J9&#x7684;&#x5F00;&#x53D1;&#xFF0C;&#x5728;Java/JVM&#x6280;&#x672F;&#x7684;&#x9886;&#x57DF;&#x62E5;&#x6709;&#x591A;&#x9879;&#x4E13;&#x5229;&#x3002; &#x5728;JavaOne&#x3001;OSTC&#x3001;IBM Technical Summit&#x3001;IBM APN Summit&#x7B49;&#x4F1A;&#x8BAE;&#x4E0A;&#x62C5;&#x4EFB;&#x6F14;&#x8BB2;&#x5609;&#x5BBE;&#xFF0C;&#x4E0A;&#x6D77;Java&#x6280;&#x672F;&#x793E;&#x533A;JUG&#xFF08;Java User Group&#xFF09;&#x7EC4;&#x7EC7;&#x8005;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JVM/">JVM</a><a href="/tags/虚拟化/">虚拟化</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/e4c17d7/" title="在eclipse中进行HotSpot的源码调试 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  在eclipse中进行HotSpot的源码调试 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/e4cc2bd/"  title="Web项目性能问题常见定位方法梳理 -">
+ <strong>下一篇：</strong><br/> 
+ <span>Web项目性能问题常见定位方法梳理 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义以及历史"><span class="toc-number">1.</span> <span class="toc-text">定义以及历史</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：能介绍下什么是JVM的虚拟化吗？JVM的虚拟化价值在哪里？"><span class="toc-number">2.</span> <span class="toc-text">InfoQ：能介绍下什么是JVM的虚拟化吗？JVM的虚拟化价值在哪里？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：JVM虚拟化的概念是什么时候出现的？能聊聊它的发展历史吗？"><span class="toc-number">3.</span> <span class="toc-text">InfoQ：JVM虚拟化的概念是什么时候出现的？能聊聊它的发展历史吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景以及发展前景"><span class="toc-number">4.</span> <span class="toc-text">应用场景以及发展前景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：JVM虚拟化最适合应用在什么场景中？"><span class="toc-number">5.</span> <span class="toc-text">InfoQ：JVM虚拟化最适合应用在什么场景中？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：你认为多租户JVM的前景如何？为什么现在做多租户JVM的厂商这么少？"><span class="toc-number">6.</span> <span class="toc-text">InfoQ：你认为多租户JVM的前景如何？为什么现在做多租户JVM的厂商这么少？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java语言的发展"><span class="toc-number">7.</span> <span class="toc-text">Java语言的发展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：一晃眼，Java就已经20岁了，你认为Java的发展经历了哪几个阶段？"><span class="toc-number">8.</span> <span class="toc-text">InfoQ：一晃眼，Java就已经20岁了，你认为Java的发展经历了哪几个阶段？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InfoQ：反过头来看，你认为为什么Java能够如此成功？"><span class="toc-number">9.</span> <span class="toc-text">InfoQ：反过头来看，你认为为什么Java能够如此成功？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#受访嘉宾介绍"><span class="toc-number">10.</span> <span class="toc-text">受访嘉宾介绍</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

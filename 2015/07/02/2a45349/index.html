@@ -1,0 +1,653 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>spring mvc 乱码问题 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="tomacat&amp;#x5BF9;GET&amp;#x548C;POST&amp;#x8BF7;&amp;#x6C42;&amp;#x5904;&amp;#x7406;&amp;#x65B9;&amp;#x5F0F;&amp;#x662F;&amp;#x4E0D;&amp;#x540C;&amp;#x7684;POST: &amp;#x52A0;&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&amp;#xFF0C; &amp;#x5373;&amp;#x53EF;&amp;#x89E3;&amp;#x51B3;
+GET: &amp;#x52">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring mvc 乱码问题 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/2a45349/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="tomacat&amp;#x5BF9;GET&amp;#x548C;POST&amp;#x8BF7;&amp;#x6C42;&amp;#x5904;&amp;#x7406;&amp;#x65B9;&amp;#x5F0F;&amp;#x662F;&amp;#x4E0D;&amp;#x540C;&amp;#x7684;POST: &amp;#x52A0;&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&amp;#xFF0C; &amp;#x5373;&amp;#x53EF;&amp;#x89E3;&amp;#x51B3;
+GET: &amp;#x52">
+<meta property="og:updated_time" content="2015-07-01T23:52:00.358Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring mvc 乱码问题 -">
+<meta name="twitter:description" content="tomacat&amp;#x5BF9;GET&amp;#x548C;POST&amp;#x8BF7;&amp;#x6C42;&amp;#x5904;&amp;#x7406;&amp;#x65B9;&amp;#x5F0F;&amp;#x662F;&amp;#x4E0D;&amp;#x540C;&amp;#x7684;POST: &amp;#x52A0;&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&amp;#xFF0C; &amp;#x5373;&amp;#x53EF;&amp;#x89E3;&amp;#x51B3;
+GET: &amp;#x52">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/2a45349/" title="spring mvc 乱码问题 -" itemprop="url">spring mvc 乱码问题 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:52:00.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#tomacat对GET和POST请求处理方式是不同的"><span class="toc-number">1.</span> <span class="toc-text">tomacat对GET和POST请求处理方式是不同的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#改为："><span class="toc-number">2.</span> <span class="toc-text">改为：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#过滤器的几种加法： "><span class="toc-number">3.</span> <span class="toc-text">过滤器的几种加法： </span></a></li></ol>
+		
+		</div>
+		
+		<h4 id="tomacat&#x5BF9;GET&#x548C;POST&#x8BF7;&#x6C42;&#x5904;&#x7406;&#x65B9;&#x5F0F;&#x662F;&#x4E0D;&#x540C;&#x7684;">tomacat&#x5BF9;GET&#x548C;POST&#x8BF7;&#x6C42;&#x5904;&#x7406;&#x65B9;&#x5F0F;&#x662F;&#x4E0D;&#x540C;&#x7684;</h4><p>POST: &#x52A0;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C; &#x5373;&#x53EF;&#x89E3;&#x51B3;</p>
+<p>GET: &#x52A0;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C; &#x8FD8;&#x9700;&#x8981;&#x6539;tomcat&#x7684;server.xml&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF08; &#x7279;&#x522B;&#x6CE8;&#x610F;&#xFF1A; eclipse&#x4E0B;&#x7684; Servers&#x4E0B;&#x7684;server.xml&#x4E5F;&#x8981;&#x6539; &#xFF09; </p>
+<pre><code>&amp;lt;Connector <span class="variable">connectionTimeout=</span>&amp;quot;<span class="number">20000</span>&amp;quot; <span class="variable">port=</span>&amp;quot;<span class="number">8080</span>&amp;quot; <span class="variable">protocol=</span>&amp;quot;HTTP/<span class="number">1.1</span>&amp;quot; <span class="variable">redirectPort=</span>&amp;quot;<span class="number">8443</span>&amp;quot;/&amp;gt;
+</code></pre><h4 id="&#x6539;&#x4E3A;&#xFF1A;">&#x6539;&#x4E3A;&#xFF1A;</h4><pre><code>&amp;lt;Connector <span class="variable">connectionTimeout=</span>&amp;quot;<span class="number">20000</span>&amp;quot; <span class="variable">port=</span>&amp;quot;<span class="number">8080</span>&amp;quot; <span class="variable">protocol=</span>&amp;quot;HTTP/<span class="number">1.1</span>&amp;quot; <span class="variable">redirectPort=</span>&amp;quot;<span class="number">8443</span>&amp;quot;  <span class="variable">useBodyEncodingForURI=</span>&amp;quot;<span class="constant">true</span>&amp;quot;/&amp;gt;
+</code></pre><h4 id="&#x8FC7;&#x6EE4;&#x5668;&#x7684;&#x51E0;&#x79CD;&#x52A0;&#x6CD5;&#xFF1A;&#xA0;">&#x8FC7;&#x6EE4;&#x5668;&#x7684;&#x51E0;&#x79CD;&#x52A0;&#x6CD5;&#xFF1A;&#xA0;</h4><p> &#x65B9;&#x6CD5;&#x4E00;&#xFF1A;&#xA0;  &#x81EA;&#x5B9A;&#x4E49;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C; &#xA0;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x81EA</span>;<span class="subst">&amp;</span><span class="variable">#x5B9A</span>;<span class="subst">&amp;</span><span class="variable">#x4E49</span>;<span class="subst">&amp;</span><span class="variable">#x7F16</span>;<span class="subst">&amp;</span><span class="variable">#x7801</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x6EE4</span>;<span class="subst">&amp;</span><span class="variable">#x5668</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;characterEncodingFilter<span class="subst">&amp;</span><span class="literal">lt</span>;/filter<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;com<span class="built_in">.</span>lw<span class="built_in">.</span>filter<span class="built_in">.</span>CharacterEncodingFilter<span class="subst">&amp;</span><span class="literal">lt</span>;/filter<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;characterEncoding<span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;utf<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;enabled<span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="literal">true</span><span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/filter<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="attribute">-mapping</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;characterEncodingFilter<span class="subst">&amp;</span><span class="literal">lt</span>;/filter<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;url<span class="attribute">-pattern</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="comment">/*&amp;lt;/url-pattern&amp;gt;
+&amp;lt;/filter-mapping&amp;gt;</span>
+</code></pre><p>&#x5B9E;&#x73B0;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code><span class="keyword">package</span> com.lw.filter;
+<span class="keyword">import</span> java.io.IOException;
+<span class="keyword">import</span> javax.servlet.Filter;
+<span class="keyword">import</span> javax.servlet.FilterChain;
+<span class="keyword">import</span> javax.servlet.FilterConfig;
+<span class="keyword">import</span> javax.servlet.ServletException;
+<span class="keyword">import</span> javax.servlet.ServletRequest;
+<span class="keyword">import</span> javax.servlet.ServletResponse;
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CharacterEncodingFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>{
+    <span class="keyword">private</span> String characterEncoding; <span class="comment">//&amp;#x7F16;&amp;#x7801;&amp;#x65B9;&amp;#x5F0F;&amp;#x914D;&amp;#x7F6E;&amp;#x5728;web.xml&amp;#x6587;&amp;#x4EF6;&amp;#x4E2D;</span>
+    <span class="keyword">private</span> <span class="keyword">boolean</span> enabled;   <span class="comment">//&amp;#x662F;&amp;#x5426;&amp;#x542F;&amp;#x7528;&amp;#x6B64;Filter&amp;#xFF0C;&amp;#x914D;&amp;#x7F6E;&amp;#x5728;web.xml&amp;#x4E2D;</span>
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>{
+        characterEncoding = <span class="keyword">null</span>;
+    }
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response,
+                         FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>{
+        <span class="keyword">if</span> (enabled || characterEncoding != <span class="keyword">null</span>) {
+            request.setCharacterEncoding(characterEncoding);
+            response.setCharacterEncoding(characterEncoding);
+        }
+        chain.doFilter(request, response);
+    }
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig config)</span> <span class="keyword">throws</span> ServletException </span>{
+        characterEncoding = config.getInitParameter(&amp;quot;characterEncoding&amp;quot;);
+        enabled = &amp;quot;<span class="keyword">true</span>&amp;quot;.equalsIgnoreCase(config.getInitParameter(&amp;quot;enabled&amp;quot;).trim());
+    }
+}
+</code></pre><p>&#x65B9;&#x6CD5;&#x4E8C;&#xFF1A; spring mvc &#x81EA;&#x5E26;&#x8FC7;&#x6EE4;&#x5668;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> spring mvc <span class="subst">&amp;</span><span class="variable">#x81EA</span>;<span class="subst">&amp;</span><span class="variable">#x5E26</span>;<span class="subst">&amp;</span><span class="variable">#x7F16</span>;<span class="subst">&amp;</span><span class="variable">#x7801</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x6EE4</span>;<span class="subst">&amp;</span><span class="variable">#x5668</span>;  <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;CharacterEncodingFilter<span class="subst">&amp;</span><span class="literal">lt</span>;/filter<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;org<span class="built_in">.</span>springframework<span class="built_in">.</span>web<span class="built_in">.</span>filter<span class="built_in">.</span>CharacterEncodingFilter<span class="subst">&amp;</span><span class="literal">lt</span>;/filter<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;encoding<span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;utf<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/filter<span class="subst">&amp;</span><span class="literal">gt</span>;  
+    <span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="attribute">-mapping</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;filter<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;CharacterEncodingFilter<span class="subst">&amp;</span><span class="literal">lt</span>;/filter<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;url<span class="attribute">-pattern</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="comment">/*&amp;lt;/url-pattern&amp;gt;  
+    &amp;lt;/filter-mapping&amp;gt;</span>
+</code></pre><p> &#x65B9;&#x6CD5;&#x4E09;&#xFF1A; &#x96C6;&#x6210;&#x5230;spring mvc &#x6838;&#x5FC3;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C; &#xA0; &#x5B9E;&#x73B0;  org.springframework.web.servlet.DispatcherServlet</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x96C6</span>;<span class="subst">&amp;</span><span class="variable">#x6210</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x6EE4</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x6838</span>;<span class="subst">&amp;</span><span class="variable">#x5FC3</span>;<span class="subst">&amp;</span><span class="variable">#x62E6</span>;<span class="subst">&amp;</span><span class="variable">#x622A</span>;<span class="subst">&amp;</span><span class="variable">#x5668</span>;<span class="subst">&amp;</span><span class="variable">#x4E2D</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;  <span class="subst">&amp;</span><span class="variable">#x81EA</span>;<span class="subst">&amp;</span><span class="variable">#x5B9A</span>;<span class="subst">&amp;</span><span class="variable">#x4E49</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x6EE4</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>; EncodingDispatcherServlet<span class="subst">&amp;</span><span class="variable">#x5B9E</span>;<span class="subst">&amp;</span><span class="variable">#x73B0</span>;<span class="subst">&amp;</span><span class="variable">#x6838</span>;<span class="subst">&amp;</span><span class="variable">#x5FC3</span>;<span class="subst">&amp;</span><span class="variable">#x62E6</span>;<span class="subst">&amp;</span><span class="variable">#x622A</span>;<span class="subst">&amp;</span><span class="variable">#x5668</span>;DispatcherServlet<span class="subst">&amp;</span><span class="variable">#xFF0C</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;servlet<span class="subst">&amp;</span><span class="literal">gt</span>;  
+     <span class="subst">&amp;</span><span class="literal">lt</span>;servlet<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;springMVC<span class="subst">&amp;</span><span class="literal">lt</span>;/servlet<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+     <span class="subst">&amp;</span><span class="literal">lt</span>;servlet<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;com<span class="built_in">.</span>lw<span class="built_in">.</span>filter<span class="built_in">.</span>EncodingDispatcherServlet<span class="subst">&amp;</span><span class="literal">lt</span>;/servlet<span class="attribute">-class</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+     <span class="subst">&amp;</span><span class="literal">lt</span>;load<span class="attribute">-on</span><span class="attribute">-startup</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">1</span><span class="subst">&amp;</span><span class="literal">lt</span>;/load<span class="attribute">-on</span><span class="attribute">-startup</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+         <span class="subst">&amp;</span><span class="literal">lt</span>;init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+          <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;encoding<span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+          <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+         <span class="subst">&amp;</span><span class="literal">lt</span>;/init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;contextConfigLocation<span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-name</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;/WEB<span class="attribute">-INF</span>/applicationContext<span class="built_in">.</span><span class="built_in">xml</span><span class="subst">&amp;</span><span class="literal">lt</span>;/param<span class="attribute">-value</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/init<span class="attribute">-param</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/servlet<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x5B9E;&#x73B0;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code><span class="keyword">package</span> com.lw.filter;
+
+<span class="keyword">import</span> javax.servlet.<span class="type">ServletConfig</span>;
+<span class="keyword">import</span> javax.servlet.<span class="type">ServletException</span>;
+<span class="keyword">import</span> javax.servlet.http.<span class="type">HttpServletRequest</span>;
+<span class="keyword">import</span> javax.servlet.http.<span class="type">HttpServletResponse</span>;
+
+<span class="keyword">import</span> org.springframework.web.servlet.<span class="type">DispatcherServlet</span>;
+
+public <span class="class"><span class="keyword">class</span> <span class="title">EncodingDispatcherServlet</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">DispatcherServlet</span> {</span>
+
+    <span class="keyword">private</span> <span class="type">String</span> encoding;
+
+    public void init(<span class="type">ServletConfig</span> config) <span class="keyword">throws</span> <span class="type">ServletException</span> {
+        encoding = config.getInitParameter(&amp;quot;encoding&amp;quot;);
+        <span class="keyword">super</span>.init(config);
+    }
+
+    <span class="keyword">protected</span> void doService(<span class="type">HttpServletRequest</span> request, <span class="type">HttpServletResponse</span> response)
+            <span class="keyword">throws</span> <span class="type">Exception</span> {
+        request.setCharacterEncoding(encoding);
+        response.setCharacterEncoding(encoding);
+        <span class="keyword">super</span>.doService(request, response);
+    }
+
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Spring-MVC/">Spring MVC</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/3e788fc/" title="dubbo中的Filter顺序 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  dubbo中的Filter顺序 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/2a725f1/"  title="spring MVC 获取请求体 -">
+ <strong>下一篇：</strong><br/> 
+ <span>spring MVC 获取请求体 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#tomacat对GET和POST请求处理方式是不同的"><span class="toc-number">1.</span> <span class="toc-text">tomacat对GET和POST请求处理方式是不同的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#改为："><span class="toc-number">2.</span> <span class="toc-text">改为：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#过滤器的几种加法： "><span class="toc-number">3.</span> <span class="toc-text">过滤器的几种加法： </span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

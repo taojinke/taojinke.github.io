@@ -1,0 +1,790 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>提高 Java 代码性能的各种技巧 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Java&amp;#xA0;6,7,8&amp;#xA0;&amp;#x4E2D;&amp;#x7684;&amp;#xA0;String.intern&amp;#xA0;&amp;#x2013;&amp;#xA0;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32;&amp;#x6C60;
+&amp;#x8FD9;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x5C06;&amp;#x8981;&amp;#x8BA8;&amp;#x8BBA;&amp;#xA0;Java&amp;#xA0;6&amp;#xA0;&amp;#x4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提高 Java 代码性能的各种技巧 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/f050a08/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Java&amp;#xA0;6,7,8&amp;#xA0;&amp;#x4E2D;&amp;#x7684;&amp;#xA0;String.intern&amp;#xA0;&amp;#x2013;&amp;#xA0;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32;&amp;#x6C60;
+&amp;#x8FD9;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x5C06;&amp;#x8981;&amp;#x8BA8;&amp;#x8BBA;&amp;#xA0;Java&amp;#xA0;6&amp;#xA0;&amp;#x4">
+<meta property="og:updated_time" content="2015-07-01T23:50:23.222Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="提高 Java 代码性能的各种技巧 -">
+<meta name="twitter:description" content="Java&amp;#xA0;6,7,8&amp;#xA0;&amp;#x4E2D;&amp;#x7684;&amp;#xA0;String.intern&amp;#xA0;&amp;#x2013;&amp;#xA0;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32;&amp;#x6C60;
+&amp;#x8FD9;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x5C06;&amp;#x8981;&amp;#x8BA8;&amp;#x8BBA;&amp;#xA0;Java&amp;#xA0;6&amp;#xA0;&amp;#x4">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/f050a08/" title="提高 Java 代码性能的各种技巧 -" itemprop="url">提高 Java 代码性能的各种技巧 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:50:23.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p><strong>Java&#xA0;6,7,8&#xA0;&#x4E2D;&#x7684;&#xA0;String.intern&#xA0;&#x2013;&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;</strong></p>
+<p>&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x5C06;&#x8981;&#x8BA8;&#x8BBA;&#xA0;Java&#xA0;6&#xA0;&#x4E2D;&#x662F;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#xA0;String.intern&#xA0;&#x65B9;&#x6CD5;&#x7684;&#xFF0C;&#x4EE5;&#x53CA;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5728;&#xA0;Java&#xA0;7&#xA0;&#x4EE5;&#x53CA;&#xA0;Java&#xA0;8&#xA0;&#x4E2D;&#x505A;&#x4E86;&#x54EA;&#x4E9B;&#x8C03;&#x6574;&#x3002;</p>
+<p><strong>&#x5B57;&#x7B26;&#x4E32;&#x6C60;</strong></p>
+<p>&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#xFF08;&#x6709;&#x540D;&#x5B57;&#x7B26;&#x4E32;&#x6807;&#x51C6;&#x5316;&#xFF09;&#x662F;&#x901A;&#x8FC7;&#x4F7F;&#x7528;&#x552F;&#x4E00;&#x7684;&#x5171;&#x4EAB;&#xA0;String&#xA0;&#x5BF9;&#x8C61;&#x6765;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x503C;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x5740;&#x8868;&#x793A;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x8FC7;&#x7A0B;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x7684;&#xA0;Map&lt;String,&#xA0;String&gt;&#xA0;&#xFF08;&#x6839;&#x636E;&#x9700;&#x8981;&#x4F7F;&#x7528;&#xA0;weak&#xA0;&#x5F15;&#x7528;&#x6216;&#x8005;&#xA0;soft&#xA0;&#x5F15;&#x7528;&#xFF09;&#x5E76;&#x4F7F;&#x7528;&#xA0;map&#xA0;&#x4E2D;&#x7684;&#x503C;&#x4F5C;&#x4E3A;&#x6807;&#x51C6;&#x503C;&#x6765;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x76EE;&#x6807;&#xFF0C;&#x6216;&#x8005;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xA0;JDK&#xA0;&#x63D0;&#x4F9B;&#x7684;String.intern()&#x3002;</p>
+<p>&#x5F88;&#x591A;&#x6807;&#x51C6;&#x7981;&#x6B62;&#x5728;&#xA0;Java&#xA0;6&#xA0;&#x4E2D;&#x4F7F;&#x7528;&#xA0;String.intern()&#xA0;&#x56E0;&#x4E3A;&#x5982;&#x679C;&#x9891;&#x7E41;&#x4F7F;&#x7528;&#x6C60;&#x4F1A;&#x5E02;&#x533A;&#x63A7;&#x5236;&#xFF0C;&#x6709;&#x5F88;&#x5927;&#x7684;&#x51E0;&#x7387;&#x89E6;&#x53D1;&#xA0;OutOfMemoryException&#x3002;Oracle&#xA0;Java&#xA0;7&#xA0;&#x5BF9;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x505A;&#x4E86;&#x5F88;&#x591A;&#x6539;&#x8FDB;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4EE5;&#x4E0B;&#x5730;&#x5740;&#x8FDB;&#x884C;&#x4E86;&#x89E3;&#xA0; <a href="http://bugs.sun.com/view_bug.do?bug_id=6962931" target="_blank" rel="external">http://bugs.sun.com/view_bug.do?bug_id=6962931</a> &#x4EE5;&#x53CA; <a href="http://bugs.sun.com/view_bug.do?bug_id=6962930" target="_blank" rel="external">http://bugs.sun.com/view_bug.do?bug_id=6962930</a></p>
+<p><strong>Java&#xA0;6&#xA0;&#x4E2D;&#x7684;&#xA0;String.intern()</strong></p>
+<p>&#x5728;&#x7F8E;&#x597D;&#x7684;&#x8FC7;&#x53BB;&#x6240;&#x6709;&#x5171;&#x4EAB;&#x7684;&#xA0;String&#xA0;&#x5BF9;&#x8C61;&#x90FD;&#x5B58;&#x50A8;&#x5728;&#xA0;PermGen&#xA0;&#x4E2D;&#xA0;&#x2014;&#xA0;&#x5806;&#x4E2D;&#x56FA;&#x5B9A;&#x5927;&#x5C0F;&#x7684;&#x90E8;&#x5206;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x52A0;&#x8F7D;&#x7684;&#x7C7B;&#x5BF9;&#x8C61;&#x548C;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x3002;&#x9664;&#x4E86;&#x660E;&#x786E;&#x7684;&#x5171;&#x4EAB;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;PermGen&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x8FD8;&#x5305;&#x542B;&#x6240;&#x6709;&#x7A0B;&#x5E8F;&#x4E2D;&#x4F7F;&#x7528;&#x8FC7;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF08;&#x8FD9;&#x91CC;&#x8981;&#x6CE8;&#x610F;&#x662F;&#x4F7F;&#x7528;&#x8FC7;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x5982;&#x679C;&#x7C7B;&#x6216;&#x8005;&#x65B9;&#x6CD5;&#x4ECE;&#x672A;&#x52A0;&#x8F7D;&#x6216;&#x8005;&#x88AB;&#x6761;&#x7528;&#xFF0C;&#x5728;&#x5176;&#x4E2D;&#x5B9A;&#x4E49;&#x7684;&#x4EFB;&#x4F55;&#x5E38;&#x91CF;&#x90FD;&#x4E0D;&#x4F1A;&#x88AB;&#x52A0;&#x8F7D;&#xFF09;</p>
+<p>Java&#xA0;6&#xA0;&#x4E2D;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x7684;&#x6700;&#x5927;&#x95EE;&#x9898;&#x662F;&#x5B83;&#x7684;&#x4F4D;&#x7F6E;&#xA0;&#x2014;&#xA0;PermGen&#x3002;PermGen&#xA0;&#x7684;&#x5927;&#x5C0F;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#x5E76;&#x4E14;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x662F;&#x65E0;&#x6CD5;&#x6269;&#x5C55;&#x7684;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xA0;-XX:MaxPermSize=N&#xA0;&#x914D;&#x7F6E;&#x6765;&#x8C03;&#x6574;&#x5B83;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x636E;&#x6211;&#x4E86;&#x89E3;&#xFF0C;&#x5BF9;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x5E73;&#x53F0;&#x9ED8;&#x8BA4;&#x7684;&#xA0;PermGen&#xA0;&#x5927;&#x5C0F;&#x5728;&#xA0;32M&#xA0;&#x5230;&#xA0;96M&#xA0;&#x4E4B;&#x95F4;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x6269;&#x5C55;&#x5B83;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x4E0D;&#x8FC7;&#x5927;&#x5C0F;&#x4F7F;&#x7528;&#x90FD;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#x3002;&#x8FD9;&#x4E2A;&#x9650;&#x5236;&#x9700;&#x8981;&#x4F60;&#x5728;&#x4F7F;&#x7528;&#xA0;String.intern&#xA0;&#x65F6;&#x9700;&#x8981;&#x975E;&#x5E38;&#x5C0F;&#x5FC3;&#xA0;&#x2014;&#xA0;&#x4F60;&#x6700;&#x597D;&#x4E0D;&#x8981;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xA0;intern&#xA0;&#x4EFB;&#x4F55;&#x65E0;&#x6CD5;&#x63A7;&#x5236;&#x7684;&#x7528;&#x6237;&#x8F93;&#x5165;&#x3002;&#x8FD9;&#x662F;&#x4E3A;&#x4EC0;&#x4E48;&#x5728;&#xA0;JAVA6&#xA0;&#x4E2D;&#x5927;&#x90E8;&#x5206;&#x4F7F;&#x7528;&#x624B;&#x52A8;&#x7BA1;&#x7406;&#xA0;Map&#xA0;&#x6765;&#x5B9E;&#x73B0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;</p>
+<p><strong>Java&#xA0;7&#xA0;&#x4E2D;&#x7684;&#xA0;String.intern()</strong></p>
+<p>Java&#xA0;7&#xA0;&#x4E2D;&#xA0;Oracle&#xA0;&#x7684;&#x5DE5;&#x7A0B;&#x5E08;&#x5BF9;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x7684;&#x903B;&#x8F91;&#x505A;&#x4E86;&#x5F88;&#x5927;&#x7684;&#x6539;&#x53D8;&#xA0;&#x2014;&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x7684;&#x4F4D;&#x7F6E;&#x88AB;&#x8C03;&#x6574;&#x5230;&#xA0;heap&#xA0;&#x4E2D;&#x4E86;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x4F60;&#x518D;&#x4E5F;&#x4E0D;&#x4F1A;&#x88AB;&#x56FA;&#x5B9A;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x9650;&#x5236;&#x4E86;&#x3002;&#x6240;&#x6709;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x90FD;&#x4FDD;&#x5B58;&#x5728;&#x5806;&#xFF08;heap&#xFF09;&#x4E2D;&#x540C;&#x5176;&#x4ED6;&#x666E;&#x901A;&#x5BF9;&#x8C61;&#x4E00;&#x6837;&#xFF0C;&#x8FD9;&#x4F7F;&#x5F97;&#x4F60;&#x5728;&#x8C03;&#x4F18;&#x5E94;&#x7528;&#x65F6;&#x4EC5;&#x9700;&#x8981;&#x8C03;&#x6574;&#x5806;&#x5927;&#x5C0F;&#x3002;&#x8FD9;&#xA0;&#x4E2A;&#x6539;&#x52A8;&#x4F7F;&#x5F97;&#x6211;&#x4EEC;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x7406;&#x7531;&#x8BA9;&#x6211;&#x4EEC;&#x91CD;&#x65B0;&#x8003;&#x8651;&#x5728;&#xA0;Java&#xA0;7&#xA0;&#x4E2D;&#x4F7F;&#x7528;&#xA0;String.intern()&#x3002;</p>
+<p><strong>&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x4F1A;&#x88AB;&#x5783;&#x573E;&#x6536;&#x96C6;</strong></p>
+<p>&#x6CA1;&#x9519;&#xFF0C;&#x5728;&#xA0;JVM&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x5B57;&#x7B26;&#x4E32;&#x4F1A;&#x88AB;&#x5783;&#x573E;&#x6536;&#x96C6;&#xFF0C;&#x5982;&#x679C;&#x8FD9;&#x4E9B;&#x503C;&#x5728;&#x5E94;&#x7528;&#x4E2D;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5F15;&#x7528;&#x3002;&#x8FD9;&#x662F;&#x7528;&#x4E8E;&#x6240;&#x6709;&#x7248;&#x672C;&#x7684;&#xA0;Java&#xFF0C;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x5982;&#x679C;&#xA0;interned&#xA0;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5728;&#x4F5C;&#x7528;&#x57DF;&#x5916;&#x5E76;&#x4E14;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5F15;&#x7528;&#xA0;&#x2014;&#xA0;&#x5B83;&#x5C06;&#x4F1A;&#x4ECE;&#xA0;JVM&#xA0;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x4E2D;&#x88AB;&#x5783;&#x573E;&#x6536;&#x96C6;&#x6389;&#x3002;</p>
+<p>&#x56E0;&#x4E3A;&#x88AB;&#x91CD;&#x65B0;&#x5B9A;&#x4F4D;&#xFFFD;&#xFFFD;&#xFFFD;&#x5806;&#x4E2D;&#x4EE5;&#x53CA;&#x4F1A;&#x88AB;&#x5783;&#x573E;&#x6536;&#x96C6;&#xFF0C;JVM&#xA0;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x770B;&#x4E0A;&#x53BB;&#x662F;&#x5B58;&#x653E;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5408;&#x9002;&#x4F4D;&#x7F6E;&#xFF0C;&#x662F;&#x5417;&#xFF1F;&#x7406;&#x8BBA;&#x4E0A;&#x662F;&#xA0;&#x2014;&#xA0;&#x8FDD;&#x80CC;&#x4F7F;&#x7528;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x4F1A;&#x4ECE;&#x6C60;&#x4E2D;&#x6536;&#x96C6;&#x6389;&#xFF0C;&#x5F53;&#x5916;&#x90E8;&#x8F93;&#x5165;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4F20;&#x4E14;&#x6C60;&#x4E2D;&#x5B58;&#x5728;&#x65F6;&#x53EF;&#x4EE5;&#x8282;&#x7701;&#x5185;&#x5B58;&#x3002;&#x770B;&#x8D77;&#x6765;&#x662F;&#x4E00;&#x4E2A;&#x5B8C;&#x7F8E;&#x7684;&#x8282;&#x7701;&#x5185;&#x5B58;&#x7684;&#x7B56;&#x7565;&#xFF1F;&#x5728;&#x4F60;&#x56DE;&#x7B54;&#x8FD9;&#x4E2A;&#x4E4B;&#x524D;&#xFF0C;&#x53EF;&#x4EE5;&#x80AF;&#x5B9A;&#x7684;&#x662F;&#x4F60;&#xA0;&#x9700;&#x8981;&#x77E5;&#x9053;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x662F;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x7684;&#x3002;</p>
+<p><strong>&#x5728;&#xA0;Java&#xA0;6&#xFF0C;7&#xFF0C;8&#xA0;&#x4E2D;&#xA0;JVM&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x7684;&#x5B9E;&#x73B0;</strong></p>
+<p>&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x662F;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x62E5;&#x6709;&#x56FA;&#x5B9A;&#x5BB9;&#x91CF;&#x7684;&#xA0;HashMap&#xA0;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x5305;&#x542B;&#x5177;&#x6709;&#x76F8;&#x540C;&#xA0;hash&#xA0;&#x503C;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5217;&#x8868;&#x3002;&#x4E00;&#x4E9B;&#x5B9E;&#x73B0;&#x7684;&#x7EC6;&#x8282;&#x53EF;&#x4EE5;&#x4ECE;&#xA0;Java&#xA0;bug&#xA0;&#x62A5;&#x544A;&#x4E2D;&#x83B7;&#x5F97;&#xA0; <a href="http://bugs.sun.com/view_bug.do?bug_id=6962930" target="_blank" rel="external">http://bugs.sun.com/view_bug.do?bug_id=6962930</a></p>
+<p>&#x9ED8;&#x8BA4;&#x7684;&#x6C60;&#x5927;&#x5C0F;&#x662F;&#xA0;1009&#xA0;(&#x51FA;&#x73B0;&#x5728;&#x4E0A;&#x9762;&#x63D0;&#x53CA;&#x7684;&#xA0;bug&#xA0;&#x62A5;&#x544A;&#x7684;&#x6E90;&#x7801;&#x4E2D;&#xFF0C;&#x5728;&#xA0;Java7u40&#xA0;&#x4E2D;&#x589E;&#x52A0;&#x4E86;)&#x3002;&#x5728;&#xA0;JAVA&#xA0;6&#xA0;&#x65E9;&#x671F;&#x7248;&#x672C;&#x4E2D;&#x662F;&#x4E00;&#x4E2A;&#x5E38;&#x91CF;&#xFF0C;&#x5728;&#x968F;&#x540E;&#x7684;&#xA0;java6u30&#xA0;&#x81F3;&#xA0;java6u41&#xA0;&#x4E2D;&#x8C03;&#x6574;&#x4E3A;&#x53EF;&#x914D;&#x7F6E;&#x7684;&#x3002;&#x800C;&#x5728;java&#xA0;7&#x4E2D;&#x4E00;&#x5F00;&#x59CB;&#x5C31;&#x662F;&#x53EF;&#x4EE5;&#x914D;&#x7F6E;&#x7684;&#xFF08;&#x81F3;&#x5C11;&#x5728;java7u02&#x4E2D;&#x662F;&#x53EF;&#x4EE5;&#x914D;&#x7F6E;&#x7684;&#xFF09;&#x3002;&#x4F60;&#x9700;&#x8981;&#x6307;&#x5B9A;&#x53C2;&#x6570;&#xA0;-XX:StringTableSize=N,&#xA0;N&#xA0;&#x662F;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#xA0;Map&#xA0;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x786E;&#x4FDD;&#x5B83;&#x662F;&#x4E3A;&#x6027;&#x80FD;&#x8C03;&#x4F18;&#x800C;&#x9884;&#x5148;&#x51C6;&#x5907;&#x7684;&#x5927;&#x5C0F;&#x3002;</p>
+<p>&#x5728;&#xA0;Java&#xA0;6&#xA0;&#x4E2D;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x6CA1;&#x6709;&#x592A;&#x591A;&#x5E2E;&#x52A9;&#xFF0C;&#x56E0;&#x4E3A;&#x4F60;&#x4ECD;&#x4EFB;&#x88AB;&#x9650;&#x5236;&#x5728;&#x56FA;&#x5B9A;&#x7684;&#xA0;PermGen&#xA0;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#x4E2D;&#x3002;&#x540E;&#x7EED;&#x7684;&#x8BA8;&#x8BBA;&#x5C06;&#x76F4;&#x63A5;&#x5FFD;&#x7565;&#xA0;Java&#xA0;6 </p>
+<p><strong>Java&#xA0;7&#xA0;&#xFF08;&#x76F4;&#x81F3;&#xA0;Java7u40&#xFF09;</strong></p>
+<p>&#x5728;&#xA0;Java7&#xA0;&#x4E2D;&#xFF0C;&#x6362;&#x53E5;&#x8BDD;&#x8BF4;&#xFF0C;&#x4F60;&#x88AB;&#x9650;&#x5236;&#x5728;&#x4E00;&#x4E2A;&#x66F4;&#x5927;&#x7684;&#x5806;&#x5185;&#x5B58;&#x4E2D;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x4F60;&#x53EF;&#x4EE5;&#x9884;&#x5148;&#x8BBE;&#x7F6E;&#x597D;&#xA0;String&#xA0;&#x6C60;&#x7684;&#x5927;&#x5C0F;&#xFF08;&#x8FD9;&#x4E2A;&#x503C;&#x53D6;&#x51B3;&#x4E8E;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x9700;&#x6C42;&#xFF09;&#x3002;&#x901A;&#x5E38;&#x8BF4;&#x6765;&#xFF0C;&#x4E00;&#x65E6;&#x7A0B;&#x5E8F;&#x5F00;&#x59CB;&#x5185;&#x5B58;&#x6D88;&#x8017;&#xFF0C;&#x5185;&#x5B58;&#x90FD;&#x662F;&#x6210;&#x767E;&#x5146;&#x7684;&#x589E;&#x957F;&#xFF0C;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x7ED9;&#x4E00;&#x4E2A;&#x62E5;&#x6709;&#xA0;100&#xA0;&#x4E07;&#x5B57;&#x7B26;&#x4E32;&#x5BF9;&#x8C61;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x5206;&#x914D;&#xA0;8-16M&#xA0;&#x7684;&#x5185;&#x5B58;&#x770B;&#x8D77;&#x6765;&#x662F;&#x6BD4;&#x8F83;&#x9002;&#x5408;&#x7684;&#xFF08;&#x4E0D;&#x8981;&#x4F7F;&#x7528;1,000,000&#xA0;&#x4F5C;&#x4E3A;&#xA0;-XX:StringTaleSize&#xA0;&#x7684;&#x503C;&#xA0;&#x2013;&#xA0;&#x5B83;&#x4E0D;&#x662F;&#x8D28;&#x6570;&#xFF1B;&#x4F7F;&#x7528;1,000,003&#x4EE3;&#x66FF;&#xFF09;</p>
+<p>&#x4F60;&#x53EF;&#x80FD;&#x671F;&#x5F85;&#x5173;&#x4E8E;&#xA0;String&#xA0;&#x5728;&#xA0;Map&#xA0;&#x4E2D;&#x7684;&#x5206;&#x914D;&#xA0;&#x2014;&#xA0;&#x53EF;&#x4EE5;&#x9605;&#x8BFB;&#x6211;&#x4E4B;&#x524D;&#x5173;&#x4E8E;&#xA0;HashCode&#xA0;&#x65B9;&#x6CD5;&#x8C03;&#x4F18;&#x7684;&#x7ECF;&#x9A8C;&#x3002;</p>
+<p>&#x4F60;&#x5FC5;&#x987B;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x66F4;&#x5927;&#x7684;&#xA0;-XX:StringTalbeSize&#xA0;&#x503C;(&#x76F8;&#x6BD4;&#x8F83;&#x9ED8;&#x8BA4;&#x7684;&#xA0;1009&#xA0;),&#x5982;&#x679C;&#x4F60;&#x5E0C;&#x671B;&#x66F4;&#x591A;&#x7684;&#x4F7F;&#x7528;&#xA0;String.intern()&#xA0;&#x2014;&#xA0;&#x5426;&#x5219;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5C06;&#x5F88;&#x5FEB;&#x9012;&#x51CF;&#x5230;&#xA0;0&#xA0;&#xFF08;&#x6C60;&#x5927;&#x5C0F;&#xFF09;&#x3002; </p>
+<p>&#x6211;&#x6CA1;&#x6709;&#x6CE8;&#x610F;&#x5230;&#x5728;&#xA0;intern&#xA0;&#x5C0F;&#x4E8E;&#xA0;100&#xA0;&#x5B57;&#x7B26;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x65F6;&#x7684;&#x4F9D;&#x8D56;&#x60C5;&#x51B5;&#xFF08;&#x6211;&#x8BA4;&#x4E3A;&#x5728;&#x4E00;&#x4E2A;&#x5305;&#x542B;&#xA0;50&#xA0;&#x4E2A;&#x91CD;&#x590D;&#x5B57;&#x7B26;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x4E0E;&#x73B0;&#x5B9E;&#x6570;&#x636E;&#x5E76;&#x4E0D;&#x76F8;&#x4F3C;&#xFF0C;&#x56E0;&#x6B64;&#xA0;100&#xA0;&#x4E2A;&#x5B57;&#x7B26;&#x770B;&#x4E0A;&#x53BB;&#x662F;&#x4E00;&#x4E2A;&#x5F88;&#x597D;&#x7684;&#x6D4B;&#x8BD5;&#x9650;&#x5236;&#xFF09;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x9ED8;&#x8BA4;&#x6C60;&#x5927;&#x5C0F;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x65E5;&#x5FD7;&#xFF1A;&#x7B2C;&#x4E00;&#x5217;&#x662F;&#x5DF2;&#x7ECF;&#xA0;intern&#xA0;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6570;&#x91CF;&#xFF0C;&#x7B2C;&#x4E8C;&#x5217;&#xA0;intern&#xA0;10,000&#xA0;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x6240;&#x6709;&#x7684;&#x65F6;&#x95F4;&#xFF08;&#x79D2;&#xFF09;</p>
+<pre><code><span class="number">0</span>; <span class="built_in">time</span> = <span class="number">0.0</span> <span class="built_in">sec</span>
+<span class="number">50000</span>; <span class="built_in">time</span> = <span class="number">0.03</span> <span class="built_in">sec</span>
+<span class="number">100000</span>; <span class="built_in">time</span> = <span class="number">0.073</span> <span class="built_in">sec</span>
+<span class="number">150000</span>; <span class="built_in">time</span> = <span class="number">0.13</span> <span class="built_in">sec</span>
+<span class="number">200000</span>; <span class="built_in">time</span> = <span class="number">0.196</span> <span class="built_in">sec</span>
+<span class="number">250000</span>; <span class="built_in">time</span> = <span class="number">0.279</span> <span class="built_in">sec</span>
+<span class="number">300000</span>; <span class="built_in">time</span> = <span class="number">0.376</span> <span class="built_in">sec</span>
+<span class="number">350000</span>; <span class="built_in">time</span> = <span class="number">0.471</span> <span class="built_in">sec</span>
+<span class="number">400000</span>; <span class="built_in">time</span> = <span class="number">0.574</span> <span class="built_in">sec</span>
+<span class="number">450000</span>; <span class="built_in">time</span> = <span class="number">0.666</span> <span class="built_in">sec</span>
+<span class="number">500000</span>; <span class="built_in">time</span> = <span class="number">0.755</span> <span class="built_in">sec</span>
+<span class="number">550000</span>; <span class="built_in">time</span> = <span class="number">0.854</span> <span class="built_in">sec</span>
+<span class="number">600000</span>; <span class="built_in">time</span> = <span class="number">0.916</span> <span class="built_in">sec</span>
+<span class="number">650000</span>; <span class="built_in">time</span> = <span class="number">1.006</span> <span class="built_in">sec</span>
+<span class="number">700000</span>; <span class="built_in">time</span> = <span class="number">1.095</span> <span class="built_in">sec</span>
+<span class="number">750000</span>; <span class="built_in">time</span> = <span class="number">1.273</span> <span class="built_in">sec</span>
+<span class="number">800000</span>; <span class="built_in">time</span> = <span class="number">1.248</span> <span class="built_in">sec</span>
+<span class="number">850000</span>; <span class="built_in">time</span> = <span class="number">1.446</span> <span class="built_in">sec</span>
+<span class="number">900000</span>; <span class="built_in">time</span> = <span class="number">1.585</span> <span class="built_in">sec</span>
+<span class="number">950000</span>; <span class="built_in">time</span> = <span class="number">1.635</span> <span class="built_in">sec</span>
+<span class="number">1000000</span>; <span class="built_in">time</span> = <span class="number">1.913</span> <span class="built_in">sec</span>
+</code></pre><p>&#x6D4B;&#x8BD5;&#x662F;&#x5728;&#xA0;Core&#xA0;i5-3317U@1.7Ghz&#xA0;CPU&#xA0;&#x8BBE;&#x5907;&#x4E0A;&#x8FDB;&#x884C;&#x7684;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x5B83;&#x6210;&#x7EBF;&#x6027;&#x589E;&#x957F;&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#xA0;JVM&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x5305;&#x542B;&#x4E00;&#x767E;&#x4E07;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x65F6;&#xFF0C;&#x6211;&#x4ECD;&#x7136;&#x53EF;&#x4EE5;&#x8FD1;&#x4F3C;&#x6BCF;&#x79D2;&#xA0;intern&#xA0;5000&#xA0;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x8FD9;&#x5BF9;&#x4E8E;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x5904;&#x7406;&#x5927;&#x91CF;&#x6570;&#x636E;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6765;&#x8BF4;&#x592A;&#x6162;&#x4E86;&#x3002;</p>
+<p>&#x73B0;&#x5728;&#xFF0C;&#x8C03;&#x6574;&#xA0;-XX:StringTableSize=100003&#xA0;&#x53C2;&#x6570;&#x6765;&#x91CD;&#x65B0;&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<pre><code><span class="number">50000</span>; <span class="built_in">time</span> = <span class="number">0.017</span> <span class="built_in">sec</span>
+<span class="number">100000</span>; <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">150000</span>; <span class="built_in">time</span> = <span class="number">0.01</span> <span class="built_in">sec</span>
+<span class="number">200000</span>; <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">250000</span>; <span class="built_in">time</span> = <span class="number">0.007</span> <span class="built_in">sec</span>
+<span class="number">300000</span>; <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">350000</span>; <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">400000</span>; <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">450000</span>; <span class="built_in">time</span> = <span class="number">0.01</span> <span class="built_in">sec</span>
+<span class="number">500000</span>; <span class="built_in">time</span> = <span class="number">0.013</span> <span class="built_in">sec</span>
+<span class="number">550000</span>; <span class="built_in">time</span> = <span class="number">0.011</span> <span class="built_in">sec</span>
+<span class="number">600000</span>; <span class="built_in">time</span> = <span class="number">0.012</span> <span class="built_in">sec</span>
+<span class="number">650000</span>; <span class="built_in">time</span> = <span class="number">0.015</span> <span class="built_in">sec</span>
+<span class="number">700000</span>; <span class="built_in">time</span> = <span class="number">0.015</span> <span class="built_in">sec</span>
+<span class="number">750000</span>; <span class="built_in">time</span> = <span class="number">0.01</span> <span class="built_in">sec</span>
+<span class="number">800000</span>; <span class="built_in">time</span> = <span class="number">0.01</span> <span class="built_in">sec</span>
+<span class="number">850000</span>; <span class="built_in">time</span> = <span class="number">0.011</span> <span class="built_in">sec</span>
+<span class="number">900000</span>; <span class="built_in">time</span> = <span class="number">0.011</span> <span class="built_in">sec</span>
+<span class="number">950000</span>; <span class="built_in">time</span> = <span class="number">0.012</span> <span class="built_in">sec</span>
+<span class="number">1000000</span>; <span class="built_in">time</span> = <span class="number">0.012</span> <span class="built_in">sec</span>
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x8FD9;&#x65F6;&#x63D2;&#x5165;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x65F6;&#x95F4;&#x8FD1;&#x4F3C;&#x4E8E;&#x5E38;&#x91CF;&#xFF08;&#x5728;&#xA0;Map&#xA0;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5217;&#x8868;&#x4E2D;&#x5E73;&#x5747;&#x5B57;&#x7B26;&#x4E32;&#x4E2A;&#x6570;&#x4E0D;&#x8D85;&#x8FC7;&#xA0;10&#xA0;&#x4E2A;&#xFF09;&#xFF0C;&#x4E0B;&#x9762;&#x662F;&#x76F8;&#x540C;&#x8BBE;&#x7F6E;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD9;&#x6B21;&#x6211;&#x4EEC;&#x5C06;&#x5411;&#x6C60;&#x4E2D;&#x63D2;&#x5165;&#xA0;1000&#xA0;&#x4E07;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#xFF08;&#x8FD9;&#x610F;&#x5473;&#x7740;&#xA0;Map&#xA0;&#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5217;&#x8868;&#x5E73;&#x5747;&#x5305;&#x542B;&#xA0;100&#xA0;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#xFF09;</p>
+<pre><code><span class="number">2000000</span><span class="comment">; time = 0.024 sec</span>
+<span class="number">3000000</span><span class="comment">; time = 0.028 sec</span>
+<span class="number">4000000</span><span class="comment">; time = 0.053 sec</span>
+<span class="number">5000000</span><span class="comment">; time = 0.051 sec</span>
+<span class="number">6000000</span><span class="comment">; time = 0.034 sec</span>
+<span class="number">7000000</span><span class="comment">; time = 0.041 sec</span>
+<span class="number">8000000</span><span class="comment">; time = 0.089 sec</span>
+<span class="number">9000000</span><span class="comment">; time = 0.111 sec</span>
+<span class="number">10000000</span><span class="comment">; time = 0.123 sec</span>
+</code></pre><p>&#x73B0;&#x5728;&#x8BA9;&#x6211;&#x4EEC;&#x5C06;&#x5403;&#x7684;&#x5927;&#x5C0F;&#x589E;&#x52A0;&#x5230;&#xA0;100&#xA0;&#x4E07;&#xFF08;&#x7CBE;&#x786E;&#x7684;&#x8BF4;&#x662F;&#xA0;1,000,003&#xFF09;</p>
+<pre><code><span class="number">1000000</span><span class="comment">; time = 0.005 sec</span>
+<span class="number">2000000</span><span class="comment">; time = 0.005 sec</span>
+<span class="number">3000000</span><span class="comment">; time = 0.005 sec</span>
+<span class="number">4000000</span><span class="comment">; time = 0.004 sec</span>
+<span class="number">5000000</span><span class="comment">; time = 0.004 sec</span>
+<span class="number">6000000</span><span class="comment">; time = 0.009 sec</span>
+<span class="number">7000000</span><span class="comment">; time = 0.01 sec</span>
+<span class="number">8000000</span><span class="comment">; time = 0.009 sec</span>
+<span class="number">9000000</span><span class="comment">; time = 0.009 sec</span>
+<span class="number">10000000</span><span class="comment">; time = 0.009 sec</span>
+</code></pre><p>&#x5982;&#x4F60;&#x6240;&#x770B;&#x5230;&#x7684;,&#x65F6;&#x95F4;&#x975E;&#x5E38;&#x5E73;&#x5747;&#xFF0C;&#x5E76;&#x4E14;&#x4E0E;&#xA0;&#x201C;0&#xA0;&#x5230;&#xA0;100&#x4E07;&#x201D;&#xA0;&#x7684;&#x8868;&#x6CA1;&#x6709;&#x592A;&#x5927;&#x5DEE;&#x522B;&#x3002;&#x751A;&#x81F3;&#x5728;&#x6C60;&#x5927;&#x5C0F;&#x8DB3;&#x591F;&#x5927;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6211;&#x7684;&#x7B14;&#x8BB0;&#x672C;&#x4E5F;&#x80FD;&#x6BCF;&#x79D2;&#x6DFB;&#x52A0;1,000,000&#x4E2A;&#x5B57;&#x7B26;&#x5BF9;&#x8C61;&#x3002;</p>
+<p><strong>&#x6211;&#xFFFD;&#xFFFD;&#xFFFD;&#x8FD8;&#x9700;&#x8981;&#x624B;&#x5DE5;&#x7BA1;&#x7406;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x5417;&#xFF1F;</strong></p>
+<p>&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5BF9;&#x6BD4;&#xA0;JVM&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x548C;&#xA0;WeakHashMap&lt;String,&#xA0;WeakReference&lt;String&gt;&gt;&#xA0;&#x5B83;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x6A21;&#x62DF;&#xA0;JVM&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x3002;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x7528;&#x6765;&#x66FF;&#x6362;&#xA0;String.intern&#xFF1A;</p>
+<pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> WeakHashMap&amp;lt;<span class="keyword">String</span>, WeakReference&amp;lt;<span class="keyword">String</span>&amp;gt;&amp;gt; s_manualCache = 
+    <span class="keyword">new</span> WeakHashMap&amp;lt;<span class="keyword">String</span>, WeakReference&amp;lt;<span class="keyword">String</span>&amp;gt;&amp;gt;( <span class="number">100000</span> );
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">String</span> manualIntern( <span class="keyword">final</span> <span class="keyword">String</span> <span class="built_in">str</span> )
+{
+    <span class="keyword">final</span> WeakReference&amp;lt;<span class="keyword">String</span>&amp;gt; cached = s_manualCache.<span class="built_in">get</span>( <span class="built_in">str</span> );
+    <span class="keyword">if</span> ( cached != <span class="keyword">null</span> )
+    {
+        <span class="keyword">final</span> <span class="keyword">String</span> value = cached.<span class="built_in">get</span>();
+        <span class="keyword">if</span> ( value != <span class="keyword">null</span> )
+            <span class="keyword">return</span> value;
+    }
+    s_manualCache.put( <span class="built_in">str</span>, <span class="keyword">new</span> WeakReference&amp;lt;<span class="keyword">String</span>&amp;gt;( <span class="built_in">str</span> ) );
+    <span class="keyword">return</span> <span class="built_in">str</span>;
+}
+</code></pre><p>&#x4E0B;&#x9762;&#x9488;&#x5BF9;&#x624B;&#x5DE5;&#x6C60;&#x7684;&#x76F8;&#x540C;&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<pre><code><span class="number">0</span>; manual <span class="built_in">time</span> = <span class="number">0.001</span> <span class="built_in">sec</span>
+<span class="number">50000</span>; manual <span class="built_in">time</span> = <span class="number">0.03</span> <span class="built_in">sec</span>
+<span class="number">100000</span>; manual <span class="built_in">time</span> = <span class="number">0.034</span> <span class="built_in">sec</span>
+<span class="number">150000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">200000</span>; manual <span class="built_in">time</span> = <span class="number">0.019</span> <span class="built_in">sec</span>
+<span class="number">250000</span>; manual <span class="built_in">time</span> = <span class="number">0.011</span> <span class="built_in">sec</span>
+<span class="number">300000</span>; manual <span class="built_in">time</span> = <span class="number">0.011</span> <span class="built_in">sec</span>
+<span class="number">350000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">400000</span>; manual <span class="built_in">time</span> = <span class="number">0.027</span> <span class="built_in">sec</span>
+<span class="number">450000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">500000</span>; manual <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">550000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">600000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">650000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">700000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">750000</span>; manual <span class="built_in">time</span> = <span class="number">0.011</span> <span class="built_in">sec</span>
+<span class="number">800000</span>; manual <span class="built_in">time</span> = <span class="number">0.007</span> <span class="built_in">sec</span>
+<span class="number">850000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">900000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">950000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+<span class="number">1000000</span>; manual <span class="built_in">time</span> = <span class="number">0.008</span> <span class="built_in">sec</span>
+</code></pre><p>&#x5F53;&#xA0;JVM&#xA0;&#x6709;&#x8DB3;&#x591F;&#x5185;&#x5B58;&#x65F6;&#xFF0C;&#x624B;&#x5DE5;&#x7F16;&#x5199;&#x7684;&#x6C60;&#x63D0;&#x4F9B;&#x4E86;&#x826F;&#x597D;&#x7684;&#x6027;&#x80FD;&#x3002;&#x4E0D;&#x8FC7;&#x4E0D;&#x5E78;&#x7684;&#x662F;&#xFF0C;&#x6211;&#x7684;&#x6D4B;&#x8BD5;&#xFF08;&#x4FDD;&#x7559;String.valueOf(0&#xA0;&lt;&#xA0;N&#xA0;&lt;&#xA0;1,000,000,000)&#xFF09;&#x4FDD;&#x7559;&#x975E;&#x5E38;&#x77ED;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x5728;&#x4F7F;&#x7528;&#xA0;-Xmx1280M&#xA0;&#x53C2;&#x6570;&#x65F6;&#x5B83;&#x5141;&#x8BB8;&#x6211;&#x4FDD;&#x7559;&#x6708;&#x4E3A;&#xA0;2.5M&#xA0;&#x7684;&#x8FD9;&#x7C7B;&#x5B57;&#x7B26;&#x4E32;&#x3002;JVM&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#xA0;(size=1,000,003&#xFF09;&#x4ECE;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#x8BB2;&#x5728;&#xA0;JVM&#xA0;&#x5185;&#x5B58;&#x8DB3;&#x591F;&#x65F6;&#x63D0;&#x4F9B;&#x4E86;&#x76F8;&#x540C;&#x7684;&#x6027;&#x80FD;&#x7279;&#x6027;&#xFF0C;&#x77E5;&#x9053;&#xA0;JVM&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x5305;&#x542B;&#xA0;12.72M&#xA0;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5E76;&#x6D88;&#x8017;&#x6389;&#x6240;&#x6709;&#x5185;&#x5B58;&#xFF08;5&#x500D;&#x591A;&#xFF09;&#x3002;&#x6211;&#x8BA4;&#x4E3A;&#xFF0C;&#x8FD9;&#x975E;&#x5E38;&#x503C;&#x5F97;&#x4F60;&#x5728;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x4E2D;&#x53BB;&#x6389;&#x6240;&#x6709;&#x624B;&#x5DE5;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x3002;</p>
+<p><strong>&#x5728;&#xA0;Java&#xA0;7u40+&#xA0;&#x4EE5;&#x53CA;&#xA0;Java&#xA0;8&#xA0;&#x4E2D;&#x7684;&#xA0;String.intern()</strong></p>
+<p>Java7u40&#xA0;&#x7248;&#x672C;&#x6269;&#x5C55;&#x4E86;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x7684;&#x5927;&#x5C0F;&#xFF08;&#x8FD9;&#x662F;&#x7EC4;&#x8981;&#x7684;&#x6027;&#x80FD;&#x66F4;&#x65B0;&#xFF09;&#x5230;&#xA0;60013.&#x8FD9;&#x4E2A;&#x503C;&#x5141;&#x8BB8;&#x4F60;&#x5728;&#x6C60;&#x4E2D;&#x5305;&#x542B;&#x5927;&#x7EA6;&#xA0;30000&#xA0;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x901A;&#x5E38;&#x6765;&#x8BF4;&#xFF0C;&#x8FD9;&#x5BF9;&#x4E8E;&#x9700;&#x8981;&#x4FDD;&#x5B58;&#x7684;&#x6570;&#x636E;&#x6765;&#x8BF4;&#x5DF2;&#x7ECF;&#x8DB3;&#x591F;&#x4E86;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;-XX:+PrintFlagsFinal&#xA0;JVM&#xA0;&#x53C2;&#x6570;&#x83B7;&#x5F97;&#x8FD9;&#x4E2A;&#x503C;&#x3002;</p>
+<p>&#x6211;&#x5C1D;&#x8BD5;&#x5728;&#x539F;&#x59CB;&#x53D1;&#x5E03;&#x7684;&#xA0;Java&#xA0;8&#xA0;&#x4E2D;&#x8FD0;&#x884C;&#x76F8;&#x540C;&#x7684;&#x6D4B;&#x8BD5;&#xFF0C;Java&#xA0;8&#xA0;&#x4ECD;&#x7136;&#x652F;&#x6301;&#xA0;-XX:StringTableSize&#xA0;&#x53C2;&#x6570;&#x6765;&#x517C;&#x5BB9;&#xA0;Java&#xA0;7&#xA0;&#x7279;&#x6027;&#x3002;&#x4E3B;&#x8981;&#x7684;&#x533A;&#x522B;&#x5728;&#x4E8E;&#xA0;Java&#xA0;8&#xA0;&#x4E2D;&#x9ED8;&#x8BA4;&#x7684;&#x6C60;&#x5927;&#x5C0F;&#x589E;&#x52A0;&#x5230;&#xA0;60013&#xFF1A;</p>
+<pre><code><span class="number">50000</span>; <span class="built_in">time</span> = <span class="number">0.019</span> <span class="built_in">sec</span>
+<span class="number">100000</span>; <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">150000</span>; <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">200000</span>; <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">250000</span>; <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">300000</span>; <span class="built_in">time</span> = <span class="number">0.009</span> <span class="built_in">sec</span>
+<span class="number">350000</span>; <span class="built_in">time</span> = <span class="number">0.011</span> <span class="built_in">sec</span>
+<span class="number">400000</span>; <span class="built_in">time</span> = <span class="number">0.012</span> <span class="built_in">sec</span>
+<span class="number">450000</span>; <span class="built_in">time</span> = <span class="number">0.01</span> <span class="built_in">sec</span>
+<span class="number">500000</span>; <span class="built_in">time</span> = <span class="number">0.013</span> <span class="built_in">sec</span>
+<span class="number">550000</span>; <span class="built_in">time</span> = <span class="number">0.013</span> <span class="built_in">sec</span>
+<span class="number">600000</span>; <span class="built_in">time</span> = <span class="number">0.014</span> <span class="built_in">sec</span>
+<span class="number">650000</span>; <span class="built_in">time</span> = <span class="number">0.018</span> <span class="built_in">sec</span>
+<span class="number">700000</span>; <span class="built_in">time</span> = <span class="number">0.015</span> <span class="built_in">sec</span>
+<span class="number">750000</span>; <span class="built_in">time</span> = <span class="number">0.029</span> <span class="built_in">sec</span>
+<span class="number">800000</span>; <span class="built_in">time</span> = <span class="number">0.018</span> <span class="built_in">sec</span>
+<span class="number">850000</span>; <span class="built_in">time</span> = <span class="number">0.02</span> <span class="built_in">sec</span>
+<span class="number">900000</span>; <span class="built_in">time</span> = <span class="number">0.017</span> <span class="built_in">sec</span>
+<span class="number">950000</span>; <span class="built_in">time</span> = <span class="number">0.018</span> <span class="built_in">sec</span>
+<span class="number">1000000</span>; <span class="built_in">time</span> = <span class="number">0.021</span> <span class="built_in">sec</span>
+</code></pre><p><strong>&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;</strong></p>
+<p>&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x7684;&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x4E2D;&#x5FAA;&#x73AF;&#x521B;&#x5EFA;&#x5E76;&#x4FDD;&#x7559;&#x65B0;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x6D4B;&#x91CF;&#x5B83;&#x4FDD;&#x7559;&#xA0;10000&#xA0;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x6240;&#x9700;&#x8981;&#x7684;&#x65F6;&#x95F4;&#x3002;&#x6700;&#x597D;&#x914D;&#x5408;&#xA0;-verbose:gc&#xA0;JVM&#xA0;&#x53C2;&#x6570;&#x6765;&#x8FD0;&#x884C;&#x8FD9;&#x4E2A;&#x6D4B;&#x8BD5;&#xFF0C;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x5783;&#x573E;&#x6536;&#x96C6;&#x662F;&#x4F55;&#x65F6;&#x4EE5;&#x53CA;&#x5982;&#x4F55;&#x53D1;&#x751F;&#x7684;&#x3002;&#x53E6;&#x5916;&#x6700;&#x597D;&#x4F7F;&#x7528;&#xA0;-Xmx&#xA0;&#x53C2;&#x6570;&#x6765;&#x6267;&#x884C;&#x5806;&#x7684;&#x6700;&#x5927;&#x503C;&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x6709;&#x4E24;&#x4E2A;&#x6D4B;&#x8BD5;&#xFF1A;testStringPoolGarbageCollection&#xA0;&#x5C06;&#x663E;&#x793A;&#xA0;JVM&#xA0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x88AB;&#x5783;&#x573E;&#x6536;&#x96C6;&#xA0;&#x2014;&#xA0;&#x68C0;&#x67E5;&#x5783;&#x573E;&#x6536;&#x96C6;&#x65E5;&#x5FD7;&#x6D88;&#x606F;&#x3002;&#x5728;&#xA0;Java&#xA0;6&#xA0;&#x7684;&#x9ED8;&#x8BA4;&#xA0;PermGen&#xA0;&#x5927;&#x5C0F;&#x914D;&#x7F6E;&#x4E0A;&#xFF0C;&#x8FD9;&#x4E2A;&#x6D4B;&#x8BD5;&#x4F1A;&#x5931;&#x8D25;&#xFF0C;&#x56E0;&#x6B64;&#x6700;&#x597D;&#x589E;&#x52A0;&#x8FD9;&#x4E2A;&#x503C;&#xFF0C;&#x6216;&#x8005;&#x66F4;&#x65B0;&#x6D4B;&#x8BD5;&#x65B9;&#x6CD5;&#xFF0C;&#x6216;&#x8005;&#x4F7F;&#x7528;&#xA0;Java&#xA0;7.</p>
+<p>&#x7B2C;&#x4E8C;&#x4E2A;&#x6D4B;&#x8BD5;&#x663E;&#x793A;&#x5185;&#x5B58;&#x4E2D;&#x4FDD;&#x7559;&#x4E86;&#x591A;&#x5C11;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x5728;&#xA0;Java&#xA0;6&#xA0;&#x4E2D;&#x6267;&#x884C;&#x9700;&#x8981;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x5185;&#x5B58;&#x914D;&#x7F6E;&#xA0;&#x6BD4;&#x5982;&#xFF1A;&#xA0;-Xmx128M&#xA0;&#x4EE5;&#x53CA;&#xA0;-Xmx1280M&#xA0;&#xFF08;10&#xA0;&#x500D;&#x4EE5;&#x4E0A;&#xFF09;&#x3002;&#x4F60;&#x53EF;&#x80FD;&#x53D1;&#x73B0;&#x8FD9;&#x4E2A;&#x503C;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x653E;&#x5165;&#x6C60;&#x4E2D;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x6570;&#x91CF;&#x3002;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x5728;&#xA0;Java&#xA0;7&#xA0;&#x4E2D;&#x4F60;&#x80FD;&#x591F;&#x5728;&#x5806;&#x4E2D;&#x586B;&#x6EE1;&#x4F60;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
+<pre><code><span class="comment">/**
+ - Testing String.intern.
+ *
+ - Run this class at least with -verbose:gc JVM parameter.
+ */</span>
+<span class="keyword">public</span> class InternTest {
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main( <span class="keyword">String</span>[] args ) {
+        testStringPoolGarbageCollection();
+        testLongLoop();
+    }
+    <span class="comment">/**
+     - Use this method to see where interned strings are stored
+     - and how many of them can you fit for the given heap size.
+     */</span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> testLongLoop()
+    {
+        test( <span class="number">1000</span> * <span class="number">1000</span> * <span class="number">1000</span> );
+        <span class="comment">//uncomment the following line to see the hand-written cache performance</span>
+        <span class="comment">//testManual( 1000 * 1000 * 1000 );</span>
+    }
+    <span class="comment">/**
+     - Use this method to check that not used interned strings are garbage collected.
+     */</span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> testStringPoolGarbageCollection()
+    {
+        <span class="comment">//first method call - use it as a reference</span>
+        test( <span class="number">1000</span> * <span class="number">1000</span> );
+        <span class="comment">//we are going to clean the cache here.</span>
+        System.gc();
+        <span class="comment">//check the memory consumption and how long does it take to intern strings</span>
+        <span class="comment">//in the second method call.</span>
+        test( <span class="number">1000</span> * <span class="number">1000</span> );
+    }
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> test( <span class="keyword">final</span> <span class="built_in">int</span> cnt )
+    {
+        <span class="keyword">final</span> List&amp;lt;<span class="keyword">String</span>&amp;gt; lst = <span class="keyword">new</span> ArrayList&amp;lt;<span class="keyword">String</span>&amp;gt;( <span class="number">100</span> );
+        <span class="keyword">long</span> start = System.currentTimeMillis();
+        <span class="keyword">for</span> ( <span class="built_in">int</span> i = <span class="number">0</span>; i &amp;lt; cnt; ++i )
+        {
+            <span class="keyword">final</span> <span class="keyword">String</span> <span class="built_in">str</span> = &amp;quot;Very <span class="keyword">long</span> test string, which tells you about something &amp;quot; +
+            &amp;quot;very-very important, definitely deserving to be interned #&amp;quot; + i;
+<span class="comment">//uncomment the following line to test dependency from string length</span>
+<span class="comment">//            final String str = Integer.toString( i );</span>
+            lst.<span class="built_in">add</span>( <span class="built_in">str</span>.intern() );
+            <span class="keyword">if</span> ( i % <span class="number">10000</span> == <span class="number">0</span> )
+            {
+                System.out.<span class="built_in">println</span>( i + &amp;quot;; time = &amp;quot; + ( System.currentTimeMillis() - start ) / <span class="number">1000.0</span> + &amp;quot; sec&amp;quot; );
+                start = System.currentTimeMillis();
+            }
+        }
+        System.out.<span class="built_in">println</span>( &amp;quot;Total length = &amp;quot; + lst.<span class="built_in">size</span>() );
+    }
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> WeakHashMap&amp;lt;<span class="keyword">String</span>, WeakReference&amp;lt;<span class="keyword">String</span>&amp;gt;&amp;gt; s_manualCache =
+        <span class="keyword">new</span> WeakHashMap&amp;lt;<span class="keyword">String</span>, WeakReference&amp;lt;<span class="keyword">String</span>&amp;gt;&amp;gt;( <span class="number">100000</span> );
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">String</span> manualIntern( <span class="keyword">final</span> <span class="keyword">String</span> <span class="built_in">str</span> )
+    {
+        <span class="keyword">final</span> WeakReference&amp;lt;<span class="keyword">String</span>&amp;gt; cached = s_manualCache.<span class="built_in">get</span>( <span class="built_in">str</span> );
+        <span class="keyword">if</span> ( cached != <span class="keyword">null</span> )
+        {
+            <span class="keyword">final</span> <span class="keyword">String</span> value = cached.<span class="built_in">get</span>();
+            <span class="keyword">if</span> ( value != <span class="keyword">null</span> )
+                <span class="keyword">return</span> value;
+        }
+        s_manualCache.put( <span class="built_in">str</span>, <span class="keyword">new</span> WeakReference&amp;lt;<span class="keyword">String</span>&amp;gt;( <span class="built_in">str</span> ) );
+        <span class="keyword">return</span> <span class="built_in">str</span>;
+    }
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> testManual( <span class="keyword">final</span> <span class="built_in">int</span> cnt )
+    {
+        <span class="keyword">final</span> List&amp;lt;<span class="keyword">String</span>&amp;gt; lst = <span class="keyword">new</span> ArrayList&amp;lt;<span class="keyword">String</span>&amp;gt;( <span class="number">100</span> );
+        <span class="keyword">long</span> start = System.currentTimeMillis();
+        <span class="keyword">for</span> ( <span class="built_in">int</span> i = <span class="number">0</span>; i &amp;lt; cnt; ++i )
+        {
+            <span class="keyword">final</span> <span class="keyword">String</span> <span class="built_in">str</span> = &amp;quot;Very <span class="keyword">long</span> test string, which tells you about something &amp;quot; +
+                &amp;quot;very-very important, definitely deserving to be interned #&amp;quot; + i;
+            lst.<span class="built_in">add</span>( manualIntern( <span class="built_in">str</span> ) );
+            <span class="keyword">if</span> ( i % <span class="number">10000</span> == <span class="number">0</span> )
+            {
+                System.out.<span class="built_in">println</span>( i + &amp;quot;; manual time = &amp;quot; + ( System.currentTimeMillis() - start ) / <span class="number">1000.0</span> + &amp;quot; sec&amp;quot; );
+                start = System.currentTimeMillis();
+            }
+        }
+        System.out.<span class="built_in">println</span>( &amp;quot;Total length = &amp;quot; + lst.<span class="built_in">size</span>() );
+    }
+}
+</code></pre><p><strong>&#x603B;&#x7ED3;</strong></p>
+<ul>
+<li>&#x7531;&#x4E8E;&#xA0;Java&#xA0;6&#xA0;&#x4E2D;&#x4F7F;&#x7528;&#x56FA;&#x5B9A;&#x7684;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#xFF08;PermGen&#xFF09;&#x56E0;&#x6B64;&#x4E0D;&#x8981;&#x4F7F;&#x7528;&#xA0;String.intern()&#xA0;&#x65B9;&#x6CD5;</li>
+<li>Java7&#xA0;&#x548C;&#xA0;8&#xA0;&#x5728;&#x5806;&#x5185;&#x5B58;&#x4E2D;&#x5B9E;&#x73B0;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x3002;&#x8FD9;&#x4EE5;&#x4E3A;&#x8FD9;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x7684;&#x5185;&#x5B58;&#x9650;&#x5236;&#x7B49;&#x4E8E;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x5185;&#x5B58;&#x9650;&#x5236;&#x3002;</li>
+<li>&#x5728;&#xA0;Java&#xA0;7&#xA0;&#x548C;&#xA0;8&#xA0;&#x4E2D;&#x4F7F;&#x7528;&#xA0;-XX:StringTableSize&#xA0;&#x6765;&#x8BBE;&#x7F6E;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#xA0;Map&#xA0;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x5B83;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x4F7F;&#x7528;&#xA0;HashMap&#xA0;&#x5B9E;&#x73B0;&#x3002;&#x8FD1;&#x4F3C;&#x4E8E;&#x4F60;&#x5E94;&#x7528;&#x5355;&#x72EC;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x4E2A;&#x6570;&#xFF08;&#x4F60;&#x5E0C;&#x671B;&#x4FDD;&#x7559;&#x7684;&#xFF09;&#x5E76;&#x4E14;&#x8BBE;&#x7F6E;&#x6C60;&#x7684;&#x5927;&#x5C0F;&#x4E3A;&#x6700;&#x63A5;&#x8FD1;&#x7684;&#x8D28;&#x6570;&#x5E76;&#x4E58;&#x4EE5;&#xA0;2&#xA0;&#xFF08;&#x51CF;&#x5C11;&#x78B0;&#x649E;&#x7684;&#x53EF;&#x80FD;&#x6027;&#xFF09;&#x3002;&#x5B83;&#x662F;&#x7684;&#xA0;String.intern&#xA0;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#xFF08;&#x56FA;&#x5B9A;&#xFF09;&#x7684;&#x65F6;&#x95F4;&#x5E76;&#x4E14;&#x5728;&#x6BCF;&#x6B21;&#x63D2;&#x5165;&#x65F6;&#x6D88;&#x8017;&#x66F4;&#x5C0F;&#x7684;&#x5185;&#x5B58;(&#x540C;&#x6837;&#x7684;&#x4EFB;&#x52A1;&#xFF0C;&#x4F7F;&#x7528;java&#xA0;WeakHashMap&#x5C06;&#x6D88;&#x8017;4-5&#x500D;&#x7684;&#x5185;&#x5B58;)&#x3002;</li>
+<li>&#x5728;&#xA0;Java&#xA0;6&#xA0;&#x548C;&#xA0;7&#xFF08;Java7u40&#x4EE5;&#x524D;&#xFF09;&#xA0;&#x4E2D;&#xA0;-XX:StringTableSize&#xA0;&#x53C2;&#x6570;&#x7684;&#x503C;&#x662F;&#xA0;1009&#x3002;Java7u40&#xA0;&#x4EE5;&#x540E;&#x8FD9;&#x4E2A;&#x503C;&#x8C03;&#x6574;&#x4E3A;&#xA0;60013&#xA0;&#xFF08;Java&#xA0;8&#xA0;&#x4E2D;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x503C;&#xFF09;</li>
+<li>&#x5982;&#x679C;&#x4F60;&#x4E0D;&#x786E;&#x5B9A;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x7684;&#x7528;&#x91CF;&#xFF0C;&#x53C2;&#x8003;&#xFF1A;-XX:+PrintStringTableStatistics&#xA0;JVM&#xA0;&#x53C2;&#x6570;&#xFF0C;&#x5F53;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x6302;&#x6389;&#x65F6;&#x5B83;&#x544A;&#x8BC9;&#x4F60;&#x5B57;&#x7B26;&#x4E32;&#x6C60;&#x7684;&#x4F7F;&#x7528;&#x91CF;&#x4FE1;&#x606F;&#x3002;<br>[*]<br>&#x6765;&#x81EA;&#xFF1A; <a href="http://www.php100.com/html/it/biancheng/2015/0507/8953.html" target="_blank" rel="external">PHP100</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JVM/">JVM</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/f3e86d4/" title="JVM如何操作缓冲区 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JVM如何操作缓冲区 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/f057092/"  title="JVM研究 -">
+ <strong>下一篇：</strong><br/> 
+ <span>JVM研究 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

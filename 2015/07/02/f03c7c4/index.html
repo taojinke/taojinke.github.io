@@ -1,0 +1,893 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>简阅MongoDB JVM开发库 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x5F53;&amp;#x5B58;&amp;#x50A8;&amp;#x57FA;&amp;#x4E8E;&amp;#x6587;&amp;#x6863;&amp;#x7684; JSON &amp;#x6570;&amp;#x636E;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#xFF0C;MongoDB &amp;#x662F;&amp;#x6211;&amp;#x6700;&amp;#x559C;&amp;#x6B22;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#x5E93;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简阅MongoDB JVM开发库 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/f03c7c4/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x5F53;&amp;#x5B58;&amp;#x50A8;&amp;#x57FA;&amp;#x4E8E;&amp;#x6587;&amp;#x6863;&amp;#x7684; JSON &amp;#x6570;&amp;#x636E;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#xFF0C;MongoDB &amp;#x662F;&amp;#x6211;&amp;#x6700;&amp;#x559C;&amp;#x6B22;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#x5E93;&amp;#">
+<meta property="og:updated_time" content="2015-07-01T23:50:23.160Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简阅MongoDB JVM开发库 -">
+<meta name="twitter:description" content="&amp;#x5F53;&amp;#x5B58;&amp;#x50A8;&amp;#x57FA;&amp;#x4E8E;&amp;#x6587;&amp;#x6863;&amp;#x7684; JSON &amp;#x6570;&amp;#x636E;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#xFF0C;MongoDB &amp;#x662F;&amp;#x6211;&amp;#x6700;&amp;#x559C;&amp;#x6B22;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#x5E93;&amp;#">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/f03c7c4/" title="简阅MongoDB JVM开发库 -" itemprop="url">简阅MongoDB JVM开发库 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:50:22.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础配置"><span class="toc-number">1.</span> <span class="toc-text">基础配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB_Java驱动"><span class="toc-number">2.</span> <span class="toc-text">MongoDB Java驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Jongo"><span class="toc-number">2.1.</span> <span class="toc-text">Jongo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Morphia"><span class="toc-number">2.2.</span> <span class="toc-text">Morphia</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#针对MongoDB的Spring_Data"><span class="toc-number">3.</span> <span class="toc-text">针对MongoDB的Spring Data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">4.</span> <span class="toc-text">结论</span></a></li></ol>
+		
+		</div>
+		
+		<p>&#x5F53;&#x5B58;&#x50A8;&#x57FA;&#x4E8E;&#x6587;&#x6863;&#x7684; JSON &#x6570;&#x636E;&#x7684;&#x65F6;&#x5019;&#xFF0C;MongoDB &#x662F;&#x6211;&#x6700;&#x559C;&#x6B22;&#x7684;&#x6570;&#x636E;&#x5E93;&#x3002;&#x57FA;&#x4E8E; JVM &#x7684;&#x8BED;&#x8A00;&#x5728;&#x4E0E; MongoDB &#x4EA4;&#x4E92;&#x4E0A;&#x6709;&#x5F88;&#x591A;&#x79CD;&#x9009;&#x62E9;&#x3002;&#x6211;&#x89C9;&#x5F97;&#x62FF;&#x56DB;&#x4E2A;&#x6700;&#x6D41;&#x884C;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x5E76;&#x4E14;&#x90FD;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x7528;&#x4F8B;&#xFF0C;&#x5BF9;&#x6211;&#x6765;&#x8BF4;&#x4E0D;&#x5931;&#x4E3A;&#x4E00;&#x4E2A;&#x597D;&#x7684;&#x7EC3;&#x4E60;&#x3002;&#x7528;&#x4F8B;&#xFF1A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x4E00;&#x4E2A;&#x57CE;&#x5E02;&#x548C;&#x8DDD;&#x5176;&#x6700;&#x8FD1;&#x7684;&#x57CE;&#x5E02;&#x7684;&#x5217;&#x8868;&#x7684; REST &#x670D;&#x52A1;&#x3002;</p>
+<p>&#x6211;&#x8981;&#x6BD4;&#x8F83;&#x7684;&#x56DB;&#x4E2A;&#x9009;&#x62E9;&#x662F;&#xFF1A;&#x6807;&#x51C6;&#x7684;MongoDB Java Driver&#x3001;Jongo&#x3001;Monphia&#x548C;Spring Data Mongo&#x3002;&#x4E3A;&#x4E86;&#x7B80;&#x6D01;&#xFF0C;&#x6211;&#x662F;&#x7528; groovy &#x5B8C;&#x6210;&#x4EE3;&#x7801;&#xFF0C;&#x5E76;&#x4E14;&#x4F7F;&#x7528; Spring Boot &#x4EE5;&#x51CF;&#x5C11;&#x6837;&#x677F;&#x4EE3;&#x7801;&#x3002;</p>
+<h3 id="&#x57FA;&#x7840;&#x914D;&#x7F6E;">&#x57FA;&#x7840;&#x914D;&#x7F6E;</h3><p>Spring Boot &#x5E94;&#x7528;&#x7684;&#x4EE3;&#x7801;&#x975E;&#x5E38;&#x7B80;&#x6D01;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code><span class="literal">import</span> org.springframework.boot.SpringApplication
+<span class="literal">import</span> org.springframework.boot.autoconfigure.EnableAutoConfiguration
+<span class="literal">import</span> org.springframework.context.annotation.ComponentScan
+<span class="literal">import</span> org.springframework.context.annotation.Configuration
+<span class="annotation">@EnableAutoConfiguration</span>
+<span class="annotation">@ComponentScan</span>
+<span class="annotation">@Configuration</span>
+<span class="class"><span class="keyword">class</span> <span class="title">MongoComparison</span>
+</span>{
+    <span class="literal">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) {
+        SpringApplication.run(MongoComparison, args);
+    }
+}
+</code></pre><p>&#x540C;&#x65F6;&#xFF0C;&#x6211;&#x4E5F;&#x63D0;&#x4F9B;&#x4E86;&#x6B64;&#x6B21;&#x5BF9;&#x6BD4;&#x6240;&#x4F7F;&#x7528;&#x7684;Gradle&#x6784;&#x5EFA;&#x6587;&#x4EF6;&#xFF1A;</p>
+<pre><code>buildscript {
+    repositories {
+        <span class="function">jcenter</span>()
+        maven {
+            url &amp;apos;http<span class="value">://repo.spring.io/milestone&amp;apos;</span>
+        }
+    }
+    dependencies {
+        <span class="function">classpath</span>(&amp;quot;org<span class="class">.springframework</span><span class="class">.boot</span><span class="value">:spring-boot-gradle-plugin:<span class="number">1.1</span>.<span class="number">9</span>.RELEASE&amp;quot;</span>)
+    }
+}
+apply plugin<span class="value">: &amp;apos;</span>groovy&amp;apos;
+apply plugin<span class="value">: &amp;apos;</span>spring-boot&amp;apos;
+repositories {
+    <span class="function">jcenter</span>()
+    maven { url &amp;apos;http<span class="value">://repo.spring.io/milestone&amp;apos;</span> }
+    maven { url &amp;apos;http<span class="value">://www.allanbank.com/repo/&amp;apos;</span> }
+}
+dependencies {
+    <span class="function">compile</span>(&amp;quot;org<span class="class">.springframework</span><span class="class">.boot</span><span class="value">:spring-boot-starter-web&amp;quot;</span>)
+    <span class="function">compile</span>(&amp;quot;org<span class="class">.springframework</span><span class="class">.boot</span><span class="value">:spring-boot-starter-data-mongodb&amp;quot;</span>)
+    <span class="function">compile</span>(&amp;quot;org<span class="class">.jongo</span><span class="value">:jongo:<span class="number">1.1</span>&amp;quot;</span>)
+    <span class="function">compile</span>(&amp;quot;org<span class="class">.mongodb</span><span class="class">.morphia</span><span class="value">:morphia:<span class="number">0.108</span>&amp;quot;</span>)
+    <span class="function">compile</span>(&amp;quot;de<span class="class">.grundid</span><span class="class">.opendatalab</span><span class="value">:geojson-jackson:<span class="number">1.2</span>&amp;quot;</span>)
+    <span class="function">compile</span>(&amp;quot;org<span class="class">.codehaus</span><span class="class">.groovy</span><span class="value">:groovy-all:<span class="number">2.3</span>.<span class="number">6</span>&amp;quot;</span>)
+ }
+task <span class="function">wrapper</span>(type<span class="value">: Wrapper) {
+    gradleVersion = &amp;apos;</span>2<span class="class">.1</span>&amp;apos;
+}
+</code></pre><p>&#x56E0;&#x4E3A;&#x6211;&#x4F7F;&#x7528;&#x4E86; Spring Boot &#x548C; Spring Data MongoDB &#x6846;&#x67B6;&#xFF0C;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#x3002;&#x4F8B;&#x5982;&#xFF0C;Spring Boot &#x6846;&#x67B6;&#x5728;&#x4E3A; Spring Boot &#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E0A;&#x4E0B;&#x6587;&#x63D0;&#x4F9B;&#x4E86; MongoClient bean &#x548C; MongoTemplate bean&#x3002;&#x4F60;&#x65E0;&#x9700;&#x5728;&#x4F60;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x989D;&#x5916;&#x914D;&#x7F6E;&#xFF08;&#x6211;&#x662F;&#x7528;&#x7684;&#x662F; YAML &#x98CE;&#x683C;&#x7684;&#x914D;&#x7F6E;&#xFF09;&#x3002;</p>
+<pre><code>spring:
+groovy:
+    <span class="keyword">template</span>:
+        check-<span class="keyword">template</span>-location: <span class="literal">false</span>
+data:
+    mongodb:
+        host: &amp;quot;localhost&amp;quot;
+        database: &amp;quot;citydbdata&amp;quot;
+</code></pre><p>&#x57FA;&#x672C;&#x6846;&#x67B6;&#x5B8C;&#x6210;&#x4E4B;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5F00;&#x59CB;&#x5BF9;&#x6BD4;&#x3002;</p>
+<h3 id="MongoDB_Java&#x9A71;&#x52A8;">MongoDB Java&#x9A71;&#x52A8;</h3><p>&#x56E0;&#x4E3A;&#x6240;&#x6709;&#x7684;&#x8FDE;&#x63A5; MongoDB &#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x90FD;&#x7528;&#x5230;&#x4E86; MongoDB &#x539F;&#x751F;&#x7684; Java &#x9A71;&#x52A8;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x89C9;&#x5F97;&#x4ECE; MongoDB Java Driver &#xFF08;&#x4E0B;&#x79F0; Java Driver&#xFF09;&#x5F00;&#x59CB;&#x6700;&#x5408;&#x9002;&#x3002;Java Driver &#x662F; JVM &#x4E0A;&#x4F7F;&#x7528; MongoDB &#x7684;&#x6700;&#x5E95;&#x5C42;&#x7684;&#x9014;&#x5F84;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x5199;&#x51FA;&#x7684;&#x7A0B;&#x5E8F;&#x4F1A;&#x7565;&#x663E;&#x5197;&#x957F;&#xFF0C;&#x5E76;&#x4E14;API&#x4E0D;&#x5982;&#x5176;&#x4ED6;&#x7684;&#x66F4;&#x52A0;&#x7528;&#x6237;&#x53CB;&#x597D;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x4F60;&#x4F7F;&#x7528;Java Driver&#x80FD;&#x591F;&#x5B9E;&#x73B0;&#x6240;&#x6709;&#x7684;&#x529F;&#x80FD;&#x3002;Java Driver &#x5728; Spring Data MongoDB &#x91CC;&#x5DF2;&#x7ECF;&#x81EA;&#x52A8;&#x5F15;&#x5165;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x5355;&#x72EC;&#x4F7F;&#x7528;&#x7684;&#x8BDD;&#xFF0C;&#x9700;&#x8981;&#x5F15;&#x5165;&#x76F8;&#x5E94;&#x7684;&#x4F9D;&#x8D56;&#x3002;</p>
+<p>&#x8FD9;&#x662F;&#x4F7F;&#x7528;Java Driver&#x5B9E;&#x73B0;&#x7684;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code><span class="keyword">import</span> com.mongodb.*
+<span class="keyword">import</span> org.bson.types.ObjectId
+<span class="keyword">import</span> org.geojson.Point
+<span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired
+<span class="keyword">import</span> org.springframework.http.*
+<span class="keyword">import</span> org.springframework.web.bind.annotation.*
+<span class="keyword">import</span> javax.annotation.PostConstruct
+<span class="keyword">import</span> <span class="keyword">static</span> org.springframework.web.bind.annotation.RequestMethod.GET
+<span class="annotation">@RestController</span>
+<span class="annotation">@RequestMapping</span>(&amp;quot;/mongoclient&amp;quot;)
+<span class="class"><span class="keyword">class</span> <span class="title">CityControllerMongoClient</span> {</span>
+    <span class="keyword">final</span> DB db
+    <span class="keyword">def</span> dbObjectToCityTransformer = { DBObject it -&amp;gt;
+        <span class="keyword">def</span> objectMap = it.toMap()
+        <span class="keyword">return</span> <span class="keyword">new</span> City(<span class="string">_id:</span> objectMap._id, <span class="string">name:</span> objectMap.name, <span class="string">location:</span> <span class="keyword">new</span> Point(objectMap.location.coordinates[<span class="number">0</span>], objectMap.location.coordinates[<span class="number">1</span>]))
+    }
+    <span class="annotation">@Autowired</span>
+    CityControllerMongoClient(MongoClient mongoClient) {
+        db = mongoClient.getDB(&amp;quot;citydbmongoclient&amp;quot;)
+    }
+    <span class="annotation">@RequestMapping</span>(value=&amp;quot;/&amp;quot;, method = GET)
+    List&amp;lt;City&amp;gt; index() {
+        <span class="keyword">return</span> db.getCollection(&amp;quot;city&amp;quot;).find().collect(dbObjectToCityTransformer)
+    }
+    <span class="annotation">@RequestMapping</span>(value=&amp;quot;<span class="regexp">/near/</span>{cityName}&amp;quot;, method = GET)
+    ResponseEntity nearCity(<span class="annotation">@PathVariable</span> String cityName) {
+        <span class="keyword">def</span> city = dbObjectToCityTransformer(db.getCollection(&amp;quot;city&amp;quot;).findOne(<span class="keyword">new</span> BasicDBObject(&amp;quot;name&amp;quot;, cityName)))
+        <span class="keyword">if</span>(city) {
+            <span class="keyword">def</span> point = <span class="keyword">new</span> BasicDBObject([<span class="string">type:</span> &amp;quot;Point&amp;quot;, <span class="string">coordinates:</span> [city.location.coordinates.longitude, city.location.coordinates.latitude]])
+            <span class="keyword">def</span> geoNearCommand =  <span class="keyword">new</span> BasicDBObject([<span class="string">geoNear:</span> &amp;quot;city&amp;quot;, <span class="string">spherical:</span> <span class="literal">true</span>, <span class="string">near:</span> point])
+            <span class="keyword">def</span> closestCities = db.command(geoNearCommand).toMap()
+            <span class="keyword">def</span> closest = closestCities.results[<span class="number">1</span>]
+            <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity([<span class="string">name:</span>closest.obj.name, <span class="string">distance:</span>closest.dis/<span class="number">1000</span>], HttpStatus.OK)
+        }
+        <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
+    <span class="annotation">@PostConstruct</span>
+    <span class="typename">void</span> populateCities() {
+        db.getCollection(&amp;quot;city&amp;quot;).drop()
+        [<span class="keyword">new</span> City(<span class="string">name:</span> &amp;quot;London&amp;quot;,
+<span class="label">                location:</span> <span class="keyword">new</span> Point(-<span class="number">0.125487</span>, <span class="number">51.508515</span>)),
+         <span class="keyword">new</span> City(<span class="string">name:</span> &amp;quot;Paris&amp;quot;,
+<span class="label">                 location:</span> <span class="keyword">new</span> Point(<span class="number">2.352222</span>, <span class="number">48.856614</span>)),
+         <span class="keyword">new</span> City(<span class="string">name:</span> &amp;quot;New York&amp;quot;,
+<span class="label">                 location:</span> <span class="keyword">new</span> Point(-<span class="number">74.005973</span>, <span class="number">40.714353</span>)),
+         <span class="keyword">new</span> City(<span class="string">name:</span> &amp;quot;San Francisco&amp;quot;,
+<span class="label">                 location:</span> <span class="keyword">new</span> Point(-<span class="number">122.419416</span>, <span class="number">37.774929</span>))].each {
+            DBObject location = <span class="keyword">new</span> BasicDBObject([<span class="string">type:</span> &amp;quot;Point&amp;quot;, <span class="string">coordinates:</span> [it.location.coordinates.longitude, it.location.coordinates.latitude]])
+            DBObject city = <span class="keyword">new</span> BasicDBObject([<span class="string">name:</span> it.name, <span class="string">location:</span> location])
+            db.getCollection(&amp;quot;city&amp;quot;).insert(city)
+        }
+        db.getCollection(&amp;quot;city&amp;quot;).createIndex(<span class="keyword">new</span> BasicDBObject(&amp;quot;location&amp;quot;, &amp;quot;<span class="number">2</span>dsphere&amp;quot;))
+    }
+    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">City</span> {</span>
+        ObjectId _id
+        String name
+        Point location
+    }
+}
+</code></pre><p>Java Driver &#x6574;&#x4F53;&#x4EE5; DBObject &#x4E3A;&#x4E2D;&#x5FC3;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x76F4;&#x63D0;&#x4F9B;&#x9886;&#x57DF;&#x5BF9;&#x8C61;&#x548C;DBObject&#x4E4B;&#x95F4;&#x7684;&#x6620;&#x5C04;&#x3002;Java Driver&#x6CA1;&#x6709;&#x63D0;&#x4F9B;&#x4EFB;&#x4F55;&#x5F62;&#x5F0F;&#x7684;&#x5BF9;&#x8C61;&#x6620;&#x5C04;&#x3002;&#x5E78;&#x8FD0;&#x7684;&#x662F;&#xFF0C; DBObject &#x7684;&#x7ED3;&#x6784;&#x5F88;&#x50CF; map&#xFF0C;&#x5E76;&#x4E14; Groovy Map &#x7684;&#x7B80;&#x6D01;&#x7684;&#x98CE;&#x683C;&#x8BA9;&#x5176;&#x64CD;&#x4F5C;&#x8D77;&#x6765;&#x65B9;&#x4FBF;&#x8BB8;&#x591A;&#x3002;&#x672C;&#x4F8B;&#x4E2D;&#xFF0C;&#x8981;&#x627E;&#x5230;&#x8DDD;&#x67D0;&#x57CE;&#x5E02;&#x6700;&#x8FD1;&#x7684;&#x57CE;&#x5E02;&#x4EE5;&#x53CA;&#x5176;&#x6700;&#x77ED;&#x8DDD;&#x79BB;&#x65F6;&#xFF0C;&#x9700;&#x8981;&#x7528;&#x5230; geoNear &#x547D;&#x4EE4;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x4ECE; mongoDB &#x7684;&#x624B;&#x518C;&#x627E;&#x5230;&#x5176;&#x8BE6;&#x7EC6;&#x7684;&#x8BED;&#x6CD5;&#x3002;&#x8BED;&#x6CD5;&#x7F29;&#x7565;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code><span class="collection">{
+   geoNear: collectionName,
+   near: <span class="collection">{ type: &amp;quot;Point&amp;quot; , coordinates: <span class="collection">[ longitude, latitude ]</span> }</span> ,
+   spherical: <span class="literal">true</span>
+}</span>
+</code></pre><p>geoNear &#x547D;&#x4EE4;&#x4F1A;&#x8FD4;&#x56DE;&#x96C6;&#x5408;&#x4E2D;&#x8DDD;&#x79BB;&#x6700;&#x8FD1;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5E76;&#x4E14;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x5B57;&#x6BB5;&#x6765;&#x6807;&#x8BC6;&#x4ED6;&#x4EEC;&#x4E4B;&#x95F4;&#x7684;&#x8DDD;&#x79BB;&#xFF1B;&#x8DDD;&#x79BB;&#x7684;&#x5355;&#x4F4D;&#x662F;&#x7C73;&#x3002; geoNear &#x547D;&#x4EE4;&#x4E2D;&#x7684;near&#x5B57;&#x6BB5;&#x7684;&#x683C;&#x5F0F;&#x6709;&#x4E24;&#x79CD;&#xFF0C;&#x4E00;&#x79CD;&#x662F;&#x4E0A;&#x9762;&#x4EE3;&#x7801;&#x793A;&#x4F8B;&#xFF0C;&#x53E6;&#x4E00;&#x79CD;&#x662F;&#x66F4;&#x4F20;&#x7EDF;&#x7684;2&#x4E2A; double &#x503C;&#x7EC4;&#x6210;&#x7684;&#x6570;&#x7EC4;&#x3002;&#x56E0;&#x4E3A;&#x524D;&#x4E00;&#x79CD;&#x7B26;&#x5408; GeoJSON &#x7684;&#x6807;&#x51C6;&#xFF0C;&#x6211;&#x66F4;&#x63A8;&#x8350;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x3002;&#x5728;&#x6211;&#x6240;&#x6709;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x6211;&#x5C3D;&#x91CF;&#x90FD;&#x662F;&#x7528; GeoJSON &#x8BB0;&#x6CD5;&#x6765;&#x5B58;&#x50A8;&#x5730;&#x7406;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#x6570;&#x636E;&#x3002;&#x4ECE;&#x4EE3;&#x7801;&#x91CC;&#x80FD;&#x770B;&#x51FA;&#x6765;&#xFF0C;&#x6211;&#x4F7F;&#x7528;&#x4E86;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x4E86;&#x6240;&#x6709; GeoJSON &#x7C7B;&#x578B;&#x652F;&#x6301;&#x7684; Java &#x7C7B;&#x5E93;&#x3002;</p>
+<p>&#x6487;&#x5F00;&#x6240;&#x6709; DBObject &#x5230;&#x9886;&#x57DF;&#x5BF9;&#x8C61;&#x7684;&#x7EA6;&#x5B9A;&#xFF0C;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;&#x4EE3;&#x7801;&#x90FD;&#x975E;&#x5E38;&#x6613;&#x8BFB;&#x3002;&#x5F53;&#x7136;&#x4F60;&#x9700;&#x8981;&#x77E5;&#x9053; MongoDB &#x67E5;&#x8BE2;&#x7684;&#x7EC6;&#x8282;&#xFF1B;&#x7136;&#x800C;&#x5F53;&#x4F60;&#x4E86;&#x89E3;&#x4E86;&#x4E4B;&#x540E;&#xFF0C;Java Driver &#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x5F3A;&#x5927;&#x7684;&#x5DE5;&#x5177;&#x3002;</p>
+<h4 id="Jongo">Jongo</h4><p>Jongo &#x6846;&#x67B6;&#x652F;&#x6301;&#x57FA;&#x4E8E;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x4EA4;&#x4E92;&#x548C;&#x67E5;&#x8BE2;&#xFF08;&#x67E5;&#x8BE2;&#x65F6;&#x4E0D;&#x9700;&#x8981;&#x521B;&#x5EFA; DBObject &#xFF09;&#xFF0C;&#x56E0;&#x6B64;&#x5141;&#x8BB8;&#x4F60;&#x4F7F;&#x7528;&#x63A5;&#x8FD1;&#x4E8E; Mongo Shell &#x7684;&#x65B9;&#x5F0F;&#x4E0E; MongoDB &#x5B9E;&#x4F8B;&#x8FDB;&#x884C;&#x4EA4;&#x4E92;&#x3002;Jongo &#x4F7F;&#x7528; Jackson &#x6846;&#x67B6;&#x6765;&#x5B8C;&#x6210;&#x5BF9;&#x8C61;&#x6620;&#x5C04;&#xFF0C;&#x6240;&#x4EE5;&#x65E0;&#x9700;&#x5C06;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x548C;&#x60F3;&#x63D2;&#x5165;&#x7684;&#x6570;&#x636E;&#x8F6C;&#x6362;&#x4E3A; DBObject &#x5B9E;&#x4F8B;&#x3002;&#x6211;&#x5728;&#x4F7F;&#x7528;&#x7684; GeoJSON &#x5E93;&#x5185;&#x7F6E;&#x4E86;Jackson &#x7684;&#x652F;&#x6301;&#xFF0C;&#x5BF9;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x65E0;&#x9700;&#x4E3A;&#x6B64;&#x591A;&#x7F16;&#x5199;&#x4EE3;&#x7801;&#x3002;</p>
+<p>Jongo&#x7684;&#x7528;&#x4F8B;&#x7684;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code><span class="import"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper</span>
+<span class="import"><span class="keyword">import</span> com.mongodb.MongoClient</span>
+<span class="import"><span class="keyword">import</span> org.bson.types.ObjectId</span>
+<span class="import"><span class="keyword">import</span> org.geojson.Point</span>
+<span class="import"><span class="keyword">import</span> org.jongo.Jongo</span>
+<span class="import"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired</span>
+<span class="import"><span class="keyword">import</span> org.springframework.http.*</span>
+<span class="import"><span class="keyword">import</span> org.springframework.web.bind.annotation.*</span>
+<span class="import"><span class="keyword">import</span> javax.annotation.PostConstruct</span>
+<span class="import"><span class="keyword">import</span> static org.springframework.web.bind.annotation.RequestMethod.GET</span>
+@<span class="type">RestController</span>
+@<span class="type">RequestMapping</span>(&amp;quot;/jongo&amp;quot;)
+<span class="class"><span class="keyword">class</span> <span class="type">CityControllerJongo</span> {
+    final <span class="type">Jongo</span> jongo
+    @<span class="type">Autowired</span>
+    <span class="type">CityControllerJongo</span><span class="container">(<span class="type">MongoClient</span> <span class="title">mongoClient</span>)</span> {
+        jongo = new <span class="type">Jongo</span><span class="container">(<span class="title">mongoClient</span>.<span class="title">getDB</span>(&amp;<span class="title">quot</span>;<span class="title">citydbjongo</span>&amp;<span class="title">quot</span>;)</span>)
+    }
+    @<span class="type">RequestMapping</span><span class="container">(<span class="title">value</span>=&amp;<span class="title">quot</span>;/&amp;<span class="title">quot</span>;, <span class="title">method</span> = <span class="type">GET</span>)</span>
+    <span class="type">List</span>&amp;lt;<span class="type">City</span>&amp;gt; index<span class="container">()</span> {
+        return jongo.getCollection<span class="container">(&amp;<span class="title">quot</span>;<span class="title">city</span>&amp;<span class="title">quot</span>;)</span>.find<span class="container">()</span>.as<span class="container">(<span class="type">City</span>)</span>.asList<span class="container">()</span>
+    }
+    @<span class="type">RequestMapping</span><span class="container">(<span class="title">value</span>=&amp;<span class="title">quot</span>;/<span class="title">near</span>/{<span class="title">cityName</span>}&amp;<span class="title">quot</span>;, <span class="title">method</span> = <span class="type">GET</span>)</span>
+    <span class="type">ResponseEntity</span> nearCity<span class="container">(@<span class="type">PathVariable</span> <span class="type">String</span> <span class="title">cityName</span>)</span> {
+        def city = jongo.getCollection<span class="container">(&amp;<span class="title">quot</span>;<span class="title">city</span>&amp;<span class="title">quot</span>;)</span>.findOne<span class="container">(&amp;<span class="title">quot</span>;{<span class="title">name</span>:&amp;<span class="title">apos</span>;$<span class="title">cityName</span>&amp;<span class="title">apos</span>;}&amp;<span class="title">quot</span>;)</span>.as<span class="container">(<span class="type">City</span>)</span>
+        if<span class="container">(<span class="title">city</span>)</span> {
+            def command = &amp;quot;&amp;quot;&amp;quot;{
+                geoNear: &amp;quot;city&amp;quot;,
+                near: ${new <span class="type">ObjectMapper</span><span class="container">()</span>.writeValueAsString<span class="container">(<span class="title">city</span>.<span class="title">location</span>)</span>},
+                spherical: true
+            }&amp;quot;&amp;quot;&amp;quot;
+            def closestCities = jongo.runCommand<span class="container">(<span class="title">command</span>)</span>.as<span class="container">(<span class="type">GeoNearResult</span>)</span> as <span class="type">GeoNearResult</span>&amp;lt;<span class="type">City</span>&amp;gt;
+            def closest = closestCities.results[1]
+            return new <span class="type">ResponseEntity</span><span class="container">([<span class="title">name</span>:<span class="title">closest</span>.<span class="title">obj</span>.<span class="title">name</span>, <span class="title">distance</span>:<span class="title">closest</span>.<span class="title">dis</span>/1000], <span class="type">HttpStatus</span>.<span class="type">OK</span>)</span>
+        }
+        else {
+            return new <span class="type">ResponseEntity</span><span class="container">(<span class="type">HttpStatus</span>.<span class="type">NOT_FOUND</span>)</span>
+        }
+    }
+    @<span class="type">PostConstruct</span>
+    void populateCities<span class="container">()</span> {
+        jongo.getCollection<span class="container">(&amp;<span class="title">quot</span>;<span class="title">city</span>&amp;<span class="title">quot</span>;)</span>.drop<span class="container">()</span>
+        [ new <span class="type">City</span><span class="container">( <span class="title">name</span>:&amp;<span class="title">quot</span>;<span class="type">London</span>&amp;<span class="title">quot</span>;,
+                <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(-0.125487, 51.508515)</span>),
+          new <span class="type">City</span><span class="container">( <span class="title">name</span>:&amp;<span class="title">quot</span>;<span class="type">Paris</span>&amp;<span class="title">quot</span>;,
+                  <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(2.352222, 48.856614)</span>),
+          new <span class="type">City</span><span class="container">( <span class="title">name</span>:&amp;<span class="title">quot</span>;<span class="type">New</span> <span class="type">York</span>&amp;<span class="title">quot</span>;,
+                  <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(-74.005973, 40.714353)</span>),
+          new <span class="type">City</span><span class="container">( <span class="title">name</span>:&amp;<span class="title">quot</span>;<span class="type">San</span> <span class="type">Francisco</span>&amp;<span class="title">quot</span>;,
+                  <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(-122.419416, 37.774929)</span>) ].each {
+            jongo.getCollection<span class="container">(&amp;<span class="title">quot</span>;<span class="title">city</span>&amp;<span class="title">quot</span>;)</span>.save<span class="container">(<span class="title">it</span>)</span>
+        }
+        jongo.getCollection<span class="container">(&amp;<span class="title">quot</span>;<span class="title">city</span>&amp;<span class="title">quot</span>;)</span>.ensureIndex<span class="container">(&amp;<span class="title">quot</span>;{<span class="title">location</span>:&amp;<span class="title">apos</span>;2<span class="title">dsphere</span>&amp;<span class="title">apos</span>;}&amp;<span class="title">quot</span>;)</span>
+    }
+    static <span class="keyword">class</span> <span class="type">GeoNearResult</span>&amp;lt;<span class="type">O</span>&amp;gt; {
+        <span class="type">List</span>&amp;lt;<span class="type">GeoNearItem</span>&amp;lt;<span class="type">O</span>&amp;gt;&amp;gt; results
+    }
+    static <span class="keyword">class</span> <span class="type">GeoNearItem</span>&amp;lt;<span class="type">O</span>&amp;gt; {
+        <span class="type">Double</span> dis
+        <span class="type">O</span> obj
+    }
+    static <span class="keyword">class</span> <span class="type">City</span> {
+        <span class="type">ObjectId</span> _id
+        <span class="type">String</span> name
+        <span class="type">Point</span> location
+    }
+}</span>
+</code></pre><p>&#x4ECE;&#x4F8B;&#x5B50;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;Jongo &#x66F4;&#x9762;&#x5411;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x4F7F;&#x7528; GeoNear &#x547D;&#x4EE4;&#x67E5;&#x8BE2;&#x7684;&#x65F6;&#x5019;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x591A;&#x4E8F; Jackson &#x6846;&#x67B6;&#xFF0C;&#x6211;&#x4EEC;&#x67E5;&#x8BE2;&#x548C;&#x63D2;&#x5165;&#x65F6;&#xFF0C;&#x4E0D;&#x7528;&#x7F16;&#x5199;&#x4EFB;&#x4F55;&#x7684;&#x8F6C;&#x6362;&#x7684;&#x4EE3;&#x7801;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x4F60;&#x662F;&#x5148;&#x63A5;&#x89E6;&#x5230;MongoDB&#xFF0C;&#x719F;&#x6089;shell&#x547D;&#x4EE4;&#x5E76;&#x4E14;&#x4E0D;&#x60F3;&#x505A;&#x624B;&#x5DE5;&#x6620;&#x5C04;&#x7684;&#x8BDD;&#xFF0C;Jongo&#x662F;&#x975E;&#x5E38;&#x4FBF;&#x6377;&#x7684;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x53BB;&#x4E86;&#x89E3;Mongo Shell API&#x7684;&#x786E;&#x5207;&#x8BED;&#x6CD5;&#xFF1B;&#x540C;&#x65F6;&#xFF0C;&#x4F60;&#x5728;&#x6784;&#x9020;&#x67E5;&#x8BE2;&#x3001;&#x7F16;&#x5199;&#x547D;&#x4EE4;&#x5F0F;&#x6CA1;&#x6709;&#x81EA;&#x52A8;&#x7684;&#x4EE3;&#x7801;&#x8865;&#x5168;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x89C9;&#x5F97;&#x8FD9;&#x6837;&#x662F;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x7684;&#x8BDD;&#xFF0C;Jongo&#x662F;&#x4E00;&#x4E2A;&#x4E0D;&#x9519;&#x7684;&#x9009;&#x62E9;&#x3002;</p>
+<h4 id="Morphia">Morphia</h4><p>MongoDB &#x7684;&#x5F00;&#x53D1;&#x8005;&#xFF08;&#x56E0;&#x4E3A;Trisha Gee&#xFF0C;&#x6211;&#x4E0D;&#x80FD;&#x8BF4;&#x6C49;&#x5B50;&#x4EEC;&#xFF09;&#x4E3A;MongoDB&#x91CF;&#x8EAB;&#x5B9A;&#x505A;&#x4E86;&#x4E00;&#x4E2A;&#x6620;&#x5C04;&#x6846;&#x67B6;&#x3002; Morphia&#x662F;&#x4E00;&#x4E2A;&#x6CE8;&#x89E3;&#x9A71;&#x52A8;&#x7684;&#x6846;&#x67B6;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x4E3A;&#x4E86;&#x4F7F;&#x7528; Morphia &#xFF0C;&#x4F60;&#x5F97;&#x4F7F;&#x7528;&#x6CE8;&#x89E3;&#x6765;&#x6CE8;&#x91CA;&#x4F60;&#x7684; POJO &#xFF08;&#x5C3D;&#x7BA1;&#x5982;&#x6B64;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4E0D;&#x5199;&#x6CE8;&#x89E3;&#x4EE5;&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x7684;&#x6CE8;&#x89E3;&#xFF09;&#x3002; Morphia &#x652F;&#x6301; MongoDB &#x7684;&#x5927;&#x90E8;&#x5206;&#x51FD;&#x6570;&#xFF0C;&#x9057;&#x61BE;&#x7684;&#x662F;&#x6CA1;&#x6709;&#x5BF9; GeoJSON &#x63D0;&#x4F9B;&#x652F;&#x6301;&#x4ECE;&#x800C;&#x4E5F;&#x4E0D;&#x652F;&#x6301; geoNear&#x3002;MongoDB &#x7684;&#x5F00;&#x53D1;&#x8005;&#x4E13;&#x6CE8;&#x7684;&#x5F00;&#x53D1; MongoDB Java Driver 3.0&#xFF0C;&#x6709;&#x4E9B;&#x5FFD;&#x7565; Morphia&#x3002; &#x53EF;&#x80FD;&#x4F1A;&#x5728;&#x672A;&#x6765;&#x7684;&#x7248;&#x672C;&#x4E2D;&#x63D0;&#x4F9B;&#x5BF9; GeoJSON &#x7684;&#x652F;&#x6301;&#x3002;</p>
+<p>&#x56E0;&#x4E3A;&#x6211;&#x7528;&#x5230;&#x4E86; geoNear &#x51FD;&#x6570;&#xFF0C;&#x9664;&#x4E86;&#x628A;Java Driver&#x7684;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x4E2D;&#x7684;&#x4EE3;&#x7801;&#x4E2D;&#x7684;&#x62FF;&#x6765;&#x590D;&#x7528;&#x4E5F;&#x6CA1;&#x6709;&#x66F4;&#x597D;&#x7684;&#x9009;&#x9879;&#x4E86;&#x3002;&#x5982;&#x4E0B;&#x662F;&#x7528; Morphia &#x5B9E;&#x73B0;&#x7684;&#x7528;&#x4F8B;&#xFF1A;</p>
+<pre><code><span class="import"><span class="keyword">import</span> com.mongodb.*</span>
+<span class="import"><span class="keyword">import</span> org.bson.types.ObjectId</span>
+<span class="import"><span class="keyword">import</span> org.geojson.Point</span>
+<span class="import"><span class="keyword">import</span> org.mongodb.morphia.*</span>
+<span class="import"><span class="keyword">import</span> org.mongodb.morphia.annotations.*</span>
+<span class="import"><span class="keyword">import</span> org.mongodb.morphia.converters.TypeConverter</span>
+<span class="import"><span class="keyword">import</span> org.mongodb.morphia.mapping.MappedField</span>
+<span class="import"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired</span>
+<span class="import"><span class="keyword">import</span> org.springframework.http.*</span>
+<span class="import"><span class="keyword">import</span> org.springframework.web.bind.annotation.*</span>
+<span class="import"><span class="keyword">import</span> javax.annotation.PostConstruct</span>
+<span class="import"><span class="keyword">import</span> static org.springframework.web.bind.annotation.RequestMethod.GET</span>
+@<span class="type">RestController</span>
+@<span class="type">RequestMapping</span>(&amp;quot;/mongomorphia&amp;quot;)
+<span class="class"><span class="keyword">class</span> <span class="type">CityControllerMorphia</span> {
+    final <span class="type">Datastore</span> datastore
+    @<span class="type">Autowired</span>
+    <span class="type">CityControllerMorphia</span><span class="container">(<span class="type">MongoClient</span> <span class="title">mongoClient</span>)</span> {
+        def morphia = new <span class="type">Morphia</span><span class="container">()</span>
+        morphia.mapper.converters.addConverter<span class="container">(<span class="type">GeoJsonPointTypeConverter</span>)</span>
+        datastore = morphia.createDatastore<span class="container">(<span class="title">mongoClient</span>, &amp;<span class="title">quot</span>;<span class="title">citymorphia</span>&amp;<span class="title">quot</span>;)</span>
+    }
+    @<span class="type">RequestMapping</span><span class="container">(<span class="title">value</span>=&amp;<span class="title">quot</span>;/&amp;<span class="title">quot</span>;, <span class="title">method</span> = <span class="type">GET</span>)</span>
+    <span class="type">List</span>&amp;lt;<span class="type">City</span>&amp;gt; index<span class="container">()</span> {
+        return datastore.find<span class="container">(<span class="type">City</span>)</span>.asList<span class="container">()</span>
+    }
+    @<span class="type">RequestMapping</span><span class="container">(<span class="title">value</span>=&amp;<span class="title">quot</span>;/<span class="title">near</span>/{<span class="title">cityName</span>}&amp;<span class="title">quot</span>;, <span class="title">method</span> = <span class="type">GET</span>)</span>
+    <span class="type">ResponseEntity</span> nearCity<span class="container">(@<span class="type">PathVariable</span> <span class="type">String</span> <span class="title">cityName</span>)</span> {
+        def city = datastore.find<span class="container">(<span class="type">City</span>, &amp;<span class="title">quot</span>;<span class="title">name</span>&amp;<span class="title">quot</span>;, <span class="title">cityName</span>)</span>.get<span class="container">()</span>
+        if<span class="container">(<span class="title">city</span>)</span> {
+            def point = new <span class="type">BasicDBObject</span><span class="container">([<span class="title">type</span>: &amp;<span class="title">quot</span>;<span class="type">Point</span>&amp;<span class="title">quot</span>;, <span class="title">coordinates</span>: [<span class="title">city</span>.<span class="title">location</span>.<span class="title">coordinates</span>.<span class="title">longitude</span>, <span class="title">city</span>.<span class="title">location</span>.<span class="title">coordinates</span>.<span class="title">latitude</span>]])</span>
+            def geoNearCommand =  new <span class="type">BasicDBObject</span><span class="container">([<span class="title">geoNear</span>: &amp;<span class="title">quot</span>;<span class="type">City</span>&amp;<span class="title">quot</span>;, <span class="title">spherical</span>: <span class="title">true</span>, <span class="title">near</span>: <span class="title">point</span>])</span>
+            def closestCities = datastore.<span class="type">DB</span>.command<span class="container">(<span class="title">geoNearCommand</span>)</span>.toMap<span class="container">()</span>
+            def closest = <span class="container">(<span class="title">closestCities</span>.<span class="title">results</span> <span class="title">as</span> <span class="type">List</span>&amp;<span class="title">lt</span>;<span class="type">Map</span>&amp;<span class="title">gt</span>;)</span>.get<span class="container">(1)</span>
+            return new <span class="type">ResponseEntity</span><span class="container">([<span class="title">name</span>:<span class="title">closest</span>.<span class="title">obj</span>.<span class="title">name</span>, <span class="title">distance</span>:<span class="title">closest</span>.<span class="title">dis</span>/1000], <span class="type">HttpStatus</span>.<span class="type">OK</span>)</span>
+        }
+        else {
+            return new <span class="type">ResponseEntity</span><span class="container">(<span class="type">HttpStatus</span>.<span class="type">NOT_FOUND</span>)</span>
+        }
+    }
+    @<span class="type">PostConstruct</span>
+    void populateCities<span class="container">()</span> {
+        datastore.delete<span class="container">(<span class="title">datastore</span>.<span class="title">createQuery</span>(<span class="type">City</span>)</span>)
+        [new <span class="type">City</span><span class="container">(<span class="title">name</span>: &amp;<span class="title">quot</span>;<span class="type">London</span>&amp;<span class="title">quot</span>;,
+                <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(-0.125487, 51.508515)</span>),
+         new <span class="type">City</span><span class="container">(<span class="title">name</span>: &amp;<span class="title">quot</span>;<span class="type">Paris</span>&amp;<span class="title">quot</span>;,
+                 <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(2.352222, 48.856614)</span>),
+         new <span class="type">City</span><span class="container">(<span class="title">name</span>: &amp;<span class="title">quot</span>;<span class="type">New</span> <span class="type">York</span>&amp;<span class="title">quot</span>;,
+                 <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(-74.005973, 40.714353)</span>),
+         new <span class="type">City</span><span class="container">(<span class="title">name</span>: &amp;<span class="title">quot</span>;<span class="type">San</span> <span class="type">Francisco</span>&amp;<span class="title">quot</span>;,
+                 <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(-122.419416, 37.774929)</span>)].each {
+            datastore.save<span class="container">(<span class="title">it</span>)</span>
+        }
+        datastore.getCollection<span class="container">(<span class="type">City</span>)</span>.createIndex<span class="container">(<span class="title">new</span> <span class="type">BasicDBObject</span>(&amp;<span class="title">quot</span>;<span class="title">location</span>&amp;<span class="title">quot</span>;, &amp;<span class="title">quot</span>;2<span class="title">dsphere</span>&amp;<span class="title">quot</span>;)</span>)
+    }
+    @<span class="type">Entity</span>
+    static <span class="keyword">class</span> <span class="type">City</span> {
+        @<span class="type">Id</span>
+        <span class="type">ObjectId</span> id
+        <span class="type">String</span> name
+        <span class="type">Point</span> location
+    }
+    static <span class="keyword">class</span> <span class="type">GeoJsonPointTypeConverter</span> extends <span class="type">TypeConverter</span> {
+        <span class="type">GeoJsonPointTypeConverter</span><span class="container">()</span> {
+            super<span class="container">(<span class="type">Point</span>)</span>
+        }
+        @<span class="type">Override</span>
+        <span class="type">Object</span> decode<span class="container">(<span class="type">Class</span>&amp;<span class="title">lt</span>;?&amp;<span class="title">gt</span>; <span class="title">targetClass</span>, <span class="type">Object</span> <span class="title">fromDBObject</span>, <span class="type">MappedField</span> <span class="title">optionalExtraInfo</span>)</span> {
+            double[] coordinates = <span class="container">(<span class="title">fromDBObject</span> <span class="title">as</span> <span class="type">DBObject</span>)</span>.get<span class="container">(&amp;<span class="title">quot</span>;<span class="title">coordinates</span>&amp;<span class="title">quot</span>;)</span>
+            return new <span class="type">Point</span><span class="container">(<span class="title">coordinates</span>[0], <span class="title">coordinates</span>[1])</span>
+        }
+        @<span class="type">Override</span>
+        <span class="type">Object</span> encode<span class="container">(<span class="type">Object</span> <span class="title">value</span>, <span class="type">MappedField</span> <span class="title">optionalExtraInfo</span>)</span> {
+            def point = value as <span class="type">Point</span>
+            return new <span class="type">BasicDBObject</span><span class="container">([<span class="title">type</span>:&amp;<span class="title">quot</span>;<span class="type">Point</span>&amp;<span class="title">quot</span>;, <span class="title">coordinates</span>:[<span class="title">point</span>.<span class="title">coordinates</span>.<span class="title">longitude</span>, <span class="title">point</span>.<span class="title">coordinates</span>.<span class="title">latitude</span>]])</span>
+        }
+    }
+}</span>
+</code></pre><p> &#x56E0;&#x4E3A; Morphia &#x6846;&#x67B6;&#x6CA1;&#x6709;&#x5BF9; GeoJSON &#x63D0;&#x4F9B;&#x652F;&#x6301;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x4F60;&#x8981;&#x4E48;&#x4F7F;&#x7528;&#x4F20;&#x7EDF;&#x7684;&#x7528;&#x5305;&#x542B;&#x4E24;&#x4E2A;&#x5750;&#x6807;&#x7684; double &#x7C7B;&#x578B;&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x8981;&#x4E48;&#x5199;&#x4F60;&#x81EA;&#x5DF1;&#x7684;&#x8F6C;&#x6362;&#x5668;&#x3002;&#x6211;&#x9009;&#x62E9;&#x4E86;&#x540E;&#x8005;&#xFF0C;&#x6BD5;&#x7ADF;&#x4E5F;&#x4E0D;&#x662F;&#x90A3;&#x4E48;&#x96BE;&#x5199;&#x3002;&#x4E0D;&#x8981;&#x5FD8;&#x4E86;&#x628A;&#x4F60;&#x7684;&#x8F6C;&#x6362;&#x5668;&#x52A0;&#x5165;&#x5230; Morphia &#x4E2D;&#x3002;&#x4ECE;&#x4EE3;&#x7801;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x6211;&#x5DF2;&#x7ECF;&#x4F7F;&#x7528; Morphia &#x7684;&#x6CE8;&#x89E3;&#x6CE8;&#x91CA;&#x4E86; City &#x7C7B;&#xFF0C;&#x5BF9;&#x4E8E;&#x90A3;&#x4E9B;&#x719F;&#x6089; JPA &#x7684;&#x5F00;&#x53D1;&#x8005;&#x6765;&#x8BF4;&#xFF0C;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x76F4;&#x622A;&#x4E86;&#x5F53;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x56E0;&#x4E3A; Morphia &#x4E0D;&#x63D0;&#x4F9B; 2dsphere index &#x67E5;&#x8BE2;&#x652F;&#x6301;&#xFF0C;&#x4F60;&#x8981;&#x81EA;&#x5DF1;&#x521B;&#x5EFA; 2dsphere &#xA0;&#x7D22;&#x5F15;&#x3002; </p>
+<h3 id="&#x9488;&#x5BF9;MongoDB&#x7684;Spring_Data">&#x9488;&#x5BF9;MongoDB&#x7684;Spring Data</h3><p>&#x6700;&#x540E;&#x4F46;&#x540C;&#x6837;&#x91CD;&#x8981;&#x7684;&#x662F; Spring Data&#xFF0C;&#x6211;&#x5728;&#x7814;&#x7A76;&#x5982;&#x4F55;&#x7528;&#x5B83;&#x5B8C;&#x6210;&#x8FD9;&#x4E2A;&#x7528;&#x4F8B;&#x3002;&#x5982;&#x679C;&#x4F60;&#x719F;&#x77E5; Spring Data &#x6846;&#x67B6;&#x7684;&#x8BDD;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x5199;&#x4E0E;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x4EA4;&#x4E92;&#x7684;&#x5E93;&#x63A5;&#x53E3;&#xFF0C;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x540D;&#x6765;&#x6307;&#x5B9A;&#x4F60;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x7684;&#x67E5;&#x8BE2;&#x3002;&#x5728;&#x6B64;&#x4F8B;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x9700;&#x8981;&#x4E24;&#x4E2A;&#x67E5;&#x8BE2;&#xFF1A;&#x6839;&#x636E;&#x540D;&#x5B57;&#x67E5;&#x8BE2;&#x57CE;&#x5E02;&#xFF0C;&#x627E;&#x5230;&#x8DDD;&#x67D0;&#x57CE;&#x5E02;&#x6700;&#x8FD1;&#x7684;&#x57CE;&#x5E02;&#x3002;Spring Data &#x6846;&#x67B6;&#x652F;&#x6301; geospatial &#x67E5;&#x8BE2;&#xFF08;&#x5730;&#x7406;&#x7A7A;&#x95F4;&#x67E5;&#x8BE2;&#xFF09;&#x3002;</p>
+<p>Spring Data &#x6846;&#x67B6;&#x6709;&#x7528;&#x6765;&#x8868;&#x793A;&#x5730;&#x7406;&#x7A7A;&#x95F4;&#x5750;&#x6807;&#x7684;&#x7C7B;&#xFF0C;&#x4F46;&#x662F;&#x548C; GeoJSON &#x4E0D;&#x517C;&#x5BB9;&#xFF08;&#x518D;&#x63D0;&#x4E00;&#x904D;&#xFF1A;Spring &#x6709;&#x5176;&#x81EA;&#x6709;&#x7684;&#x65B9;&#x5F0F;&#xFF09;&#x3002;&#x6240;&#x5E78; Spring Data &#x80FD;&#x591F;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7D22;&#x5F15;&#x5E76;&#x4E14; mongo &#x4E5F;&#x80FD;&#x591F;&#x5904;&#x7406; Spring Data &#x4F7F;&#x7528;&#x7684;&#x5750;&#x6807;&#x8868;&#x793A;&#x65B9;&#x5F0F;&#x3002;</p>
+<p>&#x8FD9;&#x662F;&#x9488;&#x5BF9;Morphia&#x7684;&#x5B9E;&#x73B0;&#xFF1A; &#xFF08; &#x8BD1;&#x6CE8;&#xFF1A;&#x6211;&#x8BA4;&#x4E3A;&#x662F;&#x539F;&#x6587;&#x9519;&#x8BEF; &#xFF09;</p>
+<pre><code><span class="import"><span class="keyword">import</span> org.bson.types.ObjectId</span>
+<span class="import"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired</span>
+<span class="import"><span class="keyword">import</span> org.springframework.data.geo.*</span>
+<span class="import"><span class="keyword">import</span> org.springframework.data.mongodb.core.MongoTemplate</span>
+<span class="import"><span class="keyword">import</span> org.springframework.data.mongodb.core.index.*</span>
+<span class="import"><span class="keyword">import</span> org.springframework.data.mongodb.core.mapping.Document</span>
+<span class="import"><span class="keyword">import</span> org.springframework.data.mongodb.repository.MongoRepository</span>
+<span class="import"><span class="keyword">import</span> org.springframework.http.HttpStatus</span>
+<span class="import"><span class="keyword">import</span> org.springframework.http.ResponseEntity</span>
+<span class="import"><span class="keyword">import</span> org.springframework.web.bind.annotation.*</span>
+<span class="import"><span class="keyword">import</span> javax.annotation.PostConstruct</span>
+<span class="import"><span class="keyword">import</span> static org.springframework.web.bind.annotation.RequestMethod.GET</span>
+@<span class="type">RestController</span>
+@<span class="type">RequestMapping</span>(&amp;quot;/mongodata&amp;quot;)
+<span class="class"><span class="keyword">class</span> <span class="type">CityControllerMongoData</span> {
+    final <span class="type">CityRepository</span> cityRepository
+    @<span class="type">Autowired</span>
+    <span class="type">CityControllerMongoData</span><span class="container">(<span class="type">CityRepository</span> <span class="title">cityRepository</span>)</span> {
+        this.cityRepository = cityRepository
+    }
+    @<span class="type">RequestMapping</span><span class="container">(<span class="title">value</span>=&amp;<span class="title">quot</span>;/&amp;<span class="title">quot</span>;, <span class="title">method</span> = <span class="type">GET</span>)</span>
+    <span class="type">List</span>&amp;lt;<span class="type">City</span>&amp;gt; index<span class="container">()</span> {
+        return cityRepository.findAll<span class="container">()</span>
+    }
+    @<span class="type">RequestMapping</span><span class="container">(<span class="title">value</span>=&amp;<span class="title">quot</span>;/<span class="title">near</span>/{<span class="title">cityName</span>}&amp;<span class="title">quot</span>;, <span class="title">method</span> = <span class="type">GET</span>)</span>
+    <span class="type">ResponseEntity</span> nearCity<span class="container">(@<span class="type">PathVariable</span> <span class="type">String</span> <span class="title">cityName</span>)</span> {
+        def city = cityRepository.findByName<span class="container">(<span class="title">cityName</span>)</span>
+        if<span class="container">(<span class="title">city</span>)</span> {
+            <span class="type">GeoResults</span>&amp;lt;<span class="type">City</span>&amp;gt; closestCities = cityRepository.findByLocationNear<span class="container">(<span class="title">city</span>.<span class="title">location</span>, <span class="title">new</span> <span class="type">Distance</span>(10000, <span class="type">Metrics</span>.<span class="type">KILOMETERS</span>)</span>)
+            def closest = closestCities.content.get<span class="container">(1)</span>
+            return new <span class="type">ResponseEntity</span><span class="container">([<span class="title">name</span>:<span class="title">closest</span>.<span class="title">content</span>.<span class="title">name</span>, <span class="title">distance</span>:<span class="title">closest</span>.<span class="title">distance</span>.<span class="title">in</span>(<span class="type">Metrics</span>.<span class="type">KILOMETERS</span>)</span>.value], <span class="type">HttpStatus</span>.<span class="type">OK</span>)
+        }
+        else {
+            return new <span class="type">ResponseEntity</span><span class="container">(<span class="type">HttpStatus</span>.<span class="type">NOT_FOUND</span>)</span>
+        }
+    }
+    @<span class="type">PostConstruct</span>
+    void populateCities<span class="container">()</span> {
+        cityRepository.deleteAll<span class="container">()</span>
+        [ new <span class="type">City</span><span class="container">( <span class="title">name</span>:&amp;<span class="title">quot</span>;<span class="type">London</span>&amp;<span class="title">quot</span>;,
+                <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(-0.125487, 51.508515)</span>),
+          new <span class="type">City</span><span class="container">( <span class="title">name</span>:&amp;<span class="title">quot</span>;<span class="type">Paris</span>&amp;<span class="title">quot</span>;,
+                  <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(2.352222, 48.856614)</span>),
+          new <span class="type">City</span><span class="container">( <span class="title">name</span>:&amp;<span class="title">quot</span>;<span class="type">New</span> <span class="type">York</span>&amp;<span class="title">quot</span>;,
+                  <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(-74.005973, 40.714353)</span>),
+          new <span class="type">City</span><span class="container">( <span class="title">name</span>:&amp;<span class="title">quot</span>;<span class="type">San</span> <span class="type">Francisco</span>&amp;<span class="title">quot</span>;,
+                  <span class="title">location</span>: <span class="title">new</span> <span class="type">Point</span>(-122.419416, 37.774929)</span>) ].each {
+            cityRepository.save<span class="container">(<span class="title">it</span>)</span>
+        }
+    }
+    @<span class="type">Document</span><span class="container">(<span class="title">collection</span> = &amp;<span class="title">quot</span>;<span class="title">city</span>&amp;<span class="title">quot</span>;)</span>
+    static <span class="keyword">class</span> <span class="type">City</span> {
+        <span class="type">ObjectId</span> id
+        <span class="type">String</span> name
+        @<span class="type">GeoSpatialIndexed</span><span class="container">(<span class="title">type</span> = <span class="type">GeoSpatialIndexType</span>.<span class="type">GEO_2DSPHERE</span>)</span>
+        <span class="type">Point</span> location
+    }
+}
+interface <span class="type">CityRepository</span> extends <span class="type">MongoRepository</span>&amp;lt;<span class="type">CityControllerMongoData</span>.<span class="type">City</span>, <span class="type">ObjectId</span>&amp;gt; {
+    <span class="type">CityControllerMongoData</span>.<span class="type">City</span> findByName<span class="container">(<span class="type">String</span> <span class="title">name</span>)</span>;
+    <span class="type">GeoResults</span>&amp;lt;<span class="type">CityControllerMongoData</span>.<span class="type">City</span>&amp;gt; findByLocationNear<span class="container">(<span class="type">Point</span> <span class="title">point</span>, <span class="type">Distance</span> <span class="title">distance</span>)</span>;
+}</span>
+</code></pre><p>&#x5C31;&#x53EF;&#x8BFB;&#x6027;&#x6765;&#x8BF4;&#xFF0C;Spring Data &#x65E0;&#x7591;&#x662F;&#x6700;&#x597D;&#x7684;&#x3002;&#x4F60;&#x4E0D;&#x9700;&#x8981;&#x77E5;&#x9053; MongoDB &#x91CC;&#x7684;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;&#x662F;&#x5982;&#x4F55;&#x6784;&#x5EFA;&#x7684;&#xFF0C;&#x4F60;&#x53EA;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5E93;&#x4E2D;&#x7684;&#x547D;&#x540D;&#x60EF;&#x4F8B;&#x5C31;&#x597D;&#x3002;&#x5F53;&#x4F60;&#x4F7F;&#x7528;2dsphere &#x7D22;&#x5F15;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8981;&#x8BB0;&#x4F4F;&#x4E00;&#x70B9;&#xFF0C;&#x5C31;&#x662F;&#x4F7F;&#x7528; near query &#x65B9;&#x6CD5;&#x65F6;&#x8981;&#x52A0;&#x5165; distance &#x53C2;&#x6570;&#xFF0C;&#x4E0D;&#x7136; Spring Data &#x5728;&#x67E5;&#x8BE2; MongoDB &#x65F6;&#x4F1A;&#x5FFD;&#x7565; sphere &#x9009;&#x9879;&#xFF08;&#x5728;&#x6B64;&#x60C5;&#x51B5;&#x4E0B;&#x4F1A;&#x5931;&#x8D25;&#xFF1F;&#x62A5;&#x9519;&#xFF09;&#x3002;&#x5982;&#x679C;&#x4F60;&#x4E0D;&#x9700;&#x8981;&#x8DDD;&#x79BB;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x547D;&#x4EE4;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x57CE;&#x5E02;&#x5BF9;&#x8C61;&#x7684;&#x5217;&#x8868;&#x3002;&#x4F60;&#x4E0D;&#x7528;&#x5B9E;&#x73B0;&#x76F8;&#x5E94;&#x7684;&#x63A5;&#x53E3;&#xFF0C;Spring Data &#x6846;&#x67B6;&#x4F1A;&#x66FF;&#x4F60;&#x5B9E;&#x73B0;&#x3002;</p>
+<p>&#x4F7F;&#x7528;Spring Data MongoDB &#x6846;&#x67B6;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; MongoTemplate &#x7C7B;&#x3002;MongoTemplate &#x7C7B;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x79CD;&#x7C7B;&#x4F3C;&#x4E8E; Jongo &#x548C; Java Driver &#x7684;&#x673A;&#x5236;&#x3002;&#x4F7F;&#x7528; MongoTemplate &#x53EF;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x7684;&#x5B9E;&#x73B0;geoNear &#x67E5;&#x8BE2;&#x3002;</p>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x80FD;&#x5DF2;&#x7ECF;&#x6CE8;&#x610F;&#x5230;&#xFF0C;Spring Data MongoDB &#x662F;&#x552F;&#x4E00;&#x4E00;&#x4E2A;&#x6CA1;&#x6709;&#x5728;Java&#x4EE3;&#x7801;&#x4E2D;&#x63D0;&#x4F9B;&#x6570;&#x636E;&#x5E93;&#x540D;&#x5B57;&#x7684;&#x6846;&#x67B6;&#x3002;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;Spring Data&#x4F7F;&#x7528;MongoTemplate&#xFF0C;&#x800C; MongoTemplate &#x9700;&#x8981;&#x4F60;&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x914D;&#x7F6E;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5C06;&#x6570;&#x636E;&#x5E93;&#x7684;&#x540D;&#x5B57;&#x6CE8;&#x5165;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x53D8;&#x91CF;&#x4E0A;&#xFF0C;&#x5E76;&#x4E14;&#x4F7F;&#x7528;&#x6B64;&#x53D8;&#x91CF;&#x6765;&#x4EE3;&#x8868;&#x6570;&#x636E;&#x5E93;&#x7684;&#x540D;&#x5B57;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;Spring Data Mongo&#x552F;&#x4E00;&#x4E0D;&#x6EE1;&#x610F;&#x7684;&#x5730;&#x65B9;&#x5C31;&#x662F;&#x4ED6;&#x4EEC;&#x9009;&#x53D6;&#x4E86;&#x4E00;&#x79CD;&#x4E0D;&#x6807;&#x51C6;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x8868;&#x793A;&#x5730;&#x7406;&#x4FE1;&#x606F;&#x6570;&#x636E;&#x3002;&#x5982;&#x679C;&#x4F60;&#x6709;&#x4E00;&#x4E2A;mongo&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x96C6;&#x5408;&#x91CC;&#x5168;&#x662F;&#x4F7F;&#x7528;GeoJSON&#x683C;&#x5F0F;&#x5316;&#x8FC7;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x56E0;&#x4E3A;&#x4ED3;&#x5E93;&#x4E0D;&#x80FD;&#x5904;&#x7406;&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#x4F60;&#x5C31;&#x201C;&#x5B8C;&#x86CB;&#x201D;&#x4E86;&#xFF08;&#x81F3;&#x5C11;&#x751F;&#x6210;&#x7684;near&#x67E5;&#x8BE2;&#x4E0D;&#x884C;&#xFF09;&#x3002;&#x6211;&#x5C1D;&#x8BD5;&#x4E86;&#x5728;&#x6211;&#x6620;&#x5C04;&#x7684;City&#x5BF9;&#x8C61;&#x91CC;&#x4F7F;&#x7528;GeoJSON&#x7684;&#x7C7B;&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x80FD;&#x4F7F;&#x8F6C;&#x6362;&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;&#xFF08;Spring Data&#x6846;&#x67B6;&#x6CA1;&#x6709;&#x4F7F;&#x7528;Jackson&#x6846;&#x67B6;&#x505A;&#x5E8F;&#x5217;&#x5316;&#xFF09;&#x3002;&#x5E76;&#x4E14;&#xFF0C;&#x5E93;&#x63A5;&#x53E3;&#x91CC;&#x7684;geoNear&#x65B9;&#x6CD5;&#x751F;&#x6210;&#x7684;query&#x4E32;&#x4F7F;&#x7528;&#x7684;&#x65E7;&#x7684;&#x5750;&#x6807;&#x5BF9;&#xFF0C;&#x800C;&#x4E0D;&#x662F;GeoJSON&#x51E0;&#x4F55;&#x7ED3;&#x6784;&#x3002;&#x5982;&#x679C;Spring Data&#x80FD;&#x591F;&#x63D0;&#x4F9B;&#x5BF9;GeoJSON&#x683C;&#x5F0F;&#x7684;&#x4F4D;&#x7F6E;&#x548C;&#x67E5;&#x8BE2;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x5C31;&#x50CF;&#x5728;&#x4E00;&#x4E2A;&#x5F88;&#x597D;&#x7684;&#x86CB;&#x7CD5;&#x9876;&#x7AEF;&#x6DFB;&#x52A0;&#x4E86;&#x4E00;&#x9897;&#x6A31;&#x6843;&#x3002;</p>
+<h3 id="&#x7ED3;&#x8BBA;">&#x7ED3;&#x8BBA;</h3><p>&#x5BF9;&#x4E8E;&#x8FD9;&#x4E2A;&#x7528;&#x4F8B;&#xFF0C;&#x6211;&#x5BF9;&#x4E8E;&#x6846;&#x67B6;&#x9009;&#x62E9;&#x662F;&#xFF1A;Spring Data&#xFF0C;&#x63A5;&#x7740;&#x662F;Jongo&#x548C;Java Driver&#x3002; Jongo&#x6392;&#x7B2C;&#x4E8C;&#x662F;&#x56E0;&#x4E3A;&#x5176;&#x6620;&#x5C04;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5176;&#x4ED6;&#x65B9;&#x9762;&#x7684;&#x529F;&#x80FD;&#xFF1B;Java Driver&#x4E5F;&#x57FA;&#x672C;&#x76F8;&#x540C;&#x3002;Morphia&#x6392;&#x6700;&#x540E;&#x662F;&#x56E0;&#x4E3A;&#x7F3A;&#x5C11;&#x5BF9;geoNear&#x67E5;&#x8BE2;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x5E76;&#x4E14;&#x7F3A;&#x5C11;&#x5BF9;&#x5730;&#x7406;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x7F6E;&#x652F;&#x6301;&#xFF08;double&#x7C7B;&#x578B;&#x7684;&#x6570;&#x7EC4;&#x9664;&#x5916;&#xFF09;&#x3002;&#x5F53;Morphia&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x7248;&#x672C;&#x53D1;&#x5E03;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B83;&#x7684;&#x5173;&#x6CE8;&#x70B9;&#x53EF;&#x80FD;&#x4F1A;&#x6539;&#x53D8;&#x3002;&#x4F7F;&#x7528;Java Driver&#x5199;&#x51FA;&#x7684;&#x7A0B;&#x5E8F;&#x53EF;&#x80FD;&#x8F83;&#x5197;&#x957F;&#xFF0C;&#x4F46;&#x662F;&#x548C;Groovy&#x642D;&#x914D;&#x5728;&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x5197;&#x957F;&#x7684;&#x7F3A;&#x70B9;&#x4E5F;&#x53EF;&#x4EE5;&#x514B;&#x670D;&#x3002;</p>
+<p>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x76F8;&#x5F53;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x4F46;&#x662F;&#x5BF9;&#x6211;&#x6765;&#x8BF4;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x5B9D;&#x8D35;&#x7684;&#x5B66;&#x4E60;&#x7ECF;&#x9A8C;&#x3002;&#x57FA;&#x4E8E;&#x4E0A;&#x6587;&#x4E2D;&#x6211;&#x7684;&#x4E86;&#x89E3;&#xFF0C;&#x6211;&#x53EF;&#x80FD;&#x503E;&#x5411;&#x4E8E;&#x4F7F;&#x7528;Spring Data MongoDB&#x6846;&#x67B6;&#xFF0C;&#x5E76;&#x4E14;&#x5F53;&#x5728;&#x5E93;&#x63A5;&#x53E3;&#x91CC;&#x51FD;&#x6570;&#x8FC7;&#x4E8E;&#x590D;&#x6742;&#x65F6;&#xFF0C;&#x6211;&#x4F1A;&#x5F15;&#x5165;Java Driver&#x3002;&#x6216;&#x8BB8;&#x5728;&#x5176;&#x4ED6;&#x7684;&#x573A;&#x666F;&#x4E0B;&#xFF0C;&#x6211;&#x7684;&#x9009;&#x62E9;&#x4F1A;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x65F6;&#x95F4;&#x4F1A;&#x7ED9;&#x6211;&#x7B54;&#x6848;&#x3002;&#x6211;&#x89C9;&#x5F97;&#xFF0C;&#x80F8;&#x4E2D;&#x6709;&#x4E86;&#x8FD9;&#x4E24;&#x4E2A;&#x7684;&#x7EC4;&#x5408;&#xFF0C;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x6211;&#x505A;&#x4E0D;&#x4E86;&#x7684;&#x4E86;&#x3002;</p>
+<p>&#x539F;&#x6587;&#x94FE;&#x63A5;&#xFF1A; <a href="http://java.dzone.com/articles/simple-use-case-comparison-jvm" target="_blank" rel="external">dzone</a> &#x7FFB;&#x8BD1;&#xFF1A;ImportNew.com -mingyuan </p>
+<p>&#x8BD1;&#x6587;&#x94FE;&#x63A5;&#xFF1A;[]</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JVM/">JVM</a><a href="/tags/MongoDB/">MongoDB</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/f039e43/" title="基于Java软引用机制最大使用JVM堆内存并杜绝OutOfMemory -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  基于Java软引用机制最大使用JVM堆内存并杜绝OutOfMemory -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/effe3ac/"  title="减少GC开销的技巧 -">
+ <strong>下一篇：</strong><br/> 
+ <span>减少GC开销的技巧 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础配置"><span class="toc-number">1.</span> <span class="toc-text">基础配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB_Java驱动"><span class="toc-number">2.</span> <span class="toc-text">MongoDB Java驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Jongo"><span class="toc-number">2.1.</span> <span class="toc-text">Jongo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Morphia"><span class="toc-number">2.2.</span> <span class="toc-text">Morphia</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#针对MongoDB的Spring_Data"><span class="toc-number">3.</span> <span class="toc-text">针对MongoDB的Spring Data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">4.</span> <span class="toc-text">结论</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

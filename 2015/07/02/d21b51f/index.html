@@ -1,0 +1,565 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>SecureRandom第一次生成随机数非常慢 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x53D1;&amp;#x73B0;&amp;#x67D0;&amp;#x4E2A;&amp;#x7CFB;&amp;#x7EDF;&amp;#x5728;&amp;#x7B2C;&amp;#x4E00;&amp;#x6B21;&amp;#x505A;&amp;#x64CD;&amp;#x4F5C;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#x975E;&amp;#x5E38;&amp;#x7F13;&amp;#x6162;,&amp;#x9010;&amp;#x6B65;&amp;#x5B9A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SecureRandom第一次生成随机数非常慢 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/d21b51f/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x53D1;&amp;#x73B0;&amp;#x67D0;&amp;#x4E2A;&amp;#x7CFB;&amp;#x7EDF;&amp;#x5728;&amp;#x7B2C;&amp;#x4E00;&amp;#x6B21;&amp;#x505A;&amp;#x64CD;&amp;#x4F5C;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#x975E;&amp;#x5E38;&amp;#x7F13;&amp;#x6162;,&amp;#x9010;&amp;#x6B65;&amp;#x5B9A">
+<meta property="og:updated_time" content="2015-07-01T23:49:32.446Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SecureRandom第一次生成随机数非常慢 -">
+<meta name="twitter:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x53D1;&amp;#x73B0;&amp;#x67D0;&amp;#x4E2A;&amp;#x7CFB;&amp;#x7EDF;&amp;#x5728;&amp;#x7B2C;&amp;#x4E00;&amp;#x6B21;&amp;#x505A;&amp;#x64CD;&amp;#x4F5C;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#x975E;&amp;#x5E38;&amp;#x7F13;&amp;#x6162;,&amp;#x9010;&amp;#x6B65;&amp;#x5B9A">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/d21b51f/" title="SecureRandom第一次生成随机数非常慢 -" itemprop="url">SecureRandom第一次生成随机数非常慢 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:49:32.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x6700;&#x8FD1;&#x53D1;&#x73B0;&#x67D0;&#x4E2A;&#x7CFB;&#x7EDF;&#x5728;&#x7B2C;&#x4E00;&#x6B21;&#x505A;&#x64CD;&#x4F5C;&#x7684;&#x65F6;&#x5019;&#x975E;&#x5E38;&#x7F13;&#x6162;,&#x9010;&#x6B65;&#x5B9A;&#x4F4D;&#x6253;&#x5370;&#x66F4;&#x52A0;&#x8BE6;&#x7EC6;&#x7684;&#x65E5;&#x5FD7;&#x540E;,&#x53D1;&#x73B0;&#x95EE;&#x9898;&#x662F;&#x4F7F;&#x7528;&#x4E86;SecureRandom &#x8FD9;&#x4E2A;&#x7C7B;&#x6765;&#x83B7;&#x53D6;&#x968F;&#x673A;&#x79CD;&#x5B50;,&#x8FD9;&#x4E2A;&#x7C7B;&#x7B2C;&#x4E00;&#x6B21;&#x521D;&#x59CB;&#x5316;&#x7684;&#x65F6;&#x5019;setSeed&#x7684;&#x503C;,&#x975E;&#x5E38;&#x7F13;&#x6162;,&#x5076;&#x5C14;&#x51FA;&#x73B0;, &#x6392;&#x67E5;&#x7684;&#x8FC7;&#x7A0B;&#x5C31;&#x662F;&#x4E8C;&#x5206;,&#x4E0D;&#x65AD;&#x5B9A;&#x4F4D;&#x5177;&#x4F53;&#x7684;&#x4EE3;&#x7801;,&#x6700;&#x7EC8;&#x5B9A;&#x4F4D;</p>
+<p>&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x6839;&#x672C;&#x539F;&#x56E0;&#x662F;SecureRandom &#x8FD9;&#x4E2A;jre&#x7684;&#x5DE5;&#x5177;&#x7C7B;&#x7684;&#x95EE;&#x9898;.&#x5177;&#x4F53;&#x7684;bug&#x641C;&#x7D22;&#x4E4B;&#x540E;,&#x89C1;</p>
+<p><a href="http://bugs.java.com/view_bug.do?bug_id=6521844" target="_blank" rel="external">http://bugs.java.com/view_bug.do?bug_id=6521844</a></p>
+<p>&#x8BE6;&#x7EC6;&#x7684;&#x89E3;&#x91CA;&#x8FC7;&#x7A0B;:</p>
+<p>&#x53C2;&#x8003;: <a href="http://www.websina.com/bugzero/faq/securerandom-slowness.html" target="_blank" rel="external">http://www.websina.com/bugzero/faq/securerandom-slowness.html</a></p>
+<p>Q: Why the SecureRandom generateSeed is so slow or even hang on Linux OS?</p>
+<p>A: When you login, it hangs or takes more than a minute to get the response.</p>
+<p>If your server is on a Linux OS, the culprit here is SecureRandom generateSeed()</p>
+<p>which uses /dev/random to generate the seed. However, /dev/random is a blocking</p>
+<p>number generator and if it doesn&#x2019;t have enough random data to provide, it will</p>
+<p>simply wait until it does, which forces the JVM to wait. Keyboard and mouse input</p>
+<p>as well as disk activity can generate the randomness or entropy needed. But on a</p>
+<p>server that lacks such activies, the problem may arise.</p>
+<p>&#x5927;&#x610F;&#x662F;&#x8BF4;&#x5F53;&#x4F7F;&#x7528;SecureRandom &#x7684;&#x65F6;&#x5019;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;&#x7684;/dev/random &#x6587;&#x4EF6;&#x6765;&#x751F;&#x6210;&#x79CD;&#x5B50;,&#x5982;&#x679C;&#x6CA1;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x79CD;&#x5B50;&#x6570;&#x636E;,(&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x662F;&#x7531;&#x952E;&#x76D8;,&#x9F20;&#x6807;,&#x78C1;&#x76D8;&#x6D3B;&#x52A8;&#x7B49;&#x4EA7;&#x751F;&#x7684;,&#x5982;&#x679C;&#x6CA1;&#x6709;&#x8FD9;&#x4E9B;&#x6D3B;&#x52A8;,&#x5C31;&#x6CA1;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x6570;&#x636E;)&#x4F1A;&#x4E00;&#x76F4;&#x7B49;&#x5F85;,&#x5BFC;&#x81F4;jvm&#x5361;&#x4F4F;,&#x8017;&#x8D39;&#x6BD4;&#x8F83;&#x957F;&#x7684;&#x65F6;&#x5019;.&#x7531;&#x4E8E;&#x51FA;&#x73B0;&#x95EE;&#x9898;&#x7684;&#x8FD9;&#x4E2A;&#x73AF;&#x5883;&#x7684;&#x786E;&#x662F;&#x6700;&#x8FD1;&#x6CA1;&#x4EC0;&#x4E48;&#x64CD;&#x4F5C;,&#x800C;&#x4E14;&#x590D;&#x73B0;&#x7684;&#x64CD;&#x4F5C;&#x4E5F;&#x662F;&#x9694;&#x4E2A;&#x4E00;&#x4E2A;&#x665A;&#x4E0A;,&#x91CD;&#x65B0;&#x505A;&#x4E1A;&#x52A1;&#x624D;&#x4F1A;&#x51FA;&#x73B0;.</p>
+<p>&#x6587;&#x4E2D;&#x7ED9;&#x51FA;&#x4E86;&#x4E00;&#x79CD;&#x89E3;&#x51B3;&#x65B9;&#x6848;.</p>
+<ol>
+<li>&#x542F;&#x52A8;&#x53C2;&#x6570;&#x6DFB;&#x52A0; -Djava.security.egd=file:/dev/./urandom,&#x9A8C;&#x8BC1;&#x662F;&#x53EF;&#x4EE5;&#x7684;.</li>
+<li>&#x4FEE;&#x6539;&#x968F;&#x673A;&#x6570;&#x83B7;&#x53D6;&#x65B9;&#x5F0F;</li>
+</ol>
+<p>&#x8FD9;&#x91CC;urandom&#x662F;&#x5565;&#x5462;,&#x5F15;&#x7528;&#x81EA; <a href="https://zh.wikipedia.org/wiki//dev/random" target="_blank" rel="external">&#x7EF4;&#x57FA;</a></p>
+<p>/dev/random&#x7684;&#x4E00;&#x4E2A;&#x526F;&#x672C;&#x662F;/dev/urandom&#xFF08;&#x201C;unlocked&#x201D;&#xFF0C;&#x975E;&#x963B;&#x585E;&#x7684;&#x968F;&#x673A;&#x6570;&#x53D1;&#x751F;&#x5668;[4]&#xFF09;&#xFF0C;&#x5B83;&#x4F1A;&#x91CD;&#x590D;&#x4F7F;&#x7528;&#x71B5;&#x6C60;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x4EE5;&#x4EA7;&#x751F;&#x4F2A;&#x968F;&#x673A;&#x6570;&#x636E;&#x3002;&#x8FD9;&#x8868;&#x793A;&#x5BF9;/dev/urandom&#x7684;&#x8BFB;&#x53D6;&#x64CD;&#x4F5C;&#x4E0D;&#x4F1A;&#x4EA7;&#x751F;&#x963B;&#x585E;&#xFF0C;&#x4F46;&#x5176;&#x8F93;&#x51FA;&#x7684;&#x71B5;&#x53EF;&#x80FD;&#x5C0F;&#x4E8E;/dev/random&#x7684;&#x3002;&#x5B83;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x751F;&#x6210;&#x8F83;&#x4F4E;&#x5F3A;&#x5EA6;&#x5BC6;&#x7801;&#x7684;&#x4F2A;&#x968F;&#x673A;&#x6570;&#x751F;&#x6210;&#x5668;&#xFF0C;&#x4E0D;&#x5EFA;&#x8BAE;&#x7528;&#x4E8E;&#x751F;&#x6210;&#x9AD8;&#x5F3A;&#x5EA6;&#x957F;&#x671F;&#x5BC6;&#x7801;&#x3002;</p>
+<p>&#x7C7B;&#x4F3C;&#x6848;&#x4F8B;: SecureRandom &#x5BFC;&#x81F4;tomcat&#x542F;&#x52A8;&#x8FC7;&#x6162;.</p>
+<p><a href="https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source" target="_blank" rel="external">https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source</a></p>
+<p>&#x4ECE;&#x6587;&#x4E2D;&#x770B;&#x5230;&#x8BF4;java8&#x5DF2;&#x7ECF;&#x63D0;&#x5347;&#x4E86;&#x8FD9;&#x4E2A;&#x6027;&#x80FD;.&#x4F46;&#x662F;&#x4E00;&#x822C;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x7684;java&#x7248;&#x672C;&#x662F;&#x4E0D;&#x4F1A;&#x6539;&#x7684;.</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JVM/">JVM</a><a href="/tags/Linux/">Linux</a><a href="/tags/Tomcat/">Tomcat</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/d22479b/" title="Java 9许愿清单：请赐予我们更理想的垃圾回收机制 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java 9许愿清单：请赐予我们更理想的垃圾回收机制 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/d2532ad/"  title="JVM 优化经验总结 -">
+ <strong>下一篇：</strong><br/> 
+ <span>JVM 优化经验总结 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

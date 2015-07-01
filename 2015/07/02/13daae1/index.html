@@ -1,0 +1,660 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>SpringMVC 异常处理 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Using HTTP Status Codes&amp;#x5728;&amp;#x6211;&amp;#x4EEC;&amp;#x81EA;&amp;#x5B9A;&amp;#x4E49;&amp;#x7684;&amp;#x5F02;&amp;#x5E38;&amp;#x4E0A;&amp;#x4F7F;&amp;#x7528;ResponseStatus&amp;#x6CE8;&amp;#x89E3;&amp;#x3002;&amp;#x5F53;&amp;#x6211;&amp;#x4EEC;&amp;#x7684;Controller&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC 异常处理 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/13daae1/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Using HTTP Status Codes&amp;#x5728;&amp;#x6211;&amp;#x4EEC;&amp;#x81EA;&amp;#x5B9A;&amp;#x4E49;&amp;#x7684;&amp;#x5F02;&amp;#x5E38;&amp;#x4E0A;&amp;#x4F7F;&amp;#x7528;ResponseStatus&amp;#x6CE8;&amp;#x89E3;&amp;#x3002;&amp;#x5F53;&amp;#x6211;&amp;#x4EEC;&amp;#x7684;Controller&amp;">
+<meta property="og:updated_time" content="2015-07-01T23:51:22.763Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMVC 异常处理 -">
+<meta name="twitter:description" content="Using HTTP Status Codes&amp;#x5728;&amp;#x6211;&amp;#x4EEC;&amp;#x81EA;&amp;#x5B9A;&amp;#x4E49;&amp;#x7684;&amp;#x5F02;&amp;#x5E38;&amp;#x4E0A;&amp;#x4F7F;&amp;#x7528;ResponseStatus&amp;#x6CE8;&amp;#x89E3;&amp;#x3002;&amp;#x5F53;&amp;#x6211;&amp;#x4EEC;&amp;#x7684;Controller&amp;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/13daae1/" title="SpringMVC 异常处理 -" itemprop="url">SpringMVC 异常处理 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:51:22.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Using_HTTP_Status_Codes"><span class="toc-number">1.</span> <span class="toc-text">Using HTTP Status Codes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Controller_Based_Exception_Handling"><span class="toc-number">2.</span> <span class="toc-text">Controller Based Exception Handling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Global_Exception_Handling"><span class="toc-number">3.</span> <span class="toc-text">Global Exception Handling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Going_Deeper"><span class="toc-number">4.</span> <span class="toc-text">Going Deeper</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="Using_HTTP_Status_Codes">Using HTTP Status Codes</h2><p>&#x5728;&#x6211;&#x4EEC;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x5F02;&#x5E38;&#x4E0A;&#x4F7F;&#x7528;ResponseStatus&#x6CE8;&#x89E3;&#x3002;&#x5F53;&#x6211;&#x4EEC;&#x7684;Controller&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x5E76;&#x4E14;&#x6CA1;&#x6709;&#x88AB;&#x5904;&#x7406;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4ED6;&#x5C06;&#x8FD4;&#x56DE;HTTP STATUS &#x4E3A;&#x6307;&#x5B9A;&#x503C;&#x7684; HTTP RESPONSE&#x3002;&#x8FD9;&#x5728;&#x6211;&#x4EEC;&#x5199;REST API&#x7684;&#x65F6;&#x5019;&#x7ECF;&#x5E38;&#x7528;&#x5230;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;</p>
+<pre><code><span class="annotation">@ResponseStatus</span>(value=<span class="type">HttpStatus</span>.<span class="type">NOT_FOUND</span>, reason=&amp;quot;<span class="type">No</span> such <span class="type">Order</span>&amp;quot;)  <span class="comment">// 404</span>
+public <span class="class"><span class="keyword">class</span> <span class="title">OrderNotFoundException</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">RuntimeException</span> {</span>
+    <span class="comment">// ...</span>
+}
+</code></pre><p>&#x6211;&#x4EEC;&#x7684;Controller&#x4E3A;&#xFF1A;</p>
+<pre><code>@RequestMapping(value=&amp;quot;/orders/<span class="comment">{id}</span>&amp;quot;, <span class="function"><span class="keyword">method</span>=<span class="title">GET</span>)
+@<span class="title">ResponseBody</span>
+<span class="title">public</span> <span class="title">String</span> <span class="title">getOrder</span><span class="params">(@PathVariable(&amp;quot;id&amp;quot;)</span> <span class="title">long</span> <span class="title">id</span>, <span class="title">Model</span> <span class="title">model</span>) <span class="comment">{
+    Order order = orderRepository.findOrderById(id);
+    if (order == null) {
+        throw new OrderNotFoundException(id);
+    }</span>
+    <span class="title">return</span> <span class="title">order</span>;</span>
+}
+</code></pre><h2 id="Controller_Based_Exception_Handling">Controller Based Exception Handling</h2><p>&#x5728;&#x4E00;&#x4E2A;Controller&#x4E2D;&#xFF0C;</p>
+<p>&#xFF0C;&#x6CE8;&#x610F;&#x8FD9;&#x79CD;&#x53EA;&#x5728;&#x5355;&#x4E2A;Controller&#x4E2D;&#x6709;&#x6548;&#x3002;&#x8FD9;&#x4E48;&#x505A;&#x53EF;&#x4EE5;&#xFF1A;</p>
+<ol>
+<li>&#x53D1;&#x751F;&#x5F02;&#x5E38;&#x540E;&#xFF0C;&#x6539;&#x53D8;Response status&#xFF0C;&#x4E00;&#x822C;&#x800C;&#x8A00;&#xFF0C;&#x53D1;&#x751F;&#x5F02;&#x5E38;&#x8FD4;&#x56DE;HTTP STATUS 500.&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x53D8;&#x4E3A;&#x5176;&#x4ED6;&#x3002;</li>
+<li>&#x53D1;&#x751F;&#x9519;&#x8BEF;&#x540E;&#x8F6C;&#x5230;&#x9519;&#x8BEF;&#x9875;&#x9762;</li>
+<li>&#x53EF;&#x4EE5;&#x4E3A;&#x4E0D;&#x540C;&#x5F02;&#x5E38;&#x5B9A;&#x4E49;&#x4E0D;&#x540C;&#x5904;&#x7406;&#xFF08;&#x5982;&#x4E0D;&#x540C;&#x7684;&#x9519;&#x8BEF;&#x9875;&#x9762;&#xFF0C;&#x4E0D;&#x540C;&#x7684;Response status&#xFF09;</li>
+</ol>
+<p>&#x4E3E;&#x4F8B;&#x8BF4;&#x660E;</p>
+<pre><code>@<span class="class">Controller</span>
+public class <span class="class">ExceptionHandlingController</span> {
+
+  // &amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x4E86</span>;@<span class="class">RequestMapping</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;
+  ...
+
+  //&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x5F02</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x3002</span>;
+
+  // &amp;<span class="symbol">#x628A</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x4E49</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5F02</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x7279</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">Http</span> status code
+  @<span class="class">ResponseStatus</span>(value=<span class="class">HttpStatus</span>.<span class="class">CONFLICT</span>, reason=&amp;quot;<span class="class">Data</span> integrity violation&amp;quot;)  // <span class="number">409</span>
+  @<span class="class">ExceptionHandler</span>(<span class="class">DataIntegrityViolationException</span>.class)
+  public void conflict() {
+    // <span class="class">Nothing</span> to do
+  }
+
+
+  // &amp;<span class="symbol">#x6355</span>;&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x5230</span>;<span class="class">SQLException</span>&amp;<span class="symbol">#xFF0C</span>;<span class="class">DataAccessException</span>&amp;<span class="symbol">#x5F02</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8F6C</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x7279</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x9875</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x3002</span>;
+  @<span class="class">ExceptionHandler</span>({<span class="class">SQLException</span>.class,<span class="class">DataAccessException</span>.class})
+  public <span class="class">String</span> databaseError() {
+    //&amp;<span class="symbol">#x4EC5</span>;&amp;<span class="symbol">#x4EC5</span>;&amp;<span class="symbol">#x8F6C</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x9519</span>;&amp;<span class="symbol">#x8BEF</span>;&amp;<span class="symbol">#x9875</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x9875</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">Exception</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x5230</span>;
+    return &amp;quot;databaseError&amp;quot;;
+  }
+
+  // &amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;<span class="class">ModelAndView</span>&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x9875</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x53CA</span>;&amp;<span class="symbol">#x5F80</span>;&amp;<span class="symbol">#x9875</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x76F8</span>;&amp;<span class="symbol">#x5E94</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;
+  @<span class="class">ExceptionHandler</span>(<span class="class">Exception</span>.class)
+  public <span class="class">ModelAndView</span> handleError(<span class="class">HttpServletRequest</span> req, <span class="class">Exception</span> exception) {
+    logger.error(&amp;quot;<span class="class">Request</span>: &amp;quot; + req.getRequestURL() + &amp;quot; raised &amp;quot; + exception);
+
+    <span class="class">ModelAndView</span> mav = new <span class="class">ModelAndView</span>();
+    mav.addObject(&amp;quot;exception&amp;quot;, exception);
+    mav.addObject(&amp;quot;url&amp;quot;, req.getRequestURL());
+    mav.setViewName(&amp;quot;error&amp;quot;);
+    return mav;
+  }
+}
+</code></pre><h2 id="Global_Exception_Handling">Global Exception Handling</h2><p>&#x5728;&#x7C7B;&#x4E0A;&#x4F7F;&#x7528; @ControllerAdvice&#x6CE8;&#x89E3;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x5F97;&#x6211;&#x4EEC;&#x5904;&#x7406;&#x6574;&#x4E2A;&#x7A0B;&#x5E8F;&#x4E2D;&#x629B;&#x51FA;&#x7684;&#x5F02;&#x5E38;&#x3002;</p>
+<p>&#x3002;</p>
+<p>&#x4E3E;&#x4F8B;:</p>
+<pre><code><span class="tag">class</span> <span class="tag">GlobalControllerExceptionHandler</span> {
+    <span class="variable">@ResponseStatus</span>(HttpStatus.CONFLICT)  <span class="comment">// 409</span>
+    <span class="variable">@ExceptionHandler</span>(DataIntegrityViolationException.class)
+    public void <span class="function">handleConflict</span>() {
+        <span class="comment">// Nothing to do</span>
+    }
+   <span class="comment">//&amp;#x8F6C;&amp;#x5230;&amp;#x7279;&amp;#x5B9A;&amp;#x9875;&amp;#x9762; &amp;#x3002;&amp;#x3002;&amp;#x3002;&amp;#x3002;&amp;#x3002;</span>
+}
+</code></pre><p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x8981;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x4E2D;&#x6240;&#x6709;&#x7684;&#x5F02;&#x5E38;&#x53EF;&#x4EE5;&#x8FD9;&#x4E48;&#x505A;&#xFF1A;</p>
+<pre><code><span class="annotation">@ControllerAdvice</span>
+<span class="class"><span class="keyword">class</span> <span class="title">GlobalDefaultExceptionHandler</span> {</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_ERROR_VIEW = &amp;quot;error&amp;quot;;
+    <span class="annotation">@ExceptionHandler</span>(value = Exception.<span class="keyword">class</span>)
+    <span class="keyword">public</span> ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) <span class="keyword">throws</span> Exception {
+        <span class="comment">// If the exception is annotated with @ResponseStatus rethrow it and let</span>
+        <span class="comment">// the framework handle it - like the OrderNotFoundException example</span>
+        <span class="comment">// at the start of this post.</span>
+        <span class="comment">// AnnotationUtils is a Spring Framework utility class.</span>
+        <span class="keyword">if</span> (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.<span class="keyword">class</span>) != <span class="literal">null</span>) {
+            <span class="keyword">throw</span> e;
+        }
+        <span class="comment">// Otherwise setup and send the user to a default error-view.</span>
+        ModelAndView mav = <span class="keyword">new</span> ModelAndView();
+        mav.addObject(&amp;quot;exception&amp;quot;, e);
+        mav.addObject(&amp;quot;url&amp;quot;, req.getRequestURL());
+        mav.setViewName(DEFAULT_ERROR_VIEW);
+        <span class="keyword">return</span> mav;
+    }
+}
+</code></pre><h2 id="Going_Deeper">Going Deeper</h2><p>&#x5B9E;&#x73B0;HandlerExceptionResolver&#x63A5;&#x53E3;&#xFF0C;SpringMvc&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4ED6;&#x6765;&#x5904;&#x7406;Controller&#x4E2D;&#x629B;&#x51FA;&#x7684;&#x5F02;&#x5E38;</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HandlerExceptionResolver</span> </span>{
+    <span class="function">ModelAndView <span class="title">resolveException</span><span class="params">(HttpServletRequest request, 
+            HttpServletResponse response, Object <span class="keyword">handler</span>, Exception ex)</span></span>;
+}
+</code></pre><p>SpringMvc&#x4F7F;&#x7528;&#x4E09;&#x79CD;&#x9ED8;&#x8BA4;&#x7684;HandlerExceptionResolver&#x6765;&#x5904;&#x7406;&#x6211;&#x4EEC;&#x7684;&#x5F02;&#x5E38;</p>
+<ol>
+<li>ExceptionHandlerExceptionResolver&#xFF1A;&#x3002;</li>
+<li>ResponseStatusExceptionResolver&#xFF1A;</li>
+<li>DefaultHandlerExceptionResolver&#xFF1A;&#x628A;Spring&#x5B9A;&#x4E49;&#x7684;&#x4E00;&#x4E9B;&#x6807;&#x51C6;&#x5F02;&#x5E38;&#xFF0C;&#x8F6C;&#x6362;&#x4E3A;HTTP STATUS CODE.</li>
+</ol>
+<p>Spring&#x5185;&#x7F6E;&#x7684;SimpleMappingExceptionResolver&#x5B9E;&#x73B0;&#x4E86;HandlerExceptionResolver&#x63A5;&#x53E3;&#xFF0C;&#x4E5F;&#x662F;&#x6211;&#x4EEC;&#x7ECF;&#x5E38;&#x4F7F;&#x7528;&#x7684;&#xFF0C;XML&#x914D;&#x7F6E;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;bean id<span class="subst">=&amp;</span>quot;simpleMappingExceptionResolver<span class="subst">&amp;</span>quot;
+      class<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>springframework<span class="built_in">.</span>web<span class="built_in">.</span>servlet<span class="built_in">.</span>handler<span class="built_in">.</span>SimpleMappingExceptionResolver<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;exceptionMappings<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="built_in">map</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> key<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="subst">&amp;</span><span class="variable">#x5F02</span>;<span class="subst">&amp;</span><span class="variable">#x5E38</span>;<span class="subst">&amp;</span><span class="variable">#x7C7B</span>;<span class="subst">&amp;</span><span class="variable">#x578B</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;value<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x8F6C</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x9875</span>;<span class="subst">&amp;</span><span class="variable">#x9762</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;entry key<span class="subst">=&amp;</span>quot;DatabaseException<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;databaseError<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;entry key<span class="subst">=&amp;</span>quot;InvalidCreditCardException<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;creditCardError<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/<span class="built_in">map</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x9ED8</span>;<span class="subst">&amp;</span><span class="variable">#x8BA4</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5F02</span>;<span class="subst">&amp;</span><span class="variable">#x5E38</span>;<span class="subst">&amp;</span><span class="variable">#x9875</span>;<span class="subst">&amp;</span><span class="variable">#x9762</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;defaultErrorView<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;error<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x9875</span>;<span class="subst">&amp;</span><span class="variable">#x9762</span>;<span class="subst">&amp;</span><span class="variable">#x6211</span>;<span class="subst">&amp;</span><span class="variable">#x4EEC</span>;<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>;<span class="subst">&amp;</span><span class="variable">#x901A</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;ex<span class="subst">&amp;</span><span class="variable">#x62FF</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x5F02</span>;<span class="subst">&amp;</span><span class="variable">#x5E38</span>;<span class="subst">&amp;</span><span class="variable">#x4FE1</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;exceptionAttribute<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;ex<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> Name of logger <span class="keyword">to</span> use <span class="keyword">to</span> <span class="keyword">log</span> exceptions<span class="built_in">. </span>Unset <span class="keyword">by</span> default, so logging disabled <span class="subst">--&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="keyword">log</span><span class="subst">&amp;</span><span class="variable">#x5F02</span>;<span class="subst">&amp;</span><span class="variable">#x5E38</span>;<span class="subst">&amp;</span><span class="variable">#x4FE1</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x9ED8</span>;<span class="subst">&amp;</span><span class="variable">#x8BA4</span>;<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x8BBE</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>;<span class="subst">-&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x8BB0</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x5F02</span>;<span class="subst">&amp;</span><span class="variable">#x5E38</span>;<span class="subst">&amp;</span><span class="variable">#x4FE1</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;warnLogCategory<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;example<span class="built_in">.</span>MvcLogger<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Spring-MVC/">Spring MVC</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/13fcdc1/" title="项目搭建系列之二：SpringMVC框架下配置MyBatis -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  项目搭建系列之二：SpringMVC框架下配置MyBatis -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/f482d88/"  title="深入JVM内部了解Java线程的创建与执行 -">
+ <strong>下一篇：</strong><br/> 
+ <span>深入JVM内部了解Java线程的创建与执行 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Using_HTTP_Status_Codes"><span class="toc-number">1.</span> <span class="toc-text">Using HTTP Status Codes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Controller_Based_Exception_Handling"><span class="toc-number">2.</span> <span class="toc-text">Controller Based Exception Handling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Global_Exception_Handling"><span class="toc-number">3.</span> <span class="toc-text">Global Exception Handling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Going_Deeper"><span class="toc-number">4.</span> <span class="toc-text">Going Deeper</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

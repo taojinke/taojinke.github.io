@@ -1,0 +1,604 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>SpringMVC一路总结（二） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x51B0;&amp;#x51BB;&amp;#x4E09;&amp;#x5C3A;&amp;#x975E;&amp;#x4E00;&amp;#x65E5;&amp;#x4E4B;&amp;#x5BD2;&amp;#x3002;&amp;#x5BF9;&amp;#x6280;&amp;#x672F;&amp;#x7684;&amp;#x5B66;&amp;#x4E60;&amp;#x5C24;&amp;#x5176;&amp;#x5F97;&amp;#x9075;&amp;#x5FAA;&amp;#x8FD9;&amp;#x4E48;&amp;#x4E00;&amp;#x4E2A;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC一路总结（二） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/245239c/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x51B0;&amp;#x51BB;&amp;#x4E09;&amp;#x5C3A;&amp;#x975E;&amp;#x4E00;&amp;#x65E5;&amp;#x4E4B;&amp;#x5BD2;&amp;#x3002;&amp;#x5BF9;&amp;#x6280;&amp;#x672F;&amp;#x7684;&amp;#x5B66;&amp;#x4E60;&amp;#x5C24;&amp;#x5176;&amp;#x5F97;&amp;#x9075;&amp;#x5FAA;&amp;#x8FD9;&amp;#x4E48;&amp;#x4E00;&amp;#x4E2A;">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/244ede6.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/244f057.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/244f057.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/244f057.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/244f2c8.jpg">
+<meta property="og:updated_time" content="2015-07-01T23:51:50.400Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMVC一路总结（二） -">
+<meta name="twitter:description" content="&amp;#x51B0;&amp;#x51BB;&amp;#x4E09;&amp;#x5C3A;&amp;#x975E;&amp;#x4E00;&amp;#x65E5;&amp;#x4E4B;&amp;#x5BD2;&amp;#x3002;&amp;#x5BF9;&amp;#x6280;&amp;#x672F;&amp;#x7684;&amp;#x5B66;&amp;#x4E60;&amp;#x5C24;&amp;#x5176;&amp;#x5F97;&amp;#x9075;&amp;#x5FAA;&amp;#x8FD9;&amp;#x4E48;&amp;#x4E00;&amp;#x4E2A;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/245239c/" title="SpringMVC一路总结（二） -" itemprop="url">SpringMVC一路总结（二） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:51:50.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p> &#x51B0;&#x51BB;&#x4E09;&#x5C3A;&#x975E;&#x4E00;&#x65E5;&#x4E4B;&#x5BD2;&#x3002;&#x5BF9;&#x6280;&#x672F;&#x7684;&#x5B66;&#x4E60;&#x5C24;&#x5176;&#x5F97;&#x9075;&#x5FAA;&#x8FD9;&#x4E48;&#x4E00;&#x4E2A;&#x7406;&#x3002;&#x5728; <a href="http://www.cnblogs.com/itred/p/4480829.html" target="_blank" rel="external">&#x300A;SpringMVC&#x4E00;&#x8DEF;&#x603B;&#x7ED3;&#xFF08;&#x4E00;&#xFF09;&#x300B;</a> &#x4E2D;&#xFF0C;&#x6E05;&#x695A;&#x7684;&#x603B;&#x7ED3;&#x4E86;SpringMVC&#x7684;&#x5165;&#x95E8;&#x6848;&#x4F8B;&#xFF0C;&#x5BF9;&#x4E8E;&#x8FD9;&#x7C7B;&#x5165;&#x95E8;demo&#xFF0C;&#x7406;&#x6E05;&#x5957;&#x8DEF;&#xFF0C;&#x6574;&#x7406;&#x601D;&#x7EEA;&#x662F;&#x6700;&#x4E3A;&#x91CD;&#x8981;&#x7684;&#x3002;&#x80FD;&#x591F;&#x4ECE;&#x6848;&#x4F8B;&#x4E2D;&#x4E86;&#x89E3;&#x5230;SpringMVC&#x5728;&#x6846;&#x67B6;&#x6280;&#x672F;&#x4E2D;&#x7684;&#x7279;&#x70B9;&#x548C;&#x5E94;&#x7528;&#xFF0C;&#x5C31;&#x662F;&#x7B2C;&#x4E00;&#x90E8;&#x5206;&#x7684;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#x3002; </p>
+<p>&#x4ECE;&#x4E0A;&#x90E8;&#x5206;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x6BCF;&#x4E2A;Controller&#x4E2D;&#x53EA;&#x80FD;&#x5199;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x4E2A;Controller&#x662F;&#x5B9E;&#x73B0;Controller&#x4E2D;&#x7684;&#x65B9;&#x6CD5;handleRequest&#x3002;&#x7136;&#x800C;&#x5BF9;&#x4E8E;&#x8FD9;&#x79CD;&#x5F62;&#x5F0F;&#x7684;&#x5206;&#x5E03;&#x548C;&#x914D;&#x7F6E;&#xFF0C;&#x4E00;&#x65E6;&#x9879;&#x76EE;&#x4E2D;&#x7684;&#x529F;&#x80FD;&#x589E;&#x591A;&#xFF0C;&#x5F88;&#x96BE;&#x51C6;&#x786E;&#x7684;&#x5B9A;&#x4F4D;&#x65B9;&#x6CD5;&#x7684;&#x8BF7;&#x6C42;&#xFF0C;&#x800C;&#x4E14;&#x7EF4;&#x62A4;&#x4E5F;&#x5F88;&#x9EBB;&#x70E6;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x8FD9;&#x6837;&#x7684;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x7279;&#x70B9;&#x5E76;&#x4E0D;&#x660E;&#x663E;&#x3002;&#x4ECA;&#x5929;&#x7684;&#x8FD9;&#x90E8;&#x5206;&#x5C31;&#x662F;&#x4E3B;&#x8981;&#x89E3;&#x51B3;&#x8FD9;&#x6837;&#x7684;&#x95EE;&#x9898;&#x7684;&#x3002;&#x672C;&#x535A;&#x6587;&#x4E3A;&#x672C;&#x4EBA;&#x5B66;&#x4E60;&#x7684;&#x603B;&#x7ED3;&#xFF0C;&#x8BF7;&#x5C0A;&#x91CD;&#x52B3;&#x52A8;&#x6210;&#x679C;&#x3002;&#x6B22;&#x8FCE;&#x8F6C;&#x8F7D;&#xFF0C;&#x8BF7;&#x4FDD;&#x7559;&#x535A;&#x6587;&#x51FA;&#x5904;&#xFF1A; <a href="http://www.cnblogs.com/itred" target="_blank" rel="external"><strong>http://www.cnblogs.com/itred</strong></a> ;&#x672C;&#x4EBA;&#x90AE;&#x7BB1;&#xFF1A; <em><strong>&#xA0;it_red@sina.com</strong></em> &#x3002; </p>
+<p>&#x90A3;&#x4E48;&#xFF0C;&#x95EE;&#x9898;&#x6765;&#x4E86;&#xFF01;&#x5982;&#x4F55;&#x5728;&#x4E00;&#x4E2A;Controller&#x4E2D;&#x5199;&#x5165;&#x591A;&#x4E2A;&#x65B9;&#x6CD5;&#x5462;&#xFF1F;</p>
+<p>&#x5176;&#x5B9E;&#x5728;SpringMVC&#x4E2D;&#x5DF2;&#x7ECF;&#x5199;&#x597D;&#x4E86;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x7EE7;&#x627F;&#x5176;&#x4E2D;&#x7684;MultiActionController&#xFF0C;&#x8FD9;&#x4E2A;&#x7684;&#x5177;&#x4F53;&#x7C7B;&#x5728;org.springframework.web.servlet.mvc.multiaction&#x76EE;&#x5F55;&#x4E0B;&#x3002;&#x5728;spring&#x7684;JAR&#x5305;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x6E05;&#x695A;&#x7684;&#x627E;&#x5230;&#x8FD9;&#x4E2A;&#x7C7B;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/244ede6.jpg" alt=""></p>
+<p>&#x8FD8;&#x662F;&#x4ECE;&#x6848;&#x4F8B;&#x4E0A;&#x6765;&#x8BF4;&#x5427;&#xFF0C;&#x8981;&#x5B9E;&#x73B0;&#x8FD9;&#x4E48;&#x4E00;&#x4E2A;&#x591A;&#x65B9;&#x6CD5;&#x7684;Controller&#xFF0C;&#x57FA;&#x672C;&#x539F;&#x7406;&#x548C;&#x7B2C;&#x4E00;&#x90E8;&#x5206;&#x7684;&#x6848;&#x4F8B;&#x76F8;&#x540C;&#x3002;&#x53EA;&#x662F;&#x9700;&#x8981;&#x7B80;&#x5355;&#x4FEE;&#x6539;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x548C;&#x91CD;&#x65B0;&#x5199;Controller&#x5C31;&#x884C;&#x4E86;&#x3002;</p>
+<p>SpringMVC-servlet.xml&#x7684;&#x914D;&#x7F6E;&#x4E3A;&#xFF1A;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;bean id<span class="subst">=&amp;</span>quot;paramMethodResolver<span class="subst">&amp;</span>quot;
+  class<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>springframework<span class="built_in">.</span>web<span class="built_in">.</span>servlet<span class="built_in">.</span>mvc<span class="built_in">.</span>multiaction<span class="built_in">.</span>ParameterMethodNameResolver<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+       <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;paramName<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;action<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean name<span class="subst">=&amp;</span>quot;/test<span class="subst">&amp;</span>quot; class<span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>red<span class="built_in">.</span>controller<span class="built_in">.</span>MultiController<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+       <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;methodNameResolver<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+           <span class="subst">&amp;</span><span class="literal">lt</span>;ref bean<span class="subst">=&amp;</span>quot;paramMethodResolver<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+       <span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x4E0A;&#x9762;&#x7684;bean &#x4E2D;id&#x4E3A; <em>paramMethodResolver</em> &#x5C31;&#x662F;&#x914D;&#x7F6E;&#x4E00;&#x4E2A;Controller&#x7C7B;&#x4E2D;&#x5B9E;&#x73B0;&#x591A;&#x4E2A;&#x65B9;&#x6CD5;&#x7684;&#x91CD;&#x70B9;&#x3002; </p>
+<p>&#x5728;Controller&#x4E2D;&#x7EE7;&#x627F;MultiActionController&#x7684;&#x6E90;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>package com.red.controller;
+<span class="keyword">import</span> javax.servlet.http.<span class="type">HttpServletRequest</span>;
+<span class="keyword">import</span> javax.servlet.http.<span class="type">HttpServletResponse</span>;
+<span class="keyword">import</span> org.springframework.web.servlet.<span class="type">ModelAndView</span>;
+<span class="keyword">import</span> org.springframework.web.servlet.mvc.multiaction.<span class="type">MultiActionController</span>;
+public class <span class="type">MultiController</span> extends <span class="type">MultiActionController</span> {
+         public <span class="type">ModelAndView</span> <span class="type">First</span>(<span class="type">HttpServletRequest</span> request,
+             <span class="type">HttpServletResponse</span> response) {
+    <span class="type">String</span> <span class="keyword">method</span> = &amp;quot;<span class="type">First</span>&amp;quot;;
+    <span class="type">System</span>.<span class="keyword">out</span>.println(&amp;quot;<span class="keyword">using</span> <span class="type">First</span> <span class="keyword">method</span>::&amp;quot; + <span class="keyword">method</span>);
+    <span class="keyword">return</span> new <span class="type">ModelAndView</span>(&amp;quot;/test&amp;quot;, &amp;quot;param&amp;quot;, <span class="keyword">method</span>);
+         }
+         public <span class="type">ModelAndView</span> <span class="type">Second</span>(<span class="type">HttpServletRequest</span> request,
+             <span class="type">HttpServletResponse</span> response) {
+    <span class="type">String</span> <span class="keyword">method</span> = &amp;quot;<span class="type">Second</span>&amp;quot;;
+    <span class="type">System</span>.<span class="keyword">out</span>.println(&amp;quot;<span class="keyword">using</span> <span class="type">Second</span> <span class="keyword">method</span>::&amp;quot; + <span class="keyword">method</span>);
+    <span class="keyword">return</span> new <span class="type">ModelAndView</span>(&amp;quot;/test&amp;quot;, &amp;quot;param&amp;quot;, <span class="keyword">method</span>);
+         }
+}
+</code></pre><p>&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8F93;&#x5165;&#x5730;&#x5740;&#xFF1A;<a href="http://localhost:8080/20150507_SpringMVC01/test?action=First" target="_blank" rel="external">http://localhost:8080/20150507_SpringMVC01/test?action=First</a></p>
+<p>&#x5B9E;&#x73B0;&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/244f057.jpg" alt=""></p>
+<p>&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8F93;&#x5165;&#x5730;&#x5740;&#xFF1A; <a href="http://localhost:8080/20150507_SpringMVC01/test?action=Second" target="_blank" rel="external">http://localhost:8080/20150507_SpringMVC01/test?action=Second</a></p>
+<p>&#x5B9E;&#x73B0;&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/244f057.jpg" alt=""></p>
+<p>&#x63A7;&#x5236;&#x53F0;&#x4E2D;&#x8F93;&#x51FA;&#x7684;&#x7ED3;&#x679C;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/244f057.jpg" alt=""></p>
+<p>&#x5176;&#x5B9E;&#x5728;&#x5F00;&#x53D1;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x6700;&#x591A;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x5F80;&#x5F80;&#x4E0D;&#x662F;&#x8FD9;&#x4E9B;&#x6280;&#x672F;&#x6027;&#x95EE;&#x9898;&#x3002;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x4E00;&#x70B9;&#x7EC6;&#x8282;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x5F88;&#x591A;&#x4EBA;&#x5728;&#x521A;&#x63A5;&#x89E6;SpringMVC&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x56FE;&#x7247;&#xFF0C;js&#x4EE5;&#x53CA;css&#x7C7B;&#x7684;&#x6587;&#x4EF6;&#x57FA;&#x672C;&#x90FD;&#x4F1A;&#x51FA;&#x95EE;&#x9898;&#xFF0C;&#x5728;&#x9875;&#x9762;&#x4E0A;&#x4E0D;&#x80FD;&#x6B63;&#x5E38;&#x7684;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x663E;&#x793A;&#x7406;&#x60F3;&#x7684;&#x6548;&#x679C;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x56E0;&#x4E3A;&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x5C11;&#x4E86;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#xFF0C;&#x6216;&#x8005;&#x914D;&#x7F6E;&#x7684;&#x65F6;&#x5019;&#x6CA1;&#x6709;&#x914D;&#x7F6E;&#x6B63;&#x786E;&#x3002;</p>
+<p>&#x5373;&#xFF0C;&#x9700;&#x8981;&#x5728;SpringMVC-servlet.xml&#x4E2D;&#x52A0;&#x5165;&#x4EE5;&#x4E0B;&#x6E90;&#x7801;:</p>
+<pre><code>&amp;lt;<span class="string">mvc:</span>resources location=&amp;quot;<span class="regexp">/img/</span>&amp;quot; mapping=&amp;quot;<span class="regexp">/img/</span>**&amp;quot; /&amp;gt;
+</code></pre><p>Location&#x4E2D;&#x662F;&#x6587;&#x4EF6;&#x7684;&#x5B9E;&#x9645;&#x5B58;&#x653E;&#x8DEF;&#x5F84;&#xFF0C;mapping&#x662F;&#x6307;&#x7684;&#x662F;&#x6620;&#x5C04;&#x56FE;&#x7247;&#x6587;&#x4EF6; &#x5939;&#x3002;&#x5BF9;&#x4E8E;&#x5176;&#x4ED6;&#x7684;&#x5982;css&#x548C;js&#x7C7B;&#x7684;&#x6587;&#x4EF6;&#x7528;&#x540C;&#x6837;&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x53EF;&#x4EE5;&#x3002;</p>
+<p>&#x5B9E;&#x9645;&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/244f2c8.jpg" alt=""></p>
+<p>===================================================================</p>
+<p>&#x5728;&#x8FD9;&#x90E8;&#x5206;&#x4EE5;&#x53CA;&#x4E0A;&#x4E00;&#x90E8;&#x5206;&#x90FD;&#x662F;&#x901A;&#x8FC7;xml&#x7684;&#x5F62;&#x5F0F;&#x6765;&#x914D;&#x7F6E;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x7136;&#x800C;xml&#x5E76;&#x4E0D;&#x662F;&#x5B9E;&#x73B0;SpingMVC&#x7684;&#x6700;&#x4F73;&#x65B9;&#x5F0F;&#xFF0C;&#x5176;&#x5B9E;&#x6CE8;&#x89E3;&#x624D;&#x662F;&#x5176;&#x7279;&#x70B9;&#x3002;&#x5982;&#x679C;&#x5229;&#x7528;&#x6CE8;&#x89E3;&#x7684;&#x5F62;&#x5F0F;&#x6765;&#x5B9E;&#x73B0;&#x5C31;&#x53EF;&#x4EE5;&#x6E05;&#x695A;&#x7684;&#x770B;&#x5230;SpringMVC&#x6846;&#x67B6;&#x7684;&#x4F18;&#x70B9;&#xFF0C;&#x7B80;&#x5355;&#xFF0C;&#x800C;&#x4E14;&#x8FD8;&#x9002;&#x7528;&#x3002;&#x5173;&#x4E8E;&#x6CE8;&#x89E3;&#x7684;&#x5F62;&#x5F0F;&#x4F1A;&#x5728;&#x540E;&#x7EED;&#x7684;&#x603B;&#x7ED3;&#x4E2D;&#x7ED9;&#x51FA;&#x6848;&#x4F8B;&#x3002;</p>
+<p>Demo&#x4E0B;&#x8F7D;</p>
+<p>&#x611F;&#x8C22;&#x594B;&#x6597;&#x4E2D;&#x7684;&#x81EA;&#x5DF1;&#xFF01; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;&#xA0;</p>
+<pre><code><span class="keyword">&amp;</span><span class="id">#x90AE</span>;<span class="keyword">&amp;</span><span class="id">#x7BB1</span>;<span class="keyword">&amp;</span><span class="id">#xFF1A</span>;<span class="attr_selector">[it_red@sina.com]</span><span class="attr_selector">[6]</span>
+<span class="keyword">&amp;</span><span class="id">#x4E2A</span>;<span class="keyword">&amp;</span><span class="id">#x4EBA</span>;<span class="keyword">&amp;</span><span class="id">#x535A</span>;<span class="keyword">&amp;</span><span class="id">#x5BA2</span>;<span class="keyword">&amp;</span><span class="id">#xFF1A</span>; <span class="attr_selector">[http://itred.cnblogs.com]</span><span class="attr_selector">[1]</span>
+<span class="keyword">&amp;</span><span class="id">#x7248</span>;<span class="keyword">&amp;</span><span class="id">#x6743</span>;<span class="keyword">&amp;</span><span class="id">#x58F0</span>;<span class="keyword">&amp;</span><span class="id">#x660E</span>;<span class="keyword">&amp;</span><span class="id">#xFF1A</span>;<span class="keyword">&amp;</span><span class="id">#x672C</span>;<span class="keyword">&amp;</span><span class="id">#x6587</span>;<span class="keyword">&amp;</span><span class="id">#x7248</span>;<span class="keyword">&amp;</span><span class="id">#x6743</span>;<span class="keyword">&amp;</span><span class="id">#x5F52</span>;<span class="keyword">&amp;</span><span class="id">#x4F5C</span>;<span class="keyword">&amp;</span><span class="id">#x8005</span>;<span class="keyword">&amp;</span><span class="id">#x548C</span>;<span class="keyword">&amp;</span><span class="id">#x535A</span>;<span class="keyword">&amp;</span><span class="id">#x5BA2</span>;<span class="keyword">&amp;</span><span class="id">#x56ED</span>;<span class="keyword">&amp;</span><span class="id">#x5171</span>;<span class="keyword">&amp;</span><span class="id">#x6709</span>;<span class="keyword">&amp;</span><span class="id">#xFF0C</span>;<span class="keyword">&amp;</span><span class="id">#x6B22</span>;<span class="keyword">&amp;</span><span class="id">#x8FCE</span>;<span class="keyword">&amp;</span><span class="id">#x8F6C</span>;<span class="keyword">&amp;</span><span class="id">#x8F7D</span>;<span class="keyword">&amp;</span><span class="id">#xFF0C</span>;<span class="keyword">&amp;</span><span class="id">#x4F46</span>;<span class="keyword">&amp;</span><span class="id">#x8BF7</span>;<span class="keyword">&amp;</span><span class="id">#x5728</span>;<span class="keyword">&amp;</span><span class="id">#x6587</span>;<span class="keyword">&amp;</span><span class="id">#x7AE0</span>;<span class="keyword">&amp;</span><span class="id">#x663E</span>;<span class="keyword">&amp;</span><span class="id">#x773C</span>;<span class="keyword">&amp;</span><span class="id">#x4F4D</span>;<span class="keyword">&amp;</span><span class="id">#x7F6E</span>;<span class="keyword">&amp;</span><span class="id">#x6807</span>;<span class="keyword">&amp;</span><span class="id">#x660E</span>;<span class="keyword">&amp;</span><span class="id">#x6587</span>;<span class="keyword">&amp;</span><span class="id">#x7AE0</span>;<span class="keyword">&amp;</span><span class="id">#x51FA</span>;<span class="keyword">&amp;</span><span class="id">#x5904</span>;<span class="keyword">&amp;</span><span class="id">#x3002</span>;<span class="keyword">&amp;</span><span class="id">#x672A</span>;<span class="keyword">&amp;</span><span class="id">#x7ECF</span>;<span class="keyword">&amp;</span><span class="id">#x672C</span>;<span class="keyword">&amp;</span><span class="id">#x4EBA</span>;<span class="keyword">&amp;</span><span class="id">#x4E66</span>;<span class="keyword">&amp;</span><span class="id">#x9762</span>;<span class="keyword">&amp;</span><span class="id">#x540C</span>;<span class="keyword">&amp;</span><span class="id">#x610F</span>;<span class="keyword">&amp;</span><span class="id">#xFF0C</span>;<span class="keyword">&amp;</span><span class="id">#x5C06</span>;<span class="keyword">&amp;</span><span class="id">#x5176</span>;<span class="keyword">&amp;</span><span class="id">#x4F5C</span>;<span class="keyword">&amp;</span><span class="id">#x4E3A</span>;<span class="keyword">&amp;</span><span class="id">#x4ED6</span>;<span class="keyword">&amp;</span><span class="id">#x7528</span>;<span class="keyword">&amp;</span><span class="id">#xFF0C</span>;<span class="keyword">&amp;</span><span class="id">#x672C</span>;<span class="keyword">&amp;</span><span class="id">#x4EBA</span>;<span class="keyword">&amp;</span><span class="id">#x4FDD</span>;<span class="keyword">&amp;</span><span class="id">#x7559</span>;<span class="keyword">&amp;</span><span class="id">#x8FFD</span>;<span class="keyword">&amp;</span><span class="id">#x7A76</span>;<span class="keyword">&amp;</span><span class="id">#x8D23</span>;<span class="keyword">&amp;</span><span class="id">#x4EFB</span>;<span class="keyword">&amp;</span><span class="id">#x7684</span>;<span class="keyword">&amp;</span><span class="id">#x6240</span>;<span class="keyword">&amp;</span><span class="id">#x6709</span>;<span class="keyword">&amp;</span><span class="id">#x6743</span>;<span class="keyword">&amp;</span><span class="id">#x5229</span>;<span class="keyword">&amp;</span><span class="id">#x3002</span>;
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Spring-MVC/">Spring MVC</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/2a782b7/" title="SpringMVC中的XXE漏洞测试 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  SpringMVC中的XXE漏洞测试 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/2446c81/"  title="Spring Mvc 输出Json(iwantmoon.com出品) -">
+ <strong>下一篇：</strong><br/> 
+ <span>Spring Mvc 输出Json(iwantmoon.com出品) -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

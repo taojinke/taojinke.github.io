@@ -1,0 +1,551 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Java 9许愿清单：请赐予我们更理想的垃圾回收机制 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x7532;&amp;#x9AA8;&amp;#x6587;&amp;#x516C;&amp;#x53F8;&amp;#x8868;&amp;#x793A;&amp;#x4F4E;&amp;#x6682;&amp;#x505C;G1&amp;#x5783;&amp;#x573E;&amp;#x56DE;&amp;#x6536;&amp;#x673A;&amp;#x5236;&amp;#x5C06;&amp;#x5728;&amp;#x53D6;&amp;#x4EE3;Parallel GC&amp;#x63D0;&amp;#x9AD8;&amp;#x7CFB;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 9许愿清单：请赐予我们更理想的垃圾回收机制 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/d22479b/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x7532;&amp;#x9AA8;&amp;#x6587;&amp;#x516C;&amp;#x53F8;&amp;#x8868;&amp;#x793A;&amp;#x4F4E;&amp;#x6682;&amp;#x505C;G1&amp;#x5783;&amp;#x573E;&amp;#x56DE;&amp;#x6536;&amp;#x673A;&amp;#x5236;&amp;#x5C06;&amp;#x5728;&amp;#x53D6;&amp;#x4EE3;Parallel GC&amp;#x63D0;&amp;#x9AD8;&amp;#x7CFB;&amp;#x">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/d2231a2.jpg">
+<meta property="og:updated_time" content="2015-07-01T23:49:32.512Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 9许愿清单：请赐予我们更理想的垃圾回收机制 -">
+<meta name="twitter:description" content="&amp;#x7532;&amp;#x9AA8;&amp;#x6587;&amp;#x516C;&amp;#x53F8;&amp;#x8868;&amp;#x793A;&amp;#x4F4E;&amp;#x6682;&amp;#x505C;G1&amp;#x5783;&amp;#x573E;&amp;#x56DE;&amp;#x6536;&amp;#x673A;&amp;#x5236;&amp;#x5C06;&amp;#x5728;&amp;#x53D6;&amp;#x4EE3;Parallel GC&amp;#x63D0;&amp;#x9AD8;&amp;#x7CFB;&amp;#x">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/d22479b/" title="Java 9许愿清单：请赐予我们更理想的垃圾回收机制 -" itemprop="url">Java 9许愿清单：请赐予我们更理想的垃圾回收机制 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:49:32.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x7532;&#x9AA8;&#x6587;&#x516C;&#x53F8;&#x8868;&#x793A;&#x4F4E;&#x6682;&#x505C;G1&#x5783;&#x573E;&#x56DE;&#x6536;&#x673A;&#x5236;&#x5C06;&#x5728;&#x53D6;&#x4EE3;Parallel GC&#x63D0;&#x9AD8;&#x7CFB;&#x7EDF;&#x6267;&#x884C;&#x6548;&#x7387;&#x3002;</p>
+<p>&#x76EE;&#x524D;&#x7532;&#x9AA8;&#x6587;&#x6B63;&#x8BA1;&#x5212;&#x5C06;G1&#x670D;&#x52A1;&#x5668;&#x5783;&#x573E;&#x56DE;&#x6536;&#x673A;&#x5236;&#x4F5C;&#x4E3A;32&#x4F4D;&#x4E0E;64&#x4F4D;Java&#x670D;&#x52A1;&#xFFFD;&#xFFFD;&#xFFFD;&#x914D;&#x7F6E;&#x65B9;&#x6848;&#x4E2D;&#x7684;&#x9ED8;&#x8BA4;&#x56DE;&#x6536;&#x9009;&#x9879;&#xFF0C;&#x4F46;&#x8FD9;&#x79CD;&#x5904;&#x7406;&#x65B9;&#x5F0F;&#x53EF;&#x80FD;&#x5E26;&#x6765;&#x4E00;&#x7CFB;&#x5217;&#x540E;&#x7EED;&#x95EE;&#x9898;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/d2231a2.jpg" alt=""></p>
+<p>&#x6B63;&#x5982;&#x4E8E;&#x4ECA;&#x5E74;&#x65E9;&#x4E9B;&#x65F6;&#x5019;&#x9996;&#x6B21;&#x53D1;&#x5E03;&#x5E76;&#x4E8E;&#x672C;&#x6708;&#x521A;&#x521A;&#x8FDB;&#x884C;&#x4E86;&#x66F4;&#x65B0;&#x7684;JEP&#xFF08;&#x5373;JDK&#x589E;&#x5F3A;&#x65B9;&#x6848;&#xFF09;248&#x6240;&#x6307;&#x51FA;&#xFF0C;&#x6B64;&#x6B21;&#x56DE;&#x6536;&#x673A;&#x5236;&#x53D8;&#x66F4;&#x7684;&#x52A8;&#x673A;&#x5728;&#x4E8E;&#x5C06;&#x6682;&#x505C;&#x65F6;&#x95F4;&#x5F15;&#x5165;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x3002;&#x201C;&#x4E00;&#x822C;&#x6765;&#x8BB2;&#xFF0C;&#x9650;&#x5236;GC&#x6682;&#x505C;&#x65F6;&#x95F4;&#x8981;&#x6BD4;&#x6700;&#x5927;&#x9650;&#x5EA6;&#x63D0;&#x5347;&#x541E;&#x5410;&#x80FD;&#x529B;&#x66F4;&#x4E3A;&#x91CD;&#x8981;&#xFF0C;&#x201D;&#x8FD9;&#x4EFD;&#x5EFA;&#x8BAE;&#x6307;&#x51FA;&#x3002;&#x201C;&#x800C;&#x9009;&#x62E9;G1&#x8FD9;&#x7C7B;&#x4F4E;&#x6682;&#x505C;&#x5783;&#x573E;&#x56DE;&#x6536;&#x65B9;&#x6848;&#x5E94;&#x8BE5;&#x80FD;&#x591F;&#x4E3A;&#x5927;&#x591A;&#x6570;&#x7528;&#x6237;&#x5E26;&#x6765;&#x66F4;&#x51FA;&#x8272;&#x7684;&#x6574;&#x4F53;&#x4F7F;&#x7528;&#x4F53;&#x9A8C;&#x2014;&#x2014;&#x81F3;&#x5C11;&#x76F8;&#x8F83;&#x4E8E;&#x4E3B;&#x8981;&#x9762;&#x5411;&#x541E;&#x5410;&#x80FD;&#x529B;&#x7684;&#x5F53;&#x524D;&#x9ED8;&#x8BA4;&#x9009;&#x9879;Parallel GC&#x662F;&#x5982;&#x6B64;&#x3002;&#x2026;&#x2026;&#x6B64;&#x6B21;&#x53D8;&#x66F4;&#x4E3B;&#x8981;&#x57FA;&#x4E8E;&#x4E00;&#x9879;&#x5047;&#x8BBE;&#xFF0C;&#x5373;&#x9650;&#x5236;&#x5EF6;&#x8FDF;&#x6C34;&#x5E73;&#x901A;&#x5E38;&#x8981;&#x4F18;&#x5148;&#x4E8E;&#x63D0;&#x5347;&#x541E;&#x5410;&#x80FD;&#x529B;&#x3002;&#x5982;&#x679C;&#x8FD9;&#x4E00;&#x5047;&#x8BBE;&#x5E76;&#x4E0D;&#x51C6;&#x786E;&#xFF0C;&#x90A3;&#x4E48;&#x6B64;&#x6B21;&#x8C03;&#x6574;&#x53EF;&#x80FD;&#x65E0;&#x6CD5;&#x5E26;&#x6765;&#x7406;&#x60F3;&#x7684;&#x6548;&#x679C;&#x3001;&#x751A;&#x81F3;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x52A0;&#x4EE5;&#x5BA1;&#x89C6;&#x3002;&#x201D;</p>
+<p>&#x7532;&#x9AA8;&#x6587;&#x65B9;&#x9762;&#x7684;&#x8BA1;&#x5212;&#x662F;&#x5C06;G1&#x90E8;&#x7F72;&#x5728;&#x5C06;&#x4E8E;&#x660E;&#x5E74;&#x63A8;&#x51FA;&#x7684;Java 9&#x5F53;&#x4E2D;&#x3002;&#x5728;JDK&#xFF08;&#x5373;Java&#x5F00;&#x53D1;&#x5DE5;&#x5177;&#xFF09;8&#x53CA;&#x5176;&#x540E;&#x7EED;&#x66F4;&#x65B0;&#x7248;&#x672C;&#x5F53;&#x4E2D;&#xFF0C;G1&#x5DF2;&#x7ECF;&#x8FCE;&#x6765;&#x4E86;&#x591A;&#x9879;&#x6027;&#x80FD;&#x6539;&#x8FDB;&#x3002;&#x800C;&#x6839;&#x636E;JEP&#x6587;&#x6863;&#x7684;&#x8BF4;&#x6CD5;&#xFF0C;&#x5176;&#x5E94;&#x8BE5;&#x8FD8;&#x4F1A;&#x5728;JDK 9&#x5185;&#x5F97;&#x5230;&#x8FDB;&#x4E00;&#x6B65;&#x63D0;&#x5347;&#x3002;</p>
+<p>&#x7532;&#x9AA8;&#x6587;&#x516C;&#x53F8;&#x7684;&#x4E00;&#x4EFD;&#x8BF4;&#x660E;&#x6587;&#x6863;&#x6307;&#x51FA;&#xFF0C;G1&#x7684;&#x5B9A;&#x4F4D;&#x662F;&#x4E13;&#x95E8;&#x9762;&#x5411;&#x62E5;&#x6709;&#x5927;&#x5BB9;&#x91CF;&#x5185;&#x5B58;&#x53CA;&#x591A;&#x5904;&#x7406;&#x5668;&#x8BBE;&#x5907;&#x7684;&#x670D;&#x52A1;&#x5668;&#x578B;&#x5783;&#x573E;&#x6536;&#x96C6;&#x65B9;&#x6848;&#x3002;&#x4E0D;&#x8FC7;&#x5C06;&#x5176;&#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x6536;&#x96C6;&#x673A;&#x5236;&#x53EF;&#x80FD;&#x4F1A;&#x66B4;&#x9732;&#x51FA;G1&#x5F53;&#x4E2D;&#x67D0;&#x4E9B;&#x539F;&#x672C;&#x4E0D;&#x4E3A;&#x4EBA;&#x77E5;&#x7684;&#x6F5C;&#x5728;&#x95EE;&#x9898;&#xFF0C;JEP 248&#x6307;&#x51FA;&#x3002;&#x201C;&#x5982;&#x679C;&#x5176;&#x4E2D;&#x51FA;&#x73B0;&#x4E86;&#x67D0;&#x4E9B;&#x5728;JDK 9&#x751F;&#x547D;&#x5468;&#x671F;&#x4E4B;&#x5185;&#x65E0;&#x6CD5;&#x89E3;&#x51B3;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x5C06;&#x91CD;&#x65B0;&#x5C06;Parallel GC&#x4F5C;&#x4E3A;JDK 9&#x901A;&#x7528;&#x7248;&#x672C;&#x7684;&#x9ED8;&#x8BA4;&#x5783;&#x573E;&#x56DE;&#x6536;&#x65B9;&#x6848;&#x3002;&#x201D;G1&#x8FD8;&#x63D0;&#x4F9B;&#x591A;&#x79CD;&#x4E0D;&#x540C;&#x8D44;&#x6E90;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x3002;&#x201C;&#x5F53;&#x8D44;&#x6E90;&#x4F7F;&#x7528;&#x7387;&#x9700;&#x8981;&#x88AB;&#x63A7;&#x5236;&#x5728;&#x6700;&#x4F4E;&#x6C34;&#x5E73;&#x65F6;&#xFF0C;&#x7528;&#x6237;&#x5E94;&#x8BE5;&#x4F18;&#x5148;&#x9009;&#x62E9;&#x5176;&#x5B83;&#x5783;&#x573E;&#x56DE;&#x6536;&#x673A;&#x5236;&#x6765;&#x53D6;&#x4EE3;G1&#xFF0C;&#x800C;&#x5728;&#x53D8;&#x66F4;&#x4E4B;&#x540E;&#x3001;&#x540E;&#x5907;&#x56DE;&#x6536;&#x673A;&#x5236;&#x5FC5;&#x987B;&#x5F97;&#x5230;&#x660E;&#x786E;&#x6307;&#x5B9A;&#x3002;&#x201D;</p>
+<p>Parallel GC&#x8FD9;&#x5957;&#x5E76;&#x884C;&#x5783;&#x573E;&#x56DE;&#x6536;&#x65B9;&#x6848;&#x591A;&#x5E74;&#x6765;&#x4E00;&#x76F4;&#x5728;Java&#x5F53;&#x4E2D;&#x5145;&#x5F53;&#x9ED8;&#x8BA4;&#x9009;&#x9879;&#xFF0C;&#x800C;&#x9700;&#x8981;&#x5C3D;&#x53EF;&#x80FD;&#x538B;&#x7F29;&#x5783;&#x573E;&#x56DE;&#x6536;&#x6682;&#x505C;&#x65F6;&#x95F4;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5219;&#x4E3B;&#x8981;&#x91C7;&#x7528;Concurrent Mark Sweep&#x2014;&#x2014;&#x540E;&#x8005;&#x540C;&#x6837;&#x5C5E;&#x4E8E;&#x5907;&#x9009;&#x65B9;&#x6848;&#xFF0C;Java&#x865A;&#x62DF;&#x673A;&#x6280;&#x672F;&#x4F9B;&#x5E94;&#x5546;Azul Systems&#x516C;&#x53F8;Scott Sellers&#x6307;&#x51FA;&#x3002;G1&#x662F;&#x4E00;&#x5957;&#x5168;&#x65B0;&#x5B9E;&#x73B0;&#x65B9;&#x6848;&#xFF0C;&#x5176;&#x4EE3;&#x7801;&#x66F4;&#x52A0;&#x7B80;&#x6D01;&#x800C;&#x4E14;&#x5728;&#x7EF4;&#x62A4;&#x65B9;&#x9762;&#x4E0A;&#x5BF9;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x66F4;&#x52A0;&#x53CB;&#x597D;&#xFF0C;&#x56E0;&#x6B64;&#x201C;&#x4E00;&#x90E8;&#x5206;&#x7528;&#x6237;&#x53EF;&#x80FD;&#x66F4;&#x503E;&#x5411;&#x4E8E;&#x4F7F;&#x7528;G1&#x4F5C;&#x4E3A;&#x6F14;&#x8FDB;&#x540E;&#x7684;&#x5904;&#x7406;&#x624B;&#x6BB5;&#xFF0C;&#x201D;Sellers&#x89E3;&#x91CA;&#x79F0;&#x3002;</p>
+<p>&#x4E0D;&#x8FC7;G1&#x4E5F;&#x6709;&#x7740;&#x81EA;&#x5DF1;&#x7684;&#x5F0A;&#x7AEF;&#xFF0C;&#x5305;&#x62EC;&#x8F83;&#x5E76;&#x884C;&#x5783;&#x573E;&#x6536;&#x96C6;&#x673A;&#x5236;&#x800C;&#x8A00;&#x6570;&#x636E;&#x541E;&#x5410;&#x901F;&#x5EA6;&#x8F83;&#x6162;&#x4E14;&#x6027;&#x80FD;&#x8F83;&#x5DEE;&#xFF0C;&#x4ED6;&#x8868;&#x793A;&#x3002;&#x201C;G1&#x7684;&#x53E6;&#x4E00;&#x5927;&#x77ED;&#x677F;&#x5728;&#x4E8E;&#xFF0C;&#x5982;&#x679C;&#x67D0;&#x6B3E;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x62E5;&#x6709;&#x975E;&#x5E38;&#x4E25;&#x683C;&#x7684;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x7279;&#x6027;&#xFF0C;&#x90A3;&#x4E48;&#x7ECF;&#x8FC7;&#x7CBE;&#x786E;&#x8C03;&#x6574;&#x7684;CMS&#x5783;&#x573E;&#x56DE;&#x6536;&#x673A;&#x5236;&#x5728;&#x51E0;&#x4E4E;&#x5404;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x90FD;&#x80FD;&#x63D0;&#x4F9B;&#x4F18;&#x4E8E;G1&#x7684;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x6307;&#x6807;&#x3002;&#x201D;</p>
+<p>&#x539F;&#x6587;&#x6807;&#x9898;&#xFF1A;Cleaner garbage collector wanted for Java 9</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JVM/">JVM</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/d280f19/" title="JVM 字节码指令对于栈帧数据操作举例 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JVM 字节码指令对于栈帧数据操作举例 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/d21b51f/"  title="SecureRandom第一次生成随机数非常慢 -">
+ <strong>下一篇：</strong><br/> 
+ <span>SecureRandom第一次生成随机数非常慢 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

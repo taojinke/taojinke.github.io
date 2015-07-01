@@ -1,0 +1,590 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>OSChina 开源周刊第32期 —— Go 的插件化开发 Pingo - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x6BCF;&amp;#x5468;&amp;#x6280;&amp;#x672F;&amp;#x62A2;&amp;#x5148;&amp;#x770B;&amp;#xFF0C;&amp;#x603B;&amp;#x6709;&amp;#x4F60;&amp;#x60F3;&amp;#x8981;&amp;#x7684;&amp;#xFF01;&amp;#x79FB;&amp;#x52A8;&amp;#x5F00;&amp;#x53D1; 
+
+&amp;#x3010;&amp;#x535A;&amp;#x5BA2;&amp;#x3011; IOS &amp;#x8868;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OSChina 开源周刊第32期 —— Go 的插件化开发 Pingo -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/f495762/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x6BCF;&amp;#x5468;&amp;#x6280;&amp;#x672F;&amp;#x62A2;&amp;#x5148;&amp;#x770B;&amp;#xFF0C;&amp;#x603B;&amp;#x6709;&amp;#x4F60;&amp;#x60F3;&amp;#x8981;&amp;#x7684;&amp;#xFF01;&amp;#x79FB;&amp;#x52A8;&amp;#x5F00;&amp;#x53D1; 
+
+&amp;#x3010;&amp;#x535A;&amp;#x5BA2;&amp;#x3011; IOS &amp;#x8868;">
+<meta property="og:updated_time" content="2015-07-01T23:50:30.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OSChina 开源周刊第32期 —— Go 的插件化开发 Pingo -">
+<meta name="twitter:description" content="&amp;#x6BCF;&amp;#x5468;&amp;#x6280;&amp;#x672F;&amp;#x62A2;&amp;#x5148;&amp;#x770B;&amp;#xFF0C;&amp;#x603B;&amp;#x6709;&amp;#x4F60;&amp;#x60F3;&amp;#x8981;&amp;#x7684;&amp;#xFF01;&amp;#x79FB;&amp;#x52A8;&amp;#x5F00;&amp;#x53D1; 
+
+&amp;#x3010;&amp;#x535A;&amp;#x5BA2;&amp;#x3011; IOS &amp;#x8868;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/f495762/" title="OSChina 开源周刊第32期 —— Go 的插件化开发 Pingo -" itemprop="url">OSChina 开源周刊第32期 —— Go 的插件化开发 Pingo -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:50:30.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#每周技术抢先看，总有你想要的！"><span class="toc-number">1.</span> <span class="toc-text">每周技术抢先看，总有你想要的！</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#前端开发"><span class="toc-number">2.</span> <span class="toc-text">前端开发</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务端开发/管理"><span class="toc-number">3.</span> <span class="toc-text">服务端开发/管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编程语言"><span class="toc-number">4.</span> <span class="toc-text">编程语言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库"><span class="toc-number">5.</span> <span class="toc-text">数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他类型"><span class="toc-number">6.</span> <span class="toc-text">其他类型</span></a></li></ol>
+		
+		</div>
+		
+		<h4 id="&#x6BCF;&#x5468;&#x6280;&#x672F;&#x62A2;&#x5148;&#x770B;&#xFF0C;&#x603B;&#x6709;&#x4F60;&#x60F3;&#x8981;&#x7684;&#xFF01;">&#x6BCF;&#x5468;&#x6280;&#x672F;&#x62A2;&#x5148;&#x770B;&#xFF0C;&#x603B;&#x6709;&#x4F60;&#x60F3;&#x8981;&#x7684;&#xFF01;</h4><p>&#x79FB;&#x52A8;&#x5F00;&#x53D1; </p>
+<ul>
+<li><strong>&#x3010;&#x535A;&#x5BA2;&#x3011;</strong> <a href="http://my.oschina.net/u/2340880/blog/404605" target="_blank" rel="external"><strong>IOS &#x8868;&#x89C6;&#x56FE;(UITableView)&#x4F7F;&#x7528;&#x8BE6;&#x89E3;</strong></a> UITableView&#x89C6;&#x56FE;&#x662F;IOS&#x5F00;&#x53D1;&#x4E2D;&#x5E38;&#x7528;&#x800C;&#x597D;&#x7528;&#x7684;&#x4E00;&#x4E2A;&#x63A7;&#x4EF6;&#x3002; <a href="http://my.oschina.net/u/2340880/blog/403996" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+</ul>
+<h4 id="&#x524D;&#x7AEF;&#x5F00;&#x53D1;">&#x524D;&#x7AEF;&#x5F00;&#x53D1;</h4><ul>
+<li><strong>&#x3010;&#x8F6F;&#x4EF6;&#x3011;</strong> <a href="http://www.oschina.net/p/nginfinitescroll" target="_blank" rel="external"><strong>AngularJS &#x65E0;&#x9650;&#x6EDA;&#x52A8;&#x6307;&#x4EE4; ngInfiniteScroll</strong></a> ngInfiniteScroll &#x662F;&#xFFFD;&#xFFFD;&#xFFFD;&#x4E2A; AngularJS &#x7684;&#x6269;&#x5C55;&#x6307;&#x4EE4;&#xFF0C;&#x5B9E;&#x73B0;&#x4E86;&#x7F51;&#x9875;&#x7684;&#x65E0;&#x9650;&#x6EDA;&#x52A8;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x76F8;&#x5F53;&#x4E8E;&#x9875;&#x9762;&#x6EDA;&#x52A8;&#x5230;&#x6700;&#x5E95;&#x90E8;&#x7684;&#x65F6;&#x5019;&#x81EA;&#x52A8;&#x52A0;&#x8F7D;&#x66F4;&#x591A;&#x5185;&#x5BB9;&#x3002; <a href="http://www.oschina.net/p/nginfinitescroll" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x535A;&#x5BA2;&#x3011;</strong> <a href="http://my.oschina.net/u/2342955/blog/408889" target="_blank" rel="external"><strong>Angular&#x5B66;&#x4E60;&#x5FC3;&#x5F97;&#x4E4B;directive&#x2014;&#x2014;scope&#x9009;&#x9879;&#x4E0E;&#x7ED1;&#x5B9A;&#x7B56;&#x7565;</strong></a> &#x5927;&#x5BB6;&#x77E5;&#x9053;&#xFF0C;&#x5F53;scope&#x9009;&#x9879;&#x5199;&#x4E3A;scope:{}&#x8FD9;&#x79CD;&#x5F62;&#x5F0F;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x5DF2;&#x7ECF;&#x4E3A;&#x6307;&#x4EE4;&#x751F;&#x6210;&#x4E86;&#x9694;&#x79BB;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x73B0;&#x5728;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B;&#x7ED1;&#x5B9A;&#x7B56;&#x7565;&#x7684;&#x4E09;&#x79CD;&#x5F62;&#x5F0F;&#xFF1A;&amp; &#x3001;= &#x3001;@&#x3002; <a href="http://my.oschina.net/u/2342955/blog/408889" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+</ul>
+<h4 id="&#x670D;&#x52A1;&#x7AEF;&#x5F00;&#x53D1;/&#x7BA1;&#x7406;">&#x670D;&#x52A1;&#x7AEF;&#x5F00;&#x53D1;/&#x7BA1;&#x7406;</h4><ul>
+<li><strong>&#x3010;&#x7FFB;&#x8BD1;&#x3011;</strong> <a href="http://www.oschina.net/translate/zero-downtime-haproxy-reloads" target="_blank" rel="external"><strong>&#x771F;&#x6B63;&#x96F6;&#x505C;&#x673A; HAProxy &#x91CD;&#x8F7D;</strong></a> &#x6211;&#x4EEC;&#x559C;&#x6B22;&#x5728;&#x53D1;&#x5C55; SOA &#x7684;&#x65F6;&#x5019;&#x4F7F;&#x7528; SmartStack &#x7ED9;&#x6211;&#x4EEC;&#x5E26;&#x6765;&#x7684;&#x7075;&#x6D3B;&#x6027;&#xFF0C;&#x4F46;&#x8FD9;&#x79CD;&#x7075;&#x6D3B;&#x6027;&#x662F;&#x6709;&#x4EE3;&#x4EF7;&#x7684;&#x3002;&#x901A;&#x5E38;&#x5F53;&#x670D;&#x52A1;&#x6216;&#x5728;&#x670D;&#x52A1;&#x540E;&#x7AEF;&#x6267;&#x884C;&#x589E;&#x52A0;&#x6216;&#x6C38;&#x4E45;&#x5220;&#x9664;&#x547D;&#x4EE4;&#x7684;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6574;&#x4E2A;&#x57FA;&#x7840;&#x8BBE;&#x65BD;&#x4E0D;&#x5F97;&#x4E0D;&#x91CD;&#x65B0;&#x52A0;&#x8F7D; HAProxy &#x3002; <a href="http://www.oschina.net/translate/zero-downtime-haproxy-reloads" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x7FFB;&#x8BD1;&#x3011;</strong> <a href="http://www.oschina.net/translate/beyond-storm-for-streaming-data-applications" target="_blank" rel="external"><strong>Storm &#x5E76;&#x975E;&#x5B8C;&#x5168;&#x9002;&#x5408;&#x6240;&#x6709;&#x5B9E;&#x65F6;&#x5E94;&#x7528;</strong></a> &#x4E3A;&#x4E86;&#x5E94;&#x5BF9;&#x4E0D;&#x65AD;&#x589E;&#x957F;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x540C;&#x65F6;&#xFF0C;&#x5229;&#x7528;&#x5B9E;&#x65F6;&#x4E2A;&#x6027;&#x5316;&#x6280;&#x672F;&#x6539;&#x8FDB;&#x5728;&#x7EBF;&#x7528;&#x6237;&#x4F53;&#x9A8C;&#xFF0C;&#x8D8A;&#x6765;&#x8D8A;&#x591A;&#x7684;&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x5F15;&#x5165;&#x4E86;&#x6D41;&#x6570;&#x636E;&#x6280;&#x672F;&#x3002;&#x5BF9;&#x4E8E;&#x6D41;&#x6570;&#x636E;&#x5E94;&#x7528;&#x7684;&#x5B9A;&#x4E49;&#x591A;&#x79CD;&#x591A;&#x6837;&#xFF0C;&#x4F46;&#x90FD;&#x5305;&#x542B;&#x4E09;&#x4E2A;&#x57FA;&#x672C;&#x529F;&#x80FD;&#xFF1A;&#x5B9E;&#x65F6;&#x6570;&#x636E;&#x91C7;&#x96C6;&#xFF0C;&#x5B9E;&#x65F6;&#x5206;&#x6790;&#x548C;&#x81EA;&#x52A8;&#x5316;&#x51B3;&#x7B56;&#x3002; <a href="http://www.oschina.net/translate/beyond-storm-for-streaming-data-applications" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x7FFB;&#x8BD1;&#x3011;</strong> <a href="http://www.oschina.net/translate/deploying-rails-applications-with-the-puma-web-server" target="_blank" rel="external"><strong>&#x4F7F;&#x7528; Puma Web &#x670D;&#x52A1;&#x5668;&#x90E8;&#x7F72; Rails &#x5E94;&#x7528;</strong></a> &#x76F8;&#x5BF9;&#x4E8E;&#x4E00;&#x6B21;&#x53EA;&#x5904;&#x7406;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x7684; Web &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x5E76;&#x53D1;&#x5904;&#x7406;&#x8BF7;&#x6C42;&#x7684; Web &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x80FD;&#x591F;&#x66F4;&#x9AD8;&#x6548;&#x7684;&#x4F7F;&#x7528;&#x52A8;&#x6001;&#x8D44;&#x6E90;&#x3002;Puma&#xA0;&#x662F;&#x548C; Unicorn &#x76F8;&#x7ADE;&#x4E89;&#x7684; Web &#x670D;&#x52A1;&#x5668;&#xFF0C;&#x5B83;&#x80FD;&#x591F;&#x5904;&#x7406;&#x5E76;&#x53D1;&#x8BF7;&#x6C42;&#x3002; <a href="http://www.oschina.net/translate/deploying-rails-applications-with-the-puma-web-server" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x7FFB;&#x8BD1;&#x3011;</strong> <a href="http://www.oschina.net/translate/running-kafka-scale" target="_blank" rel="external"><strong>LinkedIn &#x2014;&#x2014; Apache Kafka &#x7684;&#x4F38;&#x7F29;&#x6269;&#x5C55;&#x80FD;&#x529B;</strong></a> &#x5982;&#x679C;&#x6570;&#x636E;&#x662F;&#x9AD8;&#x79D1;&#x6280;&#x7684;&#x751F;&#x547D;&#x7EBF;&#x7684;&#x8BDD;&#xFF0C;Apache Kafka &#x5C31;&#x662F; LinkedIn &#x516C;&#x53F8;&#x6B63;&#x5728;&#x4F7F;&#x7528;&#x4E2D;&#x7684;&#x5FAA;&#x73AF;&#x7CFB;&#x7EDF;&#x3002;&#x6211;&#x4EEC;&#x4F7F;&#x7528; Kafka &#x5728;&#x591A;&#x7CFB;&#x7EDF;&#x4E4B;&#x95F4;&#x642C;&#x79FB;&#x5404;&#x7C7B;&#x6570;&#x636E;&#xFF0C;&#x5B83;&#x51E0;&#x4E4E;&#x6BCF;&#x4E00;&#x5929;&#x90FD;&#x63A5;&#x89E6;&#x6BCF;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x3002; <a href="http://www.oschina.net/translate/running-kafka-scale" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x8F6F;&#x4EF6;&#x3011;</strong> <a href="http://www.oschina.net/p/caddy" target="_blank" rel="external"><strong>HTTP/2 Web &#x670D;&#x52A1;&#x5668; Caddy</strong></a> Caddy &#x662F;&#x4E00;&#x4E2A;&#x652F;&#x6301; HTTP/2 &#x7684;&#x8DE8;&#x5E73;&#x53F0; Web &#x670D;&#x52A1;&#x5668;&#xFF0C;&#x4F7F;&#x7528;&#x548C;&#x914D;&#x7F6E;&#x90FD;&#x975E;&#x5E38;&#x7B80;&#x5355;&#x3002;Caddy &#x652F;&#x6301; HTTP/2, IPv6, Markdown, WebSockets, FastCGI, &#x6A21;&#x677F;&#x7B49;&#x7B49;&#x3002; <a href="http://www.oschina.net/p/caddy" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+</ul>
+<h4 id="&#x7F16;&#x7A0B;&#x8BED;&#x8A00;">&#x7F16;&#x7A0B;&#x8BED;&#x8A00;</h4><ul>
+<li><strong>&#x3010;&#x8F6F;&#x4EF6;&#x3011;</strong> <a href="http://www.oschina.net/p/freecache" target="_blank" rel="external"><strong>Go &#x8BED;&#x8A00;&#x7684;&#x7F13;&#x5B58;&#x5E93; FreeCache</strong></a> FreeCache &#x662F;&#x4E00;&#x4E2A; Go &#x8BED;&#x8A00;&#x7684;&#x7F13;&#x5B58;&#x5E93;&#xFF0C;&#x65E0;&#x989D;&#x5916;&#x7684; GC &#x8D1F;&#x8377;&#x3002;&#x6570;&#x767E;&#x4E07;&#x5BF9;&#x8C61;&#x7684;&#x5783;&#x573E;&#x6536;&#x96C6;&#x5EF6;&#x8FDF;&#x4EC5;&#x5728;&#x6570;&#x767E;&#x6BEB;&#x79D2;&#x3002; <a href="http://www.oschina.net/p/freecache" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x8F6F;&#x4EF6;&#x3011;</strong> <a href="http://www.oschina.net/p/pingo" target="_blank" rel="external"><strong>Go &#x7684;&#x63D2;&#x4EF6;&#x5316;&#x5F00;&#x53D1; Pingo</strong></a> Pingo &#x662F;&#x4E00;&#x4E2A;&#x7528;&#x6765;&#x4E3A; Go &#x7A0B;&#x5E8F;&#x7F16;&#x5199;&#x63D2;&#x4EF6;&#x7684;&#x7B80;&#x5355;&#x72EC;&#x7ACB;&#x5E93;&#xFF0C;&#x56E0;&#x4E3A; Go &#x672C;&#x8EAB;&#x662F;&#x9759;&#x6001;&#x94FE;&#x63A5;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x6240;&#x6709;&#x63D2;&#x4EF6;&#x90FD;&#x4EE5;&#x5916;&#x90E8;&#x8FDB;&#x7A0B;&#x65B9;&#x5F0F;&#x5B58;&#x5728;&#x3002; <a href="http://www.oschina.net/p/pingo" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x7FFB;&#x8BD1;&#x3011;</strong> <a href="http://www.oschina.net/translate/robovm-1-0-released-commercial-licenses-a-look-under-the-hood" target="_blank" rel="external"><strong>RoboVM 1.0 &#x53D1;&#x5E03; &#x2014;&#x2014; &#x5546;&#x4E1A;&#x8BB8;&#x53EF;&#x548C;&#x65B0;&#x529F;&#x80FD;&#x4ECB;&#x7ECD;</strong></a> &#x7ECF;&#x8FC7;&#x6570;&#x6708;&#x7684;&#x8270;&#x82E6;&#x5DE5;&#x4F5C;&#x6211;&#x4EEC;&#x5F88;&#x81EA;&#x8C6A;&#x7684;&#x5BA3;&#x5E03;&#x6211;&#x4EEC;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x7A33;&#x5B9A;&#x7248; RoboVM 1.0 &#x53D1;&#x5E03;&#x4E86;&#xFF01; <a href="http://www.oschina.net/translate/robovm-1-0-released-commercial-licenses-a-look-under-the-hood" target="_blank" rel="external">&#x8BE6;&#x7EC6;</a></li>
+<li><strong>&#x3010;&#x535A;&#x5BA2;&#x3011;</strong> <a href="http://my.oschina.net/benhaile/blog/408377" target="_blank" rel="external"><strong>Java 8 &#x91CC;&#x9762; lambda &#x6700;&#x4F73;&#x5B9E;&#x8DF5;</strong></a> &#x5728; Java 8 &#x91CC;&#x9762;Lambda&#x662F;&#x6700;&#x706B;&#x7684;&#x4E3B;&#x9898;&#xFF0C;&#x4E0D;&#x4EC5;&#x4EC5;&#x662F;&#x56E0;&#x4E3A;&#x8BED;&#x6CD5;&#x7684;&#x6539;&#x53D8;&#xFF0C;&#x66F4;&#x91CD;&#x8981;&#x7684;&#x662F;&#x5E26;&#x6765;&#x4E86;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x7684;&#x601D;&#x60F3;&#xFF0C;&#x6211;&#x89C9;&#x5F97;&#x4F18;&#x79C0;&#x7684;&#x7A0B;&#x5E8F;&#x5458;&#xFF0C;&#x6709;&#x5FC5;&#x8981;&#x5B66;&#x4E60;&#x4E00;&#x4E0B;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x7684;&#x601D;&#x60F3;&#x4EE5;&#x5F00;&#x9614;&#x601D;&#x8DEF;&#x3002;&#x6240;&#x4EE5;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x804A;&#x804A;Lambda&#x7684;&#x5E94;&#x7528;&#x573A;&#x666F;&#xFF0C;&#x6027;&#x80FD;&#xFF0C;&#x4E5F;&#x4F1A;&#x63D0;&#x53CA;&#x4E0B;&#x4E0D;&#x597D;&#x7684;&#x4E00;&#x9762;&#x3002; <a href="http://my.oschina.net/benhaile/blog/408377" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+</ul>
+<h4 id="&#x6570;&#x636E;&#x5E93;">&#x6570;&#x636E;&#x5E93;</h4><ul>
+<li><strong>&#x3010;&#x8F6F;&#x4EF6;&#x3011;</strong> <a href="http://www.oschina.net/p/torodb" target="_blank" rel="external"><strong>JSON &#x6587;&#x6863;&#x6570;&#x636E;&#x5E93; ToroDB</strong></a> ToroDB &#x662F;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x7684;&#x9762;&#x5411;&#x6587;&#x6863;&#x7684; JSON &#x6570;&#x636E;&#x5E93;&#xFF0C;&#x57FA;&#x4E8E; PostgreSQL &#x8FD0;&#x884C;&#x3002;JSON &#x6587;&#x6863;&#x5173;&#x7CFB;&#x5316;&#x5B58;&#x50A8;&#xFF0C;&#x800C;&#x975E; blob/jsonb &#x65B9;&#x5F0F;&#xFF0C;&#x53EF;&#x663E;&#x8457;&#x63D0;&#x5347;&#x5B58;&#x50A8;&#x548C; IO&#xFF0C;&#x517C;&#x5BB9; MongoDB&#x3002; <a href="http://www.oschina.net/p/torodb" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x535A;&#x5BA2;&#x3011;</strong> <a href="http://my.oschina.net/Suregogo/blog/406798" target="_blank" rel="external"><strong>PostgreSQL &#x7528; C &#x5B8C;&#x6210;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x4F8B;&#x5B50;</strong></a> &#x6700;&#x8FD1;&#x7ED9;&#x5BA2;&#x6237;&#x5199;&#x4E86;&#x4E00;&#x4E2A;PG&#x7528;C&#x5199;&#x7684;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5728;&#x6B64;&#x8BB0;&#x5F55;&#x4E00;&#x4E0B;&#x3002; <a href="http://my.oschina.net/Suregogo/blog/406798" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x535A;&#x5BA2;&#x3011;</strong> <a href="http://my.oschina.net/Kenyon/blog/407093" target="_blank" rel="external"><strong>PostgreSQL 9.4 &#x7684;&#x7269;&#x5316;&#x89C6;&#x56FE;&#x66F4;&#x65B0;</strong></a> PostgreSQL &#x7684;9.4&#x7248;&#x672C;&#x51FA;&#x6765;&#x6709;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x4E86;&#xFF0C;&#x4E5F;&#x66F4;&#x65B0;&#x4E86;&#x5F88;&#x591A;&#x5185;&#x5BB9;&#xFF0C;&#x5176;&#x4E2D;&#x4E4B;&#x4E00;&#x662F;&#x6BD4;&#x8F83;&#x611F;&#x5174;&#x8DA3;&#x7684;&#x7269;&#x5316;&#x89C6;&#x56FE;&#x7684;&#x66F4;&#x65B0;&#xFF0C;&#x5BF9;&#x6BD4;&#x539F;&#x5148;&#x7684;&#x7269;&#x5316;&#x89C6;&#x56FE;&#x8BED;&#x6CD5;&#xFF0C;&#x65B0;&#x589E;&#x4E86;&#x4E00;&#x4E2A;CONCURRENTLY&#x53C2;&#x6570;&#x3002; <a href="http://my.oschina.net/Kenyon/blog/407093" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+</ul>
+<h4 id="&#x5176;&#x4ED6;&#x7C7B;&#x578B;">&#x5176;&#x4ED6;&#x7C7B;&#x578B;</h4><ul>
+<li><strong>&#x3010;&#x8F6F;&#x4EF6;&#x3011;</strong> <a href="http://www.oschina.net/p/docker-gitlab" target="_blank" rel="external"><strong>Docker Gitlab &#x2014;&#x2014; Gitlab &#x7684; Docker &#x6620;&#x50CF;</strong></a> Docker Gitlab &#x662F;&#x63D0;&#x4F9B; Gitlab &#x73AF;&#x5883;&#x7684; Docker &#x6620;&#x50CF;&#xFF0C;&#x53EF;&#x65B9;&#x4FBF;&#x7684;&#x5728; Docker &#x5BB9;&#x5668;&#x4E2D;&#x8FD0;&#x884C; Gitlab &#x7CFB;&#x7EDF;&#x3002; <a href="http://www.oschina.net/p/docker-gitlab" target="_blank" rel="external">&#x8BE6;&#x7EC6;</a></li>
+<li><strong>&#x3010;&#x8F6F;&#x4EF6;&#x3011;</strong> <a href="http://www.oschina.net/p/jphp" target="_blank" rel="external"><strong>JVM &#x7684; PHP &#x7F16;&#x8BD1;&#x5668; JPHP</strong></a> JPHP &#x662F;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E; JVM &#x7684; PHP &#x7F16;&#x8BD1;&#x5668;&#x3002;&#x652F;&#x6301; PHP 5.6+ &#x7684;&#x5F88;&#x591A;&#x65B0;&#x7279;&#x6027;&#x3002;JPHP &#x7C7B;&#x4F3C; javac &#xFF0C;&#x53EF;&#x4EE5;&#x5C06; PHP &#x6E90;&#x7801;&#x7F16;&#x8BD1;&#x6210; JVM &#x7684;&#x5B57;&#x8282;&#x7801;&#x5E76;&#x5728; JVM &#x4E2D;&#x6267;&#x884C;&#x3002; <a href="http://www.oschina.net/p/jphp" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x535A;&#x5BA2;&#x3011;</strong> <a href="http://my.oschina.net/u/1024767/blog/406566" target="_blank" rel="external"><strong>ffmpeg &#x5B9E;&#x73B0;&#x672C;&#x5730;&#x6444;&#x50CF;&#x5934;&#x7684;&#x8FDC;&#x7A0B;&#x8BBF;&#x95EE;</strong></a> fserver&#x662F;&#x4E00;&#x4E2A;&#x97F3;&#x9891;&#x548C;&#x89C6;&#x9891;&#x7684;&#x6D41;&#x5F0F;&#x670D;&#x52A1;&#x5668;&#x3002;&#x5B83;&#x901A;&#x8FC7;&#x5728;&#x542F;&#x52A8;&#x65F6;&#x8BFB;&#x5165;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5B8C;&#x6210;&#x914D;&#x7F6E;&#xFF0C;&#x4E0D;&#x6307;&#x5B9A;&#x65F6;&#x7528;&#x9ED8;&#x8BA4;&#x7684;/etc/ffserver.conf&#x6587;&#x4EF6;&#x3002; ffserver&#x63A5;&#x53D7;&#x4E00;&#x4E9B;&#x6216;&#x8005;FFM&#x6D41;&#x4F5C;&#x4E3A;&#x8F93;&#x5165;&#x7136;&#x540E;&#x901A;&#x8FC7;RTP/RTSP/HTTP&#x63A8;&#x6D41;&#x3002; <a href="http://my.oschina.net/u/1024767/blog/406566" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><strong>&#x3010;&#x535A;&#x5BA2;&#x3011;</strong> <a href="http://my.oschina.net/robinyao/blog/408285" target="_blank" rel="external"><strong>BenchMark &#x5DE5;&#x5177; - JMH &#x4ECB;&#x7ECD;</strong></a> java Benchmark&#x5DE5;&#x5177; JMH,&#x7531;OpenJDK&#x5F00;&#x53D1;&#x7684;&#xFF0C;&#x4F7F;&#x7528;&#x5F88;&#x65B9;&#x4FBF;&#x3002; <a href="http://my.oschina.net/robinyao/blog/408285" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><p><strong>&#x3010;&#x8D44;&#x8BAF;&#x3011;</strong> <a href="http://www.oschina.net/news/61986/windows-10-can-run-android-and-ios-app" target="_blank" rel="external"><strong>&#x5FAE;&#x8F6F;&#x75AF;&#x4E86;&#xFF1A;iOS/&#x5B89;&#x5353;&#x5E94;&#x7528;&#x4E00;&#x952E;&#x79FB;&#x690D;Windows 10&#xFF01;</strong></a> &#x4E00;&#x76F4;&#x4EE5;&#x6765;&#x90FD;&#x6709;&#x4F20;&#x95FB;&#x79F0;&#xFF0C;Windows 10&#x5C06;&#x4F1A;&#x517C;&#x5BB9;&#x5B89;&#x5353;&#x5E94;&#x7528;&#xFF0C;&#x8FD9;&#x770B;&#x4E0A;&#x53BB;&#x4F3C;&#x4E4E;&#x662F;&#x5929;&#x65B9;&#x591C;&#x8C2D;&#xFF0C;&#x4F46;&#x5FAE;&#x8F6F;&#x771F;&#x7684;&#x505A;&#x5230;&#x4E86;&#xFF0C;&#x4EE5;&#x4E00;&#x79CD;&#x5F88;&#x7279;&#x522B;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x800C;&#x4E14;&#x4E0D;&#x4EC5;&#x662F;&#x5B89;&#x5353;&#xFF0C;&#x8FD8;&#x6709;iOS&#xFF01; <a href="http://www.oschina.net/news/61986/windows-10-can-run-android-and-ios-app" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></p>
+<p><strong>Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350;</strong></p>
+</li>
+<li><p><a href="https://git.oschina.net/hanguofeng/gocaptcha" target="_blank" rel="external"><strong>Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350; &#x2014;&#x2014; Go &#x8BED;&#x8A00;&#x9A8C;&#x8BC1;&#x7801;&#x670D;&#x52A1;&#x5668;</strong></a> Go &#x8BED;&#x8A00;&#x9A8C;&#x8BC1;&#x7801;&#x670D;&#x52A1;&#x5668;&#x652F;&#x6301;&#x4E2D;&#x6587;&#x9A8C;&#x8BC1;&#x7801; &#x652F;&#x6301;&#x81EA;&#x5B9A;&#x4E49;&#x8BCD;&#x5E93;&#x3001;&#x5B57;&#x5E93; &#x652F;&#x6301;&#x81EA;&#x5B9A;&#x4E49;&#x6EE4;&#x955C;&#x673A;&#x5236;&#xFF0C;&#x901A;&#x8FC7;&#x6EE4;&#x955C;&#x6765;&#x589E;&#x52A0;&#x5E72;&#x6270;&#xFF0C;&#x52A0;&#x5927;&#x8BC6;&#x522B;&#x96BE;&#x5EA6;&#x3002; <a href="https://git.oschina.net/hanguofeng/gocaptcha" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></p>
+</li>
+<li><a href="https://git.oschina.net/long_608/docker_wordpress" target="_blank" rel="external"><strong>Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350; &#x2014;&#x2014; WordPress &#x7684; Docker &#x6620;&#x50CF;</strong></a> &#x4F7F;&#x7528;&#x7684;wordpress&#x4E2D;&#x6587;&#x7248;&#x672C;&#xFF0C;4.1 &#x4E2D;&#x6587;&#x7248;&#x672C;&#x7684;&#x7F51;&#x7AD9;&#x4E3A;&#xFF1A; cn.wordpress.org&#x3002; <a href="https://git.oschina.net/long_608/docker_wordpress" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><a href="https://git.oschina.net/596392912/JFinal-event" target="_blank" rel="external"><strong>Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350; &#x2014;&#x2014; JFinal-event &#x6D88;&#x606F;&#x63D2;&#x4EF6;</strong></a> &#x6A21;&#x4EFF;&#x7684;Spring&#x4E2D;&#x7684;&#x6D88;&#x606F;&#x4E8B;&#x4EF6;&#xFF1A;&#x8BE6;&#x89E3;Spring&#x4E8B;&#x4EF6;&#x9A71;&#x52A8;&#x6A21;&#x578B; &#xA0;JFinalevent &#x63D2;&#x4EF6;&#xFF0C;&#x4F7F;&#x7528;&#x8BF7;&#x67E5;&#x770B;test~&#x3002; <a href="https://git.oschina.net/596392912/JFinal-event" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><a href="https://git.oschina.net/xutongle/Yui.Compressor" target="_blank" rel="external"><strong>Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350; &#x2014;&#x2014; &#x56FE;&#x5F62;&#x5316; YUI &#x538B;&#x7F29;&#x5668;</strong></a> &#x7528;C# &#x5199;&#x7684; Yui.Compressor &#x7684; GUI,&#x8FD9;&#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x540C;&#x6B65;&#x5E93;&#x3002; <a href="https://git.oschina.net/xutongle/Yui.Compressor" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><a href="http://git.oschina.net/876973190/JsoupX" target="_blank" rel="external"><strong>Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350; &#x2014;&#x2014; JsoupX (JSoup &#x6269;&#x5C55;&#xFF09;</strong></a> JsoupX &#x662F;&#x4E3A;&#x94FE;&#x8BD5;&#x4F7F;&#x7528;Jsoup &#x800C;&#x5C01;&#x88C5;&#x7684;&#x5C0F;&#x5DE5;&#x5177;&#x96C6;&#xFF0C; &#x76EE;&#x7684;&#x662F;&#x4E3A;&#x5FEB;&#x6377;&#x7684;&#x8FC7;&#x8651;&#x51FA;&#x9700;&#x8981;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x65B9;&#x4FBF;&#x7F16;&#x5199;&#x6570;&#x636E;&#x6293;&#x53D6;&#x4EE3;&#x7801;&#x7B49;&#x3002; <a href="http://git.oschina.net/876973190/JsoupX" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><a href="http://git.oschina.net/mooshroom/modal" target="_blank" rel="external"><strong>Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350; &#x2014;&#x2014; &#x57FA;&#x4E8E; Avalon &#x7684;&#x5F39;&#x51FA;&#x6846;</strong></a> modal.js&#x662F;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;avalon&#x7684;&#x5F39;&#x51FA;&#x6846;&#x7EC4;&#x4EF6;,&#x7279;&#x70B9;&#x662F;&#x4ED6;&#x4F1A;&#x5728;&#x70B9;&#x51FB;&#x89E6;&#x53D1;&#x6309;&#x94AE;&#x7684;&#x4F4D;&#x7F6E;&#x5F00;&#x59CB;&#x5F39;&#x51FA;&#x3002;&#x52A8;&#x753B;&#x57FA;&#x4E8E;css3&#x3002; <a href="http://git.oschina.net/mooshroom/modal" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+<li><a href="http://git.oschina.net/iknown/Q.js" target="_blank" rel="external"><strong>Git@OSC &#x9879;&#x76EE;&#x63A8;&#x8350; &#x2014;&#x2014; Q.js &#x7B80;&#x5355;&#x7684;js&#x5E93;</strong></a> &#x7B80;&#x5355;&#x7684;js&#x5E93;&#xFF0C; &#x7EDD;&#x5BF9;&#x5E94;&#x7528;&#x7EA7;&#x7684;&#xFF0C; &#x9664;&#x4E86;wndx&#xFF08;&#x5F39;&#x51FA;&#x7A97;&#x53E3;&#x7C7B;&#xFF09;&#x4E4B;&#x5916;&#x51E0;&#x4E4E;&#x90FD;&#x4E0D;&#x9700;&#x8981;&#x7EE7;&#x627F;&#x548C;&#x6269;&#x5C55;&#xFF0C;&#x56E0;&#x4E3A;&#x53EA;&#x6709;&#x771F;&#x6B63;&#x9700;&#x8981;&#x7684;&#x4EBA;&#x624D;&#x4F1A;&#x53BB;&#x505A;&#x6269;&#x5C55;&#x3002; <a href="http://git.oschina.net/iknown/Q.js" target="_blank" rel="external">&#x8BE6;&#x60C5;</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Apache-HTTP-Server/">Apache HTTP Server</a><a href="/tags/GitLab/">GitLab</a><a href="/tags/开源/">开源</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/f487ba8/" title="分析一个Java Class文件 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  分析一个Java Class文件 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/f4808e9/"  title="java程序性能优化 -">
+ <strong>下一篇：</strong><br/> 
+ <span>java程序性能优化 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#每周技术抢先看，总有你想要的！"><span class="toc-number">1.</span> <span class="toc-text">每周技术抢先看，总有你想要的！</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#前端开发"><span class="toc-number">2.</span> <span class="toc-text">前端开发</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务端开发/管理"><span class="toc-number">3.</span> <span class="toc-text">服务端开发/管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编程语言"><span class="toc-number">4.</span> <span class="toc-text">编程语言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库"><span class="toc-number">5.</span> <span class="toc-text">数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他类型"><span class="toc-number">6.</span> <span class="toc-text">其他类型</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

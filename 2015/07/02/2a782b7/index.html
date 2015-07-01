@@ -1,0 +1,570 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>SpringMVC中的XXE漏洞测试 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="SpringMVC&amp;#x6846;&amp;#x67B6;&amp;#x652F;&amp;#x6301;XML&amp;#x5230;Object&amp;#x7684;&amp;#x6620;&amp;#x5C04;&amp;#xFF0C;&amp;#x5185;&amp;#x90E8;&amp;#x662F;&amp;#x4F7F;&amp;#x7528;&amp;#x4E24;&amp;#x4E2A;&amp;#x5168;&amp;#x5C40;&amp;#x63A5;&amp;#x53E3;Marshaller&amp;#x548C;Unma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC中的XXE漏洞测试 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/2a782b7/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="SpringMVC&amp;#x6846;&amp;#x67B6;&amp;#x652F;&amp;#x6301;XML&amp;#x5230;Object&amp;#x7684;&amp;#x6620;&amp;#x5C04;&amp;#xFF0C;&amp;#x5185;&amp;#x90E8;&amp;#x662F;&amp;#x4F7F;&amp;#x7528;&amp;#x4E24;&amp;#x4E2A;&amp;#x5168;&amp;#x5C40;&amp;#x63A5;&amp;#x53E3;Marshaller&amp;#x548C;Unma">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/2a76f2f.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/2a771a0.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/2a771a0.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/2a77411.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/2a77411.png">
+<meta property="og:updated_time" content="2015-07-01T23:52:00.726Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMVC中的XXE漏洞测试 -">
+<meta name="twitter:description" content="SpringMVC&amp;#x6846;&amp;#x67B6;&amp;#x652F;&amp;#x6301;XML&amp;#x5230;Object&amp;#x7684;&amp;#x6620;&amp;#x5C04;&amp;#xFF0C;&amp;#x5185;&amp;#x90E8;&amp;#x662F;&amp;#x4F7F;&amp;#x7528;&amp;#x4E24;&amp;#x4E2A;&amp;#x5168;&amp;#x5C40;&amp;#x63A5;&amp;#x53E3;Marshaller&amp;#x548C;Unma">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/2a782b7/" title="SpringMVC中的XXE漏洞测试 -" itemprop="url">SpringMVC中的XXE漏洞测试 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:52:00.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>SpringMVC&#x6846;&#x67B6;&#x652F;&#x6301;XML&#x5230;Object&#x7684;&#x6620;&#x5C04;&#xFF0C;&#x5185;&#x90E8;&#x662F;&#x4F7F;&#x7528;&#x4E24;&#x4E2A;&#x5168;&#x5C40;&#x63A5;&#x53E3;Marshaller&#x548C;Unmarshaller&#xFF0C;&#x4E00;&#x79CD;&#x5B9E;&#x73B0;&#x662F;&#x4F7F;&#x7528;Jaxb2Marshaller&#x7C7B;&#x8FDB;&#x884C;&#x5B9E;&#x73B0;&#xFF0C;&#x8BE5;&#x7C7B;&#x81EA;&#x7136;&#x5B9E;&#x73B0;&#x4E86;&#x4E24;&#x4E2A;&#x5168;&#x5C40;&#x63A5;&#x53E3;&#xFF0C;&#x7528;&#x6765;&#x5BF9;XML&#x548C;Object&#x8FDB;&#x884C;&#x53CC;&#x5411;&#x89E3;&#x6790;&#x3002;&#x5E76;&#x4E14;XML&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x662F;DOM&#x6587;&#x6863;&#x3001;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x6D41;&#x6216;&#x8005;SAX&#xA0;handler&#x3002;</p>
+<p>SpringMVC&#x6D41;&#x884C;&#x4F7F;&#x7528;&#x6CE8;&#x89E3;&#x6765;&#x5FEB;&#x901F;&#x5F00;&#x53D1;&#xFF0C;&#x5176;&#x4E2D;JAXB&#x6CE8;&#x89E3;&#x53EF;&#x4EE5;&#x5BF9;JavaBean&#x4E2D;&#x9700;&#x8981;&#x4E0E;XML&#x8FDB;&#x884C;&#x8F6C;&#x5316;&#x7684;&#x5730;&#x65B9;&#x8FDB;&#x884C;&#x6807;&#x6CE8;&#x3002;&#x6BD4;&#x5982;&#xFF0C;&#x5B9E;&#x73B0;XML&#x6587;&#x4EF6;&#x5230;User&#x5BF9;&#x8C61;&#x7684;&#x6620;&#x5C04;&#xFF0C;User&#x5BF9;&#x8C61;&#x4E2D;&#x4F7F;&#x7528;JAXB&#x6CE8;&#x89E3;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/2a76f2f.png" alt=""></p>
+<p>&#x5F53;&#x5728;SpringMVC&#x4E2D;&#x4F7F;&#x7528;JAXB&#x5B9E;&#x73B0;XML&#x4E0E;Java&#xA0;Bean&#x6620;&#x5C04;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;XXE&#x6F0F;&#x6D1E;&#xFF0C;&#x56E0;&#x4E3A;SpringMVC&#x4E2D;&#x4E5F;&#x53EF;&#x4EE5;&#x89E3;&#x6790;request&#xA0;body&#x4E2D;&#x7684;XML&#xFF0C;&#x5176;&#x539F;&#x7406;&#x662F;&#x5728;&#x6CE8;&#x89E3;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x4F7F;&#x7528;&#x6CE8;&#x89E3;@RequestBody&#x540E;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;HTTP&#x8BF7;&#x6C42;&#x7684;&#x8BF7;&#x6C42;&#x4F53;&#x5F15;&#x5165;&#x5230;&#x6211;&#x4EEC;&#x7684;Controller&#x7684;&#x65B9;&#x6CD5;&#x4E2D;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x4F5C;&#x4E3A;&#x65B9;&#x6CD5;&#x7684;&#x53C2;&#x6570;&#x6765;&#x4F7F;&#x7528;&#x3002;&#x5728;&#x5F00;&#x542F;annotation-driven&#x7684;&#x65F6;&#x5019;&#xFF0C;HttpMessageConverter&#x4F1A;&#x7ED9;AnnotationMethodHandlerAdapter&#x521D;&#x59CB;&#x5316;7&#x4E2A;&#x8F6C;&#x6362;&#x5668;&#x3002;&#x81F3;&#x4E8E;Spring&#x662F;&#x5982;&#x4F55;&#x9009;&#x62E9;&#x5408;&#x9002;&#x7684;&#x8F6C;&#x6362;&#x5668;&#x7684;&#xFF0C;&#x8FD9;&#x91CC;&#x6CA1;&#x6709;&#x8BFB;&#x6E90;&#x7801;&#xFF0C;&#x731C;&#x6D4B;&#x5E94;&#x8BE5;&#x662F;&#x901A;&#x8FC7;Accept&#x6216;&#x8005;Content-type&#x5934;&#x6765;&#x8FDB;&#x884C;&#x5224;&#x65AD;&#x7684;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6CA1;&#x6709;&#x505A;&#x6709;&#x6548;&#x7684;&#x5904;&#x7406;&#xFF0C;&#x90A3;&#x4E48;&#x901A;&#x8FC7;&#x6784;&#x9020;request&#xA0;body&#xFF0C;&#x6211;&#x4EEC;&#xFFFD;&#xFFFD;&#xFFFD;&#x4EE5;&#x5B9E;&#x73B0;&#x5916;&#x90E8;&#x5B9E;&#x4F53;&#x7684;&#x6CE8;&#x5165;&#x3002;&#x6BD4;&#x5982;&#xFF0C;Web&#x5E94;&#x7528;&#x4E2D;&#x4F7F;&#x7528;XML&#x4F20;&#x9012;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x6CA1;&#x6709;&#x5BF9;&#x5916;&#x90E8;&#x5B9E;&#x4F53;&#x7684;&#x5F15;&#x7528;&#x505A;&#x9650;&#x5236;&#xFF0C;&#x5C31;&#x53EF;&#x80FD;&#x5BFC;&#x5165;&#x5916;&#x90E8;&#x5B9E;&#x4F53;&#xFF0C;&#x5BFC;&#x81F4;&#x4EFB;&#x610F;&#x6587;&#x4EF6;&#x8BFB;&#x53D6;&#x3002;</p>
+<p>&#x5728;&#x6D4B;&#x8BD5;&#x6F0F;&#x6D1E;&#x4E2D;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x5BF9;&#x6CE8;&#x89E3;&#x9A71;&#x52A8;&#x4E0E;ViewResolver&#x8FDB;&#x884C;&#x914D;&#x7F6E;&#x5373;&#x53EF;&#xFF0C;</p>
+<p>&#x6B63;&#x5E38;&#x8BF7;&#x6C42;&#x65F6;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/2a771a0.png" alt=""></p>
+<p>&#x5728;&#x8BF7;&#x6C42;&#x4E2D;&#x6807;&#x660E;&#x63D0;&#x4EA4;&#x4E00;&#x4E2A;application/xml&#x7C7B;&#x578B;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x5E76;&#x5728;request&#xA0;body&#x4E2D;&#x63D0;&#x4EA4;&#x4E00;&#x4E2A;XML&#xFF0C;&#x5185;&#x5BB9;&#x4E3A;name=exploit&#x3002;&#x63D0;&#x4EA4;&#x8BF7;&#x6C42;&#xFF0C;&#x8F6C;&#x5411;&#x9875;&#x9762;index.jsp&#xFF0C;&#x5F53;&#x7136;&#xFF0C;&#x5728;controller&#x4E2D;&#x6211;&#x4EEC;&#x505A;&#x4E86;&#x4E00;&#x4E9B;&#x5904;&#x7406;&#xFF0C;&#x5C06;&#x8F6C;&#x6362;&#x7684;user&#x4F20;&#x7ED9;&#x4E86;jsp&#x6765;&#x5448;&#x73B0;&#xFF0C;&#x4EE3;&#x7801;&#x4E3A;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/2a771a0.png" alt=""></p>
+<p> &#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x63A7;&#x5236;&#x53F0;&#x4E0A;&#x6253;&#x5370;&#x4E86;  toString&#x65B9;&#x6CD5;&#x7684;&#x5185;&#x5BB9;&#xFF1A;</p>
+<p>index.jsp&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/2a77411.png" alt=""></p>
+<p>&#x4E0B;&#x9762;&#x5F15;&#x5165;&#x5916;&#x90E8;&#x5B9E;&#x4F53;&#xFF0C;&#x63D0;&#x4EA4;&#xFF1A;</p>
+<p>&lt;?xml version=&#x201D;1.0&#x2033; encoding=&#x201D;UTF-8&#x2033;?&gt;</p>
+<p>&lt;!DOCTYPE ANY[</p>
+<p>&lt;!ENTITY shit SYSTEM&#xA0; &#x201C;file:///c:/1.txt&#x201D;&gt;]&gt;</p>
+<p>&lt;user&gt;&lt;name&gt;&amp;shit;&lt;/name&gt;&lt;/user&gt;</p>
+<p> &#x8FD9;&#x91CC;&#x4E0E;&#x4E0A;&#x9762;&#x4E0D;&#x540C;&#xFF0C;&#x5F15;&#x5165;&#x4E86;&#x4E00;&#x4E2A;&#x6076;&#x610F;&#x7684;&#x5916;&#x90E8;&#x5B9E;&#x4F53;shit&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x56DE;&#x663E;&#x7684;&#x4F4D;&#x7F6E;&lt;name&gt;&#x4E2D;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x5B9E;&#x4F53;&#xFF0C;&#x6548;&#x679C;&#x662F;&#x8BFB;&#x53D6;c&#x76D8;&#x4E0B;&#x9762;&#x7684;1.txt&#xFF0C;&#x5185;&#x5BB9;&#x4E3A;&#x4E00;&#x4E32;  &#x201D;  2  &#x201D;  &#xFF0C;&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/2a77411.png" alt=""></p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x5916;&#x90E8;&#x5B9E;&#x4F53;&#x6210;&#x529F;&#x5F15;&#x5165;&#x5E76;&#x4E14;&#x89E3;&#x6790;&#xFF0C;&#x9020;&#x6210;&#x4E86;XXE&#x6F0F;&#x6D1E;&#x3002;</p>
+<p>&#x6240;&#x4EE5;&#xFF0C;SpringMVC&#x4E2D;&#x5904;&#x7406;XML&#x7C7B;&#x578B;&#x7684;&#x8BF7;&#x6C42;&#x4F53;&#x65F6;&#xFF0C;&#x6240;&#x7528;&#x7684;&#x8F6C;&#x6362;&#x5668;&#xFF08;Converter&#xFF09;&#x662F;&#x9ED8;&#x8BA4;&#x652F;&#x6301;&#x5916;&#x90E8;&#x5B9E;&#x4F53;&#x5F15;&#x7528;&#x7684;&#xFF0C;&#x901A;&#x8FC7;&#x5B98;&#x7F51;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x53EF;&#x4EE5;&#x89E3;&#x51B3;&#x8BE5;&#x6F0F;&#x6D1E;,&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x5728;&#x4F7F;&#x7528;spring MVC&#x7684;&#x65F6;&#x5019;&#x51FA;&#x73B0;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x9EBB;&#x70E6;&#x3002;</p>
+<p>&#x53C2;&#x8003;&#xFF1A;<a href="https://jira.spring.io/browse/SPR-10806" target="_blank" rel="external">https://jira.spring.io/browse/SPR-10806</a></p>
+<p>&#x3010;via@91RI&#x56E2;&#x961F;&#x3011; </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Spring-MVC/">Spring MVC</a><a href="/tags/XML/">XML</a><a href="/tags/安全技术/">安全技术</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/2a89698/" title="表单文件上传与文件下载 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  表单文件上传与文件下载 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/245239c/"  title="SpringMVC一路总结（二） -">
+ <strong>下一篇：</strong><br/> 
+ <span>SpringMVC一路总结（二） -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

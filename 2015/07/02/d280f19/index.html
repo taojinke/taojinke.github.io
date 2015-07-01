@@ -1,0 +1,584 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>JVM 字节码指令对于栈帧数据操作举例 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x8FD9;&amp;#x4E00;&amp;#x7BC7;&amp;#x5176;&amp;#x5B9E;&amp;#x662F;&amp;#x5BF9;&amp;#x524D;&amp;#x9762;&amp;#x4E00;&amp;#x7BC7;&amp;#x300A;JVM&amp;#x5B57;&amp;#x8282;&amp;#x7801;&amp;#x6267;&amp;#x884C;&amp;#x6A21;&amp;#x578B;&amp;#x53CA;&amp;#x5B57;&amp;#x8282;&amp;#x7801;&amp;#x6307;&amp;#x4E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM 字节码指令对于栈帧数据操作举例 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/d280f19/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x8FD9;&amp;#x4E00;&amp;#x7BC7;&amp;#x5176;&amp;#x5B9E;&amp;#x662F;&amp;#x5BF9;&amp;#x524D;&amp;#x9762;&amp;#x4E00;&amp;#x7BC7;&amp;#x300A;JVM&amp;#x5B57;&amp;#x8282;&amp;#x7801;&amp;#x6267;&amp;#x884C;&amp;#x6A21;&amp;#x578B;&amp;#x53CA;&amp;#x5B57;&amp;#x8282;&amp;#x7801;&amp;#x6307;&amp;#x4E">
+<meta property="og:updated_time" content="2015-07-01T23:49:33.279Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM 字节码指令对于栈帧数据操作举例 -">
+<meta name="twitter:description" content="&amp;#x8FD9;&amp;#x4E00;&amp;#x7BC7;&amp;#x5176;&amp;#x5B9E;&amp;#x662F;&amp;#x5BF9;&amp;#x524D;&amp;#x9762;&amp;#x4E00;&amp;#x7BC7;&amp;#x300A;JVM&amp;#x5B57;&amp;#x8282;&amp;#x7801;&amp;#x6267;&amp;#x884C;&amp;#x6A21;&amp;#x578B;&amp;#x53CA;&amp;#x5B57;&amp;#x8282;&amp;#x7801;&amp;#x6307;&amp;#x4E">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/d280f19/" title="JVM 字节码指令对于栈帧数据操作举例 -" itemprop="url">JVM 字节码指令对于栈帧数据操作举例 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-01T23:49:33.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x8FD9;&#x4E00;&#x7BC7;&#x5176;&#x5B9E;&#x662F;&#x5BF9;&#x524D;&#x9762;&#x4E00;&#x7BC7;&#x300A;JVM&#x5B57;&#x8282;&#x7801;&#x6267;&#x884C;&#x6A21;&#x578B;&#x53CA;&#x5B57;&#x8282;&#x7801;&#x6307;&#x4EE4;&#x96C6;&#x300B;&#x7684;&#x4E00;&#x4E2A;&#x5EF6;&#x7EED;&#x548C;&#x4E3E;&#x4F8B;&#x3002;&#x7ED3;&#x5408;&#x4F8B;&#x5B50;&#x770B;&#x4E00;&#x4E0B;&#x6761;&#x4EF6;&#x5224;&#x5B9A;&#x548C;&#x65E0;&#x6761;&#x4EF6;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#x5BF9;&#x865A;&#x62DF;&#x673A;&#x6808;&#x7684;&#x6570;&#x636E;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x5148;&#x6765;&#x770B;&#x4E00;&#x6BB5;&#x4EE3;&#x7801;&#x4F8B;&#x5B50;&#x3002;&#x8FD9;&#x91CC;addEspresso()&#x6DFB;&#x52A0;&#x6D53;&#x5EA6;&#x65B9;&#x6CD5;&#x4F1A;&#x5224;&#x65AD;&#x53C2;&#x6570;&#xFF0C;&#x5982;&#x679C;&#x53C2;&#x6570;&lt;=1&#x90A3;&#x4E48;&#x4E45;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x3002;</p>
+<pre><code>package bytecode;  
+
+<span class="comment">/** 
+ * 
+ * Created by yunshen.ljy on 2015/6/21. 
+ */</span>  
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CaramelMacchiato</span> {  
+
+    <span class="keyword">private</span> <span class="keyword">int</span> espresso ;  
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addEspresso</span>(<span class="params"><span class="keyword">int</span> espresso</span>) </span>{  
+        <span class="keyword">if</span> (espresso &amp;gt; <span class="number">1</span>) {  
+            <span class="keyword">this</span>.espresso = espresso;  
+        } <span class="keyword">else</span> {  
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();  
+        }  
+    }  
+
+}
+</code></pre><p>&#x7136;&#x540E;&#x770B;&#x4E00;&#x4E0B;addEspresso&#x65B9;&#x6CD5;&#x7684;&#x5B57;&#x8282;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code><span class="attribute">0</span>: <span class="string">       iload_1</span>
+   <span class="attribute">1</span>: <span class="string">       iconst_1</span>
+   <span class="attribute">2</span>: <span class="string">       if_icmple  13</span>
+   <span class="attribute">5</span>: <span class="string">       aload_0</span>
+   <span class="attribute">6</span>: <span class="string">       iload_1</span>
+   <span class="attribute">7</span>: <span class="string">       putfield    #2; //Field espresso:I</span>
+   <span class="attribute">10</span>: <span class="string">     goto 21</span>
+   <span class="attribute">13</span>: <span class="string">     new #3; //class java/lang/IllegalArgumentException</span>
+   <span class="attribute">16</span>: <span class="string">     dup</span>
+   <span class="attribute">17</span>: <span class="string">     invokespecial   #4; //Method java/lang/IllegalArgumentException.&amp;quot;&amp;lt;init&amp;gt;&amp;quot;:()V</span>
+   <span class="attribute">20</span>: <span class="string">     athrow</span>
+   <span class="attribute">21</span>: <span class="string">     return</span>
+</code></pre><p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x6765;&#x5BF9;&#x5B57;&#x8282;&#x7801;&#x6307;&#x4EE4;&#x8FDB;&#x884C;&#x89E3;&#x6790;&#x3002;</p>
+<p>&#x7B2C;&#x4E00;&#x884C;&#x548C;&#x7B2C;&#x4E8C;&#x884C;&#x6307;&#x4EE4;&#x5206;&#x522B;&#x662F;&#x628A;&#x53C2;&#x6570;espresso&#x4EE5;&#x53CA;&#x5E38;&#x91CF;1 &#x4ECE;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x8868;&#x538B;&#x5165;&#x64CD;&#x4F5C;&#x6570;&#x6808;&#x3002;</p>
+<p>&#x7B2C;&#x4E09;&#x884C;&#x6307;&#x4EE4;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x6761;&#x4EF6;&#x8BED;&#x53E5;&#x7684;&#x6BD4;&#x8F83;&#x6307;&#x4EE4;&#xFF0C;&#x6BD4;&#x8F83;&#x64CD;&#x4F5C;&#x6570;&#x6808;&#x9876;&#xFF0C;&#x7B2C;&#x4E00;&#x6761;&#x7B2C;&#x4E8C;&#x6761;&#x6307;&#x4EE4;&#x5BF9;&#x5E94;&#xFFFD;&#xFFFD;&#xFFFD;&#x503C;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x6EE1;&#x8DB3;&#x6BD4;&#x8F83;&#x6761;&#x4EF6;&#xFF0C;&#x5C31;&#x4F1A;&#x8DF3;&#x8F6C;&#x5230;&#x5B57;&#x8282;&#x7801;&#x7684;13 &#x8FD9;&#x4E2A;&#x4F4D;&#x7F6E;&#x3002;&#x4E5F;&#x5373;&#x662F;&#x8FDB;&#x5165;&#x5230;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x3002;</p>
+<p>&#x7B2C;&#x56DB;&#x884C;&#x6307;&#x4EE4;&#x5230;&#x7B2C;&#x516D;&#x884C;&#x6307;&#x4EE4;&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x524D;&#x9762;&#x4E00;&#x7BC7;&#x4ECB;&#x7ECD;&#x8FC7;&#x7684;&#xFF0C;&#x5982;&#x540C;setBean &#x65B9;&#x6CD5;&#x4E00;&#x6837;&#x7684;&#x3002;&#x5BF9;&#x4E8E;field&#x7684;&#x8D4B;&#x503C;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x7B2C;&#x4E94;&#x884C; goto &#x6307;&#x4EE4;&#xFF0C;&#x65E0;&#x6761;&#x4EF6;&#x8DF3;&#x8F6C;&#x5230;&#x6240;&#x5236;&#x5B9A;&#x7684;21&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#xFF0C;&#x6E05;&#x7A7A;&#x65B9;&#x6CD5;&#x6808;&#x3002;</p>
+<p>&#x7B2C;&#x516D;&#x884C;&#x5F00;&#x59CB;&#x662F;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x3002;&#x8FD9;&#x91CC;&#x5148;&#x662F;new &#x6307;&#x4EE4;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;Exception&#x5BF9;&#x8C61;&#xFF0C;&#x5E76;&#x4E14;&#x5C06;&#x5176;&#x538B;&#x5165;&#x64CD;&#x4F5C;&#x6570;&#x6808;&#x3002;</p>
+<p>&#x7B2C;&#x4E03;&#x884C;&#x6307;&#x4EE4;&#x590D;&#x5236;&#x521A;&#x624D;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5E76;&#x4E14;&#x538B;&#x5165;&#x64CD;&#x4F5C;&#x6570;&#x6808;&#x3002;</p>
+<p>&#x7B2C;&#x516B;&#x884C;&#x662F;&#x5C06;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;Exception&#x5BF9;&#x8C61;&#x51FA;&#x6808;&#xFF0C;&#x75C5;&#x8C03;&#x7528;&#x5176;&#x6784;&#x9020;&#x5668;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x7B2C;&#x4E5D;&#x884C;&#x5C06;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x51FA;&#x6808;&#xFF0C;&#x5E76;&#x4E14;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x6240;&#x4EE5;&#x4E5F;&#x662F;&#x6E05;&#x7A7A;&#x3001;&#x7ED3;&#x675F;&#x4E86;&#x5F53;&#x524D;&#x7684;&#x65B9;&#x6CD5;&#x6808;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JVM/">JVM</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/d298713/" title="探秘Java虚拟机 gc的监控 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  探秘Java虚拟机 gc的监控 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/d22479b/"  title="Java 9许愿清单：请赐予我们更理想的垃圾回收机制 -">
+ <strong>下一篇：</strong><br/> 
+ <span>Java 9许愿清单：请赐予我们更理想的垃圾回收机制 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>215</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WildFly/" title="WildFly">WildFly<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
