@@ -1,0 +1,605 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>源码推荐(7.02)：LazyTableView（一个可以最大程度简化uitableview操作的第三方框架） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x4E00;&amp;#x4E2A;&amp;#x53EF;&amp;#x4EE5;&amp;#x6700;&amp;#x5927;&amp;#x7A0B;&amp;#x5EA6;&amp;#x7B80;&amp;#x5316;uitableview&amp;#x64CD;&amp;#x4F5C;&amp;#x7684;&amp;#x7B2C;&amp;#x4E09;&amp;#x65B9;&amp;#x6846;&amp;#x67B6;
+UITableView&amp;#x53EF;&amp;#x8C13;&amp;#x662F;ios&amp;#x5F0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="源码推荐(7.02)：LazyTableView（一个可以最大程度简化uitableview操作的第三方框架） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/56aa566/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x4E00;&amp;#x4E2A;&amp;#x53EF;&amp;#x4EE5;&amp;#x6700;&amp;#x5927;&amp;#x7A0B;&amp;#x5EA6;&amp;#x7B80;&amp;#x5316;uitableview&amp;#x64CD;&amp;#x4F5C;&amp;#x7684;&amp;#x7B2C;&amp;#x4E09;&amp;#x65B9;&amp;#x6846;&amp;#x67B6;
+UITableView&amp;#x53EF;&amp;#x8C13;&amp;#x662F;ios&amp;#x5F0">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/56a85a9.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/56a881a.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/56a8a8b.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/56a8cfc.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/56a8f6d.png">
+<meta property="og:updated_time" content="2015-07-02T14:40:52.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="源码推荐(7.02)：LazyTableView（一个可以最大程度简化uitableview操作的第三方框架） -">
+<meta name="twitter:description" content="&amp;#x4E00;&amp;#x4E2A;&amp;#x53EF;&amp;#x4EE5;&amp;#x6700;&amp;#x5927;&amp;#x7A0B;&amp;#x5EA6;&amp;#x7B80;&amp;#x5316;uitableview&amp;#x64CD;&amp;#x4F5C;&amp;#x7684;&amp;#x7B2C;&amp;#x4E09;&amp;#x65B9;&amp;#x6846;&amp;#x67B6;
+UITableView&amp;#x53EF;&amp;#x8C13;&amp;#x662F;ios&amp;#x5F0">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/56aa566/" title="源码推荐(7.02)：LazyTableView（一个可以最大程度简化uitableview操作的第三方框架） -" itemprop="url">源码推荐(7.02)：LazyTableView（一个可以最大程度简化uitableview操作的第三方框架） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T02:40:52.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#它可以做什么"><span class="toc-number">1.</span> <span class="toc-text">它可以做什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么要使用它"><span class="toc-number">2.</span> <span class="toc-text">为什么要使用它</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#耦合性"><span class="toc-number">3.</span> <span class="toc-text">耦合性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用方法："><span class="toc-number">4.</span> <span class="toc-text">使用方法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含头文件："><span class="toc-number">5.</span> <span class="toc-text">包含头文件：</span></a></li></ol>
+		
+		</div>
+		
+		<p>&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x6700;&#x5927;&#x7A0B;&#x5EA6;&#x7B80;&#x5316;uitableview&#x64CD;&#x4F5C;&#x7684;&#x7B2C;&#x4E09;&#x65B9;&#x6846;&#x67B6;</p>
+<p>UITableView&#x53EF;&#x8C13;&#x662F;ios&#x5F00;&#x53D1;&#x91CC;&#x7684;&#x91CD;&#x4E2D;&#x4E4B;&#x91CD;&#x4E86;&#xFF0C;&#x719F;&#x7EC3;&#x638C;&#x63E1;tableview&#x7684;&#x7A0B;&#x5EA6;&#x5F88;&#x5927;&#x610F;&#x4E49;&#x4E0A;&#x51B3;&#x5B9A;&#x7740;&#x4F60;&#x5BF9;ui&#x754C;&#x9762;&#x7684;&#x719F;&#x6089;&#x7A0B;&#x5EA6;&#xFF0C;&#x4E0D;&#x8FC7;&#x5F53;&#x903B;&#x8F91;&#x590D;&#x6742;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x64CD;&#x4F5C;uitableview&#x8FD8;&#x662F;&#x4E00;&#x4EF6;&#x633A;&#x9EBB;&#x70E6;&#x7684;&#x4E8B;&#x60C5;&#xFF0C;&#x6240;&#x4EE5;&#x672C;&#x6846;&#x67B6;&#x65E8;&#x5728;&#x53EF;&#x4EE5;&#x6700;&#x5927;&#x7A0B;&#x5EA6;&#x7684;&#x51CF;&#x8F7B;uitableview&#x7684;&#x7E41;&#x7410;&#xFF0C;&#x8BA9;&#x7A0B;&#x5E8F;&#x5458;&#x4EEC;&#x53EF;&#x4EE5;&#x66F4;&#x591A;&#x7684;&#x53BB;&#x8003;&#x8651;&#x903B;&#x8F91;&#x95EE;&#x9898;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x754C;&#x9762;&#x7684;&#x8C03;&#x6574;&#x3002;</p>
+<h4 id="&#x5B83;&#x53EF;&#x4EE5;&#x505A;&#x4EC0;&#x4E48;">&#x5B83;&#x53EF;&#x4EE5;&#x505A;&#x4EC0;&#x4E48;</h4><p>1.&#x81EA;&#x52A8;&#x52A0;&#x8F7D;&#x8FDC;&#x7A0B;url&#x7684;json&#x6570;&#x636E;&#xFF0C;&#x5BF9;&#x4E8E;section&#x7684;&#x89E3;&#x6790;&#x4E5F;&#x4E0D;&#x5728;&#x8BDD;&#x4E0B;&#xFF0C;&#x8BA9;&#x7528;&#x6237;&#x7528;&#x66F4;&#x5C11;&#x7684;&#x4EE3;&#x7801;&#x83B7;&#x5F97;&#x66F4;&#x9AD8;&#x7684;&#x6548;&#x7387;&#x3002;</p>
+<p>2.&#x624B;&#x5DE5;&#x521B;&#x5EFA;&#x672C;&#x5730;&#x7684;&#x9759;&#x6001;cell&#xFF0C;&#x53EF;&#x4EE5;&#x81EA;&#x7531;&#x7684;&#x63A7;&#x5236;section&#x548C;cell&#x7684;&#x4E00;&#x5207;&#x3002;</p>
+<p>3.&#x81EA;&#x5B9A;&#x4E49;&#x7684;hud&#x52A8;&#x753B;&#x53EF;&#x4EE5;&#x5728;&#x52A0;&#x8F7D;&#x6570;&#x636E;&#x7684;&#x65F6;&#x5019;&#x6BEB;&#x65E0;&#x8FDD;&#x548C;&#x611F;&#x3002;</p>
+<h4 id="&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;&#x5B83;">&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;&#x5B83;</h4><p>1.&#x7B80;&#x5355;&#x65B9;&#x4FBF;&#xFF0C;&#x5C06;&#x5927;&#x91CF;&#x7E41;&#x7410;&#x7684;&#x64CD;&#x4F5C;&#x5C01;&#x88C5;&#x8D77;&#x6765;&#xFF0C;&#x7528;&#x6237;&#x53EA;&#x9700;&#x51E0;&#x884C;&#x4EE3;&#x7801;&#x5373;&#x53EF;&#x83B7;&#x5F97;&#x4E00;&#x4E2A;&#x8FDC;&#x7A0B;&#x6570;&#x636E;&#x6293;&#x53D6;&#x7684;tableview&#x3002;</p>
+<p>2.&#x4F7F;&#x7528;delegate&#x6A21;&#x5F0F;&#xFF0C;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x5C06;cell&#xFF0C;viewcontroller&#x548C;data&#x5206;&#x79BB;&#x5F00;&#x6765;&#xFF0C;&#x4E00;&#x4E2A;cell&#x7ED1;&#x5B9A;&#x4E00;&#x4E2A;dataitem&#xFF0C;&#x4F7F;&#x7528;orm&#x5C06;&#x8FDC;&#x7A0B;&#x7684;json&#x6570;&#x636E;&#x8F6C;&#x5316;&#x4E3A;&#x672C;&#x5730;&#x7684;&#x5BF9;&#x8C61;&#x3002;</p>
+<p>3.&#x672C;&#x5730;&#x9759;&#x6001;cell&#x53EF;&#x4EE5;&#x4F7F;&#x7528;block&#x521B;&#x5EFA;&#xFF0C;&#x5E76;&#x4E14;&#x8BBE;&#x7F6E;&#x70B9;&#x51FB;&#x4E8B;&#x4EF6;&#x3002;</p>
+<h4 id="&#x8026;&#x5408;&#x6027;">&#x8026;&#x5408;&#x6027;</h4><p>&#x6211;&#x4F7F;&#x7528;&#x4E86;AFNetwoking&#xFF0C;MJRefresh&#xFF0C;JsonModal&#x4E09;&#x4E2A;&#x6846;&#x67B6;&#x6765;&#x7B80;&#x5316;&#x4EE3;&#x7801;&#x7684;&#x7F16;&#x5199;&#xFF0C;&#x5982;&#x679C;&#x7528;&#x6237;&#xFFFD;&#xFFFD;&#xFFFD;&#x6709;&#x4F7F;&#x7528;cocoapods&#xFF0C;&#x65E0;&#x9700;&#x505A;&#x4EFB;&#x4F55;&#x6539;&#x52A8;&#xFF0C;&#x5C06;LazyTableView&#x6587;&#x4EF6;&#x5939;&#x62D6;&#x5165;&#x9879;&#x76EE;&#x5373;&#x53EF;&#xFF0C;&#x5982;&#x679C;&#x7528;&#x6237;&#x4F7F;&#x7528;&#x4E86;cocoapods&#xFF0C;&#x5219;&#x5728;podfile&#x91CC;&#x52A0;&#x5165;&#x4EE5;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code>pod &amp;quot<span class="comment">;AFNetworking&amp;quot;</span>
+pod &amp;quot<span class="comment">;JSONModel&amp;quot;</span>
+pod &amp;quot<span class="comment">;MJRefresh&amp;quot;,&amp;apos;0.0.1&amp;apos;</span>
+</code></pre><p>&#x5E76;&#x4E14;&#x5220;&#x9664;LazyTableView&#x91CC;&#x7684;lib&#x6587;&#x4EF6;&#x5939;&#x3002;</p>
+<p>&#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#xFF1A;Xcode 6.2&#xFF0C;iOS 6.0&#x4EE5;&#x4E0A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/56a85a9.png" alt="LazyTableView&#xFF08;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x6700;&#x5927;&#x7A0B;&#x5EA6;&#x7B80;&#x5316;uitableview&#x64CD;&#x4F5C;&#x7684;&#x7B2C;&#x4E09;&#x65B9;&#x6846;&#x67B6;&#xFF09;"></p>
+<p><a href="http://code.cocoachina.com/detail/308612/%E9%AB%98%E4%BB%BF%E5%BE%AE%E4%BF%A1%E7%9A%84ActionSheet/" target="_blank" rel="external"><strong>&#x9AD8;&#x4EFF;&#x5FAE;&#x4FE1;&#x7684;ActionSheet</strong></a><strong>(&#x4F5C;&#x8005;&#xFF1A;</strong><a href="http://www.cocoachina.com/bbs/u.php?action=show&amp;uid=393289" target="_blank" rel="external"><strong>wwdc14</strong></a><strong>)</strong></p>
+<p>&#x5DF2;&#x77E5;BUG:&#x83B7;&#x53D6;&#x7CFB;&#x7EDF;&#x56FE;&#x7247;,&#x56FE;&#x7247;&#x8FC7;&#x591A;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x5D29;&#x6E83;! &#x6C42;&#x5927;&#x795E;&#x652F;&#x62DB;!</p>
+<pre><code>//&amp;<span class="symbol">#x663E</span>;&amp;<span class="symbol">#x793A</span>;&amp;<span class="symbol">#x56FE</span>;&amp;<span class="symbol">#x7247</span>;&amp;<span class="symbol">#x9884</span>;&amp;<span class="symbol">#x89C8</span>;:
+<span class="class">HySideScrollingImagePicker</span> *hy = [[<span class="class">HySideScrollingImagePicker</span> alloc] <span class="method">initWithCancelStr:</span>@&amp;quot;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6D88</span>;&amp;quot; <span class="method">otherButtonTitles:</span>@[@&amp;quot;&amp;<span class="symbol">#x62CD</span>;&amp;<span class="symbol">#x6444</span>;&amp;quot;,@&amp;quot;&amp;<span class="symbol">#x4ECE</span>;&amp;<span class="symbol">#x76F8</span>;&amp;<span class="symbol">#x518C</span>;&amp;<span class="symbol">#x9009</span>;&amp;<span class="symbol">#x62E9</span>;&amp;quot;,@&amp;quot;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x591A</span>;&amp;quot;]];
+hy.isMultipleSelection = <span class="keyword">false</span>;
+hy.<span class="class">SeletedImages</span> = ^(<span class="class">NSArray</span> *<span class="class">GetImages</span>, <span class="class">NSInteger</span> <span class="class">Buttonindex</span>){
+    <span class="class">NSLog</span>(@&amp;quot;<span class="class">GetImages</span>-%@,<span class="class">Buttonindex</span>-%ld&amp;quot;,<span class="class">GetImages</span>,(long)<span class="class">Buttonindex</span>);
+};
+[<span class="keyword">self</span>.view <span class="method">insertSubview:</span>hy <span class="method">atIndex:</span>[[<span class="keyword">self</span>.view subviews] count]];
+
+//&amp;<span class="symbol">#x663E</span>;&amp;<span class="symbol">#x793A</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x4E49</span>;<span class="class">ActionSheet</span>
+<span class="class">HyActionSheet</span> *action = [[<span class="class">HyActionSheet</span> alloc] <span class="method">initWithCancelStr:</span>@&amp;quot;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6D88</span>;&amp;quot; <span class="method">otherButtonTitles:</span>@[@&amp;quot;&amp;<span class="symbol">#x9000</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x767B</span>;&amp;<span class="symbol">#x5F55</span>;&amp;quot;] <span class="class">AttachTitle</span>:@&amp;quot;&amp;<span class="symbol">#x9000</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x767B</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x4EFB</span>;&amp;<span class="symbol">#x4F55</span>;&amp;<span class="symbol">#x5386</span>;&amp;<span class="symbol">#x53F2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;, &amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x767B</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x4F9D</span>;&amp;<span class="symbol">#x7136</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x8D26</span>;&amp;<span class="symbol">#x53F7</span>;&amp;quot;];
+[action <span class="class">ChangeTitleColor</span>:[<span class="class">UIColor</span> redColor] <span class="class">AndIndex</span>:<span class="number">1</span>];
+[<span class="keyword">self</span>.view <span class="method">addSubview:</span>action];
+action.<span class="class">ButtonIndex</span> = ^(<span class="class">NSInteger</span> <span class="class">Buttonindex</span>){
+    <span class="class">NSLog</span>(@&amp;quot;index--%ld&amp;quot;,<span class="class">Buttonindex</span>);
+};
+</code></pre><p>&#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#xFF1A;Xcode 6.2&#xFF0C;iOS 6.0&#x4EE5;&#x4E0A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/56a881a.png" alt="&#x9AD8;&#x4EFF;&#x5FAE;&#x4FE1;&#x7684;ActionSheet"></p>
+<p><a href="http://code.cocoachina.com/detail/308658/%E6%89%A9%E5%B1%95%E4%BA%86UIWebView%EF%BC%8C%E4%BD%BF%E5%85%B6%E6%94%AF%E6%8C%81%E6%BB%91%E5%8A%A8%E6%89%8B%E5%8A%BF%E8%BF%94%E5%9B%9E%EF%BC%88%E7%B1%BB%E4%BC%BC%E5%BE%AE%E4%BF%A1%E7%9A%84In-App%E6%B5%8F%E8%A7%88%E5%99%A8%EF%BC%89/" target="_blank" rel="external">&#x6269;&#x5C55;&#x4E86;UIWebView&#xFF0C;&#x4F7F;&#x5176;&#x652F;&#x6301;&#x6ED1;&#x52A8;&#x624B;&#x52BF;&#x8FD4;&#x56DE;&#xFF08;&#x7C7B;&#x4F3C;&#x5FAE;&#x4FE1;&#x7684;In-App&#x6D4F;&#x89C8;&#x5668;&#xFF09;</a><strong>(&#x4F5C;&#x8005;&#xFF1A;</strong><a href="http://www.cocoachina.com/bbs/u.php?action=show&amp;uid=11143" target="_blank" rel="external"><strong>agdsdl</strong></a><strong>)</strong></p>
+<p>&#x6269;&#x5C55;&#x4E86;UIWebView&#xFF0C;&#x4F7F;&#x5176;&#x652F;&#x6301;&#x6ED1;&#x52A8;&#x624B;&#x52BF;&#x8FD4;&#x56DE;&#xFF08;&#x7C7B;&#x4F3C;&#x5FAE;&#x4FE1;&#x7684;In-App&#x6D4F;&#x89C8;&#x5668;&#xFF09;&#x3002;</p>
+<p>Safari&#x91CC;&#x9762;&#x9664;&#x4E86;&#x70B9;&#x51FB;&#x2018;&#x524D;&#x8FDB;&#x2019;&#xFF0C;&#x2018;&#x540E;&#x9000;&#x2019;&#x6309;&#x94AE;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6ED1;&#x52A8;&#x624B;&#x52BF;&#x6765;&#x524D;&#x8FDB;&#x548C;&#x540E;&#x9000;&#x3002;</p>
+<p>&#x53EF;&#x60DC;UIWebView&#x4E0D;&#x652F;&#x6301;&#x8FD9;&#x4E2A;&#x624B;&#x52BF;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x6269;&#x5C55;&#x4E86;UIWebView&#x4F7F;&#x5176;&#x652F;&#x6301;&#x6ED1;&#x52A8;&#x624B;&#x52BF;&#x8FD4;&#x56DE;&#x3002;</p>
+<h4 id="&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#xFF1A;">&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#xFF1A;</h4><p>&#x6DFB;&#x52A0; pod &apos;DLPanableWebView&apos; &#x5230; Podfile</p>
+<p>&#x8FD0;&#x884C; pod install</p>
+<h4 id="&#x5305;&#x542B;&#x5934;&#x6587;&#x4EF6;&#xFF1A;">&#x5305;&#x542B;&#x5934;&#x6587;&#x4EF6;&#xFF1A;</h4><pre><code>#<span class="preprocessor"><span class="keyword">import</span> &amp;quot;</span>DLPanableWebView.h&amp;quot;
+</code></pre><p>&#x5C06;&apos;UIWebView&apos; &#x66FF;&#x6362;&#x4E3A; &apos;DLPanableWebView&apos;.</p>
+<pre><code><span class="variable">@interface</span> WebViewController ()
+<span class="variable">@property</span> (weak, nonatomic) IBOutlet DLPanableWebView *webView;
+<span class="variable">@end</span>
+</code></pre><p>That&apos;s it!</p>
+<p>&#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#xFF1A;Xcode 6.2&#xFF0C;iOS 6.0&#x4EE5;&#x4E0A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/56a8a8b.gif" alt=""></p>
+<p><a href="http://code.cocoachina.com/detail/308676/JEEPageControl/" target="_blank" rel="external"><strong>JEEPageControl -&#x81EA;&#x5B9A;&#x4E49;PageControl</strong></a><strong>(&#x4F5C;&#x8005;&#xFF1A;</strong><a href="http://www.cocoachina.com/bbs/u.php?action=show&amp;uid=225601" target="_blank" rel="external"><strong>junjee</strong></a><strong>)</strong></p>
+<p>&#x81EA;&#x5B9A;&#x4E49; PageControl&#xFF0C;&#x6362;&#x9875;&#x65F6;&#x6307;&#x793A;&#x70B9;&#x4F1A;&#x6839;&#x636E; scrollView &#x7684;&#x6EDA;&#x52A8;&#x7A0B;&#x5EA6;&#x53D8;&#x5927;&#x4E0E;&#x8FD8;&#x539F;&#x3002;</p>
+<p>&#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#xFF1A;Xcode 6.2&#xFF0C;iOS 7.0&#x4EE5;&#x4E0A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/56a8cfc.gif" alt=""></p>
+<p><a href="http://code.cocoachina.com/detail/308718/IOS%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81%E9%94%81/" target="_blank" rel="external"><strong>iOS&#x624B;&#x52BF;&#x5BC6;&#x7801;&#x9501;</strong></a><strong>(&#x4F5C;&#x8005;&#xFF1A;</strong><a href="http://www.cocoachina.com/bbs/u.php?action=show&amp;uid=395132" target="_blank" rel="external"><strong>&#x7535;&#x7ADE;&#x5B66;&#x9662;&#x9662;&#x957F;</strong></a><strong>)</strong></p>
+<p>&#x4EFF;&#x7167;&#x652F;&#x4ED8;&#x5B9D;&#x5BC6;&#x7801;&#x9501;&#xFF0C;&#x7B80;&#x5355;&#x5B9E;&#x7528;&#xFF01;</p>
+<p>&#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#xFF1A;Xcode 6.2&#xFF0C;iOS 6.0&#x4EE5;&#x4E0A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/56a8f6d.png" alt="IOS&#x624B;&#x52BF;&#x5BC6;&#x7801;&#x9501;"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/UITableView/">UITableView</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/567d04d/" title="TransitionAnimation 的内存预加载（不知可否称预渲染），优化不同尺寸图片的顺滑穿越 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  TransitionAnimation 的内存预加载（不知可否称预渲染），优化不同尺寸图片的顺滑穿越 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/569a77e/"  title="推荐几个有用的 Android Studio 插件和工具 -">
+ <strong>下一篇：</strong><br/> 
+ <span>推荐几个有用的 Android Studio 插件和工具 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#它可以做什么"><span class="toc-number">1.</span> <span class="toc-text">它可以做什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么要使用它"><span class="toc-number">2.</span> <span class="toc-text">为什么要使用它</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#耦合性"><span class="toc-number">3.</span> <span class="toc-text">耦合性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用方法："><span class="toc-number">4.</span> <span class="toc-text">使用方法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含头文件："><span class="toc-number">5.</span> <span class="toc-text">包含头文件：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>221</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IT/" title="IT">IT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Debian/" title="Debian">Debian<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>3</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
