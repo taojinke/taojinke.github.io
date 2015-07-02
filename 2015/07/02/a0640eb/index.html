@@ -1,0 +1,677 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>无需退出浏览器也能开发 Node.js 应用程序 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x662F;&amp;#x5426;&amp;#x66FE;&amp;#x7ECF;&amp;#x5E0C;&amp;#x671B;&amp;#x60A8;&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x66F4;&amp;#x6539;&amp;#x80FD;&amp;#x7ACB;&amp;#x5373;&amp;#x90E8;&amp;#x7F72;&amp;#x5230; IBM Bluemix&amp;#xFF0C;&amp;#x65E0;&amp;#x9700;&amp;#x7B49;&amp;#x5F85;&amp;#x5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无需退出浏览器也能开发 Node.js 应用程序 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/a0640eb/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x662F;&amp;#x5426;&amp;#x66FE;&amp;#x7ECF;&amp;#x5E0C;&amp;#x671B;&amp;#x60A8;&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x66F4;&amp;#x6539;&amp;#x80FD;&amp;#x7ACB;&amp;#x5373;&amp;#x90E8;&amp;#x7F72;&amp;#x5230; IBM Bluemix&amp;#xFF0C;&amp;#x65E0;&amp;#x9700;&amp;#x7B49;&amp;#x5F85;&amp;#x5">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a05ff00.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a05ff00.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a060171.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a0603e2.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a060653.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a0608c4.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a060b35.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a061017.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a061288.png">
+<meta property="og:updated_time" content="2015-07-02T15:04:24.882Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="无需退出浏览器也能开发 Node.js 应用程序 -">
+<meta name="twitter:description" content="&amp;#x662F;&amp;#x5426;&amp;#x66FE;&amp;#x7ECF;&amp;#x5E0C;&amp;#x671B;&amp;#x60A8;&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x66F4;&amp;#x6539;&amp;#x80FD;&amp;#x7ACB;&amp;#x5373;&amp;#x90E8;&amp;#x7F72;&amp;#x5230; IBM Bluemix&amp;#xFF0C;&amp;#x65E0;&amp;#x9700;&amp;#x7B49;&amp;#x5F85;&amp;#x5">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/a0640eb/" title="无需退出浏览器也能开发 Node.js 应用程序 -" itemprop="url">无需退出浏览器也能开发 Node.js 应用程序 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T03:04:24.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于该应用程序"><span class="toc-number">1.</span> <span class="toc-text">关于该应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成您的应用程序的前提条件"><span class="toc-number">2.</span> <span class="toc-text">完成您的应用程序的前提条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第_1_步-_创建应用程序"><span class="toc-number">3.</span> <span class="toc-text">第 1 步. 创建应用程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建并部署您的应用程序"><span class="toc-number">3.1.</span> <span class="toc-text">创建并部署您的应用程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#了解应用程序"><span class="toc-number">3.2.</span> <span class="toc-text">了解应用程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第_2_步-_在_Live_Edit_模式下更新应用程序"><span class="toc-number">4.</span> <span class="toc-text">第 2 步. 在 Live Edit 模式下更新应用程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备使用_Live_Edit"><span class="toc-number">4.1.</span> <span class="toc-text">准备使用 Live Edit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更改一个静态文件"><span class="toc-number">4.2.</span> <span class="toc-text">更改一个静态文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更改_Node-js_模块"><span class="toc-number">4.3.</span> <span class="toc-text">更改 Node.js 模块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第_3_步-_使用_Bluemix_Debugger_调试应用程序"><span class="toc-number">5.</span> <span class="toc-text">第 3 步. 使用 Bluemix Debugger 调试应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第_4_步-_通过_Bluemix_shell_了解_Bluemix_环境"><span class="toc-number">6.</span> <span class="toc-text">第 4 步. 通过 Bluemix shell 了解 Bluemix 环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结束语"><span class="toc-number">7.</span> <span class="toc-text">结束语</span></a></li></ol>
+		
+		</div>
+		
+		<p>&#x662F;&#x5426;&#x66FE;&#x7ECF;&#x5E0C;&#x671B;&#x60A8;&#x7684;&#x4EE3;&#x7801;&#x66F4;&#x6539;&#x80FD;&#x7ACB;&#x5373;&#x90E8;&#x7F72;&#x5230; IBM Bluemix&#xFF0C;&#x65E0;&#x9700;&#x7B49;&#x5F85;&#x5B8C;&#x6574;&#x7684;&#x91CD;&#x65B0;&#x90E8;&#x7F72;&#x5DE5;&#x4F5C;&#xFF1F;&#x6216;&#x8005;&#x53EF;&#x4EE5;&#x8C03;&#x8BD5;&#x6B63;&#x5728; Bluemix &#x4E0A;&#x8FD0;&#x884C;&#x7684; Node.js &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF1F;&#x6216;&#x8005;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; shell &#x6D4F;&#x89C8;&#x60A8;&#x7684; Bluemix &#x73AF;&#x5883;&#xFF1F;</p>
+<p>&#x60A8;&#x7684;&#x613F;&#x671B;&#x5C31;&#x662F;&#x547D;&#x4EE4;&#x3002;&#x672C;&#x6559;&#x7A0B;&#x5C06;&#x5C55;&#x793A;&#x5982;&#x4F55;&#xFF1A;</p>
+<ul>
+<li>&#x4F7F;&#x7528; IBM Bluemix DevOps Services &#x4E2D;&#x7684; <strong>Live Edit</strong> &#x5C06;&#x66F4;&#x6539;&#x7ACB;&#x5373;&#x90E8;&#x7F72;&#x5230; Bluemix</li>
+<li>&#x4F7F;&#x7528; <strong>Bluemix Debugger</strong> &#x8C03;&#x8BD5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;</li>
+<li>&#x4F7F;&#x7528; <strong>Bluemix shell</strong> &#x6D4F;&#x89C8;&#x60A8;&#x7684; Bluemix &#x73AF;&#x5883;</li>
+</ul>
+<p>&#x5907;&#x6CE8;&#xFF1A;&#x672C;&#x6559;&#x7A0B;&#x4E2D;&#x6240;&#x8FF0;&#x7684;&#x7279;&#x6027;&#x76EE;&#x524D;&#x4EC5;&#x9002;&#x7528;&#x4E8E; Node.js &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002; </p>
+<p>&#x60A8;&#x53EF;&#x4F7F;&#x7528;&#x6240;&#x6709;&#x8FD9;&#x4E09;&#x4E2A;&#x7279;&#x6027;&#xFF0C;&#x751A;&#x81F3;&#x65E0;&#x9700;&#x9000;&#x51FA;&#x6D4F;&#x89C8;&#x5668;&#x3002;</p>
+<h2 id="&#x5173;&#x4E8E;&#x8BE5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;">&#x5173;&#x4E8E;&#x8BE5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;</h2><p>&#x5728;&#x672C;&#x6559;&#x7A0B;&#x4E2D;&#xFF0C;&#x60A8;&#x5C06;&#x5728; Bluemix &#x4E2D;&#x4F7F;&#x7528; <a href="https://console.ng.bluemix.net/?ace_base=true/#/store/cloudOEPaneId=store&amp;appTemplateGuid=pi-wdc-nodejs-starter&amp;fromCatalog=true" target="_blank" rel="external">Personality Insights Node.js Web Starter</a> &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;&#x8BE5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F7F;&#x7528; IBM Watson <a href="https://console.ng.bluemix.net/?ace_base=true/#/store/orgGuid=57210f58-930e-42e4-b8c5-4780ebc3be14&amp;spaceGuid=0d03e9e7-628b-40ec-804d-3eacf568a768&amp;serviceOfferingGuid=d111fbed-ec1f-4759-b4f8-f998a207e6ec&amp;fromCatalog=true" target="_blank" rel="external">Personality Insights</a> &#x670D;&#x52A1;&#x6765;&#x5206;&#x6790;&#x6587;&#x5B57;&#x5E76;&#x5F97;&#x51FA;&#x6709;&#x5173;&#x6587;&#x5B57;&#x4F5C;&#x8005;&#x4E2A;&#x6027;&#x54C1;&#x8D28;&#x7684;&#x4FE1;&#x606F;&#xFF1A; </p>
+<p><img src="http://taojinke.github.io/img/20150702/a05ff00.png" alt=""></p>
+<p>&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x5927;&#x56FE; </p>
+<p>&#x5173;&#x95ED; [x] </p>
+<p><img src="http://taojinke.github.io/img/20150702/a05ff00.png" alt=""></p>
+<p> &#x9605;&#x8BFB;&#xFF1A; <a href="https://www.ng.bluemix.net/docs/#services/PersonalityInsights/index.html#gettingstarted" target="_blank" rel="external">Personality Insights &#x670D;&#x52A1;&#x5165;&#x95E8;</a></p>
+<p> &#x9605;&#x8BFB;&#xFF1A; <a href="https://www.ng.bluemix.net/docs/#manageapps/bluemixlive.html#bluemixlive" target="_blank" rel="external">Bluemix Live Sync</a></p>
+<p> &#x201C; &#x6709;&#x4E86; Bluemix Debugger&#xFF0C;&#x60A8;&#x53EF;&#x4F7F;&#x7528; Node Inspector &#x8C03;&#x8BD5; Node.js &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002; &#x201D;</p>
+<h2 id="&#x5B8C;&#x6210;&#x60A8;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x524D;&#x63D0;&#x6761;&#x4EF6;">&#x5B8C;&#x6210;&#x60A8;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x524D;&#x63D0;&#x6761;&#x4EF6;</h2><ul>
+<li><a href="https://www.bluemix.net" target="_blank" rel="external">Bluemix</a> &#x5E10;&#x6237;&#x548C; <a href="https://hub.jazz.net" target="_blank" rel="external">Bluemix DevOps Services</a> &#x5E10;&#x6237;&#xFF0C;&#x4E24;&#x4E2A;&#x5E10;&#x6237;&#x90FD;&#x5DF2;&#x94FE;&#x63A5;&#x5230;&#x60A8;&#x7684; IBM ID</li>
+<li>&#x4EE5;&#x4E0B;&#x6D4F;&#x89C8;&#x5668;&#x4E4B;&#x4E00;&#xFF1A; <ul>
+<li>Firefox 15 &#x6216;&#x66F4;&#x9AD8;&#x7248;&#x672C;</li>
+<li>Chrome 21 &#x6216;&#x66F4;&#x9AD8;&#x7248;&#x672C; &#xFF08; <strong>&#x5907;&#x6CE8;</strong> &#xFF1A;&#x7B2C; 3 &#x6B65;&#x9700;&#x8981;&#x4F7F;&#x7528; Chrome&#xFF09;</li>
+<li>Internet Explorer 10 &#x6216;&#x66F4;&#x9AD8;&#x7248;&#x672C;</li>
+<li>Safari 7 &#x6216;&#x66F4;&#x9AD8;&#x7248;&#x672C;</li>
+</ul>
+</li>
+</ul>
+<p><a href="http://personalityinsightsnode.mybluemix.net/" target="_blank" rel="external">&#x8FD0;&#x884C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;</a></p>
+<h2 id="&#x7B2C;_1_&#x6B65;-_&#x521B;&#x5EFA;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;">&#x7B2C; 1 &#x6B65;. &#x521B;&#x5EFA;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;</h2><p>&#x9996;&#x5148;&#x60A8;&#x9700;&#x8981;&#x4E00;&#x4E2A; Node.js &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;&#x83B7;&#x5F97;&#x65B0;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6700;&#x5FEB;&#x7684;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x662F;&#x4F7F;&#x7528; Bluemix &#x6837;&#x677F;&#xFF08;&#x793A;&#x4F8B;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF09;&#x3002;</p>
+<h3 id="&#x521B;&#x5EFA;&#x5E76;&#x90E8;&#x7F72;&#x60A8;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;">&#x521B;&#x5EFA;&#x5E76;&#x90E8;&#x7F72;&#x60A8;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;</h3><ol>
+<li>&#x542F;&#x52A8; <a href="http://bluemix.net" target="_blank" rel="external">Bluemix</a> &#x5E76;&#x767B;&#x5F55;&#xFF08;&#x5982;&#x679C;&#x5C1A;&#x672A;&#x8FDB;&#x884C;&#x8EAB;&#x4EFD;&#x9A8C;&#x8BC1;&#xFF09;&#x3002;</li>
+<li>&#x6253;&#x5F00; Bluemix &#x76EE;&#x5F55;&#x3002;</li>
+<li>&#x5728;&#x76EE;&#x5F55;&#x7684; Boilerplates &#x90E8;&#x5206;&#x4E2D;&#xFF0C;&#x5355;&#x51FB; <strong>Personality Insights Node.js Web Starter</strong> &#x3002;</li>
+<li>&#x8F93;&#x5165;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x540D;&#x79F0;&#xFF08;&#x5728; Bluemix &#x4E2D;&#x5F15;&#x7528;&#x8BE5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5C06;&#x4F7F;&#x7528;&#x6B64;&#x540D;&#x79F0;&#xFF09;&#x4EE5;&#x53CA;&#x8BE5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x4E3B;&#x673A;&#xFF08;&#x653E;&#x5728; mybluemix.net &#x524D;&#x9762;&#x7684; URL &#x90E8;&#x5206;&#xFF09;&#x3002;&#x4E3B;&#x673A;&#x540D;&#x5728;&#x6240;&#x6709;&#x7684; Bluemix &#x95F4;&#x5FC5;&#x987B;&#x662F;&#x5168;&#x5C40;&#x552F;&#x4E00;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x4E00;&#x5B9A;&#x8981;&#x6709;&#x521B;&#x610F;&#x3002;</li>
+<li>&#x5355;&#x51FB; <strong>CREATE</strong> &#x3002;&#x7CFB;&#x7EDF;&#x5C06;&#x6837;&#x677F;&#x4EE3;&#x7801;&#x7684;&#x526F;&#x672C;&#x653E;&#x5230;&#x65B0;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x5176;&#x90E8;&#x7F72;&#x5230; Bluemix&#x3002;</li>
+<li>&#x5728; Start coding with Cloud Foundrst &#x547D;&#x4EE4;&#x884C;&#x63A5;&#x53E3;&#x9875;&#x9762;&#x4E2D;&#xFF0C;&#x5355;&#x51FB;&#x5DE6;&#x4FA7;&#x7A97;&#x683C;&#x4E2D;&#x7684; <strong>Overview</strong> &#x3002;</li>
+<li>&#x5728; <strong>APP HEALTH</strong> &#x90E8;&#x5206;&#x4E2D;&#xFF0C;&#x7B49;&#x5F85;&#x7CFB;&#x7EDF;&#x663E;&#x793A; &quot;Your app is running&quot; &#x6D88;&#x606F;&#x3002;</li>
+<li>&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x540E;&#xFF0C;&#x5355;&#x51FB;&#x8DEF;&#x5F84; (route) &#x53EF;&#x6253;&#x5F00;&#x60A8;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF08;&#x8BE5;&#x8DEF;&#x5F84;&#x662F;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684; URL&#xFF0C;&#x901A;&#x5E38;&#x672B;&#x5C3E;&#x662F; mybluemix.net&#x3002;&#x8BE5;&#x4FE1;&#x606F;&#x5217;&#x5728;&#x9875;&#x9762;&#x7684;&#x9876;&#x90E8;&#x3002;&#xFF09;</li>
+</ol>
+<h3 id="&#x4E86;&#x89E3;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;">&#x4E86;&#x89E3;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;</h3><p>&#x8BA9;&#x6211;&#x4EEC;&#x7528;&#x4E9B;&#x65F6;&#x95F4;&#xFF0C;&#x901A;&#x8FC7;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684; UI &#x6765;&#x4E86;&#x89E3;&#x5B83;&#x3002;Personality Insights &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F7F;&#x7528; Watson Personality Insights &#x670D;&#x52A1;&#x6765;&#x5206;&#x6790;&#x6587;&#x5B57;&#x5E76;&#x786E;&#x5B9A;&#x6587;&#x5B57;&#x4F5C;&#x8005;&#x7684;&#x4E2A;&#x6027;&#x54C1;&#x8D28;&#x3002;</p>
+<ol>
+<li>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;UI &#x5305;&#x542B;&#x4E86;&#x6765;&#x81EA; <em>Moby Dick</em> &#x7684;&#x793A;&#x4F8B;&#x6587;&#x5B57;&#x3002;&#x5355;&#x51FB; <strong>ANALYZE</strong> &#x4E86;&#x89E3; Watson &#x8BA4;&#x4E3A; <em>Moby Dick</em> &#x7684;&#x4F5C;&#x8005; Herman Melville &#x6709;&#x4F55;&#x4E2A;&#x6027;&#x54C1;&#x8D28;&#x3002;&#x7136;&#x540E;&#x4F1A;&#x663E;&#x793A;&#x6587;&#x5B57;&#x8F93;&#x51FA;&#x548C;&#x53EF;&#x89C6;&#x5316;&#x7684;&#x56FE;&#x5F62;&#x3002;</li>
+<li>&#x6D4F;&#x89C8;&#x60A8;&#x6700;&#x559C;&#x6B22;&#x7684;&#x82F1;&#x6587;&#x5185;&#x5BB9;&#x7F51;&#x7AD9;&#x5E76;&#x590D;&#x5236;&#x4E00;&#x6BB5;&#x6587;&#x5B57;&#x3002;</li>
+<li>&#x8FD4;&#x56DE;&#x60A8;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x5728; <strong>Try the Service</strong> &#x6846;&#x4E2D;&#x7C98;&#x8D34;&#x6587;&#x5B57;&#xFF0C;&#x7136;&#x540E;&#x5355;&#x51FB; <strong>ANALYZE</strong> &#x3002;</li>
+<li>&#x67E5;&#x770B;&#x6587;&#x5B57;&#x8F93;&#x51FA;&#x548C;&#x53EF;&#x89C6;&#x5316;&#x7684;&#x56FE;&#x5F62;&#x3002;</li>
+</ol>
+<h2 id="&#x7B2C;_2_&#x6B65;-_&#x5728;_Live_Edit_&#x6A21;&#x5F0F;&#x4E0B;&#x66F4;&#x65B0;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;">&#x7B2C; 2 &#x6B65;. &#x5728; Live Edit &#x6A21;&#x5F0F;&#x4E0B;&#x66F4;&#x65B0;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;</h2><p>&#x73B0;&#x5728;&#xFF0C;&#x6211;&#x5C06;&#x5728; Live Edit &#x6A21;&#x5F0F;&#x4E2D;&#x66F4;&#x6539;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x5E76;&#x770B;&#x770B;&#x6B64;&#x6B21;&#x66F4;&#x6539;&#x662F;&#x5426;&#x4F1A;&#x7ACB;&#x5373;&#x5728;&#x5DF2;&#x90E8;&#x7F72;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x53CD;&#x6620;&#x51FA;&#x6765;&#x3002;</p>
+<h3 id="&#x51C6;&#x5907;&#x4F7F;&#x7528;_Live_Edit">&#x51C6;&#x5907;&#x4F7F;&#x7528; Live Edit</h3><p>&#x8BE5;&#x6B65;&#x9AA4;&#x4F7F;&#x7528; Web IDE &#x4E2D;&#x7684; Live Edit &#x6A21;&#x5F0F;&#xFF0C;&#x5E76;&#x4E14;&#x60A8;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x5B8C;&#x6210;&#x6240;&#x6709;&#x64CD;&#x4F5C;&#x3002;&#x60A8;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; Bluemix Sync &#x548C; Live Edit &#x6765;&#x540C;&#x6B65;&#x672C;&#x5730;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E0A;&#x7684;&#x6587;&#x4EF6;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x559C;&#x6B22;&#x4F7F;&#x7528; <a href="http://www.sublimetext.com/" target="_blank" rel="external">Sublime Text</a> &#x7B49;&#x684C;&#x9762;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF09;&#x4EE5;&#x53CA; Web IDE &#x5DE5;&#x4F5C;&#x7A7A;&#x95F4;&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x5C06;&#x8FD9;&#x4E9B;&#x6587;&#x4EF6;&#x7ACB;&#x5373;&#x90E8;&#x7F72;&#x5230; Bluemix &#x4E2D;&#x3002;&#x67E5;&#x9605; <a href="https://www.ng.bluemix.net/docs/#manageapps/bluemixlive.html" target="_blank" rel="external">Bluemix Live Sync &#x6587;&#x6863;</a> &#xFF0C;&#x4E86;&#x89E3;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#x3002; </p>
+<ol>
+<li>&#x8FD4;&#x56DE;&#x5230; Personality Insights &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684; Bluemix &#x9875;&#x9762;&#x3002;&#xFF08;&#x5982;&#x679C;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5E76;&#x975E;&#x4F4D;&#x4E8E;&#x5355;&#x72EC;&#x7684;&#x7A97;&#x53E3;&#x6216;&#x9009;&#x9879;&#x5361;&#x4E2D;&#xFF0C;&#x53EF;&#x53F3;&#x952E;&#x5355;&#x51FB;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x8DEF;&#x5F84;&#xFF0C;&#x5E76;&#x5728;&#x65B0;&#x7684;&#x7A97;&#x53E3;&#x6216;&#x9009;&#x9879;&#x5361;&#x4E2D;&#x6253;&#x5F00;&#x94FE;&#x63A5;&#x3002;&#xFF09;</li>
+<li>&#x5355;&#x51FB;&#x53F3;&#x4E0A;&#x89D2;&#x7684; <strong>ADD GIT</strong> &#x3002;</li>
+<li>&#x5355;&#x51FB; Create Git Repository &#x5BF9;&#x8BDD;&#x6846;&#x4E2D;&#x7684; <strong>CONTINUE</strong> &#x3002;Bluemix &#x4F1A;&#x5C06;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4EE3;&#x7801;&#x7684;&#x4E00;&#x4E2A;&#x526F;&#x672C;&#x653E;&#x5728; Bluemix DevOps Services &#x5904;&#x6240;&#x6258;&#x7BA1;&#x7684; Git &#x5B58;&#x50A8;&#x5E93;&#x4E2D;&#x3002;</li>
+<li>&#x6210;&#x529F;&#x521B;&#x5EFA; Git &#x5B58;&#x50A8;&#x5E93;&#x540E;&#xFF0C;&#x5355;&#x51FB; <strong>CLOSE</strong> &#x3002;</li>
+<li>&#x5355;&#x51FB;&#x53F3;&#x4E0A;&#x89D2;&#x7684; <strong>EDIT CODE</strong> &#xFF0C;&#x6253;&#x5F00; Bluemix DevOps Services Web IDE&#x3002;</li>
+<li>&#x5C06; Live Edit &#x9009;&#x9879;&#x8BBE;&#x4E3A; on&#xFF1A; </li>
+</ol>
+<p><img src="http://taojinke.github.io/img/20150702/a060171.png" alt=""></p>
+<ol>
+<li>&#x5982;&#x679C;&#x7CFB;&#x7EDF;&#x63D0;&#x793A;&#x60A8;&#x91CD;&#x65B0;&#x90E8;&#x7F72;&#xFF0C;&#x5355;&#x51FB; <strong>OK</strong> &#x3002;&#x6B64;&#x65F6;&#x4F1A;&#x91CD;&#x65B0;&#x90E8;&#x7F72;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x8FD9;&#x6837;&#x66F4;&#x6539;&#x5C31;&#x80FD;&#x5728;&#x5DF2;&#x90E8;&#x7F72;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x751F;&#x6548;&#x3002;&#x90E8;&#x7F72;&#x5B8C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x540E;&#xFF0C;&#x8FD0;&#x884C;&#x680F;&#x4E2D;&#x4F1A;&#x663E;&#x793A;&#x4E00;&#x4E2A;&#x7EFF;&#x70B9;: </li>
+</ol>
+<p><img src="http://taojinke.github.io/img/20150702/a0603e2.png" alt=""></p>
+<p>&#x90E8;&#x7F72;&#x5B8C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x540E;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x5B9E;&#x65F6;&#x7F16;&#x8F91;&#x4E86;&#x3002;</p>
+<h3 id="&#x66F4;&#x6539;&#x4E00;&#x4E2A;&#x9759;&#x6001;&#x6587;&#x4EF6;">&#x66F4;&#x6539;&#x4E00;&#x4E2A;&#x9759;&#x6001;&#x6587;&#x4EF6;</h3><p>&#x5BF9;&#x9759;&#x6001;&#x6587;&#x4EF6;&#xFF08;&#x4F8B;&#x5982; Jade &#x6216; CSS &#x6587;&#x4EF6;&#xFF09;&#x6240;&#x505A;&#x7684;&#x66F4;&#x6539;&#x51E0;&#x4E4E;&#x53EF;&#x4EE5;&#x7ACB;&#x5373;&#x5728;&#x5DF2;&#x90E8;&#x7F72;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x53CD;&#x6620;&#x51FA;&#x6765;&#x3002;</p>
+<ol>
+<li>&#x5728;&#x5DE6;&#x4FA7;&#x7684;&#x5BFC;&#x822A;&#x5668;&#x89C6;&#x56FE;&#x4E2D;&#xFF0C;&#x5C55;&#x5F00;&#x89C6;&#x56FE;&#x3002;</li>
+<li>&#x9009;&#x62E9; layout.jade &#x6587;&#x4EF6;&#x3002;</li>
+<li>&#x5C06; h2 &#xFF08;&#x5927;&#x7EA6;&#x5728;&#x7B2C; 30 &#x884C;&#xFF09;&#x6539;&#x4E3A; This article is so great that I&apos;m going to Tweet about it! &#x7B49;&#x7C7B;&#x4F3C;&#x7684;&#x5185;&#x5BB9;&#x3002;Web IDE &#x4F1A;&#x81EA;&#x52A8;&#x4FDD;&#x5B58;&#x66F4;&#x6539; &#x2014; &#x65E0;&#x9700;&#x624B;&#x52A8;&#x4FDD;&#x5B58;&#xFF01;</li>
+<li>&#x5207;&#x6362;&#x5230;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6240;&#x5728;&#x7684;&#x9009;&#x9879;&#x5361;&#x6216;&#x7A97;&#x53E3;&#xFF0C;&#x7136;&#x540E;&#x5237;&#x65B0;&#x9875;&#x9762;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x6807;&#x9898;&#x4E5F;&#x4F1A;&#x7ACB;&#x5373;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x3002;&#x65E0;&#x9700;&#x7B49;&#x5F85;&#x5373;&#x53EF;&#x91CD;&#x65B0;&#x90E8;&#x7F72;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF01;</li>
+<li>&#x5BF9;&#x9759;&#x6001;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x51E0;&#x6B21;&#x66F4;&#x6539;&#x5E76;&#x89C2;&#x5BDF;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x662F;&#x5426;&#x5B9E;&#x65F6;&#x66F4;&#x65B0;&#x4E86;&#x3002;</li>
+</ol>
+<h3 id="&#x66F4;&#x6539;_Node-js_&#x6A21;&#x5757;">&#x66F4;&#x6539; Node.js &#x6A21;&#x5757;</h3><p>&#x8981;&#x60F3;&#x90E8;&#x7F72;&#x5BF9; Node.js &#x6A21;&#x5757;&#x7684;&#x66F4;&#x6539;&#xFF0C;&#x5FC5;&#x987B;&#x8FDB;&#x884C;&#x4E00;&#x6B21;&#x5FEB;&#x901F;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x91CD;&#x65B0;&#x542F;&#x52A8;&#xFF08;&#x4E0D;&#x662F;&#x5168;&#x90E8;&#x7684;&#x91CD;&#x65B0;&#x90E8;&#x7F72;&#x5DE5;&#x4F5C;&#xFF09;&#xFF0C;&#x56E0;&#x4E3A;&#x670D;&#x52A1;&#x5668;&#x4F1A;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x7F13;&#x5B58; Node.js &#x6A21;&#x5757;&#x3002;&#x4E3A;&#x4E86;&#x6F14;&#x793A;&#x8BE5;&#x7279;&#x6027;&#xFF0C;&#x60A8;&#x5C06;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6587;&#x672C;&#x6587;&#x4EF6;&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F7F;&#x7528;&#x8BE5;&#x6587;&#x4EF6;&#x7684;&#x5185;&#x5BB9;&#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x6587;&#x5B57;&#x3002;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F1A;&#x5728; Node.js &#x6A21;&#x5757;&#x5185;&#x5F15;&#x7528;&#x8BE5;&#x9ED8;&#x8BA4;&#x6587;&#x672C;&#x6587;&#x4EF6;&#xFF0C;&#x6240;&#x4EE5;&#x5FC5;&#x987B;&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x624D;&#x80FD;&#x770B;&#x5230;&#x6240;&#x505A;&#x7684;&#x66F4;&#x6539;&#x751F;&#x6548;&#x3002;</p>
+<ol>
+<li>&#x5728;&#x5DE6;&#x4FA7;&#x7A97;&#x683C;&#x4E2D;&#xFF0C;&#x5728;&#x5BFC;&#x822A;&#x5668;&#x4E2D;&#x9009;&#x62E9;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x6839;&#x76EE;&#x5F55;&#x3002;</li>
+<li>&#x5355;&#x51FB; <strong>File</strong> &gt; <strong>New</strong> &gt; <strong>File</strong> &#x3002;</li>
+<li>&#x6587;&#x4EF6;&#x540D;&#x5DF2;&#x9AD8;&#x4EAE;&#x663E;&#x793A;&#xFF0C;&#x6240;&#x4EE5;&#x60A8;&#x53EF;&#x91CD;&#x547D;&#x540D;&#x5B83;&#x3002;&#x8F93;&#x5165; defaulttext.txt &#x540E;&#x6309;&#x952E;&#x76D8;&#x4E0A;&#x7684; Enter &#x6216; Return&#x3002;</li>
+<li>&#x5728;&#x53F3;&#x4FA7;&#x7684;&#x7F16;&#x8F91;&#x5668;&#x4E2D;&#xFF0C;&#x952E;&#x5165;&#x6216;&#x7C98;&#x8D34;&#x60A8;&#x5E0C;&#x671B;&#x5728;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x7528;&#x4F5C;&#x9ED8;&#x8BA4;&#x6587;&#x672C;&#x7684;&#x6587;&#x5B57;&#x3002;</li>
+<li>&#x5728;&#x5DE6;&#x4FA7;&#x7A97;&#x683C;&#x4E2D;&#xFF0C;&#x5728;&#x5BFC;&#x822A;&#x5668;&#x4E2D;&#x9009;&#x62E9; app.js &#x6587;&#x4EF6;&#x3002;</li>
+<li><p>&#x5728;&#x53F3;&#x4FA7;&#x7684;&#x7F16;&#x8F91;&#x5668;&#x4E2D;&#xFF0C;&#x67E5;&#x770B;&#x4F4D;&#x4E8E; 25 &#x884C;&#x9644;&#x8FD1;&#x7684; dummy_text &#x53D8;&#x91CF;&#x3002;&#x5C06; mobydick.txt &#x66FF;&#x6362;&#x4E3A; defaulttext.txt &#xFF1A; </p>
+<p> dummy_text = fs.readFileSync(&apos;defaulttext.txt&apos;);</p>
+</li>
+<li>&#x5728; Web IDE &#x7684;&#x9876;&#x90E8;&#x680F;&#x4E2D;&#xFF0C;&#x5355;&#x51FB; <strong>Restart</strong> &#x6309;&#x94AE; </li>
+</ol>
+<p><img src="http://taojinke.github.io/img/20150702/a060653.png" alt=""></p>
+<p>&#x3002;</p>
+<ol>
+<li>&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x540E;&#xFF08;&#x53EA;&#x9700;&#x51E0;&#x79D2;&#x949F;&#x7684;&#x65F6;&#x95F4;&#xFF09;&#xFF0C;&#x8FD0;&#x884C;&#x680F;&#x4E2D;&#x4F1A;&#x663E;&#x793A;&#x4E00;&#x4E2A;&#x7EFF;&#x70B9;&#x3002;</li>
+<li>&#x5207;&#x6362;&#xFFFD;&#xFFFD;&#xFFFD;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6240;&#x5728;&#x7684;&#x9009;&#x9879;&#x5361;&#x6216;&#x7A97;&#x53E3;&#x3002;&#x5237;&#x65B0;&#x9875;&#x9762;&#x5E76;&#x67E5;&#x770B;&#x65B0;&#x7684;&#x6587;&#x5B57;&#x3002;&#xFF08;&#x5982;&#x679C;&#x6D4F;&#x89C8;&#x5668;&#x5DF2;&#x7F13;&#x5B58;&#x4E86;&#x9875;&#x9762;&#x5E76;&#x4E14;&#x60A8;&#x770B;&#x5230;&#x6587;&#x5B57;&#x6CA1;&#x6709;&#x66F4;&#x65B0;&#xFF0C;&#x53EF;&#x518D;&#x6B21;&#x6253;&#x5F00;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684; URL&#xFF0C;&#x6B64;&#x65F6;&#x5E94;&#x8BE5;&#x663E;&#x793A;&#x66F4;&#x6539;&#x540E;&#x7684;&#x5185;&#x5BB9;&#x3002;&#xFF09;</li>
+</ol>
+<h2 id="&#x7B2C;_3_&#x6B65;-_&#x4F7F;&#x7528;_Bluemix_Debugger_&#x8C03;&#x8BD5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;">&#x7B2C; 3 &#x6B65;. &#x4F7F;&#x7528; Bluemix Debugger &#x8C03;&#x8BD5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;</h2><p>&#x6709;&#x65F6;&#x53EA;&#x662F;&#x76EF;&#x7740;&#x4EE3;&#x7801;&#x5E76;&#x60F3;&#x627E;&#x51FA;&#x5230;&#x5E95;&#x54EA;&#x91CC;&#x6709;&#x95EE;&#x9898;&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x79CD;&#x53EF;&#x884C;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x60A8;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x8C03;&#x8BD5;&#x5668;&#x3002;&#x6B64;&#x65F6; Bluemix Debugger &#x5C31;&#x80FD;&#x6D3E;&#x4E0A;&#x7528;&#x573A;&#x3002;&#x6709;&#x4E86; Bluemix Debugger&#xFF0C;&#x60A8;&#x53EF;&#x4F7F;&#x7528; Node Inspector &#x6765;&#x8C03;&#x8BD5;&#x60A8;&#x7684; Node.js &#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;</p>
+<p>&#x5907;&#x6CE8;&#xFF1A;Node Inspector &#x76EE;&#x524D;&#x53EA;&#x80FD;&#x5728; Chrome &#x4E2D;&#x5DE5;&#x4F5C;&#x3002;&#x5982;&#x679C;&#x76EE;&#x524D;&#x4ECD;&#x672A;&#x4F7F;&#x7528; Chrome&#xFF0C;&#x5229;&#x7528;&#x6B64;&#x6B21;&#x673A;&#x4F1A;&#x66F4;&#x6362;&#x60A8;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x5427;&#x3002; </p>
+<ol>
+<li>&#x5982;&#x679C;&#x76EE;&#x524D;&#x5E76;&#x672A;&#x5728; Web IDE &#x4E2D;&#x67E5;&#x770B;&#x60A8;&#x7684;&#x9879;&#x76EE;&#xFF0C;&#x53EF;&#x5355;&#x51FB;&#x9879;&#x76EE;&#x6982;&#x8FF0;&#x9875;&#x9762;&#x4E0A;&#x7684; <strong>EDIT CODE</strong> &#x3002;</li>
+<li>&#x5728; Web IDE &#x7684;&#x9876;&#x90E8;&#x680F;&#x4E2D;&#xFF0C;&#x5355;&#x51FB; <strong>Debug</strong> &#x6309;&#x94AE; </li>
+</ol>
+<p><img src="http://taojinke.github.io/img/20150702/a0608c4.png" alt=""></p>
+<p>&#x3002;</p>
+<ol>
+<li>&#x5982;&#x679C;&#x7CFB;&#x7EDF;&#x63D0;&#x793A;&#x60A8;&#x63D0;&#x4F9B;&#x51ED;&#x636E;&#xFF0C;&#x53EF;&#x8F93;&#x5165;&#x60A8;&#x7684; IBM ID &#x548C;&#x5BC6;&#x7801;&#x3002;</li>
+<li>&#x5728;&#x9879;&#x76EE;&#x7684; Bluemix Debugger &#x9875;&#x9762;&#x4E2D;&#xFF0C;&#x5355;&#x51FB; <strong>Open Debugger</strong> &#x3002;&#x8C03;&#x8BD5;&#x5668;&#x7684;&#x52A0;&#x8F7D;&#x65F6;&#x95F4;&#x5927;&#x7EA6;&#x4E3A; 30 &#x79D2;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x5DE6;&#x4FA7;&#x6CA1;&#x6709;&#x663E;&#x793A;&#x5BFC;&#x822A;&#x5668;&#xFF0C;&#x5355;&#x51FB; <strong>Show navigator</strong> &#x6309;&#x94AE;&#x3002;&#x7136;&#x540E;&#x5728;&#x5BFC;&#x822A;&#x5668;&#x4E2D;&#x9009;&#x62E9; app.js &#x6587;&#x4EF6;&#xFF0C;&#x4ECE;&#x800C;&#x6253;&#x5F00;&#x8BE5;&#x6587;&#x4EF6;&#xFF1A; </li>
+</ol>
+<p><img src="http://taojinke.github.io/img/20150702/a060b35.png" alt=""></p>
+<ol>
+<li>&#x5355;&#x51FB; <strong>48</strong> &#xFF0C;&#x5728;&#x7B2C; 48 &#x884C;&#x4E0A;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x65AD;&#x70B9;&#xFF1A; </li>
+</ol>
+<p><img src="http://taojinke.github.io/img/20150702/a061017.png" alt=""></p>
+<ol>
+<li>&#x5728;&#x4E00;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x9009;&#x9879;&#x5361;&#x6216;&#x7A97;&#x53E3;&#x4E2D;&#xFF0C;&#x6D4F;&#x89C8;&#x60A8;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5E76;&#x5355;&#x51FB; <strong>Analyze</strong> &#x3002;</li>
+<li>&#x5207;&#x6362;&#x56DE;&#x5176;&#x4E2D;&#x663E;&#x793A;&#x4E86;&#x8C03;&#x8BD5;&#x5668;&#x7684;&#x9009;&#x9879;&#x5361;&#x6216;&#x7A97;&#x53E3;&#x3002;&#x6CE8;&#x610F;&#x7A0B;&#x5E8F;&#x5DF2;&#x8FD0;&#x884C;&#x5230;&#x65AD;&#x70B9;&#x5904;&#x3002;&#x60A8;&#x53EF;&#x5728;&#x53F3;&#x4FA7;&#x67E5;&#x770B;&#x8C03;&#x7528;&#x6808;&#x548C;&#x53D8;&#x91CF;&#x3002;&#x4E5F;&#x53EF;&#x4F7F;&#x7528;&#x53F3;&#x4FA7;&#x7684;&#x6309;&#x94AE;&#x5BF9;&#x4E0B;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x6267;&#x884C;&#x8FDB;&#x5165;&#x65B9;&#x6CD5;&#x8C03;&#x8BD5;&#x3001;&#x4E0D;&#x8FDB;&#x5165;&#x65B9;&#x6CD5;&#x8C03;&#x8BD5;&#x548C;&#x8DF3;&#x51FA;&#x65B9;&#x6CD5;&#x8C03;&#x8BD5;&#x3002;</li>
+<li>&#x4E86;&#x89E3;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x540E;&#xFF0C;&#x5355;&#x51FB;&#x53F3;&#x4FA7;&#x7684; <strong>Resume script execution</strong> &#x6309;&#x94AE; </li>
+</ol>
+<p><img src="http://taojinke.github.io/img/20150702/a061288.png" alt=""></p>
+<p>&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF0C;&#x5728; Bluemix Debugger &#x9875;&#x9762;&#x4E2D;&#xFF0C;&#x60A8;&#x53EF;&#x9009;&#x62E9;&#x6302;&#x8D77;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x8FD9;&#x4F1A;&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5E76;&#x5728;&#x7B2C;&#x4E00;&#x884C;&#x4EE3;&#x7801;&#x5904;&#x4E2D;&#x65AD;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;</p>
+<h2 id="&#x7B2C;_4_&#x6B65;-_&#x901A;&#x8FC7;_Bluemix_shell_&#x4E86;&#x89E3;_Bluemix_&#x73AF;&#x5883;">&#x7B2C; 4 &#x6B65;. &#x901A;&#x8FC7; Bluemix shell &#x4E86;&#x89E3; Bluemix &#x73AF;&#x5883;</h2><p>&#x4F7F;&#x7528;&#x5185;&#x7F6E;&#x7684; bash shell&#xFF0C;&#x60A8;&#x53EF;&#x4E86;&#x89E3;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x60A8;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684; Bluemix &#x73AF;&#x5883;&#x5E76;&#x4E0E;&#x4E4B;&#x8FDB;&#x884C;&#x4EA4;&#x4E92;&#x3002; </p>
+<ol>
+<li>&#x5728;&#x9879;&#x76EE;&#x7684; Bluemix Debugger &#x9875;&#x9762;&#x4E0A;&#xFF0C;&#x5355;&#x51FB; <strong>Open Shell</strong> &#x3002;&#x6B64;&#x65F6;&#x4F1A;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x6253;&#x5F00;&#x4E00;&#x4E2A; shell &#x5BA2;&#x6237;&#x7AEF;&#x3002;</li>
+<li>&#x8FD0;&#x884C; top &#x547D;&#x4EE4;&#xFF0C;&#x67E5;&#x770B;&#x5728; Bluemix &#x73AF;&#x5883;&#x4E2D;&#x8FD0;&#x884C;&#x7684;&#x8FDB;&#x7A0B;&#x3002;</li>
+<li>&#x5355;&#x51FB; <strong>NEW WINDOW</strong> &#x3002;</li>
+<li>&#x62D6;&#x52A8;&#x65B0;&#x7A97;&#x53E3;&#xFF0C;&#x5728;&#x67E5;&#x770B;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x7684;&#x540C;&#x65F6;&#x4ECD;&#x80FD;&#x7EE7;&#x7EED;&#x89C2;&#x5BDF;&#x5404;&#x4E2A;&#x8FDB;&#x7A0B;&#x3002;</li>
+<li>&#x5728;&#x65B0;&#x7A97;&#x53E3;&#x4E2D;&#xFF0C;&#x8FD0;&#x884C; cd ../logs &#x547D;&#x4EE4;&#xFF0C;&#x8FDB;&#x5165;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x3002;</li>
+<li>&#x8FD0;&#x884C; ls &#x547D;&#x4EE4;&#xFF0C;&#x67E5;&#x770B;&#x65E5;&#x5FD7;&#x76EE;&#x5F55;&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x5217;&#x8868;&#x3002;</li>
+<li>&#x6CE8;&#x610F; staging_task.log &#x662F;&#x65E5;&#x5FD7;&#x76EE;&#x5F55;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x3002;&#x8FD0;&#x884C; tail staging_task.log &#x547D;&#x4EE4;&#xFF0C;&#x67E5;&#x770B;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x6700;&#x540E; 10 &#x884C;&#x7684;&#x5185;&#x5BB9;&#x3002;</li>
+</ol>
+<p>&#x60A8;&#x53EF;&#x7EE7;&#x7EED;&#x4F7F;&#x7528;&#x559C;&#x6B22;&#x7684;&#x547D;&#x4EE4;&#x6765;&#x4E86;&#x89E3; Bluemix &#x73AF;&#x5883;&#x3002;</p>
+<h2 id="&#x7ED3;&#x675F;&#x8BED;">&#x7ED3;&#x675F;&#x8BED;</h2><p>&#x8981;&#x60F3;&#x4E86;&#x89E3;&#x4F7F;&#x7528; Bluemix DevOps Services &#x5F00;&#x53D1;&#x548C;&#x90E8;&#x7F72;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#xFF0C;&#x8BF7;&#x53C2;&#x89C1;&#x7684;&#x6211;&#x7684;&#x56DB;&#x90E8;&#x5206;&#x7CFB;&#x5217;&#x6587;&#x7AE0; <a href="http://www.ibm.com/developerworks/cloud/library/cl-intro1-app/index.html" target="_blank" rel="external">Bluemix DevOps Services &#x7B80;&#x4ECB;</a> &#x3002; </p>
+<p>&#x5728;&#x672C;&#x6559;&#x7A0B;&#x4E2D;&#xFF0C;&#x60A8;&#x5B66;&#x4E60;&#x4E86;&#x5982;&#x4F55;&#x4F7F;&#x7528; Bluemix Live Edit&#x3001;Bluemix Debugger &#x548C; Bluemix shell &#x5728;&#x4E91;&#x4E2D;&#x7F16;&#x7801;&#x5E76;&#x8C03;&#x8BD5;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x6240;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x4E0E;&#x4F7F;&#x7528;&#x684C;&#x9762;&#x5DE5;&#x5177;&#x65F6;&#x7684;&#x65B9;&#x6CD5;&#x7C7B;&#x4F3C;&#x3002;&#x901A;&#x8FC7;&#x5728;&#x4E91;&#x4E2D;&#x4F7F;&#x7528; Bluemix &#x5DE5;&#x5177;&#xFF0C;&#x65E0;&#x9700;&#x82B1;&#x8D39;&#x5927;&#x91CF;&#x7684;&#x65F6;&#x95F4;&#x548C;&#x7CBE;&#x529B;&#x5728;&#x684C;&#x9762;&#x4E0A;&#x8BBE;&#x7F6E;&#x5DE5;&#x5177;&#x4E86;&#x3002;&#x5E76;&#x4E14;&#x901A;&#x8FC7;&#x5728;&#x5F00;&#x53D1;&#x671F;&#x95F4;&#x5C06;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x90E8;&#x7F72;&#x5230; Bluemix&#xFF0C;&#x5728;&#x5C06;&#x751F;&#x4EA7;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x90E8;&#x7F72;&#x5230; Bluemix &#x65F6;&#x5C31;&#x4E0D;&#x4F1A;&#x51FA;&#x73B0;&#x8BA9;&#x4EBA;&#x5403;&#x60CA;&#x7684;&#x60C5;&#x51B5;&#x4E86; &#x2014; &#x60A8;&#x4E3A;&#x4E8C;&#x8005;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x76F8;&#x540C;&#x7684;&#x73AF;&#x5883;&#xFF01;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Bluemix/">Bluemix</a><a href="/tags/Node-js/">Node.js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/a05f05a/" title="Node.js 中使用 Redis 来实现定时任务 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Node.js 中使用 Redis 来实现定时任务 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/a065bc6/"  title="nodejs直接调用grunt（非调用批处理） -">
+ <strong>下一篇：</strong><br/> 
+ <span>nodejs直接调用grunt（非调用批处理） -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于该应用程序"><span class="toc-number">1.</span> <span class="toc-text">关于该应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成您的应用程序的前提条件"><span class="toc-number">2.</span> <span class="toc-text">完成您的应用程序的前提条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第_1_步-_创建应用程序"><span class="toc-number">3.</span> <span class="toc-text">第 1 步. 创建应用程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建并部署您的应用程序"><span class="toc-number">3.1.</span> <span class="toc-text">创建并部署您的应用程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#了解应用程序"><span class="toc-number">3.2.</span> <span class="toc-text">了解应用程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第_2_步-_在_Live_Edit_模式下更新应用程序"><span class="toc-number">4.</span> <span class="toc-text">第 2 步. 在 Live Edit 模式下更新应用程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备使用_Live_Edit"><span class="toc-number">4.1.</span> <span class="toc-text">准备使用 Live Edit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更改一个静态文件"><span class="toc-number">4.2.</span> <span class="toc-text">更改一个静态文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更改_Node-js_模块"><span class="toc-number">4.3.</span> <span class="toc-text">更改 Node.js 模块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第_3_步-_使用_Bluemix_Debugger_调试应用程序"><span class="toc-number">5.</span> <span class="toc-text">第 3 步. 使用 Bluemix Debugger 调试应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第_4_步-_通过_Bluemix_shell_了解_Bluemix_环境"><span class="toc-number">6.</span> <span class="toc-text">第 4 步. 通过 Bluemix shell 了解 Bluemix 环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结束语"><span class="toc-number">7.</span> <span class="toc-text">结束语</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>294</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

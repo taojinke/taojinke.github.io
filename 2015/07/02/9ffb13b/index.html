@@ -1,0 +1,632 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Python,Javascript(NodeJS),PHP之间的AES加密解密 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x573A;&amp;#x666F;&amp;#x662F;&amp;#x73B0;&amp;#x6709;&amp;#x7684;&amp;#x51E0;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;&amp;#xFF0C;&amp;#x5FAE;&amp;#x4FE1;&amp;#x4F01;&amp;#x4E1A;&amp;#x53F7;&amp;#x662F;PHP&amp;#xFF0C;&amp;#x5E7F;&amp;#x544A;&amp;#x6570;&amp;#x636E;&amp;#x5904;&amp;#x7406;&amp;#x5E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python,Javascript(NodeJS),PHP之间的AES加密解密 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/9ffb13b/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x573A;&amp;#x666F;&amp;#x662F;&amp;#x73B0;&amp;#x6709;&amp;#x7684;&amp;#x51E0;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;&amp;#xFF0C;&amp;#x5FAE;&amp;#x4FE1;&amp;#x4F01;&amp;#x4E1A;&amp;#x53F7;&amp;#x662F;PHP&amp;#xFF0C;&amp;#x5E7F;&amp;#x544A;&amp;#x6570;&amp;#x636E;&amp;#x5904;&amp;#x7406;&amp;#x5E">
+<meta property="og:updated_time" content="2015-07-02T15:04:24.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python,Javascript(NodeJS),PHP之间的AES加密解密 -">
+<meta name="twitter:description" content="&amp;#x573A;&amp;#x666F;&amp;#x662F;&amp;#x73B0;&amp;#x6709;&amp;#x7684;&amp;#x51E0;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;&amp;#xFF0C;&amp;#x5FAE;&amp;#x4FE1;&amp;#x4F01;&amp;#x4E1A;&amp;#x53F7;&amp;#x662F;PHP&amp;#xFF0C;&amp;#x5E7F;&amp;#x544A;&amp;#x6570;&amp;#x636E;&amp;#x5904;&amp;#x7406;&amp;#x5E">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/9ffb13b/" title="Python,Javascript(NodeJS),PHP之间的AES加密解密 -" itemprop="url">Python,Javascript(NodeJS),PHP之间的AES加密解密 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T03:04:23.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AES"><span class="toc-number">1.</span> <span class="toc-text">AES</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python"><span class="toc-number">2.</span> <span class="toc-text">Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Javascript(NodeJS)"><span class="toc-number">3.</span> <span class="toc-text">Javascript(NodeJS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP"><span class="toc-number">4.</span> <span class="toc-text">PHP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Testing"><span class="toc-number">5.</span> <span class="toc-text">Testing</span></a></li></ol>
+		
+		</div>
+		
+		<p>&#x573A;&#x666F;&#x662F;&#x73B0;&#x6709;&#x7684;&#x51E0;&#x4E2A;&#x9879;&#x76EE;&#xFF0C;&#x5FAE;&#x4FE1;&#x4F01;&#x4E1A;&#x53F7;&#x662F;PHP&#xFF0C;&#x5E7F;&#x544A;&#x6570;&#x636E;&#x5904;&#x7406;&#x5E73;&#x53F0;&#x662F;Python&#xFF0C;&#x5176;&#x4E2D;&#x7684;Web API&#x90E8;&#x5206;&#x662F;NodeJS&#x3002;&#x73B0;&#x5728;&#x8FD9;&#x51E0;&#x4E2A;&#x5E94;&#x7528;&#x4E4B;&#x95F4;&#x8981;&#x4F20;&#x9012;&#x6570;&#x636E;&#xFF0C;&#x57FA;&#x4E8E;&#x5B89;&#x5168;&#x8003;&#x8651;&#x5148;&#x7528;AES&#x52A0;&#x5BC6;&#xFF0C;&#x63A5;&#x6536;&#x540E;&#x505A;&#x89E3;&#x5BC6;&#x5904;&#x7406;&#x3002;&#x672C;&#x6765;&#x9884;&#x60F3;&#x662F;&#x4E00;&#x4E2A;&#x5F88;&#x7B80;&#x5355;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x5E93;&#x90FD;&#x662F;&#x73B0;&#x6210;&#x7684;&#xFF0C;&#x4F46;&#x53D1;&#x73B0;&#x7F51;&#x4E0A;&#x7684;&#x4EE3;&#x7801;&#x8981;&#x4E48;&#x662F;&#x4E0D;&#x5168;&#xFF0C;&#x8981;&#x4E48;&#x662F;padding&#x5904;&#x7406;&#x4E0D;&#x4E00;&#x81F4;&#xFF0C;&#x6240;&#x4EE5;&#x6700;&#x540E;&#x8FD8;&#x662F;&#x81EA;&#x5DF1;&#x770B;&#x6587;&#x6863;&#x6765;&#x5199;&#x7684;&#xFF0C;&#x5206;&#x4EAB;&#x5176;&#x4E2D;&#x7684;&#x6838;&#x5FC3;&#x4EE3;&#x7801;&#xFF0C;&#x6709;&#x7C7B;&#x4F3C;&#x9700;&#x6C42;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x62FF;&#x53BB;&#x7528;&#x3002;</p>
+<h2 id="AES">AES</h2><p>AES&#x7684;&#x4ECB;&#x7ECD;&#x53EF;&#x4EE5;&#x53C2;&#x770B;Wikipedia: <a href="https://zh.wikipedia.org/wiki/%E9%AB%98%E7%BA%A7%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86" target="_blank" rel="external">&#x9AD8;&#x7EA7;&#x52A0;&#x5BC6;&#x6807;&#x51C6;</a> &#x3002;&#x8FD9;&#x79CD;&#x52A0;&#x5BC6;&#x65B9;&#x5F0F;&#x9700;&#x8981;&#x6307;&#x5B9A;Key(&#x5BC6;&#x94A5;)&#x548C;IV(&#x521D;&#x59CB;&#x5316;&#x5411;&#x91CF;)&#xFF0C;&#x89E3;&#x5BC6;&#x65F6;&#x4F7F;&#x7528;&#x540C;&#x6837;&#x7684;Key&#x548C;IV&#x8FDB;&#x884C;&#x89E3;&#x5BC6;&#x3002;&#x5176;&#x6B21;&#x9700;&#x8981;padding(&#x586B;&#x5145;&#x5B57;&#x7B26;)&#xFF0C;&#x7F51;&#x4E0A;&#x4E00;&#x4E9B;&#x4EE3;&#x7801;&#x662F;&#x7528;&#x7A7A;&#x683C;&#x6216;&#x8005;&#x5927;&#x62EC;&#x53F7;&#x505A;padding&#xFF0C;&#x89E3;&#x5BC6;&#x540E;&#x518D;&#x7528;rstrip/rtrim/replace&#x6E05;&#x6389;&#xFF0C;&#x4F46;&#x7528;&#x6807;&#x51C6;&#x7684; <a href="http://en.wikipedia.org/wiki/Padding_%28cryptography%29#PKCS7" target="_blank" rel="external">PKCS</a> &#x4F1A;&#x66F4;&#x597D;&#x3002; </p>
+<ul>
+<li>&#x4F7F;&#x7528;256&#x4F4D;&#x7684;AES&#xFF0C;Python&#x4F1A;&#x6839;&#x636E;&#x4F20;&#x5165;&#x7684;Key&#x957F;&#x5EA6;&#x81EA;&#x52A8;&#x9009;&#x62E9;&#xFF0C;&#x5728;PHP&#x4E2D;&#x662F;MCRYPT_RIJNDAEL_128&#x3002;</li>
+<li>&#x4F7F;&#x7528;AES&#x7684;CBC&#x6A21;&#x5F0F;&#xFF0C;&#x56E0;&#x4E3A;ECB&#x6A21;&#x5F0F;&#x4E0D;&#x4F1A;&#xFFFD;&#xFFFD;&#xFFFD;&#x7528;IV&#xFF0C;&#x52A0;&#x5BC6;&#x5F3A;&#x5EA6;&#x4E0D;&#x5982;CBC&#x3002;</li>
+<li>&#x4F7F;&#x7528;PKCS&#x7684;&#x65B9;&#x5F0F;&#x6765;padding&#xFF0C;&#x56E0;&#x4E3A;NodeJS&#x7684;&#x5E93;&#x5728;auto_padding&#x7684;&#x72B6;&#x6001;&#x4E0B;&#x4F7F;&#x7528;&#x7684;&#x4E5F;&#x662F;PKCS&#x3002;Key&#x7528;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA(32&#x4E2A;&#xFF0C;256&#x4F4D;)&#xFF0C;IV&#x7528;AAAAAAAAAAAAAAAA(16&#x4E2A;&#xFF0C;128&#x4F4D;)&#x3002;</li>
+<li>Python&#x4F7F;&#x7528; <a href="http://www.pycrypto.org/" target="_blank" rel="external">pycrypto</a> (pip install pycrypto)&#xFF0C;NodeJS&#x4F7F;&#x7528; <a href="https://github.com/Gozala/crypto" target="_blank" rel="external">crypto</a> (npm install crypto)&#xFF0C;PHP&#x9700;&#x8981;mcrypt&#x6A21;&#x5757;&#x3002;</li>
+</ul>
+<h2 id="Python">Python</h2><p> Python</p>
+<pre><code><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES
+<span class="keyword">import</span> base64
+
+
+<span class="function"><span class="keyword">def</span> <span class="title">_pad</span><span class="params">(s)</span>:</span> <span class="keyword">return</span> s + (AES.block_size - len(s) % AES.block_size) * chr(AES.block_size - len(s) % AES.block_size) 
+<span class="function"><span class="keyword">def</span> <span class="title">_cipher</span><span class="params">()</span>:</span>
+    key = &amp;apos;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&amp;apos;
+    iv = &amp;apos;AAAAAAAAAAAAAAAA&amp;apos;
+    <span class="keyword">return</span> AES.new(key=key, mode=AES.MODE_CBC, IV=iv)
+
+<span class="function"><span class="keyword">def</span> <span class="title">encrypt_token</span><span class="params">(data)</span>:</span>
+    <span class="keyword">return</span> _cipher().encrypt(_pad(data))
+
+<span class="function"><span class="keyword">def</span> <span class="title">decrypt_token</span><span class="params">(data)</span>:</span>
+    <span class="keyword">return</span> _cipher().decrypt(data)
+
+<span class="keyword">if</span> __name__ == &amp;apos;__main__&amp;apos;:
+    print(&amp;apos;Python encrypt: &amp;apos; + base64.b64encode(encrypt_token(&amp;apos;dmyz.org&amp;apos;)))
+    print(&amp;apos;Python decrypt: &amp;apos; + decrypt_token(base64.b64decode(&amp;apos;FSfhJ/gk3iEJOPVLyFVc2Q==&amp;apos;)))
+</code></pre><h2 id="Javascript(NodeJS)">Javascript(NodeJS)</h2><p> JavaScript</p>
+<pre><code>var crypto = require<span class="params">(&amp;apos;crypto&amp;apos;)</span>,
+  key = &amp;apos;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&amp;apos;,
+  iv = &amp;apos;AAAAAAAAAAAAAAAA&amp;apos;;
+
+<span class="function"><span class="keyword">function</span> <span class="title">encrypt_token</span><span class="params">(data)</span> {</span>
+  var cipher = crypto.createCipheriv<span class="params">(&amp;apos;aes-<span class="number">256</span>-cbc&amp;apos;, key, iv)</span>;
+  cipher.update<span class="params">(data, &amp;apos;binary&amp;apos;, &amp;apos;base64&amp;apos;)</span>;
+  return cipher.final<span class="params">(&amp;apos;base64&amp;apos;)</span>;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">decrypt_token</span><span class="params">(data)</span> {</span>
+  var decipher = crypto.createDecipheriv<span class="params">(&amp;apos;aes-<span class="number">256</span>-cbc&amp;apos;, key, iv)</span>;
+  decipher.update<span class="params">(data, &amp;apos;base64&amp;apos;, &amp;apos;binary&amp;apos;)</span>;
+  return decipher.final<span class="params">(&amp;apos;binary&amp;apos;)</span>;
+}
+
+console.<span class="built_in">log</span><span class="params">(&amp;apos;NodeJS encrypt: &amp;apos;, encrypt_token<span class="params">(&amp;apos;dmyz.org&amp;apos;)</span>)</span>;
+console.<span class="built_in">log</span><span class="params">(&amp;apos;NodeJS decrypt: &amp;apos;, decrypt_token<span class="params">(&amp;apos;FSfhJ/gk3iEJOPVLyFVc2Q==&amp;apos;)</span>)</span>;
+</code></pre><h2 id="PHP">PHP</h2><p> PHP</p>
+<pre><code>&amp;lt;?php
+
+<span class="class"><span class="keyword">class</span> <span class="title">AES</span>
+</span>{
+    <span class="keyword">var</span> <span class="variable">$key</span> = &amp;apos;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&amp;apos;;
+
+    <span class="keyword">var</span> <span class="variable">$iv</span> = &amp;apos;AAAAAAAAAAAAAAAA&amp;apos;;
+
+    <span class="function"><span class="keyword">function</span> <span class="title">_cypher</span><span class="params">()</span>
+    </span>{
+        <span class="keyword">return</span> mcrypt_module_open(MCRYPT_RIJNDAEL_128, &amp;apos;&amp;apos;, MCRYPT_MODE_CBC, &amp;apos;&amp;apos;);
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">encryptToken</span><span class="params">(<span class="variable">$data</span>)</span>
+    </span>{
+          <span class="variable">$padding</span> = <span class="number">16</span> - (strlen(<span class="variable">$data</span>) % <span class="number">16</span>);
+          <span class="variable">$data</span> .= str_repeat(chr(<span class="variable">$padding</span>), <span class="variable">$padding</span>);
+          <span class="keyword">return</span> mcrypt_encrypt(MCRYPT_RIJNDAEL_128, <span class="variable">$this</span>-&amp;gt;key, <span class="variable">$data</span>, MCRYPT_MODE_CBC, <span class="variable">$this</span>-&amp;gt;iv);
+    }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">decryptToken</span><span class="params">(<span class="variable">$data</span>)</span>
+    </span>{
+        <span class="variable">$data</span> = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, <span class="variable">$this</span>-&amp;gt;key, base64_decode(<span class="variable">$data</span>), MCRYPT_MODE_CBC, <span class="variable">$this</span>-&amp;gt;iv);
+        <span class="variable">$padding</span> = ord(<span class="variable">$data</span>[strlen(<span class="variable">$data</span>) - <span class="number">1</span>]);
+        <span class="keyword">return</span> substr(<span class="variable">$data</span>, <span class="number">0</span>, -<span class="variable">$padding</span>);
+    }
+
+}
+
+<span class="keyword">if</span> (php_sapi_name() === &amp;apos;cli&amp;apos;)
+{
+    <span class="variable">$aes</span> = <span class="keyword">new</span> AES();
+    <span class="keyword">echo</span> (&amp;apos;PHP encrypt: &amp;apos;.base64_encode(<span class="variable">$aes</span>-&amp;gt;encryptToken(&amp;apos;dmyz.org&amp;apos;))).&amp;quot;\n&amp;quot;;
+    <span class="keyword">echo</span> (&amp;apos;PHP decrypt: &amp;apos;.<span class="variable">$aes</span>-&amp;gt;decryptToken(&amp;apos;FSfhJ/gk3iEJOPVLyFVc2Q==&amp;apos;)).&amp;quot;\n&amp;quot;;
+}
+</code></pre><h2 id="Testing">Testing</h2><p>&#x73AF;&#x5883;&#xFF1A; Ubuntu 14.04.2, Python 2.7.6, NodeJS v0.10.25, PHP 5.5.9</p>
+<p>$ python test.py &amp;&amp; nodejs test.js &amp;&amp; php test.php</p>
+<p>Python encrypt: FSfhJ/gk3iEJOPVLyFVc2Q==</p>
+<p>Python decrypt: dmyz.org</p>
+<p>Nodejs encrypt: FSfhJ/gk3iEJOPVLyFVc2Q==</p>
+<p>Nodejs decrypt: dmyz.org</p>
+<p>PHP encrypt: FSfhJ/gk3iEJOPVLyFVc2Q==</p>
+<p>PHP decrypt: dmyz.org</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Node-js/">Node.js</a><a href="/tags/PHP/">PHP</a><a href="/tags/加密解密/">加密解密</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/9fbcab2/" title="2015年最佳的15个 Node.js 开发工具 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  2015年最佳的15个 Node.js 开发工具 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/9fde8b0/"  title="“NodeJS在大搜车” 之 MVC基础结构 -">
+ <strong>下一篇：</strong><br/> 
+ <span>“NodeJS在大搜车” 之 MVC基础结构 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AES"><span class="toc-number">1.</span> <span class="toc-text">AES</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python"><span class="toc-number">2.</span> <span class="toc-text">Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Javascript(NodeJS)"><span class="toc-number">3.</span> <span class="toc-text">Javascript(NodeJS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP"><span class="toc-number">4.</span> <span class="toc-text">PHP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Testing"><span class="toc-number">5.</span> <span class="toc-text">Testing</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>294</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

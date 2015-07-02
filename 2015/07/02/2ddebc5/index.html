@@ -1,0 +1,599 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Limiting Parallelism In Meteor - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="In thelatest blog post we&amp;apos;ve touched the topic of parallelism in the Meteor framework using node-fibers . We&amp;apos;ve shown how to do multiple HTTP requests at the same time. 
+As we&amp;apos;ve seen,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Limiting Parallelism In Meteor -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/2ddebc5/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="In thelatest blog post we&amp;apos;ve touched the topic of parallelism in the Meteor framework using node-fibers . We&amp;apos;ve shown how to do multiple HTTP requests at the same time. 
+As we&amp;apos;ve seen,">
+<meta property="og:updated_time" content="2015-07-02T15:01:12.982Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Limiting Parallelism In Meteor -">
+<meta name="twitter:description" content="In thelatest blog post we&amp;apos;ve touched the topic of parallelism in the Meteor framework using node-fibers . We&amp;apos;ve shown how to do multiple HTTP requests at the same time. 
+As we&amp;apos;ve seen,">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/2ddebc5/" title="Limiting Parallelism In Meteor -" itemprop="url">Limiting Parallelism In Meteor -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T03:01:12.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p> In thelatest blog post we&apos;ve touched the topic of parallelism in the <a href="https://www.meteor.com/" target="_blank" rel="external">Meteor framework</a> using <a href="https://github.com/laverdet/node-fibers" target="_blank" rel="external">node-fibers</a> . We&apos;ve shown how to do multiple HTTP requests at the same time. </p>
+<p>As we&apos;ve seen, unbounded parallelism in Meteor is relatively easy. There are, however, cases when you wish to limit the degree of concurrency (akin to async&apos;s <a href="https://github.com/caolan/async#eachSeries" target="_blank" rel="external">eachSeries</a> ). For example when issuing a lot of HTTP requests or accessing the file system; there&apos;s only so much open files and/or sockets one can have at the same time. How would one do that with blocking fibers? </p>
+<p>Turns out it&apos;s not that hard either! Let&apos;s have a look at a simple implementation. What we want is something like this:</p>
+<pre><code>Future.task(() =&amp;<span class="keyword">gt</span>; {  
+  <span class="regexp">//</span> Call <span class="string">`getRandomGif`</span> <span class="number">50</span> <span class="keyword">times</span> but <span class="keyword">use</span> max <span class="number">5</span> connections at the same <span class="keyword">time</span>.
+  <span class="keyword">return</span> eachWithLimit(<span class="number">_</span>.<span class="keyword">times</span>(<span class="number">50</span>, () =&amp;<span class="keyword">gt</span>; getRandomGif), <span class="number">5</span>);
+}).resolve(() =&amp;<span class="keyword">gt</span>; console.<span class="keyword">log</span>(&amp;apos;I have a lot of GIFs now.&amp;apos;))
+</code></pre><p>where getRandomGif returns a future for the result of HTTP GET request to a service that returns random GIFs. Now this here&apos;s a simple way to implement eachWithLimit : </p>
+<pre><code>const eachWithLimit = (futureFuns, limit = Number.MAX_VALUE) =&amp;gt; {  
+  <span class="variable"><span class="keyword">var</span> info</span> = {
+    blockedTasks: [],
+    futures: [],
+    running: <span class="number">0</span>,
+    limit
+  }
+
+  <span class="comment">// Queue up our tasks.</span>
+  futureFuns.forEach((<span class="function"><span class="keyword">fun</span>) =&amp;gt; {</span>
+    addTask(<span class="function"><span class="keyword">fun</span>, info)</span>
+  });
+
+  <span class="comment">// Wait for the results.</span>
+  let fut, results = [];
+  <span class="keyword">while</span> (fut = info.futures.shift()) {
+    results.push(fut.wait());
+  }
+
+  <span class="keyword">return</span> results;
+};
+</code></pre><p>And here&apos;s how we could implement the addTask function that takes care of scheduling and running the actual parallel jobs. </p>
+<pre><code><span class="variable"><span class="keyword">var</span> addTask</span> = (<span class="function"><span class="keyword">fun</span>, info) =&amp;gt; {  </span>
+  <span class="keyword">if</span> (info.running &amp;gt;= info.limit) {
+    <span class="comment">// We&amp;apos;ve hit the concurrency limit. Wait up.</span>
+    info.blockedTasks.push(<span class="function"><span class="keyword">fun</span>);</span>
+    <span class="keyword">return</span>;
+  }
+
+  ++info.running;
+
+  <span class="comment">// Run the task in a future.</span>
+  let fut = <span class="function"><span class="title">fun</span><span class="params">()</span>;</span>
+  info.futures.push(fut);
+
+  <span class="comment">// Wait for the task to finish.</span>
+  fut.resolve((err, <span class="variable"><span class="keyword">val</span>)</span> =&amp;gt; {
+    --info.running;
+    <span class="comment">// Schedule the next waiting task in the queue.</span>
+    <span class="keyword">if</span> (info.blockedTasks.length &amp;gt; <span class="number">0</span>) {
+      addTask(info.blockedTasks.shift(), info);
+    }
+  });
+}
+</code></pre><p>Everything is pretty straightforward here. We queue up the jobs if we reach the concurrency limit and every time a job is done, we schedule the next one from the blockedTasks queue. When they&apos;re all done, blockedTasks will become empty rendering the while cycle condition in eachWithLimit falsy and returning an array with results. This way we can easily run N jobs in parallel and limit the concurrency to acceptable level. Easy enough right? </p>
+<p>For a mature implementation of concurrency throttling with fibers, I recommend you check out the very fine <a href="https://github.com/scriby/asyncblock/blob/master/docs/maxparallel.md" target="_blank" rel="external">asyncblock</a> and <a href="https://github.com/sethyuan/asyncflow/wiki/Tutorial#concurrency-limit" target="_blank" rel="external">asyncflow</a> libraries. </p>
+<p>Have fun with Meteor and fibers! I&apos;m <a href="https://twitter.com/tomas_brambora" target="_blank" rel="external">@tomas_brambora</a> . </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Meteor/">Meteor</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/2ddbaf1/" title="在业余项目使用 Node.js -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  在业余项目使用 Node.js -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/2de80b2/"  title="npm please stop hurting Visual Studio -">
+ <strong>下一篇：</strong><br/> 
+ <span>npm please stop hurting Visual Studio -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>294</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

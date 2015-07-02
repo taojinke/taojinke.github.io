@@ -1,0 +1,614 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>【每日一博】Node.js 模块加载机制 Require - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x9898;&amp;#x5916;&amp;#x8BDD;&amp;#x9996;&amp;#x5148;&amp;#xFF0C;&amp;#x89E3;&amp;#x4E00;&amp;#x4E0B;&amp;#x535A;&amp;#x5BA2;&amp;#x6807;&amp;#x9898;&amp;#xFF0C;&amp;#x56E0;&amp;#x4E3A;&amp;#x7B2C;&amp;#x4E00;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x8BC4;&amp;#x8BBA;&amp;#x4E2D;&amp;#xFF0C;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【每日一博】Node.js 模块加载机制 Require -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/9afc63f/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x9898;&amp;#x5916;&amp;#x8BDD;&amp;#x9996;&amp;#x5148;&amp;#xFF0C;&amp;#x89E3;&amp;#x4E00;&amp;#x4E0B;&amp;#x535A;&amp;#x5BA2;&amp;#x6807;&amp;#x9898;&amp;#xFF0C;&amp;#x56E0;&amp;#x4E3A;&amp;#x7B2C;&amp;#x4E00;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x8BC4;&amp;#x8BBA;&amp;#x4E2D;&amp;#xFF0C;">
+<meta property="og:updated_time" content="2015-07-02T15:04:15.658Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【每日一博】Node.js 模块加载机制 Require -">
+<meta name="twitter:description" content="&amp;#x9898;&amp;#x5916;&amp;#x8BDD;&amp;#x9996;&amp;#x5148;&amp;#xFF0C;&amp;#x89E3;&amp;#x4E00;&amp;#x4E0B;&amp;#x535A;&amp;#x5BA2;&amp;#x6807;&amp;#x9898;&amp;#xFF0C;&amp;#x56E0;&amp;#x4E3A;&amp;#x7B2C;&amp;#x4E00;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x8BC4;&amp;#x8BBA;&amp;#x4E2D;&amp;#xFF0C;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/9afc63f/" title="【每日一博】Node.js 模块加载机制 Require -" itemprop="url">【每日一博】Node.js 模块加载机制 Require -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T03:04:15.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#题外话"><span class="toc-number">1.</span> <span class="toc-text">题外话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#require()"><span class="toc-number">2.</span> <span class="toc-text">require()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#module-js"><span class="toc-number">3.</span> <span class="toc-text">module.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Module-_load"><span class="toc-number">4.</span> <span class="toc-text">Module._load</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#module-_compile"><span class="toc-number">5.</span> <span class="toc-text">module._compile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-number">6.</span> <span class="toc-text">小结</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="&#x9898;&#x5916;&#x8BDD;">&#x9898;&#x5916;&#x8BDD;</h3><p>&#x9996;&#x5148;&#xFF0C;&#x89E3;&#x4E00;&#x4E0B;&#x535A;&#x5BA2;&#x6807;&#x9898;&#xFF0C;&#x56E0;&#x4E3A;&#x7B2C;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x8BC4;&#x8BBA;&#x4E2D;&#xFF0C;&#x6709;&#x4EBA;&#x8D28;&#x7591;&#x79BB;&#x9898;&#x5F88;&#x8FDC;&#xFF0C;&#x8BF4;&#x4E86;&#x534A;&#x5929;&#x548C;Angular Material&#x6CA1;&#x6709;&#x534A;&#x6BDB;&#x5173;&#x7CFB;&#x3002;</p>
+<ol>
+<li>&#x6211;&#x7684;&#x91CD;&#x5FC3;&#x5728;&#x540E;&#x534A;&#x53E5;&#x300A;&#x4E32;&#x4E32;&#x5B66;&#x5BA2;&#x6237;&#x7AEF;&#x5F00;&#x53D1;&#x300B;&#x3002;&#x8FD9;&#x4E5F;&#x662F;&#x8FD9;&#x4E00;&#x5E74;&#x4EE5;&#x6765;&#xFF0C;&#x6211;&#x81EA;&#x5DF1;&#x7684;&#x7EA0;&#x7ED3;&#x548C;&#x6478;&#x7D22;&#x7684;&#x4E00;&#x4E2A;&#x603B;&#x7ED3;&#x3002;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x5F00;&#x53D1;&#x81EA;&#x4ECE;NodeJS&#x7684;&#x51FA;&#x73B0;&#x4EE5;&#x540E;&#xFF0C;&#x5DF2;&#x7ECF;&#x4EA7;&#x751F;&#x4E86;&#x5929;&#x7FFB;&#x5730;&#x8986;&#x7684;&#x53D8;&#x5316;&#xFF0C;&#x4E0D;&#x518D;&#x662F;&#x5728;html&#x4E2D;&#x5F15;&#x7528;js&#x6587;&#x4EF6;, &#x7528;alert&#x8C03;&#x8BD5;&#x3002;&#x53EF;&#x4EE5;&#x8BF4;NodeJS&#x8BA9;javascript&#x6210;&#x4E00;&#x4E2A;&#x5B8C;&#x5907;&#x7684;&#x5F00;&#x53D1;&#x8BED;&#x8A00;&#xFF0C;&#x8FD9;&#x4E2A;&#x5B8C;&#x5907;&#x5305;&#x62EC;&#x5B83;&#x7684;&#x529F;&#x80FD;&#x548C;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x3002;&#x6240;&#x8C13;&#x7684;&#x300A;&#x4E32;&#x4E32;&#x5B66;&#x5BA2;&#x6237;&#x7AEF;&#x5F00;&#x53D1;&#x300B;&#x5C31;&#x662F;&#x5C55;&#x793A;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x3002;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x8FD9;&#x4E2A;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x4E0D;&#x4EC5;&#x4EC5;&#x662F;IDE&#x90A3;&#x4E48;&#x7B80;&#x5355;&#xFF08;&#x73B0;&#x5728;&#x53EF;&#x7528;&#x7684;IDE&#x6709;WebStorm, Sublime &#x751A;&#x81F3;Visual Studio &#xFF0D; &#x662F;&#x7684;VS2015&#x5DF2;&#x7ECF;&#x80FD;&#x975E;&#x5E38;&#x597D;&#x7684;&#x652F;&#x6301;NodeJS&#x9879;&#x76EE;&#x5F00;&#x53D1;&#xFF09;&#x3002;&#x5728;&#x6211;&#x4E4B;&#x540E;&#x7684;&#x7CFB;&#x5217;&#x4E2D;&#xFF0C;&#x4F1A;&#x6162;&#x6162;&#x628A;&#x8FD9;&#x4E9B;&#x5C55;&#x73B0;&#x51FA;&#x6765;&#x3002;</li>
+<li>&#x4E3A;&#x4EC0;&#x4E48;Angular Material&#x3002;&#x56E0;&#x4E3A;&#x6211;&#x786E;&#x786E;&#x5B9E;&#x5B9E;&#x5728;&#x4F7F;&#x7528;&#x5B83;&#xFF0C;&#x6700;&#x65B0;&#x7684;&#x9879;&#x76EE;&#x5BA2;&#x6237;&#x7AEF;&#x4F1A;&#x5168;&#x90E8;&#x6539;&#x7528;&#x5B83;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x73B0;&#x5728;&#x786E;&#x5B9E;&#x6709;&#x5F88;&#x591A;&#x5F00;&#x6E90;&#x7684;js&#x9879;&#x76EE;&#xFF0C;&#x4F46;&#x662F;&#x5927;&#x90E8;&#x5206;&#x90FD;&#x662F;&#x6846;&#x67B6;&#x9879;&#x76EE;&#xFF0C;&#x5982;Angular Material&#x672C;&#x8EAB;&#xFF0C;&#x800C;&#x6CA1;&#x6709;&#x7EC8;&#x7AEF;&#x5BA2;&#x6237;&#x9879;&#x76EE;(&#x5373;&#x5B9E;&#x9645;&#x7684;&#x7F51;&#x7AD9;&#x9879;&#x76EE;)&#x3002;&#x800C;&#x6700;&#x8FD1;&#x975E;&#x5E38;&#x51D1;&#x5DE7;&#x53D1;&#x73B0;Angular Material&#x6E90;&#x4EE3;&#x7801;&#x4E0D;&#x4EC5;&#x6709;&#x6846;&#x67B6;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x4E5F;&#x6709;&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684;&#x7F51;&#x7AD9;&#x4EE3;&#x7801;&#x3002;&#x8FD9;&#x4E2A;&#x7F51;&#x7AD9;&#x4EE3;&#x7801;&#x672C;&#x8EAB;&#xFF0C;&#x5373;&#x5C55;&#x73B0;&#x4E86;&#x5BA2;&#x6237;&#x7AEF;&#x5F00;&#x53D1;&#x7684;&#x5168;&#x90E8;&#x5185;&#x5BB9;&#xFF0C;&#x4E5F;&#x5305;&#x542B;&#x4E86;&#x5BF9;&#x6846;&#x67B6;&#x7684;&#x6DF1;&#x5EA6;&#x4F7F;&#x7528;&#x3002;&#x6240;&#x8C13;&#xFF0C;&#x4E00;&#x7BAD;&#x53CC;&#x96D5;&#x975E;&#x5E38;&#x5B8C;&#x7F8E;&#xFF0C;&#x8FD9;&#x624D;&#x4FC3;&#x4F7F;&#x6211;&#x542F;&#x52A8;&#x5FF5;&#x5934;&#xFF0C;&#x5F00;&#x59CB;&#x5199;&#x8FD9;&#x4E2A;&#x7CFB;&#x5217;&#x3002;</li>
+<li>&#x5982;&#x4F55;&#x5B66;&#x4E60;&#xFF1F;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x6781;&#x6D45;&#x53C8;&#x6781;&#x6DF1;&#x7684;&#x8BDD;&#x9898;&#x3002;&#x73B0;&#x5728;&#x4E0D;&#x4EC5;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;&#x8F6F;&#x4EF6;&#x7684;&#x9886;&#x57DF;&#x90FD;&#x6709;&#x592A;&#x591A;&#x7684;&#x4E1C;&#x897F;&#x3002;&#x6211;&#x524D;&#x51E0;&#x5929;&#x8FD8;&#x548C;&#x670B;&#x53CB;&#x804A;&#x5230;&#xFF0C;&#x770B;&#x770B;github&#x5C31;&#x80FD;&#x611F;&#x89C9;&#x5230;&#xFF0C;&#x592A;&#x591A;&#x7684;js&#x6846;&#x67B6;&#xFF08;&#x8033;&#x719F;&#x80FD;&#x8BE6;&#x7684;&#x5C31;&#x6709;jQuery, underscore, AngularJS, ReactJS&#xFF0C;Grunt, Gulp &#x2026;), &#x6839;&#x672C;&#x5C31;&#x6CA1;&#x6709;&#x65F6;&#x95F4;&#x548C;&#x7CBE;&#x529B;&#x4E00;&#x4E00;&#x638C;&#x63E1;&#x3002;&#x6211;&#x8BF4;&#xFF0C;&#x8FD9;&#x4E9B;&#x4E1C;&#x897F;&#x72B9;&#x5982;&#x4E00;&#x7C92;&#x4E00;&#x7C92;&#x6563;&#x843D;&#x7684;&#x73E0;&#x5B50;&#xFF0C;&#x5982;&#x679C;&#x7528;&#x4E00;&#x6839;&#x7EBF;&#x628A;&#x5B83;&#x4EEC;&#x4E32;&#x8D77;&#x6765;&#xFF0C;&#x5C31;&#x597D;&#x628A;&#x63E1;&#x591A;&#x4E86;&#x3002; &#x8FD9;&#x5C31;&#x662F;&#x6211;&#x6587;&#x7AE0;&#x6807;&#x9898;&#x7684;&#x771F;&#x6B63;&#x542B;&#x4E49;&#xFF1A;&#x6211;&#x8981;&#x7528;Angular Material&#x8FD9;&#x6839;&#x7EBF;&#x628A;&#x5BA2;&#x6237;&#x7AEF;&#x5F00;&#x53D1;&#x7684;&#x5404;&#x4E2A;&#x65B9;&#x9762;&#x4E32;&#x8D77;&#x6765;&#xFF0C;&#x8FD9;&#x6837;&#x624D;&#x4E0D;&#x90A3;&#x4E48;&#x6563;&#xFF0C;&#x4E0D;&#x90A3;&#x4E48;&#x7D2F;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x6709;&#x4EBA;&#x53EA;&#x5BF9;ngMaterial&#x672C;&#x8EAB;&#x611F;&#x5174;&#x8DA3;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x6211;&#x5176;&#x4ED6;&#x7684;&#x6587;&#x7AE0;&#xFF1A; <a href="http://my.oschina.net/wonner/blog/401605" target="_blank" rel="external">&#x624B;&#x52BF;&#x6A21;&#x578B;&#x548C;Angular Material&#x7684;&#x5B9E;&#x73B0;</a><a href="http://www.cnblogs.com/Wonner/p/Material_Design_And_AngularJS_Implementation.html" target="_blank" rel="external">&#x62DF;&#x7269;&#x8BBE;&#x8BA1;&#x548C;Angular&#x7684;&#x5B9E;&#x73B0; - Material Design</a> &#x548C;&#x6DF1;&#x5165;&#x63A2;&#x7D22;AngularJS&#x3002;</li>
+</ol>
+<h3 id="require()">require()</h3><p>&#x4E0D;&#x8981;&#x628A;&#x8FD9;&#x91CC;&#x7684;Require&#xFF08;&#xFF09;&#x548C;RequireJS&#x6DF7;&#x4E3A;&#x4E00;&#x8C08;&#x3002;&#x4E0D;&#x8FC7;&#x6709;&#x610F;&#x601D;&#x7684;&#x662F;&#xFF0C;Typescript&#x7684;&#x6A21;&#x5757;&#x5B9A;&#x4E49;&#xFF0C;&#x751A;&#x81F3;&#x540C;&#x65F6;&#x652F;&#x6301;&#x8FD9;&#x4E24;&#x79CD;&#x6A21;&#x5757;&#x673A;&#x5236;&#x3002;</p>
+<p>&#x5BFC;&#x5165;&#x548C;&#x4F7F;&#x7528;&#x5916;&#x90E8;&#x6A21;&#x5757;&#xFF0C;&#x53EA;&#x662F;&#x7B80;&#x5355;&#x7684;&#x4E00;&#x53E5; require() ,&#x770B;&#x770B;angular/material/docs&#x4E0B;&#x7684;&#x7F16;&#x8BD1;&#x6587;&#x4EF6;gulpfile.js&#x7684;&#x4EE3;&#x7801;&#x7247;&#x6BB5;&#x3002;&#x5BF9;&#x6A21;&#x5757;&#x5BFC;&#x5165;&#x548C;&#x4F7F;&#x7528;&#x6709;&#x4E2A;&#x76F4;&#x89C2;&#x7684;&#x611F;&#x89C9;&#x3002; </p>
+<pre><code><span class="xml">var gulp = require(&amp;apos;gulp&amp;apos;);
+var concat = require(&amp;apos;gulp-concat&amp;apos;);
+var fs = require(&amp;apos;fs&amp;apos;);
+
+... 
+
+//&amp;#x5BF9;&amp;#x6A21;&amp;#x5757;gulp&amp;#x7684;&amp;#x4F7F;&amp;#x7528;
+gulp.task(&amp;apos;demos&amp;apos;, function() </span><span class="expression">{ <span class="variable">...</span>  
+
+//&amp;<span class="begin-block">#x</span>5<span class="variable">BF</span>9;&amp;<span class="begin-block">#x</span>6<span class="variable">A</span>21;&amp;<span class="begin-block">#x</span>5757;<span class="variable">gulp-concat</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>7<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;
+<span class="variable">gulp.src</span>([
+    &amp;<span class="variable">apos</span>;<span class="variable">node</span>_<span class="variable">modules</span><span class="end-block">/angularytics</span><span class="end-block">/dist</span><span class="end-block">/angularytics.js</span>&amp;<span class="variable">apos</span>;,
+    &amp;<span class="variable">apos</span>;<span class="variable">dist</span><span class="end-block">/docs</span><span class="end-block">/js</span>/**/*<span class="variable">.js</span>&amp;<span class="variable">apos</span>;
+  ])
+    <span class="variable">.pipe</span>(<span class="variable">concat</span>(&amp;<span class="variable">apos</span>;<span class="variable">docs.js</span>&amp;<span class="variable">apos</span>;))
+
+//&amp;<span class="begin-block">#x</span>5<span class="variable">BF</span>9;&amp;<span class="begin-block">#x</span>6<span class="variable">A</span>21;&amp;<span class="begin-block">#x</span>5757;<span class="variable">fs</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>7<span class="variable">F</span>;&amp;<span class="begin-block">#xFFFD</span>;&amp;<span class="begin-block">#xFFFD</span>;&amp;<span class="begin-block">#xFFFD</span>;
+<span class="variable">fs.writeFileSync</span>(<span class="variable">dest</span> + &amp;<span class="variable">apos</span>;<span class="end-block">/demo-data.js</span>&amp;<span class="variable">apos</span>;, <span class="variable">file</span>);</span>
+</code></pre><p>gulp.task &#x7528;&#x4E8E;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#xFF1B; cancat &#x7528;&#x4E8E;&#x5408;&#x5E76;&#x6587;&#x4EF6;&#xFF1B;fs&#x662F;&#x4E00;&#x4E2A;&#x5BF9;&#x78C1;&#x76D8;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x7684;&#x6A21;&#x5757;&#x3002;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x6709;&#x6A21;&#x5757;&#x7684;&#x5F15;&#x5165;&#xFF0C;&#x4EE3;&#x7801;&#x66F4;&#x4E3A;&#x6E05;&#x6670;&#x800C;&#x660E;&#x786E;&#xFF0C;&#x8FD9;&#x4E9B;&#x5E38;&#x7528;&#x6A21;&#x5757;&#x76F8;&#x5F53;&#x4E8E;&#x5BF9;&#x57FA;&#x672C;&#x8BED;&#x8A00;&#x529F;&#x80FD;&#x7684;&#x6269;&#x5C55;&#x3002; </p>
+<p>&#x8FD9;&#x91CC;&#xFF0C;&#x5173;&#x952E;&#x8BCD;require()&#x628A;&#x4E00;&#x5207;&#x8054;&#x7CFB;&#x5728;&#x4E00;&#x8D77;&#x3002;&#x90A3;&#x4E48;&#x8FD9;&#x53E5;&#x7B80;&#x5355;&#x7684;&#x8BED;&#x53E5;&#x80CC;&#x540E;&#x53D1;&#x751F;&#x4E86;&#x4EC0;&#x4E48;&#x4E8B;&#x60C5;&#x5462;&#xFF1F;</p>
+<ol>
+<li>require&#x5176;&#x5B9E;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x8BED;&#x8A00;&#x7684;&#x5173;&#x952E;&#x8BCD;&#xFF0C;&#x5728;&#x6587;&#x7AE0;&#x540E;&#x9762;&#x7684;&#x7814;&#x7A76;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x3002;</li>
+<li>&#x8FD8;&#x6CA1;&#x6709;&#x4F7F;&#x7528;&#x8FC7;require()&#x6216;&#x8005;&#x5BF9;&#x5B83;&#x5B9E;&#x73B0;&#x673A;&#x5236;&#x4E0D;&#x611F;&#x5174;&#x8DA3;&#x7684;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#xFF0C;&#x53EF;&#x4EE5;&#x7565;&#x4E2A;&#x8FD9;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x786E;&#x5B9E;&#xFF0C;&#x540E;&#x9762;&#x5B9E;&#x73B0;&#x673A;&#x5236;&#x4E0D;&#x592A;&#x5F71;&#x54CD;&#x4F7F;&#x7528;&#x3002;</li>
+</ol>
+<p>&#x4EE5;&#x4E0B;&#x5927;&#x90E8;&#x5206;&#x5185;&#x5BB9;&#x90FD;&#x6765;&#x81EA;&#x539F;&#x6587;&#xFF1A; <a href="http://thenodeway.io/posts/how-require-actually-works/?utm_source=fredkschott.com&amp;utm_medium=referral" target="_blank" rel="external">How require() Actually Works</a></p>
+<p>&#x56E0;&#x4E3A;NodeJS&#x662F;&#x5F00;&#x6E90;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8FFD;&#x6EAF; require() &#x5230;node&#x7684;&#x6838;&#x5FC3;&#x4EE3;&#x7801;&#x4E2D;&#x53BB;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x6211;&#x4EEC;&#x627E;&#x5230;&#x7684;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x800C;&#x662F;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;module.js&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x5B9E;&#x73B0;&#x4E86;node&#x7684;&#x6574;&#x4E2A;&#x6A21;&#x5757;&#x52A0;&#x8F7D;&#x7CFB;&#x7EDF;&#x3002;&#x6DB5;&#x76D6;&#x7684;&#x8FC7;&#x7A0B;&#x6709;&#x52A0;&#x8F7D;&#x3001;&#x7F16;&#x8BD1;&#x548C;&#x7F13;&#x5B58;&#x3002;&#x800C;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x7684; require() &#x53EA;&#x662F;&#x5176;&#x51B0;&#x4E0A;&#x4E00;&#x89D2;&#x3002; </p>
+<h3 id="module-js">module.js</h3><pre><code><span class="function"><span class="keyword">function</span> <span class="title">Module</span><span class="params">(id, parent)</span> </span>{
+    <span class="keyword">this</span>.id = id;
+    <span class="keyword">this</span>.exports = {};
+    <span class="keyword">this</span>.parent = parent;
+    <span class="comment">//...</span>
+</code></pre><p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;module.js&#x9996;&#x5148;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#xFF08;&#x51FD;&#x6570;&#xFF09;Module&#x3002;&#x8FD9;&#x4E2A;&#x7C7B;&#x578B;&#x6709;&#x4E24;&#x4E2A;&#x529F;&#x80FD;&#x3002;&#x4E00;&#x4E2A;&#xFF0C;&#x5B83;&#x662F;&#x6240;&#x6709;&#x6A21;&#x5757;&#x7684;&#x57FA;&#x7C7B;&#xFF0C;&#x4E4B;&#x540E;&#x6BCF;&#x4E2A;&#x6A21;&#x5757;&#x90FD;&#x662F;&#x8FD9;&#x4E2A;Module&#x7684;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x3002;&#x8FD9;&#x4E5F;&#x662F;&#x6211;&#x4EEC;&#x524D;&#x9762;&#x63A2;&#x8BA8;&#x7684; module.exports &#x6700;&#x7EC8;&#x6765;&#x6E90;&#x3002; </p>
+<p>&#x8FD9;&#x4E2A;Module&#x7684;&#x7B2C;&#x4E8C;&#x4E2A;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x5B8C;&#x6210;Node&#x6A21;&#x5757;&#x7684;&#x52A0;&#x8F7D;&#x8FC7;&#x7A0B;&#x3002;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x7684; require() &#x6700;&#x7EC8;&#x5C31;&#x662F;&#x8C03;&#x7528;module.require&#x65B9;&#x6CD5;&#xFF0C;&#x800C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x53C8;&#x8C03;&#x7528;&#x4E86;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x5185;&#x90E8;&#x65B9;&#x6CD5;Module._load&#x3002;&#x6700;&#x7EC8;&#x7684;&#x8FD9;&#x4E2A;load&#x65B9;&#x6CD5;&#x624D;&#x662F;&#x771F;&#x6B63;&#x52A0;&#x8F7D;&#x6A21;&#x5757;&#x6587;&#x4EF6;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x6211;&#x4E48;&#x5C06;&#x8981;&#x5206;&#x6790;&#x7814;&#x7A76;&#x7684;&#x3002; </p>
+<h3 id="Module-_load">Module._load</h3><pre><code>Module._load = function(request, parent, isMain) {
+    //1. <span class="operator"><span class="keyword">Check</span> <span class="keyword">Module</span>._cache <span class="keyword">for</span> the cached <span class="keyword">module</span>.
+    //<span class="number">2.</span> <span class="keyword">Create</span> a new <span class="keyword">module</span> instance <span class="keyword">if</span> <span class="keyword">cache</span> empty
+    //<span class="number">3.</span> Save it <span class="keyword">to</span> the <span class="keyword">cache</span>
+    //<span class="number">4.</span> <span class="keyword">Call</span> <span class="keyword">module</span>.<span class="keyword">load</span>() <span class="keyword">with</span> your the given filename, this will <span class="keyword">call</span> <span class="keyword">module</span>.compile() <span class="keyword">after</span> reading the file contents.
+    //<span class="number">5.</span> <span class="keyword">If</span> there was error loading /parsing the file, <span class="keyword">delete</span> the bad <span class="keyword">module</span> <span class="keyword">from</span> <span class="keyword">cache</span>.
+    //<span class="number">6.</span> <span class="keyword">return</span> <span class="keyword">module</span>.exports
+};</span>
+</code></pre><p>Module._load&#x8D1F;&#x8D23;&#x88C5;&#x8F7D;&#x65B0;&#x6A21;&#x5757;&#x548C;&#x7BA1;&#x7406;&#x6A21;&#x5757;&#x7684;&#x7F13;&#x5B58;&#x3002;&#x7F13;&#x5B58;&#x673A;&#x5236;&#x5728;&#x6BCF;&#x4E2A;&#x6A21;&#x5757;&#x8F7D;&#x5165;&#x65F6;&#x51CF;&#x5C11;&#x91CD;&#x590D;&#x8BFB;&#x53D6;&#x6587;&#x4EF6;&#xFF0C;&#x4ECE;&#x800C;&#x63D0;&#x9AD8;&#x7CFB;&#x7EDF;&#x6027;&#x80FD;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5171;&#x4EAB;&#x6A21;&#x5757;&#x5B9E;&#x4F8B;&#x8FD8;&#x53EF;&#x4EE5;&#x4F7F;&#x5F97;&#x5355;&#x4F8B;&#x6A21;&#x5757;&#x5728;&#x6574;&#x4E2A;&#x9879;&#x76EE;&#x4E2D;&#x4FDD;&#x7559;&#x72B6;&#x6001;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x5728;&#x7F13;&#x5B58;&#x4E2D;&#x6CA1;&#x6709;&#x627E;&#x5230;&#x8BE5;&#x6A21;&#x5757;&#xFF0C;Module._load&#x5C31;&#x4F1A;&#x4E3A;&#x8BE5;&#x6587;&#x4EF6;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;Module&#x5B9E;&#x4F8B;&#x3002;&#x5E76;&#x7528;&#x8BE5;&#x5B9E;&#x4F8B;&#x8BFB;&#x53D6;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#xFF0C;&#x7136;&#x540E;&#x53D1;&#x9001;&#x7ED9;Module._compile&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#x5230;&#x5728;&#x4E0A;&#x9762;&#x7B2C;6&#x6B65;&#xFF0C;&#x8FD4;&#x56DE;&#x4E86;module.exports&#x3002;&#x8FD9;&#x4E2A;&#x8FD4;&#x56DE;&#x8BED;&#x53E5;&#x53EF;&#x4EE5;&#x89E3;&#x91CA;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x5728;&#x4F60;&#x7684;&#x6A21;&#x5757;&#x6587;&#x4EF6;&#x4E2D;&#x8981;&#x628A;&#x516C;&#x5F00;&#x7684;&#x63A5;&#x53E3;&#xFF08;&#x65B9;&#x6CD5;&#xFF09;&#x8D4B;&#x7ED9;module.exports(&#x6216;&#x8005;&#x522B;&#x540D;exports)&#xFF1B;&#x8FD9;&#x4E5F;&#x89E3;&#x91CA;&#x4E86;&#xFF0C;require()&#x8FD4;&#x56DE;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x5BFC;&#x5165;&#x6A21;&#x5757;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5230;&#x6B64;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x795E;&#x5947;&#x6216;&#x7279;&#x522B;&#x7684;&#x5730;&#x65B9;&#x3002;</p>
+<h3 id="module-_compile">module._compile</h3><pre><code><span class="keyword">Module</span>.prototype._compile = <span class="function"><span class="keyword">function</span><span class="params">(content, filename)</span></span> {
+    // <span class="number">1.</span> Create the standalone require <span class="function"><span class="keyword">function</span></span> that calls <span class="keyword">module</span> require.
+    // <span class="number">2.</span> Attach other helper methods to require.
+    // <span class="number">3.</span> Wraps the JS code <span class="type">in</span> a <span class="function"><span class="keyword">function</span></span> that provides require, <span class="keyword">module</span>, etc. variables locally to the <span class="keyword">module</span> scope.
+    // <span class="number">4.</span> Run that <span class="function"><span class="keyword">function</span>.</span>
+</code></pre><p>&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x4E00;&#x5F00;&#x59CB;&#x5C31;&#x521B;&#x5EFA;require&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x975E;&#x5E38;&#x719F;&#x6089;&#x7684;&#x90A3;&#x4E2A; require() (&#x6A21;&#x5757;&#x88C5;&#x8F7D;&#x673A;&#x5236;&#x4E0D;&#x4EC5;&#x4EC5;&#x6709;&#x8F7D;&#x5165;&#x6A21;&#x5757;&#x7684;&#x5904;&#x7406;&#xFF0C;&#x4E5F;&#x6709;&#x5BFC;&#x5165;&#x548C;&#x8C03;&#x7528;&#x7684;&#x6D41;&#x7A0B;&#xFF0C;&#x8FD9;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x8C03;&#x7528;&#x65B9;&#x7684;&#x6D41;&#x7A0B;&#xFF0C;&#x5982;&#x6211;&#x4EEC;&#x63D0;&#x5230;&#x7684;main.js)&#x3002;&#x800C;&#x8FD9;&#x4E2A;&#x4E2A;&#x51FD;&#x6570;&#x672C;&#x8EAB;&#x53EA;&#x662F;&#x7B80;&#x5355;&#x7684;&#x5C01;&#x88C5;&#x4E86;Module.require&#x548C;&#x6DFB;&#x52A0;&#x4E86;&#x4E00;&#x4E9B;&#x5E2E;&#x52A9;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A; </p>
+<ul>
+<li>require() &#x5C31;&#x662F;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x7684;require()</li>
+<li>require.main &#x4E3B;&#x6A21;&#x5757;</li>
+<li>require.cache &#x6240;&#x6709;&#x7F13;&#x5B58;&#x7684;&#x6A21;&#x5757;</li>
+<li>require.extensions &#x4E0D;&#x540C;&#x6587;&#x4EF6;&#x7C7B;&#x578B;&#xFF08;&#x540E;&#x7F00;&#xFF09;&#x7684;&#x7F16;&#x8BD1;&#x65B9;&#x6CD5;</li>
+</ul>
+<p>&#x5728;&#x6784;&#x5EFA;require&#x4E4B;&#x540E;&#xFF0C;&#x6240;&#x6709;&#x539F;&#x6587;&#x4EF6;&#x7684;&#x4EE3;&#x7801;&#x88AB;&#x5C01;&#x88C5;&#x7684;&#x4E00;&#x4E2A;&#x65B0;&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x628A;require,module,exports&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x3002; &#x8FD9;&#x4E5F;&#x53EF;&#x4EE5;&#x89E3;&#x91CA;&#x4E3A;&#x4EC0;&#x4E48;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8C03;&#x7528;require(),&#x4E3A;&#x4EC0;&#x4E48;exports&#x662F;module.exports&#x7684;&#x522B;&#x540D;&#x3002; </p>
+<p>(function(exports,require, module, <strong>filename, </strong>dirname){<br>        //&#x539F;&#x6A21;&#x5757;&#x6587;&#x4EF6;&#x7684;&#x6240;&#x6709;&#x4EE3;&#x7801;&#x6CE8;&#x5165;&#x5728;&#x8FD9;<br>    });</p>
+<p>&#x4E86;&#x89E3;&#x6A21;&#x5757;&#x6A21;&#x5F0F;(Module Pattern)&#x7684;&#x4EBA;&#xFF0C;&#x5F88;&#x5BB9;&#x6613;&#x770B;&#x51FA;&#x8FD9;&#x6BB5;&#x770B;&#x65F6;&#x6BEB;&#x65E0;&#x610F;&#x4E49;&#x7684;&#x91CD;&#x65B0;&#x5206;&#x5E10;&#xFF0C;&#x5C31;&#x662F;&#x6A21;&#x5757;&#x6A21;&#x5F0F;&#xFF0C;&#x5C31;&#x662F;&#x4E3A;&#x4E86;&#x9632;&#x6B62;&#x6A21;&#x5757;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5B9A;&#x4E49;&#x6C61;&#x67D3;&#x7CFB;&#x7EDF;&#x7684;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#xFF08;&#x8BB0;&#x4F4F;javascript&#x65F6;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF09;&#x3002;</p>
+<p>&#x6700;&#x540E;&#xFF0C;&#x8FD9;&#x4E2A;&#x65B0;&#x521B;&#x5EFA;&#x7684;&#x51FD;&#x6570;&#x76F4;&#x63A5;&#x88AB;&#x8FD0;&#x884C;&#xFF0C;&#x8FD9;&#x5176;&#x5B9E;&#x4E5F;&#x662F;&#x5B8C;&#x6574;&#x6A21;&#x5757;&#x6A21;&#x5F0F;&#x7684;&#x4E00;&#x90E8;&#x5206;,&#x6700;&#x540E;&#x90A3;&#x5BF9;&#x7A7A;&#x62EC;&#x5F27;&#x5C31;&#x662F;&#x8FD0;&#x884C;&#x90E8;&#x5206;&#xFF1A;</p>
+<p>(function(…){<br>        //…<br>    })();</p>
+<p>&#x5982;&#x679C;&#x4E0D;&#x719F;&#x6089;&#x6A21;&#x5757;&#x6A21;&#x5F0F;(Module Patter)&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x770B;&#x6211;&#x53E6;&#x5916;&#x4E00;&#x7BC7;&#x6587;&#x7AE0; <a href="http://kb.skight.com/&#x5BA2;&#x6237;&#x7AEF;/&#x6DF1;&#x5165;&#x63A2;&#x7D22;AngularJS.html" target="_blank" rel="external">&#x6DF1;&#x5165;&#x63A2;&#x7D22;AngularJS</a> &#x7684;&#x4E00;&#x4E2A;&#x7AE0;&#x8282;&#x300A;&#x6A21;&#x5757;&#x6A21;&#x5F0F; - Module Pattern&#x300B; </p>
+<p>&#x5B8C;&#x6574;&#x5168;&#x6587;&#xFF1A; <a href="http://kb.skight.com/&#x5BA2;&#x6237;&#x7AEF;/&#x901A;&#x8FC7;Anuglar%20Material&#x4E32;&#x4E32;&#x5B66;&#x5BA2;&#x6237;&#x7AEF;&#x5F00;&#x53D1;.html" target="_blank" rel="external">&#x901A;&#x8FC7;ANUGLAR MATERIAL&#x4E32;&#x4E32;&#x5B66;&#x5BA2;&#x6237;&#x7AEF;&#x5F00;&#x53D1;</a></p>
+<h3 id="&#x5C0F;&#x7ED3;">&#x5C0F;&#x7ED3;</h3><p>&#x81F3;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x8D70;&#x5B8C;&#x4E86;&#x6A21;&#x5757;&#x52A0;&#x8F7D;&#x7684;&#x5168;&#x90E8;&#x6D41;&#x7A0B;&#x3002;&#x4ECE;&#x521B;&#x5EFA;&#x6A21;&#x5757;module.exports&#x5230;&#x8C03;&#x7528;require,&#x4EE5;&#x53CA;&#x8C03;&#x7528;&#x5B9E;&#x73B0;&#x7684;&#x5185;&#x90E8;&#x8FC7;&#x7A0B;&#x3002;&#x867D;&#x7136;&#x8FD9;&#x4E9B;&#x5BF9;&#x4F60;&#x4EE3;&#x7801;&#x8FD8;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5F71;&#x54CD;&#xFF0C;&#x539F;&#x6765;&#x8BE5;&#x600E;&#x4E48;&#x505A;&#x8FD8;&#x600E;&#x4E48;&#x505A;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x53EF;&#x4EE5;&#x8BA9;&#x4F60;&#x5199;&#x540C;&#x6837;&#x4EE3;&#x7801;&#x65F6;&#xFF0C;&#x5FC3;&#x91CC;&#x66F4;&#x6709;&#x5E95;&#xFF0C;&#x4E0D;&#x518D;&#x5F3A;&#x884C;&#x8BB0;&#x5FC6;&#x6A21;&#x5757;&#x7684;&#x8BED;&#x6CD5;&#x3002;&#x6700;&#x91CD;&#x8981;&#x7684;&#x4E8B;&#x901A;&#x8FC7;&#x5B66;&#x4E60;&#x826F;&#x597D;&#x7684;&#x4EE3;&#x8D2D;&#x67B6;&#x6784;&#xFF0C;&#x63D0;&#x9AD8;&#x81EA;&#x5DF1;&#x7684;&#x67B6;&#x6784;&#x6C34;&#x5E73;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AngularJS/">AngularJS</a><a href="/tags/Node-js/">Node.js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/9ff917e/" title="NodeJS异常处理uncaughtException篇 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  NodeJS异常处理uncaughtException篇 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/9afa682/"  title="“NodeJS在大搜车” 之 应用部署篇 -">
+ <strong>下一篇：</strong><br/> 
+ <span>“NodeJS在大搜车” 之 应用部署篇 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#题外话"><span class="toc-number">1.</span> <span class="toc-text">题外话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#require()"><span class="toc-number">2.</span> <span class="toc-text">require()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#module-js"><span class="toc-number">3.</span> <span class="toc-text">module.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Module-_load"><span class="toc-number">4.</span> <span class="toc-text">Module._load</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#module-_compile"><span class="toc-number">5.</span> <span class="toc-text">module._compile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-number">6.</span> <span class="toc-text">小结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>294</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

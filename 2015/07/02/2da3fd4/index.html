@@ -1,0 +1,587 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Dealing with long paths - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="You might have been unfortunate enough to learn that Windows has a 256-character limit on file paths. You could&amp;apos;ve run into this problem locally or on end users&amp;apos; machines. We&amp;apos;ve created">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dealing with long paths -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/2da3fd4/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="You might have been unfortunate enough to learn that Windows has a 256-character limit on file paths. You could&amp;apos;ve run into this problem locally or on end users&amp;apos; machines. We&amp;apos;ve created">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/2da0f00.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/2da18c4.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/2da1da6.png">
+<meta property="og:updated_time" content="2015-07-02T15:01:12.119Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dealing with long paths -">
+<meta name="twitter:description" content="You might have been unfortunate enough to learn that Windows has a 256-character limit on file paths. You could&amp;apos;ve run into this problem locally or on end users&amp;apos; machines. We&amp;apos;ve created">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/2da3fd4/" title="Dealing with long paths -" itemprop="url">Dealing with long paths -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T03:01:12.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#npm"><span class="toc-number">1.</span> <span class="toc-text">npm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Delete_delete_delete"><span class="toc-number">1.1.</span> <span class="toc-text">Delete delete delete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Runtime_errors"><span class="toc-number">1.2.</span> <span class="toc-text">Runtime errors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Can't_npm_fix_this?"><span class="toc-number">1.3.</span> <span class="toc-text">Can't npm fix this?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Manually_checking_for_exceedingly_long_paths"><span class="toc-number">2.</span> <span class="toc-text">Manually checking for exceedingly long paths</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Introducing_gulp-path-length"><span class="toc-number">3.</span> <span class="toc-text">Introducing gulp-path-length</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Distributed_long_paths"><span class="toc-number">4.</span> <span class="toc-text">Distributed long paths</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Is_there_anything_we_can_do?"><span class="toc-number">4.1.</span> <span class="toc-text">Is there anything we can do?</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p> You might have been unfortunate enough to learn that Windows has a 256-character limit on file paths. You could&apos;ve run into this problem locally or on end users&apos; machines. We&apos;ve created a simple little module called <a href="https://github.com/Teamwork/gulp-path-length" target="_blank" rel="external">gulp-path-length</a> to give you a helping hand with this. </p>
+<p><img src="http://taojinke.github.io/img/20150702/2da0f00.gif" alt=""></p>
+<h2 id="npm">npm</h2><p>Neither this problem nor our solution is exclusive to <a href="https://nodejs.org/" target="_blank" rel="external">Node.js</a> , but a lot of the victims of the path length problem were probably running Node.js on Windows. Windows users know that they get left out in the cold often by <a href="https://www.npmjs.com/" target="_blank" rel="external">npm</a> package maintainers but even <a href="https://github.com/joyent/node/issues/6960#issuecomment-46704998" target="_blank" rel="external">the design of npm itself is a problem from the get-go</a> . </p>
+<p>npm stores your dependencies (listed in your package.json ) in a node_modules directory. If those dependencies have dependencies of their own, they&apos;re stored in their own node_modules directory (i.e. your-project/node_modules/a/node_modules/b/ ) and so on recursively. It&apos;s nice, but in hindsight, it&apos;s obviously incompatible with Windows&apos;s path length limit. </p>
+<h3 id="Delete_delete_delete">Delete delete delete</h3><p>Most people have probably been lucky enough to only have come across this problem when trying to delete dependencies and then Windows complains that the path is too long.</p>
+<p>A simple way around this is to take a module halfway down deep into your dependency graph (i.e. node_modules/a/node_modules/b/node_modules/c/…/node_modules/h/ ) in Windows Explorer and move it somewhere closer to the root (e.g. node_modules/ ) to cut the file path down before trying to delete it again. This would have to be repeated for every culprit. </p>
+<p>There are also some tools which could help. I&apos;ve noticed that you can delete really long paths while using <a href="http://www.7-zip.org/" target="_blank" rel="external">7-Zip</a> File Manager to browse files. </p>
+<h3 id="Runtime_errors">Runtime errors</h3><p>If you&apos;ve ran into actual bugs caused by this, you could find a module halfway down the dependency graph and add it as a dependency to your project so it will be installed under the top level node_modules and not a node_modules directory n levels deep. Make sure to install the correct version and test thoroughly. </p>
+<p>There are also a few Node modules out there which &quot;flatten&quot; your dependency graph. The downside to these modules is that if there is a conflict (package A depends on version 1.0.0 of package Z and package B depends on version 3.2.1 of package Z) then the latest version of the module (package Z) is used, which could be problematic. So, be careful.</p>
+<h3 id="Can&apos;t_npm_fix_this?">Can&apos;t npm fix this?</h3><p>You might see people reference Windows APIs (which support long paths) as a possible fix but it is <a href="https://github.com/joyent/node/issues/6960#issuecomment-46704998" target="_blank" rel="external">very unlikely</a> this will be fixed in npm. <a href="https://docs.npmjs.com/cli/dedupe" target="_blank" rel="external">npm dedupe</a><em>should</em> help with this too but it&apos;s not reliable in my experience. This has been fixed as of <a href="https://github.com/npm/npm/releases/tag/v3.0.0" target="_blank" rel="external">npm 3.0.0</a> . </p>
+<p>Your dependencies will now be installed <em>maximally</em> flat. Insofar as is possible, all of your dependencies, and their dependencies, and THEIR dependencies will be installed in your project&apos;s node_modules folder with no nesting. You&apos;ll only see modules nested underneath one another when two (or more) modules have conflicting dependencies. </p>
+<p>Excuse me…</p>
+<p><img src="http://taojinke.github.io/img/20150702/2da18c4.gif" alt=""></p>
+<h2 id="Manually_checking_for_exceedingly_long_paths">Manually checking for exceedingly long paths</h2><p>Up until now, we&apos;ve had to routinely check for long paths using <a href="https://pathlengthchecker.codeplex.com/" target="_blank" rel="external">Path Length Checker</a> (on Windows) but a manual check is not good enough as stuff can still slip through the net. </p>
+<h2 id="Introducing_gulp-path-length">Introducing gulp-path-length</h2><p>So, we&apos;ve created a simple <a href="http://gulpjs.com" target="_blank" rel="external">Gulp</a> plugin help with this; <a href="https://github.com/Teamwork/gulp-path-length" target="_blank" rel="external">gulp-path-length</a> . You could use it like this in a Gulp task: </p>
+<pre><code><span class="keyword">var</span> gulp = <span class="keyword">require</span>(&amp;apos;gulp&amp;apos;);  
+<span class="keyword">var</span> pathLength = <span class="keyword">require</span>(&amp;apos;gulp-path-length&amp;apos;);
+
+gulp.task(&amp;apos;<span class="keyword">default</span>&amp;apos;, <span class="function"><span class="keyword">function</span><span class="params">()</span><span class="comment">{  
+    gulp.src(&amp;apos;./example/path/to/directory/**&amp;apos;, {read: false}</span>)
+        .<span class="title">pipe</span><span class="params">(pathLength()</span>);</span> 
+});
+</code></pre><p>If all is well, nothing will happen. If you have a path exceeding 256 characters, the Gulp task will stop and an error will reveal the offending path. This is really fast either way as Gulp doesn&apos;t need to read the contents of the files. The limit can be changed with a parameter; i.e. .pipe(pathLength({ maxLength: 50 }); . </p>
+<p>This is fine if it&apos;s just for you locally, but there are bigger fish to fry.</p>
+<h2 id="Distributed_long_paths">Distributed long paths</h2><p>What if there are multiple developers working on your project? What if a developer is using Mac OS X or Linux? There could easily be false positives. It&apos;s one thing having issues locally or within a team, it&apos;s a whole other thing to have path length problems in production on end users&apos; machines.</p>
+<p>We&apos;ve run into this withTeamwork Chat for Windows as it&apos;s built on <a href="https://github.com/nwjs/nw.js" target="_blank" rel="external">NW.js</a> (formerly node-webkit) and can contain long paths (i.e. dependencies from npm). Depending on how long the current user&apos;s username was, the user might&apos;ve seen something like this when they tried to launch Teamwork Chat: </p>
+<p><img src="http://taojinke.github.io/img/20150702/2da1da6.png" alt=""></p>
+<p>A dummy application. None of our app code is executed. This means no error reports and no way the app could even auto-update once a patch was released. As a maintainer of <a href="https://github.com/mllrsohn/node-webkit-builder" target="_blank" rel="external">node-webkit-builder</a> , I know we&apos;re not the only ones who have faced this problem. </p>
+<h3 id="Is_there_anything_we_can_do?">Is there anything we can do?</h3><p>Once the code is shipped, it&apos;s too late. Luckily, we have a rough idea where the files will exist on end users machines thanks to our Windows installer. We&apos;ve added a rewrite option to gulp-path-length for simulating paths to prevent this problem ever ocurring again; </p>
+<pre><code><span class="keyword">var</span> gulp = <span class="keyword">require</span>(&amp;apos;gulp&amp;apos;);  
+<span class="keyword">var</span> pathLength = <span class="keyword">require</span>(&amp;apos;gulp-path-length&amp;apos;);
+gulp.task(&amp;apos;<span class="keyword">default</span>&amp;apos;, <span class="function"><span class="keyword">function</span><span class="params">()</span><span class="comment">{  
+    gulp.src(&amp;apos;./example/path/to/directory/**&amp;apos;, {read: false}</span>)
+        .<span class="title">pipe</span><span class="params">(pathLength({
+            rewrite: {
+                match: &amp;apos;./example/path/<span class="keyword">to</span>/directory/&amp;apos;,
+                replacement: &amp;apos;C:\\Users\\a-long-username-here\\AppData\\<span class="keyword">And</span>\\So\\<span class="keyword">On</span>&amp;apos;
+            }
+        })</span>);</span> 
+});
+</code></pre><p>So, it doesn&apos;t matter where you are on your filesystem or which operating system you&apos;re using, it will test the length of files (which belong to the given rewrite.match directory) as if they&apos;re in a specific directory on Windows (i.e. rewrite.replacement ). The outcome would be the same for any developer on the team. </p>
+<p>You could run this before you ship your code but we&apos;ve added this to a compilation build step so we catch it as early as possible. If a Mac developer adds really long paths to the project (like an npm dependency which depends on a chain of <a href="https://lodash.com/" target="_blank" rel="external">lodash</a> modules), they&apos;ll see right away that this will break stuff for some Windows users. For good measure, we also run it in a continuous integration step. </p>
+<p>Are we missing anything here? Feel free to send us a pull-request or create an issue over at the gulp-path-length <a href="https://github.com/Teamwork/gulp-path-length" target="_blank" rel="external">GitHub repository</a> . </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Gulp/">Gulp</a><a href="/tags/Windows/">Windows</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/6bb6a51/" title="gulp插件开发手札 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  gulp插件开发手札 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/2db7372/"  title="What&#39;s coming in Meteor 1.2, and beyond -">
+ <strong>下一篇：</strong><br/> 
+ <span>What&#39;s coming in Meteor 1.2, and beyond -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#npm"><span class="toc-number">1.</span> <span class="toc-text">npm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Delete_delete_delete"><span class="toc-number">1.1.</span> <span class="toc-text">Delete delete delete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Runtime_errors"><span class="toc-number">1.2.</span> <span class="toc-text">Runtime errors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Can't_npm_fix_this?"><span class="toc-number">1.3.</span> <span class="toc-text">Can't npm fix this?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Manually_checking_for_exceedingly_long_paths"><span class="toc-number">2.</span> <span class="toc-text">Manually checking for exceedingly long paths</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Introducing_gulp-path-length"><span class="toc-number">3.</span> <span class="toc-text">Introducing gulp-path-length</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Distributed_long_paths"><span class="toc-number">4.</span> <span class="toc-text">Distributed long paths</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Is_there_anything_we_can_do?"><span class="toc-number">4.1.</span> <span class="toc-text">Is there anything we can do?</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>294</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

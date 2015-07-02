@@ -1,0 +1,600 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Node.js中spawn与exec的异同比较 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x524D;&amp;#x8A00;&amp;#x4F17;&amp;#x6240;&amp;#x5468;&amp;#x77E5;&amp;#xFF0C;Node.js&amp;#x5728; child_process &amp;#x6A21;&amp;#x5757;&amp;#x4E2D;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E86; spawn &amp;#x548C; exec &amp;#x8FD9;&amp;#x4E24;&amp;#x4E2A;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js中spawn与exec的异同比较 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/9ada841/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x524D;&amp;#x8A00;&amp;#x4F17;&amp;#x6240;&amp;#x5468;&amp;#x77E5;&amp;#xFF0C;Node.js&amp;#x5728; child_process &amp;#x6A21;&amp;#x5757;&amp;#x4E2D;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E86; spawn &amp;#x548C; exec &amp;#x8FD9;&amp;#x4E24;&amp;#x4E2A;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF">
+<meta property="og:updated_time" content="2015-07-02T15:04:15.366Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js中spawn与exec的异同比较 -">
+<meta name="twitter:description" content="&amp;#x524D;&amp;#x8A00;&amp;#x4F17;&amp;#x6240;&amp;#x5468;&amp;#x77E5;&amp;#xFF0C;Node.js&amp;#x5728; child_process &amp;#x6A21;&amp;#x5757;&amp;#x4E2D;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E86; spawn &amp;#x548C; exec &amp;#x8FD9;&amp;#x4E24;&amp;#x4E2A;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/9ada841/" title="Node.js中spawn与exec的异同比较 -" itemprop="url">Node.js中spawn与exec的异同比较 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T03:04:15.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#child_process-spawn(command[,_args][,_options])"><span class="toc-number">1.1.</span> <span class="toc-text">child_process.spawn(command[, args][, options])</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#child_process-exec(command[,_options],_callback)"><span class="toc-number">1.2.</span> <span class="toc-text">child_process.exec(command[, options], callback)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#callback_Function_当子进程执行完毕后将会执行的回调函数，参数有："><span class="toc-number">1.2.1.</span> <span class="toc-text">callback Function 当子进程执行完毕后将会执行的回调函数，参数有：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异同"><span class="toc-number">2.</span> <span class="toc-text">异同</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#从文档里可以得出的一些相同点："><span class="toc-number">2.1.</span> <span class="toc-text">从文档里可以得出的一些相同点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不同点："><span class="toc-number">2.2.</span> <span class="toc-text">不同点：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="&#x524D;&#x8A00;">&#x524D;&#x8A00;</h2><p>&#x4F17;&#x6240;&#x5468;&#x77E5;&#xFF0C;Node.js&#x5728; <a href="https://iojs.org/api/child_process.html" target="_blank" rel="external">child_process</a> &#x6A21;&#x5757;&#x4E2D;&#x63D0;&#x4F9B;&#x4E86; spawn &#x548C; exec &#x8FD9;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x7528;&#x6765;&#x5F00;&#x542F;&#x5B50;&#x8FDB;&#x7A0B;&#x6267;&#x884C;&#x6307;&#x5B9A;&#x7A0B;&#x5E8F;&#x3002;&#x8FD9;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x867D;&#x7136;&#x76EE;&#x7684;&#x4E00;&#x6837;&#xFF0C;&#x4F46;&#x662F;&#x65E2;&#x7136;Node.js&#x4E3A;&#x6211;&#x4EEC;&#x63D0;&#x4F9B;&#x4E86;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x90A3;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x5FC5;&#x7136;&#x8FD8;&#x662F;&#x4F1A;&#x6709;&#x4E00;&#x4E9B;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#xFF0C;&#x4E0B;&#x9762;&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x5206;&#x6790;&#x4E00;&#x4E0B;&#x4ED6;&#x4EEC;&#x7684;&#x5F02;&#x540C;&#x3002; </p>
+<p>&#x9996;&#x5148;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B; &#x5B98;&#x65B9;API&#x6587;&#x6863; &#x4E2D;&#x5BF9;&#x5B83;&#x4EEC;&#x7684;&#x8BF4;&#x660E;&#xFF1A; </p>
+<h3 id="child_process-spawn(command[,_args][,_options])">child_process.spawn(command[, args][, options])</h3><p>command String&#x5C06;&#x8981;&#x8FD0;&#x884C;&#x7684;&#x547D;&#x4EE4;&#x3002; </p>
+<p>args Array&#x5B57;&#x7B26;&#x4E32;&#x53C2;&#x6570;&#x6570;&#x7EC4;&#x3002; </p>
+<p>options &#x914D;&#x7F6E;&#x5BF9;&#x8C61;&#xFF1A; </p>
+<ul>
+<li><strong>cwd String</strong> &#x5B50;&#x8FDB;&#x7A0B;&#x7684;&#x5F53;&#x524D;&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#x3002;</li>
+<li><strong>env Object</strong> &#x73AF;&#x5883;&#x53D8;&#x91CF;&#x952E;&#x503C;&#x5BF9;&#x3002;</li>
+<li><strong>stdio Array|String</strong> &#x5B50;&#x8FDB;&#x7A0B;&#x7684;stdio&#x914D;&#x7F6E;&#x3002;</li>
+<li><strong>detached Boolean</strong> &#x8FD9;&#x4E2A;&#x5B50;&#x8FDB;&#x7A0B;&#x5C06;&#x4F1A;&#x53D8;&#x6210;&#x8FDB;&#x7A0B;&#x7EC4;&#x7684;&#x9886;&#x5BFC;&#x3002;</li>
+<li><strong>uid Number</strong> &#x8BBE;&#x7F6E;&#x7528;&#x6237;&#x8FDB;&#x7A0B;&#x7684;ID&#x3002;</li>
+<li><strong>gid Number</strong> &#x8BBE;&#x7F6E;&#x8FDB;&#x7A0B;&#x7EC4;&#x7684;ID&#x3002;</li>
+</ul>
+<p>&#x8FD4;&#x56DE;&#x503C;:ChildProcess&#x5BF9;&#x8C61; </p>
+<p>&#x5229;&#x7528;&#x7ED9;&#x5B9A;&#x7684;&#x547D;&#x4EE4;&#x4EE5;&#x53CA;&#x53C2;&#x6570;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x8FDB;&#x7A0B;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x53C2;&#x6570;&#x6570;&#x7EC4;&#xFF0C;&#x90A3;&#x4E48; args &#x5C06;&#x9ED8;&#x8BA4;&#x662F;&#x4E00;&#x4E2A;&#x7A7A;&#x6570;&#x7EC4;&#x3002; </p>
+<h3 id="child_process-exec(command[,_options],_callback)">child_process.exec(command[, options], callback)</h3><p>command String&#x5C06;&#x8981;&#x8FD0;&#x884C;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x53C2;&#x6570;&#x4F7F;&#x7528;&#x7A7A;&#x683C;&#x9694;&#x5F00;&#x3002; </p>
+<p>options &#x914D;&#x7F6E;&#x5BF9;&#x8C61;&#xFF1A; </p>
+<ul>
+<li><strong>cwd String</strong> &#x5B50;&#x8FDB;&#x7A0B;&#x7684;&#x5F53;&#x524D;&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#x3002;</li>
+<li><strong>env Object</strong> &#x73AF;&#x5883;&#x53D8;&#x91CF;&#x952E;&#x503C;&#x5BF9;&#x3002;</li>
+<li><strong>encoding String</strong> &#x5B57;&#x7B26;&#x7F16;&#x7801;&#xFF08;&#x9ED8;&#x8BA4;&#xFF1A; &apos;utf8&apos;&#xFF09;&#x3002;</li>
+<li><strong>shell String</strong> &#x5C06;&#x8981;&#x6267;&#x884C;&#x547D;&#x4EE4;&#x7684;Shell&#xFF08;&#x9ED8;&#x8BA4;: &#x5728; UNIX &#x4E2D;&#x4E3A; /bin/sh &#xFF0C; &#x5728; Windows &#x4E2D;&#x4E3A; cmd.exe &#xFF0C; Shell&#x5E94;&#x5F53;&#x80FD;&#x8BC6;&#x522B; -c &#x5F00;&#x5173;&#x5728; UNIX &#x4E2D;&#xFF0C;&#x6216; /s /c &#x5728; Windows &#x4E2D;&#x3002; &#x5728; Windows &#x4E2D;&#xFF0C;&#x547D;&#x4EE4;&#x884C;&#x89E3;&#x6790;&#x5E94;&#x5F53;&#x80FD;&#x517C;&#x5BB9; cmd.exe &#xFF09;&#x3002;</li>
+<li><strong>timeout Number</strong> &#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF08;&#x9ED8;&#x8BA4;&#xFF1A; 0&#xFF09;&#x3002;</li>
+<li><strong>maxBuffer Number</strong> &#x5728;stdout&#x6216;stderr&#x4E2D;&#x5141;&#x8BB8;&#x5B58;&#x5728;&#x7684;&#x6700;&#x5927;&#x7F13;&#x51B2;&#xFF08;&#x4E8C;&#x8FDB;&#x5236;&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x8D85;&#x51FA;&#x90A3;&#x4E48;&#x5B50;&#x8FDB;&#x7A0B;&#x5C06;&#x4F1A;&#x88AB;&#x6740;&#x6B7B; &#xFF08;&#x9ED8;&#x8BA4;: 200*1024&#xFF09;&#x3002;</li>
+<li><strong>killSignal String</strong> &#x7ED3;&#x675F;&#x4FE1;&#x53F7;&#xFF08;&#x9ED8;&#x8BA4;&#xFF1A;&apos;SIGTERM&apos;&#xFF09;&#x3002;</li>
+<li><strong>detached Boolean</strong> &#x8FD9;&#x4E2A;&#x5B50;&#x8FDB;&#x7A0B;&#x5C06;&#x4F1A;&#x53D8;&#x6210;&#x8FDB;&#x7A0B;&#x7EC4;&#x7684;&#x9886;&#x5BFC;&#x3002;</li>
+<li><strong>uid Number</strong> &#x8BBE;&#x7F6E;&#x7528;&#x6237;&#x8FDB;&#x7A0B;&#x7684;ID&#x3002;</li>
+<li><strong>gid Number</strong> &#x8BBE;&#x7F6E;&#x8FDB;&#x7A0B;&#x7EC4;&#x7684;ID&#x3002;</li>
+</ul>
+<h4 id="callback_Function_&#x5F53;&#x5B50;&#x8FDB;&#x7A0B;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x540E;&#x5C06;&#x4F1A;&#x6267;&#x884C;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x53C2;&#x6570;&#x6709;&#xFF1A;">callback Function &#x5F53;&#x5B50;&#x8FDB;&#x7A0B;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x540E;&#x5C06;&#x4F1A;&#x6267;&#x884C;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x53C2;&#x6570;&#x6709;&#xFF1A;</h4><ul>
+<li><strong>error Error</strong></li>
+<li><strong>stdout Buffer</strong></li>
+<li><strong>stderr Buffer</strong></li>
+</ul>
+<p>&#x8FD4;&#x56DE;&#x503C;:ChildProcess&#x5BF9;&#x8C61; </p>
+<p>&#x5728;Shell&#x4E2D;&#x8FD0;&#x884C;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#xFF0C;&#x5E76;&#x7F13;&#x5B58;&#x547D;&#x4EE4;&#x7684;&#x8F93;&#x51FA;&#x3002;</p>
+<h2 id="&#x5F02;&#x540C;">&#x5F02;&#x540C;</h2><h3 id="&#x4ECE;&#x6587;&#x6863;&#x91CC;&#x53EF;&#x4EE5;&#x5F97;&#x51FA;&#x7684;&#x4E00;&#x4E9B;&#x76F8;&#x540C;&#x70B9;&#xFF1A;">&#x4ECE;&#x6587;&#x6863;&#x91CC;&#x53EF;&#x4EE5;&#x5F97;&#x51FA;&#x7684;&#x4E00;&#x4E9B;&#x76F8;&#x540C;&#x70B9;&#xFF1A;</h3><p>1&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x7528;&#x4E8E;&#x5F00;&#x4E00;&#x4E2A;&#x5B50;&#x8FDB;&#x7A0B;&#x6267;&#x884C;&#x6307;&#x5B9A;&#x547D;&#x4EE4;&#x3002;</p>
+<p>2&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x4E49;&#x5B50;&#x8FDB;&#x7A0B;&#x7684;&#x8FD0;&#x884C;&#x73AF;&#x5883;&#x3002;</p>
+<p>3&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;ChildProcess&#x5BF9;&#x8C61;&#xFF0C;&#x6240;&#x4EE5;&#x4ED6;&#x4EEC;&#x90FD;&#x53EF;&#x4EE5;&#xFFFD;&#xFFFD;&#xFFFD;&#x5F97;&#x5B50;&#x8FDB;&#x7A0B;&#x7684;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x6D41;&#xFF0C;&#x6807;&#x51C6;&#x8F93;&#x51FA;&#x6D41;&#x548C;&#x6807;&#x51C6;&#x9519;&#x8BEF;&#x6D41; &#x3002;</p>
+<h3 id="&#x4E0D;&#x540C;&#x70B9;&#xFF1A;">&#x4E0D;&#x540C;&#x70B9;&#xFF1A;</h3><p>1&#xFF0C; <strong>&#x63A5;&#x53D7;&#x53C2;&#x6570;&#x7684;&#x65B9;&#x5F0F;&#xFF1A;</strong>spawn &#x4F7F;&#x7528;&#x4E86;&#x53C2;&#x6570;&#x6570;&#x7EC4;&#xFF0C;&#x800C; exec &#x5219;&#x76F4;&#x63A5;&#x63A5;&#x5728;&#x547D;&#x4EE4;&#x540E;&#x3002; </p>
+<p>2&#xFF0C; <strong>&#x5B50;&#x8FDB;&#x7A0B;&#x8FD4;&#x56DE;&#x7ED9;Node&#x7684;&#x6570;&#x636E;&#x91CF;&#xFF1A;</strong>spawn &#x6CA1;&#x6709;&#x9650;&#x5236;&#x5B50;&#x8FDB;&#x7A0B;&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;&#x7ED9;Node&#x7684;&#x6570;&#x636E;&#x5927;&#x5C0F;&#xFF0C;&#x800C; exec &#x5219;&#x5728; options&#x914D;&#x7F6E;&#x5BF9;&#x8C61; &#x4E2D;&#x6709; maxBuffer &#x53C2;&#x6570;&#x9650;&#x5236;&#xFF0C;&#x4E14;&#x9ED8;&#x8BA4;&#x4E3A;200K&#xFF0C;&#x5982;&#x679C;&#x8D85;&#x51FA;&#xFF0C;&#x90A3;&#x4E48;&#x5B50;&#x8FDB;&#x7A0B;&#x5C06;&#x4F1A;&#x88AB;&#x6740;&#x6B7B;&#xFF0C;&#x5E76;&#x62A5;&#x9519;&#xFF1A; Error&#xFF1A;maxBuffer exceeded &#xFF0C;&#x867D;&#x7136;&#x53EF;&#x4EE5;&#x624B;&#x52A8;&#x8C03;&#x5927; maxBuffer &#x53C2;&#x6570;&#xFF0C;&#x4F46;&#x662F;&#x5E76;&#x4E0D;&#x88AB;&#x63A8;&#x8350;&#x3002;&#x7531;&#x6B64;&#x53EF;&#x7AA5;&#x89C1;&#x4E00;&#x756A;Node.js&#x8BBE;&#x7F6E;&#x8FD9;&#x4E24;&#x4E2A;API&#x65F6;&#x7684;&#x90E8;&#x5206;&#x672C;&#x610F;&#xFF0C; spawn &#x5E94;&#x7528;&#x6765;&#x8FD0;&#x884C;&#x8FD4;&#x56DE;&#x5927;&#x91CF;&#x6570;&#x636E;&#x7684;&#x5B50;&#x8FDB;&#x7A0B;&#xFF0C;&#x5982;&#x56FE;&#x50CF;&#x5904;&#x7406;&#xFF0C;&#x6587;&#x4EF6;&#x8BFB;&#x53D6;&#x7B49;&#x3002;&#x800C; exec &#x5219;&#x5E94;&#x7528;&#x6765;&#x8FD0;&#x884C;&#x53EA;&#x8FD4;&#x56DE;&#x5C11;&#x91CF;&#x8FD4;&#x56DE;&#x503C;&#x7684;&#x5B50;&#x8FDB;&#x7A0B;&#xFF0C;&#x5982;&#x53EA;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x72B6;&#x6001;&#x7801;&#x3002; </p>
+<p>3&#xFF0C; <strong>&#x8C03;&#x7528;&#x5BF9;&#x8C61;&#xFF1A;</strong> &#x867D;&#x7136;&#x5728;&#x5B98;&#x65B9;&#x6587;&#x6863;&#x4E2D;&#xFF0C;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x63A5;&#x53D7;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x6807;&#x6CE8;&#x7684;&#x90FD;&#x662F; command &#xFF0C;&#x5373;&#x8981;&#x6267;&#x884C;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x4F46;&#x5176;&#x5B9E;&#x4E0D;&#x7136;&#x3002; spawn &#x63A5;&#x53D7;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x6587;&#x4EF6;&#xFF0C;&#x800C; exec &#x63A5;&#x53D7;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x624D;&#x662F;&#x547D;&#x4EE4;&#x3002;&#x5728;Node&#x7684;&#x6E90;&#x7801;&#x4E2D;&#x5173;&#x4E8E; spawn &#x7684;&#x90E8;&#x5206;&#x6709;&#x5982;&#x4E0B;&#x4E00;&#x6BB5;&#xFF1A; </p>
+<pre><code>jsvar spawn = exports<span class="class">.spawn</span> = <span class="function"><span class="title">function</span><span class="params">(file, args, options)</span></span>
+</code></pre><p>&#x800C;&#x5728; exec &#x90E8;&#x5206;&#x5219;&#x6709;&#x5982;&#x4E0B;&#x4E00;&#x6BB5;&#xFF1A; </p>
+<pre><code>js <span class="keyword">if</span> (process.platform === &amp;apos;win32&amp;apos;) {
+<span class="keyword">file</span> = &amp;apos;cmd.exe&amp;apos;;
+args = [&amp;apos;<span class="regexp">/s&amp;apos;, &amp;apos;/</span>c&amp;apos;, &amp;apos;&amp;quot;&amp;apos; + command + &amp;apos;&amp;quot;&amp;apos;];
+<span class="comment">// Make a shallow copy before patching so we don&amp;apos;t clobber the user&amp;apos;s</span>
+<span class="comment">// options object.</span>
+<span class="keyword">options</span> = util._extend({}, <span class="keyword">options</span>);
+<span class="keyword">options</span>.windowsVerbatimArguments = <span class="keyword">true</span>;
+} <span class="keyword">else</span> {
+  <span class="keyword">file</span> = &amp;apos;<span class="regexp">/bin/</span>sh&amp;apos;;
+  args = [&amp;apos;-c&amp;apos;, command];
+}
+</code></pre><p>&#x6240;&#x4EE5;&#x5728;Windows&#x4E0B;&#x76F4;&#x63A5;&#x8FD0;&#x884C; require(&apos;child_process&apos;).spawn(&apos;dir&apos;) &#x4F1A;&#x62A5;&#x5F02;&#x5E38;&#x8BF4;&#x6CA1;&#x6709;&#x6B64;&#x6587;&#x4EF6;&#xFF0C;&#x800C;&#x4F7F;&#x7528; exec &#x5219;&#x4E0D;&#x4F1A;&#x3002;&#x82E5;&#x4E00;&#x5B9A;&#x8981;&#x4F7F;&#x7528; spwan &#xFF0C;&#x5219;&#x5E94;&#x5199;&#x6210; require(&apos;child_process&apos;).spawn(&apos;cmd.exe&apos;,[&apos;\s&apos;, &apos;\c&apos;, &apos;dir&apos;]) &#x3002; </p>
+<p>4&#xFF0C; <strong>&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF1A;</strong>exec &#x65B9;&#x6CD5;&#x76F8;&#x6BD4; spawn &#x65B9;&#x6CD5;&#xFF0C;&#x591A;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x53EF;&#x4EE5;&#x66F4;&#x4FBF;&#x6377;&#x5F97;&#x83B7;&#x53D6;&#x5B50;&#x8FDB;&#x7A0B;&#x8F93;&#x51FA;&#x3002;&#x8FD9;&#x4E0E;&#x4E3A;&#x8FD4;&#x56DE;&#x7684;ChildProcess&#x5BF9;&#x8C61;&#x7684; stdout &#x6216; stderr &#x76D1;&#x542C; data &#x4E8B;&#x4EF6;&#x6765;&#x83B7;&#x5F97;&#x8F93;&#x51FA;&#x7684;&#x533A;&#x522B;&#x5728;&#x4E8E;&#xFF1A; data &#x4E8B;&#x4EF6;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4F1A;&#x5728;&#x5B50;&#x8FDB;&#x7A0B;&#x4E00;&#x6709;&#x6570;&#x636E;&#x65F6;&#x5C31;&#x89E6;&#x53D1;&#xFF0C;&#x5E76;&#x628A;&#x6570;&#x636E;&#x8FD4;&#x56DE;&#x7ED9;Node&#x3002;&#x800C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x5219;&#x4F1A;&#x5148;&#x5C06;&#x6570;&#x636E;&#x7F13;&#x5B58;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#xFF08;&#x6570;&#x636E;&#x91CF;&#x5C0F;&#x4E8E; maxBuffer &#x53C2;&#x6570;&#xFF09;&#xFF0C;&#x7B49;&#x5F85;&#x5B50;&#x8FDB;&#x7A0B;&#x8FD0;&#x884C;&#x5B8C;&#x6BD5;&#x540E;&#xFF0C;&#x518D;&#x8C03;&#x7528;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x5E76;&#x628A;&#x6700;&#x7EC8;&#x6570;&#x636E;&#x4EA4;&#x7ED9;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x3002; </p>
+<h2 id="&#x53C2;&#x8003;">&#x53C2;&#x8003;</h2><p><a href="http://www.hacksparrow.com/difference-between-spawn-and-exec-of-node-js-child_process.html" target="_blank" rel="external">http://www.hacksparrow.com/difference-between-spawn-and-exec-of-node-j…</a></p>
+<p><a href="https://cnodejs.org/topic/507285c101d0b80148f7c538" target="_blank" rel="external">https://cnodejs.org/topic/507285c101d0b80148f7c538</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Node-js/">Node.js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/9ae1fe2/" title="极简的 NodeJS npm 模块开发 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  极简的 NodeJS npm 模块开发 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/9ad2e2f/"  title="node.js与express4.X实战（二）------快速构建一个简单的API接口 -">
+ <strong>下一篇：</strong><br/> 
+ <span>node.js与express4.X实战（二）------快速构建一个简单的API接口 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#child_process-spawn(command[,_args][,_options])"><span class="toc-number">1.1.</span> <span class="toc-text">child_process.spawn(command[, args][, options])</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#child_process-exec(command[,_options],_callback)"><span class="toc-number">1.2.</span> <span class="toc-text">child_process.exec(command[, options], callback)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#callback_Function_当子进程执行完毕后将会执行的回调函数，参数有："><span class="toc-number">1.2.1.</span> <span class="toc-text">callback Function 当子进程执行完毕后将会执行的回调函数，参数有：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异同"><span class="toc-number">2.</span> <span class="toc-text">异同</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#从文档里可以得出的一些相同点："><span class="toc-number">2.1.</span> <span class="toc-text">从文档里可以得出的一些相同点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不同点："><span class="toc-number">2.2.</span> <span class="toc-text">不同点：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>294</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,599 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>基于`nodejs`开启你的`cli`之路 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x9884;&amp;#x5907;
+&amp;#x5206;&amp;#x5206;&amp;#x949F;&amp;#x4F7F;&amp;#x7528;&amp;#x9ED8;&amp;#x8BA4;&amp;#x9009;&amp;#x9879;&amp;#x5B89;&amp;#x88C5;&amp;#x5B8C; nodejs
+&amp;#x5206;&amp;#x5206;&amp;#x949F;&amp;#x4F7F;&amp;#x7528; sudo npm install -g yo &amp;#x5B89;&amp;#x88C5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于`nodejs`开启你的`cli`之路 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/a451276/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x9884;&amp;#x5907;
+&amp;#x5206;&amp;#x5206;&amp;#x949F;&amp;#x4F7F;&amp;#x7528;&amp;#x9ED8;&amp;#x8BA4;&amp;#x9009;&amp;#x9879;&amp;#x5B89;&amp;#x88C5;&amp;#x5B8C; nodejs
+&amp;#x5206;&amp;#x5206;&amp;#x949F;&amp;#x4F7F;&amp;#x7528; sudo npm install -g yo &amp;#x5B89;&amp;#x88C5">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a44fc7d.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a44feee.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a44feee.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a45015f.png">
+<meta property="og:updated_time" content="2015-07-02T15:04:31.227Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于`nodejs`开启你的`cli`之路 -">
+<meta name="twitter:description" content="&amp;#x9884;&amp;#x5907;
+&amp;#x5206;&amp;#x5206;&amp;#x949F;&amp;#x4F7F;&amp;#x7528;&amp;#x9ED8;&amp;#x8BA4;&amp;#x9009;&amp;#x9879;&amp;#x5B89;&amp;#x88C5;&amp;#x5B8C; nodejs
+&amp;#x5206;&amp;#x5206;&amp;#x949F;&amp;#x4F7F;&amp;#x7528; sudo npm install -g yo &amp;#x5B89;&amp;#x88C5">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/a451276/" title="基于`nodejs`开启你的`cli`之路 -" itemprop="url">基于`nodejs`开启你的`cli`之路 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T03:04:31.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#预备"><span class="toc-number">1.</span> <span class="toc-text">预备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建_cli_项目"><span class="toc-number">2.</span> <span class="toc-text">创建 cli 项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Let's_try_first"><span class="toc-number">3.</span> <span class="toc-text">Let's try first</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#试个常见命令？"><span class="toc-number">4.</span> <span class="toc-text">试个常见命令？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何发布"><span class="toc-number">5.</span> <span class="toc-text">如何发布</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="&#x9884;&#x5907;">&#x9884;&#x5907;</h2><ol>
+<li>&#x5206;&#x5206;&#x949F;&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x9009;&#x9879;&#x5B89;&#x88C5;&#x5B8C; <a href="https://nodejs.org/" target="_blank" rel="external">nodejs</a></li>
+<li>&#x5206;&#x5206;&#x949F;&#x4F7F;&#x7528; sudo npm install -g yo &#x5B89;&#x88C5;&#x5B8C; <a href="http://yeoman.io/" target="_blank" rel="external">yeoman</a></li>
+<li>&#x901A;&#x8FC7; sudo npm install -g generator-cli-starter &#x5B89;&#x88C5;cli&#x5F00;&#x53D1;&#x811A;&#x624B;&#x67B6;</li>
+</ol>
+<p>OK, &#x73B0;&#x5728;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; yo cli-starter &#x547D;&#x4EE4;&#x5F00;&#x59CB;&#x6211;&#x4EEC; cli &#x5F00;&#x53D1;&#x4E4B;&#x65C5;&#x4E86; </p>
+<h2 id="&#x521B;&#x5EFA;_cli_&#x9879;&#x76EE;">&#x521B;&#x5EFA; cli &#x9879;&#x76EE;</h2><pre><code><span class="keyword">bashyo </span>cli-starter
+</code></pre><p>&#x6309;&#x7167;&#x63D0;&#x793A;&#x8F93;&#x5165; &#x9879;&#x76EE;&#x540D;&#x79F0; &#x3001; &#x547D;&#x4EE4;&#x540D;&#x79F0; &#xFF0C;&#x5B8C;&#x6210; cli &#x9879;&#x76EE;&#x521B;&#x5EFA;&#x3002;&#x540E;&#x7EED;&#x7684;&#x6559;&#x7A0B;&#x4E2D;&#x6211;&#x4EEC;&#x5C06;&#x4F7F;&#x7528; hi &#x4F5C;&#x4E3A;&#x4F60;&#x7684; &#x547D;&#x4EE4;&#x540D;&#x79F0; &#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;&#x4E86;&#x5176;&#x4ED6;&#x547D;&#x4EE4;&#x540D;&#x79F0;&#xFF0C;&#x8BF7;&#x6CE8;&#x610F;&#x66FF;&#x6362; </p>
+<h2 id="Let&apos;s_try_first">Let&apos;s try first</h2><p>&#x73B0;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x8F93;&#x5165;&#x5982;&#x4E0B;&#x547D;&#x4EE4;(&#x5982;&#x679C;&#x4F60;&#x7528;&#x7684;&#x4E0D;&#x662F; hi &#xFF0C;&#x6CE8;&#x610F;&#x66FF;&#x6362;) </p>
+<pre><code>bashhi
+</code></pre><p>&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a44fc7d.png" alt=""></p>
+<h2 id="&#x8BD5;&#x4E2A;&#x5E38;&#x89C1;&#x547D;&#x4EE4;&#xFF1F;">&#x8BD5;&#x4E2A;&#x5E38;&#x89C1;&#x547D;&#x4EE4;&#xFF1F;</h2><p>&#x6211;&#x4EEC;&#x63A5;&#x4E0B;&#x6765;&#x5C31;&#x5F00;&#x53D1;&#x4E00;&#x4E2A;&#x7C7B;&#x4F3C; ls , ls -all &#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x8FD9;&#x91CC;&#x9762;&#x9700;&#x8981;&#x7528;&#x5230;&#x4E00;&#x4E2A; node &#x6A21;&#x5757; <a href="https://github.com/tj/commander.js" target="_blank" rel="external">commander</a> &#xFF0C;&#x5148;&#x6765;&#x5B89;&#x88C5;&#x4E00;&#x4E0B;&#xFF1A; </p>
+<p>&#x8FDB;&#x5165;&#x8BE5;&#x9879;&#x76EE;&#x6839;&#x76EE;&#x5F55;&#x6267;&#x884C; npm install —save commander &#xFF0C; </p>
+<p>&#x7136;&#x540E;&#x7528;&#x4F60;&#x559C;&#x6B22;&#x7684;editor&#x6253;&#x5F00; bin/hi.js &#xFF0C;&#x5E76;&#x7528;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#x66FF;&#x6362;&#x539F;&#x5148;&#x7684;&#x4EE3;&#x7801;&#xFF1A; </p>
+<pre><code>javascript#!/usr/bin/env node
+&amp;apos;use strict&amp;apos;;
+var program = require(&amp;apos;commander&amp;apos;);
+program
+    .version(&amp;apos;<span class="number">0.0</span>.1&amp;apos;);//&amp;<span class="symbol">#x58F0</span>;&amp;<span class="symbol">#x660E</span>;hi&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x53F7</span>;
+program
+    .command(&amp;apos;list&amp;apos;)//&amp;<span class="symbol">#x58F0</span>;&amp;<span class="symbol">#x660E</span>;hi&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x53EB</span>;list
+    .description(&amp;apos;list files in current working directory&amp;apos;)//&amp;<span class="symbol">#x7ED9</span>;&amp;<span class="symbol">#x51FA</span>;list&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x63CF</span>;&amp;<span class="symbol">#x8FF0</span>;
+    .option(&amp;apos;-a, --all&amp;apos;, &amp;apos;<span class="class">Whether</span> to display hidden files&amp;apos;)//&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;list&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;
+    .action(function(options) {//list&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x4F53</span>;
+        var fs = require(&amp;apos;fs&amp;apos;);
+        //&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x8FD0</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x4FE1</span>;&amp;<span class="symbol">#x606F</span>;
+        fs.readdir(process.cwd(), function(err, files) {
+            var list = files;
+            if (!options.all) {//&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x7ED9</span>;&amp;<span class="symbol">#x4E86</span>;--all&amp;<span class="symbol">#x6216</span>;&amp;<span class="symbol">#x8005</span>;-a&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x6EE4</span>;&amp;<span class="symbol">#x6389</span>;&amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x4E9B</span>;&amp;<span class="symbol">#x4EE5</span>;.&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x5934</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;
+                list = files.filter(function(file) {
+                    return file.indexOf(&amp;apos;.&amp;apos;) !== <span class="number">0</span>;
+                });
+            }
+            console.log(list.join(&amp;apos; &amp;apos;));//&amp;<span class="symbol">#x63A7</span>;&amp;<span class="symbol">#x5236</span>;&amp;<span class="symbol">#x53F0</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x540D</span>;&amp;<span class="symbol">#x6253</span>;&amp;<span class="symbol">#x5370</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x6765</span>;
+        });
+    });
+program.parse(process.argv);//&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;
+</code></pre><p>OK&#xFF0C;&#x73B0;&#x5728;&#x6765;&#x8BD5;&#x8BD5;&#x6211;&#x4EEC;&#x521A;&#x5199;&#x597D;&#x7684;&#x547D;&#x4EE4;&#x5427;&#xFF0C;</p>
+<pre><code><span class="keyword">bashhi </span>-V
+</code></pre><p><img src="http://taojinke.github.io/img/20150702/a44feee.png" alt=""></p>
+<pre><code>bashhi <span class="type">list</span>
+</code></pre><p><img src="http://taojinke.github.io/img/20150702/a44feee.png" alt=""></p>
+<pre><code>bashhi <span class="type">list</span> -a
+</code></pre><p><img src="http://taojinke.github.io/img/20150702/a45015f.png" alt=""></p>
+<h2 id="&#x5982;&#x4F55;&#x53D1;&#x5E03;">&#x5982;&#x4F55;&#x53D1;&#x5E03;</h2><p>&#x9996;&#x5148;&#x9700;&#x8981;&#x5728; <a href="https://github.com/" target="_blank" rel="external">Github</a> &#x4E0A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x9879;&#x76EE;&#xFF0C;&#x5E76;&#x628A;&#x6211;&#x4EEC;&#x521A;&#x624D;&#x5199;&#x7684;&#x4EE3;&#x7801;&#x540C;&#x6B65;&#x4E0A;&#x53BB;&#x3002; </p>
+<p>&#x7136;&#x540E;&#x901A;&#x8FC7; npm publish &#x547D;&#x4EE4;&#x5C06;&#x4F60;&#x7684;cli&#x53D1;&#x5E03;&#x5230; <a href="https://www.npmjs.com/" target="_blank" rel="external">npm</a> &#x3002; </p>
+<p>&#x7136;&#x540E;&#x5176;&#x4ED6;&#x7528;&#x6237;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; npm install -g [&#x9879;&#x76EE;&#x540D;&#x79F0;] &#x5C06;&#x4F60;&#x7684;&#x547D;&#x4EE4;&#x5B89;&#x88C5;&#x5230;&#x672C;&#x5730;&#x4F7F;&#x7528;&#x4E86; </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Node-js/">Node.js</a><a href="/tags/bash/">bash</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/a456578/" title="朴灵：Node.js 将基于 io.js 跨过 1.0 直奔 2.0 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  朴灵：Node.js 将基于 io.js 跨过 1.0 直奔 2.0 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/a4489be/"  title="gulp 入门学习 -">
+ <strong>下一篇：</strong><br/> 
+ <span>gulp 入门学习 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#预备"><span class="toc-number">1.</span> <span class="toc-text">预备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建_cli_项目"><span class="toc-number">2.</span> <span class="toc-text">创建 cli 项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Let's_try_first"><span class="toc-number">3.</span> <span class="toc-text">Let's try first</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#试个常见命令？"><span class="toc-number">4.</span> <span class="toc-text">试个常见命令？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何发布"><span class="toc-number">5.</span> <span class="toc-text">如何发布</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>294</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

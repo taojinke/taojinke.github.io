@@ -1,0 +1,740 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>ASP.NET5和MVC6新特性学习 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="ASP.NET5&amp;#x548C;MVC6&amp;#x65B0;&amp;#x7279;&amp;#x6027;&amp;#x5B66;&amp;#x4E60;ASP.NET5&amp;#x548C;MVC6&amp;#x7684;&amp;#x65B0;&amp;#x7279;&amp;#x6027; &amp;#x5728;&amp;#x65B0;&amp;#x7248;  ASP.NET5  &amp;#x548C;  MVC6  &amp;#x4E2D;&amp;#xFF0C;&amp;#x6709;&amp;#x5F88;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET5和MVC6新特性学习 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/a4752a2/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="ASP.NET5&amp;#x548C;MVC6&amp;#x65B0;&amp;#x7279;&amp;#x6027;&amp;#x5B66;&amp;#x4E60;ASP.NET5&amp;#x548C;MVC6&amp;#x7684;&amp;#x65B0;&amp;#x7279;&amp;#x6027; &amp;#x5728;&amp;#x65B0;&amp;#x7248;  ASP.NET5  &amp;#x548C;  MVC6  &amp;#x4E2D;&amp;#xFF0C;&amp;#x6709;&amp;#x5F88;&amp;#x">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a467959.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a467bca.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a467e3b.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a4680ac.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a4680ac.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46831d.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a4687ff.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a468a70.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a468ce1.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a468f52.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a4691c3.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a4691c3.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a469434.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a469434.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a469434.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a4696a5.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a469916.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a469b87.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a469b87.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a469df8.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46a069.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46a069.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46a2da.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46a2da.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46a54b.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46a7bc.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46a7bc.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46aa2d.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46aa2d.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46ac9e.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46ac9e.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46b3f1.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46b3f1.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46b662.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46bb44.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46bb44.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46bdb5.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46c026.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46c026.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46c297.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46c508.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46c508.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46c508.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46c779.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46c779.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46cc5b.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46cecc.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46cecc.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46d13d.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46d13d.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46d3ae.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46d3ae.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46d61f.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46d890.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46db01.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46db01.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46dd72.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46dfe3.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46dfe3.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a46e254.png">
+<meta property="og:updated_time" content="2015-07-02T15:04:31.554Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASP.NET5和MVC6新特性学习 -">
+<meta name="twitter:description" content="ASP.NET5&amp;#x548C;MVC6&amp;#x65B0;&amp;#x7279;&amp;#x6027;&amp;#x5B66;&amp;#x4E60;ASP.NET5&amp;#x548C;MVC6&amp;#x7684;&amp;#x65B0;&amp;#x7279;&amp;#x6027; &amp;#x5728;&amp;#x65B0;&amp;#x7248;  ASP.NET5  &amp;#x548C;  MVC6  &amp;#x4E2D;&amp;#xFF0C;&amp;#x6709;&amp;#x5F88;&amp;#x">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/a4752a2/" title="ASP.NET5和MVC6新特性学习 -" itemprop="url">ASP.NET5和MVC6新特性学习 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T03:04:31.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#ASP-NET5和MVC6新特性学习"><span class="toc-number">1.</span> <span class="toc-text">ASP.NET5和MVC6新特性学习</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASP-NET5和MVC6的新特性"><span class="toc-number"></span> <span class="toc-text">ASP.NET5和MVC6的新特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Visual_Studio_Enterprise_2015_RC安装"><span class="toc-number"></span> <span class="toc-text">Visual Studio Enterprise 2015 RC安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何进行开发"><span class="toc-number"></span> <span class="toc-text">如何进行开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对Windows开发"><span class="toc-number"></span> <span class="toc-text">对Windows开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对web开发"><span class="toc-number"></span> <span class="toc-text">对web开发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ASP-NET_4-6模板"><span class="toc-number">1.</span> <span class="toc-text">ASP.NET 4.6模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ASP-NET_5模板"><span class="toc-number">2.</span> <span class="toc-text">ASP.NET 5模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#对Web开发新特性的学习"><span class="toc-number">3.</span> <span class="toc-text">对Web开发新特性的学习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对Android和IOS开发"><span class="toc-number"></span> <span class="toc-text">对Android和IOS开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对Python和JavaScript开发"><span class="toc-number"></span> <span class="toc-text">对Python和JavaScript开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对团队开发的支持"><span class="toc-number"></span> <span class="toc-text">对团队开发的支持</span></a>
+		
+		</div>
+		
+		<h4 id="ASP-NET5&#x548C;MVC6&#x65B0;&#x7279;&#x6027;&#x5B66;&#x4E60;">ASP.NET5&#x548C;MVC6&#x65B0;&#x7279;&#x6027;&#x5B66;&#x4E60;</h4><h2 id="ASP-NET5&#x548C;MVC6&#x7684;&#x65B0;&#x7279;&#x6027;">ASP.NET5&#x548C;MVC6&#x7684;&#x65B0;&#x7279;&#x6027;</h2><p> &#x5728;&#x65B0;&#x7248;  ASP.NET5  &#x548C;  MVC6  &#x4E2D;&#xFF0C;&#x6709;&#x5F88;&#x591A;&#x53D8;&#x5316;&#xFF0C;&#x6709;&#x4E9B;&#x662F;&#x5F7B;&#x5E95;&#x7684;&#x53D8;&#x5316;&#xFF0C;&#x6BD4;&#x5982;&#x5728;&#x6700;&#x5E95;&#x5C42;&#x652F;&#x6301;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x6280;&#x672F;&#xFF0C;&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x4E86;&#x89E3;&#xFF0C;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x5217;&#x51FA;&#x4E86;&#x6700;&#x91CD;&#x8981;&#x7684;  10  &#x5927;&#x53D8;&#x5316;&#xFF0C;&#x4EE5;&#x4FBF;&#x8FDB;&#x884C;&#x5B66;&#x4E60;&#xFF0C;&#x5177;&#x4F53;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>ASP.NET 5  &#x73B0;&#x5728;&#x5DF2;&#x7ECF;&#x662F;&#x8DE8;&#x5E73;&#x53F0;&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;  Mac  &#x548C;  Linux  &#x4E0A;&#x8FD0;&#x884C;&#x3002;</li>
+<li>&#x4E0D;&#x518D;&#x6709;  Web Forms  &#x6846;&#x67B6;&#x4E86;&#x3002;</li>
+<li>&#x53EA;&#x652F;&#x6301;  C#  &#xFF0C;&#x4E0D;&#x5728;&#x652F;&#x6301;  VB.NET  &#x4E86;&#x3002;&#xFF08;&#x8C8C;&#x4F3C;&#x6700;&#x8FD1;&#x53C8;&#x542C;&#x8BF4;&#x6700;&#x7EC8;&#x7248;  VB.NET  &#x53C8;&#x8981;&#x652F;&#x6301;&#x4E86;&#xFF09;</li>
+<li>&#x65B0;&#x7684;  Tag  &#x8BED;&#x6CD5;&#xFF0C;  @Html.LabelFor  &#x6216;  Html.TextBoxFor  &#x66FF;&#x6362;&#x6210;&#x65B0;&#x8BED;&#x6CD5; &lt;label asp-for=&quot;Name&quot;&gt; &#x6216; &lt;input asp-for=&quot;Name&quot; /&gt; &#xFF0C;&#x4EE5;&#x4FBF;&#x8FDB;&#x884C;&#x6A21;&#x578B;&#x7ED1;&#x5B9A;&#x3002;</li>
+<li>&#x65B0;&#x589E;&#x89C6;&#x56FE;&#x7EC4;&#x4EF6;&#xFF08;  View Component  &#xFF09;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x5C40;&#x90E8;&#x5185;&#x5BB9;&#x5B9A;&#x4E49;&#x4E3A;&#x4E00;&#x4E2A;&#x5355;&#x72EC;&#x7684;&#x7EC4;&#x4EF6;&#x8FDB;&#x884C;&#x8C03;&#x7528;&#xFF0C;&#x548C;  Web Forms  &#x91CC;&#x7684;  WebControl  &#x975E;&#x5E38;&#x50CF;&#x3002;</li>
+<li>&#x62E5;&#x62B1;&#x524D;&#x7AEF;&#x6280;&#x672F;&#xFF0C;&#x5185;&#x7F6E;&#x4E86;  Nodejs  &#x3001;  NPM  &#x3001;  Grunt  &#x3001;  Bower  &#x6280;&#x672F;&#x3002;</li>
+<li>&#x6A21;&#x578B;&#x6574;&#x5408;&#xFF0C;&#x5C06;  MVC  &#x548C;  WebAPI  &#x6574;&#x5408;&#x6210;&#x4E00;&#x4E2A;&#x6846;&#x67B6;&#x3002;</li>
+<li>&#x652F;&#x6301;  AngularJS  &#xFF0C;&#x5E2E;&#x5185;&#x7F6E;&#x4E86;  AngularJS  &#x7684;  module  &#x3001;  controller  &#x3001;  directive  &#x3001;&#x4EE5;&#x53CA;  factory  &#x6A21;&#x677F;&#x3002;</li>
+<li>&#x652F;&#x6301;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x6280;&#x672F;&#xFF0C;&#x62E5;&#x6709;&#x539F;&#x751F;&#x7684;  DI  &#x6846;&#x67B6;&#xFF0C;&#x5E76;&#x4E14;&#x4E5F;&#x652F;&#x6301;&#x7B2C;&#x4E09;&#x65B9;&#x5BB9;&#x5668;&#x3002;</li>
+<li><p>&#x652F;&#x6301;  xUnit.net  &#xFF0C;&#x5E76;&#x629B;&#x5F03;&#x4E86;  Visual Studio Unit Testing  &#x6846;&#x67B6;&#x3002;</p>
+<p>ASP.NET 5  &#x4E2D;&#x7684;  MVC  &#x3001;  Web API  &#x3001;  Web Pages  &#x4E09;&#x4E2A;&#x6846;&#x67B6;&#x4F1A;&#x5408;&#x5E76;&#x6210;&#x4E00;&#x4E2A;&#x6846;&#x67B6;&#xFF0C;&#x7EDF;&#x79F0;&#x4E3A;  MVC6  &#x3002;&#x8BE5;&#x5408;&#x5E76;&#x5DE5;&#x4F5C;&#x5C06;&#x5220;&#x9664;&#x4E09;&#x4E2A;&#x6846;&#x67B6;&#x4E2D;&#x91CD;&#x590D;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x6BD4;&#x5982;  MVC  &#x548C;  Web API  &#x4E2D;&#x7684;&#x4E24;&#x79CD;  Controller  &#x53EA;&#x4FDD;&#x7559;&#x4E00;&#x79CD;&#x3002;&#x4F46;&#x662F;&#x4F20;&#x7EDF;  MVC  &#x7684;&#x529F;&#x80FD;&#x90FD;&#x4F1A;&#x4FDD;&#x7559;&#xFF0C;&#x6BD4;&#x5982;&#x6A21;&#x578B;&#x7ED1;&#x5B9A;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x636E;&#x8BF4;  Web Pages  &#x5728;  RTM  &#x7684;&#x65F6;&#x5019;&#x4E0D;&#x4F1A;&#x53D1;&#x5E03;&#xFF0C;&#x800C;&#x662F;&#x4F1A;&#x5728;  RTM  &#x4E4B;&#x540E;&#x7684;&#x7B2C;&#x4E00;&#x6B21;&#x66F4;&#x65B0;&#x4E2D;&#x8FDB;&#x884C;&#x53D1;&#x5E03;&#x3002;</p>
+<p>MVC6  &#x4F1A;&#x5F15;&#x5165;&#x4E00;&#x4E9B;&#x65B0;&#x529F;&#x80FD;&#xFF0C;&#x6700;&#x5F15;&#x4EBA;&#x6CE8;&#x76EE;&#x7684;&#x529F;&#x80FD;&#x5C31;&#x662F;  Tag Helpers  &#x548C;  View Components  &#x3002;  Tag Helpers  &#x662F;  Html Helpers  &#x7684;&#x4E00;&#x79CD;&#x66FF;&#x6362;&#xFF0C;&#x800C;  View Components  &#x5219;&#x5F15;&#x5165;&#x91CC;&#x7C7B;&#x4F3C;  Web Forms  &#x4E2D;&#x7684;  WebControl  &#x7684;&#x6982;&#x5FF5;&#x3002;</p>
+</li>
+</ol>
+<h2 id="Visual_Studio_Enterprise_2015_RC&#x5B89;&#x88C5;">Visual Studio Enterprise 2015 RC&#x5B89;&#x88C5;</h2><p><img src="http://taojinke.github.io/img/20150702/a467959.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a467bca.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a467e3b.png" alt=""></p>
+<p>&#x9009;&#x4E2D;&#x8981;&#x5B89;&#x88C5;&#x7684;&#x7EC4;&#x4EF6;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a4680ac.png" alt=""></p>
+<p>&#x5B89;&#x88C5;&#x5B8C;&#x6210;&#xFF0C;&#x8FDB;&#x5165;&#x521D;&#x59CB;&#x9875;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a4680ac.png" alt=""></p>
+<p> &#x9ED8;&#x8BA4;&#x5B89;&#x88C5;&#x7684;  .NET Framework</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46831d.png" alt=""></p>
+<p> &#x56E2;&#x961F;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x5668;&#xFF0C;&#x63D0;&#x4F9B;&#x5BF9;  VS Online  &#x3001;  GitHub  &#x3001;&#x672C;&#x5730;  Git  &#x5E93;&#x7684;&#x652F;&#x6301;&#x3002;</p>
+<h2 id="&#x5982;&#x4F55;&#x8FDB;&#x884C;&#x5F00;&#x53D1;">&#x5982;&#x4F55;&#x8FDB;&#x884C;&#x5F00;&#x53D1;</h2><h3 id="&#x5BF9;Windows&#x5F00;&#x53D1;">&#x5BF9;Windows&#x5F00;&#x53D1;</h3><p><img src="http://taojinke.github.io/img/20150702/a4687ff.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a468a70.png" alt=""></p>
+<h3 id="&#x5BF9;web&#x5F00;&#x53D1;">&#x5BF9;web&#x5F00;&#x53D1;</h3><p><img src="http://taojinke.github.io/img/20150702/a468ce1.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a468f52.png" alt=""></p>
+<h4 id="ASP-NET_4-6&#x6A21;&#x677F;">ASP.NET 4.6&#x6A21;&#x677F;</h4><p>Web Forms</p>
+<p><img src="http://taojinke.github.io/img/20150702/a4691c3.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a4691c3.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a469434.png" alt=""></p>
+<p>&#x5F15;&#x7528;&#x63D0;&#x793A;&#xFF1A;</p>
+<p> &#x5185;&#x7F6E;  AJAX  &#x548C;  JQuery</p>
+<p><img src="http://taojinke.github.io/img/20150702/a469434.png" alt=""></p>
+<p>MVC</p>
+<p>Web API</p>
+<p><img src="http://taojinke.github.io/img/20150702/a469434.png" alt=""></p>
+<h4 id="ASP-NET_5&#x6A21;&#x677F;">ASP.NET 5&#x6A21;&#x677F;</h4><p>Empty</p>
+<p><img src="http://taojinke.github.io/img/20150702/a4696a5.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a469916.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a469b87.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a469b87.png" alt=""></p>
+<p>Web API</p>
+<p><img src="http://taojinke.github.io/img/20150702/a469df8.png" alt=""></p>
+<p> &#x4E0E;  Empty  &#x76F8;&#x6BD4;&#xFF0C;</p>
+<p> &#x591A;&#x4E86;  Properties  &#x76EE;&#x5F55;&#xFF0C;  launchSettings.json</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46a069.png" alt=""></p>
+<p> wwwroot  &#x76EE;&#x5F55;&#x4E0B;&#x591A;&#x4E86;  web.config  &#x6587;&#x4EF6;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46a069.png" alt=""></p>
+<p> &#x591A;&#x4E86;  Controllers  &#x76EE;&#x5F55;&#xFF0C;&#x5E76;&#x591A;&#x4E86;  ValuesController.cs  &#x6587;&#x4EF6;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46a2da.png" alt=""></p>
+<p>Web Site</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46a2da.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46a54b.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46a7bc.png" alt=""></p>
+<p>&#x4E00;&#x4E2A;&#x4E00;&#x4E2A;&#x6765;&#x770B;&#x3002;</p>
+<p> Solution Items  &#x76EE;&#x5F55;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46a7bc.png" alt=""></p>
+<p>global.json</p>
+<p>&#x7528;&#x6765;&#x5BF9;&#x9879;&#x76EE;&#x8FDB;&#x884C;&#x7BA1;&#x7406;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46aa2d.png" alt=""></p>
+<p> src  &#x76EE;&#x5F55;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46aa2d.png" alt=""></p>
+<p> Properties  &#x76EE;&#x5F55;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46ac9e.png" alt=""></p>
+<p>&#x7528;&#x4E8E;&#x8FDB;&#x884C;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x7684;&#x5B58;&#x53D6;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46ac9e.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46b3f1.png" alt=""></p>
+<p>References</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46b3f1.png" alt=""></p>
+<p> &#x901A;&#x8FC7;  project.json  &#x4E2D;&#x7684;  dependencies  &#x8FDB;&#x884C;&#x7BA1;&#x7406;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46b662.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46bb44.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46bb44.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46bdb5.png" alt=""></p>
+<p> Nuget  &#x4F1A;&#x81EA;&#x52A8;&#x4E0B;&#x8F7D;&#x76F8;&#x5E94;&#x7684;&#x5F15;&#x7528;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46c026.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46c026.png" alt=""></p>
+<p>wwwroot</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46c297.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46c508.png" alt=""></p>
+<p>&#x4F9D;&#x8D56;&#x9879;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46c508.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46c508.png" alt=""></p>
+<p> Bower  &#xFF1A;  bower  &#x662F;  twitter  &#x5F00;&#x6E90;&#x7684;&#x4E00;&#x6B3E;  web  &#x5305;&#xFF08;&#x5982;  bootstrap  &#x3001;  jquery  &#xFF09;&#x7BA1;&#x7406;&#xFF0C;&#x4F9D;&#x6258;  github  &#x4E0A;&#x8D8A;&#x6765;&#x8D8A;&#x591A;&#x7684;&#x5F00;&#x6E90;  web  &#xFF08;  html+css+js  &#xFF09;&#x9879;&#x76EE;&#xFF0C;  bower  &#x53EA;&#x9700;&#x8981;  github  &#x9879;&#x76EE;&#x52A0;&#x4E00;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;  bower  &#x65B9;&#x5F0F;&#x7BA1;&#x7406;&#x3002;  bower  &#x63D0;&#x4F9B;&#x4E86;  web  &#x5305;&#x7684;&#x6DFB;&#x52A0;&#x3001;&#x5347;&#x7EA7;&#x3001;&#x5220;&#x9664;&#x3001;&#x53D1;&#x5E03;&#xFF0C;&#x4EE5;&#x53CA;&#x7BA1;&#x7406;&#x5305;&#x4F9D;&#x8D56;&#xFF0C;&#x53EA;&#x9700;&#x547D;&#x4EE4;&#x65B9;&#x5F0F;&#xFF0C;&#x5373;&#x53EF;&#x8F7B;&#x677E;&#x7BA1;&#x7406;&#xFF0C;&#x518D;&#x4E5F;&#x4E0D;&#x9700;&#x8981;&#x53BB;&#x624B;&#x5DE5;&#x4E0B;&#x8F7D;&#x62F7;&#x8D1D;&#x6587;&#x4EF6;&#x4E86;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46c779.png" alt=""></p>
+<p> NPM:npm  &#x662F;  Node.js  &#x7684;&#x6A21;&#x5757;&#x4F9D;&#x8D56;&#x7BA1;&#x7406;&#x5DE5;&#x5177;&#x3002;&#x4F5C;&#x4E3A;&#x5F00;&#x53D1;&#x8005;&#x4F7F;&#x7528;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x4E3B;&#x8981;&#x89E3;&#x51B3;&#x5F00;&#x53D1;  Node.js  &#x65F6;&#x4F1A;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;&#x3002;&#x5982;&#x540C;  RubyGems  &#x5BF9;&#x4E8E;  Ruby  &#x5F00;&#x53D1;&#x8005;&#x548C;  Maven  &#x5BF9;&#x4E8E;  Java  &#x5F00;&#x53D1;&#x8005;&#x7684;&#x91CD;&#x8981;&#x6027;&#xFF0C;  npm  &#x5BF9;&#x4E0E;  Node.js  &#x7684;&#x5F00;&#x53D1;&#x8005;&#x548C;&#x793E;&#x533A;&#x7684;&#x91CD;&#x8981;&#x6027;&#x4E0D;&#x8A00;&#x800C;&#x55BB;&#x3002;&#x73B0;&#x5728;&#x5DF2;&#x7ECF;&#x79FB;&#x690D;&#x5230;&#x5168;&#x5B87;&#x5B99;&#x6700;&#x65E0;&#x654C;&#x7684;&#x5F00;&#x53D1;&#x5DE5;&#x5177;  Visual Studio  &#x4E2D;&#x4E86;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46c779.png" alt=""></p>
+<p>Compiler</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46cc5b.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46cecc.png" alt=""></p>
+<p>Migrations</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46cecc.png" alt=""></p>
+<p>Models/Views/Controllers</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46d13d.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46d13d.png" alt=""></p>
+<p>bower.json:</p>
+<p> &#x9762;&#x5DF2;&#x7ECF;&#x63D0;&#x5230;&#x8FC7;&#xFF0C;&#x662F;&#x5BF9;  Bower  &#x7684;&#x7BA1;&#x7406;&#x3002;</p>
+<p>config.json:</p>
+<p> &#x4E0A;&#x9762;&#x4E5F;&#x5DF2;&#x7ECF;&#x63D0;&#x5230;&#x8FC7;&#xFF0C;&#x662F;&#x5BF9;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x7684;&#x7BA1;&#x7406;&#x3002;&#x5982;&#xFF1A;&#x7F51;&#x7AD9;  title  &#xFF0C;&#x6570;&#x636E;&#x5E93;&#x8FDE;&#x63A5;&#x5B57;&#x7B26;&#x4E32;&#x7B49;&#x3002;</p>
+<p>gulpfile.js:</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46d3ae.png" alt=""></p>
+<p>MessageServices.cs</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46d3ae.png" alt=""></p>
+<p>Package.json</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46d61f.png" alt=""></p>
+<p>Startup.cs</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46d890.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46db01.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46db01.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150702/a46dd72.png" alt=""></p>
+<h4 id="&#x5BF9;Web&#x5F00;&#x53D1;&#x65B0;&#x7279;&#x6027;&#x7684;&#x5B66;&#x4E60;">&#x5BF9;Web&#x5F00;&#x53D1;&#x65B0;&#x7279;&#x6027;&#x7684;&#x5B66;&#x4E60;</h4><p>Tag Helpers</p>
+<p> &#x5BF9;  Tag Helper  &#x7684;&#x5E94;&#x7528;&#xFF0C;&#x6781;&#x5927;&#x5730;&#x65B9;&#x4FBF;&#x4E86;&#x524D;&#x7AEF;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#xFF0C;&#x56E0;&#x4E3A;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6B63;&#x5E38;&#x7684;  HTML  &#x7ED3;&#x6784;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a46dfe3.png" alt=""></p>
+<p>wwwroot&#x600E;&#x4E48;&#x7528;</p>
+<p>Compiler&#x600E;&#x4E48;&#x7528;</p>
+<p>global.json&#x600E;&#x4E48;&#x7528;</p>
+<p>&#x4F9D;&#x8D56;&#x9879;&#x600E;&#x4E48;&#x7528;</p>
+<p> Bower  &#x548C;  Gulp  &#x600E;&#x4E48;&#x7528;</p>
+<p> Gulpfile.js  &#x600E;&#x4E48;&#x7528;</p>
+<p>&#x53C2;&#x8003;&#xFF1A;</p>
+<p><a href="https://github.com/gulpjs/gulp/blob/master/docs/API.md" target="_blank" rel="external">https://github.com/gulpjs/gulp/blob/master/docs/API.md</a></p>
+<p>config.json&#x600E;&#x4E48;&#x7528;</p>
+<p>project.json&#x600E;&#x4E48;&#x7528;</p>
+<p>MessageServices.cs&#x600E;&#x4E48;&#x7528;</p>
+<p>StartUp.cs&#x600E;&#x4E48;&#x7528;</p>
+<p>WebSite&#x80FD;&#x5B9E;&#x73B0;&#x8DE8;&#x5E73;&#x53F0;&#x5417;&#xFF1F;</p>
+<p>&#x80FD;&#x4E0D;&#x8FD0;&#x884C;&#x5728;IIS&#x4E0A;&#x5417;&#xFF1F;</p>
+<p>&#x5982;&#x4F55;&#x90E8;&#x7F72;</p>
+<p>AngularJS&#x7684;&#x652F;&#x6301;</p>
+<p>&#x4F9D;&#x8D56;&#x6CE8;&#x5165;</p>
+<p>XUnitTest</p>
+<h3 id="&#x5BF9;Android&#x548C;IOS&#x5F00;&#x53D1;">&#x5BF9;Android&#x548C;IOS&#x5F00;&#x53D1;</h3><p><img src="http://taojinke.github.io/img/20150702/a46dfe3.png" alt=""></p>
+<h3 id="&#x5BF9;Python&#x548C;JavaScript&#x5F00;&#x53D1;">&#x5BF9;Python&#x548C;JavaScript&#x5F00;&#x53D1;</h3><p><img src="http://taojinke.github.io/img/20150702/a46e254.png" alt=""></p>
+<h3 id="&#x5BF9;&#x56E2;&#x961F;&#x5F00;&#x53D1;&#x7684;&#x652F;&#x6301;">&#x5BF9;&#x56E2;&#x961F;&#x5F00;&#x53D1;&#x7684;&#x652F;&#x6301;</h3><p>&#x53C2;&#x8003;&#xFF1A;</p>
+<p><a href="http://docs.asp.net/en/latest/getting-started/index.html" target="_blank" rel="external">http://docs.asp.net/en/latest/getting-started/index.html</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Net/">.Net</a><a href="/tags/Node-js/">Node.js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/a478ac9/" title="Node.js 命令行程序开发教程 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Node.js 命令行程序开发教程 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/a462daa/"  title="前端们，gulp该用起来了，简单的demo入门 -">
+ <strong>下一篇：</strong><br/> 
+ <span>前端们，gulp该用起来了，简单的demo入门 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#ASP-NET5和MVC6新特性学习"><span class="toc-number">1.</span> <span class="toc-text">ASP.NET5和MVC6新特性学习</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASP-NET5和MVC6的新特性"><span class="toc-number"></span> <span class="toc-text">ASP.NET5和MVC6的新特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Visual_Studio_Enterprise_2015_RC安装"><span class="toc-number"></span> <span class="toc-text">Visual Studio Enterprise 2015 RC安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何进行开发"><span class="toc-number"></span> <span class="toc-text">如何进行开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对Windows开发"><span class="toc-number"></span> <span class="toc-text">对Windows开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对web开发"><span class="toc-number"></span> <span class="toc-text">对web开发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ASP-NET_4-6模板"><span class="toc-number">1.</span> <span class="toc-text">ASP.NET 4.6模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ASP-NET_5模板"><span class="toc-number">2.</span> <span class="toc-text">ASP.NET 5模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#对Web开发新特性的学习"><span class="toc-number">3.</span> <span class="toc-text">对Web开发新特性的学习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对Android和IOS开发"><span class="toc-number"></span> <span class="toc-text">对Android和IOS开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对Python和JavaScript开发"><span class="toc-number"></span> <span class="toc-text">对Python和JavaScript开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对团队开发的支持"><span class="toc-number"></span> <span class="toc-text">对团队开发的支持</span></a>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>294</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

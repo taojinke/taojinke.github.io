@@ -1,0 +1,818 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Node.js 命令行程序开发教程 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x4E00;&amp;#x79CD;&amp;#x7F16;&amp;#x7A0B;&amp;#x8BED;&amp;#x8A00;&amp;#x662F;&amp;#x5426;&amp;#x6613;&amp;#x7528;&amp;#xFF0C;&amp;#x5F88;&amp;#x5927;&amp;#x7A0B;&amp;#x5EA6;&amp;#x4E0A;&amp;#xFF0C;&amp;#x53D6;&amp;#x51B3;&amp;#x4E8E;&amp;#x5F00;&amp;#x53D1;&amp;#x547D;&amp;#x4EE4;&amp;#x884C;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js 命令行程序开发教程 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/02/a478ac9/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x4E00;&amp;#x79CD;&amp;#x7F16;&amp;#x7A0B;&amp;#x8BED;&amp;#x8A00;&amp;#x662F;&amp;#x5426;&amp;#x6613;&amp;#x7528;&amp;#xFF0C;&amp;#x5F88;&amp;#x5927;&amp;#x7A0B;&amp;#x5EA6;&amp;#x4E0A;&amp;#xFF0C;&amp;#x53D6;&amp;#x51B3;&amp;#x4E8E;&amp;#x5F00;&amp;#x53D1;&amp;#x547D;&amp;#x4EE4;&amp;#x884C;">
+<meta property="og:image" content="http://taojinke.github.io/img/20150702/a47689b.png">
+<meta property="og:updated_time" content="2015-07-02T15:04:31.554Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js 命令行程序开发教程 -">
+<meta name="twitter:description" content="&amp;#x4E00;&amp;#x79CD;&amp;#x7F16;&amp;#x7A0B;&amp;#x8BED;&amp;#x8A00;&amp;#x662F;&amp;#x5426;&amp;#x6613;&amp;#x7528;&amp;#xFF0C;&amp;#x5F88;&amp;#x5927;&amp;#x7A0B;&amp;#x5EA6;&amp;#x4E0A;&amp;#xFF0C;&amp;#x53D6;&amp;#x51B3;&amp;#x4E8E;&amp;#x5F00;&amp;#x53D1;&amp;#x547D;&amp;#x4EE4;&amp;#x884C;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/02/a478ac9/" title="Node.js 命令行程序开发教程 -" itemprop="url">Node.js 命令行程序开发教程 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-02T03:04:31.000Z" itemprop="datePublished"> 发表于 2015-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、可执行脚本"><span class="toc-number">1.</span> <span class="toc-text">一、可执行脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、命令行参数的原始写法"><span class="toc-number">2.</span> <span class="toc-text">二、命令行参数的原始写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、新建进程"><span class="toc-number">3.</span> <span class="toc-text">三、新建进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、shelljs_模块"><span class="toc-number">4.</span> <span class="toc-text">四、shelljs 模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、yargs_模块"><span class="toc-number">5.</span> <span class="toc-text">五、yargs 模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、命令行参数的配置"><span class="toc-number">6.</span> <span class="toc-text">六、命令行参数的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、帮助信息"><span class="toc-number">7.</span> <span class="toc-text">七、帮助信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八、子命令"><span class="toc-number">8.</span> <span class="toc-text">八、子命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#九、其他事项"><span class="toc-number">9.</span> <span class="toc-text">九、其他事项</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（1）返回值"><span class="toc-number">9.0.1.</span> <span class="toc-text">（1）返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（2）重定向"><span class="toc-number">9.0.2.</span> <span class="toc-text">（2）重定向</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（3）系统信号"><span class="toc-number">9.0.3.</span> <span class="toc-text">（3）系统信号</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<p>&#x4E00;&#x79CD;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x662F;&#x5426;&#x6613;&#x7528;&#xFF0C;&#x5F88;&#x5927;&#x7A0B;&#x5EA6;&#x4E0A;&#xFF0C;&#x53D6;&#x51B3;&#x4E8E;&#x5F00;&#x53D1;&#x547D;&#x4EE4;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x80FD;&#x529B;&#x3002;</p>
+<p>Node.js &#x4F5C;&#x4E3A;&#x76EE;&#x524D;&#x6700;&#x70ED;&#x95E8;&#x7684;&#x5F00;&#x53D1;&#x5DE5;&#x5177;&#x4E4B;&#x4E00;&#xFF0C;&#x600E;&#x6837;&#x4F7F;&#x7528;&#x5B83;&#x5F00;&#x53D1;&#x547D;&#x4EE4;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x662F; Web &#x5F00;&#x53D1;&#x8005;&#x5E94;&#x8BE5;&#x638C;&#x63E1;&#x7684;&#x6280;&#x80FD;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150702/a47689b.png" alt=""></p>
+<p>&#x6700;&#x8FD1;&#xFF0C;Npm&#x7684;&#x7F51;&#x5FD7;&#x6709;&#x4E00;&#x7EC4; <a href="http://blog.npmjs.org/post/118810260230/building-a-simple-command-line-tool-with-npm" target="_blank" rel="external">&#x7CFB;&#x5217;&#x6587;&#x7AE0;</a> &#xFF0C;&#x6211;&#x89C9;&#x5F97;&#x5199;&#x5F97;&#x975E;&#x5E38;&#x597D;&#x3002;&#x4E0B;&#x9762;&#x5C31;&#x662F;&#x6211;&#x5728;&#x5B83;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x6269;&#x5C55;&#x7684;&#x6559;&#x7A0B;&#xFF0C;&#x5E94;&#x8BE5;&#x662F;&#x76EE;&#x524D;&#x6700;&#x597D;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x4E86;&#x3002; </p>
+<h2 id="&#x4E00;&#x3001;&#x53EF;&#x6267;&#x884C;&#x811A;&#x672C;">&#x4E00;&#x3001;&#x53EF;&#x6267;&#x884C;&#x811A;&#x672C;</h2><p>&#x6211;&#x4EEC;&#x4ECE;&#x6700;&#x7B80;&#x5355;&#x7684;&#x8BB2;&#x8D77;&#x3002;</p>
+<p>&#x9996;&#x5148;&#xFF0C;&#x4F7F;&#x7528; JavaScript &#x8BED;&#x8A00;&#xFF0C;&#x5199;&#x4E00;&#x4E2A;&#x53EF;&#x6267;&#x884C;&#x811A;&#x672C; hello &#x3002;</p>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+console.log(&amp;apos;hello world&amp;apos;);
+</code></pre><p>&#x7136;&#x540E;&#xFF0C;&#x4FEE;&#x6539; hello &#x7684;&#x6743;&#x9650;&#x3002;</p>
+<pre><code><span class="variable">$ </span>chmod <span class="number">755</span> hello
+</code></pre><p>&#x73B0;&#x5728;&#xFF0C;hello &#x5C31;&#x53EF;&#x4EE5;&#x6267;&#x884C;&#x4E86;&#x3002;</p>
+<pre><code><span class="variable">$ </span>./hello
+hello world
+</code></pre><p>&#x5982;&#x679C;&#x60F3;&#x628A; hello &#x524D;&#x9762;&#x7684;&#x8DEF;&#x5F84;&#x53BB;&#x9664;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06; hello &#x7684;&#x8DEF;&#x5F84;&#xFFFD;&#xFFFD;&#xFFFD;&#x5165;&#x73AF;&#x5883;&#x53D8;&#x91CF; PATH&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x53E6;&#x4E00;&#x79CD;&#x66F4;&#x597D;&#x7684;&#x505A;&#x6CD5;&#xFF0C;&#x662F;&#x5728;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E0B;&#x65B0;&#x5EFA; package.json &#xFF0C;&#x5199;&#x5165;&#x4E0B;&#x9762;&#x7684;&#x5185;&#x5BB9;&#x3002;</p>
+<pre><code>{
+  &amp;quot<span class="comment">;name&amp;quot;: &amp;quot;hello&amp;quot;,</span>
+  &amp;quot<span class="comment">;bin&amp;quot;: {</span>
+    &amp;quot<span class="comment">;hello&amp;quot;: &amp;quot;hello&amp;quot;</span>
+  }
+}
+</code></pre><p>&#x7136;&#x540E;&#x6267;&#x884C; npm link &#x547D;&#x4EE4;&#x3002;</p>
+<pre><code>$ <span class="built_in">npm</span> link
+</code></pre><p>&#x73B0;&#x5728;&#x518D;&#x6267;&#x884C; hello &#xFF0C;&#x5C31;&#x4E0D;&#x7528;&#x8F93;&#x5165;&#x8DEF;&#x5F84;&#x4E86;&#x3002;</p>
+<pre><code><span class="variable">$ </span>hello
+hello world
+</code></pre><h2 id="&#x4E8C;&#x3001;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x7684;&#x539F;&#x59CB;&#x5199;&#x6CD5;">&#x4E8C;&#x3001;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x7684;&#x539F;&#x59CB;&#x5199;&#x6CD5;</h2><p>&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x7528;&#x7CFB;&#x7EDF;&#x53D8;&#x91CF; process.argv &#x83B7;&#x53D6;&#x3002;</p>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+console.log(&amp;apos;hello &amp;apos;, process.argv[<span class="number">2</span>]);
+</code></pre><p>&#x6267;&#x884C;&#x65F6;&#xFF0C;&#x76F4;&#x63A5;&#x5728;&#x811A;&#x672C;&#x6587;&#x4EF6;&#x540E;&#x9762;&#xFF0C;&#x52A0;&#x4E0A;&#x53C2;&#x6570;&#x5373;&#x53EF;&#x3002;</p>
+<pre><code><span class="variable">$ </span>./hello tom
+hello tom
+</code></pre><h2 id="&#x4E09;&#x3001;&#x65B0;&#x5EFA;&#x8FDB;&#x7A0B;">&#x4E09;&#x3001;&#x65B0;&#x5EFA;&#x8FDB;&#x7A0B;</h2><p>&#x811A;&#x672C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; child_process &#x6A21;&#x5757;&#x65B0;&#x5EFA;&#x5B50;&#x8FDB;&#x7A0B;&#xFF0C;&#x4ECE;&#x800C;&#x6267;&#x884C; Unix &#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x3002;</p>
+<pre><code>#!<span class="regexp">/usr/</span>bin/env node
+<span class="keyword">var</span> name = process.argv[<span class="number">2</span>];
+<span class="keyword">var</span> exec = <span class="built_in">require</span>(&amp;apos;child_process&amp;apos;).exec;
+
+<span class="keyword">var</span> child = exec(&amp;apos;echo hello &amp;apos; + name, <span class="function"><span class="keyword">function</span>(<span class="params">err, stdout, stderr</span>) </span>{
+  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;
+  <span class="built_in">console</span>.log(stdout);
+});
+</code></pre><p>&#x7528;&#x6CD5;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code><span class="variable">$ </span>./hello tom
+hello tom
+</code></pre><h2 id="&#x56DB;&#x3001;shelljs_&#x6A21;&#x5757;">&#x56DB;&#x3001;shelljs &#x6A21;&#x5757;</h2><p><a href="https://www.npmjs.com/package/shelljs" target="_blank" rel="external">shelljs</a> &#x6A21;&#x5757;&#x91CD;&#x65B0;&#x5305;&#x88C5;&#x4E86; child_process&#xFF0C;&#x8C03;&#x7528;&#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x66F4;&#x52A0;&#x65B9;&#x4FBF;&#x3002;&#x5B83;&#x9700;&#x8981;&#x5B89;&#x88C5;&#x540E;&#x4F7F;&#x7528;&#x3002; </p>
+<pre><code>npm <span class="operator"><span class="keyword">install</span> <span class="comment">--save shelljs</span></span>
+</code></pre><p>&#x7136;&#x540E;&#xFF0C;&#x6539;&#x5199;&#x811A;&#x672C;&#x3002;</p>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+var name = process.argv[<span class="number">2</span>];
+var shell = require(&amp;quot;shelljs&amp;quot;);
+
+shell.exec(&amp;quot;echo hello &amp;quot; + name);
+</code></pre><p>&#x4E0A;&#x9762;&#x4EE3;&#x7801;&#x662F; shelljs &#x7684;&#x672C;&#x5730;&#x6A21;&#x5F0F;&#xFF0C;&#x5373;&#x901A;&#x8FC7; exec &#x65B9;&#x6CD5;&#x6267;&#x884C; shell &#x547D;&#x4EE4;&#x3002;&#x6B64;&#x5916;&#x8FD8;&#x6709;&#x5168;&#x5C40;&#x6A21;&#x5F0F;&#xFF0C;&#x5141;&#x8BB8;&#x76F4;&#x63A5;&#x5728;&#x811A;&#x672C;&#x4E2D;&#x5199; shell &#x547D;&#x4EE4;&#x3002;</p>
+<pre><code>require<span class="params">(&amp;apos;shelljs/global&amp;apos;)</span>;
+
+<span class="keyword">if</span> <span class="params">(!which<span class="params">(&amp;apos;git&amp;apos;)</span>)</span> {
+  <span class="built_in">echo</span><span class="params">(&amp;apos;Sorry, this script requires git&amp;apos;)</span>;
+  exit<span class="params">(<span class="number">1</span>)</span>;
+}
+
+mkdir<span class="params">(&amp;apos;-p&amp;apos;, &amp;apos;out/Release&amp;apos;)</span>;
+cp<span class="params">(&amp;apos;-R&amp;apos;, &amp;apos;stuff/*&amp;apos;, &amp;apos;out/Release&amp;apos;)</span>;
+
+cd<span class="params">(&amp;apos;lib&amp;apos;)</span>;
+ls<span class="params">(&amp;apos;*.js&amp;apos;)</span>.forEach<span class="params">(function<span class="params">(file)</span> {
+  sed<span class="params">(&amp;apos;-i&amp;apos;, &amp;apos;BUILD_VERSION&amp;apos;, &amp;apos;v0.<span class="number">1.2</span>&amp;apos;, file)</span>;
+  sed<span class="params">(&amp;apos;-i&amp;apos;, /.*REMOVE_THIS_LINE.*\n/, &amp;apos;&amp;apos;, file)</span>;
+  sed<span class="params">(&amp;apos;-i&amp;apos;, /.*REPLACE_LINE_WITH_MACRO.*\n/, cat<span class="params">(&amp;apos;macro.js&amp;apos;)</span>, file)</span>;
+})</span>;
+cd<span class="params">(&amp;apos;..&amp;apos;)</span>;
+
+<span class="keyword">if</span> <span class="params">(exec<span class="params">(&amp;apos;git commit -am &amp;quot;Auto-commit&amp;quot;&amp;apos;)</span>.code !== <span class="number">0</span>)</span> {
+  <span class="built_in">echo</span><span class="params">(&amp;apos;Error: Git commit failed&amp;apos;)</span>;
+  exit<span class="params">(<span class="number">1</span>)</span>;
+}
+</code></pre><h2 id="&#x4E94;&#x3001;yargs_&#x6A21;&#x5757;">&#x4E94;&#x3001;yargs &#x6A21;&#x5757;</h2><p>shelljs &#x53EA;&#x89E3;&#x51B3;&#x4E86;&#x5982;&#x4F55;&#x8C03;&#x7528; shell &#x547D;&#x4EE4;&#xFF0C;&#x800C; yargs &#x6A21;&#x5757;&#x80FD;&#x591F;&#x89E3;&#x51B3;&#x5982;&#x4F55;&#x5904;&#x7406;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x3002;&#x5B83;&#x4E5F;&#x9700;&#x8981;&#x5B89;&#x88C5;&#x3002;</p>
+<pre><code>$ npm <span class="operator"><span class="keyword">install</span> <span class="comment">--save yargs</span></span>
+</code></pre><p>yargs &#x6A21;&#x5757;&#x63D0;&#x4F9B; argv &#x5BF9;&#x8C61;&#xFF0C;&#x7528;&#x6765;&#x8BFB;&#x53D6;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x3002;&#x8BF7;&#x770B;&#x6539;&#x5199;&#x540E;&#x7684; hello &#x3002;</p>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+var argv = require(&amp;apos;yargs&amp;apos;).argv;
+
+console.log(&amp;apos;hello &amp;apos;, argv.name);
+</code></pre><p>&#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x4E0B;&#x9762;&#x4E24;&#x79CD;&#x7528;&#x6CD5;&#x90FD;&#x53EF;&#x4EE5;&#x3002;</p>
+<pre><code>$ hello <span class="comment">--name=tom</span>
+hello tom
+
+$ hello <span class="comment">--name tom</span>
+hello tom
+</code></pre><p>&#x5982;&#x679C;&#x5C06; argv.name &#x6539;&#x6210; argv.n&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x5B57;&#x6BCD;&#x7684;&#x77ED;&#x53C2;&#x6570;&#x5F62;&#x5F0F;&#x4E86;&#x3002;</p>
+<pre><code><span class="variable">$ </span>hello -n tom
+hello tom
+</code></pre><p>&#x53EF;&#x4EE5;&#x4F7F;&#x7528; alias &#x65B9;&#x6CD5;&#xFF0C;&#x6307;&#x5B9A; name &#x662F; n &#x7684;&#x522B;&#x540D;&#x3002;</p>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+var argv = require(&amp;apos;yargs&amp;apos;)
+  .<span class="keyword">alias</span>(&amp;apos;n&amp;apos;, &amp;apos;name&amp;apos;)
+  .argv;
+
+console.log(&amp;apos;hello &amp;apos;, argv.n);
+</code></pre><p>&#x8FD9;&#x6837;&#x4E00;&#x6765;&#xFF0C;&#x77ED;&#x53C2;&#x6570;&#x548C;&#x957F;&#x53C2;&#x6570;&#x5C31;&#x90FD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E86;&#x3002;</p>
+<pre><code><span class="variable">$ </span>hello -n tom
+hello tom
+<span class="variable">$ </span>hello --name tom
+hello tom
+</code></pre><p>argv &#x5BF9;&#x8C61;&#x6709;&#x4E00;&#x4E2A;&#x4E0B;&#x5212;&#x7EBF;&#xFF08;_&#xFF09;&#x5C5E;&#x6027;&#xFF0C;&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x975E;&#x8FDE;&#x8BCD;&#x7EBF;&#x5F00;&#x5934;&#x7684;&#x53C2;&#x6570;&#x3002;</p>
+<pre><code>#!/usr/bin/env node
+var <span class="built_in">argv</span> = require(&amp;apos;yargs&amp;apos;).<span class="built_in">argv</span>;
+
+console.<span class="built_in">log</span>(&amp;apos;hello &amp;apos;, <span class="built_in">argv</span>.<span class="keyword">n</span>);
+console.<span class="built_in">log</span>(<span class="built_in">argv</span>._);
+</code></pre><p>&#x7528;&#x6CD5;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code>$ hello A -n tom <span class="keyword">B </span>C
+<span class="label">hello</span>  tom
+[ &amp;apos<span class="comment">;A&amp;apos;, &amp;apos;B&amp;apos;, &amp;apos;C&amp;apos; ]</span>
+</code></pre><h2 id="&#x516D;&#x3001;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x7684;&#x914D;&#x7F6E;">&#x516D;&#x3001;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x7684;&#x914D;&#x7F6E;</h2><p>yargs &#x6A21;&#x5757;&#x8FD8;&#x63D0;&#x4F9B;3&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x7528;&#x6765;&#x914D;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x3002;</p>
+<ul>
+<li>demand&#xFF1A;&#x662F;&#x5426;&#x5FC5;&#x9009;</li>
+<li>default&#xFF1A;&#x9ED8;&#x8BA4;&#x503C;</li>
+<li>describe&#xFF1A;&#x63D0;&#x793A;</li>
+</ul>
+<pre><code>#!/usr/bin/env node
+<span class="keyword">var</span> argv = require(&amp;apos;yargs&amp;apos;)
+  .demand([&amp;apos;<span class="keyword">n</span>&amp;apos;])
+  .default({<span class="keyword">n</span>: &amp;apos;tom&amp;apos;})
+  .<span class="keyword">describe</span>({<span class="keyword">n</span>: &amp;apos;your name&amp;apos;})
+  .argv;
+
+console.<span class="literal">log</span>(&amp;apos;hello &amp;apos;, argv.<span class="keyword">n</span>);
+</code></pre><p>&#x4E0A;&#x9762;&#x4EE3;&#x7801;&#x6307;&#x5B9A; n &#x53C2;&#x6570;&#x4E0D;&#x53EF;&#x7701;&#x7565;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A; tom&#xFF0C;&#x5E76;&#x7ED9;&#x51FA;&#x4E00;&#x884C;&#x63D0;&#x793A;&#x3002;</p>
+<p>options &#x65B9;&#x6CD5;&#x5141;&#x8BB8;&#x5C06;&#x6240;&#x6709;&#x8FD9;&#x4E9B;&#x914D;&#x7F6E;&#x5199;&#x8FDB;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x3002;</p>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+var argv = require(&amp;apos;yargs&amp;apos;)
+  .option(&amp;apos;n&amp;apos;, {
+    <span class="keyword">alias</span> : &amp;apos;name&amp;apos;,
+    demand: <span class="literal">true</span>,
+    <span class="keyword">default</span>: &amp;apos;tom&amp;apos;,
+    describe: &amp;apos;your name&amp;apos;,
+    type: &amp;apos;<span class="built_in">string</span>&amp;apos;
+  })
+  .argv;
+
+console.log(&amp;apos;hello &amp;apos;, argv.n);
+</code></pre><p>&#x6709;&#x65F6;&#xFF0C;&#x67D0;&#x4E9B;&#x53C2;&#x6570;&#x4E0D;&#x9700;&#x8981;&#x503C;&#xFF0C;&#x53EA;&#x8D77;&#x5230;&#x4E00;&#x4E2A;&#x5F00;&#x5173;&#x4F5C;&#x7528;&#xFF0C;&#x8FD9;&#x65F6;&#x53EF;&#x4EE5;&#x7528; boolean &#x65B9;&#x6CD5;&#x6307;&#x5B9A;&#x8FD9;&#x4E9B;&#x53C2;&#x6570;&#x8FD4;&#x56DE;&#x5E03;&#x5C14;&#x503C;&#x3002;</p>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+var argv = require(&amp;apos;yargs&amp;apos;)
+  .boolean([&amp;apos;n&amp;apos;])
+  .argv;
+
+console.log(&amp;apos;hello &amp;apos;, argv.n);
+</code></pre><p>&#x4E0A;&#x9762;&#x4EE3;&#x7801;&#x4E2D;&#xFF0C;&#x53C2;&#x6570; n &#x603B;&#x662F;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5E03;&#x5C14;&#x503C;&#xFF0C;&#x7528;&#x6CD5;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code><span class="variable">$ </span>hello
+hello  <span class="keyword">false</span>
+<span class="variable">$ </span>hello -n
+hello  <span class="keyword">true</span>
+<span class="variable">$ </span>hello -n tom
+hello  <span class="keyword">true</span>
+</code></pre><p>boolean &#x65B9;&#x6CD5;&#x4E5F;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x5C5E;&#x6027;&#xFF0C;&#x5199;&#x5165; option &#x5BF9;&#x8C61;&#x3002;</p>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+var argv = require(&amp;apos;yargs&amp;apos;)
+  .option(&amp;apos;n&amp;apos;, {
+    boolean: <span class="literal">true</span>
+  })
+  .argv;
+
+console.log(&amp;apos;hello &amp;apos;, argv.n);
+</code></pre><h2 id="&#x4E03;&#x3001;&#x5E2E;&#x52A9;&#x4FE1;&#x606F;">&#x4E03;&#x3001;&#x5E2E;&#x52A9;&#x4FE1;&#x606F;</h2><p>yargs &#x6A21;&#x5757;&#x63D0;&#x4F9B;&#x4EE5;&#x4E0B;&#x65B9;&#x6CD5;&#xFF0C;&#x751F;&#x6210;&#x5E2E;&#x52A9;&#x4FE1;&#x606F;&#x3002;</p>
+<ul>
+<li>usage&#xFF1A;&#x7528;&#x6CD5;&#x683C;&#x5F0F;</li>
+<li>example&#xFF1A;&#x63D0;&#x4F9B;&#x4F8B;&#x5B50;</li>
+<li>help&#xFF1A;&#x663E;&#x793A;&#x5E2E;&#x52A9;&#x4FE1;&#x606F;</li>
+<li>epilog&#xFF1A;&#x51FA;&#x73B0;&#x5728;&#x5E2E;&#x52A9;&#x4FE1;&#x606F;&#x7684;&#x7ED3;&#x5C3E;</li>
+</ul>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+var argv = require<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;yargs&amp;apos;)</span>
+  .option<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;f&amp;apos;, {</span>
+    alias : <span class="keyword">&amp;apos</span><span class="comment">;name&amp;apos;,</span>
+    demand: true,
+    default: <span class="keyword">&amp;apos</span><span class="comment">;tom&amp;apos;,</span>
+    describe: <span class="keyword">&amp;apos</span><span class="comment">;your name&amp;apos;,</span>
+    type: <span class="keyword">&amp;apos</span><span class="comment">;string&amp;apos;</span>
+  })</span>
+  .usage<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;Usage: hello [options]&amp;apos;)</span>
+  .example<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;hello -n tom&amp;apos;, &amp;apos;say hello to Tom&amp;apos;)</span>
+  .help<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;h&amp;apos;)</span>
+  .alias<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;h&amp;apos;, &amp;apos;help&amp;apos;)</span>
+  .epilog<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;copyright 2015&amp;apos;)</span>
+  .argv<span class="comment">;</span>
+
+console.log<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;hello &amp;apos;, argv.n);</span></span></span></span></span></span></span></span>
+</code></pre><p>&#x6267;&#x884C;&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code>$ hello -h
+
+Usage: hello <span class="comment">[options]</span>
+
+Options:
+  -f, --name  your name <span class="comment">[string]</span> <span class="comment">[required]</span> <span class="comment">[default: &amp;quot;tom&amp;quot;]</span>
+  -h, --help  Show help <span class="comment">[boolean]</span>
+
+Examples:
+  hello -n tom  <span class="keyword">say</span> hello to Tom
+
+copyright 2015
+</code></pre><h2 id="&#x516B;&#x3001;&#x5B50;&#x547D;&#x4EE4;">&#x516B;&#x3001;&#x5B50;&#x547D;&#x4EE4;</h2><p>yargs &#x6A21;&#x5757;&#x8FD8;&#x5141;&#x8BB8;&#x901A;&#x8FC7; command &#x65B9;&#x6CD5;&#xFF0C;&#x8BBE;&#x7F6E; Git &#x98CE;&#x683C;&#x7684;&#x5B50;&#x547D;&#x4EE4;&#x3002;</p>
+<pre><code>#!<span class="regexp">/usr/</span>bin/env node
+<span class="keyword">var</span> argv = <span class="built_in">require</span>(&amp;apos;yargs&amp;apos;)
+  .command(&amp;quot;morning&amp;quot;, &amp;quot;good morning&amp;quot;, <span class="function"><span class="keyword">function</span> (<span class="params">yargs</span>) </span>{
+    <span class="built_in">console</span>.log(&amp;quot;Good Morning&amp;quot;);
+  })
+  .command(&amp;quot;evening&amp;quot;, &amp;quot;good evening&amp;quot;, <span class="function"><span class="keyword">function</span> (<span class="params">yargs</span>) </span>{
+    <span class="built_in">console</span>.log(&amp;quot;Good Evening&amp;quot;);
+  })
+  .argv;
+
+<span class="built_in">console</span>.log(&amp;apos;hello &amp;apos;, argv.n);
+</code></pre><p>&#x7528;&#x6CD5;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code><span class="variable">$ </span>hello morning -n tom
+<span class="constant">Good Morning</span>
+hello tom
+</code></pre><p>&#x53EF;&#x4EE5;&#x5C06;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x4E0E; shellojs &#x6A21;&#x5757;&#x7ED3;&#x5408;&#x8D77;&#x6765;&#x3002;</p>
+<pre><code><span class="comment">#!/usr/bin/env node</span>
+<span class="keyword">require</span>(&amp;apos;shelljs/<span class="keyword">global</span>&amp;apos;);
+<span class="keyword">var</span> argv = <span class="keyword">require</span>(&amp;apos;yargs&amp;apos;)
+  .command(&amp;quot;morning&amp;quot;, &amp;quot;good morning&amp;quot;, <span class="function"><span class="keyword">function</span> <span class="params">(yargs)</span> </span>{
+    <span class="keyword">echo</span>(&amp;quot;Good Morning&amp;quot;);
+  })
+  .command(&amp;quot;evening&amp;quot;, &amp;quot;good evening&amp;quot;, <span class="function"><span class="keyword">function</span> <span class="params">(yargs)</span> </span>{
+    <span class="keyword">echo</span>(&amp;quot;Good Evening&amp;quot;);
+  })
+  .argv;
+
+console.log(&amp;apos;hello &amp;apos;, argv.n);
+</code></pre><p>&#x6BCF;&#x4E2A;&#x5B50;&#x547D;&#x4EE4;&#x5F80;&#x5F80;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x8FD9;&#x65F6;&#x5C31;&#x9700;&#x8981;&#x5728;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x4E2D;&#x5355;&#x72EC;&#x6307;&#x5B9A;&#x3002;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x8981;&#x5148;&#x7528; reset &#x65B9;&#x6CD5;&#x91CD;&#x7F6E; yargs &#x5BF9;&#x8C61;&#x3002;</p>
+<pre><code><span class="shebang">#!/usr/bin/env node</span>
+require<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;shelljs/global&amp;apos;);</span>
+var argv = require<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;yargs&amp;apos;)</span>
+  .command<span class="list">(<span class="keyword">&amp;quot</span><span class="comment">;morning&amp;quot;, &amp;quot;good morning&amp;quot;, function (yargs) {  </span>
+    echo<span class="list">(<span class="keyword">&amp;quot</span><span class="comment">;Good Morning&amp;quot;);</span>
+    var argv = yargs.reset<span class="list">()</span>
+      .option<span class="list">(<span class="keyword">&amp;quot</span><span class="comment">;m&amp;quot;, {</span>
+        alias: <span class="keyword">&amp;quot</span><span class="comment">;message&amp;quot;,</span>
+        description: <span class="keyword">&amp;quot</span><span class="comment">;provide any sentence&amp;quot;</span>
+      })</span>
+      .help<span class="list">(<span class="keyword">&amp;quot</span><span class="comment">;h&amp;quot;)</span>
+      .alias<span class="list">(<span class="keyword">&amp;quot</span><span class="comment">;h&amp;quot;, &amp;quot;help&amp;quot;)</span>
+      .argv<span class="comment">;</span>
+
+    echo<span class="list">(<span class="keyword">argv</span>.m)</span><span class="comment">;</span>
+  })</span>
+  .argv<span class="comment">;</span></span></span></span></span></span>
+</code></pre><p>&#x7528;&#x6CD5;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code>$ hello morning -m &amp;quot;<span class="keyword">Are</span> you hungry?&amp;quot;
+Good Morning
+<span class="keyword">Are</span> you hungry?
+</code></pre><h2 id="&#x4E5D;&#x3001;&#x5176;&#x4ED6;&#x4E8B;&#x9879;">&#x4E5D;&#x3001;&#x5176;&#x4ED6;&#x4E8B;&#x9879;</h2><h4 id="&#xFF08;1&#xFF09;&#x8FD4;&#x56DE;&#x503C;">&#xFF08;1&#xFF09;&#x8FD4;&#x56DE;&#x503C;</h4><p>&#x6839;&#x636E; Unix &#x4F20;&#x7EDF;&#xFF0C;&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x6210;&#x529F;&#x8FD4;&#x56DE; 0&#xFF0C;&#x5426;&#x5219;&#x8FD4;&#x56DE; 1 &#x3002;</p>
+<pre><code><span class="keyword">if</span> <span class="params">(err)</span> {
+  process.exit<span class="params">(<span class="number">1</span>)</span>;
+} <span class="keyword">else</span> {
+  process.exit<span class="params">(<span class="number">0</span>)</span>;
+}
+</code></pre><h4 id="&#xFF08;2&#xFF09;&#x91CD;&#x5B9A;&#x5411;">&#xFF08;2&#xFF09;&#x91CD;&#x5B9A;&#x5411;</h4><p>Unix &#x5141;&#x8BB8;&#x7A0B;&#x5E8F;&#x4E4B;&#x95F4;&#x4F7F;&#x7528;&#x7BA1;&#x9053;&#x91CD;&#x5B9A;&#x5411;&#x6570;&#x636E;&#x3002;</p>
+<pre><code>$ <span class="built_in">ps</span> aux | grep &amp;apos;<span class="keyword">node</span>&amp;apos;
+</code></pre><p>&#x811A;&#x672C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x76D1;&#x542C;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x7684;data &#x4E8B;&#x4EF6;&#xFF0C;&#x83B7;&#x53D6;&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x6570;&#x636E;&#x3002;</p>
+<pre><code>process.stdin.resume();
+process.stdin.setEncoding(&amp;apos;utf8&amp;apos;);
+process.stdin.on(&amp;apos;<span class="type">data</span>&amp;apos;, <span class="function"><span class="keyword">function</span><span class="params">(data)</span></span> {
+  process.stdout.<span class="built_in">write</span>(<span class="type">data</span>);
+});
+</code></pre><p>&#x4E0B;&#x9762;&#x662F;&#x7528;&#x6CD5;&#x3002;</p>
+<pre><code>$ echo &amp;apos;foo&amp;apos; <span class="string">| ./hello</span>
+hello foo
+</code></pre><h4 id="&#xFF08;3&#xFF09;&#x7CFB;&#x7EDF;&#x4FE1;&#x53F7;">&#xFF08;3&#xFF09;&#x7CFB;&#x7EDF;&#x4FE1;&#x53F7;</h4><p>&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x53EF;&#x4EE5;&#x5411;&#x6267;&#x884C;&#x4E2D;&#x7684;&#x8FDB;&#x7A0B;&#x53D1;&#x9001;&#x4FE1;&#x53F7;&#xFF0C;process &#x5BF9;&#x8C61;&#x80FD;&#x591F;&#x76D1;&#x542C;&#x4FE1;&#x53F7;&#x4E8B;&#x4EF6;&#x3002;</p>
+<pre><code>process.<span class="keyword">on</span>(&amp;apos;SIGINT&amp;apos;, <span class="function"><span class="keyword">function</span> <span class="params">()</span> <span class="comment">{
+  console.log(&amp;apos;Got a SIGINT&amp;apos;);
+  process.exit(0);
+}</span>);</span>
+</code></pre><p>&#x53D1;&#x9001;&#x4FE1;&#x53F7;&#x7684;&#x65B9;&#x6CD5;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code>$ <span class="built_in">kill</span> <span class="operator">-s</span> SIGINT [process_id]
+</code></pre><p>&#xFF08;&#x5B8C;&#xFF09;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Git/">Git</a><a href="/tags/Linux命令/">Linux命令</a><a href="/tags/Node-js/">Node.js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/02/a989f9f/" title="【nodejs】测量时间和内存函数 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【nodejs】测量时间和内存函数 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/a4752a2/"  title="ASP.NET5和MVC6新特性学习 -">
+ <strong>下一篇：</strong><br/> 
+ <span>ASP.NET5和MVC6新特性学习 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、可执行脚本"><span class="toc-number">1.</span> <span class="toc-text">一、可执行脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、命令行参数的原始写法"><span class="toc-number">2.</span> <span class="toc-text">二、命令行参数的原始写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、新建进程"><span class="toc-number">3.</span> <span class="toc-text">三、新建进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、shelljs_模块"><span class="toc-number">4.</span> <span class="toc-text">四、shelljs 模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、yargs_模块"><span class="toc-number">5.</span> <span class="toc-text">五、yargs 模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、命令行参数的配置"><span class="toc-number">6.</span> <span class="toc-text">六、命令行参数的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、帮助信息"><span class="toc-number">7.</span> <span class="toc-text">七、帮助信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八、子命令"><span class="toc-number">8.</span> <span class="toc-text">八、子命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#九、其他事项"><span class="toc-number">9.</span> <span class="toc-text">九、其他事项</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（1）返回值"><span class="toc-number">9.0.1.</span> <span class="toc-text">（1）返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（2）重定向"><span class="toc-number">9.0.2.</span> <span class="toc-text">（2）重定向</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（3）系统信号"><span class="toc-number">9.0.3.</span> <span class="toc-text">（3）系统信号</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>294</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>64</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-JAVA/" title="分类： JAVA">分类： JAVA<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java8/" title="Java8">Java8<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分类：-java/" title="分类： java">分类： java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数式编程/" title="函数式编程">函数式编程<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apple/" title="Apple">Apple<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ruby/" title="Ruby">Ruby<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PaaS/" title="PaaS">PaaS<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
