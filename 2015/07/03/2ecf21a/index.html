@@ -1,0 +1,601 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>This Week&#39;s Node.js News - Issue 93 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Asif Ahmed
+Let&amp;apos;s Build a Real-Time Markdown Editor with Node.js
+A walkthrough of building a live, multi-user Markdown editor using Express and ShareJS, an operational transform library. 
+Vincit O">
+<meta property="og:type" content="article">
+<meta property="og:title" content="This Week's Node.js News - Issue 93 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/2ecf21a/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Asif Ahmed
+Let&amp;apos;s Build a Real-Time Markdown Editor with Node.js
+A walkthrough of building a live, multi-user Markdown editor using Express and ShareJS, an operational transform library. 
+Vincit O">
+<meta property="og:updated_time" content="2015-07-03T14:09:56.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="This Week's Node.js News - Issue 93 -">
+<meta name="twitter:description" content="Asif Ahmed
+Let&amp;apos;s Build a Real-Time Markdown Editor with Node.js
+A walkthrough of building a live, multi-user Markdown editor using Express and ShareJS, an operational transform library. 
+Vincit O">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/2ecf21a/" title="This Week&#39;s Node.js News - Issue 93 -" itemprop="url">This Week&#39;s Node.js News - Issue 93 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:56.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>Asif Ahmed</p>
+<p><a href="https://scotch.io/tutorials/building-a-real-time-markdown-viewer?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Let&apos;s Build a Real-Time Markdown Editor with Node.js</a></p>
+<p>A walkthrough of building a live, multi-user Markdown editor using Express and ShareJS, an operational transform library. </p>
+<p>Vincit Oy</p>
+<p><a href="http://www.vincit.fi/blog/introducing-moron-js-a-new-orm-for-node-js/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Introducing Moron.js: A New SQL-Friendly ORM</a></p>
+<p>An ORM that takes the approach that SQL is good and makes it easy to use the full power of SQL in all situations. This is a thorough introduction. </p>
+<p>github</p>
+<p><a href="https://github.com/npm/npm/releases/tag/v3.0.0?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">npm 3.0 (Beta) Released</a></p>
+<p>A new multi-stage installer, a change in how dependencies will be nested, and numerous bug fixes and breaking changes. </p>
+<p>Frontend Masters &#xA0;&#xA0; Sponsored</p>
+<p><a href="https://frontendmasters.com/workshops/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">A Week of Full Stack JavaScript Workshops</a></p>
+<p>Build full stack apps in JS with Scott Moss:</p>
+<ul>
+<li><p><a href="https://frontendmasters.com/workshops/angular-components-es6/" target="_blank" rel="external">2-Days on Angular, Components and ES6</a></p>
+</li>
+<li><p><a href="https://frontendmasters.com/workshops/api-design-nodejs/" target="_blank" rel="external">3-Days on API Design in Node.js</a></p>
+</li>
+</ul>
+<p><em>Join us (all or part) of the week July 20-25th.</em></p>
+<p>Andrew Stewart</p>
+<p><a href="http://cylonjs.com/blog/2015/07/01/cylon-1.1.0-big-cleanup/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Cylon.js 1.1.0 Released</a></p>
+<p>Cylon.js is a JavaScript robotics framework. It&#x2019;s been refactored and now also has improved support for the Parrot Bebop drone and numerous Nest products. </p>
+<p>Nicolas Froidure</p>
+<p><a href="http://insertafter.com/en/blog/native-node-module.html?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Create Native NodeJS Modules and Fallback to Emscripten if Necessary</a></p>
+<p>An interesting idea. Create modules that rely on natively compiled libraries first, but on unsupported platforms, fall back to a JavaScript version compiled with Emscripten. </p>
+<p>Vishal Kumar</p>
+<p><a href="http://blog.codeship.com/running-mean-web-application-docker-containers-aws/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Running A MEAN App in Docker Containers on AWS</a></p>
+<p>A step by step tutorial on setting up a Node and Express-based app on an Amazon EC2 server using Docker. </p>
+<p>Jobs</p>
+<ul>
+<li><a href="https://datahero.com/jobs/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Fullstack Engineer At DataHero (San Francisco, CA)</a><br>Join a startup that is at the center of cloud computing, data visualization, and machine learning! Recently raised series A funding, the winner of 2014 Strata Startup is looking for awesome engineers help us build our intelligent data visualization platform. &#xA0; DataHero</li>
+<li><a href="https://moviepilot.workable.com/jobs/42655?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Senior Frontend Developer at MoviePilot.com</a><br>Hi, we are moviepilot.com, the world&#x2019;s largest community for fans to talk about pop culture. We are looking for a nice person who happens to be a Frontend Dev and enjoys building things using tools like React &amp; Node. &#xA0; moviepilot . com</li>
+<li><a href="http://www.toptal.com/developers?utm_source=node_weekly&amp;utm_medium=cpm-newsletter&amp;utm_campaign=node_weekly_job" target="_blank" rel="external">Freelance with Companies like Airbnb, IDEO, &amp; JPMorgan</a><br>Work with top clients, set your own rates, and work from anywhere as an elite Toptal Node.js developer. Join the most exclusive network of top software engineers in the world. &#xA0; Toptal</li>
+</ul>
+<p>In brief</p>
+<ul>
+<li><a href="http://dailyjs.com/2015/07/01/node-long-term-support-working-group/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Node Long-Term Support Working Group Update</a> &#xA0; news &#xA0; DailyJS</li>
+<li><a href="https://strongloop.com/strongblog/whats-new-in-the-loopback-node-js-framework-june-2015/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">What&#x2019;s New in the LoopBack Node.js Framework &#x2013; June 2015</a> &#xA0; news &#xA0; StrongLoop</li>
+<li><a href="http://www.sitepoint.com/how-to-grunt-and-gulp-your-way-to-workflow-automation/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">How to Grunt and Gulp Your Way to Workflow Automation</a> &#xA0; tutorial &#xA0; Etienne Margraff</li>
+<li><a href="https://stormpath.com/blog/how-to-build-an-api-service-with-nodejs/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Build An API Service in Node.js with Stormpath, Twilio and Stripe</a> &#xA0; tutorial<br>A complete walkthrough covering how to rapidly build an API service that uses SMS to provide up to date information about Bitcoin prices. &#xA0; Randall Degges</li>
+<li><a href="http://www.sitepoint.com/displaying-images-on-a-dot-matrix-led-display-with-node-js/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Displaying Images on a Dot Matrix LED Display with Node.js</a> &#xA0; tutorial<br>Using Arduino and a Freetronics 32&#xD7;16 dot matrix display. &#xA0; Patrick Catanzariti</li>
+<li><a href="http://www.sitepoint.com/connecting-the-iot-and-node-js-to-ifttt/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Connecting the IoT and Node.js to IFTTT</a> &#xA0; tutorial<br>&#x201C;To experiment with sending triggers to IFTTT, we will toggle a LIFX lightbulb on and off via an Arduino powered light switch.&#x201D; &#xA0; Patrick Catanzariti</li>
+<li><a href="http://dailyjs.com/2015/07/02/small-modules-complexity-over-size/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">Small Modules: Tales from a Serial Module Author</a> &#xA0; opinion &#xA0; Sindre Sorhus</li>
+<li><a href="https://www.youtube.com/watch?v=mGh3lW9oAgk" target="_blank" rel="external">npm Registry Deep Dive</a> &#xA0; video &#xA0; CJ Silverio</li>
+<li><a href="http://wallabyjs.com/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">TDD/BDD with realtime code coverage for JavaScript</a> &#xA0; tools<br>Wallaby.js provides an instant feedback from your tests right inside your code editor. &#xA0; Wallaby.js &#xA0;&#xA0; Sponsored</li>
+<li><a href="https://github.com/azproduction/node-mc?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">node-mc: Midnight Commander Written on the React/Node Stack</a> &#xA0; code<br>Midnight Commander is an open source cross platform visual file manager. &#xA0; Mikhail Davydov</li>
+<li><a href="https://github.com/kristjanmik/ios-nodejs-s3-streamer?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">ios-nodejs-s3-streamer: Objective C Client and Node Server for iOS to Server Streaming</a> &#xA0; code &#xA0; Kristj&#xE1;n Ingi Mikaelsson</li>
+<li><a href="https://www.npmjs.com/package/grunt-spec?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">grunt-spec: Facilitate A Workflow for Developing AMD Modules using TDD</a> &#xA0; code &#xA0; Jon Acker</li>
+<li><a href="https://github.com/PillowPillow/yaml-config-loader?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">yaml-config-loader: YAML Configuration Loader for Node</a> &#xA0; code &#xA0; Nicolas Gaignoux</li>
+<li><a href="https://raygun.io/?utm_source=link&amp;utm_medium=email-node-weekly&amp;utm_campaign=cooperp" target="_blank" rel="external">Your business relies on healthy software - Try Raygun</a> &#xA0; tools<br>Raygun alerts you in real-time when users are experiencing issues, giving you full diagnostic information in order to locate the root cause - fast! &#xA0; Raygun &#xA0;&#xA0; Sponsored</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Node-js/">Node.js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/2f40811/" title="The long road to Async/Await in JavaScript -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  The long road to Async/Await in JavaScript -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/2f10224/"  title="A Code Boot Camp for Underprivileged Kids -">
+ <strong>下一篇：</strong><br/> 
+ <span>A Code Boot Camp for Underprivileged Kids -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,812 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>nginx+tomcat+memcached (msm)实现 session同步复制 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x6807;&amp;#x7B7E;&amp;#xFF1A; nginx**tomcat**memcached | &amp;#x53D1;&amp;#x8868;&amp;#x65F6;&amp;#x95F4;&amp;#xFF1A;2015-05-08 15:13 | &amp;#x4F5C;&amp;#x8005;&amp;#xFF1A;annan211 
+ &amp;#x5206;&amp;#x4EAB;&amp;#x5230;&amp;#xFF1A;
+&amp;#x51FA;&amp;#x5904;&amp;#xFF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx+tomcat+memcached (msm)实现 session同步复制 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/1fc04db/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x6807;&amp;#x7B7E;&amp;#xFF1A; nginx**tomcat**memcached | &amp;#x53D1;&amp;#x8868;&amp;#x65F6;&amp;#x95F4;&amp;#xFF1A;2015-05-08 15:13 | &amp;#x4F5C;&amp;#x8005;&amp;#xFF1A;annan211 
+ &amp;#x5206;&amp;#x4EAB;&amp;#x5230;&amp;#xFF1A;
+&amp;#x51FA;&amp;#x5904;&amp;#xFF">
+<meta property="og:updated_time" content="2015-07-03T14:09:31.165Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx+tomcat+memcached (msm)实现 session同步复制 -">
+<meta name="twitter:description" content="&amp;#x6807;&amp;#x7B7E;&amp;#xFF1A; nginx**tomcat**memcached | &amp;#x53D1;&amp;#x8868;&amp;#x65F6;&amp;#x95F4;&amp;#xFF1A;2015-05-08 15:13 | &amp;#x4F5C;&amp;#x8005;&amp;#xFF1A;annan211 
+ &amp;#x5206;&amp;#x4EAB;&amp;#x5230;&amp;#xFF1A;
+&amp;#x51FA;&amp;#x5904;&amp;#xFF">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/1fc04db/" title="nginx+tomcat+memcached (msm)实现 session同步复制 -" itemprop="url">nginx+tomcat+memcached (msm)实现 session同步复制 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:31.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p> &#x6807;&#x7B7E;&#xFF1A; <strong>nginx**</strong>tomcat<strong>**memcached</strong> | &#x53D1;&#x8868;&#x65F6;&#x95F4;&#xFF1A;2015-05-08 15:13 | &#x4F5C;&#x8005;&#xFF1A;annan211 </p>
+<p> &#x5206;&#x4EAB;&#x5230;&#xFF1A;</p>
+<p>&#x51FA;&#x5904;&#xFF1A;<a href="http://www.iteye.com" target="_blank" rel="external">http://www.iteye.com</a> </p>
+<p>tomcat + memcached + nginx &#x5B9E;&#x73B0;session&#x5171;&#x4EAB;</p>
+<p>&#x8FD9;&#x91CC;&#x91CD;&#x70B9;&#x5F3A;&#x8C03;&#x5982;&#x4F55;&#x5B9E;&#x73B0;linux&#x670D;&#x52A1;&#x5668;&#x4E0A; &#x670D;&#x52A1;&#x5668;session&#x5171;&#x4EAB;&#xFF0C;&#x8F6F;&#x4EF6;&#x5B89;&#x88C5;&#x4E0D;&#x518D;&#x8D58;&#x8FF0;&#x3002;</p>
+<p>&#x9996;&#x5148;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5BF9; cookie &#x548C;session&#x7684;&#x5DE5;&#x4F5C;&#x673A;&#x5236;&#x975E;&#x5E38;&#x4E86;&#x89E3;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x4E86;&#x89E3;&#x5176;&#x4E2D;&#x7684;&#x539F;&#x7406;&#xFF0C;&#x5C31;&#x7B97;&#x914D;&#x7F6E;&#x6210;&#x529F;&#xFF0C;&#x4E5F;&#x6BEB;&#x65E0;&#x610F;&#x4E49;&#x3002;&#x6362;&#x4E86;&#x5DE5;&#x4F5C;&#x6362;&#x4E86;&#x73AF;&#x5883;&#xFF0C;&#x91CD;&#x65B0;&#x914D;&#x7F6E;&#x8D77;&#x6765;</p>
+<p>&#x4ECD;&#x7136;&#x9700;&#x8981;&#x91CD;&#x5934;&#x6765;&#x8FC7;&#xFF0C;&#x4E8B;&#x500D;&#x529F;&#x534A;&#x3002;</p>
+<p>cookie&#x662F;&#x600E;&#x6837;&#x5DE5;&#x4F5C;&#x7684;&#xFF1F;</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x6211;&#x4EEC;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x540D;&#x5B57;&#x4E3A;login&#x7684;Cookie&#x6765;&#x5305;&#x542B;&#x8BBF;&#x95EE;&#x8005;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x521B;&#x5EFA;Cookie&#x65F6;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x7684;Header&#x5982;&#x4E0B;&#x9762;&#x6240;&#x793A;&#xFF0C;&#x8FD9;&#x91CC;&#x5047;&#x8BBE;&#x8BBF;&#x95EE;&#x8005;&#x7684;&#x6CE8;&#x518C;&#x540D;&#x662F;&#x201C;Michael Jordan&#x201D;&#xFF0C;</p>
+<p>&#x540C;&#x65F6;&#x8FD8;&#x5BF9;&#x6240;&#x521B;&#x5EFA;&#x7684;Cookie&#x7684;&#x5C5E;&#x6027;&#x5982;path&#x3001;domain&#x3001;expires&#x7B49;&#x8FDB;&#x884C;&#x4E86;&#x6307;&#x5B9A;&#x3002;</p>
+<pre><code>Set-Cookie:<span class="variable">login=</span>Michael Jordan;<span class="variable">path=</span>/;<span class="variable">domain=</span>msn.com; 
+<span class="variable">expires=</span>Monday,<span class="number">01</span>-Mar-<span class="number">99</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">01</span> GMT
+</code></pre><p>&#x4E0A;&#x9762;&#x8FD9;&#x4E2A;Header&#x4F1A;&#x81EA;&#x52A8;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x7AEF;&#x8BA1;&#x7B97;&#x673A;&#x7684;Cookie&#x6587;&#x4EF6;&#x4E2D;&#x6DFB;&#x52A0;&#x4E00;&#x6761;&#x8BB0;&#x5F55;&#x3002;&#x6D4F;&#x89C8;&#x5668;&#x5C06;&#x53D8;&#x91CF;&#x540D;&#x4E3A;&#x201C;login&#x201D;&#x7684;Cookie&#x8D4B;&#x503C;&#x4E3A;&#x201C;Michael Jordon&#x201D;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x5728;&#x5B9E;&#x9645;&#x4F20;&#x9012;&#x8FC7;&#x7A0B;&#x4E2D;&#x8FD9;&#x4E2A;</p>
+<p>Cookie&#x7684;&#x503C;&#x662F;&#x7ECF;&#x8FC7;&#x4E86;URLEncode&#x65B9;&#x6CD5;&#x7684;URL&#x7F16;&#x7801;&#x64CD;&#x4F5C;&#x7684;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x542B;&#x6709;Cookie&#x503C;&#x7684;HTTP Header&#x88AB;&#x4FDD;&#x5B58;&#x5230;&#x6D4F;&#x89C8;&#x5668;&#x7684;Cookie&#x6587;&#x4EF6;&#x540E;&#xFF0C;Header&#x5C31;&#x901A;&#x77E5;&#x6D4F;&#x89C8;&#x5668;&#x5C06;Cookie&#x901A;&#x8FC7;&#x8BF7;&#x6C42;&#x4EE5;&#x5FFD;&#x7565;&#x8DEF;&#x5F84;&#x7684;&#x65B9;&#x5F0F;&#x8FD4;&#x56DE;&#x5230;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x5B8C;&#x6210;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x8BA4;&#x8BC1;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x6B64;&#x5916;&#xFF0C;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x4E86;Cookie&#x7684;&#x4E00;&#x4E9B;&#x5C5E;&#x6027;&#x6765;&#x9650;&#x5B9A;&#x8BE5;Cookie&#x7684;&#x4F7F;&#x7528;&#x3002;&#x4F8B;&#x5982;Domain&#x5C5E;&#x6027;&#x80FD;&#x591F;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x7AEF;&#x5BF9;Cookie&#x53D1;&#x9001;&#x8FDB;&#x884C;&#x9650;&#x5B9A;&#xFF0C;&#x5177;&#x4F53;&#x5230;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x8BE5;Cookie&#x53EA;&#x80FD;&#x4F20;&#x5230;&#x6307;&#x5B9A;&#x7684;&#x670D;</p>
+<p>&#x52A1;&#x5668;&#x4E0A;&#xFF0C;&#x800C;&#x51B3;&#x4E0D;&#x4F1A;&#x8DD1;&#x5230;&#x5176;&#x4ED6;&#x7684;&#x5982;www.hp.com&#x7684;Web&#x7AD9;&#x70B9;&#x4E0A;&#x53BB;&#x3002;Expires&#x5C5E;&#x6027;&#x5219;&#x6307;&#x5B9A;&#x4E86;&#x8BE5;Cookie&#x4FDD;&#x5B58;&#x7684;&#x65F6;&#x95F4;&#x671F;&#x9650;&#xFF0C;&#x4F8B;&#x5982;&#x4E0A;&#x9762;&#x7684;Cookie&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E0A;&#x53EA;&#x4FDD;&#x5B58;&#x5230;1999&#x5E74;3&#x6708;1&#x65E5;1&#x79D2;&#x3002;</p>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x5982;&#x679C;&#x6D4F;&#x89C8;&#x5668;&#x4E0A;Cookie&#x592A;&#x591A;&#xFF0C;&#x8D85;&#x8FC7;&#x4E86;&#x7CFB;&#x7EDF;&#x6240;&#x5141;&#x8BB8;&#x7684;&#x8303;&#x56F4;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x5C06;&#x81EA;&#x52A8;&#x5BF9;&#x5B83;&#x8FDB;&#x884C;&#x5220;&#x9664;&#x3002;&#x81F3;&#x4E8E;&#x5C5E;&#x6027;Path&#xFF0C;&#x7528;&#x6765;&#x6307;&#x5B9A;Cookie&#x5C06;&#x88AB;&#x53D1;&#x9001;&#x5230;&#x670D;&#x52A1;&#x5668;&#x7684;&#x54EA;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&#x4E0B;&#x3002;</p>
+<p>&#x8BF4;&#x660E;&#xFF1A;&#x6D4F;&#x89C8;&#x5668;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;Cookie&#x540E;&#xFF0C;&#x5BF9;&#x4E8E;&#x6BCF;&#x4E00;&#x4E2A;&#x9488;&#x5BF9;&#x8BE5;&#x7F51;&#x7AD9;&#x7684;&#x8BF7;&#x6C42;&#xFF0C;&#x90FD;&#x4F1A;&#x5728;Header&#x4E2D;&#x5E26;&#x7740;&#x8FD9;&#x4E2A;Cookie&#xFF1B;&#x4E0D;&#x8FC7;&#xFF0C;&#x5BF9;&#x4E8E;&#x5176;&#x4ED6;&#x7F51;&#x7AD9;&#x7684;&#x8BF7;&#x6C42;Cookie&#x662F;&#x7EDD;&#x5BF9;&#x4E0D;&#x4F1A;&#x8DDF;&#x7740;&#x53D1;&#x9001;&#x7684;&#x3002;&#x800C;</p>
+<p>&#x4E14;&#x6D4F;&#x89C8;&#x5668;&#x4F1A;&#x8FD9;&#x6837;&#x4E00;&#x76F4;&#x53D1;&#x9001;&#xFF0C;&#x76F4;&#x5230;Cookie&#x8FC7;&#x671F;&#x4E3A;&#x6B62;&#x3002;</p>
+<p>session&#x53C8;&#x662F;&#x5982;&#x4F55;&#x5DE5;&#x4F5C;&#x7684;&#xFF1F;</p>
+<p>&#x7531;&#x4E8E;http&#x662F;&#x65E0;&#x72B6;&#x6001;&#x7684;&#x534F;&#x8BAE;&#xFF0C;&#x4F60;&#x8BBF;&#x95EE;&#x4E86;&#x9875;&#x9762;A&#xFF0C;&#x7136;&#x540E;&#x5728;&#x8BBF;&#x95EE;B&#xFF0C;http&#x65E0;&#x6CD5;&#x786E;&#x5B9A;&#x8FD9;2&#x4E2A;&#x8BBF;&#x95EE;&#x6765;&#x81EA;&#x4E00;&#x4E2A;&#x4EBA;&#xFF0C;&#x56E0;&#x6B64;&#x8981;&#x7528;cookie&#x6216;session&#x6765;&#x8DDF;&#x8E2A;&#x7528;&#x6237;&#xFF0C;&#x6839;&#x636E;&#x6388;&#x6743;&#x548C;&#x7528;&#x6237;&#x8EAB;&#x4EFD;&#x6765;</p>
+<p>&#x663E;&#x793A;&#x4E0D;&#x540C;&#x7684;&#x9875;&#x9762;&#x3002;&#x6BD4;&#x5982;&#x7528;&#x6237;A&#x767B;&#x9646;&#x4E86;&#xFF0C;&#x90A3;&#x4E48;&#x80FD;&#x770B;&#x5230;&#x81EA;&#x5DF1;&#x7684;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#xFF0C;&#x800C;B&#x6CA1;&#x767B;&#x9646;&#xFF0C;&#x65E0;&#x6CD5;&#x770B;&#x5230;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#x3002;&#x8FD8;&#x6709;A&#x53EF;&#x80FD;&#x5728;&#x8D2D;&#x7269;&#xFF0C;&#x628A;&#x5546;&#x54C1;&#x653E;&#x5165;&#x8D2D;&#x7269;&#x8F66;&#xFF0C;&#x6B64;&#x65F6;B&#x4E5F;&#x6709;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#xFF0C;</p>
+<p>&#x4F60;&#x65E0;&#x6CD5;&#x786E;&#x5B9A;A&#xFF0C;B&#x7684;&#x8EAB;&#x4EFD;&#x548C;&#x8D2D;&#x7269;&#x4FE1;&#x606F;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x4E00;&#x4E2A;session ID&#x6765;&#x7EF4;&#x6301;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x3002;</p>
+<p>cookie&#x662F;&#x670D;&#x52A1;&#x5668;&#x53D1;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x5E76;&#x4E14;&#x4FDD;&#x6301;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x91CC;&#x9762;&#x5305;&#x542B;&#x4E86;&#x7528;&#x6237;&#x7684;&#x8BBF;&#x95EE;&#x4FE1;&#x606F;&#xFF08;&#x8D26;&#x6237;&#x5BC6;&#x7801;&#x7B49;&#xFF09;&#xFF0C;&#x53EF;&#x4EE5;&#x624B;&#x52A8;&#x5220;&#x9664;&#x6216;&#x8BBE;&#x7F6E;&#x6709;&#x6548;&#x671F;&#xFF0C;&#x5728;&#x4E0B;&#x6B21;&#x8BBF;&#x95EE;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;</p>
+<p>&#x8FD4;&#x7ED9;&#x670D;&#x52A1;&#x5668;&#x3002;&#x6CE8;&#x610F;&#xFF1A;cookie&#x53EF;&#x4EE5;&#x88AB;&#x7981;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x60F3;&#x5176;&#x4ED6;&#x529E;&#x6CD5;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;session&#x3002;&#x6BD4;&#x5982;&#xFF1A;&#x4F60;&#x53BB;&#x5546;&#x573A;&#x8D2D;&#x7269;&#xFF0C;&#x5546;&#x573A;&#x4F1A;&#x7ED9;&#x4F60;&#x529E;&#x4E00;&#x5F20;&#x4F1A;&#x5458;&#x5361;&#xFF0C;&#x4E0B;&#x6B21;&#x4F60;&#x6765;&#x51FA;&#x793A;&#x8BE5;&#x5361;&#xFF0C;&#x4F1A;&#x6709;&#x6253;&#x6298;&#x4F18;&#x60E0;</p>
+<p>&#x3002;&#x8BE5;&#x5361;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x4FDD;&#x5B58;&#xFF08;cookie&#xFF09;&#xFF0C;&#x6216;&#x662F;&#x5546;&#x573A;&#x4EE3;&#x4E3A;&#x4FDD;&#x7BA1;&#xFF0C;&#x7531;&#x4E8E;&#x4F1A;&#x5458;&#x592A;&#x591A;&#xFF0C;&#x4E2A;&#x4EBA;&#x9700;&#x8981;&#x4FDD;&#x5B58;&#x5361;&#x53F7;&#x4FE1;&#x606F;&#xFF08;session ID)&#x3002;</p>
+<p>&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x6301;&#x4E45;&#x5316;SESSION&#xFF1F;</p>
+<p>&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x6BCF;&#x4E2A;&#x7528;&#x6237;&#x7684;Session&#x5BF9;&#x8C61;&#x5B58;&#x5728;Servlet&#x5BB9;&#x5668;&#x4E2D;&#xFF0C;&#x5982;&#x679C;Tomcat&#x670D;&#x52A1;&#x5668;&#x91CD;&#x8D77;/&#x5F53;&#x673A;&#x7684;&#x8BDD;&#x8BE5;session&#x5C31;&#x4F1A;&#x4E22;&#x5931;&#xFF0C;&#x800C;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x64CD;&#x4F5C;&#x5E94;&#x4E3A;session&#x7684;&#x4E22;&#x5931;&#x800C;&#x9020;&#x6210;&#x6570;&#x636E;&#x4E22;&#x5931;&#xFF0C;&#x800C;&#x4E14;</p>
+<p>&#x5F53;&#x524D;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x91CF;&#x5DE8;&#x5927;&#xFF0C;&#x6BCF;&#x4E2A;&#x7528;&#x6237;&#x7684;Session&#x91CC;&#x5B58;&#x653E;&#x5927;&#x91CF;&#x7684;&#x6570;&#x636E;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x5F88;&#x5360;&#x7528;&#x670D;&#x52A1;&#x5668;&#x5927;&#x91CF;&#x7684;&#x5185;&#x5B58;&#xFF0C;&#x4ECE;&#x800C;&#x662F;&#x670D;&#x52A1;&#x5668;&#x7684;&#x6027;&#x80FD;&#x53D7;&#x5230;&#x5F71;&#x54CD;&#x3002;</p>
+<p>&#x756A;&#x5916;&#x7BC7;</p>
+<p>session &#x662F;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x975E;&#x5E38;&#x5B9D;&#x8D35;&#x3002;&#x4F46;&#x662F;session&#x540C;&#x6837;&#x4E5F;&#x662F;&#x7F3A;&#x61BE;&#x6EE1;&#x8EAB;&#xFF0C;&#x5728;&#x5927;&#x89C4;&#x6A21;&#x96C6;&#x7FA4;&#x670D;&#x52A1;&#x5668;&#x4E2D;&#xFF0C;&#x6700;&#x597D;&#x4F7F;&#x7528;&#x5176;&#x4ED6;&#x66FF;&#x4EE3;&#x65B9;&#x6848;&#x3002;&#x6BD4;&#x5982;&#x6DD8;&#x5B9D;&#x7F51;&#x3002;</p>
+<p>&#x5BF9;nginx&#x7684;&#x4E86;&#x89E3;&#xFF1F;</p>
+<p>nginx &#x662F;&#x4E00;&#x6B3E;&#x975E;&#x5E38;&#x4F18;&#x79C0;&#x7684;&#x670D;&#x52A1;&#x5668;&#x8F6F;&#x4EF6;&#xFF0C;&#x5176;&#x4F18;&#x79C0;&#x7A0B;&#x5EA6;&#x8FD9;&#x91CC;&#x4E0D;&#x8FC7;&#x591A;&#x8D58;&#x8FF0;&#x3002;</p>
+<p>&#x8FDB;&#x5165;&#x6B63;&#x9898;</p>
+<p>session &#x5B9E;&#x73B0;&#x5171;&#x4EAB;&#x7684;&#x65B9;&#x6CD5;&#x5206;&#x4E3A;&#x591A;&#x79CD;</p>
+<p>&#x5BF9;&#x4E8E;WEB&#x5E94;&#x7528;&#x96C6;&#x7FA4;&#x7684;&#x6280;&#x672F;&#x5B9E;&#x73B0;&#x800C;&#x8A00;&#xFF0C;&#x6700;&#x5927;&#x7684;&#x96BE;&#x70B9;&#x5C31;&#x662F;&#x5982;&#x4F55;&#x80FD;&#x5728;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x591A;&#x4E2A;&#x8282;&#x70B9;&#x4E4B;&#x95F4;&#x4FDD;&#x6301;&#x6570;&#x636E;&#x7684;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x4F1A;&#x8BDD;&#xFF08;Session&#xFF09;&#x4FE1;&#x606F;&#x662F;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x4E2D;&#x6700;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x5757;&#x3002;&#x8981;&#x5B9E;&#x73B0;&#x8FD9;&#x4E00;&#x70B9;&#xFF0C;</p>
+<p>&#x5927;&#x4F53;&#x4E0A;&#x6709;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;&#x4E00;&#x79CD;&#x662F;&#x628A;&#x6240;&#x6709;Session&#x6570;&#x636E;&#x653E;&#x5230;&#x4E00;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x6216;&#x8005;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#xFF0C;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x8282;&#x70B9;&#x901A;&#x8FC7;&#x8BBF;&#x95EE;&#x8FD9;&#x53F0;Session&#x670D;&#x52A1;&#x5668;&#x6765;&#x83B7;&#x53D6;&#x6570;&#x636E;&#xFF1B;&#x53E6;&#x4E00;&#x79CD;&#x5C31;&#x662F;&#x5728;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x8282;</p>
+<p>&#x70B9;&#x95F4;&#x8FDB;&#x884C;Session&#x6570;&#x636E;&#x7684;&#x540C;&#x6B65;&#x62F7;&#x8D1D;&#xFF0C;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x5747;&#x4FDD;&#x5B58;&#x4E86;&#x6240;&#x6709;&#x7684;Session&#x6570;&#x636E;&#x3002;</p>
+<p>&#x4E00; &#x4F7F;&#x7528;tomcat&#x81EA;&#x8EAB;&#x96C6;&#x7FA4;&#x7279;&#x6027;&#x5B8C;&#x6210;session&#x5171;&#x4EAB;</p>
+<p>&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x662F;&#x4F7F;&#x7528;tomcat&#x81EA;&#x8EAB;&#x5E7F;&#x64AD;&#x7684;&#x7279;&#x70B9;&#x6765;&#x8FDB;&#x884C;session&#x540C;&#x6B65;&#x62F7;&#x8D1D;&#xFF0C;&#x4F18;&#x70B9;&#x662F;&#x7B80;&#x5355;&#xFF0C;&#x7F3A;&#x70B9;&#x662F;&#x4E00;&#x65E6;tomcat&#x96C6;&#x7FA4;&#x6570;&#x91CF;&#x8FC7;&#x591A;&#xFF0C;&#x5F88;&#x5BB9;&#x6613;&#x5F15;&#x53D1;&#x5E7F;&#x64AD;&#x98CE;&#x66B4;&#x3002;</p>
+<p>&#x8BE6;&#x7EC6;&#x914D;&#x7F6E; &#x8BF7;&#x53C2;&#x7167; &#x535A;&#x5BA2; <a href="http://zyycaesar.iteye.com/blog/296606" target="_blank" rel="external">http://zyycaesar.iteye.com/blog/296606</a></p>
+<p>&#x7C97;&#x7565;&#x914D;&#x7F6E;&#x5982;&#x4E0B; tomcat/server.xml</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;Cluster className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>ha<span class="built_in">.</span>tcp<span class="built_in">.</span>SimpleTcpCluster<span class="subst">&amp;</span>quot;
+        channelSendOptions<span class="subst">=&amp;</span>quot;<span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;Manager className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>ha<span class="built_in">.</span>session<span class="built_in">.</span>DeltaManager<span class="subst">&amp;</span>quot;
+      expireSessionsOnShutdown<span class="subst">=&amp;</span>quot;<span class="literal">false</span><span class="subst">&amp;</span>quot;
+      notifyListenersOnReplication<span class="subst">=&amp;</span>quot;<span class="literal">true</span><span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;Channel className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>tribes<span class="built_in">.</span><span class="keyword">group</span><span class="built_in">.</span>GroupChannel<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;Membership className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>tribes<span class="built_in">.</span>membership<span class="built_in">.</span>McastService<span class="subst">&amp;</span>quot;
+        address<span class="subst">=&amp;</span>quot;<span class="number">224.0</span><span class="built_in">.0</span><span class="built_in">.0</span><span class="subst">&amp;</span>quot;
+        port<span class="subst">=&amp;</span>quot;<span class="number">45564</span><span class="subst">&amp;</span>quot;
+        frequency<span class="subst">=&amp;</span>quot;<span class="number">500</span><span class="subst">&amp;</span>quot;
+        dropTime<span class="subst">=&amp;</span>quot;<span class="number">3000</span><span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;Receiver className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>tribes<span class="built_in">.</span>transport<span class="built_in">.</span>nio<span class="built_in">.</span>NioReceiver<span class="subst">&amp;</span>quot;
+         address<span class="subst">=&amp;</span>quot;<span class="number">192.168</span><span class="built_in">.0</span><span class="built_in">.223</span><span class="subst">&amp;</span>quot;
+         port<span class="subst">=&amp;</span>quot;<span class="number">4001</span><span class="subst">&amp;</span>quot;
+         autoBind<span class="subst">=&amp;</span>quot;<span class="number">100</span><span class="subst">&amp;</span>quot;
+         selectorTimeout<span class="subst">=&amp;</span>quot;<span class="number">5000</span><span class="subst">&amp;</span>quot;
+         maxThreads<span class="subst">=&amp;</span>quot;<span class="number">6</span><span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;Sender className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>tribes<span class="built_in">.</span>transport<span class="built_in">.</span>ReplicationTransmitter<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;Transport className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>tribes<span class="built_in">.</span>transport<span class="built_in">.</span>nio<span class="built_in">.</span>PooledParallelSender<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;/Sender<span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;Interceptor className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>tribes<span class="built_in">.</span><span class="keyword">group</span><span class="built_in">.</span>interceptors<span class="built_in">.</span>TcpFailureDetector<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+     <span class="subst">&amp;</span><span class="literal">lt</span>;Interceptor className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>tribes<span class="built_in">.</span><span class="keyword">group</span><span class="built_in">.</span>interceptors<span class="built_in">.</span>MessageDispatch15Interceptor<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;/Channel<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;Valve className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>ha<span class="built_in">.</span>tcp<span class="built_in">.</span>ReplicationValve<span class="subst">&amp;</span>quot;
+    filter<span class="subst">=&amp;</span>quot;<span class="built_in">.</span><span class="subst">*\</span><span class="built_in">.</span>gif;<span class="built_in">.</span><span class="subst">*\</span><span class="built_in">.</span>js;<span class="built_in">.</span><span class="subst">*\</span><span class="built_in">.</span>jpg;<span class="built_in">.</span><span class="subst">*\</span><span class="built_in">.</span>png;<span class="built_in">.</span><span class="subst">*\</span><span class="built_in">.</span>htm;<span class="built_in">.</span><span class="subst">*\</span><span class="built_in">.</span>html;<span class="built_in">.</span><span class="subst">*\</span><span class="built_in">.</span>css;<span class="built_in">.</span><span class="subst">*\</span><span class="built_in">.</span>txt;<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;Valve className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>ha<span class="built_in">.</span>session<span class="built_in">.</span>JvmRouteBinderValve<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;ClusterListener className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>ha<span class="built_in">.</span>session<span class="built_in">.</span>JvmRouteSessionIDBinderListener<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;ClusterListener className<span class="subst">=&amp;</span>quot;org<span class="built_in">.</span>apache<span class="built_in">.</span>catalina<span class="built_in">.</span>ha<span class="built_in">.</span>session<span class="built_in">.</span>ClusterSessionListener<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/Cluster<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x4E8C; &#x4F7F;&#x7528;&#x6570;&#x636E;&#x5E93;&#x6301;&#x4E45;&#x5316;session</p>
+<p>&#x8FD9;&#x91CC;&#x53C8;&#x5206;&#x4E3A;&#x7269;&#x7406;&#x6570;&#x636E;&#x5E93;&#x548C;&#x5185;&#x5B58;&#x6570;&#x636E;&#x5E93;</p>
+<p>&#x7269;&#x7406;&#x6570;&#x636E;&#x5E93;&#x5907;&#x4EFD;session&#xFF0C;&#x7531;&#x4E8E;&#x5176;&#x6027;&#x80FD;&#x7684;&#x539F;&#x56E0;&#xFF0C;&#x8FD9;&#x91CC;&#x4E0D;&#x4F5C;&#x4ECB;&#x7ECD;&#x3002;</p>
+<p>&#x5185;&#x5B58;&#x6570;&#x636E;&#x5E93; &#x53EF;&#x4EE5;&#x6682;&#x5206;&#x4E3A; redis &#x548C; memcached</p>
+<p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x53EA;&#x4ECB;&#x7ECD;memcached</p>
+<p>&#x591A;&#x4E2A;tomcat&#x5404;&#x79CD;&#x5E8F;&#x5217;&#x5316;&#x7B56;&#x7565;&#x914D;&#x7F6E;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x4E00;&#x3001;java&#x9ED8;&#x8BA4;&#x5E8F;&#x5217;&#x5316;tomcat&#x914D;&#x7F6E;</p>
+<p>conf/context.xml&#x6DFB;&#x52A0;</p>
+<pre><code>&amp;lt;Manager <span class="variable">className=</span>&amp;quot;de.javakaffee.web.msm.MemcachedBackupSessionManager&amp;quot;
+       <span class="variable">memcachedNodes=</span>&amp;quot;n1:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11211</span> n2:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11311</span>&amp;quot;     
+    <span class="variable">lockingMode=</span>&amp;quot;auto&amp;quot;
+    <span class="variable">sticky=</span>&amp;quot;<span class="constant">false</span>&amp;quot; 
+    <span class="variable">requestUriIgnorePattern=</span> &amp;quot;.*\.(png|gif|jpg|css|js)$&amp;quot;    
+    <span class="variable">sessionBackupAsync=</span> &amp;quot;<span class="constant">false</span>&amp;quot;   
+    <span class="variable">sessionBackupTimeout=</span> &amp;quot;<span class="number">100</span>&amp;quot;      
+    <span class="variable">transcoderFactoryClass=</span>&amp;quot;de.javakaffee.web.msm.JavaSerializationTranscoderFactory&amp;quot;    
+        /&amp;gt;
+</code></pre><p>lib&#x589E;&#x52A0;jar&#x5305;&#xFF1A;</p>
+<pre><code><span class="tag">spymemcached-2</span><span class="class">.10</span><span class="class">.3</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-tc7-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+</code></pre><p>&#x4E8C;&#x3001;javolution&#x5E8F;&#x5217;&#x5316;tomcat&#x914D;&#x7F6E;</p>
+<p>conf/context.xml&#x6DFB;&#x52A0;</p>
+<pre><code>&amp;lt;Manager <span class="variable">className=</span>&amp;quot;de.javakaffee.web.msm.MemcachedBackupSessionManager&amp;quot;
+       <span class="variable">memcachedNodes=</span>&amp;quot;n1:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11211</span> n2:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11311</span>&amp;quot;   
+    <span class="variable">lockingMode=</span>&amp;quot;auto&amp;quot;
+    <span class="variable">sticky=</span>&amp;quot;<span class="constant">false</span>&amp;quot; 
+    <span class="variable">requestUriIgnorePattern=</span> &amp;quot;.*\.(png|gif|jpg|css|js)$&amp;quot;    
+    <span class="variable">sessionBackupAsync=</span> &amp;quot;<span class="constant">false</span>&amp;quot;   
+    <span class="variable">sessionBackupTimeout=</span> &amp;quot;<span class="number">100</span>&amp;quot;  
+    <span class="variable">copyCollectionsForSerialization=</span>&amp;quot;<span class="constant">true</span>&amp;quot;   
+    <span class="variable">transcoderFactoryClass=</span>&amp;quot;de.javakaffee.web.msm.serializer.javolution.JavolutionTranscoderFactory&amp;quot;    
+        /&amp;gt;
+</code></pre><p>lib&#x589E;&#x52A0;jar&#x5305;</p>
+<pre><code><span class="tag">msm-javolution-serializer-cglib-1</span><span class="class">.3</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">msm-javolution-serializer-jodatime-1</span><span class="class">.3</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">spymemcached-2</span><span class="class">.10</span><span class="class">.3</span><span class="class">.jar</span>
+    <span class="tag">javolution-5</span><span class="class">.4</span><span class="class">.3</span><span class="class">.1</span><span class="class">.jar</span>
+    <span class="tag">msm-javolution-serializer-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-tc7-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+</code></pre><p>&#x4E09;&#x3001;xstream&#x5E8F;&#x5217;&#x5316;tomcat&#x914D;&#x7F6E;</p>
+<p>conf/context.xml&#x6DFB;&#x52A0;</p>
+<pre><code>&amp;lt;Manager <span class="variable">className=</span>&amp;quot;de.javakaffee.web.msm.MemcachedBackupSessionManager&amp;quot;
+       <span class="variable">memcachedNodes=</span>&amp;quot;n1:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11211</span> n2:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11311</span>&amp;quot;   
+    <span class="variable">lockingMode=</span>&amp;quot;auto&amp;quot;
+    <span class="variable">sticky=</span>&amp;quot;<span class="constant">false</span>&amp;quot; 
+    <span class="variable">requestUriIgnorePattern=</span> &amp;quot;.*\.(png|gif|jpg|css|js)$&amp;quot;    
+    <span class="variable">sessionBackupAsync=</span> &amp;quot;<span class="constant">false</span>&amp;quot;   
+    <span class="variable">sessionBackupTimeout=</span> &amp;quot;<span class="number">100</span>&amp;quot;
+    <span class="variable">transcoderFactoryClass=</span>&amp;quot;de.javakaffee.web.msm.serializer.xstream.XStreamTranscoderFactory&amp;quot;    
+        /&amp;gt;
+</code></pre><p>lib&#x589E;&#x52A0;jar&#x5305;</p>
+<pre><code><span class="tag">xmlpull-1</span><span class="class">.1</span><span class="class">.3</span><span class="class">.1</span><span class="class">.jar</span>
+    <span class="tag">xpp3_min-1</span><span class="class">.1</span><span class="class">.4c</span><span class="class">.jar</span>
+    <span class="tag">xstream-1</span><span class="class">.4</span><span class="class">.6</span><span class="class">.jar</span>
+    <span class="tag">msm-xstream-serializer-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">spymemcached-2</span><span class="class">.10</span><span class="class">.3</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-tc7-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+</code></pre><p>&#x56DB;&#x3001;flexjson&#x5E8F;&#x5217;&#x5316;tomcat&#x914D;&#x7F6E;</p>
+<p>conf/context.xml&#x6DFB;&#x52A0;</p>
+<pre><code>&amp;lt;Manager <span class="variable">className=</span>&amp;quot;de.javakaffee.web.msm.MemcachedBackupSessionManager&amp;quot;
+       <span class="variable">memcachedNodes=</span>&amp;quot;n1:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11211</span> n2:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11311</span>&amp;quot;     
+    <span class="variable">lockingMode=</span>&amp;quot;auto&amp;quot;
+    <span class="variable">sticky=</span>&amp;quot;<span class="constant">false</span>&amp;quot; 
+    <span class="variable">requestUriIgnorePattern=</span> &amp;quot;.*\.(png|gif|jpg|css|js)$&amp;quot;    
+    <span class="variable">sessionBackupAsync=</span> &amp;quot;<span class="constant">false</span>&amp;quot;   
+    <span class="variable">sessionBackupTimeout=</span> &amp;quot;<span class="number">100</span>&amp;quot;      
+    <span class="variable">transcoderFactoryClass=</span>&amp;quot;de.javakaffee.web.msm.serializer.json.JSONTranscoderFactory&amp;quot;    
+        /&amp;gt;
+</code></pre><p>lib&#x589E;&#x52A0;jar&#x5305;</p>
+<pre><code><span class="tag">flexjson-3</span><span class="class">.1</span><span class="class">.jar</span>
+    <span class="tag">msm-flexjson-serializer-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">spymemcached-2</span><span class="class">.10</span><span class="class">.3</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-tc7-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+</code></pre><p>&#x4E94;&#x3001;kryo&#x5E8F;&#x5217;&#x5316;tomcat&#x914D;&#x7F6E;</p>
+<p>conf/context.xml&#x6DFB;&#x52A0;</p>
+<pre><code>&amp;lt;Manager <span class="variable">className=</span>&amp;quot;de.javakaffee.web.msm.MemcachedBackupSessionManager&amp;quot;
+       <span class="variable">memcachedNodes=</span>&amp;quot;n1:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11211</span> n2:<span class="number">192.168</span>.<span class="number">100.208</span>:<span class="number">11311</span>&amp;quot;   
+    <span class="variable">lockingMode=</span>&amp;quot;auto&amp;quot;
+    <span class="variable">sticky=</span>&amp;quot;<span class="constant">false</span>&amp;quot; 
+    <span class="variable">requestUriIgnorePattern=</span> &amp;quot;.*\.(png|gif|jpg|css|js)$&amp;quot;    
+    <span class="variable">sessionBackupAsync=</span> &amp;quot;<span class="constant">false</span>&amp;quot;   
+    <span class="variable">sessionBackupTimeout=</span> &amp;quot;<span class="number">100</span>&amp;quot;    
+    <span class="variable">copyCollectionsForSerialization=</span>&amp;quot;<span class="constant">true</span>&amp;quot;   
+    <span class="variable">transcoderFactoryClass=</span>&amp;quot;de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory&amp;quot;    
+        /&amp;gt;
+</code></pre><p>lib&#x589E;&#x52A0;jar&#x5305;</p>
+<pre><code><span class="tag">kryo-1</span><span class="class">.04</span><span class="class">.jar</span>
+    <span class="tag">minlog-1</span><span class="class">.2</span><span class="class">.jar</span>
+    <span class="tag">asm-3</span><span class="class">.2</span><span class="class">.jar</span>
+    <span class="tag">reflectasm-1</span><span class="class">.01</span><span class="class">.jar</span>
+    <span class="tag">kryo-serializers-0</span><span class="class">.11</span><span class="class">.jar</span>
+    <span class="tag">msm-kryo-serializer-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">spymemcached-2</span><span class="class">.10</span><span class="class">.3</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+    <span class="tag">memcached-session-manager-tc7-1</span><span class="class">.7</span><span class="class">.0</span><span class="class">.jar</span>
+</code></pre><p>&#x5B98;&#x7F51;&#x4ECB;&#x7ECD;&#x8BF4; &#x4F7F;&#x7528;kryo &#x5E8F;&#x5217;&#x5316;tomcat&#x7684;&#x6548;&#x7387;&#x6700;&#x9AD8; &#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x53EA;&#x4ECB;&#x7ECD;kryo&#x5E8F;&#x5217;&#x5316;&#x3002;&#x5177;&#x4F53;&#x6548;&#x7387;&#x5BF9;&#x6BD4;&#xFF0C;&#x8FD8;&#x9700;&#x8981;&#x8FDB;&#x4E00;&#x6B65;&#x9A8C;&#x8BC1;&#x3002;</p>
+<p>1 &#x4FEE;&#x6539;tomcat/context.xml&#x6587;&#x4EF6; &#x65B0;&#x589E;&#x5982;&#x4E0B;&#x4EE3;&#x7801;</p>
+<pre><code>&amp;lt;Manager <span class="variable">className=</span>&amp;quot;de.javakaffee.web.msm.MemcachedBackupSessionManager&amp;quot;
+        <span class="variable">memcachedNodes=</span>&amp;quot;n1:<span class="number">192.168</span>.<span class="number">0.216</span>:<span class="number">11211</span>&amp;quot; 
+        <span class="variable">sticky=</span>&amp;quot;<span class="constant">false</span>&amp;quot;
+        <span class="variable">storageKeyPrefix=</span>&amp;quot;context&amp;quot;
+        <span class="variable">sessionBackupAsync=</span>&amp;quot;<span class="constant">false</span>&amp;quot;
+        <span class="variable">lockingMode=</span>&amp;quot;uriPattern:/path1|/path2&amp;quot;
+        <span class="variable">requestUriIgnorePattern=</span>&amp;quot;.*\.(ico|png|gif|jpg|css|js)$&amp;quot;
+        <span class="variable">transcoderFactoryClass=</span>&amp;quot;de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory&amp;quot;
+    /&amp;gt;
+</code></pre><p>Manager &#x5404;&#x53C2;&#x6570;&#x8BF4;&#x660E;&#xFF1A;</p>
+<p>className</p>
+<p>&#x5FC5;&#x9009;&#x9879;&#xFF0C;&#x53EF;&#x914D;&#x7F6E;&#x4E3A;</p>
+<pre><code><span class="tag">de</span><span class="class">.javakaffee</span><span class="class">.web</span><span class="class">.msm</span><span class="class">.MemcachedBackupSessionManager</span>&amp;<span class="id">#x548C</span>;<span class="tag">de</span><span class="class">.javakaffee</span><span class="class">.web</span><span class="class">.msm</span><span class="class">.DummyMemcachedBackupSessionManager</span>&amp;<span class="id">#x3002</span>;
+</code></pre><p>&#x5176;&#x4E2D;DummyMemcachedBackupSessionManager&#x53EF;&#x7528;&#x4E8E;&#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x771F;&#x5B9E;&#x5B58;&#x5728;memcached&#x3002;</p>
+<p>memcachedNodes</p>
+<p>&#x5FC5;&#x9009;&#x9879;&#xFF0C;memcached&#x7684;&#x8282;&#x70B9;&#x4FE1;&#x606F;&#xFF0C;&#x683C;&#x5F0F;&#x5982;&#xFF1A;</p>
+<pre><code>memcachedNodes=&amp;quot;<span class="string">n1:</span><span class="string">app01:</span><span class="number">11211</span>,<span class="string">n2:</span><span class="string">app02:</span><span class="number">11211</span>&amp;quot;&amp;#x3002;
+</code></pre><p>failoverNodes</p>
+<p>&#x53EF;&#x9009;&#x9879;&#xFF0C;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x5728;non-sticky sessions&#x6A21;&#x5F0F;&#x3002;&#x6545;&#x969C;&#x8F6C;&#x79FB;&#x914D;&#x7F6E;&#x8282;&#x70B9;&#xFF0C;&#x591A;&#x4E2A;&#x4F7F;&#x7528;&#x7A7A;&#x683C;&#x6216;&#x9017;&#x53F7;&#x5206;&#x5F00;&#xFF0C;&#x914D;&#x7F6E;&#x67D0;&#x4E2A;&#x8282;&#x70B9;&#x4E3A;&#x5907;&#x4EFD;&#x8282;&#x70B9;&#xFF0C;&#x5F53;&#x5176;&#x4ED6;&#x8282;&#x70B9;&#x90FD;&#x4E0D;&#x53EF;&#x7528;&#x65F6;&#x624D;&#x4F1A;&#x5B58;&#x50A8;&#x5230;&#x5907;</p>
+<p>&#x4EFD;&#x8282;&#x70B9;&#xFF0C;&#x5B98;&#x65B9;&#x5EFA;&#x8BAE;&#x914D;&#x7F6E;&#x4E3A;&#x548C;tomcat&#x540C;&#x670D;&#x52A1;&#x5668;&#x7684;&#x8282;&#x70B9;&#x3002;</p>
+<p>&#x7406;&#x7531;&#x5982;&#x4E0B;:</p>
+<p>&#x5047;&#x5982;&#x6709;&#x4E24;&#x53F0;&#x670D;&#x52A1;&#x5668;m1,m2&#xFF0C;&#x5176;&#x4E2D;m1&#x90E8;&#x7F72;tomcat&#x548C;memcached&#x8282;&#x70B9;n1&#xFF0C;m2&#x90E8;&#x7F72;memcached&#x8282;&#x70B9;n2&#x3002;</p>
+<p>&#x5982;&#x679C;&#x914D;&#x7F6E;tomcat&#x7684;failoverNodes&#x503C;&#x4E3A;n2&#x6216;&#x8005;&#x4E0D;&#x914D;&#x7F6E;&#xFF0C;&#x5219;&#x5F53;&#x670D;&#x52A1;&#x5668;m1&#x6302;&#x6389;&#x540E;n1&#x548C;tomcat&#x4E2D;&#x4FDD;&#x5B58;&#x7684;session&#x4F1A;&#x4E22;&#x5931;&#xFF0C;&#x800C;n2&#x4E2D;&#x672A;&#x4FDD;&#x5B58;&#x6216;&#x8005;&#x53EA;&#x4FDD;&#x5B58;&#x4E86;&#x90E8;&#x5206;session&#xFF0C;&#x8FD9;&#x5C31;&#x9020;&#x6210;</p>
+<p>&#x90E8;&#x5206;&#x7528;&#x6237;&#x72B6;&#x6001;&#x4E22;&#x5931;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x914D;&#x7F6E;tomcat&#x7684;failoverNodes&#x503C;&#x4E3A;n1&#xFF0C;&#x5219;&#x5F53;m1&#x6302;&#x6389;&#x540E;&#x56E0;&#x4E3A;n2&#x4E2D;&#x4FDD;&#x5B58;&#x4E86;&#x6240;&#x6709;&#x7684;session&#xFF0C;&#x6240;&#x4EE5;&#x91CD;&#x542F;tomcat&#x7684;&#x65F6;&#x5019;&#x7528;&#x6237;&#x72B6;&#x6001;&#x4E0D;&#x4F1A;&#x4E22;&#x5931;&#x3002;</p>
+<p>&#x4E3A;&#x4EC0;&#x4E48;n2&#x4E2D;&#x4FDD;&#x5B58;&#x4E86;&#x6240;&#x6709;&#x7684;session? &#x56E0;&#x4E3A;failoverNodes&#x914D;&#x7F6E;&#x7684;&#x503C;&#x662F;n1&#xFF0C;&#x53EA;&#x6709;&#x5F53;n2&#x8282;&#x70B9;&#x4E0D;&#x53EF;&#x7528;&#x65F6;&#x624D;&#x4F1A;&#x628A;session&#x5B58;&#x50A8;&#x5230;n1&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;n1&#x4E2D;&#x662F;&#x6CA1;&#x6709;&#x4FDD;&#x5B58;&#x4EFB;&#x4F55;session&#x7684;&#x3002;</p>
+<p>username</p>
+<p>&#x53EF;&#x9009;&#x9879;&#xFF0C;SASL&#x7684;&#x7528;&#x6237;&#x540D;&#xFF0C;&#x5982;&#x679C;&#x8282;&#x70B9;&#x4FDD;&#x62A4;membase&#x7684;bucket uri&#x3002;</p>
+<p>password</p>
+<p>&#x53EF;&#x9009;&#x9879;&#xFF0C;&#x548C;username&#x642D;&#x914D;&#x4F7F;&#x7528;&#x3002;</p>
+<p>memcachedProtocol</p>
+<p>&#x53EF;&#x9009;&#x9879;&#xFF0C;&#x9ED8;&#x8BA4;text&#xFF0C;memcached&#x4F7F;&#x7528;&#x7684;&#x534F;&#x8BAE;&#xFF0C;&#x53EF;&#x9009;&#x503C;&#xFF1A;text&#xFF0C;binary&#x3002;</p>
+<p>sticky</p>
+<p>&#x53EF;&#x9009;&#x9879;&#xFF0C;&#x9ED8;&#x8BA4;true&#xFF0C;&#x5236;&#x5B9A;&#x662F;&#x5426;&#x4F7F;&#x7528;&#x7C98;&#x6027;session&#x6A21;&#x5F0F;&#x3002;</p>
+<p>&#x8BF4;&#x9053;sticky &#x9700;&#x8981;&#x7B80;&#x5355;&#x4ECB;&#x7ECD;</p>
+<p>Sticky &#x6A21;&#x5F0F;&#xFF1A;</p>
+<p>tomcat session &#x4E3A; &#x4E3B;session&#xFF0C; memcached &#x4E3A;&#x5907; session&#x3002;Request&#x8BF7;&#x6C42;&#x5230;&#x6765;&#x65F6;&#xFF0C; &#x4ECE;memcached&#x52A0;&#x8F7D;&#x5907; session&#x5230; tomcat (&#x4EC5;&#x5F53;tomcat jvmroute&#x53D1;&#x751F;&#x53D8;&#x5316;&#x65F6;&#xFF0C;</p>
+<p>&#x5426;&#x5219;&#x76F4;&#x63A5;&#x53D6;tomcat session)&#xFF1B;Request&#x8BF7;&#x6C42;&#x7ED3;&#x675F;&#x65F6;&#xFF0C;&#x5C06;tomcat session&#x66F4;&#x65B0;&#x81F3;memcached&#xFF0C;&#x4EE5;&#x8FBE;&#x5230;&#x4E3B;&#x5907;&#x540C;&#x6B65;&#x4E4B;&#x76EE;&#x7684;&#x3002;</p>
+<p>Non-Sticky&#x6A21;&#x5F0F;&#xFF1A;tomcat session &#x4E3A; &#x4E2D;&#x8F6C;session&#xFF0C; memcached1 &#x4E3A;&#x4E3B; sessionmemcached 2 &#x4E3A;&#x5907;session&#x3002;Request&#x8BF7;&#x6C42;&#x5230;&#x6765;&#x65F6;&#xFF0C;&#x4ECE;memcached 2&#x52A0;&#x8F7D;&#x5907; session</p>
+<p>&#x5230; tomcat&#xFF0C;&#xFF08;&#x5F53; &#x5BB9;&#x5668; &#x4E2D;&#x8FD8;&#x662F;&#x6CA1;&#x6709;session &#x5219;&#x4ECE;memcached1&#x52A0;&#x8F7D;&#x4E3B; session &#x5230; tomcat&#xFF0C; &#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x662F;&#x53EA;&#x6709;&#x4E00;&#x4E2A;memcached&#x8282;&#x70B9;&#xFF0C;&#x6216;&#x8005;&#x6709;memcached1 &#x51FA;&#x9519;&#x65F6;&#xFF09;&#xFF0C;</p>
+<p>Request&#x8BF7;&#x6C42;&#x7ED3;&#x675F;&#x65F6;&#xFF0C;&#x5C06;tomcat session&#x66F4;&#x65B0;&#x81F3;&#x4E3B;memcached1&#x548C;&#x5907;memcached2&#xFF0C;&#x5E76;&#x4E14;&#x6E05;&#x9664;tomcat session &#x3002;&#x4EE5;&#x8FBE;&#x5230;&#x4E3B;&#x5907;&#x540C;&#x6B65;&#x4E4B;&#x76EE;&#x7684;&#x3002;</p>
+<p>&#x591A;&#x53F0;tomcat&#x96C6;&#x7FA4;&#x65F6; &#x9700;&#x8981;&#x9009;&#x62E9;Non-Sticky&#x6A21;&#x5F0F;&#xFF0C;&#x5373;sticky=&quot;false&quot;</p>
+<p>&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5230;&#x5F97;jar &#x5217;&#x8868;&#x5982;&#x4E0B;</p>
+<pre><code><span class="tag">couchbase-client-1</span><span class="class">.2</span><span class="class">.2</span><span class="class">.jar</span>
+       <span class="tag">kryo-1</span><span class="class">.03</span><span class="class">.jar</span>
+       <span class="tag">kryo-serializers-0</span><span class="class">.10</span><span class="class">.jar</span>
+       <span class="tag">memcached-2</span><span class="class">.5</span><span class="class">.jar</span>
+       <span class="tag">memcached-session-manager-1</span><span class="class">.6</span><span class="class">.5</span><span class="class">.jar</span>
+       <span class="tag">memcached-session-manager-tc7-1</span><span class="class">.6</span><span class="class">.5</span><span class="class">.jar</span>
+       <span class="tag">minlog-1</span><span class="class">.2</span><span class="class">.jar</span>
+       <span class="tag">msm-kryo-serializer-1</span><span class="class">.6</span><span class="class">.5</span><span class="class">.jar</span>
+       <span class="tag">reflectasm-0</span><span class="class">.9</span><span class="class">.jar</span>
+       <span class="tag">spymemcached-2</span><span class="class">.10</span><span class="class">.2</span><span class="class">.jar</span>
+</code></pre><p>&#x5982;&#x679C;&#x4F60;&#x67E5;&#x770B;&#x8FC7;&#x6E90;&#x7801;&#xFF0C;&#x4F60;&#x5C31;&#x4F1A;&#x53D1;&#x73B0;&#xFF0C;&#x5982;&#x679C;&#x5F53;&#x4F60;&#x8C03;&#x8BD5;&#x4E0D;&#x6210;&#x529F;&#xFF0C;session&#x4E0D;&#x5171;&#x4EAB;&#xFF0C;&#x4E00;&#x822C;&#x90FD;&#x662F; memcached-session-manager-1.6.5.jar</p>
+<p>memcached-session-manager-tc7-1.6.5.jar&#xA0;&#xA0; msm-kryo-serializer-1.6.5.jar&#xA0; &#x8FD9;&#x4E09;&#x4E2A;jar&#x5305;&#x51FA;&#x95EE;&#x9898;&#x3002;&#x6240;&#x4EE5;&#x7248;&#x672C;&#x4E5F;&#x5F88;&#x91CD;&#x8981;&#x3002;</p>
+<p>&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x95F4;&#x7684;&#x65F6;&#x95F4;&#x6233;&#x4E00;&#x81F4;&#x4E5F;&#x975E;&#x5E38;&#x91CD;&#x8981;&#xFF0C;&#x56E0;&#x4E3A;&#x65F6;&#x95F4;&#x4E0D;&#x4E00;&#x81F4;&#x5C06;&#x76F4;&#x63A5;&#x5BFC;&#x81F4;session&#x8FC7;&#x671F;&#x3002;</p>
+<p>memcached &#x7684;&#x542F;&#x52A8;&#x6240;&#x6709;&#x8005;&#x6700;&#x597D;&#x8BBE;&#x7F6E;&#x4E3A;nobody</p>
+<p>&#x672C;&#x535A;&#x6587;&#x662F;&#x7ECF;&#x8FC7;&#x5B9E;&#x9645;&#x7535;&#x5546;&#x9879;&#x76EE;&#x9A8C;&#x8BC1;&#xFF0C;&#x5B9E;&#x9645;&#x767B;&#x5F55;&#x9A8C;&#x8BC1;&#xFF0C;&#x9A8C;&#x8BC1;&#x8FC7;&#x7A0B;&#x4E2D;&#x4E0D;&#x65AD;&#x5173;&#x505C;&#x4E00;&#x4E9B;tomcat&#xFF0C;&#x6240;&#x4EE5;&#x672C;&#x535A;&#x6587;&#x53EF;&#x4F5C;&#x4E3A;&#x771F;&#x5B9E;&#x53C2;&#x8003;&#x3002;</p>
+<p>&#x9A8C;&#x8BC1;&#x9879;&#x76EE;&#x4E3A;&#x5927;&#x7EA2;&#x889C;&#x5168;&#x7403;&#x8D2D;&#x3002;</p>
+<p>lockingMode</p>
+<p>&#x53EF;&#x9009;&#x503C;&#xFF0C;&#x9ED8;&#x8BA4;none&#xFF0C;&#x53EA;&#x5BF9;non-sticky&#x6709;&#x6548;&#x3002;</p>
+<p>requestUriIgnorePattern</p>
+<p>&#x53EF;&#x9009;&#x503C;&#xFF0C;&#x5236;&#x5B9A;&#x5FFD;&#x7565;&#x90A3;&#x4E9B;&#x8BF7;&#x6C42;&#x7684;session&#x64CD;&#x4F5C;&#xFF0C;&#x4E00;&#x822C;&#x5236;&#x5B9A;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x5982;css,js&#x4E00;&#x7C7B;&#x7684;&#x3002;</p>
+<p>sessionBackupAsync</p>
+<p>&#x53EF;&#x9009;&#x503C;&#xFF0C;&#x9ED8;&#x8BA4;true&#xFF0C;&#x662F;&#x5426;&#x5F02;&#x6B65;&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x50A8;&#x5230;memcached&#x3002;</p>
+<p>backupThreadCount</p>
+<p>&#x53EF;&#x9009;&#x9879;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;cpu&#x6838;&#x5FC3;&#x6570;&#xFF0C;&#x5F02;&#x6B65;&#x5B58;&#x50A8;session&#x7684;&#x7EBF;&#x7A0B;&#xFFFD;&#xFFFD;&#xFFFD;&#x3002;</p>
+<p>sessionBackupTimeout</p>
+<p>&#x53EF;&#x9009;&#x9879;&#xFF0C;&#x9ED8;&#x8BA4;100&#x6BEB;&#x79D2;&#xFF0C;&#x5F02;&#x6B65;&#x5B58;&#x50A8;session&#x7684;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x3002;</p>
+<p>operationTimeout</p>
+<p>&#x53EF;&#x9009;&#x9879;&#xFF0C;&#x9ED8;&#x8BA4;1000&#x6BEB;&#x79D2;&#xFF0C;memcached&#x7684;&#x64CD;&#x4F5C;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x3002;</p>
+<p>storageKeyPrefix</p>
+<p>&#x53EF;&#x9009;&#x503C;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;webappVersion&#xFF0C;&#x5B58;&#x50A8;&#x5230;memcached&#x7684;&#x524D;&#x7F00;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x4E3A;&#x4E86;&#x533A;&#x5206;&#x591A;&#x4E2A;webapp&#x5171;&#x4EAB;session&#x7684;&#x60C5;&#x51B5;&#x3002;&#x53EF;&#x9009;&#x503C;&#xFF1A;&#x9759;&#x6001;&#x5B57;&#x7B26;&#x4E32;&#x3001;host&#x3001;context&#x3001;webappVersion&#xFF0C;</p>
+<p>&#x591A;&#x4E2A;&#x4F7F;&#x7528;&#x9017;&#x53F7;&#x5206;&#x5272;&#x3002;</p>
+<p>sessionAttributeFilter</p>
+<p>&#x53EF;&#x9009;&#x503C;&#xFF0C;&#x901A;&#x8FC7;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x786E;&#x5B9A;&#x90A3;&#x4E9B;session&#x4E2D;&#x7684;&#x5C5E;&#x6027;&#x5E94;&#x8BE5;&#x88AB;&#x5B58;&#x50A8;&#x5230;memcached&#x3002;&#x4F8B;&#x5B50;&#x5982;&#xFF1A;sessionAttributeFilter=&quot;^(userName|sessionHistory)$&quot;&#x3002;</p>
+<p>transcoderFactoryClass</p>
+<p>&#x53EF;&#x9009;&#x503C;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;de.javakaffee.web.msm.JavaSerializationTranscoderFactory&#xFF0C;&#x5236;&#x5B9A;&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6570;&#x636E;&#x5230;memcached&#x7684;&#x5DE5;&#x5382;&#x7C7B;&#x3002;</p>
+<p>&#x4E09; &#x4F7F;&#x7528; filter &#x65B9;&#x6CD5;&#x5B58;&#x50A8;</p>
+<p>&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x6BD4;&#x8F83;&#x63A8;&#x8350;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x7684;&#x670D;&#x52A1;&#x5668;&#x4F7F;&#x7528;&#x8303;&#x56F4;&#x6BD4;&#x8F83;&#x591A;&#xFF0C;&#x4E0D;&#x4EC5;&#x9650;&#x4E8E; tomcat &#xFF0C;&#x800C;&#x4E14;&#x5B9E;&#x73B0;&#x7684;&#x539F;&#x7406;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#x5BB9;&#x6613;&#x63A7;&#x5236;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x4F7F;&#x7528; memcached-session-filter</p>
+<p>&#x5B98;&#x65B9;&#x7F51;&#x5740;&#xFF1A;<a href="http://code.google.com/p/memcached-session-filter/" target="_blank" rel="external">http://code.google.com/p/memcached-session-filter/</a></p>
+<p>&#x5B98;&#x65B9;&#x4ECB;&#x7ECD;&#xFF1A;&#x89E3;&#x51B3;&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E0B;java web&#x5BB9;&#x5668;session&#x5171;&#x4EAB;,&#x4F7F;&#x7528;filter&#x62E6;&#x622A;&#x5668;&#x548C;memcached&#x5B9E;&#x73B0;&#x3002;&#x5728;tomcat 6&#x548C;websphere 8&#x6D4B;&#x8BD5;&#x901A;&#x8FC7;&#xFF0C;&#x73B0;&#x7F51;&#x5E76;&#x53D1;2000&#xFF0C;&#x65E5;PV&#x91CF;1100&#x4E07;&#x3002;</p>
+<p>&#x6682;&#x4E0D;&#x652F;&#x6301;session event&#x5305;&#x62EC;create destory &#x548C; attribute change</p>
+<p>&#x4E1C;&#x897F;&#x5F88;&#x4E0D;&#x9519;&#xFF0C;&#x4F53;&#x79EF;&#x5F88;&#x5C0F;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD9;&#x4E2A;&#x4E1C;&#x4E1C;&#x8981;&#x548C; spring &#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x800C;&#x4E14;&#x8981;&#x6C42;&#x5B58;&#x50A8;&#x5230; memcached &#x7684;&#x5BF9;&#x8C61;&#x8981;&#x5B9E;&#x73B0; java &#x7684;&#x5E8F;&#x5217;&#x5316;&#x63A5;&#x53E3;</p>
+<p>&#x5927;&#x5BB6;&#x4E5F;&#x77E5;&#x9053;&#xFF0C;java &#x672C;&#x8EAB;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x6027;&#x80FD;&#x4E5F;&#x5F88;&#x4E00;&#x822C;&#x3002;</p>
+<p>&#x5C06;&#x5176;&#x7B80;&#x5355;&#x6269;&#x5C55;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4E0D;&#x518D;&#x4F9D;&#x8D56; spring &#xFF0C;&#x5E76;&#x4E14;&#x5229;&#x7528; javolution &#x5B9E;&#x73B0;&#x5E8F;&#x5217;&#x5316;&#xFF0C;&#x7F13;&#x5B58;&#x7684;&#x5BF9;&#x8C61;&#x4E0D;&#x518D;&#x6709;&#x9650;&#x5236;&#x3002;</p>
+<p><a href="http://annan211.iteye.com/blog/2209656#comments" target="_blank" rel="external">&#x5DF2;&#x6709; <strong>0</strong> &#x4EBA;&#x53D1;&#x8868;&#x7559;&#x8A00;&#xFF0C;&#x731B;&#x51FB;-&gt;&gt; <strong>&#x8FD9;&#x91CC;</strong> &lt;&lt;-&#x53C2;&#x4E0E;&#x8BA8;&#x8BBA;</a></p>
+<p>ITeye&#x63A8;&#x8350;</p>
+<ul>
+<li><a href="http://www.iteye.com/clicks/433" target="_blank" rel="external">&#x2014;&#x8F6F;&#x4EF6;&#x4EBA;&#x624D;&#x514D;&#x8BED;&#x8A00;&#x4F4E;&#x62C5;&#x4FDD; &#x8D74;&#x7F8E;&#x5E26;&#x85AA;&#x8BFB;&#x7814;&#xFF01;&#x2014;</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Memcached/">Memcached</a><a href="/tags/Tomcat/">Tomcat</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/1fc8640/" title="在windows系统下安装memcached -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  在windows系统下安装memcached -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/1fb3a38/"  title="Web缓存技术-Memcached -">
+ <strong>下一篇：</strong><br/> 
+ <span>Web缓存技术-Memcached -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,572 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>basicpp —— 让 C++ 像以前的 BASIC 那么简单 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="7.16&amp;#xFF0C;&amp;#x676D;&amp;#x5DDE;&amp;#x3002;&amp;#x963F;&amp;#x91CC;&amp;#x767E;&amp;#x5DDD;&amp;#x65E0;&amp;#x7EBF;&amp;#x5F00;&amp;#x653E;&amp;#x5927;&amp;#x4F1A;&amp;#x3002;&amp;#x963F;&amp;#x91CC;&amp;#x4E0E;&amp;#x5F00;&amp;#x53D1;&amp;#x8005;&amp;#x4E00;&amp;#x8D77;&amp;#x89C1;&amp;#x8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="basicpp —— 让 C++ 像以前的 BASIC 那么简单 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/f4b9981/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="7.16&amp;#xFF0C;&amp;#x676D;&amp;#x5DDE;&amp;#x3002;&amp;#x963F;&amp;#x91CC;&amp;#x767E;&amp;#x5DDD;&amp;#x65E0;&amp;#x7EBF;&amp;#x5F00;&amp;#x653E;&amp;#x5927;&amp;#x4F1A;&amp;#x3002;&amp;#x963F;&amp;#x91CC;&amp;#x4E0E;&amp;#x5F00;&amp;#x53D1;&amp;#x8005;&amp;#x4E00;&amp;#x8D77;&amp;#x89C1;&amp;#x8">
+<meta property="og:updated_time" content="2015-07-03T14:08:18.983Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="basicpp —— 让 C++ 像以前的 BASIC 那么简单 -">
+<meta name="twitter:description" content="7.16&amp;#xFF0C;&amp;#x676D;&amp;#x5DDE;&amp;#x3002;&amp;#x963F;&amp;#x91CC;&amp;#x767E;&amp;#x5DDD;&amp;#x65E0;&amp;#x7EBF;&amp;#x5F00;&amp;#x653E;&amp;#x5927;&amp;#x4F1A;&amp;#x3002;&amp;#x963F;&amp;#x91CC;&amp;#x4E0E;&amp;#x5F00;&amp;#x53D1;&amp;#x8005;&amp;#x4E00;&amp;#x8D77;&amp;#x89C1;&amp;#x8">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/f4b9981/" title="basicpp —— 让 C++ 像以前的 BASIC 那么简单 -" itemprop="url">basicpp —— 让 C++ 像以前的 BASIC 那么简单 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:18.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p><a href="http://baichuan.taobao.com/bcoc2015/index?from=oschinadetail" target="_blank" rel="external">7.16&#xFF0C;&#x676D;&#x5DDE;&#x3002;&#x963F;&#x91CC;&#x767E;&#x5DDD;&#x65E0;&#x7EBF;&#x5F00;&#x653E;&#x5927;&#x4F1A;&#x3002;&#x963F;&#x91CC;&#x4E0E;&#x5F00;&#x53D1;&#x8005;&#x4E00;&#x8D77;&#x89C1;&#x8BC1;&#x79FB;&#x52A8;&#x7684;&#x529B;&#x91CF;</a></p>
+<p>basicpp &#x4F7F;&#x5F97;&#x4ECA;&#x5929;&#x7684; C++ &#x53EF;&#xFFFD;&#xFFFD;&#xFFFD;&#x50CF; 80 &#x5E74;&#x4EE3;&#x7684; BASIC &#x8BED;&#x8A00;&#x4E00;&#x6837;&#x7684;&#x7B80;&#x5355;&#x3002;&#x8BE5;&#x9879;&#x76EE;&#x5728;&#x4E86; C++ &#x4E2D;&#x5B9E;&#x73B0;&#x4E86;&#x7B80;&#x5355;&#x7684; BASIC &#x4EFF;&#x771F;&#x3002;</p>
+<p>&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code>#include &amp;quot<span class="comment">;basic.hpp&amp;quot;</span>
+
+int main()
+{
+  _10: LET X = 1<span class="comment">;</span>
+  _20: LET SUM = 0<span class="comment">;</span>
+  _30: LET DEPTH = 1<span class="comment">;</span>
+  _40: INPUT &amp;quot<span class="comment">;Enter a positive number: &amp;quot;, X;</span>
+  _50: IF X &amp;gt<span class="comment">; 0 THEN GOTO _130;</span>
+  _60: PRINT &amp;quot<span class="comment">;By positive, I mean greater than zero. You entered &amp;quot;, X, &amp;quot; which isn&amp;apos;t&amp;quot;;</span>
+  _70: GOTO _40<span class="comment">;</span>
+  _80: SUM = SUM + X<span class="comment">;</span>
+  _90: X = X - 1<span class="comment">;</span>
+ _100: IF X &amp;gt<span class="comment">; 0 THEN GOSUB _80;</span>
+ _110: DEPTH = DEPTH * 2<span class="comment">;</span>
+ _120: RETURN<span class="comment">;</span>
+ _130: GOSUB _80<span class="comment">;</span>
+ _140: PRINT &amp;quot<span class="comment">;SUM=&amp;quot;, SUM, &amp;quot; DEPTH=&amp;quot;, DEPTH;</span>
+}
+</code></pre><p>&#x4E0D;&#x8DB3;&#x4E4B;&#x5904;&#xFF1A;</p>
+<ul>
+<li>&#x53EA;&#x652F;&#x6301;&#x6570;&#x503C;&#x7C7B;&#x578B;&#x53D8;&#x91CF;</li>
+<li>&#x8981;&#x6C42; C++11 &#x6216;&#x8005;&#x66F4;&#x65B0;&#x7248;&#x672C;</li>
+<li>&#x8BA8;&#x538C;&#x7684;&#x5206;&#x53F7;</li>
+<li>&#x53D8;&#x91CF;&#x5FC5;&#x987B;&#x5728;&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x5B9A;&#x4E49;</li>
+<li>&#x4E0D;&#x80FD;&#x5728;&#x6838;&#x5FC3;&#x6A21;&#x5757;&#x4E2D;&#x4F7F;&#x7528;</li>
+<li>&#x4E0D;&#x652F;&#x6301;&#x5F88;&#x591A;&#x8BED;&#x8A00;&#x7279;&#x6027;&#xFF0C;&#x5982; PRINT USING &#x548C;&#x5927;&#x591A;&#x6570; I/O</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/f50ce83/" title="认识C++中的bitset类型 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  认识C++中的bitset类型 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/ef6c2c1/"  title="编程菜鸟入门必备书籍 -">
+ <strong>下一篇：</strong><br/> 
+ <span>编程菜鸟入门必备书籍 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

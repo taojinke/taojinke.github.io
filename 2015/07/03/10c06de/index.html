@@ -1,0 +1,727 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>基于zookeeper的远程方法调用(RMI)的实现 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="1.&amp;#x5B9A;&amp;#x4E49;&amp;#x6D4B;&amp;#x8BD5;&amp;#x670D;&amp;#x52A1;&amp;#x63A5;&amp;#x53E3;&amp;#x4E0E;&amp;#x5B9E;&amp;#x73B0;
+public interface Service extends Remote,Serializable{
+
+    public void service(String name);
+
+}  
+
+
+public cl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于zookeeper的远程方法调用(RMI)的实现 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/10c06de/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="1.&amp;#x5B9A;&amp;#x4E49;&amp;#x6D4B;&amp;#x8BD5;&amp;#x670D;&amp;#x52A1;&amp;#x63A5;&amp;#x53E3;&amp;#x4E0E;&amp;#x5B9E;&amp;#x73B0;
+public interface Service extends Remote,Serializable{
+
+    public void service(String name);
+
+}  
+
+
+public cl">
+<meta property="og:updated_time" content="2015-07-03T14:09:06.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于zookeeper的远程方法调用(RMI)的实现 -">
+<meta name="twitter:description" content="1.&amp;#x5B9A;&amp;#x4E49;&amp;#x6D4B;&amp;#x8BD5;&amp;#x670D;&amp;#x52A1;&amp;#x63A5;&amp;#x53E3;&amp;#x4E0E;&amp;#x5B9E;&amp;#x73B0;
+public interface Service extends Remote,Serializable{
+
+    public void service(String name);
+
+}  
+
+
+public cl">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/10c06de/" title="基于zookeeper的远程方法调用(RMI)的实现 -" itemprop="url">基于zookeeper的远程方法调用(RMI)的实现 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:05.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>1.&#x5B9A;&#x4E49;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x63A5;&#x53E3;&#x4E0E;&#x5B9E;&#x73B0;</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Service</span> <span class="keyword">extends</span> <span class="title">Remote</span>,<span class="title">Serializable</span></span>{
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(String name)</span></span>;
+
+}  
+
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceImpl</span> <span class="keyword">implements</span> <span class="title">Service</span></span>{
+
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(String name)</span> </span>{
+        System.out.println(name);
+    }
+
+}
+</code></pre><p>2.RMIServer</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RMIServer</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(RMIServer.<span class="keyword">class</span>);
+</code></pre><p>  //zookeeper&#x670D;&#x52A1;<br>        private ZooKeeper zk;</p>
+<p>  //&#x662F;&#x5426;&#x6CE8;&#x518C;&#x8FC7;&#x7AEF;&#x53E3;<br>        private boolean isRegistry = false;<br>        public RMIServer(){<br>            zk = connectServer();<br>        }<br>        // &#x540C;&#x6B65;&#x505C;&#x7B49;<br>        private CountDownLatch latch = new CountDownLatch(1);<br>        // &#x53D1;&#x5E03;RMI&#x670D;&#x52A1;<br>        public void publish(Remote remote,String key) {<br>     if(remote==null||key==null){<br>      return;<br>     }<br>            String url = publishService(remote);<br>            if (url != null&amp;&amp; zk!=null) {<br>                createNode(zk,url,key);<br>            }<br>        }<br>        // &#x53D1;&#x5E03;RMI&#x670D;&#x52A1;<br>        private String publishService(Remote remote) {<br>            String url = null;<br>            try {<br>                String host = ConfigHelp.getLocalConifg(&quot;rmiIP&quot;, &quot;127.0.0.1&quot;);<br>                int port = Integer.valueOf(ConfigHelp.getLocalConifg(&quot;rmiPort&quot;, &quot;10990&quot;));<br>                url = String.format(&quot;rmi://%s:%d/%s&quot;, host, port, remote.getClass().getName());<br>                if(!isRegistry){<br>                    LocateRegistry.createRegistry(port);<br>                    isRegistry = true;<br>                }<br>                Naming.rebind(url, remote);<br>                logger.debug(&quot;publish rmi service (url: {})&quot;, url);<br>            } catch (Exception e) {<br>                logger.error(&quot;&quot;, e);<br>            }<br>            return url;<br>        }<br>        // &#x8FDE;&#x63A5;ZooKeeper&#x670D;&#x52A1;&#x5668;<br>        private ZooKeeper connectServer() {<br>            ZooKeeper zk = null;<br>            try {<br>                zk = new ZooKeeper(ConfigHelp.ZK_CONNECTION_STRING, ConfigHelp.ZK_SESSION_TIMEOUT, new Watcher() {<br>                    @Override<br>                    public void process(WatchedEvent event) {<br>                        if (event.getState() == Event.KeeperState.SyncConnected) {<br>                            latch.countDown(); // &#x5524;&#x9192;&#x5F53;&#x524D;&#x6B63;&#x5728;&#x6267;&#x884C;&#x7684;&#x7EBF;&#x7A0B;<br>                        }<br>                    }<br>                });<br>                latch.await(); // &#x4F7F;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x5904;&#x4E8E;&#x7B49;&#x5F85;&#x72B6;&#x6001;<br>            } catch (Exception e) {<br>                logger.error(&quot;&quot;, e);<br>            }<br>            if(zk!=null){//&#x5EFA;&#x7ACB;znode&#x8282;&#x70B9;<br>                try {<br>                    Stat stat = zk.exists(ConfigHelp.ZK_ROOT_PATH, false);<br>                    if(stat==null){//&#x4E00;&#x7EA7;&#x76EE;&#x5F55;<br>                        String path = zk.create(ConfigHelp.ZK_ROOT_PATH, &quot;&quot;.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT); //&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6C38;&#x4E45;&#x7684; ZNode<br>                        logger.info(&quot;create zookeeper node ({})&quot;, path);<br>                    }<br>                    stat = zk.exists(ConfigHelp.ZK_RMI_PATH, false);<br>                    if(stat==null){//&#x4E8C;&#x7EA7;&#x76EE;&#x5F55;<br>                        String path = zk.create(ConfigHelp.ZK_RMI_PATH, &quot;&quot;.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT); //&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6C38;&#x4E45;&#x7684; ZNode<br>                        logger.info(&quot;create zookeeper node ({})&quot;, path);<br>                    }<br>                } catch (Exception e) {<br>                    e.printStackTrace();<br>                }<br>            }<br>            return zk;<br>        }<br>        //&#x521B;&#x5EFA; ZNode<br>        private void createNode(ZooKeeper zk, String url,String key) {<br>            try {<br>                byte[] data = (key+&quot;#:#&quot;+url).getBytes();//&#x4E00;&#x4E2A;&#x7CFB;&#x7EDF;&#x53EF;&#x80FD;&#x6709;&#x591A;&#x4E2A;&#x4E0D;&#x540C;&#x5BF9;&#x5916;&#x65B9;&#x6CD5;&#xFF0C;&#x901A;&#x8FC7;key&#x503C;&#x8FDB;&#x884C;&#x6620;&#x5C04;<br>                //&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x4E34;&#x65F6;&#x6709;&#x5E8F;&#x7684;&#x6570;&#x636E;&#x8282;&#x70B9;<br>                String path = zk.create(ConfigHelp.ZK_RMI_PATH+&quot;/&quot;, data, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);<br>                logger.info(&quot;create zookeeper node:&quot;+path+&quot;=========&quot;+url);<br>            } catch (Exception e) {<br>                logger.error(&quot;&quot;, e);<br>                e.printStackTrace();<br>            }<br>        }<br>        public static void main(String[] args) throws Exception {<br>            RMIServer server = new RMIServer();<br>            Service service = new ServiceImpl();<br>            server.publish(service, &quot;Test&quot;);<br>            server.publish(service, &quot;Test1&quot;);<br>            Thread.currentThread().sleep(Integer.MAX_VALUE);<br>        }<br>    }</p>
+<p>3.RMIClient</p>
+<pre><code><span class="keyword">public</span> class RMIClient {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(RMIClient.class);
+    <span class="comment">//</span>
+    <span class="keyword">private</span> CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>);
+    <span class="comment">// key&amp;#x503C;&amp;#x5BF9;&amp;#x5E94;&amp;#x7684;URL&amp;#x8FDE;&amp;#x63A5;&amp;#x96C6;&amp;#x5408;</span>
+    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">HashMap</span>&amp;lt;<span class="keyword">String</span>,List&amp;lt;<span class="keyword">String</span>&amp;gt;&amp;gt; dataMap = <span class="keyword">new</span> <span class="keyword">HashMap</span>&amp;lt;<span class="keyword">String</span>, List&amp;lt;<span class="keyword">String</span>&amp;gt;&amp;gt;();
+
+    <span class="keyword">public</span> RMIClient() {
+        ZooKeeper zk = connectServer(); <span class="comment">// &amp;#x8FDE;&amp;#x63A5;ZooKeeper</span>
+        watchNode(zk);
+    }
+    <span class="comment">// &amp;#x67E5;&amp;#x627E; RMI &amp;#x670D;&amp;#x52A1;</span>
+    <span class="keyword">public</span> &amp;lt;T extends Remote&amp;gt; T lookup(<span class="keyword">String</span> <span class="variable">key</span>) {
+        T service = <span class="keyword">null</span>;
+        <span class="built_in">int</span> <span class="built_in">size</span> = dataMap.<span class="built_in">size</span>();
+        <span class="keyword">if</span> (<span class="built_in">size</span> &amp;gt; <span class="number">0</span>) {
+            <span class="keyword">String</span> url = <span class="keyword">null</span>;
+            <span class="keyword">if</span>(dataMap.containsKey(<span class="variable">key</span>)){
+                List&amp;lt;<span class="keyword">String</span>&amp;gt; urlList = dataMap.<span class="built_in">get</span>(<span class="variable">key</span>);
+                <span class="keyword">if</span>(urlList.<span class="built_in">size</span>()&amp;gt;<span class="number">0</span>){
+                    <span class="keyword">if</span>(urlList.<span class="built_in">size</span>()==<span class="number">1</span>){
+                         url = urlList.<span class="built_in">get</span>(<span class="number">0</span>);
+                    }<span class="keyword">else</span>{
+                        url = urlList.<span class="built_in">get</span>(ThreadLocalRandom.current().nextInt(<span class="built_in">size</span>)); 
+                    }
+                }
+                 service = lookupService(url,<span class="variable">key</span>); <span class="comment">// &amp;#x4ECE; JNDI &amp;#x4E2D;&amp;#x67E5;&amp;#x627E; RMI &amp;#x670D;&amp;#x52A1;</span>
+            }
+        }
+        <span class="keyword">return</span> service;
+    }
+    <span class="comment">// &amp;#x8FDE;&amp;#x63A5; ZooKeeper &amp;#x670D;&amp;#x52A1;&amp;#x5668;</span>
+    <span class="keyword">private</span> ZooKeeper connectServer() {
+        ZooKeeper zk = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            zk = <span class="keyword">new</span> ZooKeeper(ConfigHelp.ZK_CONNECTION_STRING, ConfigHelp.ZK_SESSION_TIMEOUT, <span class="keyword">new</span> Watcher() {
+                @Override
+                <span class="keyword">public</span> <span class="keyword">void</span> process(WatchedEvent event) {
+                    <span class="keyword">if</span> (event.getState() == Event.KeeperState.SyncConnected) {
+                        latch.countDown(); <span class="comment">// &amp;#x5524;&amp;#x9192;&amp;#x5F53;&amp;#x524D;&amp;#x6B63;&amp;#x5728;&amp;#x6267;&amp;#x884C;&amp;#x7684;&amp;#x7EBF;&amp;#x7A0B;</span>
+                    }
+                }
+            });
+            latch.await(); <span class="comment">// &amp;#x4F7F;&amp;#x5F53;&amp;#x524D;&amp;#x7EBF;&amp;#x7A0B;&amp;#x5904;&amp;#x4E8E;&amp;#x7B49;&amp;#x5F85;&amp;#x72B6;&amp;#x6001;</span>
+        } <span class="keyword">catch</span> (Exception e) {
+            logger.error(&amp;quot;&amp;quot;, e);
+        }
+        <span class="keyword">return</span> zk;
+    }
+    <span class="comment">// &amp;#x89C2;&amp;#x5BDF; /registry &amp;#x8282;&amp;#x70B9;&amp;#x4E0B;&amp;#x6240;&amp;#x6709;&amp;#x5B50;&amp;#x8282;&amp;#x70B9;&amp;#x662F;&amp;#x5426;&amp;#x6709;&amp;#x53D8;&amp;#x5316;</span>
+    <span class="keyword">private</span> <span class="keyword">void</span> watchNode(<span class="keyword">final</span> ZooKeeper zk) {
+        <span class="keyword">if</span>(zk == <span class="keyword">null</span>){
+            <span class="keyword">return</span>;
+        }
+        <span class="keyword">try</span> {
+            List&amp;lt;<span class="keyword">String</span>&amp;gt; nodeList = zk.getChildren(ConfigHelp.ZK_RMI_PATH, <span class="keyword">new</span> Watcher() {
+                @Override
+                <span class="keyword">public</span> <span class="keyword">void</span> process(WatchedEvent event) {
+                    <span class="keyword">if</span> (event.getType() == Event.EventType.NodeChildrenChanged) {
+                        watchNode(zk); <span class="comment">// &amp;#x82E5;&amp;#x5B50;&amp;#x8282;&amp;#x70B9;&amp;#x6709;&amp;#x53D8;&amp;#x5316;&amp;#xFF0C;&amp;#x5219;&amp;#x91CD;&amp;#x65B0;&amp;#x8C03;&amp;#x7528;&amp;#x8BE5;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF08;&amp;#x4E3A;&amp;#x4E86;&amp;#x83B7;&amp;#x53D6;&amp;#x6700;&amp;#x65B0;&amp;#x5B50;&amp;#x8282;&amp;#x70B9;&amp;#x4E2D;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#xFF09;</span>
+                    }
+                }
+            });
+            List&amp;lt;<span class="keyword">String</span>&amp;gt; dataList = <span class="keyword">new</span> ArrayList&amp;lt;&amp;gt;(); <span class="comment">// &amp;#x7528;&amp;#x4E8E;&amp;#x5B58;&amp;#x653E; /root&amp;#x6240;&amp;#x6709;&amp;#x5B50;&amp;#x8282;&amp;#x70B9;&amp;#x4E2D;&amp;#x7684;&amp;#x6570;&amp;#x636E;</span>
+            <span class="keyword">HashMap</span>&amp;lt;<span class="keyword">String</span>,List&amp;lt;<span class="keyword">String</span>&amp;gt;&amp;gt; dataMap = <span class="keyword">new</span> <span class="keyword">HashMap</span>&amp;lt;<span class="keyword">String</span>, List&amp;lt;<span class="keyword">String</span>&amp;gt;&amp;gt;();
+            <span class="keyword">for</span> (<span class="keyword">String</span> node : nodeList) {
+                <span class="built_in">byte</span>[] data = zk.getData(ConfigHelp.ZK_RMI_PATH + &amp;quot;/&amp;quot; + node, <span class="keyword">false</span>, <span class="keyword">null</span>); <span class="comment">// &amp;#x83B7;&amp;#x53D6; /root/rmi &amp;#x7684;&amp;#x5B50;&amp;#x8282;&amp;#x70B9;&amp;#x4E2D;&amp;#x7684;&amp;#x6570;&amp;#x636E;</span>
+                dataList.<span class="built_in">add</span>(<span class="keyword">new</span> <span class="keyword">String</span>(data));
+                <span class="keyword">String</span> d = <span class="keyword">new</span> <span class="keyword">String</span>(data).toString();
+                <span class="keyword">String</span> <span class="variable">key</span> = d.<span class="built_in">split</span>(&amp;quot;#:#&amp;quot;)[<span class="number">0</span>];
+                <span class="keyword">String</span> url = d.<span class="built_in">split</span>(&amp;quot;#:#&amp;quot;)[<span class="number">1</span>];
+                <span class="keyword">if</span>(dataMap.containsKey(<span class="variable">key</span>)){
+                    dataMap.<span class="built_in">get</span>(<span class="variable">key</span>).<span class="built_in">add</span>(url);
+                }<span class="keyword">else</span>{
+                    List&amp;lt;<span class="keyword">String</span>&amp;gt; list = <span class="keyword">new</span> ArrayList&amp;lt;<span class="keyword">String</span>&amp;gt;();
+                    list.<span class="built_in">add</span>(url);
+                    dataMap.put(<span class="variable">key</span>, list);
+                }
+            }
+<span class="keyword">this</span>.dataMap = dataMap;
+        } <span class="keyword">catch</span> (Exception e) {
+            logger.error(&amp;quot;&amp;quot;, e);
+        }
+    }
+    <span class="comment">// &amp;#x5728; JNDI &amp;#x4E2D;&amp;#x67E5;&amp;#x627E; RMI &amp;#x8FDC;&amp;#x7A0B;&amp;#x670D;&amp;#x52A1;&amp;#x5BF9;&amp;#x8C61;</span>
+<span class="keyword">private</span> &amp;lt;T&amp;gt; T lookupService(<span class="keyword">String</span> url,<span class="keyword">String</span> <span class="variable">key</span>) {
+        T remote = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            remote = (T) Naming.lookup(url);
+        } <span class="keyword">catch</span> (Exception e) {
+            <span class="keyword">if</span> (e <span class="keyword">instanceof</span> ConnectException) {
+                logger.error(&amp;quot;ConnectException -&amp;gt; url: &amp;quot; + url);
+                <span class="keyword">if</span>(dataMap.containsKey(<span class="variable">key</span>)){
+                    List&amp;lt;<span class="keyword">String</span>&amp;gt; urlList = dataMap.<span class="built_in">get</span>(<span class="variable">key</span>);
+                    <span class="keyword">if</span>(urlList.<span class="built_in">size</span>()&amp;gt;<span class="number">0</span>){
+                        <span class="keyword">return</span> lookupService(urlList.<span class="built_in">get</span>(<span class="number">0</span>),<span class="variable">key</span>);
+                    }
+                }
+            }
+            logger.error(&amp;quot;&amp;quot;, e);
+        }
+        <span class="keyword">return</span> remote;
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) {
+        RMIClient client = <span class="keyword">new</span> RMIClient();
+        <span class="keyword">while</span>(<span class="keyword">true</span>){
+            Service service = client.lookup(&amp;quot;Test&amp;quot;);
+            service.service(&amp;quot;test12&amp;quot;);
+            <span class="keyword">try</span> {
+                Thread.sleep(<span class="number">2000</span>);
+            } <span class="keyword">catch</span> (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><p>4.RMIHelper</p>
+<pre><code><span class="keyword">public</span> class RMIHelper {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> RMIServer SERVER = <span class="keyword">new</span> RMIServer();
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> RMIClient CLIENT = <span class="keyword">new</span> RMIClient();
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> publish(Remote remote,<span class="keyword">String</span> <span class="variable">key</span>){
+        SERVER.publish(remote, <span class="variable">key</span>);
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> &amp;lt;T extends Remote&amp;gt; T lookup(<span class="keyword">String</span> <span class="variable">key</span>){
+        <span class="keyword">return</span> CLIENT.lookup(<span class="variable">key</span>);
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) <span class="keyword">throws</span> Exception {
+        <span class="keyword">while</span>(<span class="keyword">true</span>){
+            Service service = RMIHelper.lookup(&amp;quot;Test&amp;quot;);
+            service.service(&amp;quot;test12&amp;quot;);
+            Service service1 = RMIHelper.lookup(&amp;quot;Test1&amp;quot;);
+            service1.service(&amp;quot;test12&amp;quot;);
+            <span class="keyword">try</span> {
+                Thread.sleep(<span class="number">2000</span>);
+            } <span class="keyword">catch</span> (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java-RMI/">Java RMI</a><a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/10baefa/" title="kiteq - 一个多种持久化方案的 MQ 框架 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  kiteq - 一个多种持久化方案的 MQ 框架 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/10c48c9/"  title="zookeeper Watcher API 说明 -">
+ <strong>下一篇：</strong><br/> 
+ <span>zookeeper Watcher API 说明 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

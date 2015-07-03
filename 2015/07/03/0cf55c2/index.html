@@ -1,0 +1,639 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Zookeeper安装部署 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Zookeeper&amp;#x5B89;&amp;#x88C5;&amp;#x90E8;&amp;#x7F72;
+ Zookeeper  &amp;#x5B89;&amp;#x88C5;
+1.&amp;#xA0;  &amp;#x5B89;&amp;#x88C5;     wget http://www.apache.org/dist//zookeeper/zookeeper-3.3.6/zookeeper-3.3.6.tar.gztar zxvf zookeepe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper安装部署 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/0cf55c2/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Zookeeper&amp;#x5B89;&amp;#x88C5;&amp;#x90E8;&amp;#x7F72;
+ Zookeeper  &amp;#x5B89;&amp;#x88C5;
+1.&amp;#xA0;  &amp;#x5B89;&amp;#x88C5;     wget http://www.apache.org/dist//zookeeper/zookeeper-3.3.6/zookeeper-3.3.6.tar.gztar zxvf zookeepe">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/0cf200c.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/0cf227d.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/0cf227d.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:08:59.854Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zookeeper安装部署 -">
+<meta name="twitter:description" content="Zookeeper&amp;#x5B89;&amp;#x88C5;&amp;#x90E8;&amp;#x7F72;
+ Zookeeper  &amp;#x5B89;&amp;#x88C5;
+1.&amp;#xA0;  &amp;#x5B89;&amp;#x88C5;     wget http://www.apache.org/dist//zookeeper/zookeeper-3.3.6/zookeeper-3.3.6.tar.gztar zxvf zookeepe">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/0cf55c2/" title="Zookeeper安装部署 -" itemprop="url">Zookeeper安装部署 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:59.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1- _安装_wget_http://www-apache-org/dist//zookeeper/zookeeper-3-3-6/zookeeper-3-3-6-tar-gz"><span class="toc-number">1.</span> <span class="toc-text">1.   安装     wget http://www.apache.org/dist//zookeeper/zookeeper-3.3.6/zookeeper-3.3.6.tar.gz</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2- _单实例配置_修改配置文件"><span class="toc-number">2.</span> <span class="toc-text">2.   单实例配置  修改配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#zkEnv-sh"><span class="toc-number">2.1.</span> <span class="toc-text">zkEnv.sh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询内存大小"><span class="toc-number">2.2.</span> <span class="toc-text">查询内存大小</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3- _集群配置_注意：其中_data_目录和_server_地址需改成你真实部署机器的信息"><span class="toc-number">3.</span> <span class="toc-text">3.   集群配置   注意：其中    data    目录和    server    地址需改成你真实部署机器的信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#myid"><span class="toc-number">3.1.</span> <span class="toc-text">myid</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4- _启动_-/bin/zkServer-sh_start"><span class="toc-number">4.</span> <span class="toc-text">4.   启动     ./bin/zkServer.sh start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5- _停止_-/bin/zkServer-sh_stop"><span class="toc-number">5.</span> <span class="toc-text">5.   停止     ./bin/zkServer.sh stop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6- _验证启动状态_telnet_127-0-0-1_2181"><span class="toc-number">6.</span> <span class="toc-text">6.   验证启动状态     telnet 127.0.0.1 2181</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7- _用法_dubbo-registry-address=zookeeper://10-0-30-138:2181?backup=10-0-30-139:2181"><span class="toc-number">7.</span> <span class="toc-text">7.   用法     dubbo.registry.address=zookeeper://10.0.30.138:2181?backup=10.0.30.139:2181</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8- _测试_zk_服务_执行_$_zkCli-sh_-server_10-0-30-138:2181_，检查指定服务器是否成功启动。"><span class="toc-number">8.</span> <span class="toc-text">8.   测试  zk  服务  执行  $ zkCli.sh -server 10.0.30.138:2181  ，检查指定服务器是否成功启动。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cd_/data/retail/zookeeper/"><span class="toc-number"></span> <span class="toc-text">cd /data/retail/zookeeper/</span></a>
+		
+		</div>
+		
+		<p><a href="http://blog.itpub.net/27099995/viewspace-1394831/" target="_blank" rel="external">Zookeeper&#x5B89;&#x88C5;&#x90E8;&#x7F72;</a></p>
+<p> <strong>Zookeeper</strong>  <strong>&#x5B89;&#x88C5;</strong></p>
+<h3 id="1-&#xA0;_&#x5B89;&#x88C5;_wget_http://www-apache-org/dist//zookeeper/zookeeper-3-3-6/zookeeper-3-3-6-tar-gz">1.&#xA0;  &#x5B89;&#x88C5;     wget <a href="http://www.apache.org/dist//zookeeper/zookeeper-3.3.6/zookeeper-3.3.6.tar.gz" target="_blank" rel="external">http://www.apache.org/dist//zookeeper/zookeeper-3.3.6/zookeeper-3.3.6.tar.gz</a></h3><pre><code>tar zxvf zookeeper-3.3.6.tar.gz
+
+mv zookeeper-3.3.6 /usr/<span class="keyword">local</span>/zookeeper-3.3.6-2181
+
+<span class="keyword">cd</span> /usr/<span class="keyword">local</span>/zookeeper-3.3.6-2181
+
+cp <span class="keyword">conf</span>/zoo_sample.cfg <span class="keyword">conf</span>/zoo.cfg
+</code></pre><h3 id="2-&#xA0;_&#x5355;&#x5B9E;&#x4F8B;&#x914D;&#x7F6E;_&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;">2.&#xA0;  &#x5355;&#x5B9E;&#x4F8B;&#x914D;&#x7F6E;  &#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h3><pre><code>vi conf/zoo.cfg
+
+#&amp;<span class="array">#x</span>5FC3;&amp;<span class="array">#x</span>8DF3;&amp;<span class="array">#x</span>65F6;&amp;<span class="array">#x</span>95F4;
+
+tickTime=<span class="number">2000</span>
+
+initLimit=<span class="number">10</span>
+
+syncLimit=<span class="number">5</span>
+
+#&amp;<span class="array">#x</span>6570;&amp;<span class="array">#x</span>636E;&amp;<span class="array">#x</span>4FDD;&amp;<span class="array">#x</span>5B58;&amp;<span class="array">#x</span>76EE;&amp;<span class="array">#x</span>5F55;
+
+dataDir=/data/zhanglin/logistics/zookeeper-<span class="number">3.3</span>.6
+
+#&amp;<span class="array">#x</span>5BA2;&amp;<span class="array">#x</span>6237;&amp;<span class="array">#x</span>7AEF;&amp;<span class="array">#x</span>8FDE;&amp;<span class="array">#x</span>63A5;&amp;<span class="array">#x</span>7AEF;&amp;<span class="array">#x</span>53E3;
+
+clientPort=<span class="number">2181</span>
+</code></pre><p> &#x589E;&#x52A0;&#x5185;&#x5B58;</p>
+<p>zkEnv.sh</p>
+<h4 id="zkEnv-sh">zkEnv.sh</h4><pre><code>#&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x5E95</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x589E</span>;&amp;<span class="symbol">#x52A0</span>;
+
+export <span class="class">JVMFLAGS</span>=&amp;quot;-<span class="class">Xms1024m</span> -<span class="class">Xmx2048m</span> <span class="char">$J</span>VMFLAGS&amp;quot;
+</code></pre><h4 id="&#x67E5;&#x8BE2;&#x5185;&#x5B58;&#x5927;&#x5C0F;">&#x67E5;&#x8BE2;&#x5185;&#x5B58;&#x5927;&#x5C0F;</h4><pre><code>ps -ef<span class="string">|grep zookeeper</span>
+
+<span class="preprocessor">#&amp;#x67E5;&amp;#x8BE2;pid</span>
+
+jmap --heap  pid 
+</code></pre><h3 id="3-&#xA0;_&#x96C6;&#x7FA4;&#x914D;&#x7F6E;_&#x6CE8;&#x610F;&#xFF1A;&#x5176;&#x4E2D;_data_&#x76EE;&#x5F55;&#x548C;_server_&#x5730;&#x5740;&#x9700;&#x6539;&#x6210;&#x4F60;&#x771F;&#x5B9E;&#x90E8;&#x7F72;&#x673A;&#x5668;&#x7684;&#x4FE1;&#x606F;">3.&#xA0;  &#x96C6;&#x7FA4;&#x914D;&#x7F6E;   &#x6CE8;&#x610F;&#xFF1A;&#x5176;&#x4E2D;    data    &#x76EE;&#x5F55;&#x548C;    server    &#x5730;&#x5740;&#x9700;&#x6539;&#x6210;&#x4F60;&#x771F;&#x5B9E;&#x90E8;&#x7F72;&#x673A;&#x5668;&#x7684;&#x4FE1;&#x606F;</h3><p> &#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</p>
+<pre><code>vi conf/zoo.cfg
+
+tickTime=<span class="number">2000</span>
+
+#&amp;<span class="array">#x</span>8FDE;&amp;<span class="array">#x</span>63A5;leader&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>7B49;&amp;<span class="array">#x</span>5F85;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>6700;&amp;<span class="array">#x</span>957F;&amp;<span class="array">#x</span>65F6;&amp;<span class="array">#x</span>95F4;(&amp;<span class="array">#x</span>79D2;)
+
+initLimit=<span class="number">10</span>
+
+#&amp;<span class="array">#x</span>6807;&amp;<span class="array">#x</span>8BC6; Leader &amp;<span class="array">#x</span>4E0E; Follower &amp;<span class="array">#x</span>4E4B;&amp;<span class="array">#x</span>95F4;&amp;<span class="array">#x</span>53D1;&amp;<span class="array">#x</span>9001;&amp;<span class="array">#x</span>6D88;&amp;<span class="array">#x</span>606F;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>8BF7;&amp;<span class="array">#x</span>6C42;&amp;<span class="array">#x</span>548C;&amp;<span class="array">#x</span>5E94;&amp;<span class="array">#x</span>7B54;&amp;<span class="array">#x</span>65F6;&amp;<span class="array">#x</span>95F4;&amp;<span class="array">#x</span>6700;&amp;<span class="array">#x</span>957F;&amp;<span class="array">#x</span>65F6;&amp;<span class="array">#x</span>95F4;
+
+syncLimit=<span class="number">5</span>
+
+dataDir=/data/zhanglin/logistics/zookeeper-<span class="number">3.3</span>.6
+
+clientPort=<span class="number">2181</span>
+
+<span class="array">#server.A</span>=B&amp;<span class="array">#xFF</span>1A;C&amp;<span class="array">#xFF</span>1A;D&amp;<span class="array">#xFF</span>1A;&amp;<span class="array">#x</span>5176;&amp;<span class="array">#x</span>4E2D; A &amp;<span class="array">#x</span>662F;&amp;<span class="array">#x</span>4E00;&amp;<span class="array">#x</span>4E2A;&amp;<span class="array">#x</span>6570;&amp;<span class="array">#x</span>5B57;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>8868;&amp;<span class="array">#x</span>793A;&amp;<span class="array">#x</span>8FD9;&amp;<span class="array">#x</span>4E2A;&amp;<span class="array">#x</span>662F;&amp;<span class="array">#x</span>7B2C;&amp;<span class="array">#x</span>51E0;&amp;<span class="array">#x</span>53F7;&amp;<span class="array">#x</span>670D;&amp;<span class="array">#x</span>52A1;&amp;<span class="array">#x</span>5668;&amp;<span class="array">#xFF</span>1B;B &amp;<span class="array">#x</span>662F;&amp;<span class="array">#x</span>8FD9;&amp;<span class="array">#x</span>4E2A;&amp;<span class="array">#x</span>670D;&amp;<span class="array">#x</span>52A1;&amp;<span class="array">#x</span>5668;&amp;<span class="array">#x</span>7684; ip &amp;<span class="array">#x</span>5730;&amp;<span class="array">#x</span>5740;&amp;<span class="array">#xFF</span>1B;C &amp;<span class="array">#x</span>8868;&amp;<span class="array">#x</span>793A;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>662F;&amp;<span class="array">#x</span>8FD9;&amp;<span class="array">#x</span>4E2A;&amp;<span class="array">#x</span>670D;&amp;<span class="array">#x</span>52A1;&amp;<span class="array">#x</span>5668;&amp;<span class="array">#x</span>4E0E;&amp;<span class="array">#x</span>96C6;&amp;<span class="array">#x</span>7FA4;&amp;<span class="array">#x</span>4E2D;&amp;<span class="array">#x</span>7684; Leader &amp;<span class="array">#x</span>670D;&amp;<span class="array">#x</span>52A1;&amp;<span class="array">#x</span>5668;&amp;<span class="array">#x</span>4EA4;&amp;<span class="array">#x</span>6362;&amp;<span class="array">#x</span>4FE1;&amp;<span class="array">#x</span>606F;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>7AEF;&amp;<span class="array">#x</span>53E3;&amp;<span class="array">#xFF</span>1B;D &amp;<span class="array">#x</span>8868;&amp;<span class="array">#x</span>793A;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>662F;&amp;<span class="array">#x</span>4E07;&amp;<span class="array">#x</span>4E00;&amp;<span class="array">#x</span>96C6;&amp;<span class="array">#x</span>7FA4;&amp;<span class="array">#x</span>4E2D;&amp;<span class="array">#x</span>7684; <span class="array">#Leader </span>&amp;<span class="array">#x</span>670D;&amp;<span class="array">#x</span>52A1;&amp;<span class="array">#x</span>5668;&amp;<span class="array">#x</span>6302;&amp;<span class="array">#x</span>4E86;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>9700;&amp;<span class="array">#x</span>8981;&amp;<span class="array">#x</span>4E00;&amp;<span class="array">#x</span>4E2A;&amp;<span class="array">#x</span>7AEF;&amp;<span class="array">#x</span>53E3;&amp;<span class="array">#x</span>6765;&amp;<span class="array">#x</span>91CD;&amp;<span class="array">#x</span>65B0;&amp;<span class="array">#x</span>8FDB;&amp;<span class="array">#x</span>884C;&amp;<span class="array">#x</span>9009;&amp;<span class="array">#x</span>4E3E;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>9009;&amp;<span class="array">#x</span>51FA;&amp;<span class="array">#x</span>4E00;&amp;<span class="array">#x</span>4E2A;&amp;<span class="array">#x</span>65B0;&amp;<span class="array">#x</span>7684; Leader&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>800C;&amp;<span class="array">#x</span>8FD9;&amp;<span class="array">#x</span>4E2A;&amp;<span class="array">#x</span>7AEF;&amp;<span class="array">#x</span>53E3;&amp;<span class="array">#x</span>5C31;&amp;<span class="array">#x</span>662F;&amp;<span class="array">#x</span>7528;&amp;<span class="array">#x</span>6765;&amp;<span class="array">#x</span>6267;&amp;<span class="array">#x</span>884C;&amp;<span class="array">#x</span>9009;&amp;<span class="array">#x</span>4E3E;&amp;<span class="array">#x</span>65F6;&amp;<span class="array">#x</span>670D;&amp;<span class="array">#x</span>52A1;&amp;<span class="array">#x</span>5668;&amp;<span class="array">#x</span>76F8;&amp;<span class="array">#x</span>4E92;&amp;<span class="array">#x</span>901A;&amp;<span class="array">#x</span>4FE1;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>7AEF;&amp;<span class="array">#x</span>53E3;&amp;<span class="array">#x</span>3002;&amp;<span class="array">#x</span>5982;&amp;<span class="array">#x</span>679C;&amp;<span class="array">#x</span>662F;&amp;<span class="array">#x</span>4F2A;&amp;<span class="array">#x</span>96C6;&amp;<span class="array">#x</span>7FA4;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>914D;&amp;<span class="array">#x</span>7F6E;&amp;<span class="array">#x</span>65B9;&amp;<span class="array">#x</span>5F0F;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>7531;&amp;<span class="array">#x</span>4E8E; B &amp;<span class="array">#x</span>90FD;&amp;<span class="array">#x</span>662F;&amp;<span class="array">#x</span>4E00;&amp;<span class="array">#x</span>6837;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>6240;&amp;<span class="array">#x</span>4EE5;&amp;<span class="array">#x</span>4E0D;&amp;<span class="array">#x</span>540C;&amp;<span class="array">#x</span>7684; <span class="array">#Zookeeper </span>&amp;<span class="array">#x</span>5B9E;&amp;<span class="array">#x</span>4F8B;&amp;<span class="array">#x</span>901A;&amp;<span class="array">#x</span>4FE1;&amp;<span class="array">#x</span>7AEF;&amp;<span class="array">#x</span>53E3;&amp;<span class="array">#x</span>53F7;&amp;<span class="array">#x</span>4E0D;&amp;<span class="array">#x</span>80FD;&amp;<span class="array">#x</span>4E00;&amp;<span class="array">#x</span>6837;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>6240;&amp;<span class="array">#x</span>4EE5;&amp;<span class="array">#x</span>8981;&amp;<span class="array">#x</span>7ED9;&amp;<span class="array">#x</span>5B83;&amp;<span class="array">#x</span>4EEC;&amp;<span class="array">#x</span>5206;&amp;<span class="array">#x</span>914D;&amp;<span class="array">#x</span>4E0D;&amp;<span class="array">#x</span>540C;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>7AEF;&amp;<span class="array">#x</span>53E3;&amp;<span class="array">#x</span>53F7;&amp;<span class="array">#x</span>3002;
+
+server.1=<span class="number">10.0</span>.30.138:<span class="number">2555</span>:<span class="number">3555</span>
+
+server.2=<span class="number">10.0</span>.30.139:<span class="number">2555</span>:<span class="number">3555</span>
+</code></pre><p> &#x589E;&#x52A0;  myid  &#x6587;&#x4EF6;</p>
+<p> &#x5E76;&#x5728;  data  &#x76EE;&#x5F55;&#x4E0B;&#x653E;&#x7F6E;  myid  &#x6587;&#x4EF6;&#xFF1A;  (  &#x4E0A;&#x9762;  zoo.cfg  &#x4E2D;&#x7684;  dataDir)</p>
+<pre><code><span class="title">mkdir</span> <span class="typedef"><span class="keyword">data</span></span>
+
+<span class="title">vi</span> myid
+</code></pre><p> myid  &#x6307;&#x660E;&#x81EA;&#x5DF1;&#x7684;  id  &#xFF0C;&#x5BF9;&#x5E94;&#x4E0A;&#x9762;  zoo.cfg  &#x4E2D;  server.  &#x540E;&#x7684;&#x6570;&#x5B57;&#xFF0C;&#x7B2C;&#x4E00;&#x53F0;&#x7684;&#x5185;&#x5BB9;&#x4E3A;  1  &#xFF0C;&#x7B2C;&#x4E8C;&#x53F0;&#x7684;&#x5185;&#x5BB9;&#x4E3A;  2  &#xFF0C;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<h4 id="myid">myid</h4><h3 id="4-&#xA0;_&#x542F;&#x52A8;_-/bin/zkServer-sh_start">4.&#xA0;  &#x542F;&#x52A8;     ./bin/zkServer.sh start</h3><h3 id="5-&#xA0;_&#x505C;&#x6B62;_-/bin/zkServer-sh_stop">5.&#xA0;  &#x505C;&#x6B62;     ./bin/zkServer.sh stop</h3><p>  &#x6CE8;    :    &#x547D;&#x4EE4;&#x884C;&#x53C2;&#x8003;     &#xA0;(See:&#xA0; <a href="http://zookeeper.apache.org/doc/r3.3.6/zookeeperAdmin.html" target="_blank" rel="external">http://zookeeper.apache.org/doc/r3.3.6/zookeeperAdmin.html</a> )</p>
+<h3 id="6-&#xA0;_&#x9A8C;&#x8BC1;&#x542F;&#x52A8;&#x72B6;&#x6001;_telnet_127-0-0-1_2181">6.&#xA0;  &#x9A8C;&#x8BC1;&#x542F;&#x52A8;&#x72B6;&#x6001;     telnet 127.0.0.1 2181</h3><h3 id="7-&#xA0;_&#x7528;&#x6CD5;_dubbo-registry-address=zookeeper://10-0-30-138:2181?backup=10-0-30-139:2181">7.&#xA0;  &#x7528;&#x6CD5;     dubbo.registry.address=zookeeper://10.0.30.138:2181?backup=10.0.30.139:2181</h3><p> &#x6216;&#x8005;  &lt;dubbo:registry protocol=&quot;zookeeper&quot; address=&quot;10.0.30.138:2181,10.0.30.139:2181&quot; /&gt;</p>
+<h3 id="8-&#xA0;_&#x6D4B;&#x8BD5;_zk_&#x670D;&#x52A1;_&#x6267;&#x884C;_$_zkCli-sh_-server_10-0-30-138:2181_&#xFF0C;&#x68C0;&#x67E5;&#x6307;&#x5B9A;&#x670D;&#x52A1;&#x5668;&#x662F;&#x5426;&#x6210;&#x529F;&#x542F;&#x52A8;&#x3002;">8.&#xA0;  &#x6D4B;&#x8BD5;  zk  &#x670D;&#x52A1;  &#x6267;&#x884C;  $ zkCli.sh -server 10.0.30.138:2181  &#xFF0C;&#x68C0;&#x67E5;&#x6307;&#x5B9A;&#x670D;&#x52A1;&#x5668;&#x662F;&#x5426;&#x6210;&#x529F;&#x542F;&#x52A8;&#x3002;</h3><p>&#x4E0B;&#x9762;&#x7ED9;&#x6211;&#x7684;&#x5355;&#x673A;3&#x4E2A;&#x4F2A;&#x96C6;&#x7FA4;&#x7684;&#x6848;&#x4F8B;&#xFF1A;</p>
+<p>  (1).    &#x5206;&#x522B;&#x5728;&#x4E09;&#x53F0;&#x673A;&#x5668;&#x4E0A;&#x5B89;&#x88C5;&#x597D;    zookeeper    &#xFF0C;&#x6700;&#x597D;&#x662F;&#x540C;&#x7248;&#x672C;&#x7684;&#x3002;</p>
+<p>  &#xA0;&#xA0;&#xA0;    &#x76F4;&#x63A5;    cp    &#x4E09;&#x4E2A;&#x5373;&#x53EF;&#xFF0C;&#x505A;&#x4E00;&#x4E0B;&#x6807;&#x8BB0;&#xFF0C;&#x4FBF;&#x4E8E;&#x533A;&#x5206;&#x3002;</p>
+<p> (2).  &#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5982;&#x4E0B;</p>
+<p>vi conf/zoo.cfg</p>
+<p>&#x4E0B;&#x9762;&#x5206;&#x522B;&#x662F;&#x4E09;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6837;&#x672C;<br> <strong>1</strong><br><img src="http://taojinke.github.io/img/20150703/0cf200c.jpg" alt=""></p>
+<p>&#xA0;2 </p>
+<p>  <img src="http://taojinke.github.io/img/20150703/0cf227d.jpg" alt=""></p>
+<p> 3</p>
+<p><img src="http://taojinke.github.io/img/20150703/0cf227d.jpg" alt=""></p>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x5176;&#x4E2D;</p>
+<p>  data    &#x76EE;&#x5F55;&#x548C;    server    &#x5730;&#x5740;&#x9700;&#x6539;&#x6210;&#x4F60;&#x771F;&#x5B9E;&#x90E8;&#x7F72;&#x673A;&#x5668;&#x7684;&#x4FE1;&#x606F;   &#xA0;  (3)  &#xFF0E;&#x589E;&#x52A0;  myid  &#x6587;&#x4EF6;</p>
+<p> &#x5E76;&#x5728;  data  &#x76EE;&#x5F55;&#x4E0B;&#x653E;&#x7F6E;  myid  &#x6587;&#x4EF6;&#xFF1A;  (  &#x4E0A;&#x9762;  zoo.cfg  &#x4E2D;&#x7684;  dataDir)</p>
+<h1 id="cd_/data/retail/zookeeper/">cd /data/retail/zookeeper/</h1><p>vi myid</p>
+<p> myid  &#x6307;&#x660E;&#x81EA;&#x5DF1;&#x7684;  id  &#xFF0C;&#x5BF9;&#x5E94;&#x4E0A;&#x9762;  zoo.cfg  &#x4E2D;  server.  &#x540E;&#x7684;&#x6570;&#x5B57;&#xFF0C;&#x7B2C;&#x4E00;&#x53F0;&#x7684;&#x5185;&#x5BB9;&#x4E3A;  1  &#xFF0C;&#x7B2C;&#x4E8C;&#x53F0;&#x7684;&#x5185;&#x5BB9;&#x4E3A;  2  &#xFF0C;&#x4F9D;&#x6B21;&#x7C7B;&#x63A8;&#x3002;</p>
+<p>From:&#xA0;<a href="http://blog.itpub.net/27099995/viewspace-1394831/" target="_blank" rel="external">http://blog.itpub.net/27099995/viewspace-1394831/</a></p>
+<p>+</p>
+<p>+</p>
+<p>+</p>
+<p>-</p>
+<p>+</p>
+<p>+</p>
+<p>+</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/0d18748/" title="Storm配置项详解 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Storm配置项详解 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/0cf0ef5/"  title="Apache Curator 2.8.0 发布，简化 zookeeper 客户端 -">
+ <strong>下一篇：</strong><br/> 
+ <span>Apache Curator 2.8.0 发布，简化 zookeeper 客户端 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1- _安装_wget_http://www-apache-org/dist//zookeeper/zookeeper-3-3-6/zookeeper-3-3-6-tar-gz"><span class="toc-number">1.</span> <span class="toc-text">1.   安装     wget http://www.apache.org/dist//zookeeper/zookeeper-3.3.6/zookeeper-3.3.6.tar.gz</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2- _单实例配置_修改配置文件"><span class="toc-number">2.</span> <span class="toc-text">2.   单实例配置  修改配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#zkEnv-sh"><span class="toc-number">2.1.</span> <span class="toc-text">zkEnv.sh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询内存大小"><span class="toc-number">2.2.</span> <span class="toc-text">查询内存大小</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3- _集群配置_注意：其中_data_目录和_server_地址需改成你真实部署机器的信息"><span class="toc-number">3.</span> <span class="toc-text">3.   集群配置   注意：其中    data    目录和    server    地址需改成你真实部署机器的信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#myid"><span class="toc-number">3.1.</span> <span class="toc-text">myid</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4- _启动_-/bin/zkServer-sh_start"><span class="toc-number">4.</span> <span class="toc-text">4.   启动     ./bin/zkServer.sh start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5- _停止_-/bin/zkServer-sh_stop"><span class="toc-number">5.</span> <span class="toc-text">5.   停止     ./bin/zkServer.sh stop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6- _验证启动状态_telnet_127-0-0-1_2181"><span class="toc-number">6.</span> <span class="toc-text">6.   验证启动状态     telnet 127.0.0.1 2181</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7- _用法_dubbo-registry-address=zookeeper://10-0-30-138:2181?backup=10-0-30-139:2181"><span class="toc-number">7.</span> <span class="toc-text">7.   用法     dubbo.registry.address=zookeeper://10.0.30.138:2181?backup=10.0.30.139:2181</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8- _测试_zk_服务_执行_$_zkCli-sh_-server_10-0-30-138:2181_，检查指定服务器是否成功启动。"><span class="toc-number">8.</span> <span class="toc-text">8.   测试  zk  服务  执行  $ zkCli.sh -server 10.0.30.138:2181  ，检查指定服务器是否成功启动。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cd_/data/retail/zookeeper/"><span class="toc-number"></span> <span class="toc-text">cd /data/retail/zookeeper/</span></a>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

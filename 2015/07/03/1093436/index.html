@@ -1,0 +1,994 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>基于zookeeper的MySQL主主负载均衡的简单实现 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="1.&amp;#x5148;&amp;#x4E0A;&amp;#x539F;&amp;#x7406;&amp;#x56FE;
+
+2.&amp;#x8BF4;&amp;#x660E;
+&amp;#x4E24;&amp;#x4E2A;mysql&amp;#x91C7;&amp;#x7528;&amp;#x4E3B;&amp;#x4E3B;&amp;#x540C;&amp;#x6B65;&amp;#x7684;&amp;#x65B9;&amp;#x5F0F;&amp;#x8FDB;&amp;#x884C;&amp;#x90E8;&amp;#x7F72;&amp;#x3002;
+&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于zookeeper的MySQL主主负载均衡的简单实现 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/1093436/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="1.&amp;#x5148;&amp;#x4E0A;&amp;#x539F;&amp;#x7406;&amp;#x56FE;
+
+2.&amp;#x8BF4;&amp;#x660E;
+&amp;#x4E24;&amp;#x4E2A;mysql&amp;#x91C7;&amp;#x7528;&amp;#x4E3B;&amp;#x4E3B;&amp;#x540C;&amp;#x6B65;&amp;#x7684;&amp;#x65B9;&amp;#x5F0F;&amp;#x8FDB;&amp;#x884C;&amp;#x90E8;&amp;#x7F72;&amp;#x3002;
+&amp;#x">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/1085d5e.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/1086240.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/10864b1.gif">
+<meta property="og:updated_time" content="2015-07-03T14:09:06.015Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于zookeeper的MySQL主主负载均衡的简单实现 -">
+<meta name="twitter:description" content="1.&amp;#x5148;&amp;#x4E0A;&amp;#x539F;&amp;#x7406;&amp;#x56FE;
+
+2.&amp;#x8BF4;&amp;#x660E;
+&amp;#x4E24;&amp;#x4E2A;mysql&amp;#x91C7;&amp;#x7528;&amp;#x4E3B;&amp;#x4E3B;&amp;#x540C;&amp;#x6B65;&amp;#x7684;&amp;#x65B9;&amp;#x5F0F;&amp;#x8FDB;&amp;#x884C;&amp;#x90E8;&amp;#x7F72;&amp;#x3002;
+&amp;#x">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/1093436/" title="基于zookeeper的MySQL主主负载均衡的简单实现 -" itemprop="url">基于zookeeper的MySQL主主负载均衡的简单实现 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:05.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>1.&#x5148;&#x4E0A;&#x539F;&#x7406;&#x56FE;</p>
+<p><img src="http://taojinke.github.io/img/20150703/1085d5e.png" alt=""></p>
+<p>2.&#x8BF4;&#x660E;</p>
+<p>&#x4E24;&#x4E2A;mysql&#x91C7;&#x7528;&#x4E3B;&#x4E3B;&#x540C;&#x6B65;&#x7684;&#x65B9;&#x5F0F;&#x8FDB;&#x884C;&#x90E8;&#x7F72;&#x3002;</p>
+<p>&#x5728;&#x5B89;&#x88C5;mysql&#x7684;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x5B89;&#x88C5;&#x5BA2;&#x6237;&#x7AEF;&#xFF08;&#x76EE;&#x524D;&#x662F;&#x8FD9;&#x4E48;&#x505A;&#xFF0C;&#x4EE5;&#x540E;&#x60F3;&#x5728;zookeeper&#x6269;&#x5C55;&#x96C6;&#x6210;&#xFF09;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x5B9E;&#x65F6;&#x76D1;&#x63A7;mysql&#x5E94;&#x7528;&#x7684;&#x53EF;&#x7528;&#x6027;&#xFF0C;&#x53EF;&#x7528;&#x65F6;&#x60F3;zookeepercreateNode&#xFF0C;&#x5F53;&#x7F51;&#x7EDC;&#x4E0D;&#x53EF;&#x7528;&#x6216;&#x8005;mysql&#x5E94;&#x7528;&#x4E0D;&#x53EF;&#x7528;&#x65F6;&#xFF0C;&#x5EFA;&#x7ACB;&#x7684;znode&#x6D88;&#x5931;&#x3002;</p>
+<p>&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x901A;&#x8FC7;&#x6539;&#x9020;proxool&#x6570;&#x636E;&#x5E93;&#x8FDE;&#x63A5;&#x6C60;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5728;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x4E4B;&#x524D;&#xFF0C;&#x4ECE;zookeeper&#x4E2D;&#x53BB;&#x53D6;&#x771F;&#x5B9E;&#x7684;&#x6570;&#x636E;&#x5E93;URL&#xFF0C;&#x5982;&#x679C;&#x6709;&#x591A;&#x4E2A;URL&#xFF0C;&#x5373;&#x6709;&#x591A;&#x4E2A;&#x670D;&#x52A1;&#x65F6;&#xFF0C;&#x91C7;&#x7528;&#x968F;&#x673A;&#x7B97;&#x6CD5;&#x53BB;&#x62FF;&#x8FDE;&#x63A5;&#xFF08;&#x4EE5;&#x540E;&#x51C6;&#x5907;&#x6269;&#x5C55;&#x6743;&#x91CD;&#xFF09;&#x3002;&#x5F53;&#x8FDE;&#x63A5;&#x4E0D;&#x53EF;&#x7528;&#x65F6;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x8FDE;&#x63A5;&#x6C60;&#x5C06;&#x91CD;&#x5EFA;&#x8FDE;&#x63A5;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x53C8;&#x56DE;&#x53BB;zookeeper&#x62FF;&#x8FDE;&#x63A5;&#xFF0C;&#x56E0;&#x4E3A;agent&#x5EFA;&#x7ACB;&#x7684;&#x4E34;&#x65F6;znode&#x6D88;&#x5931;&#x4E86;&#xFF0C;&#x5C31;&#x4E0D;&#x80FD;&#x62FF;&#x5230;&#x5DF2;&#x7ECF;&#x5931;&#x6548;&#x7684;url&#x4E86;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x65B9;&#x6848;&#x53EA;&#x662F;&#x521D;&#x6B65;&#x7684;&#x5B9E;&#x9A8C;&#x548C;&#x5B9E;&#x73B0;&#x4E86;&#xFF0C;&#x8FD8;&#x6709;&#x5F88;&#x591A;&#x540E;&#x7EED;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x4E3B;&#x8981;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;lvs+keepalived&#x53EA;&#x80FD;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x533A;&#x57DF;&#x5185;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+<p>3.&#x90E8;&#x5206;&#x5B9E;&#x73B0;</p>
+<p>1).agent</p>
+<pre><code><span class="comment">/**
+ * &amp;#x6570;&amp;#x636E;&amp;#x5E93;&amp;#x53EF;&amp;#x7528;&amp;#x6027;&amp;#x68C0;&amp;#x6D4B;
+ * <span class="doctag">@author</span> tomsnail
+ * <span class="doctag">@date</span> 2015&amp;#x5E74;4&amp;#x6708;3&amp;#x65E5; &amp;#x4E0A;&amp;#x5348;10:11:51
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestMySQL</span> </span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(String url)</span></span>{
+         Connection conn = <span class="keyword">null</span>;
+         Statement stmt = <span class="keyword">null</span>;
+         ResultSet rs  = <span class="keyword">null</span>;
+         String sql = ConfigHelp.getLocalConifg(&amp;quot;jdbc_inventory.house-keeping-test-sql&amp;quot;, &amp;quot;select <span class="number">0</span>&amp;quot;);
+            <span class="keyword">try</span> {
+                Class.forName(ConfigHelp.getLocalConifg(&amp;quot;jdbc_inventory.driver-<span class="class"><span class="keyword">class</span>&amp;<span class="title">quot</span></span>;, &amp;quot;com.mysql.jdbc.Driver&amp;quot;));<span class="comment">// &amp;#x52A8;&amp;#x6001;&amp;#x52A0;&amp;#x8F7D;mysql&amp;#x9A71;&amp;#x52A8;</span>
+                conn = DriverManager.getConnection(url);
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery(sql);
+                <span class="keyword">while</span> (rs.next()) {
+                }
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            } <span class="keyword">catch</span> (SQLException e) {
+                e.printStackTrace();
+            } <span class="keyword">catch</span> (Exception e) {
+                e.printStackTrace();
+            } <span class="keyword">finally</span> {
+                <span class="keyword">try</span> {
+                    <span class="keyword">if</span>(rs!=<span class="keyword">null</span>){
+                        rs.close();
+                    }
+                    <span class="keyword">if</span>(stmt!=<span class="keyword">null</span>){
+                        stmt.close();
+                    }
+                    <span class="keyword">if</span>(conn!=<span class="keyword">null</span>)
+                        conn.close();
+                } <span class="keyword">catch</span> (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+}
+
+
+<span class="comment">/**
+ * zookeeper&amp;#x5BA2;&amp;#x6237;&amp;#x7AEF;
+ * <span class="doctag">@author</span> tomsnail
+ * <span class="doctag">@date</span> 2015&amp;#x5E74;4&amp;#x6708;3&amp;#x65E5; &amp;#x4E0A;&amp;#x5348;10:11:51
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestServer</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory
+            .getLogger(TestServer.class);
+    <span class="keyword">private</span> <span class="keyword">static</span> ZooKeeper zk;
+    <span class="keyword">private</span> String path;
+    <span class="comment">//&amp;#x540C;&amp;#x6B65;&amp;#x9501;</span>
+    <span class="keyword">private</span> Lock _lock = <span class="keyword">new</span> ReentrantLock();
+    <span class="comment">// &amp;#x7528;&amp;#x4E8E;&amp;#x7B49;&amp;#x5F85; SyncConnected &amp;#x4E8B;&amp;#x4EF6;&amp;#x89E6;&amp;#x53D1;&amp;#x540E;&amp;#x7EE7;&amp;#x7EED;&amp;#x6267;&amp;#x884C;&amp;#x5F53;&amp;#x524D;&amp;#x7EBF;&amp;#x7A0B;</span>
+    <span class="keyword">private</span> CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>);
+    <span class="function"><span class="keyword">public</span> <span class="title">TestServer</span><span class="params">()</span> </span>{
+        zk = connectServer();
+        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() {
+            <span class="annotation">@Override</span>
+            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                <span class="keyword">while</span> (<span class="keyword">true</span>) {
+                    <span class="keyword">try</span> {
+                        Thread.currentThread().sleep(<span class="number">3000</span>);
+                    } <span class="keyword">catch</span> (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    <span class="comment">//logger.info(&amp;quot;check zk...&amp;quot;);</span>
+                    _lock.lock();
+                    <span class="keyword">if</span> (zk != <span class="keyword">null</span>) {
+                        <span class="keyword">if</span> (zk.getState().isAlive()
+                                &amp;amp;&amp;amp; zk.getState().isConnected()) {
+                            <span class="comment">//logger.info(&amp;quot;zk is ok&amp;quot;);</span>
+                            _lock.unlock();
+                            <span class="keyword">continue</span>;
+                        }
+                    }
+                    close();
+                    logger.info(&amp;quot;reConnectServer ...&amp;quot;);
+                    zk = connectServer();
+                    logger.info(&amp;quot;reConnectServer ok&amp;quot;);
+                    _lock.unlock();
+                }
+            }
+            <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>{
+                <span class="keyword">if</span>(zk!=<span class="keyword">null</span>){
+                    <span class="keyword">try</span> {
+                        zk.close();
+                    } <span class="keyword">catch</span> (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    zk = <span class="keyword">null</span>;
+                }
+            }
+        }).start();
+    }
+    <span class="comment">// &amp;#x8FDE;&amp;#x63A5; ZooKeeper &amp;#x670D;&amp;#x52A1;&amp;#x5668;</span>
+    <span class="function"><span class="keyword">private</span> ZooKeeper <span class="title">connectServer</span><span class="params">()</span> </span>{
+        ZooKeeper zk = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            zk = <span class="keyword">new</span> ZooKeeper(ConfigHelp.ZK_CONNECTION_STRING,
+                    ConfigHelp.ZK_SESSION_TIMEOUT, <span class="keyword">new</span> Watcher() {
+                        <span class="annotation">@Override</span>
+                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(WatchedEvent event)</span> </span>{
+                            <span class="keyword">if</span> (event.getState() == Event.KeeperState.SyncConnected) {
+                                latch.countDown(); <span class="comment">// &amp;#x5524;&amp;#x9192;&amp;#x5F53;&amp;#x524D;&amp;#x6B63;&amp;#x5728;&amp;#x6267;&amp;#x884C;&amp;#x7684;&amp;#x7EBF;&amp;#x7A0B;</span>
+                            }
+                        }
+                    });
+            latch.await(); <span class="comment">// &amp;#x4F7F;&amp;#x5F53;&amp;#x524D;&amp;#x7EBF;&amp;#x7A0B;&amp;#x5904;&amp;#x4E8E;&amp;#x7B49;&amp;#x5F85;&amp;#x72B6;&amp;#x6001;</span>
+        } <span class="keyword">catch</span> (Exception e) {
+            logger.error(&amp;quot;&amp;quot;, e);
+        }
+        <span class="keyword">if</span> (zk != <span class="keyword">null</span>) {
+            <span class="keyword">try</span> {
+                Stat stat = zk.exists(ConfigHelp.ZK_ROOT_PATH, <span class="keyword">false</span>);
+                <span class="keyword">if</span> (stat == <span class="keyword">null</span>) {
+                    String path = zk.create(ConfigHelp.ZK_ROOT_PATH,
+                            &amp;quot;&amp;quot;.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                            CreateMode.PERSISTENT); <span class="comment">// &amp;#x521B;&amp;#x5EFA;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E34;&amp;#x65F6;&amp;#x6027;&amp;#x4E14;&amp;#x6709;&amp;#x5E8F;&amp;#x7684; ZNode</span>
+                    logger.info(&amp;quot;<span class="function">create zookeeper <span class="title">node</span> <span class="params">({})</span>&amp;quot</span>;, path);
+                }
+                stat = zk.exists(ConfigHelp.ZK_RMI_PATH, <span class="keyword">false</span>);
+                <span class="keyword">if</span> (stat == <span class="keyword">null</span>) {
+                    String path = zk.create(ConfigHelp.ZK_RMI_PATH,
+                            &amp;quot;&amp;quot;.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                            CreateMode.PERSISTENT); <span class="comment">// &amp;#x521B;&amp;#x5EFA;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E34;&amp;#x65F6;&amp;#x6027;&amp;#x4E14;&amp;#x6709;&amp;#x5E8F;&amp;#x7684; ZNode</span>
+                    logger.info(&amp;quot;<span class="function">create zookeeper <span class="title">node</span> <span class="params">({})</span>&amp;quot</span>;, path);
+                }
+            } <span class="keyword">catch</span> (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        <span class="keyword">return</span> zk;
+    }
+    <span class="comment">// &amp;#x521B;&amp;#x5EFA; ZNode</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createNode</span><span class="params">(String url)</span> </span>{
+        _lock.lock();
+        <span class="keyword">try</span> {
+            <span class="keyword">byte</span>[] data = url.getBytes();
+            path = zk.create(ConfigHelp.ZK_RMI_PATH + &amp;quot;/&amp;quot;, data,
+                    ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                    CreateMode.EPHEMERAL_SEQUENTIAL); <span class="comment">// &amp;#x521B;&amp;#x5EFA;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E34;&amp;#x65F6;&amp;#x6027;&amp;#x4E14;&amp;#x6709;&amp;#x5E8F;&amp;#x7684; ZNode</span>
+            logger.info(&amp;quot;<span class="function">create zookeeper <span class="title">node</span> <span class="params">({} =&amp;gt; {})</span>&amp;quot</span>;, path, url);
+        } <span class="keyword">catch</span> (Exception e) {
+            logger.error(&amp;quot;&amp;quot;, e);
+            e.printStackTrace();
+        }
+        _lock.unlock();
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(String url)</span></span>{
+        _lock.lock();
+        <span class="keyword">try</span> {
+            Stat stat = zk.exists(path, <span class="keyword">false</span>);
+            <span class="keyword">if</span>(stat!=<span class="keyword">null</span>){
+                zk.delete(url, stat.getVersion());
+            }
+        } <span class="keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+        }
+        _lock.unlock();
+    }
+}
+
+
+<span class="comment">/**
+ * &amp;#x6570;&amp;#x636E;&amp;#x5E93;&amp;#x68C0;&amp;#x6D4B;&amp;#x6D4B;&amp;#x8BD5;&amp;#x4E3B;&amp;#x7C7B;
+ * <span class="doctag">@author</span> tomsnail
+ * <span class="doctag">@date</span> 2015&amp;#x5E74;4&amp;#x6708;3&amp;#x65E5; &amp;#x4E0A;&amp;#x5348;10:11:51
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestMain</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> TestServer testServer = <span class="keyword">new</span> TestServer();
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
+        String url = ConfigHelp.getLocalConifg(&amp;quot;jdbc_inventory.driver-url&amp;quot;, &amp;quot;select <span class="number">0</span>&amp;quot;);
+        <span class="keyword">boolean</span> isOK = <span class="keyword">false</span>;
+        <span class="keyword">while</span>(<span class="keyword">true</span>){
+            <span class="keyword">if</span>(TestMySQL.test(url)){
+                <span class="keyword">if</span>(isOK){
+                }<span class="keyword">else</span>{
+                    testServer.createNode(url);<span class="comment">//&amp;#x5EFA;&amp;#x7ACB;znode</span>
+                }
+                isOK = <span class="keyword">true</span>;
+            }<span class="keyword">else</span>{
+                isOK = <span class="keyword">false</span>;
+                testServer.deleteNode(url);<span class="comment">//&amp;#x5220;&amp;#x9664;znode</span>
+            }
+            <span class="keyword">try</span> {
+                Thread.currentThread().sleep(<span class="number">2000</span>);
+            } <span class="keyword">catch</span> (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><p>2).proxool</p>
+<pre><code><span class="comment">/**
+ * zookeeper&amp;#x4FE1;&amp;#x606F;&amp;#x5B9A;&amp;#x4E49;&amp;#x7C7B;
+ * @author tomsnail
+ * @date 2015&amp;#x5E74;4&amp;#x6708;2&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;6:49:13
+ */</span>
+<span class="keyword">public</span> class ZkInfoDefinition {
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> PREFIX_ZK = &amp;quot;zookeeper&amp;quot;;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> ZK_URL = &amp;quot;zkUrl&amp;quot;;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> ZK_SESSION_TIMEOUT = &amp;quot;sessionTimeout&amp;quot;;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> ZK_PATH = &amp;quot;zkPath&amp;quot;;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> ZK_ENABLE = &amp;quot;zkEnable&amp;quot;;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> zkUrl=&amp;quot;<span class="number">192.168</span>.102.1:<span class="number">31315</span>&amp;quot;;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">int</span> sessionTimeout = <span class="number">5000</span>;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">boolean</span> isEnable = <span class="keyword">false</span>;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> zkPath = &amp;quot;/root/db&amp;quot;;
+    <span class="keyword">public</span> <span class="keyword">String</span> getZkUrl() {
+        <span class="keyword">return</span> zkUrl;
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> setZkUrl(<span class="keyword">String</span> zkUrl) {
+        <span class="keyword">this</span>.zkUrl = zkUrl;
+    }
+    <span class="keyword">public</span> <span class="built_in">int</span> getSessionTimeout() {
+        <span class="keyword">return</span> sessionTimeout;
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> setSessionTimeout(<span class="built_in">int</span> sessionTimeout) {
+        <span class="keyword">this</span>.sessionTimeout = sessionTimeout;
+    }
+    <span class="keyword">public</span> <span class="keyword">String</span> getZkPath() {
+        <span class="keyword">return</span> zkPath;
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> setZkPath(<span class="keyword">String</span> zkPath) {
+        <span class="keyword">this</span>.zkPath = zkPath;
+    }
+    <span class="keyword">public</span> ZkInfoDefinition(<span class="keyword">String</span> zkUrl, <span class="built_in">int</span> sessionTimeout, <span class="keyword">String</span> zkPath) {
+        <span class="keyword">super</span>();
+        <span class="keyword">this</span>.zkUrl = zkUrl;
+        <span class="keyword">this</span>.sessionTimeout = sessionTimeout;
+        <span class="keyword">this</span>.zkPath = zkPath;
+    }
+    <span class="keyword">public</span> ZkInfoDefinition(){
+    }
+}
+</code></pre><p><img src="http://taojinke.github.io/img/20150703/1086240.gif" alt=""></p>
+<pre><code>/**
+ * zookeeper&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;
+ * @author tomsnail
+ * @date <span class="number">2015</span>&amp;<span class="symbol">#x5E74</span>;<span class="number">4</span>&amp;<span class="symbol">#x6708</span>;<span class="number">3</span>&amp;<span class="symbol">#x65E5</span>; &amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x5348</span>;<span class="number">10</span>:<span class="number">15</span>:<span class="number">11</span>
+ */
+public class <span class="class">ZkClient</span> {
+       private static final <span class="class">Logger</span> logger = <span class="class">LoggerFactory</span>.getLogger(<span class="class">ZkClient</span>.class);
+        // &amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>; <span class="class">SyncConnected</span> &amp;<span class="symbol">#x4E8B</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x89E6</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x7EE7</span>;&amp;<span class="symbol">#x7EED</span>;&amp;<span class="symbol">#x6267</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;
+        private <span class="class">CountDownLatch</span> latch = new <span class="class">CountDownLatch</span>(<span class="number">1</span>);
+        // &amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x4E49</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>; volatile &amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x5458</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x91CF</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x4FDD</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>; <span class="class">RMI</span> &amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x8003</span>;&amp;<span class="symbol">#x8651</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x91CF</span>;&amp;<span class="symbol">#x6216</span>;&amp;<span class="symbol">#x8BB8</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x5B83</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x4FEE</span>;&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x65E6</span>;&amp;<span class="symbol">#x4FEE</span>;&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x91CF</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5F71</span>;&amp;<span class="symbol">#x54CD</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#xFF09</span>;
+        private volatile <span class="class">List</span>&amp;lt;<span class="class">String</span>&amp;gt; dataList = new <span class="class">ArrayList</span>&amp;lt;<span class="class">String</span>&amp;gt;();
+        private <span class="class">Lock</span> _lock = new <span class="class">ReentrantLock</span>();
+        private static  <span class="class">ZooKeeper</span> zk;
+        private <span class="class">LBUrl</span> lbUrl;
+        public <span class="class">ZkClient</span>(){
+            this(new <span class="class">BasicLBUrl</span>());
+        }
+        // &amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x9020</span>;&amp;<span class="symbol">#x5668</span>;
+        public <span class="class">ZkClient</span>(<span class="class">LBUrl</span> lbUrl) {
+            this.lbUrl = lbUrl;
+            zk = connectServer(); // &amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>; <span class="class">ZooKeeper</span> &amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>; <span class="class">ZooKeeper</span> &amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;
+            watchNode();
+            new <span class="class">Thread</span>(new <span class="class">Runnable</span>() {
+                @<span class="class">Override</span>
+                public void run() {
+                    while (<span class="keyword">true</span>) {
+                        try {
+                            <span class="class">Thread</span>.currentThread().sleep(<span class="number">3000</span>);
+                        } catch (<span class="class">InterruptedException</span> e) {
+                            e.printStackTrace();
+                        }
+                        _lock.lock();
+                        if (zk != null) {
+                            if (zk.getState().isAlive()
+                                    &amp;amp;&amp;amp; zk.getState().isConnected()) {
+                                _lock.unlock();
+                                continue;
+                            }
+                        }
+                        if(zk!=null){
+                            try {
+                                zk.close();
+                            } catch (<span class="class">InterruptedException</span> e) {
+                                e.printStackTrace();
+                            }
+                            zk = null;
+                        }
+                        zk = connectServer();
+                        _lock.unlock();
+                    }
+                }
+            }).start();
+        }
+        // &amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x627E</span>; <span class="class">URL</span> &amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;
+        public <span class="class">String</span> getUrl() {
+            if (dataList!=null&amp;amp;&amp;amp;dataList.size()&amp;gt;<span class="number">0</span>) {
+               return this.lbUrl.getUrl(dataList);
+            }
+            return null;
+        }
+        public <span class="class">List</span>&amp;lt;<span class="class">String</span>&amp;gt; getUrls(){
+            return dataList;
+        }
+        // &amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>; <span class="class">ZooKeeper</span> &amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;
+        private <span class="class">ZooKeeper</span> connectServer() {
+            <span class="class">ZooKeeper</span> zk = null;
+            try {
+                zk = new <span class="class">ZooKeeper</span>(<span class="class">ZkInfoDefinition</span>.zkUrl, <span class="class">ZkInfoDefinition</span>.sessionTimeout, new <span class="class">Watcher</span>() {
+                    @<span class="class">Override</span>
+                    public void process(<span class="class">WatchedEvent</span> event) {
+                        if (event.getState() == <span class="class">Event</span>.<span class="class">KeeperState</span>.<span class="class">SyncConnected</span>) {
+                            latch.countDown(); // &amp;<span class="symbol">#x5524</span>;&amp;<span class="symbol">#x9192</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x6B63</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x6267</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;
+                        }
+                    }
+                });
+                latch.await(); // &amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;
+            } catch (<span class="class">Exception</span> e) {
+                logger.error(&amp;quot;&amp;quot;, e);
+            }
+            return zk;
+        }
+        // &amp;<span class="symbol">#x89C2</span>;&amp;<span class="symbol">#x5BDF</span>; /registry &amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x5316</span>;
+        private void watchNode() {
+            _lock.lock();
+            if(zk!=null&amp;amp;&amp;amp;zk.getState().isAlive()&amp;amp;&amp;amp;zk.getState().isConnected()){
+            }else{
+                if(zk!=null){
+                    try {
+                        zk.close();
+                    } catch (<span class="class">InterruptedException</span> e) {
+                        e.printStackTrace();
+                    }
+                    zk = null;
+                }
+                zk = connectServer();
+            }
+            try {
+                <span class="class">List</span>&amp;lt;<span class="class">String</span>&amp;gt; nodeList = zk.getChildren(<span class="class">ZkInfoDefinition</span>.zkPath, new <span class="class">Watcher</span>() {
+                    @<span class="class">Override</span>
+                    public void process(<span class="class">WatchedEvent</span> event) {
+                        if (event.getType() == <span class="class">Event</span>.<span class="class">EventType</span>.<span class="class">NodeChildrenChanged</span>) {
+                            watchNode(); // &amp;<span class="symbol">#x82E5</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF09</span>;
+                        }
+                    }
+                });
+                <span class="class">List</span>&amp;lt;<span class="class">String</span>&amp;gt; dataList = new <span class="class">ArrayList</span>&amp;lt;<span class="class">String</span>&amp;gt;(); // &amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x653E</span>; /registry &amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;
+                for (<span class="class">String</span> node : nodeList) {
+                    byte[] data = zk.getData(<span class="class">ZkInfoDefinition</span>.zkPath + &amp;quot;/&amp;quot; + node, <span class="keyword">false</span>, null); // &amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>; /registry &amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;
+                    dataList.add(new <span class="class">String</span>(data));
+                }
+                logger.debug(&amp;quot;node <span class="method">data:</span> {}&amp;quot;, dataList);
+                this.dataList = dataList;
+            } catch (<span class="class">Exception</span> e) {
+                logger.error(&amp;quot;&amp;quot;, e);
+            }
+            _lock.unlock();
+        }
+        public static void main(<span class="class">String</span>[] args) {
+            <span class="class">ZkClient</span> client = new <span class="class">ZkClient</span>();
+            <span class="class">System</span>.out.println(client.getUrl());
+        }
+}
+</code></pre><p> View Code</p>
+<p><img src="http://taojinke.github.io/img/20150703/10864b1.gif" alt=""></p>
+<pre><code><span class="comment">/**
+ * &amp;#x4ECE;zookeeper&amp;#x83B7;&amp;#x5F97;URL&amp;#x8FDE;&amp;#x63A5;&amp;#x64CD;&amp;#x4F5C;&amp;#x7C7B;
+ * @author tomsnail
+ * @date 2015&amp;#x5E74;4&amp;#x6708;2&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;6:56:06
+ */</span>
+<span class="keyword">public</span> class ZkUrlOperation {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ZkUrlOperation instance = <span class="keyword">new</span> ZkUrlOperation();
+    <span class="keyword">private</span> <span class="keyword">static</span> ZkInfoDefinition zkInfoDefinition;
+    <span class="keyword">private</span> <span class="keyword">static</span> ZkClient zkClient;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">byte</span>[] _lock = <span class="keyword">new</span> <span class="built_in">byte</span>[<span class="number">0</span>];
+    <span class="keyword">private</span>  ZkUrlOperation(){
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> ZkUrlOperation getInstance(){
+        <span class="keyword">return</span> instance;
+    }
+    <span class="keyword">public</span>  <span class="keyword">void</span> addZkInfoDefinition(ZkInfoDefinition zkInfoDefinition){
+        ZkUrlOperation.zkInfoDefinition = zkInfoDefinition;
+    }
+    <span class="keyword">public</span>  <span class="keyword">void</span> addZkInfoDefinition(<span class="keyword">String</span> <span class="variable">key</span>,<span class="keyword">String</span> value){
+        <span class="keyword">if</span>(ZkUrlOperation.zkInfoDefinition==<span class="keyword">null</span>){
+            ZkUrlOperation.zkInfoDefinition = <span class="keyword">new</span> ZkInfoDefinition();
+        }
+        <span class="keyword">if</span>(<span class="variable">key</span>.contains(ZkInfoDefinition.ZK_PATH)){
+            ZkUrlOperation.zkInfoDefinition.setZkPath(value);
+        }
+        <span class="keyword">if</span>(<span class="variable">key</span>.contains(ZkInfoDefinition.ZK_SESSION_TIMEOUT)){
+            ZkUrlOperation.zkInfoDefinition.setSessionTimeout(Integer.valueOf(value));;
+        }
+        <span class="keyword">if</span>(<span class="variable">key</span>.contains(ZkInfoDefinition.ZK_URL)){
+            ZkUrlOperation.zkInfoDefinition.setZkUrl(value);;
+        }
+        <span class="keyword">if</span>(<span class="variable">key</span>.contains(ZkInfoDefinition.ZK_ENABLE)){
+            ZkUrlOperation.zkInfoDefinition.isEnable = Boolean.valueOf(value);
+        }
+    }
+    <span class="keyword">public</span> <span class="keyword">String</span> getUrl(){
+        <span class="keyword">synchronized</span> (_lock) {
+            <span class="keyword">if</span>(zkInfoDefinition.isEnable){
+                <span class="keyword">if</span>(zkClient==<span class="keyword">null</span>){
+                    zkClient = <span class="keyword">new</span> ZkClient();
+                }
+                <span class="keyword">String</span> url = zkClient.getUrl();
+                <span class="keyword">return</span> url;
+            }<span class="keyword">else</span>{
+                <span class="keyword">return</span> &amp;quot;&amp;quot;;
+            }
+        }
+    }
+    <span class="keyword">public</span> <span class="built_in">boolean</span> isAvailUrl(<span class="keyword">String</span> url){
+        <span class="keyword">synchronized</span> (_lock) {
+            <span class="keyword">if</span>(zkInfoDefinition.isEnable){
+                <span class="keyword">if</span>(zkClient==<span class="keyword">null</span>){
+                    zkClient = <span class="keyword">new</span> ZkClient();
+                }
+                List&amp;lt;<span class="keyword">String</span>&amp;gt; urls = zkClient.getUrls();
+                <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&amp;lt;urls.<span class="built_in">size</span>();i++){
+                    <span class="keyword">if</span>(url.equals(urls.<span class="built_in">get</span>(i))){
+                        <span class="keyword">return</span> <span class="keyword">true</span>;
+                    }
+                }
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            }
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+    }
+}
+</code></pre><p> View Code</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MySQL/">MySQL</a><a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/1098256/" title="Storm笔记 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Storm笔记 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/0fc45aa/"  title="下一代云计算平台Apache Mesos安装部署 -">
+ <strong>下一篇：</strong><br/> 
+ <span>下一代云计算平台Apache Mesos安装部署 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

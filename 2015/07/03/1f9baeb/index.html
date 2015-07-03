@@ -1,0 +1,705 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Memcached(三)、封装Memcached和Ehcache - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x672C;&amp;#x6587;&amp;#x5BF9;Ehcache&amp;#x548C;Memcached&amp;#x8FDB;&amp;#x884C;&amp;#x4E86;&amp;#x7B80;&amp;#x5355;&amp;#x7684;&amp;#x5C01;&amp;#x88C5;&amp;#xFF0C;&amp;#x8FD9;&amp;#x6837;&amp;#x5BF9;&amp;#x4E8E;&amp;#x5BA2;&amp;#x6237;&amp;#x7AEF;&amp;#x7A0B;&amp;#x5E8F;&amp;#x65E0;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Memcached(三)、封装Memcached和Ehcache -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/1f9baeb/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x672C;&amp;#x6587;&amp;#x5BF9;Ehcache&amp;#x548C;Memcached&amp;#x8FDB;&amp;#x884C;&amp;#x4E86;&amp;#x7B80;&amp;#x5355;&amp;#x7684;&amp;#x5C01;&amp;#x88C5;&amp;#xFF0C;&amp;#x8FD9;&amp;#x6837;&amp;#x5BF9;&amp;#x4E8E;&amp;#x5BA2;&amp;#x6237;&amp;#x7AEF;&amp;#x7A0B;&amp;#x5E8F;&amp;#x65E0;">
+<meta property="og:updated_time" content="2015-07-03T14:09:30.949Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Memcached(三)、封装Memcached和Ehcache -">
+<meta name="twitter:description" content="&amp;#x672C;&amp;#x6587;&amp;#x5BF9;Ehcache&amp;#x548C;Memcached&amp;#x8FDB;&amp;#x884C;&amp;#x4E86;&amp;#x7B80;&amp;#x5355;&amp;#x7684;&amp;#x5C01;&amp;#x88C5;&amp;#xFF0C;&amp;#x8FD9;&amp;#x6837;&amp;#x5BF9;&amp;#x4E8E;&amp;#x5BA2;&amp;#x6237;&amp;#x7AEF;&amp;#x7A0B;&amp;#x5E8F;&amp;#x65E0;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/1f9baeb/" title="Memcached(三)、封装Memcached和Ehcache -" itemprop="url">Memcached(三)、封装Memcached和Ehcache -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:30.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x672C;&#x6587;&#x5BF9;Ehcache&#x548C;Memcached&#x8FDB;&#x884C;&#x4E86;&#x7B80;&#x5355;&#x7684;&#x5C01;&#x88C5;&#xFF0C;&#x8FD9;&#x6837;&#x5BF9;&#x4E8E;&#x5BA2;&#x6237;&#x7AEF;&#x7A0B;&#x5E8F;&#x65E0;&#x9700;&#x4E86;&#x89E3;ehcache&#x548C;memcached&#x7684;&#x5DEE;&#x5F02;&#xFF0C;&#x4EC5;&#x9700;&#x8981;&#x914D;&#x7F6E;&#x7F13;&#x5B58;&#x7684;Provider&#x7C7B;&#x5C31;&#x53EF;&#x4EE5;&#x5728;&#x4E8C;&#x8005;&#x4E4B;&#x95F4;&#x8FDB;&#x884C;&#x5207;&#x6362;&#xFF0C;Provider&#x5B9E;&#x73B0;&#x7C7B;&#x901A;&#x8FC7;Spring IoC&#x6CE8;&#x5165;&#x3002;</p>
+<p>cache.xml</p>
+<pre><code>&amp;lt;?xml version=&amp;quot;<span class="number">1.0</span>&amp;quot; encoding=&amp;quot;UTF-<span class="number">8</span>&amp;quot;?&amp;gt;
+&amp;lt;!DOCTYPE beans PUBLIC &amp;quot;-<span class="comment">//SPRING/DTD BEAN//EN&amp;quot;</span>
+        &amp;quot;http:<span class="comment">//www.springframework.org/dtd/spring-beans.dtd&amp;quot;&amp;gt;</span>
+&amp;lt;beans&amp;gt;
+    &amp;lt;bean id=&amp;quot;cacheProvider&amp;quot; class=&amp;quot;org.frank1234.spring.memcached.EhcacheCacheProvider&amp;quot;&amp;gt;
+    &amp;lt;/bean&amp;gt;
+    &amp;lt;bean id=&amp;quot;cacheManager&amp;quot; class=&amp;quot;org.frank1234.spring.memcached.CacheManager&amp;quot;&amp;gt;
+        &amp;lt;property name = &amp;quot;cache&amp;quot;&amp;gt;
+            &amp;lt;ref bean=&amp;quot;cacheProvider&amp;quot;&amp;gt;&amp;lt;/ref&amp;gt;
+        &amp;lt;/property&amp;gt;
+    &amp;lt;/bean&amp;gt;
+&amp;lt;/beans&amp;gt;
+
+
+<span class="keyword">public</span> interface ICache {
+    <span class="keyword">public</span> <span class="keyword">void</span> put(<span class="keyword">String</span> <span class="variable">key</span>, <span class="keyword">Object</span> obj) <span class="keyword">throws</span> Exception;
+    <span class="keyword">public</span> <span class="keyword">Object</span> <span class="built_in">get</span>(<span class="keyword">String</span> <span class="variable">key</span>) <span class="keyword">throws</span> Exception;
+    <span class="keyword">public</span> <span class="keyword">void</span> remove(<span class="keyword">String</span> <span class="variable">key</span>) <span class="keyword">throws</span> Exception;
+}
+
+<span class="keyword">public</span> class EhcacheCacheProvider implements ICache{
+    <span class="keyword">private</span> <span class="keyword">static</span> CacheManager manager ;
+    <span class="keyword">private</span> <span class="keyword">static</span> Cache ehcache;
+    <span class="keyword">public</span> EhcacheCacheProvider(){
+        manager =  CacheManager.getInstance();
+        ehcache = manager.getCache(&amp;quot;helloworldCache&amp;quot;);
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> put(<span class="keyword">String</span> <span class="variable">key</span>, <span class="keyword">Object</span> obj) <span class="keyword">throws</span> Exception {
+        Element elemnt = <span class="keyword">new</span> Element(<span class="variable">key</span>,obj);
+        ehcache.put(elemnt);
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">Object</span> <span class="built_in">get</span>(<span class="keyword">String</span> <span class="variable">key</span>) <span class="keyword">throws</span> Exception {
+        Element element = ehcache.<span class="built_in">get</span>(<span class="variable">key</span>);
+        <span class="keyword">return</span> element.getObjectValue();
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> remove(<span class="keyword">String</span> <span class="variable">key</span>) <span class="keyword">throws</span> Exception {
+        ehcache.remove(<span class="variable">key</span>);
+    }
+}
+
+
+<span class="keyword">public</span> class MemcachedCacheProvider implements ICache {
+    <span class="keyword">static</span> {
+        <span class="keyword">try</span> {
+            initPool();
+        } <span class="keyword">catch</span> (Exception e) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);
+        }
+    }
+    <span class="keyword">private</span> <span class="keyword">static</span> MemCachedClient client;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> initPool() <span class="keyword">throws</span> Exception{
+        Properties props = getProperties();
+        <span class="keyword">String</span>[] servers = ((<span class="keyword">String</span>)props.<span class="built_in">get</span>(&amp;quot;servers&amp;quot;)).<span class="built_in">split</span>(&amp;quot;,&amp;quot;);
+        SockIOPool pool = SockIOPool.getInstance();
+        pool.setServers(servers);
+        pool.setFailover(Boolean.valueOf((<span class="keyword">String</span>)props.<span class="built_in">get</span>(&amp;quot;failover&amp;quot;)));
+        pool.setInitConn(Integer.parseInt((<span class="keyword">String</span>)props.<span class="built_in">get</span>(&amp;quot;initConn&amp;quot;)));
+        pool.setMinConn(Integer.parseInt((<span class="keyword">String</span>)props.<span class="built_in">get</span>(&amp;quot;minConn&amp;quot;)));
+        pool.setMaxConn(Integer.parseInt((<span class="keyword">String</span>)props.<span class="built_in">get</span>(&amp;quot;maxConn&amp;quot;)));
+        pool.setMaintSleep(Integer.parseInt((<span class="keyword">String</span>)props.<span class="built_in">get</span>(&amp;quot;maintSleep&amp;quot;)));
+        pool.setNagle(Boolean.valueOf((<span class="keyword">String</span>)props.<span class="built_in">get</span>(&amp;quot;magle&amp;quot;)));
+        pool.setSocketTO(Integer.parseInt((<span class="keyword">String</span>)props.<span class="built_in">get</span>(&amp;quot;socketTO&amp;quot;)));
+        pool.setAliveCheck(Boolean.valueOf((<span class="keyword">String</span>)props.<span class="built_in">get</span>(&amp;quot;aliveCheck&amp;quot;)));
+        pool.initialize();
+    }
+    <span class="keyword">private</span> <span class="keyword">static</span> Properties getProperties() <span class="keyword">throws</span> Exception{
+        Properties props = <span class="keyword">new</span> Properties();
+        InputStream in = MemcachedCacheProvider.class.getResourceAsStream(&amp;quot;/memcached.properties&amp;quot;);
+        props.load(in);
+        <span class="keyword">return</span> props;
+    }
+    <span class="keyword">public</span> MemcachedCacheProvider(){
+        client = <span class="keyword">new</span> MemCachedClient();
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> put(<span class="keyword">String</span> <span class="variable">key</span>, <span class="keyword">Object</span> obj) <span class="keyword">throws</span> Exception {
+        client.<span class="built_in">set</span>(<span class="variable">key</span>.toString(),obj);
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">Object</span> <span class="built_in">get</span>(<span class="keyword">String</span> <span class="variable">key</span>) <span class="keyword">throws</span> Exception {
+        <span class="keyword">return</span> client.<span class="built_in">get</span>(<span class="variable">key</span>);
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> remove(<span class="keyword">String</span> <span class="variable">key</span>) <span class="keyword">throws</span> Exception {
+        client.delete(<span class="variable">key</span>);
+    }
+}
+
+
+<span class="keyword">public</span> class CacheManager {
+    <span class="keyword">private</span> ICache cache;
+    <span class="keyword">public</span> <span class="keyword">void</span> setCache(ICache cache) {
+        <span class="keyword">this</span>.cache = cache;
+    }
+    <span class="keyword">public</span> ICache getCache() <span class="keyword">throws</span> Exception{
+        <span class="keyword">return</span> cache;
+    }
+}
+
+
+<span class="keyword">public</span> class CacheMain {
+    @BeforeClass
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> setUpBeforeClass() <span class="keyword">throws</span> Exception {
+    }
+    @AfterClass
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> tearDownAfterClass() <span class="keyword">throws</span> Exception {
+    }
+    @Before
+    <span class="keyword">public</span> <span class="keyword">void</span> setUp() <span class="keyword">throws</span> Exception {
+    }
+    @After
+    <span class="keyword">public</span> <span class="keyword">void</span> tearDown() <span class="keyword">throws</span> Exception {
+    }
+    @Test
+    <span class="keyword">public</span> <span class="keyword">void</span> testCache() <span class="keyword">throws</span> Exception{
+        ApplicationContext factory = <span class="keyword">new</span> ClassPathXmlApplicationContext(&amp;quot;cache.xml&amp;quot;);
+        CacheManager cacheManager = (CacheManager)factory.getBean(&amp;quot;cacheManager&amp;quot;);
+        ICache cache = cacheManager.getCache();
+        cache.put(&amp;quot;<span class="variable">key</span>&amp;quot;,&amp;quot;value&amp;quot;);
+        System.out.<span class="built_in">println</span>(cache.<span class="built_in">get</span>(&amp;quot;<span class="variable">key</span>&amp;quot;));
+    }
+}
+</code></pre><p>ehcache.xml</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">?</span><span class="built_in">xml</span> version<span class="subst">=&amp;</span>quot;<span class="number">1.0</span><span class="subst">&amp;</span>quot; encoding<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">?&amp;</span><span class="literal">gt</span>;
+
+<span class="subst">&amp;</span><span class="literal">lt</span>;ehcache xmlns:xsi<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.w3.org/2001/XMLSchema-instance&amp;quot;</span>
+         xsi:noNamespaceSchemaLocation<span class="subst">=&amp;</span>quot;ehcache<span class="built_in">.</span>xsd<span class="subst">&amp;</span>quot; updateCheck<span class="subst">=&amp;</span>quot;<span class="literal">false</span><span class="subst">&amp;</span>quot;
+         monitoring<span class="subst">=&amp;</span>quot;autodetect<span class="subst">&amp;</span>quot; dynamicConfig<span class="subst">=&amp;</span>quot;<span class="literal">true</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x5C06</span>;<span class="subst">&amp;</span><span class="variable">#x7F13</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#x5199</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x786C</span>;<span class="subst">&amp;</span><span class="variable">#x76D8</span>;<span class="subst">&amp;</span><span class="variable">#x4E0A</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x76EE</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x6587</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>;<span class="subst">&amp;</span><span class="variable">#x540D</span>;<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x7F13</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x540D</span>;<span class="number">1.</span><span class="built_in">data</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x9690</span>;<span class="subst">&amp;</span><span class="variable">#x85CF</span>;<span class="subst">&amp;</span><span class="variable">#x6587</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x7A0B</span>;<span class="subst">&amp;</span><span class="variable">#x5E8F</span>;<span class="subst">&amp;</span><span class="variable">#x8FD0</span>;<span class="subst">&amp;</span><span class="variable">#x884C</span>;<span class="subst">&amp;</span><span class="variable">#x7ED3</span>;<span class="subst">&amp;</span><span class="variable">#x675F</span>;<span class="subst">&amp;</span><span class="variable">#x540E</span>;<span class="subst">&amp;</span><span class="variable">#x4F1A</span>;<span class="subst">&amp;</span><span class="variable">#x81EA</span>;<span class="subst">&amp;</span><span class="variable">#x52A8</span>;<span class="subst">&amp;</span><span class="variable">#x5220</span>;<span class="subst">&amp;</span><span class="variable">#x9664</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5982</span>;<span class="subst">&amp;</span><span class="variable">#x679C</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x67E5</span>;<span class="subst">&amp;</span><span class="variable">#x770B</span>;<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>;<span class="subst">&amp;</span><span class="variable">#x901A</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="keyword">Thread</span><span class="built_in">.</span>sleep(<span class="number">60</span><span class="subst">*</span><span class="number">1000</span>)<span class="subst">&amp;</span><span class="variable">#x6682</span>;<span class="subst">&amp;</span><span class="variable">#x505C</span>;<span class="subst">&amp;</span><span class="variable">#x4F4F</span>;<span class="subst">&amp;</span><span class="variable">#x7A0B</span>;<span class="subst">&amp;</span><span class="variable">#x5E8F</span>;<span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;diskStore path<span class="subst">=&amp;</span>quot;d:/ehcache<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--&amp;</span><span class="variable">#x9ED8</span>;<span class="subst">&amp;</span><span class="variable">#x8BA4</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x7F13</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x7B56</span>;<span class="subst">&amp;</span><span class="variable">#x7565</span>;
+     maxElementsInMemory <span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x5185</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x4E2D</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x653E</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6700</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x8FD9</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x91CF</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;maxBytesLocalHeap<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x5C0F</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;jdk<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x63D0</span>;<span class="subst">&amp;</span><span class="variable">#x4F9B</span>;<span class="subst">&amp;</span><span class="variable">#x76F4</span>;<span class="subst">&amp;</span><span class="variable">#x63A5</span>;<span class="subst">&amp;</span><span class="variable">#x8BA1</span>;<span class="subst">&amp;</span><span class="variable">#x7B97</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x5C0F</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;api<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;ehcache<span class="subst">&amp;</span><span class="variable">#x5B9E</span>;<span class="subst">&amp;</span><span class="variable">#x73B0</span>;<span class="subst">&amp;</span><span class="variable">#x4E86</span>;<span class="subst">&amp;</span><span class="variable">#x8BA1</span>;<span class="subst">&amp;</span><span class="variable">#x7B97</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x5C0F</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x529F</span>;<span class="subst">&amp;</span><span class="variable">#x80FD</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;<span class="subst">&amp;</span><span class="variable">#x5177</span>;<span class="subst">&amp;</span><span class="variable">#x4F53</span>;<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x53C2</span>;<span class="subst">&amp;</span><span class="variable">#x89C1</span>;<span class="subst">&amp;</span><span class="variable">#x6E90</span>;<span class="subst">&amp;</span><span class="variable">#x7801</span>;<span class="keyword">cache</span><span class="built_in">.</span>calculateInMemorySize()<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x8BA1</span>;<span class="subst">&amp;</span><span class="variable">#x7B97</span>;<span class="subst">&amp;</span><span class="variable">#x65B9</span>;<span class="subst">&amp;</span><span class="variable">#x6CD5</span>;<span class="subst">&amp;</span><span class="variable">#x6BD4</span>;<span class="subst">&amp;</span><span class="variable">#x8F83</span>;<span class="subst">&amp;</span><span class="variable">#x590D</span>;<span class="subst">&amp;</span><span class="variable">#x6742</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+     eternal<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="literal">true</span><span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x6C38</span>;<span class="subst">&amp;</span><span class="variable">#x4E0D</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x671F</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x9ED8</span>;<span class="subst">&amp;</span><span class="variable">#x8BA4</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="literal">false</span><span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5982</span>;<span class="subst">&amp;</span><span class="variable">#x679C</span>;<span class="subst">&amp;</span><span class="variable">#x8BBE</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>;<span class="subst">&amp;</span><span class="variable">#x6210</span>;<span class="literal">true</span><span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5219</span>;timeToIdleSeconds<span class="subst">&amp;</span><span class="variable">#x548C</span>;timeToLiveSeconds<span class="subst">&amp;</span><span class="variable">#x5C31</span>;<span class="subst">&amp;</span><span class="variable">#x5931</span>;<span class="subst">&amp;</span><span class="variable">#x6548</span>;<span class="subst">&amp;</span><span class="variable">#x4E86</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+     overflowToDisk<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="literal">true</span><span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x5982</span>;<span class="subst">&amp;</span><span class="variable">#x679C</span>;<span class="subst">&amp;</span><span class="variable">#x7F13</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x91CF</span>;<span class="subst">&amp;</span><span class="variable">#x8D85</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x4E86</span>;maxElementsInMemory<span class="subst">&amp;</span><span class="variable">#x5219</span>;<span class="subst">&amp;</span><span class="variable">#x5C06</span>;<span class="subst">&amp;</span><span class="variable">#x7F13</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#x653E</span>;<span class="subst">&amp;</span><span class="variable">#x5165</span>;<span class="subst">&amp;</span><span class="variable">#x786C</span>;<span class="subst">&amp;</span><span class="variable">#x76D8</span>;<span class="subst">&amp;</span><span class="variable">#x4E2D</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;
+     timeToIdleSeconds<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x5141</span>;<span class="subst">&amp;</span><span class="variable">#x8BB8</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x5904</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x7A7A</span>;<span class="subst">&amp;</span><span class="variable">#x95F2</span>;<span class="subst">&amp;</span><span class="variable">#x72B6</span>;<span class="subst">&amp;</span><span class="variable">#x6001</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#x95F4</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x8D85</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x6B64</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#x95F4</span>;<span class="subst">&amp;</span><span class="variable">#x5219</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x671F</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x6E05</span>;<span class="subst">&amp;</span><span class="variable">#x6389</span>;<span class="subst">&amp;</span><span class="variable">#x7F13</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+     timeToLiveSeconds<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x5141</span>;<span class="subst">&amp;</span><span class="variable">#x8BB8</span>;<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x8C61</span>;<span class="subst">&amp;</span><span class="variable">#x6700</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x6D3B</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#x95F4</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x8D85</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x6B64</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#x95F4</span>;<span class="subst">&amp;</span><span class="variable">#x5219</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x671F</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x6E05</span>;<span class="subst">&amp;</span><span class="variable">#x6389</span>;<span class="subst">&amp;</span><span class="variable">#x7F13</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;<span class="subst">&amp;</span><span class="variable">#x8FD9</span>;<span class="subst">&amp;</span><span class="variable">#x4E2A</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#x95F4</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;timeToIdleSeconds<span class="subst">&amp;</span><span class="variable">#x624D</span>;<span class="subst">&amp;</span><span class="variable">#x6709</span>;<span class="subst">&amp;</span><span class="variable">#x610F</span>;<span class="subst">&amp;</span><span class="variable">#x4E49</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+     memoryStoreEvictionPolicy<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x5F53</span>;<span class="subst">&amp;</span><span class="variable">#x8FBE</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;maxElementsInMemory<span class="subst">&amp;</span><span class="variable">#x9650</span>;<span class="subst">&amp;</span><span class="variable">#x5236</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;Ehcache<span class="subst">&amp;</span><span class="variable">#x5C06</span>;<span class="subst">&amp;</span><span class="variable">#x4F1A</span>;<span class="subst">&amp;</span><span class="variable">#x6839</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#x6307</span>;<span class="subst">&amp;</span><span class="variable">#x5B9A</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x7B56</span>;<span class="subst">&amp;</span><span class="variable">#x7565</span>;<span class="subst">&amp;</span><span class="variable">#x53BB</span>;<span class="subst">&amp;</span><span class="variable">#x6E05</span>;<span class="subst">&amp;</span><span class="variable">#x7406</span>;<span class="subst">&amp;</span><span class="variable">#x5185</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x9009</span>;<span class="subst">&amp;</span><span class="variable">#x7B56</span>;<span class="subst">&amp;</span><span class="variable">#x7565</span>;<span class="subst">&amp;</span><span class="variable">#x6709</span>;<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;LRU<span class="subst">&amp;</span><span class="variable">#xFF08</span>;<span class="subst">&amp;</span><span class="variable">#x6700</span>;<span class="subst">&amp;</span><span class="variable">#x8FD1</span>;<span class="subst">&amp;</span><span class="variable">#x6700</span>;<span class="subst">&amp;</span><span class="variable">#x5C11</span>;<span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x9ED8</span>;<span class="subst">&amp;</span><span class="variable">#x8BA4</span>;<span class="subst">&amp;</span><span class="variable">#x7B56</span>;<span class="subst">&amp;</span><span class="variable">#x7565</span>;<span class="subst">&amp;</span><span class="variable">#xFF09</span>;<span class="subst">&amp;</span><span class="variable">#x3001</span>;FIFO<span class="subst">&amp;</span><span class="variable">#xFF08</span>;<span class="subst">&amp;</span><span class="variable">#x5148</span>;<span class="subst">&amp;</span><span class="variable">#x8FDB</span>;<span class="subst">&amp;</span><span class="variable">#x5148</span>;<span class="subst">&amp;</span><span class="variable">#x51FA</span>;<span class="subst">&amp;</span><span class="variable">#xFF09</span>;<span class="subst">&amp;</span><span class="variable">#x3001</span>;LFU<span class="subst">&amp;</span><span class="variable">#xFF08</span>;<span class="subst">&amp;</span><span class="variable">#x6700</span>;<span class="subst">&amp;</span><span class="variable">#x5C11</span>;<span class="subst">&amp;</span><span class="variable">#x8BBF</span>;<span class="subst">&amp;</span><span class="variable">#x95EE</span>;<span class="subst">&amp;</span><span class="variable">#x6B21</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#xFF09</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+
+
+     <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;defaultCache  maxElementsInMemory<span class="subst">=&amp;</span>quot;<span class="number">1000</span><span class="subst">&amp;</span>quot; eternal<span class="subst">=&amp;</span>quot;<span class="literal">false</span><span class="subst">&amp;</span>quot;
+                  overflowToDisk<span class="subst">=&amp;</span>quot;<span class="literal">true</span><span class="subst">&amp;</span>quot; timeToIdleSeconds<span class="subst">=&amp;</span>quot;<span class="number">30</span><span class="subst">&amp;</span>quot; timeToLiveSeconds<span class="subst">=&amp;</span>quot;<span class="number">60</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/defaultCache<span class="subst">&amp;</span><span class="literal">gt</span>;
+
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">cache</span> name<span class="subst">=&amp;</span>quot;helloworldCache<span class="subst">&amp;</span>quot;  maxElementsInMemory<span class="subst">=&amp;</span>quot;<span class="number">1000</span><span class="subst">&amp;</span>quot;
+           maxEntriesLocalDisk<span class="subst">=&amp;</span>quot;<span class="number">10000</span><span class="subst">&amp;</span>quot; eternal<span class="subst">=&amp;</span>quot;<span class="literal">false</span><span class="subst">&amp;</span>quot; overflowToDisk<span class="subst">=&amp;</span>quot;<span class="literal">true</span><span class="subst">&amp;</span>quot;
+           diskSpoolBufferSizeMB<span class="subst">=&amp;</span>quot;<span class="number">20</span><span class="subst">&amp;</span>quot; timeToIdleSeconds<span class="subst">=&amp;</span>quot;<span class="number">10</span><span class="subst">&amp;</span>quot; timeToLiveSeconds<span class="subst">=&amp;</span>quot;<span class="number">20</span><span class="subst">&amp;</span>quot;
+           memoryStoreEvictionPolicy<span class="subst">=&amp;</span>quot;LFU<span class="subst">&amp;</span>quot;   <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/ehcache<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>memcached.properties</p>
+<pre><code><span class="setting">servers=<span class="value">localhost:<span class="number">11211</span></span></span>
+<span class="setting">failover=<span class="value"><span class="keyword">true</span></span></span>
+<span class="setting">initConn=<span class="value"><span class="number">10</span></span></span>
+<span class="setting">minConn=<span class="value"><span class="number">5</span></span></span>
+<span class="setting">maxConn=<span class="value"><span class="number">250</span></span></span>
+<span class="setting">maintSleep=<span class="value"><span class="number">30</span></span></span>
+<span class="setting">nagle=<span class="value"><span class="keyword">false</span></span></span>
+<span class="setting">socketTO=<span class="value"><span class="number">3000</span></span></span>
+<span class="setting">aliveCheck=<span class="value"><span class="keyword">true</span></span></span>
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Ehcache/">Ehcache</a><a href="/tags/Java/">Java</a><a href="/tags/Memcached/">Memcached</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/1fa572b/" title="一个故障的生命周期 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  一个故障的生命周期 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/1f96f3c/"  title="WDCP安装memcached提示&#39;No targets specified and no makefile found&#39;错误的解决办法 -">
+ <strong>下一篇：</strong><br/> 
+ <span>WDCP安装memcached提示&#39;No targets specified and no makefile found&#39;错误的解决办法 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

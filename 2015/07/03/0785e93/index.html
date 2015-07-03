@@ -1,0 +1,758 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Kafka设计解析（三）- Kafka High Availability （下） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x6458;&amp;#x8981;&amp;#x672C;&amp;#x6587;&amp;#x5728;&amp;#x4E0A;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x57FA;&amp;#x7840;&amp;#x4E0A;&amp;#xFF0C;&amp;#x66F4;&amp;#x52A0;&amp;#x6DF1;&amp;#x5165;&amp;#x8BB2;&amp;#x89E3;&amp;#x4E86;Kafka&amp;#x7684;HA&amp;#x673A;&amp;#x5236;&amp;#xFF0C;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka设计解析（三）- Kafka High Availability （下） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/0785e93/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x6458;&amp;#x8981;&amp;#x672C;&amp;#x6587;&amp;#x5728;&amp;#x4E0A;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x57FA;&amp;#x7840;&amp;#x4E0A;&amp;#xFF0C;&amp;#x66F4;&amp;#x52A0;&amp;#x6DF1;&amp;#x5165;&amp;#x8BB2;&amp;#x89E3;&amp;#x4E86;Kafka&amp;#x7684;HA&amp;#x673A;&amp;#x5236;&amp;#xFF0C;&amp;">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077e210.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077e481.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077e481.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077e6f2.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077e963.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077ebd4.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077ee45.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077ee45.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077f0b6.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077f0b6.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077f327.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077f327.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077f598.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077f598.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077f809.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077f809.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077fa7a.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/077fa7a.png">
+<meta property="og:updated_time" content="2015-07-03T14:08:50.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kafka设计解析（三）- Kafka High Availability （下） -">
+<meta name="twitter:description" content="&amp;#x6458;&amp;#x8981;&amp;#x672C;&amp;#x6587;&amp;#x5728;&amp;#x4E0A;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x57FA;&amp;#x7840;&amp;#x4E0A;&amp;#xFF0C;&amp;#x66F4;&amp;#x52A0;&amp;#x6DF1;&amp;#x5165;&amp;#x8BB2;&amp;#x89E3;&amp;#x4E86;Kafka&amp;#x7684;HA&amp;#x673A;&amp;#x5236;&amp;#xFF0C;&amp;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/0785e93/" title="Kafka设计解析（三）- Kafka High Availability （下） -" itemprop="url">Kafka设计解析（三）- Kafka High Availability （下） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:50.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broker_Failover过程"><span class="toc-number">2.</span> <span class="toc-text">Broker Failover过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Controller对Broker_failure的处理过程"><span class="toc-number">3.</span> <span class="toc-text">Controller对Broker failure的处理过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建/删除Topic"><span class="toc-number">4.</span> <span class="toc-text">创建/删除Topic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broker响应请求流程"><span class="toc-number">5.</span> <span class="toc-text">Broker响应请求流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LeaderAndIsrRequest响应过程"><span class="toc-number">6.</span> <span class="toc-text">LeaderAndIsrRequest响应过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broker启动过程"><span class="toc-number">7.</span> <span class="toc-text">Broker启动过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Controller_Failover"><span class="toc-number">8.</span> <span class="toc-text">Controller Failover</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Partition重新分配"><span class="toc-number">9.</span> <span class="toc-text">Partition重新分配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Follower从Leader_Fetch数据"><span class="toc-number">10.</span> <span class="toc-text">Follower从Leader Fetch数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replication工具"><span class="toc-number">11.</span> <span class="toc-text">Replication工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Topic_Tool"><span class="toc-number">12.</span> <span class="toc-text">Topic Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replica_Verification_Tool"><span class="toc-number">13.</span> <span class="toc-text">Replica Verification Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Preferred_Replica_Leader_Election_Tool"><span class="toc-number">14.</span> <span class="toc-text">Preferred Replica Leader Election Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka_Reassign_Partitions_Tool"><span class="toc-number">15.</span> <span class="toc-text">Kafka Reassign Partitions Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#State_Change_Log_Merge_Tool"><span class="toc-number">16.</span> <span class="toc-text">State Change Log Merge Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下篇预告"><span class="toc-number">17.</span> <span class="toc-text">下篇预告</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="&#x6458;&#x8981;">&#x6458;&#x8981;</h2><p>&#x672C;&#x6587;&#x5728;&#x4E0A;&#x7BC7;&#x6587;&#x7AE0;&#x57FA;&#x7840;&#x4E0A;&#xFF0C;&#x66F4;&#x52A0;&#x6DF1;&#x5165;&#x8BB2;&#x89E3;&#x4E86;Kafka&#x7684;HA&#x673A;&#x5236;&#xFF0C;&#x4E3B;&#x8981;&#x9610;&#x8FF0;&#x4E86;HA&#x76F8;&#x5173;&#x5404;&#x79CD;&#x573A;&#x666F;&#xFF0C;&#x5982;Broker failover&#xFF0C;Controller failover&#xFF0C;Topic&#x521B;&#x5EFA;/&#x5220;&#x9664;&#xFF0C;Broker&#x542F;&#x52A8;&#xFF0C;Follower&#x4ECE;Leader fetch&#x6570;&#x636E;&#x7B49;&#x8BE6;&#x7EC6;&#x5904;&#x7406;&#x8FC7;&#x7A0B;&#x3002;&#x540C;&#x65F6;&#x4ECB;&#x7ECD;&#x4E86;Kafka&#x63D0;&#x4F9B;&#x7684;&#x4E0E;Replication&#x76F8;&#x5173;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x5982;&#x91CD;&#x65B0;&#x5206;&#x914D;Partition&#x7B49;&#x3002;</p>
+<h2 id="Broker_Failover&#x8FC7;&#x7A0B;">Broker Failover&#x8FC7;&#x7A0B;</h2><h2 id="Controller&#x5BF9;Broker_failure&#x7684;&#x5904;&#x7406;&#x8FC7;&#x7A0B;">Controller&#x5BF9;Broker failure&#x7684;&#x5904;&#x7406;&#x8FC7;&#x7A0B;</h2><ol>
+<li>Controller&#x5728;Zookeeper&#x7684; /brokers/ids &#x8282;&#x70B9;&#x4E0A;&#x6CE8;&#x518C;Watch&#x3002;&#x4E00;&#x65E6;&#x6709;Broker&#x5B95;&#x673A;&#xFF08;&#x672C;&#x6587;&#x7528;&#x5B95;&#x673A;&#x4EE3;&#x8868;&#x4EFB;&#x4F55;&#x8BA9;Kafka&#x8BA4;&#x4E3A;&#x5176;Broker die&#x7684;&#x60C5;&#x666F;&#xFF0C;&#x5305;&#x62EC;&#x4F46;&#x4E0D;&#x9650;&#x4E8E;&#x673A;&#x5668;&#x65AD;&#x7535;&#xFF0C;&#x7F51;&#x7EDC;&#x4E0D;&#x53EF;&#x7528;&#xFF0C;GC&#x5BFC;&#x81F4;&#x7684;Stop The World&#xFF0C;&#x8FDB;&#x7A0B;crash&#x7B49;&#xFF09;&#xFF0C;&#x5176;&#x5728;Zookeeper&#x5BF9;&#x5E94;&#x7684;Znode&#x4F1A;&#x81EA;&#x52A8;&#x88AB;&#x5220;&#x9664;&#xFF0C;Zookeeper&#x4F1A;fire Controller&#x6CE8;&#x518C;&#x7684;Watch&#xFF0C;Controller&#x5373;&#x53EF;&#x83B7;&#x53D6;&#x6700;&#x65B0;&#x7684;&#x5E78;&#x5B58;&#x7684;Broker&#x5217;&#x8868;&#x3002;</li>
+<li>Controller&#x51B3;&#x5B9A;set_p&#xFF0C;&#x8BE5;&#x96C6;&#x5408;&#x5305;&#x542B;&#x4E86;&#x5B95;&#x673A;&#x7684;&#x6240;&#x6709;Broker&#x4E0A;&#x7684;&#x6240;&#x6709;Partition&#x3002;</li>
+<li>&#x5BF9;set_p&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x4E2A;Partition&#xFF1A;<br>3.1 &#x4ECE; /brokers/topics/[topic]/partitions/[partition]/state &#x8BFB;&#x53D6;&#x8BE5;Partition&#x5F53;&#x524D;&#x7684;ISR&#x3002;<br>3.2 &#x51B3;&#x5B9A;&#x8BE5;Partition&#x7684;&#x65B0;Leader&#x3002;&#x5982;&#x679C;&#x5F53;&#x524D;ISR&#x4E2D;&#x6709;&#x81F3;&#x5C11;&#x4E00;&#x4E2A;Replica&#x8FD8;&#xFFFD;&#xFFFD;&#xFFFD;&#x5B58;&#xFF0C;&#x5219;&#x9009;&#x62E9;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#x4F5C;&#x4E3A;&#x65B0;Leader&#xFF0C;&#x65B0;&#x7684;ISR&#x5219;&#x5305;&#x542B;&#x5F53;&#x524D;ISR&#x4E2D;&#x6240;&#x6709;&#x5E78;&#x5B58;&#x7684;Replica&#x3002;&#x5426;&#x5219;&#x9009;&#x62E9;&#x8BE5;Partition&#x4E2D;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x5E78;&#x5B58;&#x7684;Replica&#x4F5C;&#x4E3A;&#x65B0;&#x7684;Leader&#x4EE5;&#x53CA;ISR&#xFF08;&#x8BE5;&#x573A;&#x666F;&#x4E0B;&#x53EF;&#x80FD;&#x4F1A;&#x6709;&#x6F5C;&#x5728;&#x7684;&#x6570;&#x636E;&#x4E22;&#x5931;&#xFF09;&#x3002;&#x5982;&#x679C;&#x8BE5;Partition&#x7684;&#x6240;&#x6709;Replica&#x90FD;&#x5B95;&#x673A;&#x4E86;&#xFF0C;&#x5219;&#x5C06;&#x65B0;&#x7684;Leader&#x8BBE;&#x7F6E;&#x4E3A;-1&#x3002;<br>3.3 &#x5C06;&#x65B0;&#x7684;Leader&#xFF0C;ISR&#x548C;&#x65B0;&#x7684; leader_epoch &#x53CA; controller_epoch &#x5199;&#x5165; /brokers/topics/[topic]/partitions/[partition]/state &#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x8BE5;&#x64CD;&#x4F5C;&#x53EA;&#x6709;Controller&#x7248;&#x672C;&#x5728;3.1&#x81F3;3.3&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x65E0;&#x53D8;&#x5316;&#x65F6;&#x624D;&#x4F1A;&#x6267;&#x884C;&#xFF0C;&#x5426;&#x5219;&#x8DF3;&#x8F6C;&#x5230;3.1&#x3002;</li>
+<li>&#x76F4;&#x63A5;&#x901A;&#x8FC7;RPC&#x5411;set_p&#x76F8;&#x5173;&#x7684;Broker&#x53D1;&#x9001;LeaderAndISRRequest&#x547D;&#x4EE4;&#x3002;Controller&#x53EF;&#x4EE5;&#x5728;&#x4E00;&#x4E2A;RPC&#x64CD;&#x4F5C;&#x4E2D;&#x53D1;&#x9001;&#x591A;&#x4E2A;&#x547D;&#x4EE4;&#x4ECE;&#x800C;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#x3002;<br>Broker failover&#x987A;&#x5E8F;&#x56FE;&#x5982;&#x4E0B;&#x6240;&#x793A;&#x3002;<br><img src="http://taojinke.github.io/img/20150703/077e210.png" alt=""></li>
+</ol>
+<p>LeaderAndIsrRequest&#x7ED3;&#x6784;&#x5982;&#x4E0B;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077e481.png" alt=""></p>
+<p>LeaderAndIsrResponse&#x7ED3;&#x6784;&#x5982;&#x4E0B;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077e481.png" alt=""></p>
+<h2 id="&#x521B;&#x5EFA;/&#x5220;&#x9664;Topic">&#x521B;&#x5EFA;/&#x5220;&#x9664;Topic</h2><ol>
+<li>Controller&#x5728;Zookeeper&#x7684; /brokers/topics &#x8282;&#x70B9;&#x4E0A;&#x6CE8;&#x518C;Watch&#xFF0C;&#x4E00;&#x65E6;&#x67D0;&#x4E2A;Topic&#x88AB;&#x521B;&#x5EFA;&#x6216;&#x5220;&#x9664;&#xFF0C;&#x5219;Controller&#x4F1A;&#x901A;&#x8FC7;Watch&#x5F97;&#x5230;&#x65B0;&#x521B;&#x5EFA;/&#x5220;&#x9664;&#x7684;Topic&#x7684;Partition/Replica&#x5206;&#x914D;&#x3002;</li>
+<li>&#x5BF9;&#x4E8E;&#x5220;&#x9664;Topic&#x64CD;&#x4F5C;&#xFF0C;Topic&#x5DE5;&#x5177;&#x4F1A;&#x5C06;&#x8BE5;Topic&#x540D;&#x5B57;&#x5B58;&#x4E8E; /admin/delete_topics &#x3002;&#x82E5; delete.topic.enable &#x4E3A;true&#xFF0C;&#x5219;Controller&#x6CE8;&#x518C;&#x5728; /admin/delete_topics &#x4E0A;&#x7684;Watch&#x88AB;fire&#xFF0C;Controller&#x901A;&#x8FC7;&#x56DE;&#x8C03;&#x5411;&#x5BF9;&#x5E94;&#x7684;Broker&#x53D1;&#x9001;StopReplicaRequest&#xFF1B;&#x82E5;&#x4E3A;false&#x5219;Controller&#x4E0D;&#x4F1A;&#x5728; /admin/delete_topics &#x4E0A;&#x6CE8;&#x518C;Watch&#xFF0C;&#x4E5F;&#x5C31;&#x4E0D;&#x4F1A;&#x5BF9;&#x8BE5;&#x4E8B;&#x4EF6;&#x4F5C;&#x51FA;&#x53CD;&#x5E94;&#xFF0C;&#x6B64;&#x65F6;Topic&#x64CD;&#x4F5C;&#x53EA;&#x88AB;&#x8BB0;&#x5F55;&#x800C;&#x4E0D;&#x4F1A;&#x88AB;&#x6267;&#x884C;&#x3002;</li>
+<li>&#x5BF9;&#x4E8E;&#x521B;&#x5EFA;Topic&#x64CD;&#x4F5C;&#xFF0C;Controller&#x4ECE; /brokers/ids &#x8BFB;&#x53D6;&#x5F53;&#x524D;&#x6240;&#x6709;&#x53EF;&#x7528;&#x7684;Broker&#x5217;&#x8868;&#xFF0C;&#x5BF9;&#x4E8E;set_p&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x4E2A;Partition&#xFF1A;<br>3.1 &#x4ECE;&#x5206;&#x914D;&#x7ED9;&#x8BE5;Partition&#x7684;&#x6240;&#x6709;Replica&#xFF08;&#x79F0;&#x4E3A;AR&#xFF09;&#x4E2D;&#x4EFB;&#x9009;&#x4E00;&#x4E2A;&#x53EF;&#x7528;&#x7684;Broker&#x4F5C;&#x4E3A;&#x65B0;&#x7684;Leader&#xFF0C;&#x5E76;&#x5C06;AR&#x8BBE;&#x7F6E;&#x4E3A;&#x65B0;&#x7684;ISR&#xFF08;&#x56E0;&#x4E3A;&#x8BE5;Topic&#x662F;&#x65B0;&#x521B;&#x5EFA;&#x7684;&#xFF0C;&#x6240;&#x4EE5;AR&#x4E2D;&#x6240;&#x6709;&#x7684;Replica&#x90FD;&#x6CA1;&#x6709;&#x6570;&#x636E;&#xFF0C;&#x53EF;&#x8BA4;&#x4E3A;&#x5B83;&#x4EEC;&#x90FD;&#x662F;&#x540C;&#x6B65;&#x7684;&#xFF0C;&#x4E5F;&#x5373;&#x90FD;&#x5728;ISR&#x4E2D;&#xFF0C;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;Replica&#x90FD;&#x53EF;&#x4F5C;&#x4E3A;Leader&#xFF09;<br>3.2 &#x5C06;&#x65B0;&#x7684;Leader&#x548C;ISR&#x5199;&#x5165; /brokers/topics/[topic]/partitions/[partition]</li>
+<li>&#x76F4;&#x63A5;&#x901A;&#x8FC7;RPC&#x5411;&#x76F8;&#x5173;&#x7684;Broker&#x53D1;&#x9001;LeaderAndISRRequest&#x3002;<br>&#x521B;&#x5EFA;Topic&#x987A;&#x5E8F;&#x56FE;&#x5982;&#x4E0B;&#x6240;&#x793A;&#x3002;<br><img src="http://taojinke.github.io/img/20150703/077e6f2.png" alt=""></li>
+</ol>
+<h2 id="Broker&#x54CD;&#x5E94;&#x8BF7;&#x6C42;&#x6D41;&#x7A0B;">Broker&#x54CD;&#x5E94;&#x8BF7;&#x6C42;&#x6D41;&#x7A0B;</h2><p>Broker&#x901A;&#x8FC7; kafka.network.SocketServer &#x53CA;&#x76F8;&#x5173;&#x6A21;&#x5757;&#x63A5;&#x53D7;&#x5404;&#x79CD;&#x8BF7;&#x6C42;&#x5E76;&#x4F5C;&#x51FA;&#x54CD;&#x5E94;&#x3002;&#x6574;&#x4E2A;&#x7F51;&#x7EDC;&#x901A;&#x4FE1;&#x6A21;&#x5757;&#x57FA;&#x4E8E;Java NIO&#x5F00;&#x53D1;&#xFF0C;&#x5E76;&#x91C7;&#x7528;Reactor&#x6A21;&#x5F0F;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x542B;1&#x4E2A;Acceptor&#x8D1F;&#x8D23;&#x63A5;&#x53D7;&#x5BA2;&#x6237;&#x8BF7;&#x6C42;&#xFF0C;N&#x4E2A;Processor&#x8D1F;&#x8D23;&#x8BFB;&#x5199;&#x6570;&#x636E;&#xFF0C;M&#x4E2A;Handler&#x5904;&#x7406;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&#x3002; </p>
+<p>Acceptor&#x7684;&#x4E3B;&#x8981;&#x804C;&#x8D23;&#x662F;&#x76D1;&#x542C;&#x5E76;&#x63A5;&#x53D7;&#x5BA2;&#x6237;&#x7AEF;&#xFF08;&#x8BF7;&#x6C42;&#x53D1;&#x8D77;&#x65B9;&#xFF0C;&#x5305;&#x62EC;&#x4F46;&#x4E0D;&#x9650;&#x4E8E;Producer&#xFF0C;Consumer&#xFF0C;Controller&#xFF0C;Admin Tool&#xFF09;&#x7684;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#xFF0C;&#x5E76;&#x5EFA;&#x7ACB;&#x548C;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x6570;&#x636E;&#x4F20;&#x8F93;&#x901A;&#x9053;&#xFF0C;&#x7136;&#x540E;&#x4E3A;&#x8BE5;&#x5BA2;&#x6237;&#x7AEF;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;Processor&#xFF0C;&#x81F3;&#x6B64;&#x5B83;&#x5BF9;&#x8BE5;&#x5BA2;&#x6237;&#x7AEF;&#x8BE5;&#x6B21;&#x8BF7;&#x6C42;&#x7684;&#x4EFB;&#x52A1;&#x5C31;&#x7ED3;&#x675F;&#x4E86;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x53BB;&#x54CD;&#x5E94;&#x4E0B;&#x4E00;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x4E86;&#x3002;&#x5176;&#x6838;&#x5FC3;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077e963.png" alt=""></p>
+<p>Processor&#x4E3B;&#x8981;&#x8D1F;&#x8D23;&#x4ECE;&#x5BA2;&#x6237;&#x7AEF;&#x8BFB;&#x53D6;&#x6570;&#x636E;&#x5E76;&#x5C06;&#x54CD;&#x5E94;&#x8FD4;&#x56DE;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x5B83;&#x672C;&#x8EAB;&#x5E76;&#x4E0D;&#x5904;&#x7406;&#x5177;&#x4F53;&#x7684;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&#xFF0C;&#x5E76;&#x4E14;&#x5176;&#x5185;&#x90E8;&#x7EF4;&#x62A4;&#x4E86;&#x4E00;&#x4E2A;&#x961F;&#x5217;&#x6765;&#x4FDD;&#x5B58;&#x5206;&#x914D;&#x7ED9;&#x5B83;&#x7684;&#x6240;&#x6709;SocketChannel&#x3002;Processor&#x7684;run&#x65B9;&#x6CD5;&#x4F1A;&#x5FAA;&#x73AF;&#x4ECE;&#x961F;&#x5217;&#x4E2D;&#x53D6;&#x51FA;&#x65B0;&#x7684;SocketChannel&#x5E76;&#x5C06;&#x5176; SelectionKey.OP_READ &#x6CE8;&#x518C;&#x5230;selector&#x4E0A;&#xFF0C;&#x7136;&#x540E;&#x5FAA;&#x73AF;&#x5904;&#x7406;&#x5DF2;&#x5C31;&#x7EEA;&#x7684;&#x8BFB;&#xFF08;&#x8BF7;&#x6C42;&#xFF09;&#x548C;&#x5199;&#xFF08;&#x54CD;&#x5E94;&#xFF09;&#x3002;Processor&#x8BFB;&#x53D6;&#x5B8C;&#x6570;&#x636E;&#x540E;&#xFF0C;&#x5C06;&#x5176;&#x5C01;&#x88C5;&#x6210;Request&#x5BF9;&#x8C61;&#x5E76;&#x5C06;&#x5176;&#x4EA4;&#x7ED9;RequestChannel&#x3002; </p>
+<p>RequestChannel&#x662F;Processor&#x548C;KafkaRequestHandler&#x4EA4;&#x6362;&#x6570;&#x636E;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x5B83;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x961F;&#x5217;requestQueue&#x7528;&#x6765;&#x5B58;&#x653E;Processor&#x52A0;&#x5165;&#x7684;Request&#xFF0C;KafkaRequestHandler&#x4F1A;&#x4ECE;&#x91CC;&#x9762;&#x53D6;&#x51FA;Request&#x6765;&#x5904;&#x7406;&#xFF1B;&#x540C;&#x65F6;&#x5B83;&#x8FD8;&#x5305;&#x542B;&#x4E00;&#x4E2A;respondQueue&#xFF0C;&#x7528;&#x6765;&#x5B58;&#x653E;KafkaRequestHandler&#x5904;&#x7406;&#x5B8C;Request&#x540E;&#x8FD4;&#x8FD8;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#x7684;Response&#x3002;</p>
+<p>Processor&#x4F1A;&#x901A;&#x8FC7;processNewResponses&#x65B9;&#x6CD5;&#x4F9D;&#x6B21;&#x5C06;requestChannel&#x4E2D;responseQueue&#x4FDD;&#x5B58;&#x7684;Response&#x53D6;&#x51FA;&#xFF0C;&#x5E76;&#x5C06;&#x5BF9;&#x5E94;&#x7684; SelectionKey.OP_WRITE &#x4E8B;&#x4EF6;&#x6CE8;&#x518C;&#x5230;selector&#x4E0A;&#x3002;&#x5F53;selector&#x7684;select&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x65F6;&#xFF0C;&#x5BF9;&#x68C0;&#x6D4B;&#x5230;&#x7684;&#x53EF;&#x5199;&#x901A;&#x9053;&#xFF0C;&#x8C03;&#x7528;write&#x65B9;&#x6CD5;&#x5C06;Response&#x8FD4;&#x56DE;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#x3002; </p>
+<p>KafkaRequestHandler&#x5FAA;&#x73AF;&#x4ECE;RequestChannel&#x4E2D;&#x53D6;Request&#x5E76;&#x4EA4;&#x7ED9; kafka.server.KafkaApis &#x5904;&#x7406;&#x5177;&#x4F53;&#x7684;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&#x3002; </p>
+<h2 id="LeaderAndIsrRequest&#x54CD;&#x5E94;&#x8FC7;&#x7A0B;">LeaderAndIsrRequest&#x54CD;&#x5E94;&#x8FC7;&#x7A0B;</h2><p>&#x5BF9;&#x4E8E;&#x6536;&#x5230;&#x7684;LeaderAndIsrRequest&#xFF0C;Broker&#x4E3B;&#x8981;&#x901A;&#x8FC7;ReplicaManager&#x7684;becomeLeaderOrFollower&#x5904;&#x7406;&#xFF0C;&#x6D41;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>&#x82E5;&#x8BF7;&#x6C42;&#x4E2D;controllerEpoch&#x5C0F;&#x4E8E;&#x5F53;&#x524D;&#x6700;&#x65B0;&#x7684;controllerEpoch&#xFF0C;&#x5219;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;ErrorMapping.StaleControllerEpochCode&#x3002;</li>
+<li>&#x5BF9;&#x4E8E;&#x8BF7;&#x6C42;&#x4E2D;partitionStateInfos&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#xFF0C;&#x5373;&#xFF08;(topic, partitionId), partitionStateInfo)&#xFF1A;<br>2.1 &#x82E5;partitionStateInfo&#x4E2D;&#x7684;leader epoch&#x5927;&#x4E8E;&#x5F53;&#x524D;ReplicManager&#x4E2D;&#x5B58;&#x50A8;&#x7684;(topic, partitionId)&#x5BF9;&#x5E94;&#x7684;partition&#x7684;leader epoch&#xFF0C;&#x5219;&#xFF1A;<br>2.1.1 &#x82E5;&#x5F53;&#x524D;brokerid&#xFF08;&#x6216;&#x8005;&#x8BF4;replica id&#xFF09;&#x5728;partitionStateInfo&#x4E2D;&#xFF0C;&#x5219;&#x5C06;&#x8BE5;partition&#x53CA;partitionStateInfo&#x5B58;&#x5165;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;partitionState&#x7684;HashMap&#x4E2D;<br>2.1.2&#x5426;&#x5219;&#x8BF4;&#x660E;&#x8BE5;Broker&#x4E0D;&#x5728;&#x8BE5;Partition&#x5206;&#x914D;&#x7684;Replica list&#x4E2D;&#xFF0C;&#x5C06;&#x8BE5;&#x4FE1;&#x606F;&#x8BB0;&#x5F55;&#x4E8E;log&#x4E2D;<br>2.2&#x5426;&#x5219;&#x5C06;&#x76F8;&#x5E94;&#x7684;Error code&#xFF08;ErrorMapping.StaleLeaderEpochCode&#xFF09;&#x5B58;&#x5165;Response&#x4E2D;</li>
+<li>&#x7B5B;&#x9009;&#x51FA;partitionState&#x4E2D;Leader&#x4E0E;&#x5F53;&#x524D;Broker ID&#x76F8;&#x7B49;&#x7684;&#x6240;&#x6709;&#x8BB0;&#x5F55;&#x5B58;&#x5165;partitionsTobeLeader&#x4E2D;&#xFF0C;&#x5176;&#x5B83;&#x8BB0;&#x5F55;&#x5B58;&#x5165;partitionsToBeFollower&#x4E2D;&#x3002;</li>
+<li>&#x82E5;partitionsTobeLeader&#x4E0D;&#x4E3A;&#x7A7A;&#xFF0C;&#x5219;&#x5BF9;&#x5176;&#x6267;&#x884C;makeLeaders&#x65B9;&#x3002;</li>
+<li>&#x82E5;partitionsToBeFollower&#x4E0D;&#x4E3A;&#x7A7A;&#xFF0C;&#x5219;&#x5BF9;&#x5176;&#x6267;&#x884C;makeFollowers&#x65B9;&#x6CD5;&#x3002;</li>
+<li>&#x82E5;highwatermak&#x7EBF;&#x7A0B;&#x8FD8;&#x672A;&#x542F;&#x52A8;&#xFF0C;&#x5219;&#x5C06;&#x5176;&#x542F;&#x52A8;&#xFF0C;&#x5E76;&#x5C06;hwThreadInitialized&#x8BBE;&#x4E3A;true&#x3002;</li>
+<li>&#x5173;&#x95ED;&#x6240;&#x6709;Idle&#x72B6;&#x6001;&#x7684;Fetcher&#x3002;</li>
+</ol>
+<p>LeaderAndIsrRequest&#x5904;&#x7406;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077ebd4.png" alt=""></p>
+<h2 id="Broker&#x542F;&#x52A8;&#x8FC7;&#x7A0B;">Broker&#x542F;&#x52A8;&#x8FC7;&#x7A0B;</h2><p>Broker&#x542F;&#x52A8;&#x540E;&#x9996;&#x5148;&#x6839;&#x636E;&#x5176;ID&#x5728;Zookeeper&#x7684; /brokers/ids zonde&#x4E0B;&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x5B50;&#x8282;&#x70B9;&#xFF08; <a href="http://zookeeper.apache.org/doc/trunk/zookeeperOver.html#Nodes+and+ephemeral+nodes" target="_blank" rel="external">Ephemeral node</a> &#xFF09;&#xFF0C;&#x521B;&#x5EFA;&#x6210;&#x529F;&#x540E;Controller&#x7684;ReplicaStateMachine&#x6CE8;&#x518C;&#x5176;&#x4E0A;&#x7684;Broker Change Watch&#x4F1A;&#x88AB;fire&#xFF0C;&#x4ECE;&#x800C;&#x901A;&#x8FC7;&#x56DE;&#x8C03;KafkaController.onBrokerStartup&#x65B9;&#x6CD5;&#x5B8C;&#x6210;&#x4EE5;&#x4E0B;&#x6B65;&#x9AA4;&#xFF1A; </p>
+<ol>
+<li>&#x5411;&#x6240;&#x6709;&#x65B0;&#x542F;&#x52A8;&#x7684;Broker&#x53D1;&#x9001;UpdateMetadataRequest&#xFF0C;&#x5176;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#x3002;<br><img src="http://taojinke.github.io/img/20150703/077ee45.png" alt=""></li>
+<li>&#x5C06;&#x65B0;&#x542F;&#x52A8;&#x7684;Broker&#x4E0A;&#x7684;&#x6240;&#x6709;Replica&#x8BBE;&#x7F6E;&#x4E3A;OnlineReplica&#x72B6;&#x6001;&#xFF0C;&#x540C;&#x65F6;&#x8FD9;&#x4E9B;Broker&#x4F1A;&#x4E3A;&#x8FD9;&#x4E9B;Partition&#x542F;&#x52A8;high watermark&#x7EBF;&#x7A0B;&#x3002;</li>
+<li>&#x901A;&#x8FC7;partitionStateMachine&#x89E6;&#x53D1;OnlinePartitionStateChange&#x3002;</li>
+</ol>
+<h2 id="Controller_Failover">Controller Failover</h2><p>Controller&#x4E5F;&#x9700;&#x8981;Failover&#x3002;&#x6BCF;&#x4E2A;Broker&#x90FD;&#x4F1A;&#x5728;Controller Path ( /controller )&#x4E0A;&#x6CE8;&#x518C;&#x4E00;&#x4E2A;Watch&#x3002;&#x5F53;&#x524D;Controller&#x5931;&#x8D25;&#x65F6;&#xFF0C;&#x5BF9;&#x5E94;&#x7684;Controller Path&#x4F1A;&#x81EA;&#x52A8;&#x6D88;&#x5931;&#xFF08;&#x56E0;&#x4E3A;&#x5B83;&#x662F;Ephemeral Node&#xFF09;&#xFF0C;&#x6B64;&#x65F6;&#x8BE5;Watch&#x88AB;fire&#xFF0C;&#x6240;&#x6709;&#x201C;&#x6D3B;&#x201D;&#x7740;&#x7684;Broker&#x90FD;&#x4F1A;&#x53BB;&#x7ADE;&#x9009;&#x6210;&#x4E3A;&#x65B0;&#x7684;Controller&#xFF08;&#x521B;&#x5EFA;&#x65B0;&#x7684;Controller Path&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x53EA;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x7ADE;&#x9009;&#x6210;&#x529F;&#xFF08;&#x8FD9;&#x70B9;&#x7531;Zookeeper&#x4FDD;&#x8BC1;&#xFF09;&#x3002;&#x7ADE;&#x9009;&#x6210;&#x529F;&#x8005;&#x5373;&#x4E3A;&#x65B0;&#x7684;Leader&#xFF0C;&#x7ADE;&#x9009;&#x5931;&#x8D25;&#x8005;&#x5219;&#x91CD;&#x65B0;&#x5728;&#x65B0;&#x7684;Controller Path&#x4E0A;&#x6CE8;&#x518C;Watch&#x3002;&#x56E0;&#x4E3A; <a href="http://zookeeper.apache.org/doc/trunk/zookeeperProgrammers.html#ch_zkWatches" target="_blank" rel="external">Zookeeper&#x7684;Watch&#x662F;&#x4E00;&#x6B21;&#x6027;&#x7684;&#xFF0C;&#x88AB;fire&#x4E00;&#x6B21;&#x4E4B;&#x540E;&#x5373;&#x5931;&#x6548;</a> &#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x6CE8;&#x518C;&#x3002; </p>
+<p>Broker&#x6210;&#x529F;&#x7ADE;&#x9009;&#x4E3A;&#x65B0;Controller&#x540E;&#x4F1A;&#x89E6;&#x53D1;KafkaController.onControllerFailover&#x65B9;&#x6CD5;&#xFF0C;&#x5E76;&#x5728;&#x8BE5;&#x65B9;&#x6CD5;&#x4E2D;&#x5B8C;&#x6210;&#x5982;&#x4E0B;&#x64CD;&#x4F5C;&#xFF1A;</p>
+<ol>
+<li>&#x8BFB;&#x53D6;&#x5E76;&#x589E;&#x52A0;Controller Epoch&#x3002;</li>
+<li>&#x5728;ReassignedPartitions Patch( /admin/reassign_partitions )&#x4E0A;&#x6CE8;&#x518C;Watch&#x3002;</li>
+<li>&#x5728;PreferredReplicaElection Path( /admin/preferred_replica_election )&#x4E0A;&#x6CE8;&#x518C;Watch&#x3002;</li>
+<li>&#x901A;&#x8FC7;partitionStateMachine&#x5728;Broker Topics Patch( /brokers/topics )&#x4E0A;&#x6CE8;&#x518C;Watch&#x3002;</li>
+<li>&#x82E5; delete.topic.enable &#x8BBE;&#x7F6E;&#x4E3A;true&#xFF08;&#x9ED8;&#x8BA4;&#x503C;&#x662F;false&#xFF09;&#xFF0C;&#x5219;partitionStateMachine&#x5728;Delete Topic Patch( /admin/delete_topics )&#x4E0A;&#x6CE8;&#x518C;Watch&#x3002;</li>
+<li>&#x901A;&#x8FC7;replicaStateMachine&#x5728;Broker Ids Patch( /brokers/ids )&#x4E0A;&#x6CE8;&#x518C;Watch&#x3002;</li>
+<li>&#x521D;&#x59CB;&#x5316;ControllerContext&#x5BF9;&#x8C61;&#xFF0C;&#x8BBE;&#x7F6E;&#x5F53;&#x524D;&#x6240;&#x6709;Topic&#xFF0C;&#x201C;&#x6D3B;&#x201D;&#x7740;&#x7684;Broker&#x5217;&#x8868;&#xFF0C;&#x6240;&#x6709;Partition&#x7684;Leader&#x53CA;ISR&#x7B49;&#x3002;</li>
+<li>&#x542F;&#x52A8;replicaStateMachine&#x548C;partitionStateMachine&#x3002;</li>
+<li>&#x5C06;brokerState&#x72B6;&#x6001;&#x8BBE;&#x7F6E;&#x4E3A;RunningAsController&#x3002;</li>
+<li>&#x5C06;&#x6BCF;&#x4E2A;Partition&#x7684;Leadership&#x4FE1;&#x606F;&#x53D1;&#x9001;&#x7ED9;&#x6240;&#x6709;&#x201C;&#x6D3B;&#x201D;&#x7740;&#x7684;Broker&#x3002;</li>
+<li>&#x82E5; auto.leader.rebalance.enable &#x914D;&#x7F6E;&#x4E3A;true&#xFF08;&#x9ED8;&#x8BA4;&#x503C;&#x662F;true&#xFF09;&#xFF0C;&#x5219;&#x542F;&#x52A8;partition-rebalance&#x7EBF;&#x7A0B;&#x3002;</li>
+<li>&#x82E5; delete.topic.enable &#x8BBE;&#x7F6E;&#x4E3A;true&#x4E14;Delete Topic Patch( /admin/delete_topics )&#x4E2D;&#x6709;&#x503C;&#xFF0C;&#x5219;&#x5220;&#x9664;&#x76F8;&#x5E94;&#x7684;Topic&#x3002;</li>
+</ol>
+<h2 id="Partition&#x91CD;&#x65B0;&#x5206;&#x914D;">Partition&#x91CD;&#x65B0;&#x5206;&#x914D;</h2><p>&#x7BA1;&#x7406;&#x5DE5;&#x5177;&#x53D1;&#x51FA;&#x91CD;&#x65B0;&#x5206;&#x914D;Partition&#x8BF7;&#x6C42;&#x540E;&#xFF0C;&#x4F1A;&#x5C06;&#x76F8;&#x5E94;&#x4FE1;&#x606F;&#x5199;&#x5230; /admin/reassign_partitions &#x4E0A;&#xFF0C;&#x800C;&#x8BE5;&#x64CD;&#x4F5C;&#x4F1A;&#x89E6;&#x53D1;ReassignedPartitionsIsrChangeListener&#xFF0C;&#x4ECE;&#x800C;&#x901A;&#x8FC7;&#x6267;&#x884C;&#x56DE;&#x8C03;&#x51FD;&#x6570;KafkaController.onPartitionReassignment&#x6765;&#x5B8C;&#x6210;&#x4EE5;&#x4E0B;&#x64CD;&#x4F5C;&#xFF1A; </p>
+<ol>
+<li>&#x5C06;Zookeeper&#x4E2D;&#x7684;AR&#xFF08;Current Assigned Replicas&#xFF09;&#x66F4;&#x65B0;&#x4E3A;OAR&#xFF08;Original list of replicas for partition&#xFF09; + RAR&#xFF08;Reassigned replicas&#xFF09;&#x3002;</li>
+<li>&#x5F3A;&#x5236;&#x66F4;&#x65B0;Zookeeper&#x4E2D;&#x7684;leader epoch&#xFF0C;&#x5411;AR&#x4E2D;&#x7684;&#x6BCF;&#x4E2A;Replica&#x53D1;&#x9001;LeaderAndIsrRequest&#x3002;</li>
+<li>&#x5C06;RAR - OAR&#x4E2D;&#x7684;Replica&#x8BBE;&#x7F6E;&#x4E3A;NewReplica&#x72B6;&#x6001;&#x3002;</li>
+<li>&#x7B49;&#x5F85;&#x76F4;&#x5230;RAR&#x4E2D;&#x6240;&#x6709;&#x7684;Replica&#x90FD;&#x4E0E;&#x5176;Leader&#x540C;&#x6B65;&#x3002;</li>
+<li>&#x5C06;RAR&#x4E2D;&#x6240;&#x6709;&#x7684;Replica&#x90FD;&#x8BBE;&#x7F6E;&#x4E3A;OnlineReplica&#x72B6;&#x6001;&#x3002;</li>
+<li>&#x5C06;Cache&#x4E2D;&#x7684;AR&#x8BBE;&#x7F6E;&#x4E3A;RAR&#x3002;</li>
+<li>&#x82E5;Leader&#x4E0D;&#x5728;RAR&#x4E2D;&#xFF0C;&#x5219;&#x4ECE;RAR&#x4E2D;&#x91CD;&#x65B0;&#x9009;&#x4E3E;&#x51FA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;Leader&#x5E76;&#x53D1;&#x9001;LeaderAndIsrRequest&#x3002;&#x82E5;&#x65B0;&#x7684;Leader&#x4E0D;&#x662F;&#x4ECE;RAR&#x4E2D;&#x9009;&#x4E3E;&#x800C;&#x51FA;&#xFF0C;&#x5219;&#x8FD8;&#x8981;&#x589E;&#x52A0;Zookeeper&#x4E2D;&#x7684;leader epoch&#x3002;</li>
+<li>&#x5C06;OAR - RAR&#x4E2D;&#x7684;&#x6240;&#x6709;Replica&#x8BBE;&#x7F6E;&#x4E3A;OfflineReplica&#x72B6;&#x6001;&#xFF0C;&#x8BE5;&#x8FC7;&#x7A0B;&#x5305;&#x542B;&#x4E24;&#x90E8;&#x5206;&#x3002;&#x7B2C;&#x4E00;&#xFF0C;&#x5C06;Zookeeper&#x4E0A;ISR&#x4E2D;&#x7684;OAR - RAR&#x79FB;&#x9664;&#x5E76;&#x5411;Leader&#x53D1;&#x9001;LeaderAndIsrRequest&#x4ECE;&#x800C;&#x901A;&#x77E5;&#x8FD9;&#x4E9B;Replica&#x5DF2;&#x7ECF;&#x4ECE;ISR&#x4E2D;&#x79FB;&#x9664;&#xFF1B;&#x7B2C;&#x4E8C;&#xFF0C;&#x5411;OAR - RAR&#x4E2D;&#x7684;Replica&#x53D1;&#x9001;StopReplicaRequest&#x4ECE;&#x800C;&#x505C;&#x6B62;&#x4E0D;&#x518D;&#x5206;&#x914D;&#x7ED9;&#x8BE5;Partition&#x7684;Replica&#x3002;</li>
+<li>&#x5C06;OAR - RAR&#x4E2D;&#x7684;&#x6240;&#x6709;Replica&#x8BBE;&#x7F6E;&#x4E3A;NonExistentReplica&#x72B6;&#x6001;&#x4ECE;&#x800C;&#x5C06;&#x5176;&#x4ECE;&#x78C1;&#x76D8;&#x4E0A;&#x5220;&#x9664;&#x3002;</li>
+<li>&#x5C06;Zookeeper&#x4E2D;&#x7684;AR&#x8BBE;&#x7F6E;&#x4E3A;RAR&#x3002;</li>
+<li>&#x5220;&#x9664; /admin/reassign<em>partition &#x3002;<br>**</em>&#x6CE8;&#x610F;_** &#xFF1A;&#x6700;&#x540E;&#x4E00;&#x6B65;&#x624D;&#x5C06;Zookeeper&#x4E2D;&#x7684;AR&#x66F4;&#x65B0;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x662F;&#x552F;&#x4E00;&#x4E00;&#x4E2A;&#x6301;&#x4E45;&#x5B58;&#x50A8;AR&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x5982;&#x679C;Controller&#x5728;&#x8FD9;&#x4E00;&#x6B65;&#x4E4B;&#x524D;crash&#xFF0C;&#x65B0;&#x7684;Controller&#x4ECD;&#x7136;&#x80FD;&#x591F;&#x7EE7;&#x7EED;&#x5B8C;&#x6210;&#x8BE5;&#x8FC7;&#x7A0B;&#x3002;<br>&#x4EE5;&#x4E0B;&#x662F;Partition&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;&#x6848;&#x4F8B;&#xFF0C;OAR = &#xFF5B;1&#xFF0C;2&#xFF0C;3&#xFF5D;&#xFF0C;RAR = &#xFF5B;4&#xFF0C;5&#xFF0C;6&#xFF5D;&#xFF0C;Partition&#x91CD;&#x65B0;&#x5206;&#x914D;&#x8FC7;&#x7A0B;&#x4E2D;Zookeeper&#x4E2D;&#x7684;AR&#x548C;Leader/ISR&#x8DEF;&#x5F84;&#x5982;&#x4E0B;<br>| AR | leader/isr | Sttep |<br>|&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;-|<br>| {1,2,3} | 1/{1,2,3} | (initial state) |<br>| {1,2,3,4,5,6} | 1/{1,2,3} | (step 2) |<br>| {1,2,3,4,5,6} | 1/{1,2,3,4,5,6} | (step 4) |<br>| {1,2,3,4,5,6} | 4/{1,2,3,4,5,6} | (step 7) |<br>| {1,2,3,4,5,6} | 4/{4,5,6} | (step 8) |<br>| {4,5,6} | 4/{4,5,6} | (step 10) |</li>
+</ol>
+<h2 id="Follower&#x4ECE;Leader_Fetch&#x6570;&#x636E;">Follower&#x4ECE;Leader Fetch&#x6570;&#x636E;</h2><p>Follower&#x901A;&#x8FC7;&#x5411;Leader&#x53D1;&#x9001;FetchRequest&#x83B7;&#x53D6;&#x6D88;&#x606F;&#xFF0C;FetchRequest&#x7ED3;&#x6784;&#x5982;&#x4E0B;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077ee45.png" alt=""></p>
+<p>&#x4ECE;FetchRequest&#x7684;&#x7ED3;&#x6784;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x6BCF;&#x4E2A;Fetch&#x8BF7;&#x6C42;&#x90FD;&#x8981;&#x6307;&#x5B9A;&#x6700;&#x5927;&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#x548C;&#x6700;&#x5C0F;&#x83B7;&#x53D6;&#x5B57;&#x8282;&#x6570;&#xFF0C;&#x4EE5;&#x53CA;&#x7531;TopicAndPartition&#x548C;PartitionFetchInfo&#x6784;&#x6210;&#x7684;Map&#x3002;&#x5B9E;&#x9645;&#x4E0A;&#xFF0C;Follower&#x4ECE;Leader&#x6570;&#x636E;&#x548C;Consumer&#x4ECE;Broker Fetch&#x6570;&#x636E;&#xFF0C;&#x90FD;&#x662F;&#x901A;&#x8FC7;FetchRequest&#x8BF7;&#x6C42;&#x5B8C;&#x6210;&#xFF0C;&#x6240;&#x4EE5;&#x5728;FetchRequest&#x7ED3;&#x6784;&#x4E2D;&#xFF0C;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#x5B57;&#x6BB5;&#x662F;clientID&#xFF0C;&#x5E76;&#x4E14;&#x5176;&#x9ED8;&#x8BA4;&#x503C;&#x662F;ConsumerConfig.DefaultClientId&#x3002;</p>
+<p>Leader&#x6536;&#x5230;Fetch&#x8BF7;&#x6C42;&#x540E;&#xFF0C;Kafka&#x901A;&#x8FC7;KafkaApis.handleFetchRequest&#x54CD;&#x5E94;&#x8BE5;&#x8BF7;&#x6C42;&#xFF0C;&#x54CD;&#x5E94;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>replicaManager&#x6839;&#x636E;&#x8BF7;&#x6C42;&#x8BFB;&#x51FA;&#x6570;&#x636E;&#x5B58;&#x5165;dataRead&#x4E2D;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x8BE5;&#x8BF7;&#x6C42;&#x6765;&#x81EA;Follower&#x5219;&#x66F4;&#x65B0;&#x5176;&#x76F8;&#x5E94;&#x7684;LEO&#xFF08;log end offset&#xFF09;&#x4EE5;&#x53CA;&#x76F8;&#x5E94;Partition&#x7684;High Watermark</li>
+<li>&#x6839;&#x636E;dataRead&#x7B97;&#x51FA;&#x53EF;&#x8BFB;&#x6D88;&#x606F;&#x957F;&#x5EA6;&#xFF08;&#x5355;&#x4F4D;&#x4E3A;&#x5B57;&#x8282;&#xFF09;&#x5E76;&#x5B58;&#x5165;bytesReadable&#x4E2D;&#x3002;</li>
+<li>&#x6EE1;&#x8DB3;&#x4E0B;&#x9762;4&#x4E2A;&#x6761;&#x4EF6;&#x4E2D;&#x7684;1&#x4E2A;&#xFF0C;&#x5219;&#x7ACB;&#x5373;&#x5C06;&#x76F8;&#x5E94;&#x7684;&#x6570;&#x636E;&#x8FD4;&#x56DE;</li>
+</ol>
+<ul>
+<li>Fetch&#x8BF7;&#x6C42;&#x4E0D;&#x5E0C;&#x671B;&#x7B49;&#x5F85;&#xFF0C;&#x5373;fetchRequest.macWait &lt;= 0</li>
+<li>Fetch&#x8BF7;&#x6C42;&#x4E0D;&#x8981;&#x6C42;&#x4E00;&#x5B9A;&#x80FD;&#x53D6;&#x5230;&#x6D88;&#x606F;&#xFF0C;&#x5373;fetchRequest.numPartitions &lt;= 0&#xFF0C;&#x4E5F;&#x5373;requestInfo&#x4E3A;&#x7A7A;</li>
+<li>&#x6709;&#x8DB3;&#x591F;&#x7684;&#x6570;&#x636E;&#x53EF;&#x4F9B;&#x8FD4;&#x56DE;&#xFF0C;&#x5373;bytesReadable &gt;= fetchRequest.minBytes</li>
+<li>&#x8BFB;&#x53D6;&#x6570;&#x636E;&#x65F6;&#x53D1;&#x751F;&#x5F02;&#x5E38;</li>
+</ul>
+<ol>
+<li>&#x82E5;&#x4E0D;&#x6EE1;&#x8DB3;&#x4EE5;&#x4E0A;4&#x4E2A;&#x6761;&#x4EF6;&#xFF0C;FetchRequest&#x5C06;&#x4E0D;&#x4F1A;&#x7ACB;&#x5373;&#x8FD4;&#x56DE;&#xFF0C;&#x5E76;&#x5C06;&#x8BE5;&#x8BF7;&#x6C42;&#x5C01;&#x88C5;&#x6210;DelayedFetch&#x3002;&#x68C0;&#x67E5;&#x8BE5;DeplayedFetch&#x662F;&#x5426;&#x6EE1;&#x8DB3;&#xFF0C;&#x82E5;&#x6EE1;&#x8DB3;&#x5219;&#x8FD4;&#x56DE;&#x8BF7;&#x6C42;&#xFF0C;&#x5426;&#x5219;&#x5C06;&#x8BE5;&#x8BF7;&#x6C42;&#x52A0;&#x5165;Watch&#x5217;&#x8868;</li>
+</ol>
+<p>Leader&#x901A;&#x8FC7;&#x4EE5;FetchResponse&#x7684;&#x5F62;&#x5F0F;&#x5C06;&#x6D88;&#x606F;&#x8FD4;&#x56DE;&#x7ED9;Follower&#xFF0C;FetchResponse&#x7ED3;&#x6784;&#x5982;&#x4E0B;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077f0b6.png" alt=""></p>
+<h2 id="Replication&#x5DE5;&#x5177;">Replication&#x5DE5;&#x5177;</h2><h2 id="Topic_Tool">Topic Tool</h2><p>$KAFKA_HOME/bin/kafka-topics.sh &#xFF0C;&#x8BE5;&#x5DE5;&#x5177;&#x53EF;&#x7528;&#x4E8E;&#x521B;&#x5EFA;&#x3001;&#x5220;&#x9664;&#x3001;&#x4FEE;&#x6539;&#x3001;&#x67E5;&#x770B;&#x67D0;&#x4E2A;Topic&#xFF0C;&#x4E5F;&#x53EF;&#x7528;&#x4E8E;&#x5217;&#x51FA;&#x6240;&#x6709;Topic&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x8BE5;&#x5DE5;&#x5177;&#x8FD8;&#x53EF;&#x4FEE;&#x6539;&#x4EE5;&#x4E0B;&#x914D;&#x7F6E;&#x3002; </p>
+<pre><code>unclean<span class="class">.leader</span><span class="class">.election</span><span class="class">.enable</span>
+delete<span class="class">.retention</span><span class="class">.ms</span>
+segment<span class="class">.jitter</span><span class="class">.ms</span>
+retention<span class="class">.ms</span>
+flush<span class="class">.ms</span>
+segment<span class="class">.bytes</span>
+flush<span class="class">.messages</span>
+segment<span class="class">.ms</span>
+retention<span class="class">.bytes</span>
+cleanup<span class="class">.policy</span>
+segment<span class="class">.index</span><span class="class">.bytes</span>
+min<span class="class">.cleanable</span><span class="class">.dirty</span><span class="class">.ratio</span>
+max<span class="class">.message</span><span class="class">.bytes</span>
+file<span class="class">.delete</span><span class="class">.delay</span><span class="class">.ms</span>
+min<span class="class">.insync</span><span class="class">.replicas</span>
+index<span class="class">.interval</span><span class="class">.bytes</span>
+</code></pre><h2 id="Replica_Verification_Tool">Replica Verification Tool</h2><p>$KAFKA_HOME/bin/kafka-replica-verification.sh &#xFF0C;&#x8BE5;&#x5DE5;&#x5177;&#x7528;&#x6765;&#x9A8C;&#x8BC1;&#x6240;&#x6307;&#x5B9A;&#x7684;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;Topic&#x4E0B;&#x6BCF;&#x4E2A;Partition&#x5BF9;&#x5E94;&#x7684;&#x6240;&#x6709;Replica&#x662F;&#x5426;&#x90FD;&#x540C;&#x6B65;&#x3002;&#x53EF;&#x901A;&#x8FC7; topic-white-list &#x8FD9;&#x4E00;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x6240;&#x9700;&#x8981;&#x9A8C;&#x8BC1;&#x7684;&#x6240;&#x6709;Topic&#xFF0C;&#x652F;&#x6301;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x3002; </p>
+<h2 id="Preferred_Replica_Leader_Election_Tool">Preferred Replica Leader Election Tool</h2><p><em>&#x7528;&#x9014;</em></p>
+<p>&#x6709;&#x4E86;Replication&#x673A;&#x5236;&#x540E;&#xFF0C;&#x6BCF;&#x4E2A;Partition&#x53EF;&#x80FD;&#x6709;&#x591A;&#x4E2A;&#x5907;&#x4EFD;&#x3002;&#x67D0;&#x4E2A;Partition&#x7684;Replica&#x5217;&#x8868;&#x53EB;&#x4F5C;AR&#xFF08;Assigned Replicas&#xFF09;&#xFF0C;AR&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;Replica&#x5373;&#x4E3A;&#x201C;Preferred Replica&#x201D;&#x3002;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;Topic&#x6216;&#x8005;&#x7ED9;&#x5DF2;&#x6709;Topic&#x589E;&#x52A0;Partition&#x65F6;&#xFF0C;Kafka&#x4FDD;&#x8BC1;Preferred Replica&#x88AB;&#x5747;&#x5300;&#x5206;&#x5E03;&#x5230;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x6240;&#x6709;Broker&#x4E0A;&#x3002;&#x7406;&#x60F3;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;Preferred Replica&#x4F1A;&#x88AB;&#x9009;&#x4E3A;Leader&#x3002;&#x4EE5;&#x4E0A;&#x4E24;&#x70B9;&#x4FDD;&#x8BC1;&#x4E86;&#x6240;&#x6709;Partition&#x7684;Leader&#x88AB;&#x5747;&#x5300;&#x5206;&#x5E03;&#x5230;&#x4E86;&#x96C6;&#x7FA4;&#x5F53;&#x4E2D;&#xFF0C;&#x8FD9;&#x4E00;&#x70B9;&#x975E;&#x5E38;&#x91CD;&#x8981;&#xFF0C;&#x56E0;&#x4E3A;&#x6240;&#x6709;&#x7684;&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#x90FD;&#x7531;Leader&#x5B8C;&#x6210;&#xFF0C;&#x82E5;Leader&#x5206;&#x5E03;&#x8FC7;&#x4E8E;&#x96C6;&#x4E2D;&#xFF0C;&#x4F1A;&#x9020;&#x6210;&#x96C6;&#x7FA4;&#x8D1F;&#x8F7D;&#x4E0D;&#x5747;&#x8861;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x968F;&#x7740;&#x96C6;&#x7FA4;&#x7684;&#x8FD0;&#x884C;&#xFF0C;&#x8BE5;&#x5E73;&#x8861;&#x53EF;&#x80FD;&#x4F1A;&#x56E0;&#x4E3A;Broker&#x7684;&#x5B95;&#x673A;&#x800C;&#x88AB;&#x6253;&#x7834;&#xFF0C;&#x8BE5;&#x5DE5;&#x5177;&#x5C31;&#x662F;&#x7528;&#x6765;&#xFFFD;&#xFFFD;&#xFFFD;&#x52A9;&#x6062;&#x590D;Leader&#x5206;&#x914D;&#x7684;&#x5E73;&#x8861;&#x3002;</p>
+<p>&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x6BCF;&#x4E2A;Topic&#x4ECE;&#x5931;&#x8D25;&#x4E2D;&#x6062;&#x590D;&#x8FC7;&#x6765;&#x540E;&#xFF0C;&#x5B83;&#x9ED8;&#x8BA4;&#x4F1A;&#x88AB;&#x8BBE;&#x7F6E;&#x4E3A;Follower&#x89D2;&#x8272;&#xFF0C;&#x9664;&#x975E;&#x67D0;&#x4E2A;Partition&#x7684;Replica&#x5168;&#x90E8;&#x5B95;&#x673A;&#xFF0C;&#x800C;&#x5F53;&#x524D;Broker&#x662F;&#x8BE5;Partition&#x7684;AR&#x4E2D;&#x7B2C;&#x4E00;&#x4E2A;&#x6062;&#x590D;&#x56DE;&#x6765;&#x7684;Replica&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x67D0;&#x4E2A;Partition&#x7684;Leader&#xFF08;Preferred Replica&#xFF09;&#x5B95;&#x673A;&#x5E76;&#x6062;&#x590D;&#x540E;&#xFF0C;&#x5B83;&#x5F88;&#x53EF;&#x80FD;&#x4E0D;&#x518D;&#x662F;&#x8BE5;Partition&#x7684;Leader&#xFF0C;&#x4F46;&#x4ECD;&#x7136;&#x662F;Preferred Replica&#x3002;</p>
+<p><em>&#x539F;&#x7406;</em></p>
+<ol>
+<li>&#x5728;Zookeeper&#x4E0A;&#x521B;&#x5EFA; /admin/preferred_replica_election &#x8282;&#x70B9;&#xFF0C;&#x5E76;&#x5B58;&#x5165;&#x9700;&#x8981;&#x8C03;&#x6574;Preferred Replica&#x7684;Partition&#x4FE1;&#x606F;&#x3002;</li>
+<li>Controller&#x4E00;&#x76F4;Watch&#x8BE5;&#x8282;&#x70B9;&#xFF0C;&#x4E00;&#x65E6;&#x8BE5;&#x8282;&#x70B9;&#x88AB;&#x521B;&#x5EFA;&#xFF0C;Controller&#x4F1A;&#x6536;&#x5230;&#x901A;&#x77E5;&#xFF0C;&#x5E76;&#x83B7;&#x53D6;&#x8BE5;&#x5185;&#x5BB9;&#x3002;</li>
+<li>Controller&#x8BFB;&#x53D6;Preferred Replica&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x73B0;&#x8BE5;Replica&#x5F53;&#x524D;&#x5E76;&#x975E;&#x662F;Leader&#x5E76;&#x4E14;&#x5B83;&#x5728;&#x8BE5;Partition&#x7684;ISR&#x4E2D;&#xFF0C;Controller&#x5411;&#x8BE5;Replica&#x53D1;&#x9001;LeaderAndIsrRequest&#xFF0C;&#x4F7F;&#x8BE5;Replica&#x6210;&#x4E3A;Leader&#x3002;&#x5982;&#x679C;&#x8BE5;Replica&#x5F53;&#x524D;&#x5E76;&#x975E;&#x662F;Leader&#xFF0C;&#x4E14;&#x4E0D;&#x5728;ISR&#x4E2D;&#xFF0C;Controller&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x6CA1;&#x6709;&#x6570;&#x636E;&#x4E22;&#x5931;&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;&#x5C06;&#x5176;&#x8BBE;&#x7F6E;&#x4E3A;Leader&#x3002;</li>
+</ol>
+<p><em>&#x7528;&#x6CD5;</em></p>
+<p>$KAFKA_HOME/bin/kafka-preferred-replica-election.sh &#x2014;zookeeper localhost:2181</p>
+<p>&#x5728;&#x5305;&#x542B;8&#x4E2A;Broker&#x7684;Kafka&#x96C6;&#x7FA4;&#x4E0A;&#xFF0C;&#x521B;&#x5EFA;1&#x4E2A;&#x540D;&#x4E3A;topic1&#xFF0C;replication-factor&#x4E3A;3&#xFF0C;Partition&#x6570;&#x4E3A;8&#x7684;Topic&#xFF0C;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#x67E5;&#x770B;&#x5176;Partition/Replica&#x5206;&#x5E03;&#x3002;</p>
+<pre><code><span class="comment">$KAFKA_HOME/bin/kafka</span><span class="literal">-</span><span class="comment">topics</span><span class="string">.</span><span class="comment">sh</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">describe</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">topic</span> <span class="comment">topic1</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">zookeeper</span> <span class="comment">localhost:2181</span>
+</code></pre><p>&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF0C;&#x4ECE;&#x56FE;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;Kafka&#x5C06;&#x6240;&#x6709;Replica&#x5747;&#x5300;&#x5206;&#x5E03;&#x5230;&#x4E86;&#x6574;&#x4E2A;&#x96C6;&#x7FA4;&#xFF0C;&#x5E76;&#x4E14;Leader&#x4E5F;&#x5747;&#x5300;&#x5206;&#x5E03;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077f0b6.png" alt=""></p>
+<p>&#x624B;&#x52A8;&#x505C;&#x6B62;&#x90E8;&#x5206;Broker&#xFF0C;topic1&#x7684;Partition/Replica&#x5206;&#x5E03;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#x3002;&#x4ECE;&#x56FE;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x7531;&#x4E8E;Broker 1/2/4&#x90FD;&#x88AB;&#x505C;&#x6B62;&#xFF0C;Partition 0&#x7684;Leader&#x7531;&#x539F;&#x6765;&#x7684;1&#x53D8;&#x4E3A;3&#xFF0C;Partition 1&#x7684;Leader&#x7531;&#x539F;&#x6765;&#x7684;2&#x53D8;&#x4E3A;5&#xFF0C;Partition 2&#x7684;Leader&#x7531;&#x539F;&#x6765;&#x7684;3&#x53D8;&#x4E3A;6&#xFF0C;Partition 3&#x7684;Leader&#x7531;&#x539F;&#x6765;&#x7684;4&#x53D8;&#x4E3A;7&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077f327.png" alt=""></p>
+<p>&#x518D;&#x91CD;&#x65B0;&#x542F;&#x52A8;ID&#x4E3A;1&#x7684;Broker&#xFF0C;topic1&#x7684;Partition/Replica&#x5206;&#x5E03;&#x5982;&#x4E0B;&#x3002;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x867D;&#x7136;Broker 1&#x5DF2;&#x7ECF;&#x542F;&#x52A8;&#xFF08;Partition 0&#x548C;Partition5&#x7684;ISR&#x4E2D;&#x6709;1&#xFF09;&#xFF0C;&#x4F46;&#x662F;1&#x5E76;&#x4E0D;&#x662F;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;Parititon&#x7684;Leader&#xFF0C;&#x800C;Broker 5/6/7&#x90FD;&#x662F;2&#x4E2A;Partition&#x7684;Leader&#xFF0C;&#x5373;Leader&#x7684;&#x5206;&#x5E03;&#x4E0D;&#x5747;&#x8861;&#x2014;&#x2014;&#x4E00;&#x4E2A;Broker&#x6700;&#x591A;&#x662F;2&#x4E2A;Partition&#x7684;Leader&#xFF0C;&#x800C;&#x6700;&#x5C11;&#x662F;0&#x4E2A;Partition&#x7684;Leader&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077f327.png" alt=""></p>
+<p>&#x8FD0;&#x884C;&#x8BE5;&#x5DE5;&#x5177;&#x540E;&#xFF0C;topic1&#x7684;Partition/Replica&#x5206;&#x5E03;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#x3002;&#x7531;&#x56FE;&#x53EF;&#x89C1;&#xFF0C;&#x9664;&#x4E86;Partition 1&#x548C;Partition 3&#x7531;&#x4E8E;Broker 2&#x548C;Broker 4&#x8FD8;&#x672A;&#x542F;&#x52A8;&#xFF0C;&#x6240;&#x4EE5;&#x5176;Leader&#x4E0D;&#x662F;&#x5176;Preferred Repliac&#x5916;&#xFF0C;&#x5176;&#x5B83;&#x6240;&#x6709;Partition&#x7684;Leader&#x90FD;&#x662F;&#x5176;Preferred Replica&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x4E0E;&#x8FD0;&#x884C;&#x8BE5;&#x5DE5;&#x5177;&#x524D;&#x76F8;&#x6BD4;&#xFF0C;Leader&#x7684;&#x5206;&#x914D;&#x66F4;&#x5747;&#x5300;&#x2014;&#x2014;&#x4E00;&#x4E2A;Broker&#x6700;&#x591A;&#x662F;2&#x4E2A;Parittion&#x7684;Leader&#xFF0C;&#x6700;&#x5C11;&#x662F;1&#x4E2A;Partition&#x7684;Leader&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077f598.png" alt=""></p>
+<p>&#x542F;&#x52A8;Broker 2&#x548C;Broker 4&#xFF0C;Leader&#x5206;&#x5E03;&#x4E0E;&#x4E0A;&#x4E00;&#x6B65;&#x76F8;&#x6BD4;&#x5E76;&#x672A;&#x53D8;&#x5316;&#xFF0C;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077f598.png" alt=""></p>
+<p>&#x518D;&#x6B21;&#x8FD0;&#x884C;&#x8BE5;&#x5DE5;&#x5177;&#xFF0C;&#x6240;&#x6709;Partition&#x7684;Leader&#x90FD;&#x7531;&#x5176;Preferred Replica&#x627F;&#x62C5;&#xFF0C;Leader&#x5206;&#x5E03;&#x66F4;&#x5747;&#x5300;&#x2014;&#x2014;&#x6BCF;&#x4E2A;Broker&#x627F;&#x62C5;1&#x4E2A;Partition&#x7684;Leader&#x89D2;&#x8272;&#x3002;</p>
+<p>&#x9664;&#x4E86;&#x624B;&#x52A8;&#x8FD0;&#x884C;&#x8BE5;&#x5DE5;&#x5177;&#x4F7F;Leader&#x5206;&#x914D;&#x5747;&#x5300;&#x5916;&#xFF0C;Kafka&#x8FD8;&#x63D0;&#x4F9B;&#x4E86;&#x81EA;&#x52A8;&#x5E73;&#x8861;Leader&#x5206;&#x914D;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x8BE5;&#x529F;&#x80FD;&#x53EF;&#x901A;&#x8FC7;&#x5C06; auto.leader.rebalance.enable &#x8BBE;&#x7F6E;&#x4E3A;true&#x5F00;&#x542F;&#xFF0C;&#x5B83;&#x5C06;&#x5468;&#x671F;&#x6027;&#x68C0;&#x67E5;Leader&#x5206;&#x914D;&#x662F;&#x5426;&#x5E73;&#x8861;&#xFF0C;&#x82E5;&#x4E0D;&#x5E73;&#x8861;&#x5EA6;&#x8D85;&#x8FC7;&#x4E00;&#x5B9A;&#x9608;&#x503C;&#x5219;&#x81EA;&#x52A8;&#x7531;Controller&#x5C1D;&#x8BD5;&#x5C06;&#x5404;Partition&#x7684;Leader&#x8BBE;&#x7F6E;&#x4E3A;&#x5176;Preferred Replica&#x3002;&#x68C0;&#x67E5;&#x5468;&#x671F;&#x7531; leader.imbalance.check.interval.seconds &#x6307;&#x5B9A;&#xFF0C;&#x4E0D;&#x5E73;&#x8861;&#x5EA6;&#x9608;&#x503C;&#x7531; leader.imbalance.per.broker.percentage &#x6307;&#x5B9A;&#x3002; </p>
+<h2 id="Kafka_Reassign_Partitions_Tool">Kafka Reassign Partitions Tool</h2><p><em>&#x7528;&#x9014;</em></p>
+<p>&#x8BE5;&#x5DE5;&#x5177;&#x7684;&#x8BBE;&#x8BA1;&#x76EE;&#x6807;&#x4E0E;Preferred Replica Leader Election Tool&#x6709;&#x4E9B;&#x7C7B;&#x4F3C;&#xFF0C;&#x90FD;&#x65E8;&#x5728;&#x4FC3;&#x8FDB;Kafka&#x96C6;&#x7FA4;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x3002;&#x4E0D;&#x540C;&#x7684;&#x662F;&#xFF0C;Preferred Replica Leader Election&#x53EA;&#x80FD;&#x5728;Partition&#x7684;AR&#x8303;&#x56F4;&#x5185;&#x8C03;&#x6574;&#x5176;Leader&#xFF0C;&#x4F7F;Leader&#x5206;&#x5E03;&#x5747;&#x5300;&#xFF0C;&#x800C;&#x8BE5;&#x5DE5;&#x5177;&#x8FD8;&#x53EF;&#x4EE5;&#x8C03;&#x6574;Partition&#x7684;AR&#x3002;</p>
+<p>Follower&#x9700;&#x8981;&#x4ECE;Leader Fetch&#x6570;&#x636E;&#x4EE5;&#x4FDD;&#x6301;&#x4E0E;Leader&#x540C;&#x6B65;&#xFF0C;&#x6240;&#x4EE5;&#x4EC5;&#x4EC5;&#x4FDD;&#x6301;Leader&#x5206;&#x5E03;&#x7684;&#x5E73;&#x8861;&#x5BF9;&#x6574;&#x4E2A;&#x96C6;&#x7FA4;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x6765;&#x8BF4;&#x662F;&#x4E0D;&#x591F;&#x7684;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x4E0B;&#xFF0C;&#x968F;&#x7740;&#x8D1F;&#x8F7D;&#x7684;&#x589E;&#x5927;&#xFF0C;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x7ED9;Kafka&#x96C6;&#x7FA4;&#x6269;&#x5BB9;&#x3002;&#x5411;Kafka&#x96C6;&#x7FA4;&#x4E2D;&#x589E;&#x52A0;Broker&#x975E;&#x5E38;&#x7B80;&#x5355;&#x65B9;&#x4FBF;&#xFF0C;&#x4F46;&#x662F;&#x5BF9;&#x4E8E;&#x5DF2;&#x6709;&#x7684;Topic&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;&#x81EA;&#x52A8;&#x5C06;&#x5176;Partition&#x8FC1;&#x79FB;&#x5230;&#x65B0;&#x52A0;&#x5165;&#x7684;Broker&#x4E0A;&#xFF0C;&#x6B64;&#x65F6;&#x53EF;&#x7528;&#x8BE5;&#x5DE5;&#x5177;&#x8FBE;&#x5230;&#x6B64;&#x76EE;&#x7684;&#x3002;&#x67D0;&#x4E9B;&#x573A;&#x666F;&#x4E0B;&#xFF0C;&#x5B9E;&#x9645;&#x8D1F;&#x8F7D;&#x53EF;&#x80FD;&#x8FDC;&#x5C0F;&#x4E8E;&#x6700;&#x521D;&#x9884;&#x671F;&#x8D1F;&#x8F7D;&#xFF0C;&#x6B64;&#x65F6;&#x53EF;&#x7528;&#x8BE5;&#x5DE5;&#x5177;&#x5C06;&#x5206;&#x5E03;&#x5728;&#x6574;&#x4E2A;&#x96C6;&#x7FA4;&#x4E0A;&#x7684;Partition&#x91CD;&#x88C5;&#x5206;&#x914D;&#x5230;&#x67D0;&#x4E9B;&#x673A;&#x5668;&#x4E0A;&#xFF0C;&#x7136;&#x540E;&#x53EF;&#x4EE5;&#x505C;&#x6B62;&#x4E0D;&#x9700;&#x8981;&#x7684;Broker&#x4ECE;&#x800C;&#x5B9E;&#x73B0;&#x8282;&#x7EA6;&#x8D44;&#x6E90;&#x7684;&#x76EE;&#x7684;&#x3002;</p>
+<p>&#x9700;&#x8981;&#x8BF4;&#x660E;&#x7684;&#x662F;&#xFF0C;&#x8BE5;&#x5DE5;&#x5177;&#x4E0D;&#x4EC5;&#x53EF;&#x4EE5;&#x8C03;&#x6574;Partition&#x7684;AR&#x4F4D;&#x7F6E;&#xFF0C;&#x8FD8;&#x53EF;&#x8C03;&#x6574;&#x5176;AR&#x6570;&#x91CF;&#xFF0C;&#x5373;&#x6539;&#x53D8;&#x8BE5;Topic&#x7684;replication factor&#x3002;</p>
+<p><em>&#x539F;&#x7406;</em></p>
+<p>&#x8BE5;&#x5DE5;&#x5177;&#x53EA;&#x8D1F;&#x8D23;&#x5C06;&#x6240;&#x9700;&#x4FE1;&#x606F;&#x5B58;&#x5165;Zookeeper&#x4E2D;&#x76F8;&#x5E94;&#x8282;&#x70B9;&#xFF0C;&#x7136;&#x540E;&#x9000;&#x51FA;&#xFF0C;&#x4E0D;&#x8D1F;&#x8D23;&#x76F8;&#x5173;&#x7684;&#x5177;&#x4F53;&#x64CD;&#x4F5C;&#xFF0C;&#x6240;&#x6709;&#x8C03;&#x6574;&#x90FD;&#x7531;Controller&#x5B8C;&#x6210;&#x3002;</p>
+<ol>
+<li>&#x5728;Zookeeper&#x4E0A;&#x521B;&#x5EFA; /admin/reassign_partitions &#x8282;&#x70B9;&#xFF0C;&#x5E76;&#x5B58;&#x5165;&#x76EE;&#x6807;Partition&#x5217;&#x8868;&#x53CA;&#x5176;&#x5BF9;&#x5E94;&#x7684;&#x76EE;&#x6807;AR&#x5217;&#x8868;&#x3002;</li>
+<li>Controller&#x6CE8;&#x518C;&#x5728; /admin/reassign_partitions &#x4E0A;&#x7684;Watch&#x88AB;fire&#xFF0C;Controller&#x83B7;&#x53D6;&#x8BE5;&#x5217;&#x8868;&#x3002;</li>
+<li>&#x5BF9;&#x5217;&#x8868;&#x4E2D;&#x7684;&#x6240;&#x6709;Partition&#xFF0C;Controller&#x4F1A;&#x505A;&#x5982;&#x4E0B;&#x64CD;&#x4F5C;&#xFF1A;</li>
+</ol>
+<ul>
+<li>&#x542F;&#x52A8; RAR - AR &#x4E2D;&#x7684;Replica&#xFF0C;&#x5373;&#x65B0;&#x5206;&#x914D;&#x7684;Replica&#x3002;&#xFF08;RAR = Reassigned Replicas&#xFF0C; AR = Assigned Replicas&#xFF09;</li>
+<li>&#x7B49;&#x5F85;&#x65B0;&#x7684;Replica&#x4E0E;Leader&#x540C;&#x6B65;</li>
+<li>&#x5982;&#x679C;Leader&#x4E0D;&#x5728;RAR&#x4E2D;&#xFF0C;&#x4ECE;RAR&#x4E2D;&#x9009;&#x51FA;&#x65B0;&#x7684;Leader</li>
+<li>&#x505C;&#x6B62;&#x5E76;&#x5220;&#x9664; AR - RAR &#x4E2D;&#x7684;Replica&#xFF0C;&#x5373;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x7684;Replica</li>
+<li>&#x5220;&#x9664; /admin/reassign_partitions &#x8282;&#x70B9;</li>
+</ul>
+<p><em>&#x7528;&#x6CD5;</em></p>
+<p>&#x8BE5;&#x5DE5;&#x5177;&#x6709;&#x4E09;&#x79CD;&#x4F7F;&#x7528;&#x6A21;&#x5F0F;</p>
+<ul>
+<li>generate&#x6A21;&#x5F0F;&#xFF0C;&#x7ED9;&#x5B9A;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;Topic&#xFF0C;&#x81EA;&#x52A8;&#x751F;&#x6210;reassign plan&#xFF08;&#x5E76;&#x4E0D;&#x6267;&#x884C;&#xFF09;</li>
+<li>execute&#x6A21;&#x5F0F;&#xFF0C;&#x6839;&#x636E;&#x6307;&#x5B9A;&#x7684;reassign plan&#x91CD;&#x65B0;&#x5206;&#x914D;Partition</li>
+<li>verify&#x6A21;&#x5F0F;&#xFF0C;&#x9A8C;&#x8BC1;&#x91CD;&#x65B0;&#x5206;&#x914D;Partition&#x662F;&#x5426;&#x6210;&#x529F;</li>
+</ul>
+<p>&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x5C06;&#x4F7F;&#x7528;&#x8BE5;&#x5DE5;&#x5177;&#x5C06;Topic&#x7684;&#x6240;&#x6709;Partition&#x91CD;&#x65B0;&#x5206;&#x914D;&#x5230;Broker 4/5/6/7&#x4E0A;&#xFF0C;&#x6B65;&#x9AA4;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>&#x4F7F;&#x7528;generate&#x6A21;&#x5F0F;&#xFF0C;&#x751F;&#x6210;reassign plan</li>
+</ol>
+<p>&#x6307;&#x5B9A;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;Topic &#xFF08;{&#x201C;topics&#x201D;:[{&#x201C;topic&#x201D;:&#x201D;topic1&#x201D;}],&#x201D;version&#x201D;:1}&#xFF09;&#xFF0C;&#x5E76;&#x5B58;&#x5165; /tmp/topics-to-move.json &#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x5982;&#x4E0B;&#x547D;&#x4EE4; </p>
+<pre><code>$KAFKA_HOME/bin/kafka-reassign-partitions.<span class="keyword">sh</span> --zookeeper localhos<span class="variable">t:2181</span>
+--topics-<span class="keyword">to</span>-<span class="keyword">move</span>-json-<span class="keyword">file</span> /tmp/topics-<span class="keyword">to</span>-<span class="keyword">move</span>.json 
+--broker-<span class="keyword">list</span> &amp;quot;<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>&amp;quot; --generate
+</code></pre><p>&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;</p>
+<p>![</p>
+<ol>
+<li>&#x4F7F;&#x7528;execute&#x6A21;&#x5F0F;&#xFF0C;&#x6267;&#x884C;reassign plan</li>
+</ol>
+<p>&#x5C06;&#x4E0A;&#x4E00;&#x6B65;&#x751F;&#x6210;&#x7684;reassignment plan&#x5B58;&#x5165; /tmp/reassign-plan.json &#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x5E76;&#x6267;&#x884C; </p>
+<pre><code><span class="variable">$KAFKA_HOME</span>/bin/kafka-reassign-partitions<span class="class">.sh</span> --zookeeper localhost:<span class="number">2181</span> 
+--reassignment-json-file /tmp/reassign-plan<span class="class">.json</span> --execute
+</code></pre><p><img src="http://taojinke.github.io/img/20150703/077f809.png" alt=""></p>
+<p>&#x6B64;&#x65F6;&#xFF0C;Zookeeper&#x4E0A; /admin/reassign_partitions &#x8282;&#x70B9;&#x88AB;&#x521B;&#x5EFA;&#xFF0C;&#x4E14;&#x5176;&#x503C;&#x4E0E; /tmp/reassign-plan.json &#x6587;&#x4EF6;&#x7684;&#x5185;&#x5BB9;&#x4E00;&#x81F4;&#x3002; </p>
+<p><img src="http://taojinke.github.io/img/20150703/077f809.png" alt=""></p>
+<ol>
+<li><p>&#x4F7F;&#x7528;verify&#x6A21;&#x5F0F;&#xFF0C;&#x9A8C;&#x8BC1;reassign&#x662F;&#x5426;&#x5B8C;&#x6210;&#x6267;&#x884C;verify&#x547D;&#x4EE4; </p>
+<p> $KAFKA_HOME/bin/kafka-reassign-partitions.sh —zookeeper localhost:2181<br> —reassignment-json-file /tmp/reassign-plan.json —verify</p>
+</li>
+</ol>
+<p>&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF0C;&#x4ECE;&#x56FE;&#x4E2D;&#x53EF;&#x770B;&#x51FA;topic1&#x7684;&#x6240;&#x6709;Partititon&#x90FD;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x6210;&#x529F;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077fa7a.png" alt=""></p>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x7528;Topic Tool&#x518D;&#x6B21;&#x9A8C;&#x8BC1;&#x3002;</p>
+<pre><code><span class="comment">bin/kafka</span><span class="literal">-</span><span class="comment">topics</span><span class="string">.</span><span class="comment">sh</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">zookeeper</span> <span class="comment">localhost:2181</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">describe</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">topic</span> <span class="comment">topic1</span>
+</code></pre><p>&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF0C;&#x4ECE;&#x56FE;&#x4E2D;&#x53EF;&#x770B;&#x51FA;topic1&#x7684;&#x6240;&#x6709;Partition&#x90FD;&#x88AB;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x5230;Broker 4/5/6/7&#xFF0C;&#x4E14;&#x6BCF;&#x4E2A;Partition&#x7684;AR&#x4E0E;reassign plan&#x4E00;&#x81F4;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150703/077fa7a.png" alt=""></p>
+<p>&#x9700;&#x8981;&#x8BF4;&#x660E;&#x7684;&#x662F;&#xFF0C;&#x5728;&#x4F7F;&#x7528;execute&#x4E4B;&#x524D;&#xFF0C;&#x5E76;&#x4E0D;&#x4E00;&#x5B9A;&#x8981;&#x4F7F;&#x7528;generate&#x6A21;&#x5F0F;&#x81EA;&#x52A8;&#x751F;&#x6210;reassign plan&#xFF0C;&#x4F7F;&#x7528;generate&#x6A21;&#x5F0F;&#x53EA;&#x662F;&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x3002;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x67D0;&#x4E9B;&#x573A;&#x666F;&#x4E0B;&#xFF0C;generate&#x6A21;&#x5F0F;&#x751F;&#x6210;&#x7684;reassign plan&#x5E76;&#x4E0D;&#x4E00;&#x5B9A;&#x80FD;&#x6EE1;&#x8DB3;&#x9700;&#x6C42;&#xFF0C;&#x6B64;&#x65F6;&#x7528;&#x6237;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x8BBE;&#x7F6E;reassign plan&#x3002;</p>
+<h2 id="State_Change_Log_Merge_Tool">State Change Log Merge Tool</h2><p><em>&#x7528;&#x9014;</em></p>
+<p>&#x8BE5;&#x5DE5;&#x5177;&#x65E8;&#x5728;&#x4ECE;&#x6574;&#x4E2A;&#x96C6;&#x7FA4;&#x7684;Broker&#x4E0A;&#x6536;&#x96C6;&#x72B6;&#x6001;&#x6539;&#x53D8;&#x65E5;&#x5FD7;&#xFF0C;&#x5E76;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x96C6;&#x4E2D;&#x7684;&#x683C;&#x5F0F;&#x5316;&#x7684;&#x65E5;&#x5FD7;&#x4EE5;&#x5E2E;&#x52A9;&#x8BCA;&#x65AD;&#x72B6;&#x6001;&#x6539;&#x53D8;&#x76F8;&#x5173;&#x7684;&#x6545;&#x969C;&#x3002;&#x6BCF;&#x4E2A;Broker&#x90FD;&#x4F1A;&#x5C06;&#x5176;&#x6536;&#x5230;&#x7684;&#x72B6;&#x6001;&#x6539;&#x53D8;&#x76F8;&#x5173;&#x7684;&#x7684;&#x6307;&#x4EE4;&#x5B58;&#x4E8E;&#x540D;&#x4E3A; state-change.log &#x7684;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x67D0;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;Partition&#x7684;Leader Election&#x53EF;&#x80FD;&#x4F1A;&#x51FA;&#x73B0;&#x95EE;&#x9898;&#xFF0C;&#x6B64;&#x65F6;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5BF9;&#x6574;&#x4E2A;&#x96C6;&#x7FA4;&#x7684;&#x72B6;&#x6001;&#x6539;&#x53D8;&#x6709;&#x4E2A;&#x5168;&#x5C40;&#x7684;&#x4E86;&#x89E3;&#x4ECE;&#x800C;&#x8BCA;&#x65AD;&#x6545;&#x969C;&#x5E76;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#x3002;&#x8BE5;&#x5DE5;&#x5177;&#x5C06;&#x96C6;&#x7FA4;&#x4E2D;&#x76F8;&#x5173;&#x7684; state-change.log &#x65E5;&#x5FD7;&#x6309;&#x65F6;&#x95F4;&#x987A;&#x5E8F;&#x5408;&#x5E76;&#xFF0C;&#x540C;&#x65F6;&#x652F;&#x6301;&#x7528;&#x6237;&#x8F93;&#x5165;&#x65F6;&#x95F4;&#x8303;&#x56F4;&#x548C;&#x76EE;&#x6807;Topic&#x53CA;Partition&#x4F5C;&#x4E3A;&#x8FC7;&#x6EE4;&#x6761;&#x4EF6;&#xFF0C;&#x6700;&#x7EC8;&#x5C06;&#x683C;&#x5F0F;&#x5316;&#x7684;&#x7ED3;&#x679C;&#x8F93;&#x51FA;&#x3002; </p>
+<p><em>&#x7528;&#x6CD5;</em></p>
+<pre><code>bin/kafka-run-class<span class="class">.sh</span> kafka<span class="class">.tools</span><span class="class">.StateChangeLogMerger</span> 
+--logs /opt/kafka_2.<span class="number">11</span>-<span class="number">0.8</span>.<span class="number">2.1</span>/logs/state-change<span class="class">.log</span> 
+--topic topic1 --partitions <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>
+</code></pre><h2 id="&#x4E0B;&#x7BC7;&#x9884;&#x544A;">&#x4E0B;&#x7BC7;&#x9884;&#x544A;</h2><p>&#x4E0B;&#x7BC7;&#x6587;&#x7AE0;&#x5C06;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;Kafka Simple Consumer API&#x548C;High Level Consumer API&#xFF0C;&#x4EE5;&#x53CA;0.9.*&#x7248;&#x672C;&#x4E2D;&#x5BF9;Kafka Consumer&#x7684;&#x91CD;&#x65B0;&#x8BBE;&#x8BA1;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Kafka/">Kafka</a><a href="/tags/Nosql/">Nosql</a><a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/077c9a6/" title="OpenStack中tooz介绍及实践 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  OpenStack中tooz介绍及实践 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/07880c1/"  title="metaq安装实例 -">
+ <strong>下一篇：</strong><br/> 
+ <span>metaq安装实例 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broker_Failover过程"><span class="toc-number">2.</span> <span class="toc-text">Broker Failover过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Controller对Broker_failure的处理过程"><span class="toc-number">3.</span> <span class="toc-text">Controller对Broker failure的处理过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建/删除Topic"><span class="toc-number">4.</span> <span class="toc-text">创建/删除Topic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broker响应请求流程"><span class="toc-number">5.</span> <span class="toc-text">Broker响应请求流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LeaderAndIsrRequest响应过程"><span class="toc-number">6.</span> <span class="toc-text">LeaderAndIsrRequest响应过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broker启动过程"><span class="toc-number">7.</span> <span class="toc-text">Broker启动过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Controller_Failover"><span class="toc-number">8.</span> <span class="toc-text">Controller Failover</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Partition重新分配"><span class="toc-number">9.</span> <span class="toc-text">Partition重新分配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Follower从Leader_Fetch数据"><span class="toc-number">10.</span> <span class="toc-text">Follower从Leader Fetch数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replication工具"><span class="toc-number">11.</span> <span class="toc-text">Replication工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Topic_Tool"><span class="toc-number">12.</span> <span class="toc-text">Topic Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replica_Verification_Tool"><span class="toc-number">13.</span> <span class="toc-text">Replica Verification Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Preferred_Replica_Leader_Election_Tool"><span class="toc-number">14.</span> <span class="toc-text">Preferred Replica Leader Election Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka_Reassign_Partitions_Tool"><span class="toc-number">15.</span> <span class="toc-text">Kafka Reassign Partitions Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#State_Change_Log_Merge_Tool"><span class="toc-number">16.</span> <span class="toc-text">State Change Log Merge Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下篇预告"><span class="toc-number">17.</span> <span class="toc-text">下篇预告</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

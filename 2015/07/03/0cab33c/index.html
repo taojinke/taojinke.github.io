@@ -1,0 +1,873 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>分布式日志 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x5B8C;&amp;#x6210;&amp;#x4E00;&amp;#x4E2A;&amp;#x7B80;&amp;#x5355;&amp;#x7684;&amp;#x65E5;&amp;#x5FD7;&amp;#x7BA1;&amp;#x7406;&amp;#x7CFB;&amp;#x7EDF;&amp;#xFF0C;&amp;#x62FF;&amp;#x51FA;&amp;#x6765;&amp;#x8DDF;&amp;#x5927;&amp;#x5BB6;&amp;#x5206;&amp;#x4EAB;&amp;#x4E00;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式日志 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/0cab33c/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x5B8C;&amp;#x6210;&amp;#x4E00;&amp;#x4E2A;&amp;#x7B80;&amp;#x5355;&amp;#x7684;&amp;#x65E5;&amp;#x5FD7;&amp;#x7BA1;&amp;#x7406;&amp;#x7CFB;&amp;#x7EDF;&amp;#xFF0C;&amp;#x62FF;&amp;#x51FA;&amp;#x6765;&amp;#x8DDF;&amp;#x5927;&amp;#x5BB6;&amp;#x5206;&amp;#x4EAB;&amp;#x4E00;">
+<meta property="og:updated_time" content="2015-07-03T14:08:59.200Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式日志 -">
+<meta name="twitter:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x5B8C;&amp;#x6210;&amp;#x4E00;&amp;#x4E2A;&amp;#x7B80;&amp;#x5355;&amp;#x7684;&amp;#x65E5;&amp;#x5FD7;&amp;#x7BA1;&amp;#x7406;&amp;#x7CFB;&amp;#x7EDF;&amp;#xFF0C;&amp;#x62FF;&amp;#x51FA;&amp;#x6765;&amp;#x8DDF;&amp;#x5927;&amp;#x5BB6;&amp;#x5206;&amp;#x4EAB;&amp;#x4E00;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/0cab33c/" title="分布式日志 -" itemprop="url">分布式日志 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:59.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#console"><span class="toc-number">1.</span> <span class="toc-text">console</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hbase"><span class="toc-number">2.</span> <span class="toc-text">hbase</span></a></li></ol>
+		
+		</div>
+		
+		<p>&#x6700;&#x8FD1;&#x5B8C;&#x6210;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x65E5;&#x5FD7;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#xFF0C;&#x62FF;&#x51FA;&#x6765;&#x8DDF;&#x5927;&#x5BB6;&#x5206;&#x4EAB;&#x4E00;&#x4E0B;&#xFF01;</p>
+<p>&#x4E3B;&#x8981;&#x5B9E;&#x73B0;&#x7684;&#x529F;&#x80FD;&#xFF1A;</p>
+<p>1&#x3001;&#x652F;&#x6301;&#x52A8;&#x6001;&#x4FEE;&#x6539;&#x914D;&#x7F6E;</p>
+<p>2&#x3001;&#x5B9E;&#x73B0;&#x7EDF;&#x4E00;&#x7684;&#x914D;&#x7F6E;&#x7BA1;&#x7406;</p>
+<p>3&#x3001;&#x652F;&#x6301;&#x6587;&#x4EF6;&#x8F93;&#x51FA;&#x3001;habse&#x8F93;&#x51FA;&#x3001;mongodb&#x8F93;&#x51FA;</p>
+<p>&#x57FA;&#x4E8E;&#x4EE5;&#x4E0A;&#x4E09;&#x70B9;&#x529F;&#x80FD;&#xFF0C;&#x6211;&#x4EEC;&#x4E0B;&#x9762;&#x8BE6;&#x7EC6;&#x8BF4;&#x660E;</p>
+<p>1&#x3001;&#x652F;&#x6301;&#x52A8;&#x6001;&#x4FEE;&#x6539;&#x914D;&#x7F6E;</p>
+<p>&#x8BF4;&#x9053;&#x652F;&#x6301;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#xFF0C;&#x6709;&#x4E2A;&#x540C;&#x4E8B;&#x8BA4;&#x4E3A;&#x6CA1;&#x6709;&#x8FD9;&#x4E2A;&#x5FC5;&#x8981;&#xFF0C;&#x4ED6;&#x7684;&#x89C2;&#x70B9;&#x662F;log4j&#x7684;&#x914D;&#x7F6E;&#x4E0D;&#x9700;&#x8981;&#x7ECF;&#x5E38;&#x53D8;&#x52A8;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x652F;&#x6301;&#x8FD9;&#x6837;&#x7684;&#x529F;&#x80FD;&#xFF1B;&#x672C;&#x4EBA;&#x7684;&#x89C2;&#x70B9;&#x662F;&#x201C;&#x914D;&#x7F6E;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x7EDF;&#x4E00;&#x7BA1;&#x7406;&#x3001;&#x800C;&#x4E14;&#x6B63;&#x5F0F;&#x673A;&#x8DDF;&#x6D4B;&#x8BD5;&#x673A;&#x7684;log4j&#x7684;&#x914D;&#x7F6E;&#x80AF;&#x5B9A;&#x4F1A;&#x6709;&#x4E00;&#x4E9B;&#x5DEE;&#x5F02;&#x7684;&#x201D;&#xFF0C;&#x56E0;&#x6B64;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x662F;&#x5FC5;&#x987B;&#x7684;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x8BF4;&#x4E00;&#x4E0B;&#x5B9E;&#x73B0;</p>
+<p>&#x901A;&#x8FC7;log4j&#x63D0;&#x4F9B;&#x7684;PropertyConfigurator&#x7C7B;&#x53EF;&#x4EE5;&#x975E;&#x5E38;&#x8F7B;&#x677E;&#x7684;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;</p>
+<p>&#x4EE3;&#x7801;&#x5982;&#x4E0B;</p>
+<pre><code>public class <span class="class">Log4jConfigListener</span> {
+
+ private  <span class="class">String</span> log4jPath;
+
+ /**
+ * @param log4jPath the log4jPath to set
+ */
+ public void setLog4jPath(<span class="class">String</span> log4jPath) {
+ this.log4jPath = log4jPath;
+ }
+
+
+ /**
+ * &amp;<span class="symbol">#x88C5</span>;&amp;<span class="symbol">#x8F7D</span>;log4j&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;
+* 
+ * @author mrh
+ * @<span class="class">DATE</span> <span class="number">2011</span>-<span class="number">5</span>-<span class="number">28</span>
+ */
+ public void load() {
+ // <span class="class">String</span> path=&amp;quot;config/log4j.properties&amp;quot;;
+ <span class="class">System</span>.out.println(&amp;quot;log4j configfile path=&amp;quot; + log4j.toString());
+ <span class="class">PropertyConfigurator</span>.configureAndWatch(log4j.toString(), <span class="number">1000</span>);// &amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x9694</span>;&amp;<span class="symbol">#x7279</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x6D4B</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x4FEE</span>;&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;
+}
+}
+</code></pre><p>Spring&#x4E2D;&#x7684;&#x914D;&#x7F6E;</p>
+<p>&lt;bean class=&quot;com.jl.net.log4j.config.Log4jConfigListener&quot; init-method=&quot;load&quot;&gt;</p>
+<p>&lt;property name=&quot;log4jPath&quot; value=&quot;WEB-INF/classes/log4j/&quot; /&gt;&#xA0;&lt;!—&#x901A;&#x8FC7;zookeeper&#x5B9E;&#x73B0;&#x7EDF;&#x4E00;&#x914D;&#x7F6E;&#x7684;dataId—&gt;</p>
+<p>&lt;/bean&gt;</p>
+<p>2&#x3001;&#x7EDF;&#x4E00;&#x914D;&#x7F6E;&#x7BA1;&#x7406;</p>
+<p>&#x7EDF;&#x4E00;&#x914D;&#x7F6E;&#x7BA1;&#x7406;&#xFF0C;&#x662F;&#x901A;&#x8FC7;zookeeper&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x914D;&#x7F6E;&#x5F62;&#x5F0F;&#x4E0E;log4j.properties&#x914D;&#x7F6E;&#x4E00;&#x81F4;&#xFF1B;</p>
+<p>&#x914D;&#x7F6E;&#x5982;&#x4E0B;</p>
+<p>log4j.rootLogger=INFO,console,HbaseAppender</p>
+<h1 id="console">console</h1><p>log4j.appender.console=org.apache.log4j.ConsoleAppender</p>
+<p>log4j.appender.console.layout=org.apache.log4j.PatternLayout</p>
+<p>log4j.appender.console.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}\:%L - %m%n</p>
+<h1 id="hbase">hbase</h1><p>log4j.appender.HbaseAppender=com.jl.net.log4j.hbase.HbaseAppender</p>
+<p>log4j.appender.HbaseAppender.layout=org.apache.log4j.PatternLayout</p>
+<p>log4j.appender.HbaseAppender.sysName=tuid</p>
+<p>log4j.appender.HbaseAppender.serverIp=Y</p>
+<p>log4j.appender.HbaseAppender.zookeeper_ip=10.1.18.100,10.1.18.103,10.1.18.102</p>
+<p>log4j.appender.HbaseAppender.zookeeper_port=2181</p>
+<p>log4j.appender.HbaseAppender.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss sss} %c.%t:%L %-5p %x&#xA0; %m%n</p>
+<p>Spring&#x4E2D;&#x7684;&#x914D;&#x7F6E; </p>
+<p>&lt;bean class=&quot;com.jl.net.log4j.config.Log4jConfigListener&quot; init-method=&quot;load&quot;&gt;</p>
+<p>&lt;property name=&quot;log4jPath&quot; value=&quot;cfg/jlcloud.uid.log4j&quot; /&gt;&#xA0;&lt;!—&#x901A;&#x8FC7;zookeeper&#x5B9E;&#x73B0;&#x7EDF;&#x4E00;&#x914D;&#x7F6E;&#x7684;dataId—&gt;</p>
+<p>&lt;/bean&gt;</p>
+<p>3&#x3001;&#x652F;&#x6301;&#x6587;&#x4EF6;&#x3001;habse&#x3001;mongodb&#x7684;&#x8F93;&#x51FA;</p>
+<p>log4j&#x672C;&#x8EAB;&#x5C31;&#x652F;&#x6301;&#x6587;&#x4EF6;&#x8F93;&#x51FA;&#xFF0C;mongodb&#x7684;&#x8F93;&#x51FA;&#x9700;&#x8981;&#x501F;&#x52A9;log4mongo-Java&#x8FD9;&#x4E2A;&#x9879;&#x76EE;&#xFF0C;maven&#x7684;&#x5750;&#x6807;&#x662F;</p>
+<p>&lt;dependency&gt;</p>
+<p>&lt;groupId&gt;org.log4mongo&lt;/groupId&gt;</p>
+<p>&lt;artifactId&gt;log4mongo-java&lt;/artifactId&gt;</p>
+<p>&lt;version&gt;0.7.4&lt;/version&gt;</p>
+<p>&lt;optional&gt;true&lt;/optional&gt;</p>
+<p>&lt;/dependency&gt;</p>
+<p>&#x4E0B;&#x9762;&#x4ECB;&#x7ECD;&#x4E00;&#x4E0B;&#x5982;&#x4F55;&#x5B9E;&#x73B0;hbase&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x901A;&#x8FC7;&#x7EE7;&#x627F;log4j&#x7684;AppenderSkeleton&#x7C7B;&#xFF0C;&#x540C;&#x65F6;&#x5B9E;&#x73B0;Runnable&#x63A5;&#x53E3;&#xFF0C;&#x6765;&#x5B9E;&#x73B0;&#xFF1A;</p>
+<p>&#x4EE3;&#x7801;&#x5982;&#x4E0B;</p>
+<pre><code><span class="keyword">package</span> com.yck.worm.hbase;
+<span class="keyword">import</span> java.io.IOException;
+<span class="keyword">import</span> java.net.InetAddress;
+<span class="keyword">import</span> java.<span class="built_in">text</span>.SimpleDateFormat;
+<span class="keyword">import</span> java.util.ArrayList;
+<span class="keyword">import</span> java.util.Date;
+<span class="keyword">import</span> java.util.List;
+<span class="keyword">import</span> java.util.Queue;
+<span class="keyword">import</span> java.util.UUID;
+<span class="keyword">import</span> java.util.concurrent.ConcurrentLinkedQueue;
+<span class="keyword">import</span> java.util.concurrent.Executors;
+<span class="keyword">import</span> java.util.concurrent.ScheduledExecutorService;
+<span class="keyword">import</span> java.util.concurrent.ScheduledFuture;
+<span class="keyword">import</span> java.util.concurrent.TimeUnit;
+<span class="keyword">import</span> org.apache.hadoop.conf.Configuration;
+<span class="keyword">import</span> org.apache.hadoop.hbase.HBaseConfiguration;
+<span class="keyword">import</span> org.apache.hadoop.hbase.HColumnDescriptor;
+<span class="keyword">import</span> org.apache.hadoop.hbase.HConstants;
+<span class="keyword">import</span> org.apache.hadoop.hbase.HTableDescriptor;
+<span class="keyword">import</span> org.apache.hadoop.hbase.TableName;
+<span class="keyword">import</span> org.apache.hadoop.hbase.client.HBaseAdmin;
+<span class="keyword">import</span> org.apache.hadoop.hbase.client.HConnection;
+<span class="keyword">import</span> org.apache.hadoop.hbase.client.HConnectionManager;
+<span class="keyword">import</span> org.apache.hadoop.hbase.client.HTableInterface;
+<span class="keyword">import</span> org.apache.hadoop.hbase.client.Put;
+<span class="keyword">import</span> org.apache.hadoop.hbase.util.Bytes;
+<span class="keyword">import</span> org.apache.log4j.AppenderSkeleton;
+<span class="keyword">import</span> org.apache.log4j.spi.LoggingEvent;
+<span class="keyword">import</span> com.yck.worm.logging.WLogger;
+<span class="comment">/**
+ * &amp;#x5C06;&amp;#x65E5;&amp;#x5FD7; &amp;#x8F93;&amp;#x51FA;&amp;#x5230;HBase&amp;#x91CC;
+ * @author mrh
+ *
+ */</span>
+<span class="keyword">public</span> class HbaseAppender extends AppenderSkeleton implements Runnable {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> WLogger LOGGER = WLogger.getLogger(HbaseAppender.class);
+    <span class="keyword">private</span> <span class="built_in">int</span> batchSize = -<span class="number">1</span>;
+    <span class="keyword">private</span> <span class="built_in">int</span> period = <span class="number">1000</span>;
+    <span class="keyword">private</span> <span class="keyword">String</span> hbLogName = &amp;quot;jl_logs&amp;quot;;
+    <span class="keyword">private</span> <span class="keyword">String</span> hbLogFamily = &amp;quot;logs&amp;quot;;
+    <span class="keyword">private</span> Queue&amp;lt;LoggingEvent&amp;gt; loggingEvents;
+    <span class="keyword">private</span> ScheduledExecutorService executor;
+    <span class="keyword">private</span> ScheduledFuture&amp;lt;?&amp;gt; task;
+    <span class="keyword">private</span> Configuration conf;
+    <span class="keyword">private</span> HTableInterface htable;
+    <span class="keyword">private</span> HBaseAdmin admin;
+    <span class="keyword">private</span> HConnection connection;
+    <span class="keyword">private</span> <span class="keyword">String</span> zookeeper;
+    <span class="keyword">private</span> <span class="keyword">String</span> sysName;
+    <span class="comment">/**
+     * if serverIp = Y then out put server&amp;apos;s IP to hbase 
+     */</span>
+    <span class="keyword">private</span> <span class="keyword">String</span> serverIp;
+    <span class="comment">/**
+     * log4j&amp;#x521D;&amp;#x59CB;&amp;#x8BBE;&amp;#x7F6E;&amp;#xFF0C;&amp;#x542F;&amp;#x52A8;&amp;#x65E5;&amp;#x5FD7;&amp;#x5904;&amp;#x7406;&amp;#x8BA1;&amp;#x5212;&amp;#x4EFB;&amp;#x52A1;
+     */</span>
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> activateOptions() {
+        <span class="keyword">try</span> {
+            <span class="keyword">super</span>.activateOptions();
+            <span class="comment">// &amp;#x521B;&amp;#x5EFA;&amp;#x4E00;&amp;#x4E2A;&amp;#x8BA1;&amp;#x5212;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF0C;&amp;#x5E76;&amp;#x81EA;&amp;#x5B9A;&amp;#x4E49;&amp;#x7EBF;&amp;#x7A0B;&amp;#x540D;</span>
+            executor = Executors.newSingleThreadScheduledExecutor(<span class="keyword">new</span> NamedThreadFactory(&amp;quot;HbaseAppender&amp;quot;));
+            <span class="comment">// &amp;#x65E5;&amp;#x5FD7;&amp;#x961F;&amp;#x5217;</span>
+            loggingEvents = <span class="keyword">new</span> ConcurrentLinkedQueue&amp;lt;LoggingEvent&amp;gt;();
+            <span class="comment">// &amp;#x542F;&amp;#x52A8;&amp;#x8BA1;&amp;#x5212;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF0C;&amp;#x5982;&amp;#x679C;run&amp;#x51FD;&amp;#x6570;&amp;#x6709;&amp;#x5F02;&amp;#x5E38;&amp;#x4EFB;&amp;#x52A1;&amp;#x5C06;&amp;#x4E2D;&amp;#x65AD;&amp;#xFF01;</span>
+            task = executor.scheduleWithFixedDelay(<span class="keyword">this</span>, period, period,TimeUnit.MILLISECONDS);
+            <span class="keyword">if</span> (&amp;quot;Y&amp;quot;.equalsIgnoreCase(<span class="keyword">this</span>.serverIp)) {
+                InetAddress addr = InetAddress.getLocalHost();
+                <span class="keyword">this</span>.serverIp = addr.getHostAddress().toString();<span class="comment">//&amp;#x83B7;&amp;#x5F97;&amp;#x672C;&amp;#x673A;IP </span>
+            }
+            LOGGER.info(&amp;quot;ActivateOptions ok!&amp;quot;);
+        } <span class="keyword">catch</span> (Exception e) {
+            LOGGER.error(&amp;quot;Error during activateOptions: &amp;quot; , e);
+        }
+    }
+    <span class="comment">/**
+     * &amp;#x521D;&amp;#x59CB;HBASE
+     *
+     * @return
+     */</span>
+    <span class="keyword">private</span> <span class="built_in">boolean</span> initHbase() {
+        <span class="keyword">try</span> {
+            <span class="keyword">if</span> (conf == <span class="keyword">null</span>) {
+                LOGGER.info(&amp;quot;initHbase ... zookeeper address is &amp;quot; + <span class="keyword">this</span>.zookeeper);
+                <span class="keyword">if</span> (<span class="keyword">this</span>.zookeeper == <span class="keyword">null</span> || &amp;quot;&amp;quot;.equals(<span class="keyword">this</span>.zookeeper)) {
+                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(&amp;quot;the zookeeper address <span class="keyword">for</span> jlog4j&amp;apos;s hadoop initial can not be <span class="keyword">null</span>!&amp;quot;);
+                }
+                <span class="keyword">String</span> ip = <span class="keyword">this</span>.zookeeper.<span class="built_in">split</span>(&amp;quot;:&amp;quot;)[<span class="number">0</span>];
+                <span class="keyword">String</span> port = <span class="keyword">this</span>.zookeeper.<span class="built_in">split</span>(&amp;quot;:&amp;quot;)[<span class="number">1</span>];
+                conf = HBaseConfiguration.create();
+                conf.<span class="built_in">set</span>(HConstants.ZOOKEEPER_QUORUM, ip);
+                conf.setInt(HConstants.ZOOKEEPER_CLIENT_PORT, Integer.parseInt(port));
+                <span class="keyword">this</span>.admin  = <span class="keyword">new</span> HBaseAdmin(conf);
+                <span class="keyword">if</span> (!<span class="keyword">this</span>.admin.tableExists(Bytes.toBytes(hbLogName))) {
+                    HTableDescriptor tableDescriptor = <span class="keyword">new</span> HTableDescriptor(TableName.valueOf(hbLogName));
+                    HColumnDescriptor columnDescriptor = <span class="keyword">new</span> HColumnDescriptor(hbLogFamily.getBytes());
+                    tableDescriptor.addFamily(columnDescriptor);
+                    <span class="keyword">this</span>.admin.createTable(tableDescriptor);
+                }
+                <span class="keyword">this</span>.connection = HConnectionManager.createConnection(conf);
+                <span class="keyword">this</span>.htable = <span class="keyword">this</span>.connection.getTable(hbLogName.getBytes());
+            }
+            LOGGER.error(&amp;quot;Init Hbase success !&amp;quot;);
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        } <span class="keyword">catch</span> (Exception e) {
+            task.cancel(<span class="keyword">false</span>);
+            executor.shutdown();
+            LOGGER.error(&amp;quot;Init Hbase fail !&amp;quot;, e);
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> run() {
+        <span class="keyword">if</span> (conf == <span class="keyword">null</span> || htable == <span class="keyword">null</span>) {
+            initHbase();
+        }
+        <span class="keyword">try</span> {
+            <span class="keyword">if</span> (<span class="keyword">this</span>.batchSize &amp;lt; <span class="number">0</span> &amp;amp;&amp;amp; loggingEvents.<span class="built_in">size</span>() &amp;gt; <span class="number">0</span> ) {
+                <span class="keyword">this</span>.output();
+            } <span class="keyword">else</span> 
+             <span class="comment">// &amp;#x65E5;&amp;#x5FD7;&amp;#x6570;&amp;#x636E;&amp;#x8D85;&amp;#x51FA;&amp;#x6279;&amp;#x91CF;&amp;#x5904;&amp;#x7406;&amp;#x5927;&amp;#x5C0F;</span>
+            <span class="keyword">if</span> (loggingEvents.<span class="built_in">size</span>() &amp;gt; <span class="number">0</span> &amp;amp;&amp;amp; loggingEvents.<span class="built_in">size</span>() &amp;gt; <span class="keyword">this</span>.batchSize) {
+                <span class="keyword">this</span>.output();
+            }
+        } <span class="keyword">catch</span> (Exception e) {
+            LOGGER.error(&amp;quot;HbaseAppender Error run &amp;quot;, e);
+        }
+    }
+    <span class="comment">/**
+     * &amp;#x8F93;&amp;#x51FA;&amp;#x65E5;&amp;#x5FD7;
+     * @throws IOException
+     */</span>
+    <span class="keyword">private</span> <span class="keyword">void</span> output() <span class="keyword">throws</span> IOException {
+        LoggingEvent event;
+        List&amp;lt;Put&amp;gt; logs = <span class="keyword">new</span> ArrayList&amp;lt;Put&amp;gt;();
+        <span class="comment">// &amp;#x5FAA;&amp;#x73AF;&amp;#x5904;&amp;#x7406;&amp;#x65E5;&amp;#x5FD7;&amp;#x961F;&amp;#x5217;</span>
+        <span class="keyword">while</span> ((event = loggingEvents.poll()) != <span class="keyword">null</span>) {
+            <span class="keyword">try</span> {
+                <span class="comment">// &amp;#x5199;&amp;#x65E5;&amp;#x5FD7;&amp;#x5185;&amp;#x5BB9;</span>
+                SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(&amp;quot;yyyy-MM-dd HH:mm:ss SSS&amp;quot;);
+                Date date = <span class="keyword">new</span> Date(event.getTimeStamp());
+                <span class="comment">// &amp;#x521B;&amp;#x5EFA;&amp;#x65E5;&amp;#x5FD7;&amp;#x5E76;&amp;#x6307;&amp;#x5B9A;ROW KEY</span>
+                StringBuffer <span class="variable">key</span> = <span class="keyword">new</span> StringBuffer(&amp;quot;&amp;quot;);
+                <span class="keyword">if</span> (<span class="keyword">this</span>.sysName != <span class="keyword">null</span>)
+                    <span class="variable">key</span>.<span class="built_in">append</span>(<span class="keyword">this</span>.sysName).<span class="built_in">append</span>(&amp;quot;#&amp;quot;);
+                <span class="variable">key</span>.<span class="built_in">append</span>(event.getLoggerName()).<span class="built_in">append</span>(&amp;quot;#&amp;quot;);
+                <span class="variable">key</span>.<span class="built_in">append</span>(event.getLevel()).<span class="built_in">append</span>(&amp;quot;#&amp;quot;);
+                <span class="variable">key</span>.<span class="built_in">append</span>(sdf.format(date)).<span class="built_in">append</span>(&amp;quot;#&amp;quot;);
+                <span class="variable">key</span>.<span class="built_in">append</span>(UUID.randomUUID().toString().replace(&amp;quot;-&amp;quot;, &amp;quot;&amp;quot;));
+                Put <span class="built_in">log</span> = <span class="keyword">new</span> Put(<span class="variable">key</span>.toString().getBytes());
+                <span class="keyword">if</span> (<span class="keyword">this</span>.sysName != <span class="keyword">null</span>)
+                    <span class="built_in">log</span>.<span class="built_in">add</span>(hbLogFamily.getBytes(), &amp;quot;sysName&amp;quot;.getBytes(), <span class="keyword">this</span>.sysName.getBytes());
+                <span class="keyword">if</span> (<span class="keyword">this</span>.serverIp != <span class="keyword">null</span>)
+                    <span class="built_in">log</span>.<span class="built_in">add</span>(hbLogFamily.getBytes(), &amp;quot;serverIp&amp;quot;.getBytes(), <span class="keyword">this</span>.serverIp.getBytes());
+                <span class="built_in">log</span>.<span class="built_in">add</span>(hbLogFamily.getBytes(), &amp;quot;LoggerName&amp;quot;.getBytes(), event.getLoggerName().getBytes());
+                <span class="built_in">log</span>.<span class="built_in">add</span>(hbLogFamily.getBytes(), &amp;quot;level&amp;quot;.getBytes(), event.getLevel().toString().getBytes());
+                <span class="built_in">log</span>.<span class="built_in">add</span>(hbLogFamily.getBytes(), &amp;quot;datetime&amp;quot;.getBytes(), sdf.format(date).getBytes());
+                <span class="built_in">log</span>.<span class="built_in">add</span>(hbLogFamily.getBytes(), &amp;quot;message&amp;quot;.getBytes(), event.getMessage().toString().getBytes());
+                logs.<span class="built_in">add</span>(<span class="built_in">log</span>);
+            } <span class="keyword">catch</span> (Exception e) {
+                LOGGER.error(&amp;quot;Error logging put &amp;quot;, e);
+            }
+        }
+        <span class="comment">// &amp;#x6279;&amp;#x91CF;&amp;#x5199;&amp;#x5165;HBASE</span>
+        <span class="keyword">if</span> (logs.<span class="built_in">size</span>() &amp;gt; <span class="number">0</span>)
+            htable.put(logs);
+    }
+    <span class="comment">/**
+     * &amp;#x65E5;&amp;#x5FD7;&amp;#x4E8B;&amp;#x4EF6;
+     *
+     * @param loggingEvent
+     */</span>
+    @Override
+    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="built_in">append</span>(LoggingEvent loggingEvent) {
+        <span class="keyword">try</span> {
+            populateEvent(loggingEvent);
+            <span class="comment">// &amp;#x6DFB;&amp;#x52A0;&amp;#x5230;&amp;#x65E5;&amp;#x5FD7;&amp;#x961F;&amp;#x5217;</span>
+            loggingEvents.<span class="built_in">add</span>(loggingEvent);
+        } <span class="keyword">catch</span> (Exception e) {
+            LOGGER.error(&amp;quot;Error populating event and adding to queue&amp;quot;, e);
+        }
+    }
+    <span class="comment">/**
+     * &amp;#x4E8B;&amp;#x4EF6;&amp;#x6D4B;&amp;#x8BD5;
+     *
+     * @param event
+     */</span>
+    <span class="keyword">protected</span> <span class="keyword">void</span> populateEvent(LoggingEvent event) {
+        event.getThreadName();
+        event.getRenderedMessage();
+        event.getNDC();
+        event.getMDCCopy();
+        event.getThrowableStrRep();
+        event.getLocationInformation();
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> close() {
+        <span class="keyword">try</span> {
+            <span class="keyword">if</span> (<span class="keyword">this</span>.task != <span class="keyword">null</span>)
+                <span class="keyword">this</span>.task.cancel(<span class="keyword">false</span>);
+            <span class="keyword">if</span> (<span class="keyword">this</span>.executor != <span class="keyword">null</span>)
+                <span class="keyword">this</span>.executor.shutdown();
+            <span class="keyword">if</span> (<span class="keyword">this</span>.connection != <span class="keyword">null</span>)
+                <span class="keyword">this</span>.connection.close();
+            <span class="keyword">if</span> (<span class="keyword">this</span>.admin != <span class="keyword">null</span>)
+                <span class="keyword">this</span>.admin.close();
+            <span class="keyword">if</span> (<span class="keyword">this</span>.htable != <span class="keyword">null</span>)
+                <span class="keyword">this</span>.htable.close();
+        } <span class="keyword">catch</span> (IOException e) {
+            LOGGER.error(&amp;quot;Error close &amp;quot;, e);
+        }
+    }
+    @Override
+    <span class="keyword">public</span> <span class="built_in">boolean</span> requiresLayout() {
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+    <span class="comment">// &amp;#x8BBE;&amp;#x7F6E;&amp;#x6BCF;&amp;#x4E00;&amp;#x6279;&amp;#x65E5;&amp;#x5FD7;&amp;#x5904;&amp;#x7406;&amp;#x6570;&amp;#x91CF;</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> setBatchSize(<span class="built_in">int</span> batchSize) {
+        <span class="keyword">this</span>.batchSize = batchSize;
+    }
+    <span class="comment">/**
+     * &amp;#x8BBE;&amp;#x7F6E;&amp;#x8BA1;&amp;#x5212;&amp;#x4EFB;&amp;#x52A1;&amp;#x6267;&amp;#x884C;&amp;#x95F4;&amp;#x9694;
+     *
+     * @param period
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> setPeriod(<span class="built_in">int</span> period) {
+        <span class="keyword">this</span>.period = period;
+    }
+    <span class="comment">/**
+     * &amp;#x8BBE;&amp;#x7F6E;&amp;#x65E5;&amp;#x5FD7;&amp;#x5B58;&amp;#x50A8;HBASE&amp;#x8868;&amp;#x540D;
+     *
+     * @param hbLogName
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> setHbLogName(<span class="keyword">String</span> hbLogName) {
+        <span class="keyword">this</span>.hbLogName = hbLogName;
+    }
+    <span class="comment">/**
+     * &amp;#x65E5;&amp;#x5FD7;&amp;#x8868;&amp;#x7684;&amp;#x5217;&amp;#x65CF;&amp;#x540D;&amp;#x5B57;
+     * 
+     * @param hbLogFamily
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> setHbLogFamily(<span class="keyword">String</span> hbLogFamily) {
+        <span class="keyword">this</span>.hbLogFamily = hbLogFamily;
+    }
+    <span class="comment">/**
+     * @param zookeeper the zookeeper to set
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> setZookeeper(<span class="keyword">String</span> zookeeper) {
+        <span class="keyword">this</span>.zookeeper = zookeeper;
+    }
+    <span class="comment">/**
+     * @param sysName the sysName to set
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> setSysName(<span class="keyword">String</span> sysName) {
+        <span class="keyword">this</span>.sysName = sysName;
+    }
+    <span class="comment">/**
+     * @param serverIp the serverIp to set
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> setServerIp(<span class="keyword">String</span> serverIp) {
+        <span class="keyword">this</span>.serverIp = serverIp;
+    }
+}
+</code></pre><p>&#x6536;&#x5DE5;&#xFF0C;&#x6709;&#x4E9B;&#x7C97;&#x7CD9;&#xFF0C;&#x5C06;&#x5C31;&#x5427;&#xFF01;</p>
+<p>&#x9644;&#x5E26;&#x6E90;&#x7801;&#xFF0C;&#x89C1;&#x9644;&#x4EF6;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/HBase/">HBase</a><a href="/tags/Log4J/">Log4J</a><a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/0cc3289/" title="ZooKeeper JAVA API  之环境准备和创建会话 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  ZooKeeper JAVA API  之环境准备和创建会话 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/0c96c16/"  title="1.dubbo的安装 quickstart -">
+ <strong>下一篇：</strong><br/> 
+ <span>1.dubbo的安装 quickstart -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#console"><span class="toc-number">1.</span> <span class="toc-text">console</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hbase"><span class="toc-number">2.</span> <span class="toc-text">hbase</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

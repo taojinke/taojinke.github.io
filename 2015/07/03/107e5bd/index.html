@@ -1,0 +1,1413 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>supervisor启动worker源码分析-worker.clj - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="supervisor&amp;#x901A;&amp;#x8FC7;&amp;#x8C03;&amp;#x7528;sync-processes&amp;#x51FD;&amp;#x6570;&amp;#x6765;&amp;#x542F;&amp;#x52A8;worker&amp;#xFF0C;&amp;#x5173;&amp;#x4E8E;sync-processes&amp;#x51FD;&amp;#x6570;&amp;#x7684;&amp;#x8BE6;&amp;#x7EC6;&amp;#x5206;&amp;#x6790;&amp;#x8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="supervisor启动worker源码分析-worker.clj -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/107e5bd/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="supervisor&amp;#x901A;&amp;#x8FC7;&amp;#x8C03;&amp;#x7528;sync-processes&amp;#x51FD;&amp;#x6570;&amp;#x6765;&amp;#x542F;&amp;#x52A8;worker&amp;#xFF0C;&amp;#x5173;&amp;#x4E8E;sync-processes&amp;#x51FD;&amp;#x6570;&amp;#x7684;&amp;#x8BE6;&amp;#x7EC6;&amp;#x5206;&amp;#x6790;&amp;#x8">
+<meta property="og:updated_time" content="2015-07-03T14:09:06.015Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="supervisor启动worker源码分析-worker.clj -">
+<meta name="twitter:description" content="supervisor&amp;#x901A;&amp;#x8FC7;&amp;#x8C03;&amp;#x7528;sync-processes&amp;#x51FD;&amp;#x6570;&amp;#x6765;&amp;#x542F;&amp;#x52A8;worker&amp;#xFF0C;&amp;#x5173;&amp;#x4E8E;sync-processes&amp;#x51FD;&amp;#x6570;&amp;#x7684;&amp;#x8BE6;&amp;#x7EC6;&amp;#x5206;&amp;#x6790;&amp;#x8">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/107e5bd/" title="supervisor启动worker源码分析-worker.clj -" itemprop="url">supervisor启动worker源码分析-worker.clj -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:04.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#(_HashMap-_(_merge_(_into_{}_%1_)_%2_))"><span class="toc-number">1.</span> <span class="toc-text">( HashMap. ( merge ( into  {}  %1 ) %2 ))</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#(_HashMap-_(_apply_dissoc_(_into_{}_%1_)_%_&_))"><span class="toc-number">2.</span> <span class="toc-text">( HashMap. ( apply dissoc ( into  {}  %1 ) %  & ))</span></a></li></ol>
+		
+		</div>
+		
+		<p>supervisor&#x901A;&#x8FC7;&#x8C03;&#x7528;sync-processes&#x51FD;&#x6570;&#x6765;&#x542F;&#x52A8;worker&#xFF0C;&#x5173;&#x4E8E;sync-processes&#x51FD;&#x6570;&#x7684;&#x8BE6;&#x7EC6;&#x5206;&#x6790;&#x8BF7;&#x53C2;&#x89C1;&quot;storm&#x542F;&#x52A8;supervisor&#x6E90;&#x7801;&#x5206;&#x6790;-supervisor.clj&quot;&#x3002;sync-processes&#x51FD;&#x6570;&#x4EE3;&#x7801;&#x7247;&#x6BB5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>sync-processes&#x51FD;&#x6570;&#x4EE3;&#x7801;&#x7247;&#x6BB5;</p>
+<p>;; sync-processes&#x51FD;&#x6570;&#x7528;&#x4E8E;&#x7BA1;&#x7406;workers, &#x6BD4;&#x5982;&#x5904;&#x7406;&#x4E0D;&#x6B63;&#x5E38;&#x7684;worker&#x6216;dead worker, &#x5E76;&#x521B;&#x5EFA;&#x65B0;&#x7684;workers</p>
+<p>;; supervisor&#x6807;&#x8BC6;supervisor&#x7684;&#x5143;&#x6570;&#x636E;</p>
+<p> ( defn  sync-processes  [  supervisor  ]</p>
+<p>  .</p>
+<p>  .</p>
+<p>  .</p>
+<p>  ;; &#x5FFD;&#x7565;&#x4E86;&#x90E8;&#x5206;&#x4EE3;&#x7801;</p>
+<p>  .</p>
+<p>  .</p>
+<p>  .</p>
+<p> ( wait-for-workers-launch</p>
+<p>  conf</p>
+<p> ( dofor  [[  port  assignment  ]  reassign-executors  ]</p>
+<p> ( let  [  id ( new-worker-ids  port  )]</p>
+<p> ( log-message  &quot;Launching worker with assignment &quot;</p>
+<p> ( pr-str  assignment )</p>
+<p>  &quot; for this supervisor &quot;</p>
+<p> ( :supervisor-id  supervisor )</p>
+<p>  &quot; on port &quot;</p>
+<p>  port</p>
+<p>  &quot; with id &quot;</p>
+<p>  id</p>
+<p>)</p>
+<p>  ;; launch-worker&#x51FD;&#x6570;&#x8D1F;&#x8D23;&#x542F;&#x52A8;worker &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> ( launch-worker  supervisor</p>
+<p> ( :storm-id  assignment )</p>
+<p>  port</p>
+<p>  id )</p>
+<p>  id )))</p>
+<p>))</p>
+<p>sync-processes&#x51FD;&#x6570;&#x8C03;&#x7528;launch-worker&#x51FD;&#x6570;&#x542F;&#x52A8;worker&#xFF0C;launch-worker&#x51FD;&#x6570;&#x662F;&#x4E00;&#x4E2A;&quot;&#x591A;&#x91CD;&#x51FD;&#x6570;&quot;&#xFF0C;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x5B8F;defmulti&#x548C;defmethod&#x7ECF;&#x5E38;&#x88AB;&#x7528;&#x5728;&#x4E00;&#x8D77;&#x6765;&#x5B9A;&#x4E49;multimethod-&quot;&#x591A;&#x91CD;&#x51FD;&#x6570;&quot;&#x3002;&#x5B8F;defmulti&#x7684;&#x53C2;&#x6570;&#x5305;&#x62EC;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x540D;&#x4EE5;&#x53CA;&#x4E00;&#x4E2A;dispatch&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x4E2A;dispatch&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4F1A;&#x88AB;&#x7528;&#x6765;&#x9009;&#x62E9;&#x5230;&#x5E95;&#x8C03;&#x7528;&#x54EA;&#x4E2A;&#x91CD;&#x8F7D;&#x7684;&#x51FD;&#x6570;&#x3002;&#x5B8F;defmethod&#x7684;&#x53C2;&#x6570;&#x5219;&#x5305;&#x62EC;&#x65B9;&#x6CD5;&#x540D;&#xFF0C;dispatch&#x7684;&#x503C;&#xFF0C;&#x53C2;&#x6570;&#x5217;&#x8868;&#x4EE5;&#x53CA;&#x65B9;&#x6CD5;&#x4F53;&#x3002;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;dispatch&#x503C;:default &#x662F;&#x7528;&#x6765;&#x8868;&#x793A;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x7684;&#x2014;&#x5373;&#x5982;&#x679C;&#x5176;&#x5B83;&#x7684;dispatch&#x503C;&#x90FD;&#x4E0D;&#x5339;&#x914D;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x8C03;&#x7528;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x3002;defmethod&#x5B9A;&#x4E49;&#x540D;&#x5B57;&#x76F8;&#x540C;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5B83;&#x4EEC;&#x7684;&#x53C2;&#x6570;&#x4E2A;&#x6570;&#x5FC5;&#x987B;&#x4E00;&#x6837;&#x3002;&#x4F20;&#x7ED9;multimethod&#x7684;&#x53C2;&#x6570;&#x4F1A;&#x4F20;&#x7ED9;dipatch&#x51FD;&#x6570;&#x3002;&#x5B9E;&#x73B0;&#x7C7B;&#x4F3C;java&#x7684;&#x91CD;&#x8F7D;</p>
+<p>launch-worker&#x51FD;&#x6570;</p>
+<p>( defmulti  launch-worker ( fn  [  supervisor  &amp;  _  ] ( cluster-mode ( :conf  supervisor )))) </p>
+<p>;; &#x5982;&#x679C;dispatch&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x5173;&#x952E;&#x5B57;:distributed&#xFF0C;&#x5373;storm&#x96C6;&#x7FA4;&#x8FD0;&#x884C;&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x5219;&#x6267;&#x884C;&#x8BE5;&#x65B9;&#x6CD5;</p>
+<p>( defmethod  launch-worker</p>
+<p> ;; supervisor&#x6807;&#x8BC6;supervisor&#x7684;&#x5143;&#x6570;&#x636E;&#xFF0C;storm-id&#x6807;&#x8BC6;&#x8BE5;worker&#x6240;&#x5C5E;&#x7684;topology&#xFF0C;port&#x6807;&#x8BC6;&#x8BE5;worker&#x5360;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#x53F7;&#xFF0C;worker-id&#x662F;&#x4E00;&#x4E2A;32&#x4F4D;&#x7684;uuid&#xFF0C;&#x7528;&#x4E8E;&#x6807;&#x8BC6;worker</p>
+<p> :distributed  [  supervisor  storm-id  port  worker-id  ]</p>
+<p> ;; conf&#x7ED1;&#x5B9A;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<p>( let  [  conf ( :conf  supervisor ) </p>
+<p> ;; storm-home&#x7ED1;&#x5B9A;storm&#x672C;&#x5730;&#x5B89;&#x88C5;&#x8DEF;&#x5F84;</p>
+<p> storm-home ( System/getProperty  &quot;storm.home&quot; ) </p>
+<p> ;; storm-log-dir&#x7ED1;&#x5B9A;&#x65E5;&#x5FD7;&#x8DEF;&#x5F84;</p>
+<p> storm-log-dir ( or ( System/getProperty  &quot;storm.log.dir&quot; ) ( str  storm-home  &quot;/logs&quot; )) </p>
+<p> ;; stormroot&#x7ED1;&#x5B9A;supervisor&#x672C;&#x5730;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist/{storm-id}&quot;</p>
+<p> stormroot ( supervisor-stormdist-root  conf  storm-id ) </p>
+<p> ;; jlp&#x7ED1;&#x5B9A;&#x8FD0;&#x884C;&#x65F6;&#x6240;&#x4F9D;&#x8D56;&#x7684;&#x672C;&#x5730;&#x5E93;&#x7684;&#x8DEF;&#x5F84;&#xFF0C;jlp&#x51FD;&#x6570;&#x751F;&#x6210;&#x672C;&#x5730;&#x5E93;&#x8DEF;&#x5F84;&#xFF0C;&#x53C2;&#x89C1;jlp&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> jlp ( jlp  stormroot  conf ) </p>
+<p> ;; stormjar&#x7ED1;&#x5B9A;stormjar.jar&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist/{storm-id}/stormjar.jar&quot;</p>
+<p> stormjar ( supervisor-stormjar-path  stormroot ) </p>
+<p> ;; storm-conf&#x7ED1;&#x5B9A;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x548C;storm-id&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x7684;&#x5E76;&#x96C6;</p>
+<p> storm-conf ( read-supervisor-storm-conf  conf  storm-id ) </p>
+<p> ;; topo-classpath&#x7ED1;&#x5B9A;storm-id&#x7684;classpath&#x96C6;&#x5408;</p>
+<p> topo-classpath ( if-let  [  cp ( storm-conf  TOPOLOGY-CLASSPATH  )]</p>
+<p> [  cp  ]</p>
+<p> [])</p>
+<p> ;; &#x5C06;stormjar&#x548C;topo-classpath&#x6240;&#x6807;&#x8BC6;&#x7684;&#x8DEF;&#x5F84;&#x6DFB;&#x52A0;&#x5230;Java&#x7684;classpath&#x4E2D; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> classpath ( -&gt; ( current-classpath ) </p>
+<p>( add-to-classpath  [  stormjar  ])</p>
+<p>( add-to-classpath  topo-classpath )) </p>
+<p> ;; &#x4ECE;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x4E2D;&#x83B7;&#x53D6;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;supervisor&#x542F;&#x52A8;worker&#x7684;jvm&#x53C2;&#x6570; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> worker-childopts ( when-let  [ s ( conf  WORKER-CHILDOPTS  )]</p>
+<p>( substitute-childopts s worker-id  storm-id  port )) </p>
+<p> ;; &#x4ECE;topology&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x4E2D;&#x83B7;&#x53D6;&#x4E3A;&#x8BE5;topology&#x7684;worker&#x6307;&#x5B9A;&#x7684;jvm&#x53C2;&#x6570; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> topo-worker-childopts ( when-let  [ s ( storm-conf  TOPOLOGY-WORKER-CHILDOPTS  )]</p>
+<p>( substitute-childopts s worker-id  storm-id  port )) </p>
+<p> ;; &#x5C06;&#x8BE5;topology&#x7279;&#x6709;&#x7684;&#x4F9D;&#x8D56;&#x5E93;&#x8DEF;&#x5F84;&#x5408;&#x5E76;&#x5230;jlp&#x4E2D;&#xFF0C;&#x8FD9;&#x6837;topology-worker-environment&#x7ED1;&#x5B9A;&#x7684;map&#x4E2D;&#x5C31;&#x5305;&#x542B;&#x4E86;&#x542F;&#x52A8;&#x8BE5;topology&#x7684;worker&#x6240;&#x9700;&#x7684;&#x6240;&#x6709;&#x7684;&#x4F9D;&#x8D56;&#x5E93; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> topology-worker-environment ( if-let  [  env ( storm-conf  TOPOLOGY-ENVIRONMENT  )]</p>
+<p>( merge  env  {  &quot;LD_LIBRARY_PATH&quot;  jlp  })</p>
+<p> {  &quot;LD_LIBRARY_PATH&quot;  jlp  })</p>
+<p> ;; &#x751F;&#x6210;&#x8BE5;worker&#x7684;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;worker-{port}.log &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> logfilename ( str  &quot;worker-&quot;  port  &quot;.log&quot; ) </p>
+<p> ;; command&#x7ED1;&#x5B9A;&#x4E00;&#x4E2A;Java -server xxxxxx -cp classpath classname arg_0 arg_1 … arg_n&#x547D;&#x4EE4;&#xFF0C;xxxxxx&#x8868;&#x793A;&#x4F20;&#x9012;&#x7ED9;java&#x547D;&#x4EE4;&#x7684;jvm&#x53C2;&#x6570;</p>
+<p> command ( concat</p>
+<p> [(  java-cmd ) &quot;-server&quot;  ]</p>
+<p> worker-childopts</p>
+<p> topo-worker-childopts</p>
+<p> [(  str  &quot;-Djava.library.path=&quot;  jlp ) </p>
+<p>( str  &quot;-Dlogfile.name=&quot;  logfilename ) </p>
+<p>( str  &quot;-Dstorm.home=&quot;  storm-home ) </p>
+<p>( str  &quot;-Dstorm.log.dir=&quot;  storm-log-dir ) </p>
+<p>( str  &quot;-Dlogback.configurationFile=&quot;  storm-home  &quot;/logback/cluster.xml&quot; ) </p>
+<p>( str  &quot;-Dstorm.id=&quot;  storm-id ) </p>
+<p>( str  &quot;-Dworker.id=&quot;  worker-id ) </p>
+<p>( str  &quot;-Dworker.port=&quot;  port ) </p>
+<p> &quot;-cp&quot;  classpath</p>
+<p> &quot;backtype.storm.daemon.worker&quot;</p>
+<p> storm-id</p>
+<p>( :assignment-id  supervisor ) </p>
+<p> port</p>
+<p> worker-id  ])</p>
+<p> ;; &#x53BB;&#x6389;command&#x547D;&#x4EE4;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x7A7A;&#x503C;</p>
+<p> command ( -&gt;&gt;  command ( map  str ) ( filter ( complement  empty? ))) </p>
+<p> ;; &#x83B7;&#x53D6;command&#x547D;&#x4EE4;&#x6570;&#x7EC4;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5F62;&#x5F0F;</p>
+<p> shell-cmd ( -&gt;&gt;  command</p>
+<p>( map  # ( str  \&apos; ( clojure.string/escape  %  {  \&apos;  &quot;\&apos;&quot;  })  \&apos; )) </p>
+<p>( clojure.string/join  &quot; &quot;  ))]</p>
+<p>( log-message  &quot;Launching worker with command: &quot;  shell-cmd ) </p>
+<p> ;; &#x901A;&#x8FC7;ProcessBuilder&#x7C7B;&#x6765;&#x6267;&#x884C;command&#x547D;&#x4EE4;&#xFF0C;&#x5373;&#x6267;&#x884C;java&#x547D;&#x4EE4;&#x8FD0;&#x884C;backtype.storm.daemon.worker&#x7C7B;&#x7684;main&#x65B9;&#x6CD5;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x8FDB;&#x7A0B;&#xFF0C;&#x4F20;&#x9012;&#x7ED9;main&#x65B9;&#x6CD5;&#x7684;&#x53C2;&#x6570;&#x4E3A;storm-id&#xFF0C;supervisor-id&#xFF0C;port&#x548C;worker-id</p>
+<p> ;; &#x5173;&#x4E8E;backtype.storm.daemon.worker&#x7C7B;&#x7684;main&#x65B9;&#x6CD5;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( launch-process  command  :environment  topology-worker-environment ) </p>
+<p>))</p>
+<p>;; &#x5982;&#x679C;dispatch&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x5173;&#x952E;&#x5B57;:local&#xFF0C;&#x5373;storm&#x96C6;&#x7FA4;&#x8FD0;&#x884C;&#x5728;&#x672C;&#x5730;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x5219;&#x6267;&#x884C;&#x8BE5;&#x65B9;&#x6CD5; &#xA0; &#xA0; &#xA0;</p>
+<p>( defmethod  launch-worker</p>
+<p> :local  [  supervisor  storm-id  port  worker-id  ]</p>
+<p>( let  [  conf ( :conf  supervisor ) </p>
+<p> pid ( uuid ) </p>
+<p> worker ( worker/mk-worker  conf</p>
+<p>( :shared-context  supervisor ) </p>
+<p> storm-id</p>
+<p>( :assignment-id  supervisor ) </p>
+<p> port</p>
+<p> worker-id  )]</p>
+<p>( psim/register-process  pid  worker ) </p>
+<p>( swap! ( :worker-thread-pids-atom  supervisor ) assoc  worker-id  pid ) </p>
+<p>))</p>
+<p>jlp&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>;; stormroot&#x7ED1;&#x5B9A;supervisor&#x672C;&#x5730;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist/{storm-id}&quot;&#xFF0C;conf&#x7ED1;&#x5B9A;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;</p>
+<p>( defn  jlp  [  stormroot  conf  ]</p>
+<p>;; resource-root&#x7ED1;&#x5B9A;supervisor&#x672C;&#x5730;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist/{storm-id}/resources&quot;</p>
+<p>( let  [  resource-root ( str  stormroot  File/separator  RESOURCES-SUBDIR ) </p>
+<p> ;; os&#x7ED1;&#x5B9A;supervisor&#x670D;&#x52A1;&#x5668;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x540D;</p>
+<p> os ( clojure.string/replace ( System/getProperty  &quot;os.name&quot; ) #  &quot;\s+&quot;  &quot;_&quot; ) </p>
+<p> ;; arch&#x7ED1;&#x5B9A;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7684;&#x67B6;&#x6784;&#xFF0C;&#x5982;&quot;x86&quot;&#x548C;&quot;i386&quot;</p>
+<p> arch ( System/getProperty  &quot;os.arch&quot; ) </p>
+<p> ;; arch-resource-root&#x7ED1;&#x5B9A;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist/{storm-id}/resources/{os}-{arch}&quot;</p>
+<p> arch-resource-root ( str  resource-root  File/separator  os  &quot;-&quot;  arch  )]</p>
+<p> ;; &#x8FD4;&#x56DE;&quot;{storm.local.dir}/supervisor/stormdist/{storm-id}/resources/{os}-{arch}:{storm.local.dir}/supervisor/stormdist/{storm-id}/resources:{java.library.path}&quot;</p>
+<p>( str  arch-resource-root  File/pathSeparator  resource-root  File/pathSeparator ( conf JAVA-LIBRARY-PATH</p>
+<p>))))</p>
+<p>read-supervisor-storm-conf&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>;; &#x4ECE;supervisor&#x672C;&#x5730;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist/stormconf.ser&quot;&#x8BFB;&#x53D6;topology&#x8FD0;&#x884C;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<p>( defn  read-supervisor-storm-conf</p>
+<p> [  conf  storm-id  ]</p>
+<p>;; stormroot&#x7ED1;&#x5B9A;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist&quot;</p>
+<p>( let  [  stormroot ( supervisor-stormdist-root  conf  storm-id ) </p>
+<p> ;; conf-path&#x7ED1;&#x5B9A;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist/stormconf.ser&quot;</p>
+<p> conf-path ( supervisor-stormconf-path  stormroot ) </p>
+<p> ;; topology-path&#x7ED1;&#x5B9A;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist/stormcode.ser&quot;</p>
+<p> topology-path ( supervisor-stormcode-path  stormroot  )]</p>
+<p> ;; &#x8FD4;&#x56DE;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x548C;topology&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x5408;&#x5E76;&#x540E;&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;map</p>
+<p>( merge  conf ( Utils/deserialize ( FileUtils/readFileToByteArray ( File.  conf-path )))) </p>
+<p>))</p>
+<p>backtype.storm.daemon.worker&#x7C7B;&#x5B9A;&#x4E49;&#x5728;worker.clj&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x901A;&#x8FC7;:gen-class&#x751F;&#x6210;&#x4E00;&#x4E2A;lava&#x7C7B;&#xFF0C;&#x5176;main&#x65B9;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  -main  [  storm-id  assignment-id  port-str  worker-id  ]</p>
+<p>;; &#x8BFB;&#x53D6;storm&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<p>( let  [  conf ( read-storm-config  )]</p>
+<p> ;; &#x9A8C;&#x8BC1;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<p>( validate-distributed-mode!  conf ) </p>
+<p> ;; &#x8C03;&#x7528;mk-worker&#x51FD;&#x6570;&#xFF0C;mk-worker&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( mk-worker  conf  nil  storm-id  assignment-id ( Integer/parseInt  port-str )</p>
+<p>worker-id</p>
+<p>)))</p>
+<p>mk-worker&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; conf&#x7ED1;&#x5B9A;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;shared-mq-context&#x7ED1;&#x5B9A;&#x5171;&#x4EAB;mq&#xFF0C;storm-id&#x6807;&#x8BC6;topology-id&#xFF0C;assignment-id&#x6807;&#x8BC6;supervisor-id</p>
+<p>( defserverfn  mk-worker  [  conf  shared-mq-context  storm-id  assignment-id  port  worker-id  ]</p>
+<p>( log-message  &quot;Launching worker for &quot;  storm-id  &quot; on &quot;  assignment-id  &quot;:&quot;  port  &quot; with id &quot;  worker-id</p>
+<p> &quot; and conf &quot;  conf ) </p>
+<p>;; &#x5982;&#x679C;storm&#x4E0D;&#x662F;&quot;&#x672C;&#x5730;&#x6A21;&#x5F0F;&quot;&#x8FD0;&#x884C;&#xFF08;&#x5373;&quot;&#x5206;&#x5E03;&#x5F0F;&#x6A21;&#x5F0F;&quot;&#x8FD0;&#x884C;&#xFF09;&#xFF0C;&#x5219;&#x5C06;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x6D41;&#x91CD;&#x5B9A;&#x5411;&#x5230;slf4j</p>
+<p>( if-not ( local-mode?  conf ) </p>
+<p>( redirect-stdio-to-slf4j! )) </p>
+<p>;; because in local mode, its not a separate</p>
+<p>;; process. supervisor will register it in this case</p>
+<p>;; &#x5982;&#x679C;storm&#x662F;&quot;&#x5206;&#x5E03;&#x5F0F;&#x6A21;&#x5F0F;&quot;&#x8FD0;&#x884C;&#xFF0C;&#x5219;&#x5728;supervisor&#x670D;&#x52A1;&#x5668;&#x672C;&#x5730;&#x521B;&#x5EFA;&#x6587;&#x4EF6;&quot;{storm.local.dir}/workers/{worker-id}/pids/{process-pid}&quot;&#xFF0C;process-pid&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x83B7;&#x53D6;jvm&#x8FDB;&#x7A0B;&#x7684;id</p>
+<p>;; &#x9700;&#x8981;&#x7279;&#x522B;&#x6CE8;&#x610F;&#x7684;&#x662F;worker-id&#x662F;&#x6211;&#x4EEC;&#x4EBA;&#x4E3A;&#x5206;&#x914D;&#x7ED9;&#x8BE5;&#x8FDB;&#x7A0B;&#x7684;&#x4E00;&#x4E2A;&#x6807;&#x8BC6;&#xFF0C;&#x521B;&#x5EFA;&#x8FDB;&#x7A0B;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x65E0;&#x6CD5;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;jvm&#x8FDB;&#x7A0B;&#x7684;id&#xFF0C;&#x8FDB;&#x7A0B;id&#x662F;&#x7531;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5206;&#x914D;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x83B7;&#x53D6;&#x8BE5;&#x8FDB;&#x7A0B;&#x7684;&#x5B9E;&#x9645;id&#xFF0C;&#x5E76;&#x5C06;&#x6211;&#x4EEC;&#x6307;&#x5B9A;&#x7684;worker-id&#x4E0E;&#x8FDB;&#x7A0B;id&#x8FDB;&#x884C;&#x5173;&#x8054;</p>
+<p>( when ( =  :distributed ( cluster-mode  conf )) </p>
+<p>( touch ( worker-pid-path  conf  worker-id ( process-pid )))) </p>
+<p>;; worker&#x7ED1;&#x5B9A;&#x8BE5;&#x8FDB;&#x7A0B;&#x7684;&quot;&#x5143;&#x6570;&#x636E;&quot;&#xFF0C;worker-data&#x51FD;&#x6570;&#x7684;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x751F;&#x6210;&#x8FDB;&#x7A0B;&#x7684;&quot;&#x5143;&#x6570;&#x636E;&quot;&#xFF0C;worker-data&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( let  [  worker ( worker-data  conf  shared-mq-context  storm-id  assignment-id  port  worker-id ) </p>
+<p> ;; heartbeat-fn&#x7ED1;&#x5B9A;&#x4E00;&#x4E2A;&#x533F;&#x540D;&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x533F;&#x540D;&#x51FD;&#x6570;&#x7684;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x751F;&#x6210;worker&quot;&#x672C;&#x5730;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&quot;&#xFF0C;&#x8FD9;&#x91CC;&#x76F8;&#x5F53;&#x5B9A;&#x4E49;&#x4E86;heartbeat-fn&#x51FD;&#x6570;&#xFF0C;do-heartbeat&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> heartbeat-fn  # ( do-heartbeat  worker ) </p>
+<p> ;; do this here so that the worker process dies if this fails</p>
+<p> ;; it&apos;s important that worker heartbeat to supervisor ASAP when launching so that the supervisor knows it&apos;s running (and can move on)</p>
+<p> ;; &#x8C03;&#x7528;heartbeat-fn&#x51FD;&#x6570;&#x5C06;worker&#x8FDB;&#x7A0B;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x4FDD;&#x5B58;&#x5230;&#x672C;&#x5730;LocalState&#x5BF9;&#x8C61;&#x4E2D;</p>
+<p> _ ( heartbeat-fn ) </p>
+<p> ;; &#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x539F;&#x5B50;&#x7C7B;&#x578B;&#x7684;&#x5F15;&#x7528;executors</p>
+<p> executors ( atom  nil ) </p>
+<p> ;; launch heartbeat threads immediately so that slow-loading tasks don&apos;t cause the worker to timeout</p>
+<p> ;; to the supervisor</p>
+<p> ;; &#x5C06;heartbeat-fn&#x51FD;&#x6570;&#x6DFB;&#x52A0;&#x5230;&#x5B9A;&#x65F6;&#x5668;heartbeat-timer&#x4E2D;&#xFF0C;&#x5EF6;&#x8FDF;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x4E3A;0s&#xFF0C;&#x6BCF;&#x9694;WORKER-HEARTBEAT-FREQUENCY-SECS&#x6267;&#x884C;&#x4E00;&#x6B21;</p>
+<p> _ ( schedule-recurring ( :heartbeat-timer  worker ) 0 ( conf  WORKER-HEARTBEAT-FREQUENCY-SECS ) heartbeat-fn ) </p>
+<p> ;; &#x5C06;#(do-executor-heartbeats worker :executors @executors)&#x51FD;&#x6570;&#x6DFB;&#x52A0;&#x5230;&#x5B9A;&#x65F6;&#x5668;executor-heartbeat-timer&#x4E2D;&#xFF0C;&#x5EF6;&#x8FDF;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x4E3A;0s&#xFF0C;&#x6BCF;&#x9694;TASK-HEARTBEAT-FREQUENCY-SECS&#x6267;&#x884C;&#x4E00;&#x6B21;</p>
+<p> ;; &#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x5C06;worker&#x8FDB;&#x7A0B;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x540C;&#x6B65;&#x5230;zookeeper&#x4E2D;, &#x4EE5;&#x4FBF;nimbus&#x53EF;&#x4EE5;&#x7ACB;&#x523B;&#x77E5;&#x9053;worker&#x8FDB;&#x7A0B;&#x5DF2;&#x7ECF;&#x542F;&#x52A8;&#xFF0C;do-executor-heartbeats&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> _ ( schedule-recurring ( :executor-heartbeat-timer  worker ) 0 ( conf  TASK-HEARTBEAT-FREQUENCY-SECS ) # ( do-executor-heartbeats  worker  :executors  @  executors )) </p>
+<p> ;; &#x66F4;&#x65B0;&#x53D1;&#x9001;connections&#xFF0C;mk-refresh-connections&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> refresh-connections ( mk-refresh-connections  worker ) </p>
+<p> ;; &#x4E3B;&#x52A8;&#x8C03;&#x7528;refresh-connections&#x51FD;&#x6570;refresh&#x8BE5;worker&#x8FDB;&#x7A0B;&#x6240;&#x62E5;&#x6709;&#x7684;connections&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x5411;zookeeper&#x6CE8;&#x518C;&#x56DE;&#x8C03;&#x51FD;&#x6570;</p>
+<p> _ ( refresh-connections  nil ) </p>
+<p> ;; &#x8C03;&#x7528;refresh-storm-active&#x51FD;&#x6570;refresh&#x8BE5;worker&#x8FDB;&#x7A0B;&#x7F13;&#x5B58;&#x7684;&#x6240;&#x5C5E;topology&#x7684;&#x6D3B;&#x8DC3;&#x72B6;&#x6001;&#xFF0C;refresh-storm-active&#x51FD;&#x6570;&#x8BF7;&#x5176;&#x53C2;&#x89C1;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> _ ( refresh-storm-active  worker  nil ) </p>
+<p> ;; &#x8C03;&#x7528;mk-executor&#x51FD;&#x6570;&#x751F;&#x6210;executor&#x5BF9;&#x8C61;&#xFF0C;&#x4FDD;&#x5B58;&#x5230;executors&#x96C6;&#x5408;&#x4E2D;&#x3002;&#x5173;&#x4E8E;executor&#x5BF9;&#x8C61;&#x7684;&#x521B;&#x5EFA;&#x5C06;&#x4F1A;&#x5728;&#x4EE5;&#x540E;&#x6587;&#x7AE0;&#x4E2D;&#x5177;&#x4F53;&#x5206;&#x6790;</p>
+<p> _ ( reset!  executors ( dofor  [  e ( :executors  worker  )] ( executor/mk-executor  worker  e ))) </p>
+<p> ;; &#x542F;&#x52A8;worker&#x8FDB;&#x7A0B;&#x4E13;&#x6709;&#x7684;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#xFF0C;&#x5C06;&#x6570;&#x636E;&#x4ECE;worker&#x8FDB;&#x7A0B;&#x7684;&#x4FA6;&#x542C;&#x7AEF;&#x53E3;&#xFF0C;&#x4E0D;&#x505C;&#x7684;&#x653E;&#x5230;task&#x5BF9;&#x5E94;&#x7684;&#x63A5;&#x6536;&#x961F;&#x5217;&#xFF0C;receive-thread-shutdown&#x7ED1;&#x5B9A;&#x8BE5;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x7684;&#x5173;&#x95ED;&#x51FD;&#x6570;&#x3002;launch-receive-thread&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> receive-thread-shutdown ( launch-receive-thread  worker ) </p>
+<p> ;; &#x5B9A;&#x4E49;event handler&#x6765;&#x5904;&#x7406;transfer queue&#x91CC;&#x9762;&#x7684;&#x6570;&#x636E;&#x3002;&#x5173;&#x4E8E;&#x6D88;&#x606F;&#x5904;&#x7406;&#x7684;&#x6D41;&#x7A0B;&#x4F1A;&#x5728;&#x4EE5;&#x540E;&#x6587;&#x7AE0;&#x4E2D;&#x5177;&#x4F53;&#x5206;&#x6790;</p>
+<p> transfer-tuples ( mk-transfer-tuples-handler  worker ) </p>
+<p> ;; &#x521B;&#x5EFA;transfer-thread&#x3002;&#x5173;&#x4E8E;&#x6D88;&#x606F;&#x5904;&#x7406;&#x7684;&#x6D41;&#x7A0B;&#x4F1A;&#x5728;&#x4EE5;&#x540E;&#x6587;&#x7AE0;&#x4E2D;&#x5177;&#x4F53;&#x5206;&#x6790;</p>
+<p> transfer-thread ( disruptor/consume-loop* ( :transfer-queue  worker ) transfer-tuples ) </p>
+<p> ;; &#x5B9A;&#x4E49;worker&#x8FDB;&#x7A0B;&#x5173;&#x95ED;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x5F53;&#x5173;&#x95ED;worker&#x8FDB;&#x7A0B;&#x65F6;&#x8C03;&#x7528;&#x8BE5;&#x51FD;&#x6570;&#x91CA;&#x653E;worker&#x8FDB;&#x7A0B;&#x6240;&#x5360;&#x6709;&#x7684;&#x8D44;&#x6E90;</p>
+<p> shutdown* ( fn  []</p>
+<p>( log-message  &quot;Shutting down worker &quot;  storm-id  &quot; &quot;  assignment-id  &quot; &quot;  port ) </p>
+<p> ;; &#x5173;&#x95ED;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x5230;&#x5176;&#x4ED6;worker&#x8FDB;&#x7A0B;&#x7684;&#x8FDE;&#x63A5;</p>
+<p>( doseq  [[  _  socket  ]  @ ( :cached-node+port-&gt;socket  worker  )]</p>
+<p> ;; this will do best effort flushing since the linger period</p>
+<p> ;; was set on creation</p>
+<p>( .close  socket )) </p>
+<p>( log-message  &quot;Shutting down receive thread&quot; ) </p>
+<p> ;; &#x8C03;&#x7528;receive-thread-shutdown&#x51FD;&#x6570;&#x5173;&#x95ED;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x7684;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;</p>
+<p>( receive-thread-shutdown ) </p>
+<p>( log-message  &quot;Shut down receive thread&quot; ) </p>
+<p>( log-message  &quot;Terminating messaging context&quot; ) </p>
+<p>( log-message  &quot;Shutting down executors&quot; ) </p>
+<p> ;; &#x5173;&#x95ED;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x6240;&#x62E5;&#x6709;&#x7684;executor</p>
+<p>( doseq  [  executor  @  executors  ] ( .shutdown  executor )) </p>
+<p>( log-message  &quot;Shut down executors&quot; ) </p>
+<p> ;;this is fine because the only time this is shared is when it&apos;s a local context,</p>
+<p> ;;in which case it&apos;s a noop</p>
+<p> ;; &#x5173;&#x95ED;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x6240;&#x62E5;&#x6709;&#x7684;backtype.storm.messaging.netty.Context&#x5B9E;&#x4F8B;</p>
+<p>( .term  ^  IContext ( :mq-context  worker )) </p>
+<p>( log-message  &quot;Shutting down transfer thread&quot; ) </p>
+<p> ;; &#x5173;&#x95ED;transfer-queue</p>
+<p>( disruptor/halt-with-interrupt! ( :transfer-queue  worker )) </p>
+<p> ;; &#x4E2D;&#x65AD;transfer-thread</p>
+<p>( .interrupt  transfer-thread ) </p>
+<p> ;; &#x7B49;&#x5F85;transfer-thread&#x7ED3;&#x675F;</p>
+<p>( .join  transfer-thread ) </p>
+<p>( log-message  &quot;Shut down transfer thread&quot; ) </p>
+<p> ;; &#x8C03;&#x7528;cancel-timer&#x51FD;&#x6570;&#x4E2D;&#x65AD;heartbeat-timer&#x5B9A;&#x65F6;&#x5668;&#x7EBF;&#x7A0B;</p>
+<p>( cancel-timer ( :heartbeat-timer  worker )) </p>
+<p> ;; &#x8C03;&#x7528;cancel-timer&#x51FD;&#x6570;&#x4E2D;&#x65AD;refresh-connections-timer&#x5B9A;&#x65F6;&#x5668;&#x7EBF;&#x7A0B;</p>
+<p>( cancel-timer ( :refresh-connections-timer  worker )) </p>
+<p> ;; &#x8C03;&#x7528;cancel-timer&#x51FD;&#x6570;&#x4E2D;&#x65AD;refresh-active-timer&#x5B9A;&#x65F6;&#x5668;&#x7EBF;&#x7A0B;</p>
+<p>( cancel-timer ( :refresh-active-timer  worker )) </p>
+<p> ;; &#x8C03;&#x7528;cancel-timer&#x51FD;&#x6570;&#x4E2D;&#x65AD;executor-heartbeat-timer&#x5B9A;&#x65F6;&#x5668;&#x7EBF;&#x7A0B;</p>
+<p>( cancel-timer ( :executor-heartbeat-timer  worker )) </p>
+<p> ;; &#x8C03;&#x7528;cancel-timer&#x51FD;&#x6570;&#x4E2D;&#x65AD;user-timer&#x5B9A;&#x65F6;&#x5668;&#x7EBF;&#x7A0B;</p>
+<p>( cancel-timer ( :user-timer  worker )) </p>
+<p> ;; &#x5173;&#x95ED;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x6240;&#x62E5;&#x6709;&#x7684;&#x7EBF;&#x7A0B;&#x6C60;</p>
+<p>( close-resources  worker ) </p>
+<p> ;; TODO: here need to invoke the &quot;shutdown&quot; method of WorkerHook</p>
+<p> ;; &#x8C03;&#x7528;StormClusterState&#x5B9E;&#x4F8B;&#x7684;remove-worker-heartbeat!&#x51FD;&#x6570;&#x4ECE;zookeeper&#x4E0A;&#x5220;&#x9664;worker&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;</p>
+<p>( .remove-worker-heartbeat! ( :storm-cluster-state  worker ) storm-id  assignment-id  port ) </p>
+<p>( log-message  &quot;Disconnecting from storm cluster state context&quot; ) </p>
+<p> ;; &#x5173;&#x95ED;zookeeper&#x8FDE;&#x63A5;</p>
+<p>( .disconnect ( :storm-cluster-state  worker )) </p>
+<p>( .close ( :cluster-state  worker )) </p>
+<p>( log-message  &quot;Shut down worker &quot;  storm-id  &quot; &quot;  assignment-id  &quot; &quot;  port )) </p>
+<p> ;; ret&#x5B9E;&#x73B0;&#x4E86;Shutdownable&#x548C;DaemonCommon&#x534F;&#x8BAE;</p>
+<p> ret ( reify</p>
+<p> Shutdownable</p>
+<p>( shutdown</p>
+<p> [  this  ]</p>
+<p>( shutdown* )) </p>
+<p> DaemonCommon</p>
+<p>( waiting?  [  this  ]</p>
+<p>( and</p>
+<p>( timer-waiting? ( :heartbeat-timer  worker )) </p>
+<p>( timer-waiting? ( :refresh-connections-timer  worker )) </p>
+<p>( timer-waiting? ( :refresh-active-timer  worker )) </p>
+<p>( timer-waiting? ( :executor-heartbeat-timer  worker )) </p>
+<p>( timer-waiting? ( :user-timer  worker )) </p>
+<p>))</p>
+<p> )]</p>
+<p> ;; &#x5C06;refresh-connections&#x51FD;&#x6570;&#x6DFB;&#x52A0;&#x5230;&#x5B9A;&#x65F6;&#x5668;refresh-connections-timer&#x4E2D;&#xFF0C;&#x6BCF;&#x9694;TASK-REFRESH-POLL-SECS&#x6267;&#x884C;&#x4E00;&#x6B21;&#x3002;refresh-connections&#x51FD;&#x6570;&#x7684;&#x65E0;&#x53C2;&#x7248;&#x672C;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x9ED8;&#x8BA4;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x5176;&#x6709;&#x53C2;&#x7248;&#x672C;&#x6765;&#x66F4;&#x65B0;&#x6240;&#x5C5E; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; worker&#x8FDB;&#x7A0B;&#x6240;&#x62E5;&#x6709;&#x7684;collections&#xFF0C;&#x9ED8;&#x8BA4;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x5C31;&#x662F;&#x518D;&#x6B21;&#x5C06;refresh-connections&#x51FD;&#x6570;&#x65E0;&#x53C2;&#x7248;&#x672C;&#x6DFB;&#x52A0;&#x5230;&#x5B9A;&#x65F6;&#x5668;refresh-connections-timer&#x4E2D;</p>
+<p> ;; &#x8FD9;&#x6837;&#x53EA;&#x8981;zookeeper&#x4E0A;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;refresh-connections&#x51FD;&#x6570;&#x7684;&#x6709;&#x53C2;&#x7248;&#x672C;&#x5C31;&#x4F1A;&#x6267;&#x884C;&#xFF0C;&#x8FD9;&#x91CC;&#x4E4B;&#x6240;&#x4EE5;&#x5468;&#x671F;&#x6267;&#x884C;refresh-connections&#x51FD;&#x6570;&#x662F;&#x4EE5;&#x9632;zookeeper&#x7684;&quot;watcher&#x673A;&#x5236;&quot;&#x5931;&#x6548;</p>
+<p>( schedule-recurring ( :refresh-connections-timer  worker ) 0 ( conf  TASK-REFRESH-POLL-SECS ) refresh-connections ) </p>
+<p> ;; &#x5C06;&#x51FD;&#x6570;(partial refresh-storm-active worker)&#x6DFB;&#x52A0;&#x5230;&#x5B9A;&#x65F6;&#x5668;refresh-active-timer&#x4E2D;&#xFF0C;&#x6BCF;&#x9694;TASK-REFRESH-POLL-SECS&#x6267;&#x884C;&#x4E00;&#x6B21;&#x3002;refresh-storm-active&#x51FD;&#x6570;&#x7684;&#x6267;&#x884C;&#x903B;&#x8F91;&#x4E0E;refresh-connections&#x51FD;&#x6570;&#x5B8C;&#x5168;&#x76F8; &#xA0; &#xA0; &#xA0;&#x540C;</p>
+<p>( schedule-recurring ( :refresh-active-timer  worker ) 0 ( conf  TASK-REFRESH-POLL-SECS ) ( partial  refresh-storm-active  worker )) </p>
+<p>( log-message  &quot;Worker has topology config &quot; ( :storm-conf  worker )) </p>
+<p>( log-message  &quot;Worker &quot;  worker-id  &quot; for storm &quot;  storm-id  &quot; on &quot;  assignment-id  &quot;:&quot;  port  &quot; has finished loading&quot; ) </p>
+<p> ;; &#x8FD4;&#x56DE;&#x5B9E;&#x73B0;&#x4E86;Shutdownable&#x534F;&#x8BAE;&#x548C;DaemonCommon&#x534F;&#x8BAE;&#x7684;&#x5B9E;&#x4F8B;ret&#xFF0C;&#x901A;&#x8FC7;ret&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5173;&#x95ED;worker&#x8FDB;&#x7A0B;</p>
+<p> ret</p>
+<p>))</p>
+<p>worker-data&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; worker-data&#x51FD;&#x6570;&#x751F;&#x6210;&#x8FDB;&#x7A0B;&#x7684;&quot;&#x5143;&#x6570;&#x636E;&quot;</p>
+<p>( defn  worker-data  [  conf  mq-context  storm-id  assignment-id  port  worker-id  ]</p>
+<p>;; &#x4E3A;&#x8BE5;&#x8FDB;&#x7A0B;&#x751F;&#x6210;ClusterState&#x5B9E;&#x4F8B;</p>
+<p>( let  [  cluster-state ( cluster/mk-distributed-cluster-state  conf ) </p>
+<p> ;; &#x4E3A;&#x8BE5;&#x8FDB;&#x7A0B;&#x751F;&#x6210;StormClusterState&#x5B9E;&#x4F8B;&#xFF0C;&#x8FD9;&#x6837;&#x8FDB;&#x7A0B;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;StormClusterState&#x4E0E;zookeeper&#x8FDB;&#x884C;&#x4EA4;&#x4E92;&#x4E86;</p>
+<p> storm-cluster-state ( cluster/mk-storm-cluster-state  cluster-state ) </p>
+<p> ;; &#x8C03;&#x7528;read-supervisor-storm-conf&#x51FD;&#x6570;&#x8BFB;&#x53D6;storm-id&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;read-supervisor-storm-conf&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> storm-conf ( read-supervisor-storm-conf  conf  storm-id ) </p>
+<p> ;; executors&#x7ED1;&#x5B9A;&#x5206;&#x914D;&#x7ED9;&#x8BE5;&#x8FDB;&#x7A0B;&#x7684;executor&#x7684;id&#x96C6;&#x5408;&#xFF0C;&#x5305;&#x542B;system executor&#x7684;id</p>
+<p> executors ( set ( read-worker-executors  storm-conf  storm-cluster-state  storm-id  assignment-id  port )) </p>
+<p> ;; &#x8FDB;&#x7A0B;&#x5185;executor&#x95F4;&#x901A;&#x4FE1;&#x662F;&#x901A;&#x8FC7;disruptor&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x4E3A;&#x8BE5;worker&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;&quot;worker-transfer-queue&quot;&#x7684;disruptor queue&#xFF0C;&#x5173;&#x4E8E;disruptor&#x7684;&#x5185;&#x5BB9;&#x4F1A;&#x5728;&#x4EE5;&#x540E;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;</p>
+<p> ;; &#x6CE8;&#x610F;transfer-queue&#x662F;worker&#x76F8;&#x5173;&#x7684;&#xFF0C;&#x4E0E;executor&#x65E0;&#x5173;</p>
+<p> transfer-queue ( disruptor/disruptor-queue  &quot;worker-transfer-queue&quot; ( storm-conf  TOPOLOGY-TRANSFER-BUFFER-SIZE ) </p>
+<p> :wait-strategy ( storm-conf  TOPOLOGY-DISRUPTOR-WAIT-STRATEGY )) </p>
+<p> ;; mk-receive-queue-map&#x51FD;&#x6570;&#x4E3A;&#x6BCF;&#x4E2A;executor&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;&quot;receive-queue{executor-id}&quot;&#x7684;disruptor queue&#xFF0C;executor-receive-queue-map&#x7ED1;&#x5B9A;executor-id-&gt;&quot;disruptor&#x63A5;&#x6536;queue&quot;&#x7684;map &#xA0;</p>
+<p> ;; &#x6CE8;&#x610F;executor-receive-queue-map&#x662F;executor&#x76F8;&#x5173;&#xFF0C;&#x4E0E;worker&#x65E0;&#x5173; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> executor-receive-queue-map ( mk-receive-queue-map  storm-conf  executors ) </p>
+<p> ;; executor&#x53EF;&#x80FD;&#x6709;&#x591A;&#x4E2A;tasks&#xFF0C;&#x76F8;&#x540C;executor&#x7684;tasks&#x5171;&#x7528;&#x4E00;&#x4E2A;&quot;disruptor&#x63A5;&#x6536;queue&quot;&#xFF0C;&#x5C06;executor-id-&gt;&quot;disruptor&#x63A5;&#x6536;queue&quot;&#x7684;map&#x8F6C;&#x5316;&#x4E3A;task-id-&gt;&quot;disruptor&#x63A5;&#x6536;queue&quot;&#x7684;map&#xFF0C;</p>
+<p> ;; &#x5982;executor-receive-queue-map={[1 2] receive-queue[1 2], [3 4] receive-queue[3 4]}&#xFF0C;&#x90A3;&#x4E48;receive-queue-map={1 receive-queue[1 2], 2 receive-queue[1 2], 3 receive-queue[3 &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; 4], 4 receive-queue[3 4]}</p>
+<p> receive-queue-map ( -&gt;&gt;  executor-receive-queue-map</p>
+<p>( mapcat ( fn  [[  e  queue  ]] ( for  [  t ( executor-id-&gt;tasks  e  )]  [  t  queue  ])))</p>
+<p>( into  {}))</p>
+<p> ;; &#x8C03;&#x7528;read-supervisor-topology&#x51FD;&#x6570;&#x4ECE;supervisor&#x672C;&#x5730;&#x8DEF;&#x5F84;&quot;{storm.local.dir}/supervisor/stormdist/stormcode.ser&quot;&#x8BFB;&#x53D6;topology&#x5BF9;&#x8C61;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x6587;&#x4EF6;</p>
+<p> topology ( read-supervisor-topology  conf  storm-id  )]</p>
+<p> ;; recursive-map&#x5B8F;&#x4F1A;&#x5C06;&#x4E0B;&#x9762;value&#x90FD;&#x6267;&#x884C;&#x4E00;&#x904D;&#xFF0C;&#x7528;&#x8FD4;&#x56DE;&#x503C;&#x548C;key&#x751F;&#x6210;&#x65B0;&#xFFFD;&#xFFFD;&#xFFFD;map&#x4F5C;&#x4E3A;worker&#x7684;&quot;&#x5143;&#x6570;&#x636E;&quot;&#xFF0C;recursive-map&#x5B8F;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( recursive-map</p>
+<p> ;; &#x4FDD;&#x5B58;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<p> :conf  conf</p>
+<p> ;; &#x4FDD;&#x5B58;&#x4E00;&#x4E2A;&#x4F20;&#x8F93;&#x5C42;&#x5B9E;&#x4F8B;&#x7528;&#x4E8E;worker&#x8FDB;&#x7A0B;&#x95F4;&#x6D88;&#x606F;&#x4F20;&#x9012;&#xFF0C;storm&#x4F20;&#x8F93;&#x5C42;&#x88AB;&#x5B9A;&#x4E49;&#x6210;&#x4E86;&quot;&#x53EF;&#x63D2;&#x62D4;&#x5F0F;&quot;&#x63D2;&#x4EF6;&#xFF0C;&#x901A;&#x8FC7;&#x5B9E;&#x73B0;backtype.storm.messaging.IContext&#x63A5;&#x53E3;&#x5C31;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x81EA;&#x5DF1;&#x7684;&#x6D88;&#x606F;&#x4F20;&#x8F93;&#x5C42;&#x3002;storm 0.8.x&#x9ED8;&#x8BA4;&#x4F20;&#x8F93;&#x5C42;&#x5B9E;&#x4F8B;&#x662F; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; backtype.storm.messaging.zmq&#xFF0C;&#x4F46;&#x662F;&#x7531;&#x4E8E;</p>
+<p> ;; 1.ZeroMQ&#x662F;&#x4E00;&#x4E2A;&#x672C;&#x5730;&#x5316;&#x7684;&#x6D88;&#x606F;&#x5E93;&#xFF0C;&#x5B83;&#x8FC7;&#x5EA6;&#x4F9D;&#x8D56;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x73AF;&#x5883;&#xFF0C;&#x800C;&#x4E14;ZeroMQ&#x4F7F;&#x7528;&#x7684;&#x662F;&quot;&#x5806;&#x5916;&#x5185;&#x5B58;&quot;&#xFF0C;&#x65E0;&#x6CD5;&#x4F7F;&#x7528;jvm&#x76F8;&#x5173;&#x7684;&#x5185;&#x5B58;&#x76D1;&#x63A7;&#x5DE5;&#x5177;&#x8FDB;&#x884C;&#x76D1;&#x63A7;&#x7BA1;&#x7406;&#xFF0C;&#x5B58;&#x5728;&quot;&#x5806;&#x5916;&#x5185;&#x5B58;&quot;&#x6CC4;&#x6F0F;&#x98CE;&#x9669;</p>
+<p> ;; 2.&#x5B89;&#x88C5;&#x8D77;&#x6765;&#x6BD4;&#x8F83;&#x9EBB;&#x70E6;</p>
+<p> ;; 3.ZeroMQ&#x7684;&#x7A33;&#x5B9A;&#x6027;&#x5728;&#x4E0D;&#x540C;&#x7248;&#x672C;&#x4E4B;&#x95F4;&#x5DEE;&#x5F02;&#x5DE8;&#x5927;&#xFF0C;&#x5E76;&#x4E14;&#x76EE;&#x524D;&#x53EA;&#x6709;2.1.7&#x7248;&#x672C;&#x7684;ZeroMQ&#x80FD;&#x4E0E;Storm&#x534F;&#x8C03;&#x7684;&#x5DE5;&#x4F5C;&#x3002;</p>
+<p> ;; &#x6240;&#x4EE5;storm 0.9&#x4E4B;&#x540E;&#x9ED8;&#x8BA4;&#x4F20;&#x51FA;&#x5C42;&#x5B9E;&#x4F8B;&#x4E3A;backtype.storm.messaging.netty.Context&#xFF0C;Netty&#x6709;&#x5982;&#x4E0B;&#x4F18;&#x70B9;&#xFF1A;</p>
+<p> ;; 1.&#x5E73;&#x53F0;&#x9694;&#x79BB;&#xFF0C;Netty&#x662F;&#x4E00;&#x4E2A;&#x7EAF;Java&#x5B9E;&#x73B0;&#x7684;&#x6D88;&#x606F;&#x961F;&#x5217;&#xFF0C;&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;Storm&#x5B9E;&#x73B0;&#x66F4;&#x597D;&#x7684;&#x8DE8;&#x5E73;&#x53F0;&#x7279;&#x6027;&#xFF0C;&#x540C;&#x65F6;&#x57FA;&#x4E8E;JVM&#x7684;&#x5B9E;&#x73B0;&#x53EF;&#x4EE5;&#x8BA9;&#x6211;&#x4EEC;&#x5BF9;&#x6D88;&#x606F;&#x6709;&#x66F4;&#x597D;&#x7684;&#x63A7;&#x5236;&#xFF0C;&#x56E0;&#x4E3A;Netty&#x4F7F;&#x7528;jvm&#x7684;&#x5806;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5806;&#x5916;&#x5185;&#x5B58;</p>
+<p> ;; 2.&#x9AD8;&#x6027;&#x80FD;&#xFF0C;Netty&#x7684;&#x6027;&#x80FD;&#x8981;&#x6BD4;ZeroMQ&#x5FEB;&#x4E24;&#x500D;&#x5DE6;&#x53F3;</p>
+<p> ;; 3. &#x5B89;&#x5168;&#x6027;&#x8BA4;&#x8BC1;&#xFF0C;&#x4F7F;&#x5F97;&#x6211;&#x4EEC;&#x5C06;&#x6765;&#x8981;&#x505A;&#x7684;worker&#x8FDB;&#x7A0B;&#x4E4B;&#x95F4;&#x7684;&#x8BA4;&#x8BC1;&#x6388;&#x6743;&#x673A;&#x5236;&#x6210;&#x4E3A;&#x53EF;&#x80FD;&#x3002;</p>
+<p> :mq-context ( if  mq-context</p>
+<p> mq-context</p>
+<p>( TransportFactory/makeContext  storm-conf )) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x6240;&#x5C5E;storm-id</p>
+<p> :storm-id  storm-id</p>
+<p> ;; &#x8BB0;&#x5F55;&#x6240;&#x5C5E;supervisor-id</p>
+<p> :assignment-id  assignment-id</p>
+<p> ;; &#x8BB0;&#x5F55;&#x7AEF;&#x53E3;</p>
+<p> :port  port</p>
+<p> ;; &#x8BB0;&#x5F55;&#x6211;&#x4EEC;&#x5206;&#x914D;&#x7ED9;&#x8BE5;&#x8FDB;&#x7A0B;&#x7684;worker-id</p>
+<p> :worker-id  worker-id</p>
+<p> ;; &#x8BB0;&#x5F55;ClusterState&#x5B9E;&#x4F8B;</p>
+<p> :cluster-state  cluster-state</p>
+<p> ;; &#x8BB0;&#x5F55;StormClusterState&#x5B9E;&#x4F8B;&#xFF0C;&#x4EE5;&#x4FBF;worker&#x8FDB;&#x7A0B;&#x4E0E;zookeeper&#x8FDB;&#x884C;&#x4EA4;&#x4E92;</p>
+<p> :storm-cluster-state  storm-cluster-state</p>
+<p> ;; &#x8BB0;&#x5F55;topology&#x7684;&#x5F53;&#x524D;&#x6D3B;&#x8DC3;&#x72B6;&#x6001;&#x4E3A;false</p>
+<p> :storm-active-atom ( atom  false ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x5206;&#x5E03;&#x5728;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4E0A;&#x7684;executors&#x7684;id</p>
+<p> :executors  executors</p>
+<p> ;; &#x8BB0;&#x5F55;&#x6392;&#x5E8F;&#x540E;&#x7684;&#x5206;&#x5E03;&#x5728;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4E0A;&#x7684;tasks&#x7684;id</p>
+<p> :task-ids ( -&gt;&gt;  receive-queue-map  keys ( map  int ) sort ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x8BE5;topology&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<p> :storm-conf  storm-conf</p>
+<p> ;; &#x8BB0;&#x5F55;topology&#x5B9E;&#x4F8B;</p>
+<p> :topology  topology</p>
+<p> ;; &#x8BB0;&#x5F55;&#x6DFB;&#x52A0;&#x4E86;acker&#xFF0C;system bolt&#xFF0C;metric bolt&#x540E;&#x7684;topology&#x5B9E;&#x4F8B;</p>
+<p> :system-topology ( system-topology!  storm-conf  topology ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;&quot;heartbeat-timer&quot;&#x7684;&#x5B9A;&#x65F6;&#x5668;</p>
+<p> :heartbeat-timer ( mk-halting-timer  &quot;heartbeat-timer&quot; ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;&quot;refresh-connections-timer&quot;&#x7684;&#x5B9A;&#x65F6;&#x5668;</p>
+<p> :refresh-connections-timer ( mk-halting-timer  &quot;refresh-connections-timer&quot; ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;&quot;refresh-active-timer&quot;&#x7684;&#x5B9A;&#x65F6;&#x5668;</p>
+<p> :refresh-active-timer ( mk-halting-timer  &quot;refresh-active-timer&quot; ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;&quot;executor-heartbeat-timer&quot;&#x7684;&#x5B9A;&#x65F6;&#x5668;</p>
+<p> :executor-heartbeat-timer ( mk-halting-timer  &quot;executor-heartbeat-timer&quot; ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;&quot;user-timer&quot;&#x7684;&#x5B9A;&#x65F6;&#x5668;</p>
+<p> :user-timer ( mk-halting-timer  &quot;user-timer&quot; ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4EFB;&#x52A1;id-&gt;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5F62;&#x5982;&#xFF1A;{1 &quot;boltA&quot;, 2 &quot;boltA&quot;, 3 &quot;boltA&quot;, 4 &quot;boltA&quot;, 5 &quot;boltB&quot;, 6 &quot;boltB&quot;}&#xFF0C;storm-task-info&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> :task-&gt;component ( HashMap. ( storm-task-info  topology  storm-conf )) ; for optimized access when used in tasks later on</p>
+<p> ;; &#x8BB0;&#x5F55;&quot;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&quot;-&gt;&quot;stream_id-&gt;&#x8F93;&#x51FA;&#x57DF;Fields&#x5BF9;&#x8C61;&#x7684;map&quot;&#x7684;map&#xFF0C;component-&gt;stream-&gt;fields&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> :component-&gt;stream-&gt;fields ( component-&gt;stream-&gt;fields ( :system-topology  &lt;&gt; )) </p>
+<p> ;; &#x8BB0;&#x5F55;&quot;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&quot;-&gt;&#x6392;&#x5E8F;&#x540E;task-id&#x96C6;&#x5408;&#x7684;map&#xFF0C;&#x5F62;&#x5982;&#xFF1A;{&quot;boltA&quot; [1 2 3 4], &quot;boltB&quot; [5 6]}</p>
+<p> :component-&gt;sorted-tasks ( -&gt;&gt; ( :task-&gt;component  &lt;&gt; ) reverse-map ( map-val  sort )) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;ReentrantReadWriteLock&#x5BF9;&#x8C61;</p>
+<p> :endpoint-socket-lock ( mk-rw-lock ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#xFFFD;&#xFFFD;&#xFFFD;&#x4E2A;node+port-&gt;socket&#x7684;&#x539F;&#x5B50;&#x7C7B;&#x578B;&#x7684;map</p>
+<p> :cached-node+port-&gt;socket ( atom  {})</p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;task-&gt;node+port&#x7684;&#x539F;&#x5B50;&#x7C7B;&#x578B;&#x7684;map</p>
+<p> :cached-task-&gt;node+port ( atom  {})</p>
+<p> ;; &#x8BB0;&#x5F55;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x7684;&#x4F20;&#x8F93;&#x961F;&#x5217;transfer-queue</p>
+<p> :transfer-queue  transfer-queue</p>
+<p> ;; &#x8BB0;&#x5F55;executor&#x63A5;&#x6536;&#x961F;&#x5217;executor-receive-queue-map</p>
+<p> :executor-receive-queue-map  executor-receive-queue-map</p>
+<p> ;; &#x8BB0;&#x5F55;executor&#x4E2D;&quot;&#x5F00;&#x59CB;&#x4EFB;&#x52A1;id&quot;-&gt;executor&#x63A5;&#x6536;queue&#x7684;map&#xFF0C;&#x5982;executor-receive-queue-map={[1 2] receive-queue[1 2], [3 4] receive-queue[3 4]}&#xFF0C;&#x90A3;&#x4E48;short-executor-receive-queue-map={1 receive-queue[1 2], 3 receive-queue[3 4]}</p>
+<p> :short-executor-receive-queue-map ( map-key  first  executor-receive-queue-map ) </p>
+<p> ;; &#x8BB0;&#x5F55;task_id-&gt;executor&#x4E2D;&quot;&#x5F00;&#x59CB;&#x4EFB;&#x52A1;id&quot;&#x7684;map&#xFF0C;&#x5982;executors=#{[1 2] [3 4] [5 6]}&#xFF0C;task-&gt;short-executor={1 1, 2 1, 3 3, 4 3, 5 5, 6 5}</p>
+<p> :task-&gt;short-executor ( -&gt;&gt;  executors</p>
+<p>( mapcat ( fn  [  e  ] ( for  [  t ( executor-id-&gt;tasks  e  )]  [  t ( first  e  )])))</p>
+<p>( into  {})</p>
+<p>( HashMap. )) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x7EC8;&#x6B62;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x7684;&quot;&#x81EA;&#x6740;&#x51FD;&#x6570;&quot;</p>
+<p> :suicide-fn ( mk-suicide-fn  conf ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x8BA1;&#x7B97;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x542F;&#x52A8;&#x4E86;&#x591A;&#x957F;&#x65F6;&#x95F4;&#x7684;&#x51FD;&#x6570;</p>
+<p> :uptime ( uptime-computer ) </p>
+<p> ;; &#x4E3A;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x6C60;</p>
+<p> :default-shared-resources ( mk-default-resources  &lt;&gt; ) </p>
+<p> ;; mk-user-resources&#x51FD;&#x6570;&#x76EE;&#x524D;&#x7248;&#x672C;&#x4E3A;&#x7A7A;&#x5B9E;&#x73B0;</p>
+<p> :user-shared-resources ( mk-user-resources  &lt;&gt; ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x7684;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x63A5;&#x6536;messages&#x5E76;&#x5C06;message&#x53D1;&#x9001;&#x5230;task&#x5BF9;&#x5E94;&#x7684;&#x63A5;&#x6536;&#x961F;&#x5217;&#xFF0C;mk-transfer-local-fn&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> :transfer-local-fn ( mk-transfer-local-fn  &lt;&gt; ) </p>
+<p> ;; &#x8BB0;&#x5F55;&#x6BCF;&#x4E2A;worker&#x8FDB;&#x7A0B;&#x7279;&#x6709;&#x7684;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x7684;&#x4E2A;&#x6570;</p>
+<p> :receiver-thread-count ( get  storm-conf  WORKER-RECEIVER-THREAD-COUNT ) </p>
+<p> ;; &#x5C06;executor&#x5904;&#x7406;&#x8FC7;&#x7684;message&#x653E;&#x5230;worker&#x8FDB;&#x7A0B;&#x53D1;&#x9001;&#x961F;&#x5217;transfer-queue&#x4E2D;&#xFF0C;mk-transfer-fn&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> :transfer-fn ( &lt;&gt; ) </p>
+<p>)))</p>
+<p>read-worker-executors&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; read-worker-executors&#x51FD;&#x6570;&#x7528;&#x4E8E;&#x8BFB;&#x53D6;&#x5206;&#x5E03;&#x5728;&#x8BE5;&#x8FDB;&#x7A0B;&#x4E0A;&#x7684;executor&#x4FE1;&#x606F;</p>
+<p>( defn  read-worker-executors  [  storm-conf  storm-cluster-state  storm-id  assignment-id  port  ]</p>
+<p>;; assignment&#x7ED1;&#x5B9A;executor-&gt;node+port&#x7684;map&#xFF0C;&#x8C03;&#x7528;StormClusterState&#x5B9E;&#x4F8B;&#x7684;assignment-info&#x51FD;&#x6570;&#x4ECE;zookeeper&#x4E0A;&#x8BFB;&#x53D6;storm-id&#x7684;&#x5206;&#x914D;&#x4FE1;&#x606F;AssignmentInfo&#x5B9E;&#x4F8B;</p>
+<p>;; AssignmentInfo&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;(defrecord Assignment [master-code-dir node-&gt;host executor-&gt;node+port executor-&gt;start-time-secs])</p>
+<p>( let  [  assignment ( :executor-&gt;node+port ( .assignment-info  storm-cluster-state  storm-id  nil  ))]</p>
+<p> ;; &#x8FD4;&#x56DE;&#x5206;&#x914D;&#x7ED9;&#x8BE5;&#x8FDB;&#x7A0B;&#x7684;executor&#x7684;id&#x96C6;&#x5408;&#xFF0C;&#x5305;&#x542B;system executor&#x7684;id</p>
+<p>( doall</p>
+<p> ;; &#x5C06;system executor&#x7684;id&#x548C;topology executor&#x7684;id&#x5408;&#x5E76;</p>
+<p>( concat</p>
+<p> ;; system executor&#x7684;id&#xFF0C;[-1 -1] &#xA0; &#xA0;</p>
+<p> [  Constants/SYSTEM_EXECUTOR_ID  ]</p>
+<p> ;; &#x4ECE;&#x5206;&#x914D;&#x4FE1;&#x606F;assignment&#x4E2D;&#x83B7;&#x53D6;&#x5206;&#x914D;&#x7ED9;&#x8BE5;&#x8FDB;&#x7A0B;&#x7684;executor</p>
+<p>( mapcat ( fn  [[  executor  loc  ]]</p>
+<p>( if ( =  loc  [  assignment-id  port  ])</p>
+<p> [  executor  ]</p>
+<p>))</p>
+<p>assignment</p>
+<p>)))))</p>
+<p>mk-receive-queue-map&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; mk-receive-queue-map&#x51FD;&#x6570;&#x4E3A;&#x6BCF;&#x4E2A;executor&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;&quot;receive-queue{executor-id}&quot;&#x7684;disruptor queue&#xFF0C;&#x5982;&quot;receive-queue[1 3]&quot;&#xFF0C;&#x5E76;&#x8FD4;&#x56DE;executor-id-&gt;receive-queue&#x7684;map</p>
+<p>( defn-  mk-receive-queue-map  [  storm-conf  executors  ]</p>
+<p>;; executors&#x6807;&#x8BC6;&#x4E86;executor-id&#x96C6;&#x5408;</p>
+<p>( -&gt;&gt;  executors</p>
+<p> ;; TODO: this depends on the type of executor</p>
+<p> ;; &#x901A;&#x8FC7;&#x8C03;&#x7528;map&#x51FD;&#x6570;&#x4E3A;&#x6BCF;&#x4E2A;executor-id&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&quot;disruptor&#x63A5;&#x6536;queue&quot;</p>
+<p>( map ( fn  [  e  ]  [  e ( disruptor/disruptor-queue ( str  &quot;receive-queue&quot;  e ) </p>
+<p>( storm-conf  TOPOLOGY-EXECUTOR-RECEIVE-BUFFER-SIZE ) </p>
+<p> :wait-strategy ( storm-conf  TOPOLOGY-DISRUPTOR-WAIT-STRATEGY  ))]))</p>
+<p> ;; &#x8FD4;&#x56DE;executor-id-&gt;receive-queue&#x7684;map &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p>( into  {})</p>
+<p>))</p>
+<p>storm-task-info&#x51FD;&#x6570;&#xFF1A;</p>
+<p>( defn  storm-task-info</p>
+<p>&quot;Returns map from task -&gt; component id&quot;</p>
+<p> [  ^  StormTopology  user-topology  storm-conf  ]</p>
+<p>( -&gt;&gt; ( system-topology!  storm-conf  user-topology ) </p>
+<p> ;; &#x83B7;&#x53D6;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;-&gt;&#x7EC4;&#x4EF6;&#x5BF9;&#x8C61;&#x952E;&#x503C;&#x5BF9;&#x7684;map</p>
+<p> all-components</p>
+<p> ;; &#x8FD4;&#x56DE;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;-&gt;&#x7EC4;&#x4EF6;&#x4EFB;&#x52A1;&#x6570;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5982;{&quot;boltA&quot; 4, &quot;boltB&quot; 2}</p>
+<p>( map-val ( comp  # ( get  %  TOPOLOGY-TASKS ) component-conf )) </p>
+<p> ;; &#x6309;&#x7167;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&#x5BF9;map&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x5E8F;&#x5217;&#xFF0C;&#x5982;([&quot;boltA&quot; 4] [&quot;boltB&quot; 2])</p>
+<p>( sort-by  first ) </p>
+<p> ;; mapcat&#x51FD;&#x6570;&#x7B49;&#x4EF7;&#x4E8E;&#x5BF9;(map (fn…))&#x7684;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x6267;&#x884C;concat&#x51FD;&#x6570;&#xFF0C;&#x8FD4;&#x56DE;(&quot;boltA&quot; &quot;boltA&quot; &quot;boltA&quot; &quot;boltA&quot; &quot;boltB&quot; &quot;boltB&quot;)</p>
+<p>( mapcat ( fn  [[  c  num-tasks  ]] ( repeat  num-tasks  c ))) </p>
+<p> ;; {1 &quot;boltA&quot;, 2 &quot;boltA&quot;,3 &quot;boltA&quot;, 4 &quot;boltA&quot;, 5 &quot;boltB&quot;, 6 &quot;boltB&quot;}</p>
+<p>( map ( fn  [  id  comp  ]  [  id  comp  ]) ( iterate ( comp int  inc ) ( int  1 ))) </p>
+<p>( into  {})</p>
+<p>))</p>
+<p>component-&gt;stream-&gt;fields&#x51FD;&#x6570;&#xFF1A;</p>
+<p>( defn  component-&gt;stream-&gt;fields  [  ^  StormTopology  topology  ]</p>
+<p>;; &#x8C03;&#x7528;ThriftTopologyUtils/getComponentIds&#x65B9;&#x6CD5;&#x83B7;&#x53D6;topology&#x6240;&#x6709;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&#x96C6;&#x5408;&#xFF0C;&#x5982;#{&quot;boltA&quot;, &quot;boltB&quot;, &quot;boltC&quot;}</p>
+<p>( -&gt;&gt; ( ThriftTopologyUtils/getComponentIds  topology ) </p>
+<p> ;; &#x83B7;&#x53D6;&#xFFFD;&#xFFFD;&#xFFFD;&#x4E2A;&#x7EC4;&#x4EF6;&#x7684;stream_id-&gt;StreamInfo&#x5BF9;&#x8C61;&#x7684;map&#xFF0C;stream-&gt;fields&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( map ( fn  [  c  ]  [  c ( stream-&gt;fields  topology  c  )]))</p>
+<p> ;; &#x751F;&#x6210;&quot;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&quot;-&gt;&quot;stream_id-&gt;&#x8F93;&#x51FA;&#x57DF;Fields&#x5BF9;&#x8C61;&#x7684;map&quot;&#x7684;map</p>
+<p>( into  {})</p>
+<p> ;; &#x5C06;&#x5176;&#x8F6C;&#x5316;&#x6210;Java&#x7684;HashMap</p>
+<p>(</p>
+<p>HashMap.</p>
+<p>)))</p>
+<p>stream-&gt;fields&#x51FD;&#x6570;&#xFF1A;</p>
+<p>( defn-  stream-&gt;fields  [  ^  StormTopology  topology  component  ]</p>
+<p>;; &#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x7EC4;&#x4EF6;&#x540D;&#x7684;ComponentCommon&#x5BF9;&#x8C61;</p>
+<p>( -&gt;&gt; ( ThriftTopologyUtils/getComponentCommon  topology  component ) </p>
+<p> ;; &#x8C03;&#x7528;ComponentCommon&#x5BF9;&#x8C61;&#x7684;get_streams&#x65B9;&#x6CD5;&#x83B7;&#x53D6;stream_id-&gt;StreamInfo&#x5BF9;&#x8C61;&#x7684;map&#xFF0C;&#x4E00;&#x4E2A;&#x7EC4;&#x4EF6;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x8F93;&#x51FA;&#x6D41;</p>
+<p> .get_streams</p>
+<p> ;; s&#x7ED1;&#x5B9A;stream_id&#xFF0C;info&#x7ED1;&#x5B9A;StremInfo&#x5BF9;&#x8C61;&#xFF0C;&#x8C03;&#x7528;StreamInfo&#x5BF9;&#x8C61;&#x7684;get_output_fields&#x83B7;&#x53D6;&#x8F93;&#x51FA;&#x57DF;List&lt;String&gt;&#x5BF9;&#x8C61;&#xFF0C;&#x518D;&#x7528;&#x8F93;&#x51FA;&#x57DF;List&lt;String&gt;&#x5BF9;&#x8C61;&#x751F;&#x6210;Fields&#x5BF9;&#x8C61;</p>
+<p>( map ( fn  [[ s info  ]]  [ s ( Fields. ( .get_output_fields  info  ))]))</p>
+<p> ;; &#x751F;&#x6210;stream_id-&gt;Fields&#x5BF9;&#x8C61;&#x7684;map</p>
+<p>( into  {})</p>
+<p> ;; &#x5C06;clojure&#x7ED3;&#x6784;&#x7684;map&#x8F6C;&#x6362;&#x6210;java&#x4E2D;&#x7684;HashMap</p>
+<p>(</p>
+<p>HashMap.</p>
+<p>)))</p>
+<p>mk-transfer-local-fn&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; mk-transfer-local-fn&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x533F;&#x540D;&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x533F;&#x540D;&#x51FD;&#x6570;&#x7684;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x63A5;&#x6536;messages&#x5E76;&#x5C06;message&#x53D1;&#x9001;&#x5230;task&#x5BF9;&#x5E94;&#x7684;&#x63A5;&#x6536;&#x961F;&#x5217; &#xA0; &#xA0;</p>
+<p>( defn  mk-transfer-local-fn  [  worker  ]</p>
+<p>;; short-executor-receive-queue-map&#x7ED1;&#x5B9A;&quot;&#x5F00;&#x59CB;&#x4EFB;&#x52A1;id&quot;-&gt;executor&#x63A5;&#x6536;queue&#x7684;map&#xFF0C;&#x5982;&#xFF1A;{1 receive-queue[1 2], 3 receive-queue[3 4]}</p>
+<p>( let  [  short-executor-receive-queue-map ( :short-executor-receive-queue-map  worker ) </p>
+<p> ;; task-&gt;short-executor&#x7ED1;&#x5B9A;task_id-&gt;executor&#x4E2D;&quot;&#x5F00;&#x59CB;&#x4EFB;&#x52A1;id&quot;&#x7684;map&#xFF0C;&#x5982;&#xFF1A;{1 1, 2 1, 3 3, 4 3}</p>
+<p> task-&gt;short-executor ( :task-&gt;short-executor  worker ) </p>
+<p> ;; task-getter&#x7ED1;&#x5B9A;&#x4E00;&#x4E2A;&#x7531;comp&#x751F;&#x6210;&#x7684;&#x7EC4;&#x5408;&#x51FD;&#x6570;</p>
+<p> task-getter ( comp  # ( get  task-&gt;short-executor  % ) fast-first  )]</p>
+<p> ;; &#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x533F;&#x540D;&#x51FD;&#x6570;&#xFF0C;tuple-batch&#x662F;&#x4E00;&#x4E2A;ArrayList&#x5BF9;&#x8C61;&#xFF0C;ArrayList&#x7684;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x90FD;&#x662F;&#x4E00;&#x4E2A;&#x957F;&#x5EA6;&#x4E3A;2&#x7684;&#x6570;&#x7EC4;[task_id, message]&#xFF0C;task_id&#x8868;&#x793A;&#x8BE5;&#x6D88;&#x606F;&#x7531;&#x54EA;&#x4E2A;task&#x5904;&#x7406;&#xFF0C;message&#x8868;&#x793A;&#x6D88;&#x606F;</p>
+<p>( fn  [  tuple-batch  ]</p>
+<p> ;; &#x8C03;&#x7528;fast-group-by&#x51FD;&#x6570;&#x83B7;&#x53D6;&quot;executor&#x7B80;&#x5199;id&quot;-&gt;&#x9700;&#x8981;&#x8BE5;executor&#x5904;&#x7406;&#x7684;&#x6D88;&#x606F;List&#x7684;map</p>
+<p>( let  [  grouped ( fast-group-by  task-getter  tuple-batch  )]</p>
+<p> ;; fast-map-iters&#x5B8F;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x904D;&#x5386;map&#xFF0C;short-executor&#x6807;&#x8BC6;&quot;executor&#x7B80;&#x5199;id&quot;&#xFF0C;pairs&#x6807;&#x8BC6;&#x6D88;&#x606F;[task_id, message]</p>
+<p>( fast-map-iter  [[  short-executor  pairs  ]  grouped  ]</p>
+<p> ;; &#x83B7;&#x53D6;&#x8BE5;executor&#x7684;&#x63A5;&#x6536;queue</p>
+<p>( let  [  q ( short-executor-receive-queue-map  short-executor  )]</p>
+<p> ;; &#x5982;&#x679C;q&#x4E0D;&#x4E3A;&#x7A7A;&#xFF0C;&#x5219;&#x8C03;&#x7528;disruptor&#x7684;publish&#x65B9;&#x6CD5;&#x5C06;&#x6D88;&#x606F;&#x653E;&#x5165;disruptor&#x4E2D;</p>
+<p>( if  q</p>
+<p>( disruptor/publish  q  pairs ) </p>
+<p>( log-warn  &quot;Received invalid messages for unknown tasks. Dropping… &quot; ) </p>
+<p>)))))))</p>
+<p>fast-group-by&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; fast-group-by&#x51FD;&#x6570;&#x7684;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x751F;&#x6210;&quot;executor&#x7B80;&#x5199;id&quot;-&gt;&#x9700;&#x8981;&#x8BE5;executor&#x5904;&#x7406;&#x7684;&#x6D88;&#x606F;List&#x7684;map &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p>( defn  fast-group-by</p>
+<p>;; afn&#x7ED1;&#x5B9A;mk-transfer-local-fn&#x51FD;&#x6570;&#x4E2D;&#x5B9A;&#x4E49;&#x7684;task-getter&#x51FD;&#x6570;&#xFF0C;alist&#x7ED1;&#x5B9A;&#x4E00;&#x4E2A;ArrayList&#x5BF9;&#x8C61;&#xFF0C;ArrayList&#x7684;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x90FD;&#x662F;&#x4E00;&#x4E2A;&#x957F;&#x5EA6;&#x4E3A;2&#x7684;&#x6570;&#x7EC4;[task_id, message]&#xFF0C;task_id&#x8868;&#x793A;&#x8BE5;&#x6D88;&#x606F;&#x7531;&#x54EA;&#x4E2A;task&#x5904;&#x7406;&#xFF0C;message&#x8868;&#x793A;&#x6D88;&#x606F;</p>
+<p> [  afn  alist  ]</p>
+<p>;; &#x521B;&#x5EFA;&#x4E00;&#x4E2A;HashMap&#x5BF9;&#x8C61;ret</p>
+<p>( let  [  ret ( HashMap.  )]</p>
+<p> ;; fast-list-iter&#x662F;&#x4E00;&#x4E2A;&#x5B8F;&#xFF0C;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x904D;&#x5386;list</p>
+<p>( fast-list-iter</p>
+<p> ;; e&#x7ED1;&#x5B9A;&#x6BCF;&#x4E2A;[task_id, message]&#x6570;&#x7EC4;&#x5BF9;&#x8C61;</p>
+<p> [  e  alist  ]</p>
+<p> ;; &#x8C03;&#x7528;afn&#x7ED1;&#x5B9A;&#x7684;task-getter&#x51FD;&#x6570;&#x83B7;&#x53D6;&#x8BE5;task_id&#x6240;&#x5C5E;&#x7684;&quot;executor&#x7684;&#x7B80;&#x5199;id&quot;&#xFF0C;&#x6240;&#x4EE5;key&#x7ED1;&#x5B9A;&quot;executor&#x7B80;&#x5199;id&quot;</p>
+<p>( let  [  key ( afn  e ) </p>
+<p> ;; &#x4ECE;ret&#x4E2D;&#x83B7;&#x53D6;key&#x6240;&#x5BF9;&#x5E94;&#x7684;ArrayList&#x5BF9;&#x8C61;&#xFF0C;&#x5373;&#x9700;&#x8981;&#x8BE5;executor&#x5904;&#x7406;&#x7684;&#x6D88;&#xFFFD;&#xFFFD;&#xFFFD;&#x5217;&#x8868;</p>
+<p> ^  List  curr ( get-with-default  ret  key ( ArrayList.  ))]</p>
+<p> ;; [task_id, message]&#x6570;&#x7EC4;&#x5BF9;&#x8C61;&#x6DFB;&#x52A0;&#x5230;list&#x4E2D;</p>
+<p>( .add  curr  e ))) </p>
+<p> ;; &#x8FD4;&#x56DE;ret</p>
+<p>ret</p>
+<p>))</p>
+<p>mk-transfer-fn&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; mk-transfer-fn&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x5C06;executor&#x5904;&#x7406;&#x8FC7;&#x7684;message&#x653E;&#x5230;worker&#x8FDB;&#x7A0B;&#x53D1;&#x9001;&#x961F;&#x5217;transfer-queue&#x4E2D;</p>
+<p>( defn  mk-transfer-fn  [  worker  ]</p>
+<p>;; local-tasks&#x7ED1;&#x5B9A;&#x5206;&#x5E03;&#x5728;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4E0A;&#x7684;task&#x7684;id&#x96C6;&#x5408;</p>
+<p>( let  [  local-tasks ( -&gt;  worker  :task-ids  set ) </p>
+<p> ;; local-transfer&#x6807;&#x8BC6;mk-transfer-local-fn&#x8FD4;&#x56DE;&#x7684;&#x533F;&#x540D;&#x51FD;&#x6570;</p>
+<p> local-transfer ( :transfer-local-fn  worker ) </p>
+<p> ;; transfer-queue&#x7ED1;&#x5B9A;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x7684;&#x4F20;&#x8F93;&#x961F;&#x5217;transfer-queue</p>
+<p> ^  DisruptorQueue  transfer-queue ( :transfer-queue  worker ) </p>
+<p> ;; task-&gt;node+port&#x7ED1;&#x5B9A;task_id-&gt;node+port&#x7684;map</p>
+<p> task-&gt;node+port ( :cached-task-&gt;node+port  worker  )]</p>
+<p> ;; &#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x533F;&#x540D;&#x51FD;&#x6570;&#xFF0C;serializer&#x6807;&#x8BC6;&#x4E00;&#x4E2A;Kryo&#x5E8F;&#x5217;&#x5316;&#x5668;&#xFF0C;tuple-batch&#x662F;&#x4E00;&#x4E2A;ArrayList&#x5BF9;&#x8C61;&#xFF0C;ArrayList&#x7684;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x90FD;&#x662F;&#x4E00;&#x4E2A;&#x957F;&#x5EA6;&#x4E3A;2&#x7684;&#x6570;&#x7EC4;[task_id, message]&#xFF0C;task_id&#x8868;&#x793A;&#x8BE5;&#x6D88;&#x606F;&#x7531;&#x54EA;&#x4E2A;task&#x5904;&#x7406;&#xFF0C;&#x5373;message&#x7684;&#x76EE;&#x6807;task&#xFF0C;message&#x8868;&#x793A;&#x6D88;&#x606F;</p>
+<p>( fn  [  ^  KryoTupleSerializer  serializer  tuple-batch  ]</p>
+<p> ;; local&#x4E3A;ArrayList</p>
+<p>( let  [  local ( ArrayList. ) </p>
+<p> ;; remoteMap&#x4E3A;HashMap</p>
+<p> remoteMap ( HashMap.  )]</p>
+<p> ;; &#x904D;&#x5386;tuple-batch</p>
+<p>( fast-list-iter  [[  task  tuple  :as  pair  ]  tuple-batch  ]</p>
+<p> ;; &#x5982;&#x679C;&#x63A5;&#x6536;&#x8BE5;&#x6D88;&#x606F;&#x7684;task&#x4E3A;&#x672C;&#x5730;task&#xFF0C;&#x5373;&#x8BE5;task&#x4E5F;&#x5206;&#x5E03;&#x5728;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4E0A;&#xFF0C;&#x90A3;&#x4E48;&#x5C06;&#x8BE5;&#x6D88;&#x606F;&#x6DFB;&#x52A0;&#x5230;local&#x4E2D;</p>
+<p>( if ( local-tasks  task ) </p>
+<p>( .add  local  pair ) </p>
+<p> ;;Using java objects directly to avoid performance issues in java code</p>
+<p> ;; &#x5426;&#x5219;&#x8BF4;&#x660E;&#x63A5;&#x6536;&#x8BE5;&#x6D88;&#x606F;&#x7684;task&#x4E0D;&#x662F;&#x672C;&#x5730;task&#xFF0C;&#x5373;&#x8BE5;task&#x5206;&#x5E03;&#x5728;&#x5176;&#x4ED6;worker&#x8FDB;&#x7A0B;&#x4E0A;&#xFF1B;node+port&#x6807;&#x8BC6;&#x4E86;&#x8FD0;&#x884C;&#x8BE5;task&#x7684;worker&#x8FDB;&#x7A0B;&#x6240;&#x5728;&#x7684;&#x8282;&#x70B9;&#x548C;&#x7AEF;&#x53E3;</p>
+<p>( let  [  node+port ( get  @  task-&gt;node+port  task  )]</p>
+<p> ;; &#x5982;&#x679C;remoteMap&#x4E0D;&#x5305;&#x542B;node+port&#xFF0C;&#x5219;&#x6DFB;&#x52A0;</p>
+<p>( when ( not ( .get  remoteMap  node+port )) </p>
+<p>( .put  remoteMap  node+port ( ArrayList. ))) </p>
+<p>( let  [  remote ( .get  remoteMap  node+port  )]</p>
+<p> ;; &#x9996;&#x5148;&#x7528;task_id&#x548C;&#x5E8F;&#x5217;&#x5316;&#x540E;&#x7684;tuple&#x751F;&#x6210;TaskMessage&#x5BF9;&#x8C61;&#xFF0C;&#x7136;&#x540E;&#x5C06;TaskMessage&#x5BF9;&#x8C61;&#x6DFB;&#x52A0;&#x5230;ArrayList&#x4E2D;</p>
+<p>( .add  remote ( TaskMessage.  task ( .serialize  serializer  tuple ))) </p>
+<p>))))</p>
+<p> ;; &#x8C03;&#x7528;local-transfer&#x51FD;&#x6570;&#x53D1;&#x9001;&#x9700;&#x8981;&#x672C;&#x5730;task&#x5904;&#x7406;&#x7684;&#x6D88;&#x606F;</p>
+<p>( local-transfer  local ) </p>
+<p> ;; &#x8C03;&#x7528;disruptor&#x7684;publish&#x65B9;&#x6CD5;&#x5C06;remoteMap&#x653E;&#x5165;worker&#x8FDB;&#x7A0B;&#x7684;&#x4F20;&#x8F93;&#x961F;&#x5217;transfer-queue&#x4E2D;&#xFF0C;remoteMap&#x7684;key&#x4E3A;node+port&#xFF0C;value&#x4E3A;ArrayList&#xFF0C;ArrayList&#x4E2D;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x90FD;&#x662F;&#x9700;&#x8981;node+port&#x6240;&#x5BF9;&#x5E94;&#x7684;worker&#x8FDB;&#x884C;&#x5904;&#x7406;</p>
+<p>( disruptor/publish  transfer-queue  remoteMap ) </p>
+<p>))))</p>
+<p>do-heartbeat&#x51FD;&#x6570;&#xFF1A;</p>
+<p>( defn  do-heartbeat  [  worker  ]</p>
+<p>;; &#x83B7;&#x53D6;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<p>( let  [  conf ( :conf  worker ) </p>
+<p> ;; &#x521B;&#x5EFA;WorkerHeartbeat&#x5BF9;&#x8C61;</p>
+<p> hb ( WorkerHeartbeat.</p>
+<p> ;; &#x672C;&#x6B21;&#x5FC3;&#x8DF3;&#x65F6;&#x95F4;</p>
+<p>( current-time-secs ) </p>
+<p> ;; &#x8BE5;worker&#x8FDB;&#x7A0B;&#x6240;&#x5C5E;&#x7684;topology-id</p>
+<p>( :storm-id  worker ) </p>
+<p> ;; &#x5206;&#x5E03;&#x5728;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4E0A;&#x7684;executor-id&#x96C6;&#x5408;</p>
+<p>( :executors  worker ) </p>
+<p> ;; &#x8BE5;worker&#x8FDB;&#x7A0B;&#x6240;&#x5360;&#x7528;&#x7684;&#x7AEF;&#x53E3;</p>
+<p>( :port  worker )) </p>
+<p> ;; &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;&#x76EE;&#x5F55;&quot;{storm.local.dir}/workers/{worker-id}/heartbeats&quot;&#x7684;LocalState&#x5BF9;&#x8C61;&#xFF0C;&#x7528;&#x4E8E;&#x5B58;&#x653E;worker&#x8FDB;&#x7A0B;&#x7684;&quot;&#x672C;&#x5730;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&quot;&#xFF0C;&#x901A;&#x8FC7;LocalState&#x5BF9;&#x8C61;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x4E00;&#x4E2A;&#x5E8F;&#x5217;&#x5316;&#x5230;&#x78C1;&#x76D8;&#x7684;map&#x5BF9;&#x8C61;</p>
+<p> state ( worker-state  conf ( :worker-id  worker  ))]</p>
+<p>( log-debug  &quot;Doing heartbeat &quot; ( pr-str  hb )) </p>
+<p> ;; do the local-file-system heartbeat.</p>
+<p> ;; &#x5C06;worker&#x8FDB;&#x7A0B;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x901A;&#x8FC7;LocalState&#x5BF9;&#x8C61;&#x5B58;&#x5165;&#x78C1;&#x76D8;&#xFF0C;map&#x5BF9;&#x8C61;&#x7684;key&#x4E3A;&quot;worker-heartbeat&quot;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;value&#x4E3A;worker&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;</p>
+<p>( .put  state</p>
+<p> LS-WORKER-HEARTBEAT</p>
+<p> hb</p>
+<p> false</p>
+<p>)</p>
+<p> ;; &#x8C03;&#x7528;LocalState&#x5BF9;&#x8C61;&#x7684;clearup&#x65B9;&#x6CD5;&#xFF0C;&#x53EA;&#x4FDD;&#x7559;&#x6700;&#x8FD1;60&#x6B21;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;</p>
+<p>( .cleanup  state  60 ) ; this is just in case supervisor is down so that disk doesn&apos;t fill up.</p>
+<p> ; it shouldn&apos;t take supervisor 120 seconds between listing dir and reading it</p>
+<p>))</p>
+<p>do-executor-heartbeats&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; do-executor-heartbeats&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x901A;&#x8FC7;worker-heartbeat!&#x51FD;&#x6570;&#x5C06;worker&#x8FDB;&#x7A0B;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x5199;&#x5165;zookeeper&#x7684;workerbeats&#x8282;&#x70B9;&#x4E2D;</p>
+<p>( defnk  do-executor-heartbeats  [  worker  :executors  nil  ]</p>
+<p>;; stats is how we know what executors are assigned to this worker</p>
+<p>;; stats&#x7ED1;&#x5B9A;executor&#x5BF9;&#x8C61;-&gt;executor&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x7684;map&#x3002;&#x5F53;&#x7B2C;&#x4E00;&#x6B21;&#x8C03;&#x7528;do-executor-heartbeats&#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x5373;&#x7B2C;&#x4E00;&#x6B21;&#x5FC3;&#x8DF3;&#x65F6;&#xFF0C;executors&#x4E3A;nil&#xFF0C;map&#x5F62;&#x5982;&#xFF1A;{executor_1 nil, executor_2 nil, … }</p>
+<p>;; &#x5F53;&#x518D;&#x6B21;&#x5FC3;&#x8DF3;&#x65F6;&#xFF0C;&#x5C06;&#x4F1A;&#x8C03;&#x7528;executor&#x5BF9;&#x8C61;&#x7684;get-executor-id&#x51FD;&#x6570;&#x548C;render-stats&#x51FD;&#x6570;&#xFF0C;&#x83B7;&#x53D6;executor_id-&gt;executor&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x7684;map&#xFF0C;&#x6240;&#x4EE5;stats&#x7ED1;&#x5B9A;&#x7684;map&#x5728;&#x7B2C;&#x4E00;&#x6B21;&#x5FC3;&#x8DF3;&#x65F6;&#x548C;&#x518D;&#x6B21;&#x5FC3;&#x8DF3;&#x65F6;&#x662F;&#x4E0D;&#x540C;&#x7684;&#xFF0C;&#x6709;&#x5173;executor&#x7EDF;&#x8BA1;&#x4FE1; &#x606F;&#x7684;&#x8BA1;&#x7B97;&#x4F1A;&#x5728;&#x4EE5;&#x540E;&#x6587;&#x7AE0;&#x4E2D;&#x5177;&#x4F53;&#x5206;&#x6790;&#x3002;</p>
+<p>( let  [  stats ( if-not  executors</p>
+<p>( into  {} ( map ( fn  [  e  ]  {  e  nil  }) ( :executors  worker ))) </p>
+<p>( -&gt;&gt;  executors</p>
+<p>( map ( fn  [  e  ]  {(  executor/get-executor-id  e ) ( executor/render-stats  e  )}))</p>
+<p>( apply  merge ))) </p>
+<p> ;; &#x6784;&#x5EFA;worker&#x8FDB;&#x7A0B;&#x7684;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;</p>
+<p> zk-hb  {  :storm-id ( :storm-id  worker ) </p>
+<p> ;; &#x8BB0;&#x5F55;executor&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;</p>
+<p> :executor-stats  stats</p>
+<p> ;; &#x8BB0;&#x5F55;worker&#x8FDB;&#x7A0B;&#x8FD0;&#x884C;&#x4E86;&#x591A;&#x6B21;&#x65F6;&#x95F4;</p>
+<p> :uptime (( :uptime  worker )) </p>
+<p> ;; &#x8BB0;&#x5F55;worker&#x8FDB;&#x7A0B;&#x5FC3;&#x8DF3;&#x65F6;&#x95F4;</p>
+<p> :time-secs ( current-time-secs ) </p>
+<p> }]</p>
+<p> ;; do the zookeeper heartbeat</p>
+<p> ;; &#x8C03;&#x7528;StormClusterState&#x5BF9;&#x8C61;&#x7684;worker-heartbeat!&#x51FD;&#x6570;&#x5C06;worker&#x8FDB;&#x7A0B;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;zk-hb&#x540C;&#x6B65;&#x5230;zookeeper&#x7684;&quot;/workerbeats/{topology-id}/{supervisorId-port}/&quot;&#x8282;&#x70B9;&#x4E2D;</p>
+<p>( .worker-heartbeat! ( :storm-cluster-state  worker ) ( :storm-id  worker ) ( :assignment-id  worker ) ( :port  worker ) zk-hb ) &#xA0; &#xA0; </p>
+<p>))</p>
+<p>mk-refresh-connections&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; mk-refresh-connections&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;this&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5728;&quot;storm&#x542F;&#x52A8;supervisor&#x6E90;&#x7801;&#x5206;&#x6790;-supervisor.clj&quot;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x5728;mk-synchronize-supervisor&#x51FD;&#x6570;&#x4E5F;&#x89C1;&#x8FC7;&#x8FD9;&#x79CD;&#x5B9A;&#x4E49;&#x51FD;&#x6570;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x672C;&#x8EAB;&#x8981;&#x5728;&#x51FD;&#x6570;&#x4F53;&#x5185;&#x88AB;&#x4F7F;&#x7528;&#x3002;</p>
+<p>;; &#x5E76;&#x4E14;refresh-connections&#x662F;&#x9700;&#x8981;&#x53CD;&#x590D;&#x88AB;&#x6267;&#x884C;&#x7684;&#xFF0C;&#x5373;&#x5F53;&#x6BCF;&#x6B21;assignment-info&#x53D1;&#x751F;&#x53D8;&#x5316;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x9700;&#x8981;refresh&#x4E00;&#x6B21;&#xFF0C;&#x8FD9;&#x91CC;&#x662F;&#x901A;&#x8FC7;zookeeper&#x7684;&quot;watcher&#x673A;&#x5236;&quot;&#x5B9E;&#x73B0;&#x7684;</p>
+<p>( defn  mk-refresh-connections  [  worker  ]</p>
+<p>;; outbound-tasks&#x7ED1;&#x5B9A;&#x7528;&#x4E8E;&#x63A5;&#x6536;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x8F93;&#x51FA;&#x6D88;&#x606F;&#x7684;&#x6240;&#x6709;&#x4EFB;&#x52A1;&#xFF0C;worker-outbound-tasks&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( let  [  outbound-tasks ( worker-outbound-tasks  worker ) </p>
+<p> ;; conf&#x7ED1;&#x5B9A;worker&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<p> conf ( :conf  worker ) </p>
+<p> ;; storm-cluster-state&#x7ED1;&#x5B9A;StormClusterState&#x5B9E;&#x4F8B;</p>
+<p> storm-cluster-state ( :storm-cluster-state  worker ) </p>
+<p> ;; storm-id&#x6807;&#x8BC6;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x6240;&#x5C5E;&#x7684;topology&#x7684;id</p>
+<p> storm-id ( :storm-id  worker  )]</p>
+<p> ;; &#x8FD4;&#x56DE;&#x540D;&#x79F0;&#x4E3A;this&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x6BCF;&#x6B21;assignment-info&#x53D1;&#x751F;&#x53D8;&#x5316;&#x65F6;&#xFF0C;&#x5C31;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x6765;refresh&#x8BE5;worker&#x8FDB;&#x7A0B;&#x7684;connections</p>
+<p>( fn  this</p>
+<p> ;; &#x65E0;&#x53C2;&#x7248;&#x672C;&#xFF0C;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&quot;&#x9ED8;&#x8BA4;&#x56DE;&#x8C03;&#x51FD;&#x6570;&quot;&#x8C03;&#x7528;&#x6709;&#x53C2;&#x7248;&#x672C;&#xFF0C;&quot;&#x9ED8;&#x8BA4;&#x56DE;&#x8C03;&#x51FD;&#x6570;&quot;&#x5C31;&#x662F;&#x5C06;this&#x51FD;&#x6570;&#x65E0;&#x53C2;&#x7248;&#x672C;&#x672C;&#x8EAB;&#x6DFB;&#x52A0;&#x5230;worker&#x8FDB;&#x7A0B;&#x7684;refresh-connections-timer&#x5B9A;&#x65F6;&#x5668;&#x4E2D;&#xFF0C;&#x8FD9;&#x6837;&#x5F53;assignment-info&#x53D1;&#x751F;&#x53D8;&#x5316;&#x65F6;&#xFF0C;zookeeper&#x7684;&quot;watcher&#x673A;&#x5236;&quot;</p>
+<p> ;; &#x5C31;&#x4F1A;&#x6267;&#x884C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;refresh-connections-timer&#x5B9A;&#x65F6;&#x5668;&#x7EBF;&#x7A0B;&#x5C06;&#x4F1A;&#x6267;&#x884C;this&#x51FD;&#x6570;&#x3002;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;&#xFF0C;&#x6BCF;&#x6B21;assignment&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x5B9A;&#x65F6;&#x5668;&#x90FD;&#x4F1A;&#x5728;&#x540E;&#x53F0;&#x505A;refresh-connections&#x7684;&#x64CD;&#x4F5C;</p>
+<p> ([]</p>
+<p>( this ( fn  [  &amp;  ignored  ] ( schedule ( :refresh-connections-timer  worker ) 0  this )))) </p>
+<p> ;; &#x6709;&#x53C2;&#x7248;&#x672C;</p>
+<p> ([  callback  ]</p>
+<p> ;; &#x8C03;&#x7528;StormClusterState&#x5B9E;&#x4F8B;&#x7684;assignment-version&#x51FD;&#x6570;&#x83B7;&#x53D6;storm-id&#x7684;&#x5F53;&#x524D;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x7248;&#x672C;&#xFF0C;&#x5E76;&#x5C06;callback&#x51FD;&#x6570;&#x6CE8;&#x518C;&#x5230;zookeeper</p>
+<p>( let  [  version ( .assignment-version  storm-cluster-state  storm-id  callback ) </p>
+<p> ;; &#x5982;&#x679C;worker&#x672C;&#x5730;&#x7F13;&#x5B58;&#x7684;&#x5206;&#x914D;&#x7248;&#x672C;&#x548C;zookeeper&#x4E0A;&#x83B7;&#x53D6;&#x7684;&#x5206;&#x914D;&#x7248;&#x672C;&#x76F8;&#x7B49;&#xFF0C;&#x90A3;&#x4E48;&#x8BF4;&#x660E;storm-id&#x7684;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x672A;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x76F4;&#x63A5;&#x4ECE;worker&#x672C;&#x5730;&#x83B7;&#x53D6;&#x5206;&#x914D;&#x4FE1;&#x606F;</p>
+<p> assignment ( if ( =  version ( :version ( get  @ ( :assignment-versions  worker ) storm-id ))) </p>
+<p>( :data ( get  @ ( :assignment-versions  worker ) storm-id )) </p>
+<p> ;; &#x5426;&#x5219;&#x8C03;&#x7528;assignment-info-with-version&#x51FD;&#x6570;&#x4ECE;zookeeper&#x7684;&quot;/assignments/{storm-id}&quot;&#x8282;&#x70B9;&#x91CD;&#x65B0;&#x83B7;&#x53D6;&#x5E26;&#x6709;&#x7248;&#x672C;&#x53F7;&#x7684;&#x5206;&#x914D;&#x4FE1;&#x606F;&#xFF0C;&#x5E76;&#x6CE8;&#x518C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x6837;worker&#x5C31;&#x80FD;&#x611F;&#x77E5;&#x67D0;&#x4E2A;&#x5DF2;&#x5B58;&#x5728;&#x7684;assignment&#x662F;&#x5426;&#x88AB;&#x91CD;&#x65B0;&#x5206;&#x914D;</p>
+<p>( let  [  new-assignment ( .assignment-info-with-version  storm-cluster-state  storm-id  callback  )]</p>
+<p> ;; &#x5C06;&#x6700;&#x8FD1;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x4FDD;&#x5B58;&#x5230;worker&#x672C;&#x5730;&#x7F13;&#x5B58;</p>
+<p>( swap! ( :assignment-versions  worker ) assoc  storm-id  new-assignment ) </p>
+<p>( :data  new-assignment ))) </p>
+<p> ;; my-assignment&#x6807;&#x8BC6;&quot;&#x63A5;&#x6536;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x8F93;&#x51FA;&#x6D88;&#x606F;&#x7684;&#x4EFB;&#x52A1;&quot;-&gt;[node port]&#x7684;map</p>
+<p> my-assignment ( -&gt;  assignment</p>
+<p> ;; &#x83B7;&#x53D6;executor_id-&gt;[node port]&#x7684;map&#xFF0C;&#x5982;&#xFF1A;{[1 1] [node1 port1], [4 4] [node1 port1], [2 2] [node2 port1], [5 5] [node2 port1], [3 3] [node3 port1], [6 6] [node3 port1]}</p>
+<p> :executor-&gt;node+port</p>
+<p> ;; &#x83B7;&#x53D6;task_id-&gt;[node port]&#x7684;map&#xFF0C;&#x5982;&#xFF1A;{[1 [node1 port1], 4 [node1 port1], 2 [node2 port1], 5 [node2 port1], 3 [node3 port1], 6 [node3 port1]}</p>
+<p> to-task-&gt;node+port</p>
+<p> ;; &#x9009;&#x62E9;&quot;&#x952E;&quot;&#x5305;&#x542B;&#x5728;outbound-tasks&#x96C6;&#x5408;&#x7684;&#x952E;&#x503C;&#x5BF9;&#xFF0C;&#x5047;&#x8BBE;outbound-tasks=#{4 5 6}&#xFF0C;&#x8FC7;&#x6EE4;&#x540E;&#x4E3A;{4 [node1 port1], 5 [node2 port1], 6 [node3 port1]}</p>
+<p>( select-keys  outbound-tasks ) </p>
+<p> ;; {4 &quot;node1/port1&quot;, 5 &quot;node2/port1&quot;, 6 &quot;node3/port1&quot;}</p>
+<p>( # ( map-val  endpoint-&gt;string  % ))) </p>
+<p> ;; we dont need a connection for the local tasks anymore</p>
+<p> ;; &#x8FC7;&#x6EE4;&#x6389;&#x5206;&#x5E03;&#x5728;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4E0A;&#x7684;task&#xFF0C;&#x56E0;&#x4E3A;&#x5206;&#x5E03;&#x5728;&#x901A;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x4E0A;&#x4E0D;&#x9700;&#x8981;&#x5EFA;&#x7ACB;socket&#x8FDE;&#x63A5;&#x3002;&#x5047;&#x8BBE;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4F4D;&#x4E8E;node1&#x7684;port1&#x4E0A;&#xFF0C;&#x5219;needed-assignment={5 &quot;node2/port1&quot;, 6 &quot;node3/port1&quot;}</p>
+<p> needed-assignment ( -&gt;&gt;  my-assignment</p>
+<p>( filter-key ( complement ( -&gt;  worker  :task-ids  set )))) </p>
+<p> ;; needed-connections&#x7ED1;&#x5B9A;&quot;&#x9700;&#x8981;&#x7684;&#x8FDE;&#x63A5;&quot;&#x7684;&#x96C6;&#x5408;&#xFF0C;needed-connections=#{&quot;node2/port1&quot;, &quot;node3/port1&quot;}</p>
+<p> needed-connections ( -&gt;  needed-assignment  vals  set ) </p>
+<p> ;; needed-tasks&#x7ED1;&#x5B9A;&#x9700;&#x8981;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x7684;&#x4EFB;&#x52A1;&#x96C6;&#x5408;&#xFF0C;needed-tasks=#{5, 6}</p>
+<p> needed-tasks ( -&gt;  needed-assignment  keys ) </p>
+<p> ;; current-connections&#x7ED1;&#x5B9A;&#x5F53;&#x524D;&#x8BE5;worker&#x8FDB;&#x7A0B;&quot;&#x5DF2;&#x5EFA;&#x7ACB;&#x7684;&#x8FDE;&#x63A5;&quot;&#x7684;&#x96C6;&#x5408;</p>
+<p> current-connections ( set ( keys  @ ( :cached-node+port-&gt;socket  worker ))) </p>
+<p> ;; needed-connections&#x548C;current-connections&#x7684;&#x5DEE;&#x96C6;&#x8868;&#x793A;&#x9700;&#x8981;&quot;&#x65B0;&#x5EFA;&#x7684;&#x8FDE;&#x63A5;&quot;&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x5047;&#x8BBE;current-connections=#{}&#xFF0C;&#x5219;new-connections=#{&quot;node2/port1&quot;, &quot;node3/port1&quot;}</p>
+<p> new-connections ( set/difference  needed-connections  current-connections ) </p>
+<p> ;; current-connections&#x548C;needed-connections&#x7684;&#x5DEE;&#x96C6;&#x8868;&#x793A;&#x9700;&#x8981;&quot;&#x5220;&#x9664;&#x7684;&#x8FDE;&#x63A5;&quot;&#x7684;&#x96C6;&#x5408;</p>
+<p> remove-connections ( set/difference  current-connections  needed-connections  )]</p>
+<p> ;; &#x5C06;&#x65B0;&#x5EFA;&#x7684;&#x8FDE;&#x63A5;&#x5408;&#x5E76;&#x5230;cached-node+port-&gt;socket&#x4E2D;</p>
+<p>( swap! ( :cached-node+port-&gt;socket  worker ) </p>
+<h1 id="(_HashMap-_(_merge_(_into_{}_%1_)_%2_))">( HashMap. ( merge ( into  {}  %1 ) %2 ))</h1><p> ;; &#x521B;&#x5EFA;endpoint-str-&gt;connection&#x5BF9;&#x8C61;&#x7684;map&#xFF0C;&#x5373;&#x5EFA;&#x7ACB;&#x65B0;&#x7684;&#x8FDE;&#x63A5;&#x3002;&#x5982;&#xFF1A;{&quot;node2/port1&quot; connect1, &quot;node3/port1&quot; connect2}</p>
+<p>( into  {}</p>
+<p>( dofor  [  endpoint-str  new-connections</p>
+<p> :let  [[  node  port  ] ( string-&gt;endpoint  endpoint-str  )]]</p>
+<p> [  endpoint-str</p>
+<p>( .connect</p>
+<p> ^  IContext ( :mq-context  worker ) </p>
+<p> storm-id</p>
+<p>(( :node-&gt;host  assignment ) node ) </p>
+<p> port ) </p>
+<p> ]</p>
+<p>)))</p>
+<p> ;; &#x5C06;my-assignment&#x4FDD;&#x5B58;&#x5230;worker&#x8FDB;&#x7A0B;&#x672C;&#x5730;&#x7F13;&#x5B58;cached-task-&gt;node+port&#x4E2D;</p>
+<p>( write-locked ( :endpoint-socket-lock  worker ) </p>
+<p>( reset! ( :cached-task-&gt;node+port  worker ) </p>
+<p>( HashMap.  my-assignment ))) </p>
+<p> ;; close&#x9700;&#x8981;&quot;&#x5220;&#x9664;&#x7684;&#x8FDE;&#x63A5;&quot;</p>
+<p>( doseq  [  endpoint  remove-connections  ]</p>
+<p>( .close ( get  @ ( :cached-node+port-&gt;socket  worker ) endpoint ))) </p>
+<p> ;; &#x5C06;&#x9700;&#x8981;&quot;&#x5220;&#x9664;&#x7684;&#x8FDE;&#x63A5;&quot;&#x4ECE;worker&#x8FDB;&#x7A0B;&#x672C;&#x5730;&#x7F13;&#x5B58;cached-node+port-&gt;socket&#x4E2D;&#x5220;&#x9664;&#xFF0C;&#x901A;&#x8FC7;worker&#x8FDB;&#x7A0B;&#x672C;&#x5730;&#x7F13;&#x5B58;cached-task-&gt;node+port&#x548C;cached-node+port-&gt;socket&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x6216;&#x5F97;task&#x548C;socket&#x7684;&#x5BF9;&#x5E94;&#x5173;&#x7CFB;</p>
+<p>( apply  swap!</p>
+<p>( :cached-node+port-&gt;socket  worker ) </p>
+<h1 id="(_HashMap-_(_apply_dissoc_(_into_{}_%1_)_%_&amp;_))">( HashMap. ( apply dissoc ( into  {}  %1 ) %  &amp; ))</h1><p> remove-connections ) </p>
+<p> ;; &#x67E5;&#x627E;&#x51FA;&#x672A;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x7684;task</p>
+<p>( let  [  missing-tasks ( -&gt;&gt;  needed-tasks</p>
+<p>( filter ( complement  my-assignment  )))]</p>
+<p> ;; &#x5982;&#x679C;&#x5B58;&#x5728;&#x672A;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x7684;task&#xFF0C;&#x5219;&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;</p>
+<p>( when-not ( empty?  missing-tasks ) </p>
+<p>( log-warn  &quot;Missing assignment for following tasks: &quot; ( pr-str  missing-tasks )) </p>
+<p>)))))))</p>
+<p>worker-outbound-tasks&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; worker-outbound-tasks&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x83B7;&#x53D6;&#x63A5;&#x6536;&#x6765;&#x81EA;&#x8BE5;worker&#x6D88;&#x606F;&#x7684;&#x7EC4;&#x4EF6;&#x7684;task-id&#x96C6;&#x5408; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p>( defn  worker-outbound-tasks</p>
+<p>&quot;Returns seq of task-ids that receive messages from this worker&quot;</p>
+<p> [  worker  ]</p>
+<p>;; context&#x7ED1;&#x5B9A;backtype.storm.task.WorkerTopologyContext&#x5BF9;&#x8C61;&#xFF0C;worker-context&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( let  [  context ( worker-context  worker ) </p>
+<p> ;; &#x5BF9;&#x5206;&#x5E03;&#x5728;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4E0A;&#x7684;&#x6BCF;&#x4E2A;&#x4EFB;&#x52A1;&#x7684;task_id&#x8C03;&#x7528;&#x533F;&#x540D;&#x51FD;&#x6570;(fn [task-id] … )&#xFF0C;&#x5E76;&#x5BF9;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x8FDB;&#x884C;concat&#x64CD;&#x4F5C;&#xFF0C;components&#x7ED1;&#x5B9A;&#x4E86;&#x63A5;&#x6536;&#x7EC4;&#x4EF6;id&#x7684;&#x96C6;&#x5408;</p>
+<p> components ( mapcat</p>
+<p>( fn  [  task-id  ]</p>
+<p> ;; &#x8C03;&#x7528;context&#x7684;getComponentId&#x65B9;&#x6CD5;&#x83B7;&#x53D6;&#x8BE5;task-id&#x6240;&#x5C5E;&#x7684;&#x7EC4;&#x4EF6;&#xFF08;spout/bolt&#xFF09;&#x7684;&#x540D;&#x79F0;</p>
+<p>( -&gt;&gt; ( .getComponentId  context ( int  task-id )) </p>
+<p> ;; &#x8C03;&#x7528;context&#x7684;getTargets&#x65B9;&#x6CD5;&#xFF0C;&#x83B7;&#x53D6;&#x54EA;&#x4E9B;&#x7EC4;&#x4EF6;&#x63A5;&#x6536;&#x4E86;componentId&#x8F93;&#x51FA;&#x7684;&#x6D88;&#x606F;</p>
+<p>( .getTargets  context ) </p>
+<p> vals</p>
+<p> ;; &#x83B7;&#x53D6;&#x63A5;&#x6536;&#x7EC4;&#x4EF6;id&#x7684;&#x96C6;&#x5408;</p>
+<p>( map  keys ) </p>
+<p>( apply  concat ))) </p>
+<p> ;; &#x83B7;&#x53D6;&#x5206;&#x5E03;&#x5728;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4E0A;&#x7684;task_id&#x96C6;&#x5408;</p>
+<p>( :task-ids  worker  ))]</p>
+<p>( -&gt;  worker</p>
+<p> ;; &#x83B7;&#x53D6;&#x4EFB;&#x52A1;id-&gt;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5F62;&#x5982;&#xFF1A;{1 &quot;boltA&quot;, 2 &quot;boltA&quot;, 3 &quot;boltA&quot;, 4 &quot;boltA&quot;, 5 &quot;boltB&quot;, 6 &quot;boltB&quot;}</p>
+<p> :task-&gt;component</p>
+<p> ;; &#x7ED3;&#x679C;&#x5F62;&#x5982;&#xFF1A;{&quot;boltA&quot; [1 2 3 4], &quot;boltB&quot; [5 6]}</p>
+<p> reverse-map</p>
+<p> ;; &#x8FC7;&#x6EE4;&#x51FA;&quot;&#x952E;&quot;&#x5305;&#x542B;&#x5728;components&#x96C6;&#x5408;&#x4E2D;&#x7684;&#x952E;&#x503C;&#x5BF9;</p>
+<p>( select-keys  components ) </p>
+<p> vals</p>
+<p> flatten</p>
+<p> ;; &#x83B7;&#x53D6;&#x63A5;&#x6536;&#x7EC4;&#x4EF6;&#x6240;&#x6709;&#x4EFB;&#x52A1;&#x7684;id&#x7684;&#x96C6;&#x5408;</p>
+<p>set</p>
+<p>)))</p>
+<p>worker-context&#x51FD;&#x6570;&#xFF1A;</p>
+<p>( defn  worker-context  [  worker  ]</p>
+<p>;; &#x8FD4;&#x56DE;backtype.storm.task.WorkerTopologyContext&#x5BF9;&#x8C61;</p>
+<p>( WorkerTopologyContext. ( :system-topology  worker ) </p>
+<p>( :storm-conf  worker ) </p>
+<p>( :task-&gt;component  worker ) </p>
+<p>( :component-&gt;sorted-tasks  worker ) </p>
+<p>( :component-&gt;stream-&gt;fields  worker ) </p>
+<p>( :storm-id  worker ) </p>
+<p>( supervisor-storm-resources-path</p>
+<p>( supervisor-stormdist-root ( :conf  worker ) ( :storm-id  worker ))) </p>
+<p>( worker-pids-root ( :conf  worker ) ( :worker-id  worker )) </p>
+<p>( :port  worker ) </p>
+<p>( :task-ids  worker ) </p>
+<p>( :default-shared-resources  worker ) </p>
+<p>( :user-shared-resources  worker ) </p>
+<p>))</p>
+<p>getTargets&#x65B9;&#x6CD5;&#xFF1A;</p>
+<p>;; WorkerTopologyContext&#x7C7B;&#x7EE7;&#x627F;GeneralTopologyContext&#x7C7B;&#xFF0C;getTargets&#x65B9;&#x6CD5;&#x662F;GeneralTopologyContext&#x7C7B;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#xFF0C;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x83B7;&#x53D6;&#x54EA;&#x4E9B;&#x7EC4;&#x4EF6;&#x63A5;&#x6536;&#x4E86;componentId&#x8F93;&#x51FA;&#x7684;&#x6D88;&#x606F;</p>
+<p>;; &#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x4E00;&#x4E2A;stream_id-&gt;{receive_component_id-&gt;Grouping}&#x7684;map&#xFF0C;receive_component_id&#x5C31;&#x662F;&#x63A5;&#x6536;&#x7EC4;&#x4EF6;&#x7684;id &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> public  Map&lt;String , Map&lt;String , Grouping&gt;&gt;  getTargets ( String  componentId ) {</p>
+<p> ;; &#x521B;&#x5EFA;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;map&#xFF0C;ret</p>
+<p> Map&lt;String , Map&lt;String , Grouping&gt;&gt;  ret  =  new  HashMap&lt;String , Map&lt;String , Grouping&gt;&gt; (); </p>
+<p> ;; &#x83B7;&#x53D6;&#x8BE5;topology&#x7684;&#x6240;&#x6709;&#x7EC4;&#x4EF6;ids&#xFF0C;&#x5E76;&#x904D;&#x5386;</p>
+<p> for ( String  otherComponentId  :  getComponentIds ()) {</p>
+<p> ;; &#x901A;&#x8FC7;&#x7EC4;&#x4EF6;id&#x83B7;&#x53D6;&#x7EC4;&#x4EF6;&#x7684;ComponentCommon&#x5BF9;&#x8C61;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x83B7;&#x53D6;&#x5176;&#x8F93;&#x5165;&#x4FE1;&#x606F;inputs</p>
+<p> Map&lt;GlobalStreamId , Grouping&gt;  inputs  =  getComponentCommon ( otherComponentId ) .get_inputs (); </p>
+<p> ;; &#x904D;&#x5386;&#x8F93;&#x5165;&#x4FE1;&#x606F;&#xFF0C;GlobalStreamId&#x5BF9;&#x8C61;&#x6709;&#x4E24;&#x4E2A;&#x6210;&#x5458;&#x5C5E;&#x6027;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x6D41;id&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x53D1;&#x9001;&#x8BE5;&#x6D41;&#x7684;&#x7EC4;&#x4EF6;id</p>
+<p> for ( GlobalStreamId  id  :  inputs.keySet ()) {</p>
+<p> ;; &#x5982;&#x679C;&#x8F93;&#x5165;&#x6D41;&#x7684;&#x7EC4;&#x4EF6;id&#x548C;componentId&#x76F8;&#x7B49;&#xFF0C;&#x90A3;&#x4E48;&#x8BF4;&#x660E;&#x8BE5;&#x7EC4;&#x4EF6;&#x63A5;&#x6536;&#x6765;&#x81EA;componentId&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x5219;&#x5C06;&#x5176;&#x6DFB;&#x52A0;&#x5230;ret&#x4E2D;</p>
+<p> if ( id.get_componentId () .equals ( componentId )) {</p>
+<p> Map&lt;String , Grouping&gt;  curr  =  ret.get ( id.get_streamId ()); </p>
+<p> if ( curr==null ) curr  =  new  HashMap&lt;String , Grouping&gt; (); </p>
+<p> curr.put ( otherComponentId , inputs.get ( id )); </p>
+<p> ret.put ( id.get_streamId (), curr ); </p>
+<p> }</p>
+<p> }</p>
+<p> }</p>
+<p> return  ret ; </p>
+<p>}</p>
+<p>refresh-storm-active&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; refresh-storm-active&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;refresh&#x6307;&#x5B9A;worker&#x8FDB;&#x7A0B;&#x7F13;&#x5B58;&#x7684;&#x6240;&#x5C5E;topology&#x7684;&#x6D3B;&#x8DC3;&#x72B6;&#x6001; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p>( defn  refresh-storm-active</p>
+<p>;; &quot;&#x65E0;&#x56DE;&#x8C03;&#x51FD;&#x6570;&quot;&#x7248;&#x672C;&#xFF0C;&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x8C03;&#x7528;&quot;&#x6709;&#x56DE;&#x8C03;&#x51FD;&#x6570;&quot;&#x7248;&#x672C;&#xFF0C;&#x9ED8;&#x8BA4;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x5C06;refresh-storm-active&#x51FD;&#x6570;&#x672C;&#x8EAB;&#x6DFB;&#x52A0;&#x5230;refresh-active-timer&#x5B9A;&#x65F6;&#x5668;</p>
+<p> ([  worker  ]</p>
+<p>( refresh-storm-active  worker ( fn  [  &amp;  ignored  ] ( schedule ( :refresh-active-timer  worker ) 0 ( partial  refresh-storm-active  worker ))))) </p>
+<p>;; &quot;&#x6709;&#x56DE;&#x8C03;&#x51FD;&#x6570;&quot;&#x7248;&#x672C;</p>
+<p> ([  worker  callback  ]</p>
+<p> ;; &#x8C03;&#x7528;StormClusterState&#x5B9E;&#x4F8B;&#x7684;storm-base&#x51FD;&#x6570;&#xFF0C;&#x4ECE;zookeeper&#x7684;&quot;/storms/{storm-id}&quot;&#x8282;&#x70B9;&#x83B7;&#x53D6;&#x8BE5;topology&#x7684;StormBase&#x6570;&#x636E;&#xFF0C;&#x5E76;&#x5C06;&#x56DE;&#x8C03;&#x51FD;&#x6570;callback&#x6CE8;&#x518C;&#x5230;zookeeper&#x7684;&quot;/storms/{storm-id}&quot;&#x8282;&#x70B9;</p>
+<p> ;; &#x8FD9;&#x6837;&#x5F53;&#x8BE5;&#x8282;&#x70B9;&#x6570;&#x636E;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x65F6;&#xFF0C;callback&#x51FD;&#x6570;&#x5C06;&#x88AB;&#x6267;&#x884C;&#xFF0C;&#x5373;&#x5C06;refresh-storm-active&#x51FD;&#x6570;&#x6DFB;&#x52A0;&#x5230;refresh-active-timer&#x5B9A;&#x65F6;&#x5668;&#xFF0C;refresh-active-timer&#x5B9A;&#x65F6;&#x5668;&#x7EBF;&#x7A0B;&#x5C06;&#x4F1A;&#x6267;&#x884C;refresh-storm-active&#x51FD;&#x6570;</p>
+<p>( let  [  base ( .storm-base ( :storm-cluster-state  worker ) ( :storm-id  worker ) callback  )]</p>
+<p> ;; &#x66F4;&#x65B0;worker&#x8FDB;&#x7A0B;&#x7F13;&#x5B58;&#x7684;topology&#x7684;&#x6D3B;&#x8DC3;&#x72B6;&#x6001;</p>
+<p>( reset!</p>
+<p>( :storm-active-atom  worker ) </p>
+<p>( =  :active ( -&gt;  base  :status  :type )) </p>
+<p>))</p>
+<p>))</p>
+<p>launch-receive-thread&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; &#x4E3A;worker&#x8FDB;&#x7A0B;&#x542F;&#x52A8;&#x4E13;&#x6709;&#x63A5;&#x6536;&#x7EBF;&#x7A0B; &#xA0;</p>
+<p>( defn  launch-receive-thread  [  worker  ]</p>
+<p>( log-message  &quot;Launching receive-thread for &quot; ( :assignment-id  worker ) &quot;:&quot; ( :port  worker )) </p>
+<p>;; launch-receive-thread!&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( msg-loader/launch-receive-thread!</p>
+<p> ;; &#x8FDE;&#x63A5;&#x5B9E;&#x4F8B;&#xFF0C;0.9&#x7248;&#x672C;&#x5F00;&#x59CB;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;netty&#xFF0C;backtype.storm.messaging.netty.Context&#x5B9E;&#x4F8B;</p>
+<p>( :mq-context  worker ) </p>
+<p>( :storm-id  worker ) </p>
+<p> ;; &#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x6570;</p>
+<p>( :receiver-thread-count  worker ) </p>
+<p>( :port  worker ) </p>
+<p> ;; &#x83B7;&#x53D6;&#x672C;&#x5730;&#x6D88;&#x606F;&#x4F20;&#x8F93;&#x51FD;&#x6570;transfer-local-fn&#xFF0C;transfer-local-fn&#x51FD;&#x6570;&#x5C06;&#x6D88;&#x606F;&#x53D1;&#x9001;&#x7ED9;&#x5206;&#x5E03;&#x5728;&#x8BE5;worker&#x8FDB;&#x7A0B;&#x4E0A;&#x7684;task&#x76F8;&#x5E94;&#x961F;&#x5217;</p>
+<p>( :transfer-local-fn  worker ) </p>
+<p> ;; &#x83B7;&#x53D6;worker&#x8FDB;&#x7A0B;&#x8F93;&#x5165;&#x961F;&#x5217;&#x5927;&#x5C0F;</p>
+<p>( -&gt;  worker  :storm-conf ( get  TOPOLOGY-RECEIVER-BUFFER-SIZE )) </p>
+<p> :kill-fn ( fn  [  t  ] ( exit-process! 11</p>
+<p>))))</p>
+<p>launch-receive-thread!&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; launch-receive-thread!&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5728;loader.clj&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7528;&#x4E8E;&#x542F;&#x52A8;&#x6307;&#x5B9A;worker&#x8FDB;&#x7A0B;&#x7684;&#x63A5;&#x6536;&#x7EBF;&#x7A0B; &#xA0;</p>
+<p>( defnk  launch-receive-thread!</p>
+<p> [  context  storm-id  receiver-thread-count  port  transfer-local-fn  max-buffer-size</p>
+<p> :daemon  true</p>
+<p> :kill-fn ( fn  [  t  ] ( System/exit  1 )) </p>
+<p> :priority  Thread/NORM_PRIORITY  ]</p>
+<p>;; max-buffer-size&#x7ED1;&#x5B9A;worker&#x8FDB;&#x7A0B;&#x6700;&#x5927;&#x8F93;&#x5165;&#x961F;&#x5217;&#x5927;&#x5C0F;</p>
+<p>( let  [  max-buffer-size ( int  max-buffer-size ) </p>
+<p> ;; &#x8C03;&#x7528;backtype.storm.messaging.netty.Context&#x7684;bind&#x65B9;&#x6CD5;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x7684;&#x8FDE;&#x63A5;&#xFF0C;socket&#x7ED1;&#x5B9A;backtype.storm.messaging.netty.Server&#x5B9E;&#x4F8B;</p>
+<p> socket ( .bind  ^  IContext  context  storm-id  port ) </p>
+<p> ;; thread-count&#x7ED1;&#x5B9A;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x6570;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;1</p>
+<p> thread-count ( if  receiver-thread-count  receiver-thread-count  1 ) </p>
+<p> ;; &#x8C03;&#x7528;mk-receive-threads&#x51FD;&#x6570;&#x521B;&#x5EFA;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#xFF0C;vthreads&#x7ED1;&#x5B9A;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x6240;&#x5BF9;&#x5E94;&#x7684;SmartThread&#x5B9E;&#x4F8B;&#xFF0C;&#x901A;&#x8FC7;&#x8BE5;&#x5B9E;&#x4F8B;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;start&#x3001;join&#x3001;interrupt&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#xFF0C;mk-receive-threads&#x51FD;&#x6570;&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> vthreads ( mk-receive-threads  context  storm-id  port  transfer-local-fn  daemon  kill-fn  priority  socket  max-buffer-size  thread-count  )]</p>
+<p> ;; &#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x533F;&#x540D;&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x533F;&#x540D;&#x51FD;&#x6570;&#x7684;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x901A;&#x8FC7;&#x5411;task_id=-1&#x7684;&#x4EFB;&#x52A1;&#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x7A7A;&#x6D88;&#x606F;&#x6765;&#x5173;&#x95ED;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;</p>
+<p>( fn  []</p>
+<p> ;; &#x5411;&#x672C;&#x5730;&#x7AEF;&#x53E3;port&#x521B;&#x5EFA;&#x8FDE;&#x63A5;</p>
+<p>( let  [  kill-socket ( .connect  ^  IContext  context  storm-id  &quot;localhost&quot;  port  )]</p>
+<p>( log-message  &quot;Shutting down receiving-thread: [&quot;  storm-id  &quot;, &quot;  port  &quot;]&quot; ) </p>
+<p> ;; &#x5411;task_id=-1&#x7684;&#x4EFB;&#x52A1;&#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x7A7A;&#x6D88;&#x606F;&#xFF0C;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x5728;&#x63A5;&#x6536;&#x6D88;&#x606F;&#x65F6;&#xFF0C;&#x9996;&#x5148;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x662F;&#x53D1;&#x9001;&#x7ED9;task_id=-1&#x6D88;&#x606F;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x5219;&#x5173;&#x95ED;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;</p>
+<p>( .send  ^  IConnection  kill-socket</p>
+<p> -1 ( byte-array  []))</p>
+<p> ;; &#x5173;&#x95ED;&#x8FDE;&#x63A5;</p>
+<p>( .close  ^  IConnection  kill-socket ) </p>
+<p>( log-message  &quot;Waiting for receiving-thread:[&quot;  storm-id  &quot;, &quot;  port  &quot;] to die&quot; ) </p>
+<p> ;; &#x7B49;&#x5F85;&#x6240;&#x6709;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x7ED3;&#x675F;</p>
+<p>( for  [  thread-id ( range  thread-count  )]</p>
+<p>( .join ( vthreads  thread-id ))) </p>
+<p>( log-message  &quot;Shutdown receiving-thread: [&quot;  storm-id  &quot;, &quot;  port  &quot;]&quot; ) </p>
+<p>))))</p>
+<p>mk-receive-threads&#x51FD;&#x6570;&#xFF1A;</p>
+<p>;; mk-receive-threads&#x51FD;&#x6570;&#x5FAA;&#x73AF;&#x8C03;&#x7528;mk-receive-thread&#x51FD;&#x6570;&#x521B;&#x5EFA;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#xFF0C;mk-receive-thread&#x8BF7;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( defn-  mk-receive-threads  [  context  storm-id  port  transfer-local-fn  daemon  kill-fn  priority  socket  max-buffer-size  thread-count  ]</p>
+<p>( into  [] ( for  [  thread-id ( range  thread-count  )]</p>
+<p>( mk-receive-thread  context  storm-id  port  transfer-local-fn  daemon  kill-fn  priority  socket  max-buffer-size thread-id</p>
+<p>))))</p>
+<p>mk-receive-thread&#x51FD;&#x6570;&#xFF1A;</p>
+<p>( defn-  mk-receive-thread  [  context  storm-id  port  transfer-local-fn  daemon  kill-fn  priority  socket  max-buffer-size  thread-id  ]</p>
+<p> ;; async-loop&#x51FD;&#x6570;&#x63A5;&#x6536;&#x4E00;&#x4E2A;&quot;&#x51FD;&#x6570;&quot;&#x6216;&quot;&#x51FD;&#x6570;&#x5DE5;&#x5382;&quot;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x751F;&#x6210;&#x4E00;&#x4E2A;java thread&#xFF0C;&#x8FD9;&#x4E2A;java thread&#x4E0D;&#x65AD;&#x5FAA;&#x73AF;&#x6267;&#x884C;&#x8FD9;&#x4E2A;&quot;&#x51FD;&#x6570;&quot;&#x6216;&quot;&#x51FD;&#x6570;&#x5DE5;&#x5382;&quot;&#x751F;&#x4EA7;&#x7684;&#x51FD;&#x6570;&#x3002;async-loop&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x5B9E;&#x73B0;SmartThread&#x534F;&#x8BAE;&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x901A;&#x8FC7;&#x8BE5;&#x5B9E;&#x4F8B;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;start&#x3001;join&#x3001;interrupt&#x63A5;&#x6536;&#x7EBF;&#x7A0B;</p>
+<p>( async-loop</p>
+<p> ;; &#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&quot;&#x51FD;&#x6570;&#x5DE5;&#x5382;&quot;&#xFF0C;&quot;&#x51FD;&#x6570;&#x5DE5;&#x5382;&quot;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x8FD4;&#x56DE;&#x51FD;&#x6570;&#x7684;&#x51FD;&#x6570;</p>
+<p>( fn  []</p>
+<p>( log-message  &quot;Starting receive-thread: [stormId: &quot;  storm-id  &quot;, port: &quot;  port  &quot;, thread-id: &quot;  thread-id  &quot; ]&quot; ) </p>
+<p> ;; &#x751F;&#x6210;&#x7684;java thread&#x7684;run&#x65B9;&#x6CD5;&#x4E0D;&#x65AD;&#x5FAA;&#x73AF;&#x6267;&#x884C;&#x8BE5;&#x51FD;&#x6570;</p>
+<p>( fn  []</p>
+<p> ;; batched&#x662F;&#x4E00;&#x4E2A;ArrayList&#x5BF9;&#x8C61;</p>
+<p>( let  [  batched ( ArrayList. ) </p>
+<p> ;; backtype.storm.messaging.netty.Server&#x7684;recv&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;ArrayList&lt;TaskMessage&gt;&#x7684;Iterator&lt;TaskMessage&gt;&#x3002;&#x5173;&#x4E8E;&#x6D88;&#x606F;&#x7684;&#x5904;&#x7406;&#x6D41;&#x7A0B;&#x4F1A;&#x5728;&#x4EE5;&#x540E;&#x6587;&#x7AE0;&#x4E2D;&#x5177;&#x4F53;&#x5206;&#x6790;</p>
+<p> ^  Iterator  iter ( .recv  ^  IConnection  socket  0  thread-id ) </p>
+<p> closed ( atom  false  )]</p>
+<p> ;; &#x5F53;iter&#x4E0D;&#x4E3A;nil&#xFF0C;&#x904D;&#x5386;iter</p>
+<p>( when  iter</p>
+<p>( while ( and ( not  @  closed ) ( .hasNext  iter )) </p>
+<p> ;; packet&#x7ED1;&#x5B9A;&#x4E00;&#x4E2A;TaskMessage&#x5BF9;&#x8C61;&#xFF0C;TaskMessage&#x6709;&#x4E24;&#x4E2A;&#x6210;&#x5458;&#x5C5E;&#x6027;task&#x548C;message&#xFF0C;task&#x8868;&#x793A;&#x5904;&#x7406;&#x8BE5;&#x6D88;&#x606F;&#x7684;&#x4EFB;&#x52A1;id&#xFF0C;message&#x8868;&#x793A;&#x6D88;&#x606F;&#x7684;byte&#x6570;&#x7EC4;</p>
+<p>( let  [  packet ( .next  iter ) </p>
+<p> ;; task&#x7ED1;&#x5B9A;&#x63A5;&#x6536;&#x8BE5;&#x6D88;&#x606F;&#x7684;&#x4EFB;&#x52A1;id</p>
+<p> task ( if  packet ( .task  ^  TaskMessage  packet )) </p>
+<p> ;; message&#x7ED1;&#x5B9A;&#x6D88;&#x606F;&#x7684;byte&#x6570;&#x7EC4;</p>
+<p> message ( if  packet ( .message  ^  TaskMessage  packet  ))]</p>
+<p> ;; &#x5982;&#x679C;task=-1&#xFF0C;&#x5219;&#x5173;&#x95ED;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;</p>
+<p>( if ( =  task  -1 ) </p>
+<p>( do ( log-message  &quot;Receiving-thread:[&quot;  storm-id  &quot;, &quot;  port  &quot;] received shutdown notice&quot; ) </p>
+<p>( .close  socket ) </p>
+<p>( reset!  closed  true )) </p>
+<p> ;; &#x5426;&#x5219;&#x5C06;&#x6570;&#x7EC4;[task message]&#x6DFB;&#x52A0;&#x5230;batched</p>
+<p>( when  packet ( .add  batched  [  task  message  ]))))))</p>
+<p> ;; &#x5982;&#x679C;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x5173;&#x95ED;&#x6807;&#x8BC6;closed&#x503C;&#x4E3A;false&#xFF0C;&#x5219;&#x8C03;&#x7528;transfer-local-fn&#x51FD;&#x6570;&#x5C06;&#x63A5;&#x6536;&#x5230;&#x7684;&#x4E00;&#x6279;&#x6D88;&#x606F;&#x53D1;&#x9001;&#x7ED9;task&#x5BF9;&#x5E94;&#x7684;&#x63A5;&#x6536;&#x961F;&#x5217;</p>
+<p>( when ( not  @  closed ) </p>
+<p>( do</p>
+<p>( if ( &gt; ( .size  batched ) 0 ) </p>
+<p>( transfer-local-fn  batched )) </p>
+<p> ;; 0&#x8868;&#x793A;&#x51FD;&#x6570;&#x6267;&#x884C;&#x5B8C;&#x4E00;&#x6B21;&#x4E0D;&#x9700;&#x8981;sleep&#xFF0C;&#x76F4;&#x63A5;&#x8FDB;&#x884C;&#x4E0B;&#x4E00;&#x6B21;&#x6267;&#x884C;</p>
+<p> 0 ))))) </p>
+<p> ;; &#x8868;&#x793A;&#x53C2;&#x6570;&#x662F;&#x4E00;&#x4E2A;&quot;&#x51FD;&#x6570;&#x5DE5;&#x5382;&quot;</p>
+<p> :factory?  true</p>
+<p> ;; daemon&#x7684;&#x503C;&#x4E3A;true&#xFF0C;&#x6240;&#x4EE5;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x662F;&#x4E00;&#x4E2A;&#x5B88;&#x62A4;&#x7EBF;&#x7A0B;</p>
+<p> :daemon  daemon</p>
+<p> ;; &#x6307;&#x5B9A;kill&#x51FD;&#x6570;</p>
+<p> :kill-fn  kill-fn</p>
+<p> ;; &#x6307;&#x5B9A;java thread&#x7684;&#x4F18;&#x5148;&#x7EA7;</p>
+<p> :priority  priority</p>
+<p> ;; &#x6307;&#x5B9A;&#x63A5;&#x6536;&#x7EBF;&#x7A0B;&#x7684;&#x540D;&#x79F0;&#x4E3A;&quot;worker-receiver-thread-&quot;+thread-id</p>
+<p> :thread-name ( str  &quot;worker-receiver-thread-&quot; thread-id</p>
+<p>)))</p>
+<p>&#x4EE5;&#x4E0A;&#x5C31;&#x662F;supervisor&#x542F;&#x52A8;worker&#x7684;&#x6E90;&#x7801;&#x5206;&#x6790;&#xFF0C;&#x542F;&#x52A8;worker&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x6D89;&#x53CA;&#x4E86;executor&#x7684;&#x76F8;&#x5173;&#x5185;&#x5BB9;&#xFF0C;&#x8FD9;&#x91CC;&#x6CA1;&#x6709;&#x8BE6;&#x7EC6;&#x5206;&#x6790;&#xFF0C;&#x4F1A;&#x5728;&#x4EE5;&#x540E;&#x8FDB;&#x884C;&#x5206;&#x6790;&#x3002;&#x540C;&#x65F6;&#x4E5F;&#x6D89;&#x53CA;&#x4E86;&#x8DDF;&#x6D88;&#x606F;&#x961F;&#x5217;&#x76F8;&#x5173;&#x7684;&#x5185;&#x5BB9;&#x4E5F;&#x4F1A;&#x5728;&#x4EE5;&#x540E;&#x8FDB;&#x884C;&#x8BE6;&#x7EC6;&#x5206;&#x6790;&#x3002; </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Socket/">Socket</a><a href="/tags/ZooKeeper/">ZooKeeper</a><a href="/tags/源码分析/">源码分析</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/0fc45aa/" title="下一代云计算平台Apache Mesos安装部署 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  下一代云计算平台Apache Mesos安装部署 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/0fdfaad/"  title="Consul和ZooKeeper、Doozerd、Etcd的区别 -">
+ <strong>下一篇：</strong><br/> 
+ <span>Consul和ZooKeeper、Doozerd、Etcd的区别 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#(_HashMap-_(_merge_(_into_{}_%1_)_%2_))"><span class="toc-number">1.</span> <span class="toc-text">( HashMap. ( merge ( into  {}  %1 ) %2 ))</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#(_HashMap-_(_apply_dissoc_(_into_{}_%1_)_%_&_))"><span class="toc-number">2.</span> <span class="toc-text">( HashMap. ( apply dissoc ( into  {}  %1 ) %  & ))</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

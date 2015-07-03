@@ -1,0 +1,690 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>MemcachedClient 使用说明 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7;&amp;#x4ECB;&amp;#x7ECD;&amp;#x4E86;Memcached&amp;#x57FA;&amp;#x672C;&amp;#x4F7F;&amp;#x7528;&amp;#x65B9;&amp;#x6CD5;&amp;#x300A;Memcached&amp;#x4F7F;&amp;#x7528;&amp;#x624B;&amp;#x518C;&amp;#x300B;&amp;#xFF0C;&amp;#x4E0B;&amp;#x9762;&amp;#x4ECB;&amp;#x7EC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MemcachedClient 使用说明 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/273d920/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7;&amp;#x4ECB;&amp;#x7ECD;&amp;#x4E86;Memcached&amp;#x57FA;&amp;#x672C;&amp;#x4F7F;&amp;#x7528;&amp;#x65B9;&amp;#x6CD5;&amp;#x300A;Memcached&amp;#x4F7F;&amp;#x7528;&amp;#x624B;&amp;#x518C;&amp;#x300B;&amp;#xFF0C;&amp;#x4E0B;&amp;#x9762;&amp;#x4ECB;&amp;#x7EC">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/273c809.png">
+<meta property="og:updated_time" content="2015-07-03T14:09:43.746Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MemcachedClient 使用说明 -">
+<meta name="twitter:description" content="&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7;&amp;#x4ECB;&amp;#x7ECD;&amp;#x4E86;Memcached&amp;#x57FA;&amp;#x672C;&amp;#x4F7F;&amp;#x7528;&amp;#x65B9;&amp;#x6CD5;&amp;#x300A;Memcached&amp;#x4F7F;&amp;#x7528;&amp;#x624B;&amp;#x518C;&amp;#x300B;&amp;#xFF0C;&amp;#x4E0B;&amp;#x9762;&amp;#x4ECB;&amp;#x7EC">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/273d920/" title="MemcachedClient 使用说明 -" itemprop="url">MemcachedClient 使用说明 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:43.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p> &#x4E0A;&#x4E00;&#x7BC7;&#x4ECB;&#x7ECD;&#x4E86;Memcached&#x57FA;&#x672C;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x300A;Memcached&#x4F7F;&#x7528;&#x624B;&#x518C;&#x300B;&#xFF0C;&#x4E0B;&#x9762;&#x4ECB;&#x7ECD;java&#x5982;&#x4F55;&#x64CD;&#x4F5C;memcached&#x3002;&#x4F7F;&#x7528;&#x7684;&#x662F;java_memcached-release_2.6.6&#x3002; </p>
+<p>&#x4E00;&#x3001;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;</p>
+<p>&#x65B0;&#x5EFA;&#x9879;&#x76EE;&#xFF0C;&#x6DFB;&#x52A0;&#x76F8;&#x5173;jar&#x5305;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/273c809.png" alt=""></p>
+<p>&#x76F4;&#x63A5;&#x4E0A;&#x4EE3;&#x7801;&#x4E86;&#xFF0C;&#x6CE8;&#x91CA;&#x5199;&#x7684;&#x5F88;&#x8BE6;&#x7EC6;&#xFF0C;&#x4E0D;&#x7528;&#x591A;&#x8BF4;&#x4E86;&#x554A;&#x3002;</p>
+<pre><code>package www.xufei.com;
+
+import com.danga.<span class="class">MemCached</span>.<span class="class">MemCachedClient</span>;
+import com.danga.<span class="class">MemCached</span>.<span class="class">SockIOPool</span>;
+
+public class <span class="class">MemcachedDemo</span> {
+
+    public static void main(<span class="class">String</span>[] args) {
+        //memcached&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;
+        <span class="class">String</span>[] servers = {&amp;quot;<span class="number">127.0</span>.0.1:<span class="number">11211</span>&amp;quot;,&amp;quot;<span class="number">192.168</span>.1.3:<span class="number">11211</span>&amp;quot;};
+        /**
+         * &amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6C60</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x7528</span>;cache&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6743</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x548C</span>;server&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4F4D</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x5E94</span>;
+         */
+        <span class="class">Integer</span>[] weights = {<span class="number">1</span>,<span class="number">2</span>};
+        /**
+         * &amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7BA1</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8BAF</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6C60</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5DE5</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x5305</span>;&amp;<span class="symbol">#x62EC</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8BAF</span>;&amp;<span class="symbol">#x3001</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x4F4D</span>;&amp;<span class="symbol">#x3001</span>;hash&amp;<span class="symbol">#x7801</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x7531</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x3002</span>;
+         * &amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6C60</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5355</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x3002</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x8F7D</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;getInstance( <span class="class">String</span> poolName )&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E2A</span>;poolName&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x9020</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">SockIOPool</span>&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x3002</span>;
+         * &amp;<span class="symbol">#x7F3A</span>;&amp;<span class="symbol">#x7701</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x9020</span>;&amp;<span class="symbol">#x7684</span>;poolName&amp;<span class="symbol">#x662F</span>;default&amp;<span class="symbol">#x3002</span>;
+         */
+        <span class="class">SockIOPool</span> pool = <span class="class">SockIOPool</span>.getInstance();
+        //&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;memcached&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;
+        pool.setServers(servers);
+        //&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;memcached&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x6743</span>;&amp;<span class="symbol">#x91CD</span>;
+        pool.setWeights(weights);
+        //&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x5BB9</span>;&amp;<span class="symbol">#x9519</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="class">TRUE</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;socket&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x5E8F</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="class">NULL</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x662F</span>;<span class="keyword">true</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x8BAE</span>;&amp;<span class="symbol">#x4FDD</span>;&amp;<span class="symbol">#x6301</span>;&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;
+        pool.setFailover( <span class="keyword">true</span> );
+        //&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E2A</span>;cache&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6570</span>;
+        pool.setInitConn( <span class="number">10</span> ); 
+        //&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5C11</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6570</span>;
+        pool.setMinConn( <span class="number">5</span> );
+        //&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6570</span>;
+        pool.setMaxConn( <span class="number">250</span> );
+        /**
+         * &amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6C60</span>;&amp;<span class="symbol">#x7EF4</span>;&amp;<span class="symbol">#x62A4</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7761</span>;&amp;<span class="symbol">#x7720</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;
+         * &amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7EF4</span>;&amp;<span class="symbol">#x62A4</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;
+         * &amp;<span class="symbol">#x7EF4</span>;&amp;<span class="symbol">#x62A4</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;log&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;socket&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8FD0</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x51B5</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x6D4B</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x53CA</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x95F2</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x63A7</span>;&amp;<span class="symbol">#x5236</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x95ED</span>;&amp;<span class="symbol">#x3002</span>;
+         */
+        pool.setMaintSleep( <span class="number">30</span> );
+        /**
+         * &amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;<span class="class">Nagle</span>&amp;<span class="symbol">#x7B97</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8BAF</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x91CF</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x6BD4</span>;&amp;<span class="symbol">#x8F83</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x76F8</span>;&amp;<span class="symbol">#x5BF9</span>;<span class="class">TCP</span>&amp;<span class="symbol">#x63A7</span>;&amp;<span class="symbol">#x5236</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#x800C</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x6C42</span>;&amp;<span class="symbol">#x54CD</span>;&amp;<span class="symbol">#x5E94</span>;&amp;<span class="symbol">#x53CA</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="keyword">false</span>&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x662F</span>;<span class="keyword">true</span>&amp;<span class="symbol">#xFF09</span>;
+         */
+        pool.setNagle( <span class="keyword">false</span> );
+        /**
+         * &amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;socket&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x503C</span>;
+         */
+        pool.setSocketTO( <span class="number">3000</span> );
+        /**
+         * &amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x5FC3</span>;&amp;<span class="symbol">#x8DF3</span>;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x6D4B</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x3002</span>;
+         * &amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="keyword">true</span>&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x4FE1</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x6548</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x6D4B</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x9020</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x4FE1</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x500D</span>;&amp;<span class="symbol">#x589E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x7F51</span>;&amp;<span class="symbol">#x7EDC</span>;&amp;<span class="symbol">#x8D1F</span>;&amp;<span class="symbol">#x8F7D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x5E94</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x5BF9</span>;<span class="class">HA</span>&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x6C42</span>;&amp;<span class="symbol">#x6BD4</span>;&amp;<span class="symbol">#x8F83</span>;&amp;<span class="symbol">#x9AD8</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x573A</span>;&amp;<span class="symbol">#x5408</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="class">TRUE</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x662F</span>;<span class="keyword">false</span>&amp;<span class="symbol">#x3002</span>;
+         */
+        pool.setAliveCheck( <span class="keyword">true</span> );
+        /**
+         * &amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x5B8C</span>;pool&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;pool&amp;<span class="symbol">#x3002</span>;
+         */
+        pool.initialize();
+
+        /**
+         * &amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;memcached&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5BF9</span>;memcached&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x91CC</span>;&amp;<span class="symbol">#x9762</span>;
+         */
+        <span class="class">MemCachedClient</span> memCachedClient = new <span class="class">MemCachedClient</span>();
+        /**
+         * &amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;username&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x5218</span>;&amp;<span class="symbol">#x5FB7</span>;&amp;<span class="symbol">#x534E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">true</span>
+         */
+        boolean success = memCachedClient.set(&amp;quot;username&amp;quot;, &amp;quot;&amp;<span class="symbol">#x5218</span>;&amp;<span class="symbol">#x5FB7</span>;&amp;<span class="symbol">#x534E</span>;&amp;quot;);
+        <span class="class">System</span>.out.println(success);
+
+        /**
+         * &amp;<span class="symbol">#x4ECE</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;key&amp;<span class="symbol">#x4E3A</span>;username&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;
+         */
+        <span class="class">Object</span> o = memCachedClient.get(&amp;quot;username&amp;quot;);
+        <span class="class">System</span>.out.println(o);
+
+        /**
+         * &amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x4E49</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;p&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;<span class="symbol">#xFF0C</span>;<span class="class">Persion</span>&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x5FC5</span>;&amp;<span class="symbol">#x987B</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x73B0</span>;<span class="class">Serializable</span>&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x53E3</span>;
+         */
+        <span class="class">Persion</span> p = new <span class="class">Persion</span>();
+        p.setId(&amp;quot;<span class="number">1</span>&amp;quot;);
+        p.setName(&amp;quot;&amp;<span class="symbol">#x5468</span>;&amp;<span class="symbol">#x6770</span>;&amp;<span class="symbol">#x4F26</span>;&amp;quot;);
+
+        /**
+         * &amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;p&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;
+         */
+        memCachedClient.set(&amp;quot;p1&amp;quot;, p);
+
+        /**
+         * &amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7684</span>;p&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;
+         */
+        <span class="class">Persion</span> p1 = (<span class="class">Persion</span>) memCachedClient.get(&amp;quot;p1&amp;quot;);
+        <span class="class">System</span>.out.println(p1.getName());
+
+        /**
+         * &amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;add&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;key&amp;<span class="symbol">#x4E3A</span>;p1&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x503C</span>;<span class="number">123</span>&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x4E3A</span>;p1&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x4E86</span>;
+         */
+        memCachedClient.add(&amp;quot;p1&amp;quot;, <span class="number">123</span>);//&amp;<span class="symbol">#x9519</span>;&amp;<span class="symbol">#x8BEF</span>;&amp;<span class="symbol">#xFF01</span>;&amp;<span class="symbol">#x65E0</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;p1&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;
+
+        <span class="class">System</span>.out.println(memCachedClient.get(&amp;quot;p1&amp;quot;));//&amp;<span class="symbol">#x8FD8</span>;&amp;<span class="symbol">#x662F</span>;person&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;
+
+        /**
+         * &amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;set&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;p1
+         */
+        memCachedClient.set(&amp;quot;p1&amp;quot;, <span class="number">123</span>);
+        <span class="class">System</span>.out.println(memCachedClient.get(&amp;quot;p1&amp;quot;));//&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;<span class="number">123</span>
+
+        /**
+         * &amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;replace&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;p1
+         */
+        memCachedClient.replace(&amp;quot;p1&amp;quot;, <span class="number">456</span>);
+        <span class="class">System</span>.out.println(memCachedClient.get(&amp;quot;p1&amp;quot;));//&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;<span class="number">456</span>
+
+        /**
+         * &amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;replace&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;p2,&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x542B</span>;&amp;<span class="symbol">#x6709</span>;key&amp;<span class="symbol">#x4E3A</span>;p2&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x65E0</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;
+         */
+        memCachedClient.replace(&amp;quot;p2&amp;quot;, <span class="number">456</span>);
+        <span class="class">System</span>.out.println(memCachedClient.get(&amp;quot;p2&amp;quot;));//&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;null
+
+        /**
+         * &amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;key&amp;<span class="symbol">#x4E3A</span>;p1&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;
+         */
+        memCachedClient.delete(&amp;quot;p1&amp;quot;);
+        <span class="class">System</span>.out.println(memCachedClient.get(&amp;quot;p1&amp;quot;));//&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;null
+    }
+}
+</code></pre><p>&#x4E8C;&#x3001;&#x5E38;&#x7528;&#x65B9;&#x6CD5;&#x8BF4;&#x660E;</p>
+<p>1 <strong>&#x3001;SockIOPool&#xA0;&#x662F;socket&#xA0;&#x8FDE;&#x63A5;&#x6C60;&#x7C7B;</strong></p>
+<p>setServers(String[] servers)&#xA0;&#xFF1A;&#x8BBE;&#x7F6E;&#x670D;&#x52A1;&#x5668;&#x4FE1;&#x606F;&#x6570;&#x7EC4;&#xFF1B;</p>
+<p>setWeights(String[] weights)&#xA0;&#xFF1A;&#x8BBE;&#x7F6E;&#x670D;&#x52A1;&#x5668;&#x6743;&#x91CD;&#x6570;&#x7EC4;&#xFF1B;</p>
+<p>setInitConn(int count)&#xA0;&#xFF1A;&#x8BBE;&#x7F6E;&#x521D;&#x59CB;&#x8FDE;&#x63A5;&#x6570;&#xFF1B;</p>
+<p>setMinConn(int minConn)&#xA0;&#xFF1A;&#x8BBE;&#x7F6E;&#x6700;&#x5C0F;&#x8FDE;&#x63A5;&#x6570;&#xFF1B;</p>
+<p>setMaxConn(int maxConn)&#xA0;&#xFF1A;&#x8BBE;&#x7F6E;&#x6700;&#x5927;&#x8FDE;&#x63A5;&#x6570;&#xFF1B;</p>
+<p>setMaxIdle(long arg0)&#xA0;&#xFF1A;&#x8BBE;&#x7F6E;&#x6700;&#x5927;&#x5904;&#x7406;&#x65F6;&#x95F4;&#xFF1B;</p>
+<p>setMaintSleep(long arg0)&#xA0;&#xFF1A;&#x4E3B;&#x7EBF;&#x7A0B;&#x7684;&#x7761;&#x7720;&#x65F6;&#x95F4;&#xFF1B;</p>
+<p>initialize()&#xA0;&#xFF1A;&#x521D;&#x59CB;&#x5316;&#x8FDE;&#x63A5;&#x6C60;&#x3002;</p>
+<p>2 <strong>&#x3001;MemCachedClient&#xA0;&#x7C7B;&#x53CA;&#x5176;&#x5E38;&#x7528;&#x65B9;&#x6CD5;</strong></p>
+<p>add(String key, Object value)&#xA0;&#xFF1A;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x952E;&#x503C;&#x5BF9;&#x5230;&#x7F13;&#x5B58;&#x4E2D;&#xFF1B;</p>
+<p>add(String key, Object value,Date expires)&#xA0;&#xFF1A;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x952E;&#x503C;&#x5BF9;&#x5230;&#x7F13;&#x5B58;&#x4E2D;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x5176;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF1B;</p>
+<p>set(String key, Object value)&#xA0;&#xFF1A;&#x5728;&#x7F13;&#x5B58;&#x4E2D;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x952E;&#x7684;&#x503C;&#xFF1B;</p>
+<p>set(String key, Object value, Date expires)&#xA0;&#xFF1A;&#x5728;&#x7F13;&#x5B58;&#x4E2D;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x952E;&#x7684;&#x503C;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x5176;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF1B;</p>
+<p>get(String key)&#xA0;&#xFF1A;&#x83B7;&#x5F97;&#x67D0;&#x4E2A;&#x952E;&#x7684;&#x503C;&#x3002;</p>
+<p>incr(String key)&#xA0;&#xFF1A;&#x4E3A;&#x67D0;&#x4E2A;&#x952E;&#x4E0A;&#x7684;&#x503C;&#x6267;&#x884C;+1&#xA0;&#x64CD;&#x4F5C;&#xFF1B;</p>
+<p>decr(String key)&#xA0;&#xFF1A;&#x4E3A;&#x67D0;&#x4E2A;&#x952E;&#x4E0A;&#x7684;&#x503C;&#x6267;&#x884C;-1&#xA0;&#x64CD;&#x4F5C;&#xFF1B;</p>
+<p>replace(String key, String value)&#xA0;&#xFF1A;&#x5C06;&#x67D0;&#x4E2A;&#x952E;&#x7684;&#x503C;&#x66FF;&#x6362;&#x6210;&#x65B0;&#x7684;&#x503C;&#xFF1B;</p>
+<p>replace(String key, String value, Date expires)&#xA0;&#xFF1A;&#x5C06;&#x67D0;&#x4E2A;&#x952E;&#x7684;&#x503C;&#x66FF;&#x6362;&#x6210;&#x65B0;&#x7684;&#x503C;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x5176;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x3002;</p>
+<p>delete(String key)&#xFF1A;&#x5220;&#x9664;&#x7F13;&#x5B58;&#x4E2D;&#x4E00;&#x4E2A;key&#x7684;&#x503C;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Memcached/">Memcached</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/274a8a5/" title="Linux c 开发 - Memcached源码分析之消息回应（3） -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Linux c 开发 - Memcached源码分析之消息回应（3） -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/2737507/"  title="Linux下安装MemCached笔记 -">
+ <strong>下一篇：</strong><br/> 
+ <span>Linux下安装MemCached笔记 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

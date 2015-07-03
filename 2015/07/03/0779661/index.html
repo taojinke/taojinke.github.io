@@ -1,0 +1,892 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>ZooKeeper源码分析（二） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="/**
+   &amp;amp;#x8FD9;&amp;amp;#x4E2A;&amp;amp;#x7C7B;&amp;amp;#x7BA1;&amp;amp;#x7406;&amp;amp;#x5BA2;&amp;amp;#x6237;&amp;amp;#x7AEF;&amp;amp;#x7684;socket I/O&amp;amp;#x3002;ClientCnxn&amp;amp;#x7EF4;&amp;amp;#x62A4;&amp;amp;#x4E00;&amp;amp;#x4E2A;&amp;amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZooKeeper源码分析（二） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/0779661/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="/**
+   &amp;amp;#x8FD9;&amp;amp;#x4E2A;&amp;amp;#x7C7B;&amp;amp;#x7BA1;&amp;amp;#x7406;&amp;amp;#x5BA2;&amp;amp;#x6237;&amp;amp;#x7AEF;&amp;amp;#x7684;socket I/O&amp;amp;#x3002;ClientCnxn&amp;amp;#x7EF4;&amp;amp;#x62A4;&amp;amp;#x4E00;&amp;amp;#x4E2A;&amp;amp;">
+<meta property="og:updated_time" content="2015-07-03T14:08:50.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ZooKeeper源码分析（二） -">
+<meta name="twitter:description" content="/**
+   &amp;amp;#x8FD9;&amp;amp;#x4E2A;&amp;amp;#x7C7B;&amp;amp;#x7BA1;&amp;amp;#x7406;&amp;amp;#x5BA2;&amp;amp;#x6237;&amp;amp;#x7AEF;&amp;amp;#x7684;socket I/O&amp;amp;#x3002;ClientCnxn&amp;amp;#x7EF4;&amp;amp;#x62A4;&amp;amp;#x4E00;&amp;amp;#x4E2A;&amp;amp;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/0779661/" title="ZooKeeper源码分析（二） -" itemprop="url">ZooKeeper源码分析（二） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:50.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<pre><code>/**
+   &amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x7BA1</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x7684</span>;socket <span class="class">I</span>/<span class="class">O</span>&amp;<span class="symbol">#x3002</span>;<span class="class">ClientCnxn</span>&amp;<span class="symbol">#x7EF4</span>;&amp;<span class="symbol">#x62A4</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x6839</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x900F</span>;&amp;<span class="symbol">#x660E</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5207</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;
+ *
+ */
+public class <span class="class">ClientCnxn</span> {
+    private static final <span class="class">Logger</span> <span class="class">LOG</span> = <span class="class">LoggerFactory</span>.getLogger(<span class="class">ClientCnxn</span>.class);
+    private static final <span class="class">String</span> <span class="class">ZK_SASL_CLIENT_USERNAME</span> =
+        &amp;quot;zookeeper.sasl.client.username&amp;quot;;
+    /** &amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x590D</span>;&amp;<span class="symbol">#x4F4D</span>;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x89C6</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x5141</span>;&amp;<span class="symbol">#x8BB8</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x73AF</span>;&amp;<span class="symbol">#x5883</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x91CF</span>;zookeeper.disableAutoWatchReset=<span class="keyword">true</span>&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x95ED</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x4E3A</span>;
+     */
+    private static boolean disableAutoWatchReset;
+    static {
+        disableAutoWatchReset =
+            <span class="class">Boolean</span>.getBoolean(&amp;quot;zookeeper.disableAutoWatchReset&amp;quot;);
+        if (<span class="class">LOG</span>.isDebugEnabled()) {
+            <span class="class">LOG</span>.debug(&amp;quot;zookeeper.disableAutoWatchReset is &amp;quot;
+                    + disableAutoWatchReset);
+        }
+    }
+    static class <span class="class">AuthData</span> {
+        <span class="class">AuthData</span>(<span class="class">String</span> scheme, byte data[]) {
+            this.scheme = scheme;
+            this.data = data;
+        }
+        <span class="class">String</span> scheme;
+        byte data[];
+    }
+    private final <span class="class">CopyOnWriteArraySet</span>&amp;lt;<span class="class">AuthData</span>&amp;gt; authInfo = new <span class="class">CopyOnWriteArraySet</span>&amp;lt;<span class="class">AuthData</span>&amp;gt;();
+    /**
+     *&amp;<span class="symbol">#x54EA</span>;&amp;<span class="symbol">#x4E9B</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x6B63</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x54CD</span>;&amp;<span class="symbol">#x5E94</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5305</span>;
+     */
+    private final <span class="class">LinkedList</span>&amp;lt;<span class="class">Packet</span>&amp;gt; pendingQueue = new <span class="class">LinkedList</span>&amp;lt;<span class="class">Packet</span>&amp;gt;();
+    /**
+     * &amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x4E9B</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5305</span>;
+     */
+    private final <span class="class">LinkedList</span>&amp;lt;<span class="class">Packet</span>&amp;gt; outgoingQueue = new <span class="class">LinkedList</span>&amp;lt;<span class="class">Packet</span>&amp;gt;();
+    // &amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;
+    private int connectTimeout;
+    /**
+     *&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x4E0E</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x534F</span>;&amp;<span class="symbol">#x5546</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x6BEB</span>;&amp;<span class="symbol">#x79D2</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x5355</span>;&amp;<span class="symbol">#x4F4D</span>;&amp;<span class="symbol">#x3002</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x771F</span>;&amp;<span class="symbol">#x6B63</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x800C</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x8BF7</span>;&amp;<span class="symbol">#x6C42</span>;
+     */
+    private volatile int negotiatedSessionTimeout;
+    // &amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;
+    private int readTimeout;
+    // &amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;
+    private final int sessionTimeout;
+    // <span class="class">ZooKeeper</span>
+    private final <span class="class">ZooKeeper</span> zooKeeper;
+    //&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x89C6</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x7BA1</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x5668</span>;
+    private final <span class="class">ClientWatchManager</span> watcher;
+    //&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;<span class="class">ID</span>
+    private long sessionId;
+    //&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x5BC6</span>;&amp;<span class="symbol">#x94A5</span>;
+    private byte sessionPasswd[] = new byte[<span class="number">16</span>];
+    // &amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x8BFB</span>;
+    private boolean readOnly;
+    final <span class="class">String</span> chrootPath;
+   // &amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;
+    final <span class="class">SendThread</span> sendThread;
+    // &amp;<span class="symbol">#x4E8B</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;
+    final <span class="class">EventThread</span> eventThread;
+    /**
+     * <span class="class">Set</span> to <span class="keyword">true</span> when close is called. <span class="class">Latches</span> the connection such that we
+     * don&amp;apos;t attempt to re-connect to the server if in the middle of closing the
+     * connection (client sends session disconnect to server as part of close
+     * operation)
+     */
+    private volatile boolean closing = <span class="keyword">false</span>;
+    /**
+      &amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x7EC4</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">Zk</span>&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x673A</span>;
+     */
+    private final <span class="class">HostProvider</span> hostProvider;
+    /**
+     * &amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7ACB</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="keyword">true</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x518D</span>;&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x3002</span>;
+       &amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;sessionId&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x6A21</span>;&amp;<span class="symbol">#x5F0F</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x573A</span>;&amp;<span class="symbol">#x666F</span>;.
+       &amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x4ECE</span>;&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5047</span>;&amp;<span class="symbol">#x7684</span>;sessionId,&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;sessionId&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x4ED6</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x65E0</span>;&amp;<span class="symbol">#x6548</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x3002</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x4EE5</span>;
+       &amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5BFB</span>;&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5B83</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x63E1</span>;&amp;<span class="symbol">#x624B</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;<span class="number">0</span>&amp;<span class="symbol">#x4EE3</span>;&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x5047</span>;&amp;<span class="symbol">#x7684</span>;sessionId&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7ACB</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x6548</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;
+       &amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5C5E</span>;&amp;<span class="symbol">#x6027</span>;&amp;<span class="symbol">#x662F</span>;<span class="keyword">false</span>(&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x610F</span>;&amp;<span class="symbol">#x5473</span>;&amp;<span class="symbol">#x7740</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;)&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x793A</span>;&amp;<span class="symbol">#x975E</span>;<span class="number">0</span>&amp;<span class="symbol">#x7684</span>;sessionId&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5047</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x6548</span>;&amp;<span class="symbol">#x7684</span>; 
+     */
+    volatile boolean seenRwServerBefore = <span class="keyword">false</span>;
+    public <span class="class">ZooKeeperSaslClient</span> zooKeeperSaslClient;
+    public long getSessionId() {
+        return sessionId;
+    }
+    public byte[] getSessionPasswd() {
+        return sessionPasswd;
+    }
+    public int getSessionTimeout() {
+        return negotiatedSessionTimeout;
+    }
+    @<span class="class">Override</span>
+    public <span class="class">String</span> toString() {
+        <span class="class">StringBuilder</span> sb = new <span class="class">StringBuilder</span>();
+        <span class="class">SocketAddress</span> local = sendThread.getClientCnxnSocket().getLocalSocketAddress();
+        <span class="class">SocketAddress</span> remote = sendThread.getClientCnxnSocket().getRemoteSocketAddress();
+        sb
+            .append(&amp;quot;<span class="method">sessionid:</span><span class="number">0</span>x&amp;quot;).append(<span class="class">Long</span>.toHexString(getSessionId()))
+            .append(&amp;quot; <span class="method">local:</span>&amp;quot;).append(local)
+            .append(&amp;quot; <span class="method">remoteserver:</span>&amp;quot;).append(remote)
+            .append(&amp;quot; <span class="method">lastZxid:</span>&amp;quot;).append(lastZxid)
+            .append(&amp;quot; <span class="method">xid:</span>&amp;quot;).append(xid)
+            .append(&amp;quot; <span class="method">sent:</span>&amp;quot;).append(sendThread.getClientCnxnSocket().getSentCount())
+            .append(&amp;quot; <span class="method">recv:</span>&amp;quot;).append(sendThread.getClientCnxnSocket().getRecvCount())
+            .append(&amp;quot; <span class="method">queuedpkts:</span>&amp;quot;).append(outgoingQueue.size())
+            .append(&amp;quot; <span class="method">pendingresp:</span>&amp;quot;).append(pendingQueue.size())
+            .append(&amp;quot; <span class="method">queuedevents:</span>&amp;quot;).append(eventThread.waitingEvents.size());
+        return sb.toString();
+    }
+    /**
+     * &amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;<span class="symbol">#x3002</span>;&amp;<span class="symbol">#x771F</span>;&amp;<span class="symbol">#x6B63</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7F51</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#x624D</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7ACB</span>;&amp;<span class="symbol">#x3002</span>;start()&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x6267</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x9020</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;
+     */
+    public <span class="class">ClientCnxn</span>(<span class="class">String</span> chrootPath, <span class="class">HostProvider</span> hostProvider, int sessionTimeout, <span class="class">ZooKeeper</span> zooKeeper,
+            <span class="class">ClientWatchManager</span> watcher, <span class="class">ClientCnxnSocket</span> clientCnxnSocket, boolean canBeReadOnly)
+            throws <span class="class">IOException</span> {
+        this(chrootPath, hostProvider, sessionTimeout, zooKeeper, watcher,
+             clientCnxnSocket, <span class="number">0</span>, new byte[<span class="number">16</span>], canBeReadOnly);
+    }
+    public <span class="class">ClientCnxn</span>(<span class="class">String</span> chrootPath, <span class="class">HostProvider</span> hostProvider, int sessionTimeout, <span class="class">ZooKeeper</span> zooKeeper,
+            <span class="class">ClientWatchManager</span> watcher, <span class="class">ClientCnxnSocket</span> clientCnxnSocket,
+            long sessionId, byte[] sessionPasswd, boolean canBeReadOnly) {
+        this.zooKeeper = zooKeeper;
+        this.watcher = watcher;
+        this.sessionId = sessionId;
+        this.sessionPasswd = sessionPasswd;
+        this.sessionTimeout = sessionTimeout;
+        this.hostProvider = hostProvider;
+        this.chrootPath = chrootPath;
+        connectTimeout = sessionTimeout / hostProvider.size();
+        // &amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x7684</span>;<span class="number">2</span>/<span class="number">3</span>
+        readTimeout = sessionTimeout * <span class="number">2</span> / <span class="number">3</span>;
+        readOnly = canBeReadOnly;
+        //&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;
+        sendThread = new <span class="class">SendThread</span>(clientCnxnSocket);
+        eventThread = new <span class="class">EventThread</span>();
+    }
+    public static boolean getDisableAutoResetWatch() {
+        return disableAutoWatchReset;
+    }
+    public static void setDisableAutoResetWatch(boolean b) {
+        disableAutoWatchReset = b;
+    }
+    //&amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x4E8B</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;
+    public void start() {
+        sendThread.start();
+        eventThread.start();
+    }
+    private <span class="class">Object</span> eventOfDeath = new <span class="class">Object</span>();
+    private final static <span class="class">UncaughtExceptionHandler</span> uncaughtExceptionHandler = new <span class="class">UncaughtExceptionHandler</span>() {
+        @<span class="class">Override</span>
+        public void uncaughtException(<span class="class">Thread</span> t, <span class="class">Throwable</span> e) {
+            <span class="class">LOG</span>.error(&amp;quot;from &amp;quot; + t.getName(), e);
+        }
+    };
+    private static class <span class="class">WatcherSetEventPair</span> {
+        private final <span class="class">Set</span>&amp;lt;<span class="class">Watcher</span>&amp;gt; watchers;
+        private final <span class="class">WatchedEvent</span> event;
+        public <span class="class">WatcherSetEventPair</span>(<span class="class">Set</span>&amp;lt;<span class="class">Watcher</span>&amp;gt; watchers, <span class="class">WatchedEvent</span> event) {
+            this.watchers = watchers;
+            this.event = event;
+        }
+    }
+    /**
+     * <span class="class">Guard</span> against creating &amp;quot;-<span class="class">EventThread</span>-<span class="class">EventThread</span>-<span class="class">EventThread</span>-...&amp;quot; thread
+     * names when <span class="class">ZooKeeper</span> object is being created from within a watcher.
+     * <span class="class">See</span> <span class="class">ZOOKEEPER</span>-<span class="number">795</span> for details.
+     */
+    private static <span class="class">String</span> makeThreadName(<span class="class">String</span> suffix) {
+        <span class="class">String</span> name = <span class="class">Thread</span>.currentThread().getName().
+            replaceAll(&amp;quot;-<span class="class">EventThread</span>&amp;quot;, &amp;quot;&amp;quot;);
+        return name + suffix;
+    }
+    private void finishPacket(<span class="class">Packet</span> p) {
+        if (p.watchRegistration != null) {
+            p.watchRegistration.register(p.replyHeader.getErr());
+        }
+        if (p.cb == null) {
+            synchronized (p) {
+                p.finished = <span class="keyword">true</span>;
+                p.notifyAll();
+            }
+        } else {
+            p.finished = <span class="keyword">true</span>;
+            eventThread.queuePacket(p);
+        }
+    }
+    private void conLossPacket(<span class="class">Packet</span> p) {
+        if (p.replyHeader == null) {
+            return;
+        }
+        switch (state) {
+        case <span class="class">AUTH_FAILED</span>:
+            p.replyHeader.setErr(<span class="class">KeeperException</span>.<span class="class">Code</span>.<span class="class">AUTHFAILED</span>.intValue());
+            break;
+        case <span class="class">CLOSED</span>:
+            p.replyHeader.setErr(<span class="class">KeeperException</span>.<span class="class">Code</span>.<span class="class">SESSIONEXPIRED</span>.intValue());
+            break;
+        <span class="method">default:</span>
+            p.replyHeader.setErr(<span class="class">KeeperException</span>.<span class="class">Code</span>.<span class="class">CONNECTIONLOSS</span>.intValue());
+        }
+        finishPacket(p);
+    }
+    private volatile long lastZxid;
+    public long getLastZxid() {
+        return lastZxid;
+    }
+    static class <span class="class">EndOfStreamException</span> extends <span class="class">IOException</span> {
+        private static final long serialVersionUID = -<span class="number">5438877188796231422</span>L;
+        public <span class="class">EndOfStreamException</span>(<span class="class">String</span> msg) {
+            <span class="keyword">super</span>(msg);
+        }
+        @<span class="class">Override</span>
+        public <span class="class">String</span> toString() {
+            return &amp;quot;<span class="class">EndOfStreamException</span>: &amp;quot; + getMessage();
+        }
+    }
+    private static class <span class="class">SessionTimeoutException</span> extends <span class="class">IOException</span> {
+        private static final long serialVersionUID = <span class="number">824482094072071178</span>L;
+        public <span class="class">SessionTimeoutException</span>(<span class="class">String</span> msg) {
+            <span class="keyword">super</span>(msg);
+        }
+    }
+    private static class <span class="class">SessionExpiredException</span> extends <span class="class">IOException</span> {
+        private static final long serialVersionUID = -<span class="number">1388816932076193249</span>L;
+        public <span class="class">SessionExpiredException</span>(<span class="class">String</span> msg) {
+            <span class="keyword">super</span>(msg);
+        }
+    }
+    private static class <span class="class">RWServerFoundException</span> extends <span class="class">IOException</span> {
+        private static final long serialVersionUID = <span class="number">90431199887158758</span>L;
+        public <span class="class">RWServerFoundException</span>(<span class="class">String</span> msg) {
+            <span class="keyword">super</span>(msg);
+        }
+    }
+    public static final int packetLen = <span class="class">Integer</span>.getInteger(&amp;quot;jute.maxbuffer&amp;quot;,
+            <span class="number">4096</span> * <span class="number">1024</span>);
+    /**
+     * <span class="class">Shutdown</span> the send/event threads. <span class="class">This</span> method should not be called
+     * directly - rather it should be called as part of close operation. <span class="class">This</span>
+     * method is primarily here to allow the tests to verify disconnection
+     * behavior.
+     */
+    public void disconnect() {
+        if (<span class="class">LOG</span>.isDebugEnabled()) {
+            <span class="class">LOG</span>.debug(&amp;quot;<span class="class">Disconnecting</span> client for <span class="method">session:</span> <span class="number">0</span>x&amp;quot;
+                      + <span class="class">Long</span>.toHexString(getSessionId()));
+        }
+        sendThread.close();
+        eventThread.queueEventOfDeath();
+    }
+    /**
+     * <span class="class">Close</span> the connection, which includes; send session disconnect to the
+     * server, shutdown the send/event threads.
+     *
+     * @throws <span class="class">IOException</span>
+     */
+    public void close() throws <span class="class">IOException</span> {
+        if (<span class="class">LOG</span>.isDebugEnabled()) {
+            <span class="class">LOG</span>.debug(&amp;quot;<span class="class">Closing</span> client for <span class="method">session:</span> <span class="number">0</span>x&amp;quot;
+                      + <span class="class">Long</span>.toHexString(getSessionId()));
+        }
+        try {
+            <span class="class">RequestHeader</span> h = new <span class="class">RequestHeader</span>();
+            h.setType(<span class="class">ZooDefs</span>.<span class="class">OpCode</span>.closeSession);
+            submitRequest(h, null, null, null);
+        } catch (<span class="class">InterruptedException</span> e) {
+            // ignore, close the send/event threads
+        } finally {
+            disconnect();
+        }
+    }
+    private int xid = <span class="number">1</span>;
+    private volatile <span class="class">States</span> state = <span class="class">States</span>.<span class="class">NOT_CONNECTED</span>;
+    /*
+     * getXid() is called externally by <span class="class">ClientCnxnNIO</span>::doIO() when packets are sent from the outgoingQueue to
+     * the server. <span class="class">Thus</span>, getXid() must be public.
+     */
+    synchronized public int getXid() {
+        return xid++;
+    }
+    public <span class="class">ReplyHeader</span> submitRequest(<span class="class">RequestHeader</span> h, <span class="class">Record</span> request,
+            <span class="class">Record</span> response, <span class="class">WatchRegistration</span> watchRegistration)
+            throws <span class="class">InterruptedException</span> {
+        <span class="class">ReplyHeader</span> r = new <span class="class">ReplyHeader</span>();
+        <span class="class">Packet</span> packet = queuePacket(h, r, request, response, null, null, null,
+                    null, watchRegistration);
+        synchronized (packet) {
+            while (!packet.finished) {
+                packet.wait();
+            }
+        }
+        return r;
+    }
+    public void enableWrite() {
+        sendThread.getClientCnxnSocket().enableWrite();
+    }
+    public void sendPacket(<span class="class">Record</span> request, <span class="class">Record</span> response, <span class="class">AsyncCallback</span> cb, int opCode)
+    throws <span class="class">IOException</span> {
+        // <span class="class">Generate</span> <span class="class">Xid</span> now because it will be sent immediately,
+        // by call to sendThread.sendPacket() below.
+        int xid = getXid();
+        <span class="class">RequestHeader</span> h = new <span class="class">RequestHeader</span>();
+        h.setXid(xid);
+        h.setType(opCode);
+        <span class="class">ReplyHeader</span> r = new <span class="class">ReplyHeader</span>();
+        r.setXid(xid);
+        <span class="class">Packet</span> p = new <span class="class">Packet</span>(h, r, request, response, null, <span class="keyword">false</span>);
+        p.cb = cb;
+        sendThread.sendPacket(p);
+    }
+    //
+    <span class="class">Packet</span> queuePacket(<span class="class">RequestHeader</span> h, <span class="class">ReplyHeader</span> r, <span class="class">Record</span> request,
+            <span class="class">Record</span> response, <span class="class">AsyncCallback</span> cb, <span class="class">String</span> clientPath,
+            <span class="class">String</span> serverPath, <span class="class">Object</span> ctx, <span class="class">WatchRegistration</span> watchRegistration)
+    {
+        <span class="class">Packet</span> packet = null;
+        synchronized (outgoingQueue) {
+            packet = new <span class="class">Packet</span>(h, r, request, response, watchRegistration);
+            packet.cb = cb;
+            packet.ctx = ctx;
+            packet.clientPath = clientPath;
+            packet.serverPath = serverPath;
+            if (!state.isAlive() || closing) {
+                conLossPacket(packet);
+            } else {
+                // <span class="class">If</span> the client is asking to close the session then
+                // mark as closing
+                if (h.getType() == <span class="class">OpCode</span>.closeSession) {
+                    closing = <span class="keyword">true</span>;
+                }
+                outgoingQueue.add(packet);
+            }
+        }
+        sendThread.getClientCnxnSocket().wakeupCnxn();
+        return packet;
+    }
+    public void addAuthInfo(<span class="class">String</span> scheme, byte auth[]) {
+        if (!state.isAlive()) {
+            return;
+        }
+        authInfo.add(new <span class="class">AuthData</span>(scheme, auth));
+        queuePacket(new <span class="class">RequestHeader</span>(-<span class="number">4</span>, <span class="class">OpCode</span>.auth), null,
+                new <span class="class">AuthPacket</span>(<span class="number">0</span>, scheme, auth), null, null, null, null,
+                null, null);
+    }
+    <span class="class">States</span> getState() {
+        return state;
+    }
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Net/">.Net</a><a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/07708c7/" title="初识zookeeper（一） -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  初识zookeeper（一） -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/077c9a6/"  title="OpenStack中tooz介绍及实践 -">
+ <strong>下一篇：</strong><br/> 
+ <span>OpenStack中tooz介绍及实践 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

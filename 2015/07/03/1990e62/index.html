@@ -1,0 +1,622 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>【maven项目】Spring MVC 中配置Memcache - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x9879;&amp;#x76EE;&amp;#x4E0A;&amp;#x8981;&amp;#x6C42;&amp;#x4F7F;&amp;#x7528;Memcache&amp;#x5BF9;&amp;#x6570;&amp;#x636E;&amp;#x8FDB;&amp;#x884C;&amp;#x7F13;&amp;#x5B58;&amp;#x64CD;&amp;#x4F5C;&amp;#xFF0C;&amp;#x56E0;&amp;#x4E3A;&amp;#x4E4B;&amp;#x524D;&amp;#x7684;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【maven项目】Spring MVC 中配置Memcache -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/1990e62/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x9879;&amp;#x76EE;&amp;#x4E0A;&amp;#x8981;&amp;#x6C42;&amp;#x4F7F;&amp;#x7528;Memcache&amp;#x5BF9;&amp;#x6570;&amp;#x636E;&amp;#x8FDB;&amp;#x884C;&amp;#x7F13;&amp;#x5B58;&amp;#x64CD;&amp;#x4F5C;&amp;#xFF0C;&amp;#x56E0;&amp;#x4E3A;&amp;#x4E4B;&amp;#x524D;&amp;#x7684;">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/199022d.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:09:20.801Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【maven项目】Spring MVC 中配置Memcache -">
+<meta name="twitter:description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x9879;&amp;#x76EE;&amp;#x4E0A;&amp;#x8981;&amp;#x6C42;&amp;#x4F7F;&amp;#x7528;Memcache&amp;#x5BF9;&amp;#x6570;&amp;#x636E;&amp;#x8FDB;&amp;#x884C;&amp;#x7F13;&amp;#x5B58;&amp;#x64CD;&amp;#x4F5C;&amp;#xFF0C;&amp;#x56E0;&amp;#x4E3A;&amp;#x4E4B;&amp;#x524D;&amp;#x7684;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/1990e62/" title="【maven项目】Spring MVC 中配置Memcache -" itemprop="url">【maven项目】Spring MVC 中配置Memcache -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:20.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x4ECA;&#x5929;&#x9879;&#x76EE;&#x4E0A;&#x8981;&#x6C42;&#x4F7F;&#x7528;Memcache&#x5BF9;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x7F13;&#x5B58;&#x64CD;&#x4F5C;&#xFF0C;&#x56E0;&#x4E3A;&#x4E4B;&#x524D;&#x7684;&#x9879;&#x76EE;&#x4E2D;&#x7528;&#x8FC7;Memcache&#xFF0C;&#x6240;&#x4EE5;&#x6574;&#x7406;&#x4E0B;&#x6765;&#x3002;</p>
+<p>&#x7B2C;&#x4E00;&#x6B65;&#xFF1A;&#x5F15;&#x5165;jar&#xFF1B;&#x5728;pom&#x6587;&#x4EF6;&#x4E2D;&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> memcache <span class="subst">--&amp;</span><span class="literal">gt</span>;
+              <span class="subst">&amp;</span><span class="literal">lt</span>;dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;groupId<span class="subst">&amp;</span><span class="literal">gt</span>;com<span class="built_in">.</span>whalin<span class="subst">&amp;</span><span class="literal">lt</span>;/groupId<span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;Memcached<span class="attribute">-Java</span><span class="attribute">-Client</span><span class="subst">&amp;</span><span class="literal">lt</span>;/artifactId<span class="subst">&amp;</span><span class="literal">gt</span>;
+            <span class="subst">&amp;</span><span class="literal">lt</span>;version<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="number">3.0</span><span class="built_in">.0</span><span class="subst">&amp;</span><span class="literal">lt</span>;/version<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/dependency<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x7B2C;&#x4E8C;&#x6B65;&#xFF1A;&#x914D;&#x7F6E;Memcache&#x76F8;&#x5173;&#x5C5E;&#x6027;&#xFF08;init.properties&#xFF09;</p>
+<pre><code>#######################&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;<span class="class">Memcached</span>&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;#######################
+#&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;
+memcached.server=&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;<span class="method">ip:</span><span class="number">11211</span>  #&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x53E3</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">11211</span>
+#&amp;<span class="symbol">#x5BB9</span>;&amp;<span class="symbol">#x9519</span>;
+memcached.failOver=<span class="keyword">true</span>
+#&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x521D</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6570</span>;
+memcached.initConn=<span class="number">20</span>
+#&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6570</span>;
+memcached.minConn=<span class="number">10</span>
+#&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6570</span>;
+memcached.maxConn=<span class="number">250</span>
+#&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6C60</span>;&amp;<span class="symbol">#x7EF4</span>;&amp;<span class="symbol">#x62A4</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7761</span>;&amp;<span class="symbol">#x7720</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;
+memcached.maintSleep=<span class="number">3000</span>
+#&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;<span class="class">Nagle</span>&amp;<span class="symbol">#x7B97</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#xFF08</span>;<span class="class">Socket</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x662F</span>;<span class="keyword">true</span>&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x51B2</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7ACB</span>;&amp;<span class="symbol">#x5373</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x53BB</span>;
+memcached.nagle=<span class="keyword">false</span>
+#&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;socket&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;
+memcached.socketTO=<span class="number">3000</span>
+#&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x5FC3</span>;&amp;<span class="symbol">#x8DF3</span>;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x6D4B</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x5173</span>;
+memcached.aliveCheck=<span class="keyword">true</span>
+#######################&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;<span class="class">Memcached</span>&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;#######################
+</code></pre><p>&#x7B2C;&#x4E09;&#x6B65;&#xFF1A;&#x52A0;&#x8F7D;Memcache&#x5C5E;&#x6027;&#xFF08;memcached-content.xml&#xFF09;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">?</span><span class="built_in">xml</span> version<span class="subst">=&amp;</span>quot;<span class="number">1.0</span><span class="subst">&amp;</span>quot; encoding<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">?&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;beans xmlns<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/beans&amp;quot;</span>
+    xmlns:context<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/context&amp;quot; xmlns:tx=&amp;quot;http://www.springframework.org/schema/tx&amp;quot;</span>
+    xmlns:xsi<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.w3.org/2001/XMLSchema-instance&amp;quot; xmlns:dubbo=&amp;quot;http://code.alibabatech.com/schema/dubbo&amp;quot;</span>
+    xmlns:aop<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/aop&amp;quot; xmlns:task=&amp;quot;http://www.springframework.org/schema/task&amp;quot;</span>
+    xsi:schemaLocation<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/beans </span>
+    http:<span class="comment">//www.springframework.org/schema/beans/spring-beans-3.2.xsd</span>
+    http:<span class="comment">//www.springframework.org/schema/context </span>
+    http:<span class="comment">//www.springframework.org/schema/context/spring-context-3.2.xsd</span>
+    http:<span class="comment">//www.springframework.org/schema/tx </span>
+    http:<span class="comment">//www.springframework.org/schema/tx/spring-tx-3.2.xsd</span>
+    http:<span class="comment">//code.alibabatech.com/schema/dubbo    </span>
+    http:<span class="comment">//code.alibabatech.com/schema/dubbo/dubbo.xsd</span>
+    http:<span class="comment">//www.springframework.org/schema/aop</span>
+    http:<span class="comment">//www.springframework.org/schema/aop/spring-aop-3.2.xsd</span>
+    http:<span class="comment">//www.springframework.org/schema/task  </span>
+    http:<span class="comment">//www.springframework.org/schema/task/spring-task-3.1.xsd&amp;quot;&amp;gt;</span>
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> Memcached<span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;  
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean id<span class="subst">=&amp;</span>quot;memcachedPool<span class="subst">&amp;</span>quot; class<span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>whalin<span class="built_in">.</span>MemCached<span class="built_in">.</span>SockIOPool<span class="subst">&amp;</span>quot;  
+        factory<span class="attribute">-method</span><span class="subst">=&amp;</span>quot;getInstance<span class="subst">&amp;</span>quot; init<span class="attribute">-method</span><span class="subst">=&amp;</span>quot;initialize<span class="subst">&amp;</span>quot; destroy<span class="attribute">-method</span><span class="subst">=&amp;</span>quot;shutDown<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;servers<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="built_in">list</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+                <span class="subst">&amp;</span><span class="literal">lt</span>;value<span class="subst">&amp;</span><span class="literal">gt</span>;${memcached<span class="built_in">.</span>server}<span class="subst">&amp;</span><span class="literal">lt</span>;/value<span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;/<span class="built_in">list</span><span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;initConn<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;value<span class="subst">&amp;</span><span class="literal">gt</span>;${memcached<span class="built_in">.</span>initConn}<span class="subst">&amp;</span><span class="literal">lt</span>;/value<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;minConn<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;value<span class="subst">&amp;</span><span class="literal">gt</span>;${memcached<span class="built_in">.</span>minConn}<span class="subst">&amp;</span><span class="literal">lt</span>;/value<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;maxConn<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;value<span class="subst">&amp;</span><span class="literal">gt</span>;${memcached<span class="built_in">.</span>maxConn}<span class="subst">&amp;</span><span class="literal">lt</span>;/value<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;maintSleep<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;value<span class="subst">&amp;</span><span class="literal">gt</span>;${memcached<span class="built_in">.</span>maintSleep}<span class="subst">&amp;</span><span class="literal">lt</span>;/value<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;nagle<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;value<span class="subst">&amp;</span><span class="literal">gt</span>;${memcached<span class="built_in">.</span>nagle}<span class="subst">&amp;</span><span class="literal">lt</span>;/value<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;socketTO<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;  
+            <span class="subst">&amp;</span><span class="literal">lt</span>;value<span class="subst">&amp;</span><span class="literal">gt</span>;${memcached<span class="built_in">.</span>socketTO}<span class="subst">&amp;</span><span class="literal">lt</span>;/value<span class="subst">&amp;</span><span class="literal">gt</span>;  
+        <span class="subst">&amp;</span><span class="literal">lt</span>;/property<span class="subst">&amp;</span><span class="literal">gt</span>;  
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/beans<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x7B2C;&#x56DB;&#x6B65;&#xFF1A;&#x5F15;&#x5165;&#x5230;spring&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#xFF08;applicationContext.xml&#xFF09; </p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x53EA</span>;<span class="subst">&amp;</span><span class="variable">#x9700</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x52A0</span>;<span class="subst">&amp;</span><span class="variable">#x5165</span>;<span class="subst">&amp;</span><span class="variable">#x8FD9</span>;<span class="subst">&amp;</span><span class="variable">#x4E00</span>;<span class="subst">&amp;</span><span class="variable">#x53E5</span>;<span class="subst">&amp;</span><span class="variable">#x5C31</span>;<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">import</span> resource<span class="subst">=&amp;</span>quot;memcached<span class="attribute">-content</span><span class="built_in">.</span><span class="built_in">xml</span><span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>ok&#xFF0C;&#x5927;&#x529F;&#x544A;&#x6210;&#xFF01;&#x81F3;&#x4E8E;Memcache&#x5E94;&#x7528;&#xFF0C; &#x53EF;&#x4EE5;&#x7F51;&#x4E0A;&#x641C;&#x4EE5;&#x4E0B;&#xFF0C;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x7EAF;&#x7684;exe&#x6587;&#x4EF6;&#xFF0C; &#x7528;&#x7684;&#x65F6;&#x5019;&#x6253;&#x5F00;&#x5C31;&#x884C;&#xFF0C;&#x5982;&#x56FE;&#xFF0C; &#x6253;&#x5F00;&#x540E;&#x5C31;&#x662F;&#x8FD9;&#x4E2A;&#x6837;&#x5B50;<br><img src="http://taojinke.github.io/img/20150703/199022d.jpg" alt=""></p>
+<p>&#x8981;&#x60F3;&#x770B;&#x662F;&#x5426;&#x8FDE;&#x63A5;&#x6210;&#x529F;&#x7684;&#x8BDD;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;cmd&#x4E2D;telnet &#x670D;&#x52A1;&#x5668;&#x5730;&#x5740; 11211 &#xFF08;&#x670D;&#x52A1;&#x5668;&#x5730;&#x5740;&#x4E0E;&#x7AEF;&#x53E3;&#x53F7;&#x4E4B;&#x95F4;&#x662F;&#x4E00;&#x4E2A;&#x7A7A;&#x683C;&#xFF0C; &#x4E0D;&#x8981;&#x8F93;&#x5165;&#x5192;&#x53F7;&#xFF09; </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Memcached/">Memcached</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/199eefe/" title="谈OSSIM服务器内存开销问题 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  谈OSSIM服务器内存开销问题 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/198d3ca/"  title="linux(centos 6.4)下安装php memcache服务端及其客户端(详细教程) -">
+ <strong>下一篇：</strong><br/> 
+ <span>linux(centos 6.4)下安装php memcache服务端及其客户端(详细教程) -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,1299 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Zookeeper实现简单的分布式RPC框架 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x5728;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E2D;&amp;#xFF0C;&amp;#x4E3A;&amp;#x4E86;&amp;#x63D0;&amp;#x4F9B;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7684;&amp;#x53EF;&amp;#x7528;&amp;#x6027;&amp;#x548C;&amp;#x7A33;&amp;#x5B9A;&amp;#x6027;&amp;#x4E00;&amp;#x822C;&amp;#x90FD;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper实现简单的分布式RPC框架 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/0c9b072/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x5728;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E2D;&amp;#xFF0C;&amp;#x4E3A;&amp;#x4E86;&amp;#x63D0;&amp;#x4F9B;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7684;&amp;#x53EF;&amp;#x7528;&amp;#x6027;&amp;#x548C;&amp;#x7A33;&amp;#x5B9A;&amp;#x6027;&amp;#x4E00;&amp;#x822C;&amp;#x90FD;">
+<meta property="og:updated_time" content="2015-07-03T14:08:59.099Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zookeeper实现简单的分布式RPC框架 -">
+<meta name="twitter:description" content="&amp;#x5728;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E2D;&amp;#xFF0C;&amp;#x4E3A;&amp;#x4E86;&amp;#x63D0;&amp;#x4F9B;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7684;&amp;#x53EF;&amp;#x7528;&amp;#x6027;&amp;#x548C;&amp;#x7A33;&amp;#x5B9A;&amp;#x6027;&amp;#x4E00;&amp;#x822C;&amp;#x90FD;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/0c9b072/" title="Zookeeper实现简单的分布式RPC框架 -" itemprop="url">Zookeeper实现简单的分布式RPC框架 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:59.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x4E3A;&#x4E86;&#x63D0;&#x4F9B;&#x7CFB;&#x7EDF;&#x7684;&#x53EF;&#x7528;&#x6027;&#x548C;&#x7A33;&#x5B9A;&#x6027;&#x4E00;&#x822C;&#x90FD;&#x4F1A;&#x5C06;&#x670D;&#x52A1;&#x90E8;&#x7F72;&#x5728;&#x591A;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#xFF0C;&#x4E3A;&#x4E86;&#x5B9E;&#x73B0;&#x81EA;&#x52A8;&#x6CE8;&#x518C;&#x81EA;&#x52A8;&#x53D1;&#x73B0;&#x8FDC;&#x7A0B;&#x670D;&#x52A1;&#xFF0C;&#x901A;&#x8FC7;ZK,&#x548C;ProtocolBuffe&#xA0;&#x4EE5;&#x53CA;Nettyr&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x5206;&#x5E03;&#x5F0F;RPC&#x6846;&#x67B6;&#x3002;</p>
+<p>&#x9996;&#x5148;&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E00;&#x4E0B;Zookeeper&#x548C;ProtocalBuffer</p>
+<p>Zookeeper&#xA0;&#x662F;&#x7531;Apache Handoop&#x7684;&#x5B50;&#x9879;&#x76EE;&#x53D1;&#x5C55;&#x800C;&#x6765;&#x3002;&#x662F;&#x77E5;&#x540D;&#x7684;&#x4E92;&#x8054;&#x7F51;&#x516C;&#x53F8;Yahoo&#x521B;&#x5EFA;&#x7684;&#x3002;Zookeeper&#x4E3A;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x63D0;&#x4F9B;&#x4E86;&#x9AD8;&#x6548;&#x4E14;&#x53EF;&#x9760;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x670D;&#x52A1;&#x3002;</p>
+<p>ProtocolBuffer&#x662F;&#x7528;&#x4E8E;&#x7ED3;&#x6784;&#x5316;&#x6570;&#x636E;&#x4E32;&#x884C;&#x5316;&#x7684;&#x7075;&#x6D3B;&#x3001;&#x9AD8;&#x6548;&#x3001;&#x81EA;&#x52A8;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x6709;&#x5982;XML&#xFF0C;&#x4E0D;&#x8FC7;&#x5B83;&#x66F4;&#x5C0F;&#x3001;&#x66F4;&#x5FEB;&#x3001;&#x4E5F;&#x66F4;&#x7B80;&#x5355;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x81EA;&#x5DF1;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x7136;&#x540E;&#x4F7F;&#x7528;&#x4EE3;&#x7801;&#x751F;&#x6210;&#x5668;&#x751F;&#x6210;&#x7684;&#x4EE3;&#x7801;&#x6765;&#x8BFB;&#x5199;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;&#x4F60;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x5728;&#x65E0;&#x9700;&#x91CD;&#x65B0;&#x90E8;&#x7F72;&#x7A0B;&#x5E8F;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x66F4;&#x65B0;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;</p>
+<p>RPC&#xA0;&#x5C31;&#x662F;Remote Procedure Call Protocol&#xA0;&#x8FDC;&#x7A0B;&#x8FC7;&#x7A0B;&#x8C03;&#x7528;&#x534F;&#x8BAE;&#x3002;</p>
+<p>JAVA&#x5BF9;&#x8C61;&#x8981;&#x80FD;&#x591F;&#x5728;&#x7F51;&#x7EDC;&#x4E0A;&#x4F20;&#x8F93;&#x90FD;&#x5FC5;&#x987B;&#x5E8F;&#x5217;&#x5316;&#xFF0C;&#x4F7F;&#x7528;&#x9AD8;&#x6548;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x6846;&#x67B6;ProtocolBuffer&#x5B9E;&#x73B0;&#x5E8F;&#x5217;&#x5316;&#x3002;</p>
+<pre><code><span class="comment">/**
+ * &amp;#x5E8F;&amp;#x5217;&amp;#x5316;&amp;#x5DE5;&amp;#x5177;
+ * <span class="doctag">@author</span> zhangwei_david
+ * <span class="doctag">@version</span> $Id: SerializationUtil.java, v 0.1 2014&amp;#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;5:41:35 zhangwei_david Exp $
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializationUtil</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> Map&amp;lt;Class&amp;lt;?&amp;gt;, Schema&amp;lt;?&amp;gt;&amp;gt; cachedSchema = <span class="keyword">new</span> ConcurrentHashMap&amp;lt;Class&amp;lt;?&amp;gt;, Schema&amp;lt;?&amp;gt;&amp;gt;();
+    <span class="keyword">private</span> <span class="keyword">static</span> Objenesis                objenesis    = <span class="keyword">new</span> ObjenesisStd(<span class="keyword">true</span>);
+    <span class="keyword">private</span> <span class="keyword">static</span> &amp;lt;T&amp;gt; Schema&amp;lt;T&amp;gt; getSchema(Class&amp;lt;T&amp;gt; clazz) {
+        <span class="annotation">@SuppressWarnings</span>(&amp;quot;unchecked&amp;quot;)
+        Schema&amp;lt;T&amp;gt; schema = (Schema&amp;lt;T&amp;gt;) cachedSchema.get(clazz);
+        <span class="keyword">if</span> (schema == <span class="keyword">null</span>) {
+            schema = RuntimeSchema.getSchema(clazz);
+            <span class="keyword">if</span> (schema != <span class="keyword">null</span>) {
+                cachedSchema.put(clazz, schema);
+            }
+        }
+        <span class="keyword">return</span> schema;
+    }
+    <span class="comment">/**
+     * &amp;#x5E8F;&amp;#x5217;&amp;#x5316;
+     *
+     * <span class="doctag">@param</span> obj
+     * <span class="doctag">@return</span>
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> &amp;lt;T&amp;gt; <span class="keyword">byte</span>[] serializer(T obj) {
+        <span class="annotation">@SuppressWarnings</span>(&amp;quot;unchecked&amp;quot;)
+        Class&amp;lt;T&amp;gt; clazz = (Class&amp;lt;T&amp;gt;) obj.getClass();
+        LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
+        <span class="keyword">try</span> {
+            Schema&amp;lt;T&amp;gt; schema = getSchema(clazz);
+            <span class="function"><span class="keyword">return</span> ProtostuffIOUtil.<span class="title">toByteArray</span><span class="params">(obj, schema, buffer)</span></span>;
+        } <span class="keyword">catch</span> (Exception e) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(e.getMessage(), e);
+        } <span class="keyword">finally</span> {
+            buffer.clear();
+        }
+    }
+    <span class="comment">/**
+     * &amp;#x53CD;&amp;#x5E8F;&amp;#x5217;&amp;#x5316;
+     *
+     * <span class="doctag">@param</span> data
+     * <span class="doctag">@param</span> clazz
+     * <span class="doctag">@return</span>
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> &amp;lt;T&amp;gt; <span class="function">T <span class="title">deserializer</span><span class="params">(<span class="keyword">byte</span>[] data, Class&amp;lt;T&amp;gt; clazz)</span> </span>{
+        <span class="keyword">try</span> {
+            T obj = objenesis.newInstance(clazz);
+            Schema&amp;lt;T&amp;gt; schema = getSchema(clazz);
+            ProtostuffIOUtil.mergeFrom(data, obj, schema);
+            <span class="keyword">return</span> obj;
+        } <span class="keyword">catch</span> (Exception e) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(e.getMessage(), e);
+        }
+    }
+}
+</code></pre><p>&#x8FDC;&#x7A0B;&#x8C03;&#x7528;&#x7684;&#x8BF7;&#x6C42;&#x5BF9;&#x8C61;</p>
+<pre><code>/**
+ *<span class="type">Rpc</span> &amp;<span class="comment">#x8BF7;&amp;#x6C42;&amp;#x7684;&amp;#x4E3B;&amp;#x4F53;</span>
+ * @author zhangwei_david
+ * @version $<span class="type">Id</span>: <span class="type">SrRequest</span>.java, v <span class="number">0</span>.<span class="number">1</span> <span class="number">2014</span>&amp;<span class="comment">#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;6:06:25 zhangwei_david Exp $</span>
+ */
+public class <span class="type">RpcRequest</span> {
+    // &amp;<span class="comment">#x8BF7;&amp;#x6C42;Id</span>
+    private <span class="type">String</span>     requestId;
+    // &amp;<span class="comment">#x8FDC;&amp;#x7A0B;&amp;#x8C03;&amp;#x7528;&amp;#x7C7B;&amp;#x540D;&amp;#x79F0;</span>
+    private <span class="type">String</span>     className;
+    //&amp;<span class="comment">#x8FDC;&amp;#x7A0B;&amp;#x8C03;&amp;#x7528;&amp;#x65B9;&amp;#x6CD5;&amp;#x540D;&amp;#x79F0;</span>
+    private <span class="type">String</span>     methodName;
+    // &amp;<span class="comment">#x53C2;&amp;#x6570;&amp;#x7C7B;&amp;#x578B;</span>
+    private <span class="type">Class</span>&amp;lt;?&amp;gt;[] parameterTypes;
+    // &amp;<span class="comment">#x53C2;&amp;#x6570;&amp;#x503C;</span>
+    private <span class="type">Object</span>[]   parameters;
+
+    /**
+     * <span class="type">Getter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;requestId&amp;lt;/tt&amp;gt;.
+     *
+     * @<span class="keyword">return</span> property value <span class="keyword">of</span> requestId
+     */
+    public <span class="type">String</span> getRequestId() {
+        <span class="keyword">return</span> requestId;
+    }
+
+    /**
+     * <span class="type">Setter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;requestId&amp;lt;/tt&amp;gt;.
+     *
+     * @param requestId value to be assigned to property requestId
+     */
+    public <span class="type">void</span> setRequestId(<span class="type">String</span> requestId) {
+        this.requestId = requestId;
+    }
+
+    /**
+     * <span class="type">Getter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;className&amp;lt;/tt&amp;gt;.
+     *
+     * @<span class="keyword">return</span> property value <span class="keyword">of</span> className
+     */
+    public <span class="type">String</span> getClassName() {
+        <span class="keyword">return</span> className;
+    }
+
+    /**
+     * <span class="type">Setter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;className&amp;lt;/tt&amp;gt;.
+     *
+     * @param className value to be assigned to property className
+     */
+    public <span class="type">void</span> setClassName(<span class="type">String</span> className) {
+        this.className = className;
+    }
+
+    /**
+     * <span class="type">Getter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;methodName&amp;lt;/tt&amp;gt;.
+     *
+     * @<span class="keyword">return</span> property value <span class="keyword">of</span> methodName
+     */
+    public <span class="type">String</span> getMethodName() {
+        <span class="keyword">return</span> methodName;
+    }
+
+    /**
+     * <span class="type">Setter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;methodName&amp;lt;/tt&amp;gt;.
+     *
+     * @param methodName value to be assigned to property methodName
+     */
+    public <span class="type">void</span> setMethodName(<span class="type">String</span> methodName) {
+        this.methodName = methodName;
+    }
+
+    /**
+     * <span class="type">Getter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;parameterTypes&amp;lt;/tt&amp;gt;.
+     *
+     * @<span class="keyword">return</span> property value <span class="keyword">of</span> parameterTypes
+     */
+    public <span class="type">Class</span>&amp;lt;?&amp;gt;[] getParameterTypes() {
+        <span class="keyword">return</span> parameterTypes;
+    }
+
+    /**
+     * <span class="type">Setter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;parameterTypes&amp;lt;/tt&amp;gt;.
+     *
+     * @param parameterTypes value to be assigned to property parameterTypes
+     */
+    public <span class="type">void</span> setParameterTypes(<span class="type">Class</span>&amp;lt;?&amp;gt;[] parameterTypes) {
+        this.parameterTypes = parameterTypes;
+    }
+
+    /**
+     * <span class="type">Getter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;parameters&amp;lt;/tt&amp;gt;.
+     *
+     * @<span class="keyword">return</span> property value <span class="keyword">of</span> parameters
+     */
+    public <span class="type">Object</span>[] getParameters() {
+        <span class="keyword">return</span> parameters;
+    }
+
+    /**
+     * <span class="type">Setter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;parameters&amp;lt;/tt&amp;gt;.
+     *
+     * @param parameters value to be assigned to property parameters
+     */
+    public <span class="type">void</span> setParameters(<span class="type">Object</span>[] parameters) {
+        this.parameters = parameters;
+    }
+
+    /**
+     * @see java.lang.<span class="type">Object</span><span class="comment">#toString()</span>
+     */
+    @<span class="type">Override</span>
+    public <span class="type">String</span> toString() {
+        <span class="keyword">return</span> &amp;quot;<span class="type">RpcRequest</span> [requestId=&amp;quot; + requestId + &amp;quot;, className=&amp;quot; + className + &amp;quot;, methodName=&amp;quot;
+                + methodName + &amp;quot;, parameterTypes=&amp;quot; + <span class="type">Arrays</span>.toString(parameterTypes)
+                + &amp;quot;, parameters=&amp;quot; + <span class="type">Arrays</span>.toString(parameters) + &amp;quot;]&amp;quot;;
+    }
+
+}
+</code></pre><p>&#x8FDC;&#x7A0B;&#x8C03;&#x7528;&#x7684;&#x54CD;&#x5E94;&#x5BF9;&#x8C61;</p>
+<pre><code>/**
+ *<span class="type">Rpc</span> &amp;<span class="comment">#x54CD;&amp;#x5E94;&amp;#x7684;&amp;#x4E3B;&amp;#x4F53;</span>
+ * @author zhangwei_david
+ * @version $<span class="type">Id</span>: <span class="type">SrResponse</span>.java, v <span class="number">0</span>.<span class="number">1</span> <span class="number">2014</span>&amp;<span class="comment">#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;6:07:27 zhangwei_david Exp $</span>
+ */
+public class <span class="type">RpcResponse</span> {
+    // &amp;<span class="comment">#x8BF7;&amp;#x6C42;&amp;#x7684;Id</span>
+    private <span class="type">String</span>    requestId;
+    // &amp;<span class="comment">#x5F02;&amp;#x5E38;</span>
+    private <span class="type">Throwable</span> error;
+    // &amp;<span class="comment">#x54CD;&amp;#x5E94;</span>
+    private <span class="type">Object</span>    <span class="literal">result</span>;
+
+    /**
+     * <span class="type">Getter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;requestId&amp;lt;/tt&amp;gt;.
+     *
+     * @<span class="keyword">return</span> property value <span class="keyword">of</span> requestId
+     */
+    public <span class="type">String</span> getRequestId() {
+        <span class="keyword">return</span> requestId;
+    }
+
+    /**
+     * <span class="type">Setter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;requestId&amp;lt;/tt&amp;gt;.
+     *
+     * @param requestId value to be assigned to property requestId
+     */
+    public <span class="type">void</span> setRequestId(<span class="type">String</span> requestId) {
+        this.requestId = requestId;
+    }
+
+    /**
+     * <span class="type">Getter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;error&amp;lt;/tt&amp;gt;.
+     *
+     * @<span class="keyword">return</span> property value <span class="keyword">of</span> error
+     */
+    public <span class="type">Throwable</span> getError() {
+        <span class="keyword">return</span> error;
+    }
+
+    /**
+     * <span class="type">Setter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;error&amp;lt;/tt&amp;gt;.
+     *
+     * @param error value to be assigned to property error
+     */
+    public <span class="type">void</span> setError(<span class="type">Throwable</span> error) {
+        this.error = error;
+    }
+
+    /**
+     * <span class="type">Getter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;<span class="literal">result</span>&amp;lt;/tt&amp;gt;.
+     *
+     * @<span class="keyword">return</span> property value <span class="keyword">of</span> <span class="literal">result</span>
+     */
+    public <span class="type">Object</span> getResult() {
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+
+    /**
+     * <span class="type">Setter</span> <span class="keyword">method</span> <span class="keyword">for</span> property &amp;lt;tt&amp;gt;<span class="literal">result</span>&amp;lt;/tt&amp;gt;.
+     *
+     * @param <span class="literal">result</span> value to be assigned to property <span class="literal">result</span>
+     */
+    public <span class="type">void</span> setResult(<span class="type">Object</span> <span class="literal">result</span>) {
+        this.<span class="literal">result</span> = <span class="literal">result</span>;
+    }
+
+    /**
+     *&amp;<span class="comment">#x5982;&amp;#x679C;&amp;#x6709;&amp;#x5F02;&amp;#x5E38;&amp;#x5219;&amp;#x8868;&amp;#x793A;&amp;#x5931;&amp;#x8D25;</span>
+     * @<span class="keyword">return</span>
+     */
+    public boolean isError() {
+        <span class="keyword">return</span> error != null;
+    }
+
+    /**
+     * @see java.lang.<span class="type">Object</span><span class="comment">#toString()</span>
+     */
+    @<span class="type">Override</span>
+    public <span class="type">String</span> toString() {
+        <span class="keyword">return</span> &amp;quot;<span class="type">RpcResponse</span> [requestId=&amp;quot; + requestId + &amp;quot;, error=&amp;quot; + error + &amp;quot;, <span class="literal">result</span>=&amp;quot; + <span class="literal">result</span>
+                + &amp;quot;]&amp;quot;;
+    }
+
+}
+</code></pre><p>RPC&#x7F16;&#x7801;&#x4E0E;&#x89E3;&#x7801;</p>
+<pre><code><span class="comment">/**
+ *RPC &amp;#x89E3;&amp;#x7801;
+ * @author zhangwei_david
+ * @version $Id: RpcDecoder.java, v 0.1 2014&amp;#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;8:53:16 zhangwei_david Exp $
+ */</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RpcDecoder</span> <span class="title">extends</span> <span class="title">ByteToMessageDecoder</span> {
+    <span class="keyword">private</span> Class&amp;lt;?&amp;gt; genericClass;
+    <span class="function"><span class="keyword">public</span> <span class="title">RpcDecoder</span>(<span class="params">Class&amp;lt;?&amp;gt; genericClass</span>) </span>{
+        <span class="keyword">this</span>.genericClass = genericClass;
+    }
+    @<span class="function">Override
+    <span class="keyword">public</span> final <span class="keyword">void</span> <span class="title">decode</span>(<span class="params">ChannelHandlerContext ctx, ByteBuf <span class="keyword">in</span>, List&amp;lt;Object&amp;gt; <span class="keyword">out</span></span>)
+                                                                                     throws Exception </span>{
+        <span class="keyword">if</span> (<span class="keyword">in</span>.readableBytes() &amp;lt; <span class="number">4</span>) {
+            <span class="keyword">return</span>;
+        }
+        <span class="keyword">in</span>.markReaderIndex();
+        <span class="keyword">int</span> dataLength = <span class="keyword">in</span>.readInt();
+        <span class="keyword">if</span> (dataLength &amp;lt; <span class="number">0</span>) {
+            ctx.close();
+        }
+        <span class="keyword">if</span> (<span class="keyword">in</span>.readableBytes() &amp;lt; dataLength) {
+            <span class="keyword">in</span>.resetReaderIndex();
+        }
+        <span class="keyword">byte</span>[] data = <span class="keyword">new</span> <span class="keyword">byte</span>[dataLength];
+        <span class="keyword">in</span>.readBytes(data);
+        Object obj = SerializationUtil.deserializer(data, genericClass);
+        <span class="keyword">out</span>.add(obj);
+    }
+}
+
+
+<span class="comment">/**
+ *
+ * @author zhangwei_david
+ * @version $Id: RpcEncoder.java, v 0.1 2014&amp;#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;8:55:25 zhangwei_david Exp $
+ */</span>
+@SuppressWarnings(&amp;quot;rawtypes&amp;quot;)
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RpcEncoder</span> <span class="title">extends</span> <span class="title">MessageToByteEncoder</span> {
+    <span class="keyword">private</span> Class&amp;lt;?&amp;gt; genericClass;
+    <span class="function"><span class="keyword">public</span> <span class="title">RpcEncoder</span>(<span class="params">Class&amp;lt;?&amp;gt; genericClass</span>) </span>{
+        <span class="keyword">this</span>.genericClass = genericClass;
+    }
+    @<span class="function">Override
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">encode</span>(<span class="params">ChannelHandlerContext ctx, Object <span class="keyword">in</span>, ByteBuf <span class="keyword">out</span></span>) throws Exception </span>{
+        <span class="keyword">if</span> (genericClass.isInstance(<span class="keyword">in</span>)) {
+            <span class="keyword">byte</span>[] data = SerializationUtil.serializer(<span class="keyword">in</span>);
+            <span class="keyword">out</span>.writeInt(data.length);
+            <span class="keyword">out</span>.writeBytes(data);
+        }
+    }
+}
+</code></pre><p>RPC&#x7684;&#x8BF7;&#x6C42;&#x5904;&#x7406;&#x5668;</p>
+<pre><code><span class="comment">/**
+ *RPC&amp;#x8BF7;&amp;#x6C42;&amp;#x5904;&amp;#x7406;&amp;#x5668;
+ * <span class="doctag">@author</span> zhangwei_david
+ * <span class="doctag">@version</span> $Id: RpcHandler.java, v 0.1 2014&amp;#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;9:04:52 zhangwei_david Exp $
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RpcHandler</span> <span class="keyword">extends</span> <span class="title">SimpleChannelInboundHandler</span>&amp;<span class="title">lt</span></span>;RpcRequest&amp;gt; {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger       logger = LogManager.getLogger(RpcHandler.class);
+    <span class="keyword">private</span> <span class="keyword">final</span> Map&amp;lt;String, Object&amp;gt; handlerMap;
+    <span class="function"><span class="keyword">public</span> <span class="title">RpcHandler</span><span class="params">(Map&amp;lt;String, Object&amp;gt; handlerMap)</span> </span>{
+        <span class="keyword">this</span>.handlerMap = handlerMap;
+    }
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(<span class="keyword">final</span> ChannelHandlerContext ctx, RpcRequest request)</span> <span class="keyword">throws</span> Exception </span>{
+        RpcResponse response = <span class="keyword">new</span> RpcResponse();
+        <span class="comment">// &amp;#x5C06;&amp;#x8BF7;&amp;#x6C42;&amp;#x7684;Id&amp;#x5199;&amp;#x5165;Response</span>
+        response.setRequestId(request.getRequestId());
+        <span class="keyword">try</span> {
+            LogUtils.info(logger, &amp;quot;&amp;#x5904;&amp;#x7406;&amp;#x8BF7;&amp;#x6C42;&amp;#xFF1A;{<span class="number">0</span>}&amp;quot;, request);
+            Object result = handle(request);
+            response.setResult(result);
+        } <span class="keyword">catch</span> (Throwable t) {
+            response.setError(t);
+        }
+        ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+    }
+    <span class="comment">/**
+     * &amp;#x8BF7;&amp;#x6C42;&amp;#x7684;&amp;#x5904;&amp;#x7406;&amp;#x4E3B;&amp;#x4F53;
+     *
+     * <span class="doctag">@param</span> request
+     * <span class="doctag">@return</span>
+     * <span class="doctag">@throws</span> Throwable
+     */</span>
+    <span class="keyword">private</span> <span class="function">Object <span class="title">handle</span><span class="params">(RpcRequest request)</span> <span class="keyword">throws</span> Throwable </span>{
+        String className = request.getClassName();
+        Object serviceBean = handlerMap.get(className);
+        Class&amp;lt;?&amp;gt; serviceClass = serviceBean.getClass();
+        String methodName = request.getMethodName();
+        Class&amp;lt;?&amp;gt;[] parameterTypes = request.getParameterTypes();
+        Object[] parameters = request.getParameters();
+        FastClass serviceFastClass = FastClass.create(serviceClass);
+        FastMethod serviceFastMethod = serviceFastClass.getMethod(methodName, parameterTypes);
+        <span class="function"><span class="keyword">return</span> serviceFastMethod.<span class="title">invoke</span><span class="params">(serviceBean, parameters)</span></span>;
+    }
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> </span>{
+        ctx.close();
+    }
+}
+</code></pre><p>&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x5B9E;&#x73B0;&#x670D;&#x52A1;&#x7684;&#x6CE8;&#x518C;&#xFF0C;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x6CE8;&#x89E3;</p>
+<pre><code>/**
+ * &amp;<span class="symbol">#x7B80</span>;&amp;<span class="symbol">#x5355</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">RPC</span>&amp;<span class="symbol">#x534F</span>;&amp;<span class="symbol">#x8BAE</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x89E3</span>;
+ * @author zhangwei_david
+ * @version <span class="char">$I</span><span class="method">d:</span> <span class="class">STRService</span>.java, v <span class="number">0.1</span> <span class="number">2014</span>&amp;<span class="symbol">#x5E74</span>;<span class="number">12</span>&amp;<span class="symbol">#x6708</span>;<span class="number">31</span>&amp;<span class="symbol">#x65E5</span>; &amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x5348</span>;<span class="number">4</span>:<span class="number">33</span>:<span class="number">14</span> zhangwei_david <span class="class">Exp</span> $
+ */
+@<span class="class">Target</span>({ <span class="class">ElementType</span>.<span class="class">TYPE</span> })
+@<span class="class">Retention</span>(<span class="class">RetentionPolicy</span>.<span class="class">RUNTIME</span>)
+@<span class="class">Component</span>
+public @interface <span class="class">RpcService</span> {
+
+    <span class="class">String</span> value() default &amp;quot;&amp;quot;;
+
+    <span class="class">Class</span>&amp;lt;?&amp;gt; inf();
+}
+</code></pre><p>&#x5C06;&#x8FDC;&#x7A0B;&#x670D;&#x52A1;&#x6CE8;&#x518C;&#x5230;ZK</p>
+<pre><code>/**
+ * &amp;<span class="symbol">#x7B80</span>;&amp;<span class="symbol">#x5355</span>;<span class="class">RPC</span>&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x518C</span>;
+ * &amp;lt;ul&amp;gt;
+ * &amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x518C</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x662F</span>;register(),&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#xFF1A</span>;
+ * &amp;lt;li&amp;gt; &amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">ZooKeeper</span>&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;lt;/li&amp;gt;
+ * &amp;lt;li&amp;gt; &amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;<span class="class">ZooKeeper</span>&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;lt;/li&amp;gt;
+ * &amp;lt;/ul&amp;gt;
+ * @author zhangwei_david
+ * @version <span class="char">$I</span><span class="method">d:</span> <span class="class">ServiceRegistry</span>.java, v <span class="number">0.1</span> <span class="number">2014</span>&amp;<span class="symbol">#x5E74</span>;<span class="number">12</span>&amp;<span class="symbol">#x6708</span>;<span class="number">31</span>&amp;<span class="symbol">#x65E5</span>; &amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x5348</span>;<span class="number">6</span>:<span class="number">08</span>:<span class="number">47</span> zhangwei_david <span class="class">Exp</span> $
+ */
+public class <span class="class">ServiceRegistry</span> {
+    // &amp;<span class="symbol">#x65E5</span>;&amp;<span class="symbol">#x671F</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x5668</span>;
+    private static final <span class="class">Logger</span> logger       = <span class="class">LogManager</span>.getLogger(<span class="class">ServiceRegistry</span>.class);
+    // &amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x8BA1</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x540C</span>;&amp;<span class="symbol">#x6B65</span>;
+    private <span class="class">CountDownLatch</span>      latch        = new <span class="class">CountDownLatch</span>(<span class="number">1</span>);
+    private int                 timeout      = <span class="class">Constant</span>.<span class="class">DEFAULT_ZK_SESSION_TIMEOUT</span>;
+    private <span class="class">String</span>              registerPath = <span class="class">Constant</span>.<span class="class">DEFAULT_ZK_REGISTRY_PATH</span>;
+    private <span class="class">String</span>              registerAddress;
+    public void register(<span class="class">String</span> data) {
+        <span class="class">LogUtils</span>.debug(logger, &amp;quot;&amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x518C</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;{<span class="number">0</span>}&amp;quot;, data);
+        if (data != null) {
+            <span class="class">ZooKeeper</span> zk = connectServer();
+            if (zk != null) {
+                // &amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;
+                createNode(zk, data);
+            }
+        }
+    }
+    /**
+     *
+     *&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;zooKeeper
+     * @return
+     */
+    private <span class="class">ZooKeeper</span> connectServer() {
+        <span class="class">ZooKeeper</span> zk = null;
+        try {
+            <span class="class">LogUtils</span>.info(logger, &amp;quot;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;zk,&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#xFF1A</span>;<span class="method">address:</span>{<span class="number">0</span>},<span class="method">timeout:</span>{<span class="number">1</span>}&amp;quot;, registerAddress, timeout);
+            // &amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;zooKeeper&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x53E3</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E8C</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x662F</span>;session &amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E09</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;
+            zk = new <span class="class">ZooKeeper</span>(registerAddress, timeout, new <span class="class">Watcher</span>() {
+                public void process(<span class="class">WatchedEvent</span> event) {
+                    if (event.getState() == <span class="class">Event</span>.<span class="class">KeeperState</span>.<span class="class">SyncConnected</span>) {
+                        // &amp;<span class="symbol">#x8BA1</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x51CF</span>;&amp;<span class="symbol">#x4E00</span>;
+                        latch.countDown();
+                    }
+                }
+            });
+            // &amp;<span class="symbol">#x963B</span>;&amp;<span class="symbol">#x585E</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x8BA1</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x6267</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x6210</span>;
+            latch.await();
+        } catch (<span class="class">Exception</span> e) {
+            <span class="class">LogUtils</span>.error(logger, &amp;quot;connectServer exception&amp;quot;, e);
+        }
+        // &amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="class">ZooKeeper</span>&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;
+        return zk;
+    }
+    /**
+     *
+     *
+     * @param zk <span class="class">ZooKeeper</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;
+     * @param data &amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x518C</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;
+     */
+    private void createNode(<span class="class">ZooKeeper</span> zk, <span class="class">String</span> data) {
+        try {
+            byte[] bytes = data.getBytes();
+            /**
+             * &amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E8C</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x521D</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E09</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">ACL</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x56DB</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7B56</span>;&amp;<span class="symbol">#x7565</span>;
+             */
+            <span class="class">String</span> createResult = zk.create(registerPath, bytes, <span class="class">ZooDefs</span>.<span class="class">Ids</span>.<span class="class">OPEN_ACL_UNSAFE</span>,
+                <span class="class">CreateMode</span>.<span class="class">EPHEMERAL_SEQUENTIAL</span>);
+            <span class="class">LogUtils</span>.info(logger, &amp;quot;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#xFF1A</span>;{<span class="number">0</span>}&amp;quot;, createResult);
+        } catch (<span class="class">Exception</span> e) {
+            <span class="class">LogUtils</span>.error(logger, &amp;quot;createNode exception&amp;quot;, e);
+        }
+    }
+    /**
+     * <span class="class">Getter</span> method for property &amp;lt;tt&amp;gt;timeout&amp;lt;/tt&amp;gt;.
+     *
+     * @return property value of timeout
+     */
+    public int getTimeout() {
+        return timeout;
+    }
+    /**
+     * <span class="class">Setter</span> method for property &amp;lt;tt&amp;gt;timeout&amp;lt;/tt&amp;gt;.
+     *
+     * @param timeout value to be assigned to property timeout
+     */
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+    /**
+     * <span class="class">Getter</span> method for property &amp;lt;tt&amp;gt;registerPath&amp;lt;/tt&amp;gt;.
+     *
+     * @return property value of registerPath
+     */
+    public <span class="class">String</span> getRegisterPath() {
+        return registerPath;
+    }
+    /**
+     * <span class="class">Setter</span> method for property &amp;lt;tt&amp;gt;registerPath&amp;lt;/tt&amp;gt;.
+     *
+     * @param registerPath value to be assigned to property registerPath
+     */
+    public void setRegisterPath(<span class="class">String</span> registerPath) {
+        this.registerPath = registerPath;
+    }
+    /**
+     * <span class="class">Getter</span> method for property &amp;lt;tt&amp;gt;registerAddress&amp;lt;/tt&amp;gt;.
+     *
+     * @return property value of registerAddress
+     */
+    public <span class="class">String</span> getRegisterAddress() {
+        return registerAddress;
+    }
+    /**
+     * <span class="class">Setter</span> method for property &amp;lt;tt&amp;gt;registerAddress&amp;lt;/tt&amp;gt;.
+     *
+     * @param registerAddress value to be assigned to property registerAddress
+     */
+    public void setRegisterAddress(<span class="class">String</span> registerAddress) {
+        this.registerAddress = registerAddress;
+    }
+}
+</code></pre><p>&#x81F3;&#x6B64;&#x5728;&#x670D;&#x52A1;&#x542F;&#x52A8;&#x65F6;&#x5C31;&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x5730;&#x6CE8;&#x518C;&#x5230;ZK</p>
+<p>RPC&#x8C03;&#x7528;&#x5BA2;&#x6237;&#x7AEF;</p>
+<pre><code>/**
+ *<span class="class">RPC</span>&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;
+ * @author zhangwei_david
+ * @version <span class="char">$I</span><span class="method">d:</span> <span class="class">RpcClient</span>.java, v <span class="number">0.1</span> <span class="number">2014</span>&amp;<span class="symbol">#x5E74</span>;<span class="number">12</span>&amp;<span class="symbol">#x6708</span>;<span class="number">31</span>&amp;<span class="symbol">#x65E5</span>; &amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x5348</span>;<span class="number">9</span>:<span class="number">18</span>:<span class="number">34</span> zhangwei_david <span class="class">Exp</span> $
+ */
+public class <span class="class">RpcClient</span> extends <span class="class">SimpleChannelInboundHandler</span>&amp;lt;<span class="class">RpcResponse</span>&amp;gt; {
+    private <span class="class">String</span>       host;
+    private int          port;
+    private <span class="class">RpcResponse</span>  response;
+    private final <span class="class">Object</span> obj = new <span class="class">Object</span>();
+    public <span class="class">RpcClient</span>(<span class="class">String</span> host, int port) {
+        this.host = host;
+        this.port = port;
+    }
+    @<span class="class">Override</span>
+    public void channelRead0(<span class="class">ChannelHandlerContext</span> ctx, <span class="class">RpcResponse</span> response) throws <span class="class">Exception</span> {
+        this.response = response;
+        synchronized (obj) {
+            obj.notifyAll(); // &amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x54CD</span>;&amp;<span class="symbol">#x5E94</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5524</span>;&amp;<span class="symbol">#x9192</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;
+        }
+    }
+    @<span class="class">Override</span>
+    public void exceptionCaught(<span class="class">ChannelHandlerContext</span> ctx, <span class="class">Throwable</span> cause) throws <span class="class">Exception</span> {
+        ctx.close();
+    }
+    public <span class="class">RpcResponse</span> send(<span class="class">RpcRequest</span> request) throws <span class="class">Exception</span> {
+        <span class="class">EventLoopGroup</span> group = new <span class="class">NioEventLoopGroup</span>();
+        try {
+            <span class="class">Bootstrap</span> bootstrap = new <span class="class">Bootstrap</span>();
+            bootstrap.group(group).channel(<span class="class">NioSocketChannel</span>.class)
+                .handler(new <span class="class">ChannelInitializer</span>&amp;lt;<span class="class">SocketChannel</span>&amp;gt;() {
+                    @<span class="class">Override</span>
+                    public void initChannel(<span class="class">SocketChannel</span> channel) throws <span class="class">Exception</span> {
+                        channel.pipeline().addLast(new <span class="class">RpcEncoder</span>(<span class="class">RpcRequest</span>.class)) // &amp;<span class="symbol">#x5C06</span>; <span class="class">RPC</span> &amp;<span class="symbol">#x8BF7</span>;&amp;<span class="symbol">#x6C42</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x7F16</span>;&amp;<span class="symbol">#x7801</span>;&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x8BF7</span>;&amp;<span class="symbol">#x6C42</span>;&amp;<span class="symbol">#xFF09</span>;
+                            .addLast(new <span class="class">RpcDecoder</span>(<span class="class">RpcResponse</span>.class)) // &amp;<span class="symbol">#x5C06</span>; <span class="class">RPC</span> &amp;<span class="symbol">#x54CD</span>;&amp;<span class="symbol">#x5E94</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x7801</span>;&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x54CD</span>;&amp;<span class="symbol">#x5E94</span>;&amp;<span class="symbol">#xFF09</span>;
+                            .addLast(<span class="class">RpcClient</span>.this); // &amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>; <span class="class">RpcClient</span> &amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>; <span class="class">RPC</span> &amp;<span class="symbol">#x8BF7</span>;&amp;<span class="symbol">#x6C42</span>;
+                    }
+                }).option(<span class="class">ChannelOption</span>.<span class="class">SO_KEEPALIVE</span>, <span class="keyword">true</span>);
+            <span class="class">ChannelFuture</span> future = bootstrap.connect(host, port).sync();
+            future.channel().writeAndFlush(request).sync();
+            synchronized (obj) {
+                obj.wait(); // &amp;<span class="symbol">#x672A</span>;&amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x54CD</span>;&amp;<span class="symbol">#x5E94</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;
+            }
+            if (response != null) {
+                future.channel().closeFuture().sync();
+            }
+            return response;
+        } finally {
+            group.shutdownGracefully();
+        }
+    }
+}
+</code></pre><p>RPC&#x670D;&#x52A1;&#x53D1;&#x73B0;&#xFF1A;</p>
+<pre><code><span class="comment">/**
+ *Rpc &amp;#x670D;&amp;#x52A1;&amp;#x53D1;&amp;#x73B0;
+ * @author zhangwei_david
+ * @version $Id: ServiceDiscovery.java, v 0.1 2014&amp;#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;9:10:23 zhangwei_david Exp $
+ */</span>
+<span class="keyword">public</span> class ServiceDiscovery {
+    <span class="comment">// &amp;#x65E5;&amp;#x5FD7;</span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger   logger   = LogManager.getLogger(ServiceDiscovery.class);
+    <span class="keyword">private</span> CountDownLatch        latch    = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>);
+    <span class="keyword">private</span> <span class="keyword">volatile</span> List&amp;lt;<span class="keyword">String</span>&amp;gt; dataList = <span class="keyword">new</span> ArrayList&amp;lt;<span class="keyword">String</span>&amp;gt;();
+    <span class="keyword">private</span> <span class="keyword">String</span>                registryAddress;
+    <span class="keyword">public</span> <span class="keyword">void</span> init() {
+        LogUtils.debug(logger, &amp;quot;Rpc &amp;#x670D;&amp;#x52A1;&amp;#x53D1;&amp;#x73B0;&amp;#x521D;&amp;#x59CB;&amp;#x5316;...&amp;quot;);
+        ZooKeeper zk = connectServer();
+        <span class="keyword">if</span> (zk != <span class="keyword">null</span>) {
+            watchNode(zk);
+        }
+    }
+    <span class="keyword">public</span> <span class="keyword">String</span> discover() {
+        <span class="keyword">String</span> data = <span class="keyword">null</span>;
+        <span class="built_in">int</span> <span class="built_in">size</span> = dataList.<span class="built_in">size</span>();
+        <span class="keyword">if</span> (<span class="built_in">size</span> &amp;gt; <span class="number">0</span>) {
+            <span class="keyword">if</span> (<span class="built_in">size</span> == <span class="number">1</span>) {
+                data = dataList.<span class="built_in">get</span>(<span class="number">0</span>);
+            } <span class="keyword">else</span> {
+                data = dataList.<span class="built_in">get</span>(ThreadLocalRandom.current().nextInt(<span class="built_in">size</span>));
+            }
+        }
+        <span class="keyword">return</span> data;
+    }
+    <span class="keyword">private</span> ZooKeeper connectServer() {
+        ZooKeeper zk = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            zk = <span class="keyword">new</span> ZooKeeper(registryAddress, Constant.DEFAULT_ZK_SESSION_TIMEOUT, <span class="keyword">new</span> Watcher() {
+                <span class="keyword">public</span> <span class="keyword">void</span> process(WatchedEvent event) {
+                    <span class="keyword">if</span> (event.getState() == Event.KeeperState.SyncConnected) {
+                        latch.countDown();
+                    }
+                }
+            });
+            latch.await();
+        } <span class="keyword">catch</span> (Exception e) {
+        }
+        LogUtils.debug(logger, &amp;quot;zk &amp;#x662F;{<span class="number">0</span>}&amp;quot;, zk);
+        <span class="keyword">return</span> zk;
+    }
+    <span class="keyword">private</span> <span class="keyword">void</span> watchNode(<span class="keyword">final</span> ZooKeeper zk) {
+        <span class="keyword">try</span> {
+            List&amp;lt;<span class="keyword">String</span>&amp;gt; nodeList = zk.getChildren(Constant.ROOT, <span class="keyword">new</span> Watcher() {
+                <span class="keyword">public</span> <span class="keyword">void</span> process(WatchedEvent event) {
+                    <span class="keyword">if</span> (event.getType() == Event.EventType.NodeChildrenChanged) {
+                        watchNode(zk);
+                    }
+                }
+            });
+            LogUtils.debug(logger, &amp;quot;zk &amp;#x8282;&amp;#x70B9;&amp;#x6709;  {<span class="number">0</span>}&amp;quot;, nodeList);
+            List&amp;lt;<span class="keyword">String</span>&amp;gt; dataList = <span class="keyword">new</span> ArrayList&amp;lt;<span class="keyword">String</span>&amp;gt;();
+            <span class="keyword">for</span> (<span class="keyword">String</span> node : nodeList) {
+                <span class="built_in">byte</span>[] bytes = zk.getData(Constant.ROOT + node, <span class="keyword">false</span>, <span class="keyword">null</span>);
+                dataList.<span class="built_in">add</span>(<span class="keyword">new</span> <span class="keyword">String</span>(bytes));
+            }
+            <span class="keyword">this</span>.dataList = dataList;
+            <span class="keyword">if</span> (dataList.isEmpty()) {
+                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(&amp;quot;&amp;#x5C1A;&amp;#x672A;&amp;#x6CE8;&amp;#x518C;&amp;#x4EFB;&amp;#x4F55;&amp;#x670D;&amp;#x52A1;&amp;quot;);
+            }
+        } <span class="keyword">catch</span> (Exception e) {
+            LogUtils.error(logger, &amp;quot;&amp;#x53D1;&amp;#x73B0;&amp;#x8282;&amp;#x70B9;&amp;#x5F02;&amp;#x5E38;&amp;quot;, e);
+        }
+    }
+    <span class="comment">/**
+     * Setter method for property &amp;lt;tt&amp;gt;registryAddress&amp;lt;/tt&amp;gt;.
+     *
+     * @param registryAddress value to be assigned to property registryAddress
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> setRegistryAddress(<span class="keyword">String</span> registryAddress) {
+        <span class="keyword">this</span>.registryAddress = registryAddress;
+    }
+}
+</code></pre><p>&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<pre><code>/<span class="keyword">*</span><span class="keyword">*</span>
+ <span class="keyword">*</span>
+ <span class="keyword">*</span> <span class="comment">@author zhangwei_david</span>
+ <span class="keyword">*</span> <span class="comment">@version $Id: HelloService.java, v 0.1 2014&amp;#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;9:27:28 zhangwei_david Exp $</span>
+ <span class="keyword">*</span>/
+public interface HelloService {
+
+    String hello();
+}
+
+/<span class="keyword">*</span><span class="keyword">*</span>
+ <span class="keyword">*</span>
+ <span class="keyword">*</span> <span class="comment">@author zhangwei_david</span>
+ <span class="keyword">*</span> <span class="comment">@version $Id: HelloServiceImpl.java, v 0.1 2014&amp;#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;9:28:02 zhangwei_david Exp $</span>
+ <span class="keyword">*</span>/
+<span class="comment">@RpcService(value = &amp;quot;helloService&amp;quot;, inf = HelloService.class)</span>
+public class HelloServiceImpl implements HelloService {
+
+    public String hello() {
+        return &amp;quot;Hello! &amp;quot;;
+    }
+}
+</code></pre><p>&#x670D;&#x52A1;&#x7AEF;&#x914D;&#x7F6E;&#xFF1A;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">?</span><span class="built_in">xml</span> version<span class="subst">=&amp;</span>quot;<span class="number">1.0</span><span class="subst">&amp;</span>quot; encoding<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">?&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;beans xmlns<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/beans&amp;quot;</span>
+    xmlns:p<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/p&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot;</span>
+    xmlns:context<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/context&amp;quot; xmlns:tx=&amp;quot;http://www.springframework.org/schema/tx&amp;quot;</span>
+    xmlns:aop<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/aop&amp;quot; xmlns:jee=&amp;quot;http://www.springframework.org/schema/jee&amp;quot;</span>
+    xmlns:task<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/task&amp;quot;</span>
+    xsi:schemaLocation<span class="subst">=&amp;</span>quot;
+        http:<span class="comment">//www.springframework.org/schema/beans</span>
+        http:<span class="comment">//www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/context</span>
+        http:<span class="comment">//www.springframework.org/schema/context/spring-context-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/aop </span>
+        http:<span class="comment">//www.springframework.org/schema/aop/spring-aop-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/tx</span>
+        http:<span class="comment">//www.springframework.org/schema/tx/spring-tx-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/jee </span>
+        http:<span class="comment">//www.springframework.org/schema/jee/spring-jee-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/task  </span>
+        http:<span class="comment">//www.springframework.org/schema/task/spring-task-3.1.xsd  </span>
+        <span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;context:component<span class="attribute">-scan</span> base<span class="attribute">-package</span><span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>david<span class="built_in">.</span>common<span class="built_in">.</span>test<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>;<span class="subst">&amp;</span><span class="variable">#x670D</span>;<span class="subst">&amp;</span><span class="variable">#x52A1</span>;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x518C</span>;<span class="subst">&amp;</span><span class="variable">#x7EC4</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean id<span class="subst">=&amp;</span>quot;serviceRegistry<span class="subst">&amp;</span>quot; class<span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>david<span class="built_in">.</span>common<span class="built_in">.</span>rpc<span class="built_in">.</span>registry<span class="built_in">.</span>ServiceRegistry<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;registerAddress<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;<span class="number">127.0</span><span class="built_in">.0</span><span class="built_in">.1</span>:<span class="number">2181</span><span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>; RPC <span class="subst">&amp;</span><span class="variable">#x670D</span>;<span class="subst">&amp;</span><span class="variable">#x52A1</span>;<span class="subst">&amp;</span><span class="variable">#x5668</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean id<span class="subst">=&amp;</span>quot;rpcServer<span class="subst">&amp;</span>quot; class<span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>david<span class="built_in">.</span>common<span class="built_in">.</span>rpc<span class="built_in">.</span>server<span class="built_in">.</span>RpcServer<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;serverAddress<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;<span class="number">127.0</span><span class="built_in">.0</span><span class="built_in">.1</span>:<span class="number">8000</span><span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;serviceRegistry<span class="subst">&amp;</span>quot; ref<span class="subst">=&amp;</span>quot;serviceRegistry<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/beans<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x5BA2;&#x6237;&#x7AEF;&#x914D;&#x7F6E;&#xFF1A;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">?</span><span class="built_in">xml</span> version<span class="subst">=&amp;</span>quot;<span class="number">1.0</span><span class="subst">&amp;</span>quot; encoding<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">?&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;beans xmlns<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/beans&amp;quot;</span>
+    xmlns:p<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/p&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot;</span>
+    xmlns:context<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/context&amp;quot; xmlns:tx=&amp;quot;http://www.springframework.org/schema/tx&amp;quot;</span>
+    xmlns:aop<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/aop&amp;quot; xmlns:jee=&amp;quot;http://www.springframework.org/schema/jee&amp;quot;</span>
+    xmlns:task<span class="subst">=&amp;</span>quot;http:<span class="comment">//www.springframework.org/schema/task&amp;quot;</span>
+    xsi:schemaLocation<span class="subst">=&amp;</span>quot;
+        http:<span class="comment">//www.springframework.org/schema/beans</span>
+        http:<span class="comment">//www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/context</span>
+        http:<span class="comment">//www.springframework.org/schema/context/spring-context-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/aop </span>
+        http:<span class="comment">//www.springframework.org/schema/aop/spring-aop-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/tx</span>
+        http:<span class="comment">//www.springframework.org/schema/tx/spring-tx-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/jee </span>
+        http:<span class="comment">//www.springframework.org/schema/jee/spring-jee-3.0.xsd</span>
+        http:<span class="comment">//www.springframework.org/schema/task  </span>
+        http:<span class="comment">//www.springframework.org/schema/task/spring-task-3.1.xsd  </span>
+        <span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;context:component<span class="attribute">-scan</span> base<span class="attribute">-package</span><span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>david<span class="built_in">.</span>common<span class="built_in">.</span><span class="subst">*&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean id<span class="subst">=&amp;</span>quot;serviceDiscovery<span class="subst">&amp;</span>quot; class<span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>david<span class="built_in">.</span>common<span class="built_in">.</span>rpc<span class="built_in">.</span>discovery<span class="built_in">.</span>ServiceDiscovery<span class="subst">&amp;</span>quot; init<span class="attribute">-method</span><span class="subst">=&amp;</span>quot;init<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+       <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;registryAddress<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;<span class="number">127.0</span><span class="built_in">.0</span><span class="built_in">.1</span>:<span class="number">2181</span><span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> <span class="subst">&amp;</span><span class="variable">#x914D</span>;<span class="subst">&amp;</span><span class="variable">#x7F6E</span>; RPC <span class="subst">&amp;</span><span class="variable">#x4EE3</span>;<span class="subst">&amp;</span><span class="variable">#x7406</span>; <span class="subst">--&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;bean id<span class="subst">=&amp;</span>quot;rpcProxy<span class="subst">&amp;</span>quot; class<span class="subst">=&amp;</span>quot;com<span class="built_in">.</span>david<span class="built_in">.</span>common<span class="built_in">.</span>rpc<span class="built_in">.</span>proxy<span class="built_in">.</span>RpcProxyFactory<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+        <span class="subst">&amp;</span><span class="literal">lt</span>;property name<span class="subst">=&amp;</span>quot;serviceDiscovery<span class="subst">&amp;</span>quot; ref<span class="subst">=&amp;</span>quot;serviceDiscovery<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;/bean<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/beans<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x670D;&#x52A1;&#x7AEF;&#xFF1A;</p>
+<pre><code><span class="comment">/**
+ *
+ * <span class="doctag">@author</span> zhangwei_david
+ * <span class="doctag">@version</span> $Id: Server.java, v 0.1 2014&amp;#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#x5348;9:56:37 zhangwei_david Exp $
+ */</span>
+<span class="annotation">@RunWith</span>(SpringJUnit4ClassRunner.<span class="keyword">class</span>)
+<span class="annotation">@ContextConfiguration</span>(locations = &amp;quot;<span class="string">classpath:</span>spring.xml&amp;quot;)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> {</span>
+    <span class="annotation">@Test</span>
+    <span class="keyword">public</span> <span class="typename">void</span> helloTest() <span class="keyword">throws</span> InterruptedException {
+        System.out.println(&amp;quot;&amp;#x542F;&amp;#x52A8;&amp;quot;);
+        TimeUnit.HOURS.sleep(<span class="number">1</span>);
+    }
+}
+</code></pre><p>&#x5BA2;&#x6237;&#x7AEF;&#xFF1A;</p>
+<pre><code>/**
+ *
+ * @author zhangwei_david
+ * @version $<span class="type">Id</span>: <span class="type">MyTest</span>.java, v <span class="number">0</span>.<span class="number">1</span> <span class="number">2014</span>&amp;<span class="comment">#x5E74;12&amp;#x6708;31&amp;#x65E5; &amp;#x4E0B;&amp;#xFFFD;&amp;#xFFFD;&amp;#xFFFD;9:25:49 zhangwei_david Exp $</span>
+ */
+@<span class="type">RunWith</span>(<span class="type">SpringJUnit4ClassRunner</span>.class)
+@<span class="type">ContextConfiguration</span>(locations = &amp;quot;classpath:client.xml&amp;quot;)
+public class <span class="type">HelloServiceTest</span> {
+    @<span class="type">Autowired</span>
+    private <span class="type">RpcProxyFactory</span> rpcProxy;
+    @<span class="type">Test</span>
+    public <span class="type">void</span> helloTest() {
+        <span class="type">HelloService</span> helloService = rpcProxy.create(<span class="type">HelloService</span>.class);
+        <span class="type">String</span> <span class="literal">result</span> = helloService.hello();
+        <span class="type">Assert</span>.assertEquals(&amp;quot;<span class="type">Hello</span>! &amp;quot;, <span class="literal">result</span>);
+    }
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/ZooKeeper/">ZooKeeper</a><a href="/tags/分布式系统/">分布式系统</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/0cbfcd3/" title="ZooKeeper 基本API使用 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  ZooKeeper 基本API使用 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/0ca5dc9/"  title="Jstorm 集群搭建过程及一键安装部署脚本 -">
+ <strong>下一篇：</strong><br/> 
+ <span>Jstorm 集群搭建过程及一键安装部署脚本 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

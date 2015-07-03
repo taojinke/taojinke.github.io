@@ -1,0 +1,1002 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Tomcat基于MSM+Memcached实现Session共享 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x524D;&amp;#x8A00;&amp;#x5728;Tomcat&amp;#x96C6;&amp;#x7FA4;&amp;#x4E2D;&amp;#xFF0C;&amp;#x5F53;&amp;#x4E00;&amp;#x4E2A;&amp;#x8282;&amp;#x70B9;&amp;#x51FA;&amp;#x73B0;&amp;#x6545;&amp;#x969C;&amp;#xFF0C;&amp;#x5176;&amp;#x4ED6;&amp;#x8282;&amp;#x70B9;&amp;#x8BE5;&amp;#x5982;&amp;#x4F55;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat基于MSM+Memcached实现Session共享 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/19adbcf/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x524D;&amp;#x8A00;&amp;#x5728;Tomcat&amp;#x96C6;&amp;#x7FA4;&amp;#x4E2D;&amp;#xFF0C;&amp;#x5F53;&amp;#x4E00;&amp;#x4E2A;&amp;#x8282;&amp;#x70B9;&amp;#x51FA;&amp;#x73B0;&amp;#x6545;&amp;#x969C;&amp;#xFF0C;&amp;#x5176;&amp;#x4ED6;&amp;#x8282;&amp;#x70B9;&amp;#x8BE5;&amp;#x5982;&amp;#x4F55;&amp;#">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/19ab730.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/19ab730.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/19ab9a1.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/19ab9a1.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/19ab9a1.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/19abc12.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/19ac365.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/19ac5d6.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/19ac5d6.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:09:21.099Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tomcat基于MSM+Memcached实现Session共享 -">
+<meta name="twitter:description" content="&amp;#x524D;&amp;#x8A00;&amp;#x5728;Tomcat&amp;#x96C6;&amp;#x7FA4;&amp;#x4E2D;&amp;#xFF0C;&amp;#x5F53;&amp;#x4E00;&amp;#x4E2A;&amp;#x8282;&amp;#x70B9;&amp;#x51FA;&amp;#x73B0;&amp;#x6545;&amp;#x969C;&amp;#xFF0C;&amp;#x5176;&amp;#x4ED6;&amp;#x8282;&amp;#x70B9;&amp;#x8BE5;&amp;#x5982;&amp;#x4F55;&amp;#">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/19adbcf/" title="Tomcat基于MSM+Memcached实现Session共享 -" itemprop="url">Tomcat基于MSM+Memcached实现Session共享 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:20.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#相关介绍"><span class="toc-number">2.</span> <span class="toc-text">相关介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSM"><span class="toc-number">3.</span> <span class="toc-text">MSM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工作原理"><span class="toc-number">4.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现过程"><span class="toc-number">5.</span> <span class="toc-text">实现过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实验拓扑"><span class="toc-number">6.</span> <span class="toc-text">实验拓扑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nginx安装配置"><span class="toc-number">7.</span> <span class="toc-text">nginx安装配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tomcat安装配置"><span class="toc-number">8.</span> <span class="toc-text">tomcat安装配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#memcached安装"><span class="toc-number">9.</span> <span class="toc-text">memcached安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tomcat配置"><span class="toc-number">10.</span> <span class="toc-text">tomcat配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#访问测试"><span class="toc-number">11.</span> <span class="toc-text">访问测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#The_end"><span class="toc-number">12.</span> <span class="toc-text">The end</span></a></li></ol>
+		
+		</div>
+		
+		<h4 id="&#x524D;&#x8A00;">&#x524D;&#x8A00;</h4><p>&#x5728;Tomcat&#x96C6;&#x7FA4;&#x4E2D;&#xFF0C;&#x5F53;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x51FA;&#x73B0;&#x6545;&#x969C;&#xFF0C;&#x5176;&#x4ED6;&#x8282;&#x70B9;&#x8BE5;&#x5982;&#x4F55;&#x63A5;&#x7BA1;&#x6545;&#x969C;&#x8282;&#x70B9;&#x7684;Session&#x4FE1;&#x606F;&#x5462;&#xFF1F;&#x672C;&#x6587;&#x5E26;&#x6765;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x662F;&#x57FA;&#x4E8E;MSM+Memcached&#x5B9E;&#x73B0;Session&#x5171;&#x4EAB;&#x3002;</p>
+<h4 id="&#x76F8;&#x5173;&#x4ECB;&#x7ECD;">&#x76F8;&#x5173;&#x4ECB;&#x7ECD;</h4><h4 id="MSM">MSM</h4><p>MSM&#x2013;Memcached Session Manager&#x662F;&#x4E00;&#x4E2A;&#x9AD8;&#x53EF;&#x7528;&#x7684;Tomcat Session&#x5171;&#x4EAB;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#xFF0C;&#x9664;&#x4E86;&#x53EF;&#x4EE5;&#x4ECE;&#x672C;&#x673A;&#x5185;&#x5B58;&#x5FEB;&#x901F;&#x8BFB;&#x53D6;Session&#x4FE1;&#x606F;(&#x4EC5;&#x9488;&#x5BF9;&#x9ECF;&#x6027;Session)&#x5916;&#xFF0C;&#x540C;&#x65F6;&#x53EF;&#x4F7F;&#x7528;Memcached&#x5B58;&#x53D6;Session&#xFF0C;&#x4EE5;&#x5B9E;&#x73B0;&#x9AD8;&#x53EF;&#x7528;&#x3002;</p>
+<h4 id="&#x5DE5;&#x4F5C;&#x539F;&#x7406;">&#x5DE5;&#x4F5C;&#x539F;&#x7406;</h4><p>Sticky Session&#xFF08;&#x9ECF;&#x6027;&#xFF09; &#x6A21;&#x5F0F;&#x4E0B;&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;</p>
+<pre><code><span class="id">#Tomcat</span>&amp;<span class="id">#x672C</span>;&amp;<span class="id">#x5730</span>;<span class="tag">Session</span>&amp;<span class="id">#x4E3A</span>;&amp;<span class="id">#x4E3B</span>;<span class="tag">Session</span>&amp;<span class="id">#xFF0C</span>;<span class="tag">Memcached</span> &amp;<span class="id">#x4E2D</span>;&amp;<span class="id">#x7684</span>;<span class="tag">Session</span>&amp;<span class="id">#x4E3A</span>;&amp;<span class="id">#x5907</span>;<span class="tag">Session</span>
+</code></pre><p>&#x5B89;&#x88C5;&#x5728;Tomcat&#x4E0A;&#x7684;MSM&#x4F7F;&#x7528;&#x672C;&#x673A;&#x5185;&#x5B58;&#x4FDD;&#x5B58;Session&#xFF0C;&#x5F53;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x4E4B;&#x540E;&#xFF0C;&#x5982;&#x679C;&#x5BF9;&#x5E94;&#x7684;Session&#x5728;&#x672C;&#x5730;&#x4E0D;&#x5B58;&#x5728;&#xFF08;&#x5373;&#x67D0;&#x7528;&#x6237;&#x7684;&#x7B2C;&#x4E00;&#x6B21;&#x8BF7;&#x6C42;&#xFF09;&#xFF0C;&#x5219;&#x5C06;&#x8BE5;Session&#x590D;&#x5236;&#x4E00;&#x4EFD;&#x81F3;Memcached&#xFF1B;&#x5F53;&#x8BE5;Session&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x5230;&#x8FBE;&#x65F6;&#xFF0C;&#x4F1A;&#x4F7F;&#x7528;Tomcat&#x7684;&#x672C;&#x5730;Session&#xFF0C;&#x8BF7;&#x6C42;&#x5904;&#x7406;&#x7ED3;&#x675F;&#x4E4B;&#x540E;&#xFF0C;Session&#x7684;&#x53D8;&#x5316;&#x4F1A;&#x540C;&#x6B65;&#x66F4;&#x65B0;&#x5230; Memcached&#xFF0C;&#x4FDD;&#x8BC1;&#x6570;&#x636E;&#x4E00;&#x81F4;&#x3002; </p>
+<p>&#x5F53;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;Tomcat&#x6302;&#x6389;&#xFF0C;&#x4E0B;&#x4E00;&#x6B21;&#x8BF7;&#x6C42;&#x4F1A;&#x88AB;&#x8DEF;&#x7531;&#x5230;&#x5176;&#x4ED6;Tomcat&#x4E0A;&#x3002;&#x8D1F;&#x8D23;&#x5904;&#x7406;&#x6B64;&#x6B64;&#x8BF7;&#x6C42;&#x7684;Tomcat&#x5E76;&#x4E0D;&#x6E05;&#x695A;Session&#x4FE1;&#x606F;&#xFF0C;&#x4E8E;&#x662F;&#x4ECE;Memcached&#x67E5;&#x627E;&#x8BE5;Session&#xFF0C;&#x66F4;&#x65B0;&#x8BE5;Session&#x5E76;&#x5C06;&#x5176;&#x4FDD;&#x5B58;&#x81F3;&#x672C;&#x673A;&#x3002;&#x6B64;&#x6B21;&#x8BF7;&#x6C42;&#x7ED3;&#x675F;&#xFF0C;Session&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x9001;&#x56DE;Memcached&#x5907;&#x4EFD;&#x3002;</p>
+<p>Non-sticky Session &#xFF08;&#x975E;&#x9ECF;&#x6027;&#xFF09;&#x6A21;&#x5F0F;&#x4E0B;&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;</p>
+<pre><code><span class="id">#Tomcat</span>&amp;<span class="id">#x672C</span>;&amp;<span class="id">#x5730</span>;<span class="tag">Session</span>&amp;<span class="id">#x4E3A</span>;&amp;<span class="id">#x4E2D</span>;&amp;<span class="id">#x8F6C</span>;<span class="tag">Session</span>&amp;<span class="id">#xFF0C</span>;<span class="tag">Memcached</span>&amp;<span class="id">#x4E3A</span>;&amp;<span class="id">#x4E3B</span>;&amp;<span class="id">#x5907</span>;<span class="tag">Session</span>
+</code></pre><p>&#x6536;&#x5230;&#x8BF7;&#x6C42;&#xFF0C;&#x52A0;&#x8F7D;&#x5907;Session&#x81F3;&#x672C;&#x5730;&#x5BB9;&#x5668;&#xFF0C;&#x82E5;&#x5907;Session&#x52A0;&#x8F7D;&#x5931;&#x8D25;&#x5219;&#x4ECE;&#x4E3B;Session&#x52A0;&#x8F7D; </p>
+<p>&#x8BF7;&#x6C42;&#x5904;&#x7406;&#x7ED3;&#x675F;&#x4E4B;&#x540E;&#xFF0C;Session&#x7684;&#x53D8;&#x5316;&#x4F1A;&#x540C;&#x6B65;&#x66F4;&#x65B0;&#x5230;Memcached&#xFF0C;&#x5E76;&#x6E05;&#x9664;Tomcat&#x672C;&#x5730;Session</p>
+<h4 id="&#x5B9E;&#x73B0;&#x8FC7;&#x7A0B;">&#x5B9E;&#x73B0;&#x8FC7;&#x7A0B;</h4><h4 id="&#x5B9E;&#x9A8C;&#x62D3;&#x6251;">&#x5B9E;&#x9A8C;&#x62D3;&#x6251;</h4><p><img src="http://taojinke.github.io/img/20150703/19ab730.jpg" alt="1435842398465423.jpg"></p>
+<pre><code>#&amp;<span class="id">#x7CFB</span>;&amp;<span class="id">#x7EDF</span>;&amp;<span class="id">#x73AF</span>;&amp;<span class="id">#x5883</span>;&amp;<span class="id">#xFF1A</span>;<span class="tag">CentOS6</span><span class="class">.6</span>
+</code></pre><h4 id="nginx&#x5B89;&#x88C5;&#x914D;&#x7F6E;">nginx&#x5B89;&#x88C5;&#x914D;&#x7F6E;</h4><pre><code><span class="comment">#&amp;#x89E3;&amp;#x51B3;&amp;#x4F9D;&amp;#x8D56;&amp;#x5173;&amp;#x7CFB;</span>
+[root<span class="property">@scholar</span> ~]<span class="comment"># yum groupinstall &amp;quot;Development Tools&amp;quot; &amp;quot;Server Platform Deveopment&amp;quot; -y</span>
+[root<span class="property">@scholar</span> ~]<span class="comment"># yum install openssl-devel pcre-devel -y</span>
+[root<span class="property">@scholar</span> ~]<span class="comment"># groupadd -r nginx</span>
+[root<span class="property">@scholar</span> ~]<span class="comment"># useradd -r -g nginx nginx</span>
+[root<span class="property">@scholar</span> ~]<span class="comment"># tar xf nginx-1.6.3.tar.gz </span>
+[root<span class="property">@scholar</span> ~]<span class="comment"># cd nginx-1.6.3</span>
+[root<span class="property">@scholar</span> nginx-<span class="number">1.6</span>.<span class="number">3</span>]<span class="comment"># ./configure \</span>
+&amp;gt;   --prefix=/usr/local/nginx <span class="string">\</span>
+&amp;gt;   --sbin-path=/usr/sbin/nginx <span class="string">\</span>
+&amp;gt;   --conf-path=/etc/nginx/nginx.conf <span class="string">\</span>
+&amp;gt;   --error-log-path=/<span class="keyword">var</span>/log/nginx/error.log <span class="string">\</span>
+&amp;gt;   --http-log-path=/<span class="keyword">var</span>/log/nginx/access.log <span class="string">\</span>
+&amp;gt;   --pid-path=/<span class="keyword">var</span>/run/nginx/nginx.pid  <span class="string">\</span>
+&amp;gt;   --lock-path=/<span class="keyword">var</span>/lock/nginx.lock <span class="string">\</span>
+&amp;gt;   --user=nginx <span class="string">\</span>
+&amp;gt;   --group=nginx <span class="string">\</span>
+&amp;gt;   --<span class="keyword">with</span>-http_ssl_module <span class="string">\</span>
+&amp;gt;   --<span class="keyword">with</span>-http_flv_module <span class="string">\</span>
+&amp;gt;   --<span class="keyword">with</span>-http_stub_status_module <span class="string">\</span>
+&amp;gt;   --<span class="keyword">with</span>-http_gzip_static_module <span class="string">\</span>
+&amp;gt;   --http-client-body-temp-path=<span class="pi">/usr/local/nginx/client/</span> <span class="string">\</span>
+&amp;gt;   --http-proxy-temp-path=<span class="pi">/usr/local/nginx/proxy/</span> <span class="string">\</span>
+&amp;gt;   --http-fastcgi-temp-path=<span class="pi">/usr/local/nginx/fcgi/</span> <span class="string">\</span>
+&amp;gt;   --http-uwsgi-temp-path=/usr/local/nginx/uwsgi <span class="string">\</span>
+&amp;gt;   --http-scgi-temp-path=/usr/local/nginx/scgi <span class="string">\</span>
+&amp;gt;   --<span class="keyword">with</span>-pcre
+[root<span class="property">@scholar</span> nginx-<span class="number">1.6</span>.<span class="number">3</span>]<span class="comment"># make &amp;amp;&amp;amp; make install</span>
+</code></pre><p>&#x4E3A;nginx&#x63D0;&#x4F9B;SysV init&#x811A;&#x672C;</p>
+<pre><code>[root@scholar ~]<span class="comment"># vim /etc/rc.d/init.d/nginx </span>
+<span class="comment">#&amp;#x65B0;&amp;#x5EFA;&amp;#x6587;&amp;#x4EF6;/etc/rc.d/init.d/nginx&amp;#xFF0C;&amp;#x5185;&amp;#x5BB9;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;</span>
+<span class="shebang">#!/bin/sh</span>
+<span class="comment">#</span>
+<span class="comment"># nginx - this script starts and stops the nginx daemon</span>
+<span class="comment">#</span>
+<span class="comment"># chkconfig:   - 85 15 </span>
+<span class="comment"># description:  Nginx is an HTTP(S) server, HTTP(S) reverse \</span>
+<span class="comment">#               proxy and IMAP/POP3 proxy server</span>
+<span class="comment"># processname: nginx</span>
+<span class="comment"># config:      /etc/nginx/nginx.conf</span>
+<span class="comment"># config:      /etc/sysconfig/nginx</span>
+<span class="comment"># pidfile:     /var/run/nginx.pid</span>
+<span class="comment"># Source function library.</span>
+. /etc/rc.d/init.d/<span class="built_in">functions</span>
+<span class="comment"># Source networking configuration.</span>
+. /etc/sysconfig/network
+<span class="comment"># Check that networking is up.</span>
+[ &amp;quot;<span class="variable">$NETWORKING</span>&amp;quot; = &amp;quot;no&amp;quot; ] &amp;amp;&amp;amp; <span class="built_in">exit</span> <span class="number">0</span>
+nginx=&amp;quot;/usr/sbin/nginx&amp;quot;
+prog=$(basename <span class="variable">$nginx</span>)
+NGINX_CONF_FILE=&amp;quot;/etc/nginx/nginx.conf&amp;quot;
+[ <span class="operator">-f</span> /etc/sysconfig/nginx ] &amp;amp;&amp;amp; . /etc/sysconfig/nginx
+lockfile=/var/lock/subsys/nginx
+<span class="function"><span class="title">make_dirs</span></span>() {
+   <span class="comment"># make required directories</span>
+   user=`nginx -V <span class="number">2</span>&amp;gt;&amp;amp;<span class="number">1</span> | grep &amp;quot;configure arguments:&amp;quot; | sed &amp;apos;s/[^*]*--user=\([^ ]*\).*/\<span class="number">1</span>/g&amp;apos; -`
+   options=`<span class="variable">$nginx</span> -V <span class="number">2</span>&amp;gt;&amp;amp;<span class="number">1</span> | grep &amp;apos;configure arguments:&amp;apos;`
+   <span class="keyword">for</span> opt <span class="keyword">in</span> <span class="variable">$options</span>; <span class="keyword">do</span>
+       <span class="keyword">if</span> [ `<span class="built_in">echo</span> <span class="variable">$opt</span> | grep &amp;apos;.*-temp-path&amp;apos;` ]; <span class="keyword">then</span>
+           value=`<span class="built_in">echo</span> <span class="variable">$opt</span> | cut <span class="operator">-d</span> &amp;quot;=&amp;quot; <span class="operator">-f</span> <span class="number">2</span>`
+           <span class="keyword">if</span> [ ! <span class="operator">-d</span> &amp;quot;<span class="variable">$value</span>&amp;quot; ]; <span class="keyword">then</span>
+               <span class="comment"># echo &amp;quot;creating&amp;quot; $value</span>
+               mkdir -p <span class="variable">$value</span> &amp;amp;&amp;amp; chown -R <span class="variable">$user</span> <span class="variable">$value</span>
+           <span class="keyword">fi</span>
+       <span class="keyword">fi</span>
+   <span class="keyword">done</span>
+}
+<span class="function"><span class="title">start</span></span>() {
+    [ -x <span class="variable">$nginx</span> ] || <span class="built_in">exit</span> <span class="number">5</span>
+    [ <span class="operator">-f</span> <span class="variable">$NGINX_CONF_FILE</span> ] || <span class="built_in">exit</span> <span class="number">6</span>
+    make_<span class="built_in">dirs</span>
+    <span class="built_in">echo</span> -n $&amp;quot;Starting <span class="variable">$prog</span>: &amp;quot;
+    daemon <span class="variable">$nginx</span> -c <span class="variable">$NGINX_CONF_FILE</span>
+    retval=$?
+    <span class="built_in">echo</span>
+    [ <span class="variable">$retval</span> <span class="operator">-eq</span> <span class="number">0</span> ] &amp;amp;&amp;amp; touch <span class="variable">$lockfile</span>
+    <span class="built_in">return</span> <span class="variable">$retval</span>
+}
+<span class="function"><span class="title">stop</span></span>() {
+    <span class="built_in">echo</span> -n $&amp;quot;Stopping <span class="variable">$prog</span>: &amp;quot;
+    killproc <span class="variable">$prog</span> -QUIT
+    retval=$?
+    <span class="built_in">echo</span>
+    [ <span class="variable">$retval</span> <span class="operator">-eq</span> <span class="number">0</span> ] &amp;amp;&amp;amp; rm <span class="operator">-f</span> <span class="variable">$lockfile</span>
+    <span class="built_in">return</span> <span class="variable">$retval</span>
+}
+<span class="function"><span class="title">restart</span></span>() {
+    configtest || <span class="built_in">return</span> $?
+    stop
+    sleep <span class="number">1</span>
+    start
+}
+<span class="function"><span class="title">reload</span></span>() {
+    configtest || <span class="built_in">return</span> $?
+    <span class="built_in">echo</span> -n $&amp;quot;Reloading <span class="variable">$prog</span>: &amp;quot;
+    killproc <span class="variable">$nginx</span> -HUP
+    RETVAL=$?
+    <span class="built_in">echo</span>
+}
+<span class="function"><span class="title">force_reload</span></span>() {
+    restart
+}
+<span class="function"><span class="title">configtest</span></span>() {
+  <span class="variable">$nginx</span> -t -c <span class="variable">$NGINX_CONF_FILE</span>
+}
+<span class="function"><span class="title">rh_status</span></span>() {
+    status <span class="variable">$prog</span>
+}
+<span class="function"><span class="title">rh_status_q</span></span>() {
+    rh_status &amp;gt;/dev/null <span class="number">2</span>&amp;gt;&amp;amp;<span class="number">1</span>
+}
+<span class="keyword">case</span> &amp;quot;<span class="variable">$1</span>&amp;quot; <span class="keyword">in</span>
+    start)
+        rh_status_q &amp;amp;&amp;amp; <span class="built_in">exit</span> <span class="number">0</span>
+        <span class="variable">$1</span>
+        ;;
+    stop)
+        rh_status_q || <span class="built_in">exit</span> <span class="number">0</span>
+        <span class="variable">$1</span>
+        ;;
+    restart|configtest)
+        <span class="variable">$1</span>
+        ;;
+    reload)
+        rh_status_q || <span class="built_in">exit</span> <span class="number">7</span>
+        <span class="variable">$1</span>
+        ;;
+    force-reload)
+        force_reload
+        ;;
+    status)
+        rh_status
+        ;;
+    condrestart|try-restart)
+        rh_status_q || <span class="built_in">exit</span> <span class="number">0</span>
+            ;;
+    *)
+        <span class="built_in">echo</span> $&amp;quot;Usage: <span class="variable">$0</span> {start|stop|status|restart|condrestart|try-restart|reload|force-
+reload|configtest}&amp;quot;
+        <span class="built_in">exit</span> <span class="number">2</span>
+<span class="keyword">esac</span>
+</code></pre><p>&#x4E3A;&#x811A;&#x672C;&#x8D4B;&#x4E88;&#x6267;&#x884C;&#x6743;&#x9650;</p>
+<pre><code>[root<span class="annotation">@scholar</span> ~]# chmod +x <span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span>nginx
+</code></pre><p>&#x6DFB;&#x52A0;&#x81F3;&#x670D;&#x52A1;&#x7BA1;&#x7406;&#x5217;&#x8868;&#xFF0C;&#x5E76;&#x8BA9;&#x5176;&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x542F;&#x52A8;</p>
+<pre><code>[root<span class="property">@scholar</span> ~]<span class="comment"># chkconfig --add nginx</span>
+[root<span class="property">@scholar</span> ~]<span class="comment"># chkconfig nginx on</span>
+</code></pre><p>&#x914D;&#x7F6E;nginx</p>
+<pre><code>[root@scholar ~]<span class="preprocessor"># vim /etc/nginx/nginx.conf</span>
+upstream www.scholar.com {
+    <span class="keyword">server</span> <span class="number">172.16</span>.10.123:<span class="number">8080</span>;
+    <span class="keyword">server</span> <span class="number">172.16</span>.10.124:<span class="number">8080</span>;
+}
+<span class="keyword">server</span> {
+    listen       <span class="number">80</span>;
+    server_name  www.scholar.com;
+    location / {
+        proxy_pass http:<span class="comment">//www.scholar.com;</span>
+        <span class="keyword">index</span>  <span class="keyword">index</span>.jsp <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;
+    }
+}
+[root@scholar ~]<span class="preprocessor"># service nginx start</span>
+Starting nginx:                                            [  OK  ]
+</code></pre><h4 id="tomcat&#x5B89;&#x88C5;&#x914D;&#x7F6E;">tomcat&#x5B89;&#x88C5;&#x914D;&#x7F6E;</h4><p>&#x5B89;&#x88C5;jdk</p>
+<pre><code>[root<span class="property">@node1</span> ~]<span class="comment"># rpm -ivh jdk-7u79-linux-x64.rpm </span>
+[root<span class="property">@node1</span> ~]<span class="comment"># vim /etc/profile.d/java.sh</span>
+
+<span class="reserved">export</span> JAVA_HOME=/usr/java/latest
+<span class="reserved">export</span> PATH=$JAVA_HOME/<span class="attribute">bin</span>:$PATH
+
+[root<span class="property">@node1</span> ~]<span class="comment"># . /etc/profile.d/java.sh</span>
+</code></pre><p>&#x5B89;&#x88C5;tomcat </p>
+<pre><code>[root<span class="macrocall">@node1</span> ~]<span class="comment"># tar xf apache-tomcat-7.0.62.tar.gz -C /usr/local/</span>
+[root<span class="macrocall">@node1</span> ~]<span class="comment"># cd /usr/local/</span>
+[root<span class="macrocall">@node1</span> <span class="keyword">local</span>]<span class="comment"># ln -sv apache-tomcat-7.0.62/ tomcat</span>
+[root<span class="macrocall">@node1</span> <span class="keyword">local</span>]<span class="comment"># vim /etc/profile.d/tomcat.sh</span>
+
+<span class="keyword">export</span> CATALINA_HOME=/usr/<span class="keyword">local</span>/tomcat
+<span class="keyword">export</span> PATH=$CATALINA_HOME/bin:$PATH
+
+[root<span class="macrocall">@node1</span> <span class="keyword">local</span>]<span class="comment"># . /etc/profile.d/tomcat.sh</span>
+</code></pre><p>&#x63D0;&#x4F9B;&#x811A;&#x672C;</p>
+<pre><code>[root@node1 <span class="built_in">local</span>]<span class="comment"># vim /etc/rc.d/init.d/tomcat</span>
+
+<span class="shebang">#!/bin/sh</span>
+<span class="comment"># Tomcat init script for Linux.</span>
+<span class="comment">#</span>
+<span class="comment"># chkconfig: 2345 96 14</span>
+<span class="comment"># description: The Apache Tomcat servlet/JSP container.</span>
+<span class="comment"># JAVA_OPTS=&amp;apos;-Xms64m -Xmx128m&amp;apos;</span>
+JAVA_HOME=/usr/java/latest
+CATALINA_HOME=/usr/<span class="built_in">local</span>/tomcat
+<span class="built_in">export</span> JAVA_HOME CATALINA_HOME
+<span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span>
+start)
+  <span class="built_in">exec</span> <span class="variable">$CATALINA_HOME</span>/bin/catalina.sh start ;;
+stop)
+  <span class="built_in">exec</span> <span class="variable">$CATALINA_HOME</span>/bin/catalina.sh stop;;
+restart)
+  <span class="variable">$CATALINA_HOME</span>/bin/catalina.sh stop
+  sleep <span class="number">2</span>
+  <span class="built_in">exec</span> <span class="variable">$CATALINA_HOME</span>/bin/catalina.sh start ;;
+*)
+  <span class="built_in">echo</span> &amp;quot;Usage: `basename <span class="variable">$0</span>` {start|stop|restart}&amp;quot;
+  <span class="built_in">exit</span> <span class="number">1</span>
+  ;;
+<span class="keyword">esac</span>
+
+[root@node1 <span class="built_in">local</span>]<span class="comment"># chmod +x /etc/rc.d/init.d/tomcat </span>
+[root@node1 <span class="built_in">local</span>]<span class="comment"># chkconfig --add tomcat</span>
+[root@node1 <span class="built_in">local</span>]<span class="comment"># chkconfig tomcat on</span>
+
+<span class="comment">#&amp;#x4E24;&amp;#x4E2A;tomcat&amp;#x8282;&amp;#x70B9;&amp;#x90FD;&amp;#x6267;&amp;#x884C;&amp;#x4EE5;&amp;#x4E0A;&amp;#x64CD;&amp;#x4F5C;</span>
+</code></pre><p>&#x8BBF;&#x95EE;&#x6D4B;&#x8BD5;</p>
+<p>&#x51C6;&#x5907;&#x6D4B;&#x8BD5;&#x9875;</p>
+<pre><code>[root<span class="variable">@node1</span> <span class="keyword">local</span>]<span class="comment"># cd tomcat/webapps/</span>
+[root<span class="variable">@node1</span> webapps]<span class="comment"># mkdir -pv test/WEB-INF/{classes,lib}</span>
+[root<span class="variable">@node1</span> webapps]<span class="comment"># cd test/</span>
+[root<span class="variable">@node1</span> test]<span class="comment"># vim index.jsp</span>
+
+&amp;<span class="keyword">lt</span>;<span class="variable">%@</span> page language=&amp;quot;java&amp;quot; <span class="variable">%&amp;</span><span class="keyword">gt</span>;
+&amp;<span class="keyword">lt</span>;html&amp;<span class="keyword">gt</span>;
+  &amp;<span class="keyword">lt</span>;head&amp;<span class="keyword">gt</span>;&amp;<span class="keyword">lt</span>;title&amp;<span class="keyword">gt</span>;TomcatA&amp;<span class="keyword">lt</span>;<span class="regexp">/title&amp;gt;&amp;lt;/head</span>&amp;<span class="keyword">gt</span>;
+  &amp;<span class="keyword">lt</span>;body&amp;<span class="keyword">gt</span>;
+    &amp;<span class="keyword">lt</span>;h1&amp;<span class="keyword">gt</span>;&amp;<span class="keyword">lt</span>;font color=&amp;quot;red&amp;quot;&amp;<span class="keyword">gt</span>;TomcatA.scholar.com&amp;<span class="keyword">lt</span>;<span class="regexp">/font&amp;gt;&amp;lt;/h</span>1&amp;<span class="keyword">gt</span>;
+    &amp;<span class="keyword">lt</span>;table align=&amp;quot;centre&amp;quot; border=&amp;quot;<span class="number">1</span>&amp;quot;&amp;<span class="keyword">gt</span>;
+      &amp;<span class="keyword">lt</span>;<span class="keyword">tr</span>&amp;<span class="keyword">gt</span>;
+        &amp;<span class="keyword">lt</span>;td&amp;<span class="keyword">gt</span>;Session ID&amp;<span class="keyword">lt</span>;<span class="regexp">/td&amp;gt;
+    &amp;lt;% session.setAttribute(&amp;quot;scholar.com&amp;quot;,&amp;quot;scholar.com&amp;quot;); %&amp;gt;
+        &amp;lt;td&amp;gt;&amp;lt;%= session.getId() %&amp;gt;&amp;lt;/td</span>&amp;<span class="keyword">gt</span>;
+      &amp;<span class="keyword">lt</span>;<span class="regexp">/tr&amp;gt;
+      &amp;lt;tr&amp;gt;
+        &amp;lt;td&amp;gt;Created on&amp;lt;/td</span>&amp;<span class="keyword">gt</span>;
+        &amp;<span class="keyword">lt</span>;td&amp;<span class="keyword">gt</span>;&amp;<span class="keyword">lt</span>;<span class="variable">%=</span> session.getCreationTime() <span class="variable">%&amp;</span><span class="keyword">gt</span>;&amp;<span class="keyword">lt</span>;<span class="regexp">/td&amp;gt;
+     &amp;lt;/tr</span>&amp;<span class="keyword">gt</span>;
+    &amp;<span class="keyword">lt</span>;<span class="regexp">/table&amp;gt;
+  &amp;lt;/body</span>&amp;<span class="keyword">gt</span>;
+&amp;<span class="keyword">lt</span>;<span class="regexp">/html&amp;gt;
+
+#&amp;#x53E6;&amp;#x4E00;&amp;#x4E2A;&amp;#x8282;&amp;#x70B9;&amp;#x5C06;TomcatA&amp;#x66FF;&amp;#x6362;&amp;#x4E3A;TomcatB&amp;#xFF0C;&amp;#x989C;&amp;#x8272;&amp;#x8BBE;&amp;#x4E3A;&amp;#x84DD;&amp;#x8272;
+
+[root@node1 test]# service tomcat start</span>
+</code></pre><p><img src="http://taojinke.github.io/img/20150703/19ab730.jpg" alt="1435842417983516.jpg"></p>
+<p><img src="http://taojinke.github.io/img/20150703/19ab9a1.jpg" alt="1435842431188356.jpg"></p>
+<p><img src="http://taojinke.github.io/img/20150703/19ab9a1.jpg" alt="1435842445399845.jpg"></p>
+<p><img src="http://taojinke.github.io/img/20150703/19ab9a1.jpg" alt="1435842457423364.jpg"></p>
+<p>&#x6B64;&#x65F6;Session&#x4FE1;&#x606F;&#x5E76;&#x4E0D;&#x4E00;&#x81F4;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x914D;&#x7F6E;MSM&#x5B9E;&#x73B0;Session&#x5171;&#x4EAB; </p>
+<h4 id="memcached&#x5B89;&#x88C5;">memcached&#x5B89;&#x88C5;</h4><pre><code>#&amp;<span class="array">#x</span>89E3;&amp;<span class="array">#x</span>51B3;&amp;<span class="array">#x</span>4F9D;&amp;<span class="array">#x</span>8D56;&amp;<span class="array">#x</span>5173;&amp;<span class="array">#x</span>7CFB;
+[root@scholar ~]<span class="array"># yum groupinstall </span>&amp;quot;Development Tools&amp;quot; &amp;quot;Server Platform Deveopment&amp;quot; -y
+#&amp;<span class="array">#x</span>5B89;&amp;<span class="array">#x</span>88C5;libevent
+<span class="array">#memcached</span>&amp;<span class="array">#x</span>4F9D;&amp;<span class="array">#x</span>8D56;&amp;<span class="array">#x</span>4E8E;libevent API&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>56E0;&amp;<span class="array">#x</span>6B64;&amp;<span class="array">#x</span>8981;&amp;<span class="array">#x</span>4E8B;&amp;<span class="array">#x</span>5148;&amp;<span class="array">#x</span>5B89;&amp;<span class="array">#x</span>88C5;&amp;<span class="array">#x</span>4E4B;
+[root@scholar ~]<span class="array"># tar xf libevent</span>-<span class="number">2.0</span>.22-stable.tar.gz 
+[root@scholar ~]<span class="array"># cd libevent</span>-<span class="number">2.0</span>.22-stable
+[root@scholar libevent-<span class="number">2.0</span>.22-stable]<span class="array">#  .</span>/configure --prefix=/usr/local/libevent
+[root@scholar libevent-<span class="number">2.0</span>.22-stable]<span class="array"># make </span>&amp;amp;&amp;amp; make install
+[root@scholar ~]<span class="array"># echo </span>&amp;quot;/usr/local/libevent/lib&amp;quot; &amp;gt; /etc/ld.so.conf.d/libevent.conf
+[root@scholar ~]<span class="array"># ldconfig </span>
+#&amp;<span class="array">#x</span>5B89;&amp;<span class="array">#x</span>88C5;&amp;<span class="array">#x</span>914D;&amp;<span class="array">#x</span>7F6E;memcached
+[root@scholar ~]<span class="array"># tar xf memcached</span>-<span class="number">1.4</span>.24.tar.tar 
+[root@scholar ~]<span class="array"># cd memcached</span>-<span class="number">1.4</span>.24
+[root@scholar memcached-<span class="number">1.4</span>.24]<span class="array"># .</span>/configure --prefix=/usr/local/memcached --with-libevent=/usr/local/libevent
+[root@scholar memcached-<span class="number">1.4</span>.24]<span class="array"># make </span>&amp;amp;&amp;amp; make install
+</code></pre><p>&#x63D0;&#x4F9B;&#x811A;&#x672C;</p>
+<pre><code>[root@scholar ~]<span class="comment"># vim /etc/init.d/memcached</span>
+
+<span class="shebang">#!/bin/bash</span>
+<span class="comment">#</span>
+<span class="comment"># Init file for memcached</span>
+<span class="comment">#</span>
+<span class="comment"># chkconfig: - 86 14</span>
+<span class="comment"># description: Distributed memory caching daemon</span>
+<span class="comment">#</span>
+<span class="comment"># processname: memcached</span>
+<span class="comment"># config: /etc/sysconfig/memcached</span>
+
+. /etc/rc.d/init.d/<span class="built_in">functions</span>
+
+<span class="comment">## Default variables</span>
+PORT=&amp;quot;<span class="number">11211</span>&amp;quot;
+USER=&amp;quot;nobody&amp;quot;
+MAXCONN=&amp;quot;<span class="number">1024</span>&amp;quot;
+CACHESIZE=&amp;quot;<span class="number">64</span>&amp;quot;
+RETVAL=<span class="number">0</span>
+prog=&amp;quot;/usr/<span class="built_in">local</span>/memcached/bin/memcached&amp;quot;
+desc=&amp;quot;Distributed memory caching&amp;quot;
+lockfile=&amp;quot;/var/lock/subsys/memcached&amp;quot;
+
+<span class="function"><span class="title">start</span></span>() {
+        <span class="built_in">echo</span> -n $&amp;quot;Starting <span class="variable">$desc</span> (memcached): &amp;quot;
+        daemon <span class="variable">$prog</span> <span class="operator">-d</span> -p <span class="variable">$PORT</span> -u <span class="variable">$USER</span> -c <span class="variable">$MAXCONN</span> -m <span class="variable">$CACHESIZE</span> 
+        RETVAL=$?
+        [ <span class="variable">$RETVAL</span> <span class="operator">-eq</span> <span class="number">0</span> ] &amp;amp;&amp;amp; success &amp;amp;&amp;amp; touch <span class="variable">$lockfile</span> || failure
+        <span class="built_in">echo</span>
+        <span class="built_in">return</span> <span class="variable">$RETVAL</span>
+}
+
+<span class="function"><span class="title">stop</span></span>() {
+        <span class="built_in">echo</span> -n $&amp;quot;Shutting down <span class="variable">$desc</span> (memcached): &amp;quot;
+        killproc <span class="variable">$prog</span>
+        RETVAL=$?
+        [ <span class="variable">$RETVAL</span> <span class="operator">-eq</span> <span class="number">0</span> ] &amp;amp;&amp;amp; success &amp;amp;&amp;amp; rm <span class="operator">-f</span> <span class="variable">$lockfile</span> || failure
+        <span class="built_in">echo</span>
+        <span class="built_in">return</span> <span class="variable">$RETVAL</span>
+}
+
+<span class="function"><span class="title">restart</span></span>() {
+        stop
+        start
+}
+
+<span class="function"><span class="title">reload</span></span>() {
+        <span class="built_in">echo</span> -n $&amp;quot;Reloading <span class="variable">$desc</span> (<span class="variable">$prog</span>): &amp;quot;
+        killproc <span class="variable">$prog</span> -HUP
+        RETVAL=$?
+        [ <span class="variable">$RETVAL</span> <span class="operator">-eq</span> <span class="number">0</span> ] &amp;amp;&amp;amp; success || failure
+        <span class="built_in">echo</span>
+        <span class="built_in">return</span> <span class="variable">$RETVAL</span>
+}
+
+<span class="keyword">case</span> &amp;quot;<span class="variable">$1</span>&amp;quot; <span class="keyword">in</span>
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        restart
+        ;;
+  condrestart)
+        [ <span class="operator">-e</span> <span class="variable">$lockfile</span> ] &amp;amp;&amp;amp; restart
+        RETVAL=$?
+        ;;       
+  reload)
+        reload
+        ;;
+  status)
+        status <span class="variable">$prog</span>
+        RETVAL=$?
+        ;;
+   *)
+        <span class="built_in">echo</span> $&amp;quot;Usage: <span class="variable">$0</span> {start|stop|restart|condrestart|status}&amp;quot;
+        RETVAL=<span class="number">1</span>
+<span class="keyword">esac</span>
+
+<span class="built_in">exit</span> <span class="variable">$RETVAL</span>
+</code></pre><p>&#x6388;&#x6743;&#x5E76;&#x542F;&#x52A8;&#x670D;&#x52A1;</p>
+<pre><code>[root@scholar ~]<span class="array"># chmod </span>+x /etc/init.d/memcached
+[root@scholar ~]<span class="array"># chkconfig </span>--add memcached
+[root@scholar ~]<span class="array"># chkconfig memcached on</span>
+[root@scholar ~]<span class="array"># service memcached start</span>
+
+#&amp;<span class="array">#x</span>4E24;&amp;<span class="array">#x</span>4E2A;memcached&amp;<span class="array">#x</span>8282;&amp;<span class="array">#x</span>70B9;&amp;<span class="array">#x</span>90FD;&amp;<span class="array">#x</span>6267;&amp;<span class="array">#x</span>884C;&amp;<span class="array">#x</span>4EE5;&amp;<span class="array">#x</span>4E0A;&amp;<span class="array">#x</span>64CD;&amp;<span class="array">#x</span>4F5C;
+</code></pre><h4 id="tomcat&#x914D;&#x7F6E;">tomcat&#x914D;&#x7F6E;</h4><p>&#x5C06;&#x6240;&#x9700;jar&#x5305;&#x653E;&#x5165;&#x5404;tomcat&#x8282;&#x70B9;&#x7684;tomcat&#x5B89;&#x88C5;&#x76EE;&#x5F55;&#x4E0B;&#x7684;lib&#x76EE;&#x5F55;&#x4E2D;</p>
+<pre><code>[root@node1 ~]<span class="comment"># cd msm/</span>
+[root@node1 msm]<span class="comment"># ls</span>
+javolution-<span class="number">5.4</span>.<span class="number">3.1</span>.jar                   msm-javolution-serializer-<span class="number">1.8</span>.<span class="number">1</span>.jar
+memcached-session-manager-<span class="number">1.8</span>.<span class="number">1</span>.jar      spymemcached-<span class="number">2.10</span>.<span class="number">2</span>.jar
+memcached-session-manager-tc7-<span class="number">1.8</span>.<span class="number">1</span>.jar
+[root@node1 msm]<span class="comment"># cp * /usr/local/tomcat/lib/</span>
+
+<span class="comment">#&amp;#x5404;tomcat&amp;#x8282;&amp;#x70B9;&amp;#x90FD;&amp;#x9700;&amp;#x6267;&amp;#x884C;&amp;#x4EE5;&amp;#x4E0A;&amp;#x64CD;&amp;#x4F5C;</span>
+
+[root@node1 msm]<span class="comment"># vim /usr/local/tomcat/conf/server.xml</span>
+
+  &amp;lt;?xml <span class="variable">version=</span>&amp;apos;<span class="number">1.0</span>&amp;apos; <span class="variable">encoding=</span>&amp;apos;utf-<span class="number">8</span>&amp;apos;?&amp;gt;
+  &amp;lt;Server <span class="variable">port=</span>&amp;quot;<span class="number">8005</span>&amp;quot; <span class="variable">shutdown=</span>&amp;quot;SHUTDOWN&amp;quot;&amp;gt;
+  &amp;lt;Listener <span class="variable">className=</span>&amp;quot;org.apache.catalina.startup.VersionLoggerListener&amp;quot; /&amp;gt;
+  &amp;lt;Listener <span class="variable">className=</span>&amp;quot;org.apache.catalina.core.AprLifecycleListener&amp;quot; <span class="variable">SSLEngine=</span>&amp;quot;on&amp;quot; /&amp;gt;
+  &amp;lt;Listener <span class="variable">className=</span>&amp;quot;org.apache.catalina.core.JasperListener&amp;quot; /&amp;gt;
+  &amp;lt;Listener <span class="variable">className=</span>&amp;quot;org.apache.catalina.core.JreMemoryLeakPreventionListener&amp;quot; /&amp;gt;
+  &amp;lt;Listener <span class="variable">className=</span>&amp;quot;org.apache.catalina.mbeans.GlobalResourcesLifecycleListener&amp;quot; /&amp;gt;
+  &amp;lt;Listener <span class="variable">className=</span>&amp;quot;org.apache.catalina.core.ThreadLocalLeakPreventionListener&amp;quot; /&amp;gt;
+
+  &amp;lt;GlobalNamingResources&amp;gt;
+    &amp;lt;Resource <span class="variable">name=</span>&amp;quot;UserDatabase&amp;quot; <span class="variable">auth=</span>&amp;quot;Container&amp;quot;
+              <span class="variable">type=</span>&amp;quot;org.apache.catalina.UserDatabase&amp;quot;
+              <span class="variable">description=</span>&amp;quot;User database that can be updated <span class="constant">and</span> saved&amp;quot;
+  &amp;lt;/GlobalNamingResources&amp;gt;
+
+  &amp;lt;Service <span class="variable">name=</span>&amp;quot;Catalina&amp;quot;&amp;gt;
+
+    &amp;lt;Connector <span class="variable">port=</span>&amp;quot;<span class="number">8080</span>&amp;quot; <span class="variable">protocol=</span>&amp;quot;HTTP/<span class="number">1.1</span>&amp;quot;
+               <span class="variable">connectionTimeout=</span>&amp;quot;<span class="number">20000</span>&amp;quot;
+               <span class="variable">redirectPort=</span>&amp;quot;<span class="number">8443</span>&amp;quot; /&amp;gt;
+    &amp;lt;Connector <span class="variable">port=</span>&amp;quot;<span class="number">8009</span>&amp;quot; <span class="variable">protocol=</span>&amp;quot;AJP/<span class="number">1.3</span>&amp;quot; <span class="variable">redirectPort=</span>&amp;quot;<span class="number">8443</span>&amp;quot; /&amp;gt;
+
+
+    &amp;lt;Engine <span class="variable">name=</span>&amp;quot;Catalina&amp;quot; <span class="variable">defaultHost=</span>&amp;quot;localhost&amp;quot;&amp;gt;
+
+      &amp;lt;Realm <span class="variable">className=</span>&amp;quot;org.apache.catalina.realm.LockOutRealm&amp;quot;&amp;gt;
+        &amp;lt;Realm <span class="variable">className=</span>&amp;quot;org.apache.catalina.realm.UserDatabaseRealm&amp;quot;
+               <span class="variable">resourceName=</span>&amp;quot;UserDatabase&amp;quot;/&amp;gt;
+      &amp;lt;/Realm&amp;gt;
+
+      &amp;lt;Host <span class="variable">name=</span>&amp;quot;www.scholar.com&amp;quot;  <span class="variable">appBase=</span>&amp;quot;webapps&amp;quot;
+            <span class="variable">unpackWARs=</span>&amp;quot;<span class="constant">true</span>&amp;quot; <span class="variable">autoDeploy=</span>&amp;quot;<span class="constant">true</span>&amp;quot;&amp;gt;
+       &amp;lt;Context <span class="variable">path=</span>&amp;quot;/test&amp;quot; <span class="variable">docBase=</span>&amp;quot;/usr/local/tomcat/webapps/test/&amp;quot; <span class="variable">reloadable=</span>&amp;quot;<span class="constant">true</span>&amp;quot;&amp;gt;
+             &amp;lt;Manager <span class="variable">className=</span>&amp;quot;de.javakaffee.web.msm.MemcachedBackupSessionManager&amp;quot;
+               <span class="variable">memcachedNodes=</span>&amp;quot;n1:<span class="number">172.16</span>.<span class="number">10.126</span>:<span class="number">11211</span>,n2:<span class="number">172.16</span>.<span class="number">10.212</span>:<span class="number">11211</span>&amp;quot;
+               <span class="variable">failoverNodes=</span>&amp;quot;n1&amp;quot;
+               <span class="variable">requestUriIgnorePattern=</span>&amp;quot;.*\.(ico|png|gif|jpg|css|js)$&amp;quot;
+               <span class="variable">transcoderFactoryClass=</span>&amp;quot;de.javakaffee.web.msm.serializer.javolution.Javolu
+tionTranscoderFactory&amp;quot;
+               /&amp;gt; 
+        &amp;lt;/Context&amp;gt;
+        &amp;lt;Valve <span class="variable">className=</span>&amp;quot;org.apache.catalina.valves.AccessLogValve&amp;quot; <span class="variable">directory=</span>&amp;quot;logs&amp;quot;
+               <span class="variable">prefix=</span>&amp;quot;scholar_access_log.&amp;quot; <span class="variable">suffix=</span>&amp;quot;.txt&amp;quot;
+               <span class="variable">pattern=</span>&amp;quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&amp;quot; /&amp;gt;
+
+      &amp;lt;/Host&amp;gt;
+        &amp;lt;Valve <span class="variable">className=</span>&amp;quot;org.apache.catalina.valves.AccessLogValve&amp;quot; <span class="variable">directory=</span>&amp;quot;logs&amp;quot;
+               <span class="variable">prefix=</span>&amp;quot;scholar_access_log.&amp;quot; <span class="variable">suffix=</span>&amp;quot;.txt&amp;quot;
+               <span class="variable">pattern=</span>&amp;quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&amp;quot; /&amp;gt;
+
+      &amp;lt;/Host&amp;gt;
+      &amp;lt;Host <span class="variable">name=</span>&amp;quot;localhost&amp;quot;  <span class="variable">appBase=</span>&amp;quot;webapps&amp;quot;
+            <span class="variable">unpackWARs=</span>&amp;quot;<span class="constant">true</span>&amp;quot; <span class="variable">autoDeploy=</span>&amp;quot;<span class="constant">true</span>&amp;quot;&amp;gt;
+
+        &amp;lt;Valve <span class="variable">className=</span>&amp;quot;org.apache.catalina.valves.AccessLogValve&amp;quot; <span class="variable">directory=</span>&amp;quot;logs&amp;quot;
+               <span class="variable">prefix=</span>&amp;quot;localhost_access_log.&amp;quot; <span class="variable">suffix=</span>&amp;quot;.txt&amp;quot;
+               <span class="variable">pattern=</span>&amp;quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&amp;quot; /&amp;gt;
+
+      &amp;lt;/Host&amp;gt;
+    &amp;lt;/Engine&amp;gt;
+  &amp;lt;/Service&amp;gt;
+&amp;lt;/Server&amp;gt;
+</code></pre><p>&#x5C06;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x540C;&#x6B65;&#x81F3;&#x53E6;&#x4E00;&#x8282;&#x70B9;</p>
+<pre><code>[root<span class="annotation">@node</span>1 msm]# scp <span class="regexp">/usr/</span>local<span class="regexp">/tomcat/</span>conf<span class="regexp">/server.xml node2:/</span>usr<span class="regexp">/local/</span>tomcat<span class="regexp">/conf/</span>
+[root<span class="annotation">@node</span>1 msm]# service tomcat restart ssh node2 &amp;apos;service tomcat restart&amp;apos;
+</code></pre><h4 id="&#x8BBF;&#x95EE;&#x6D4B;&#x8BD5;">&#x8BBF;&#x95EE;&#x6D4B;&#x8BD5;</h4><p><img src="http://taojinke.github.io/img/20150703/19abc12.jpg" alt="1435842476137713.jpg"></p>
+<p><img src="http://taojinke.github.io/img/20150703/19ac365.jpg" alt="1435842491381383.jpg"></p>
+<p>&#x7531;&#x6B64;&#x53EF;&#x89C1;&#xFF0C;Session&#x5171;&#x4EAB;&#x5DF2;&#x5B9E;&#x73B0;&#xFF0C;&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x6A21;&#x62DF;TomcatB&#x8282;&#x70B9;&#x6545;&#x969C;&#xFF0C;&#x770B;&#x4E00;&#x4E0B;Session&#x662F;&#x5426;&#x4F1A;&#x53D1;&#x751F;&#x6539;&#x53D8; </p>
+<pre><code>[root<span class="property">@node2</span> msm]<span class="comment"># service tomcat stop</span>
+</code></pre><p><img src="http://taojinke.github.io/img/20150703/19ac5d6.jpg" alt="1435842510658715.jpg"></p>
+<p>&#x867D;&#x7136;&#x56E0;&#x4E3A;TomcatB&#x6545;&#x969C;&#xFF0C;&#x5BFC;&#x81F4;&#x7528;&#x6237;&#x8BF7;&#x6C42;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x4E86;TomcatA&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x4F46;Session ID&#x5E76;&#x672A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#xFF0C;&#x5373;Session&#x96C6;&#x7FA4;&#x5185;&#x7684;&#x6240;&#x6709;&#x8282;&#x70B9;&#x90FD;&#x4FDD;&#x5B58;&#x6709;&#x5168;&#x5C40;&#x7684;Session&#x4FE1;&#x606F;&#xFF0C;&#x5F88;&#x597D;&#x7684;&#x5B9E;&#x73B0;&#x4E86;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x7684;&#x4E0D;&#x4E2D;&#x65AD; </p>
+<p>&#x5F53;n2&#xFF08;memcached&#xFF09;&#x8282;&#x70B9;&#x53D1;&#x751F;&#x6545;&#x969C;&#xFF0C;Session&#x4FE1;&#x606F;&#x4F1A;&#x4E0D;&#x4F1A;&#x8F6C;&#x79FB;&#x5230;&#x5176;&#x4ED6;memcached&#x8282;&#x70B9;&#x5462;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x8BD5;&#x4E00;&#x4E0B;</p>
+<pre><code>[root<span class="property">@scholar</span> ~]<span class="comment"># service memcached stop</span>
+</code></pre><p><img src="http://taojinke.github.io/img/20150703/19ac5d6.jpg" alt="1435842527285799.jpg"></p>
+<p>Session&#x5DF2;&#x8F6C;&#x79FB;&#x5230;n1&#x4E0A;&#xFF0C;&#x800C;&#x4E14;Session ID&#x5E76;&#x672A;&#x53D1;&#x751F;&#x6539;&#x53D8;&#xFF0C;&#x81F3;&#x6B64;&#xFF0C;Tomcat&#x57FA;&#x4E8E;MSM+Memcached&#x5B9E;&#x73B0;Session&#x5171;&#x4EAB;&#x76EE;&#x7684;&#x5DF2;&#x5B9E;&#x73B0; </p>
+<h4 id="The_end">The end</h4><p>Tomcat&#x57FA;&#x4E8E;MSM+Memcached&#x5B9E;&#x73B0;Session&#x5171;&#x4EAB;&#x5B9E;&#x9A8C;&#x5C31;&#x8BF4;&#x5230;&#x8FD9;&#x91CC;&#x4E86;&#xFF0C;&#x5B9E;&#x9A8C;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x95EE;&#x9898;&#x53EF;&#x7559;&#x8A00;&#x4EA4;&#x6D41;&#x3002;&#x4EE5;&#x4E0A;&#x4EC5;&#x4E3A;&#x4E2A;&#x4EBA;&#x5B66;&#x4E60;&#x6574;&#x7406;&#xFF0C;&#x5982;&#x6709;&#x9519;&#x6F0F;&#xFF0C;&#x5927;&#x795E;&#x52FF;&#x55B7;~~~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Memcached/">Memcached</a><a href="/tags/Nginx/">Nginx</a><a href="/tags/Tomcat/">Tomcat</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/19b0f14/" title="nginx+lua+memcache实现灰度发布 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  nginx+lua+memcache实现灰度发布 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/19a46e2/"  title="Linux下搭建Memcached缓存系统 -">
+ <strong>下一篇：</strong><br/> 
+ <span>Linux下搭建Memcached缓存系统 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#相关介绍"><span class="toc-number">2.</span> <span class="toc-text">相关介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSM"><span class="toc-number">3.</span> <span class="toc-text">MSM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工作原理"><span class="toc-number">4.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现过程"><span class="toc-number">5.</span> <span class="toc-text">实现过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实验拓扑"><span class="toc-number">6.</span> <span class="toc-text">实验拓扑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nginx安装配置"><span class="toc-number">7.</span> <span class="toc-text">nginx安装配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tomcat安装配置"><span class="toc-number">8.</span> <span class="toc-text">tomcat安装配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#memcached安装"><span class="toc-number">9.</span> <span class="toc-text">memcached安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tomcat配置"><span class="toc-number">10.</span> <span class="toc-text">tomcat配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#访问测试"><span class="toc-number">11.</span> <span class="toc-text">访问测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#The_end"><span class="toc-number">12.</span> <span class="toc-text">The end</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,603 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>libmc - 一个高效轻便的 C++/Python Memcached 客户端库 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="libmc is a memcached client library for Python without any other dependencies in runtime. It&amp;apos;s mainly written in C++ and Cython. libmc can be considered as a drop in replacement for libmemcached">
+<meta property="og:type" content="article">
+<meta property="og:title" content="libmc - 一个高效轻便的 C++/Python Memcached 客户端库 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/2391c81/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="libmc is a memcached client library for Python without any other dependencies in runtime. It&amp;apos;s mainly written in C++ and Cython. libmc can be considered as a drop in replacement for libmemcached">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/238e1e9.png">
+<meta property="og:updated_time" content="2015-07-03T14:09:37.913Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="libmc - 一个高效轻便的 C++/Python Memcached 客户端库 -">
+<meta name="twitter:description" content="libmc is a memcached client library for Python without any other dependencies in runtime. It&amp;apos;s mainly written in C++ and Cython. libmc can be considered as a drop in replacement for libmemcached">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/2391c81/" title="libmc - 一个高效轻便的 C++/Python Memcached 客户端库 -" itemprop="url">libmc - 一个高效轻便的 C++/Python Memcached 客户端库 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:37.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Build_and_Installation"><span class="toc-number">1.</span> <span class="toc-text">Build and Installation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Under_the_hood"><span class="toc-number">2.</span> <span class="toc-text">Under the hood</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configuration"><span class="toc-number">3.</span> <span class="toc-text">Configuration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contributing_to_libmc"><span class="toc-number">4.</span> <span class="toc-text">Contributing to libmc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Does_libmc_support_PHP?"><span class="toc-number">4.0.1.</span> <span class="toc-text">Does libmc support PHP?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Is_Memcached_binary_protocol_supported_?"><span class="toc-number">4.0.2.</span> <span class="toc-text">Is Memcached binary protocol supported ?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Why_reinventing_the_wheel?"><span class="toc-number">4.0.3.</span> <span class="toc-text">Why reinventing the wheel?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Is_libmc_thread-safe_?"><span class="toc-number">4.0.4.</span> <span class="toc-text">Is libmc thread-safe ?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Is_libmc_compatible_with_gevent?"><span class="toc-number">4.0.5.</span> <span class="toc-text">Is libmc compatible with gevent?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Acknowledgments"><span class="toc-number">5.</span> <span class="toc-text">Acknowledgments</span></a></li></ol>
+		
+		</div>
+		
+		<p><img src="http://taojinke.github.io/img/20150703/238e1e9.png" alt=""></p>
+<p>libmc is a memcached client library for Python without any other dependencies in runtime. It&apos;s mainly written in C++ and Cython. libmc can be considered as a drop in replacement for <strong>libmemcached andpython-libmemcached</strong> . </p>
+<p>libmc is developing and maintaining by Douban Inc. Currently, It is working in production environment, powering all web traffics in douban.com. Realtime <a href="https://travis-ci.org/douban/libmc/builds/57124335#L1611" target="_blank" rel="external">benchmark result</a> is available on travis. </p>
+<h2 id="Build_and_Installation">Build and Installation</h2><p>For users:</p>
+<pre><code>pip <span class="keyword">install</span> libmc
+</code></pre><p>Usage:</p>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> libmc
+
+mc = libmc.Client([&amp;apos;</span>localhost:<span class="number">11211</span>&amp;apos;, &amp;apos;localhost:<span class="number">11212</span>&amp;apos;])
+mc.<span class="keyword">set</span>(&amp;apos;foo&amp;apos;, &amp;apos;bar&amp;apos;)
+assert mc.<span class="keyword">get</span>(&amp;apos;foo&amp;apos;) == &amp;apos;bar&amp;apos;
+</code></pre><h2 id="Under_the_hood">Under the hood</h2><p>Under the hood, libmc consists of 2 parts: an internal fully-functional memcached client implementation in C++ and a Cython wrapper around that implementation. Dynamic memory allocation and memory-copy are slow, so we tried our best to avoid them. The set_multi command is not natively supported by thememcached protocol. Some techniques are applied to make set_multi command extremely fast in libmc (compared to some other similiar libraries). </p>
+<h2 id="Configuration">Configuration</h2><pre><code><span class="built_in">import</span> libmc
+from libmc <span class="built_in">import</span> (
+    MC_HASH_MD5, MC_POLL_TIMEOUT, MC_CONNECT_TIMEOUT, MC_RETRY_TIMEOUT
+)
+<span class="variable">mc =</span> libmc.Client(
+    [&amp;apos;localhost:<span class="number">11211</span>&amp;apos;, &amp;apos;localhost:<span class="number">11212</span>&amp;apos;], <span class="variable">do_split=</span>True,
+    <span class="variable">comp_threshold=</span><span class="number">0</span>, <span class="variable">noreply=</span>False, <span class="variable">prefix=</span>None,
+    <span class="variable">hash_fn=</span>MC_HASH_MD5, <span class="variable">failover=</span>False
+)
+mc.config(MC_POLL_TIMEOUT, <span class="number">100</span>)  <span class="comment"># 100 ms</span>
+mc.config(MC_CONNECT_TIMEOUT, <span class="number">300</span>)  <span class="comment"># 300 ms</span>
+mc.config(MC_RETRY_TIMEOUT, <span class="number">5</span>)  <span class="comment"># 5 s</span>
+</code></pre><ul>
+<li>do_split : Memcached server will refuse to store value if size &gt;= 1MB, if do_split is enabled, large value (&lt; 10 MB) will be splitted into several blocks. If the value is too large (&gt;= 10 MB), it will not be stored. default: True</li>
+<li>comp_threshold : All kinds of values will be encoded into string buffer. If buffer length &gt; comp_threshold &gt; 0 , it will be compressed using zlib. If comp_threshold = 0 , string buffer will never be compressed using zlib. default:</li>
+<li>noreply : Whether to enable memcached&apos;s noreply behaviour. default: False</li>
+<li>prefix : The key prefix. default: &apos;&apos;</li>
+<li>hash_fn : hashing function for keys. possible values: </li>
+</ul>
+<ul>
+<li>MC_HASH_MD5</li>
+<li>MC_HASH_FNV1_32</li>
+<li>MC_HASH_FNV1A_32</li>
+<li>MC_HASH_CRC_32</li>
+</ul>
+<p>default: MC_HASH_MD5</p>
+<p>NOTE:fnv1_32, fnv1a_32, crc_32 implementations in libmc are per each spec, but they&apos;re not compatible with corresponding implementions in libmemcached.</p>
+<ul>
+<li>failover : Whether to failover to next server when current server is not available. default: False</li>
+<li>MC_POLL_TIMEOUT Timeout parameter used during set/get procedure. (default:ms)</li>
+<li>MC_CONNECT_TIMEOUT Timeout parameter used when connecting to memcached server on initial phase. (default:ms)</li>
+<li>MC_RETRY_TIMEOUT When a server is not available dur to server-end error. libmc will try to establish the broken connection in every MC_RETRY_TIMEOUT s until the connection is back to live.(default:s)</li>
+</ul>
+<p>NOTE:The hashing algorithm for host mapping on continuum is always md5. </p>
+<h2 id="Contributing_to_libmc">Contributing to libmc</h2><p>Feel free to send a <strong>Pull Request</strong> . For feature requests or any questions, please open an <strong>Issue</strong> . </p>
+<p>For <strong>SECURITY DISCLOSURE</strong> , please disclose the information responsibly by sending an email to <a href="mailto:security@douban.com" target="_blank" rel="external">security@douban.com</a> directly instead of creating a GitHub issue. </p>
+<h4 id="Does_libmc_support_PHP?">Does libmc support PHP?</h4><p>No. But if you like, you can write a wrapper for PHP based on the C++ implementation.</p>
+<h4 id="Is_Memcached_binary_protocol_supported_?">Is Memcached binary protocol supported ?</h4><p>No. Only Memcached ASCII protocol is supported currently.</p>
+<h4 id="Why_reinventing_the_wheel?">Why reinventing the wheel?</h4><p>Before libmc, we&apos;re usingpython-libmemcached, which is a python extention for <a href="http://libmemcached.org/libMemcached.html" target="_blank" rel="external">libmemcached</a> . libmemcached is quite weird and buggy. After nearly one decade, there&apos;re still some unsolved bugs. </p>
+<h4 id="Is_libmc_thread-safe_?">Is libmc thread-safe ?</h4><p>libmc is a single-threaded memcached client. If you initialize a libmc client in one thread but reuse that in another thread, a Python Exception ThreadUnsafe will raise in Python. </p>
+<h4 id="Is_libmc_compatible_with_gevent?">Is libmc compatible with gevent?</h4><p>Yes, with the help ofgreenify, libmc is friendly to gevent. Read tests/shabby/gevent_issue.py for details. </p>
+<h2 id="Acknowledgments">Acknowledgments</h2><ul>
+<li>Thanks to@fahrenheit2539 and the llvm project for the standalone. <a href="http://fahrenheit2539.blogspot.com/2012/06/introduction-in-depths-look-at.html" target="_blank" rel="external">SmallVector</a> implementation.</li>
+<li>Thanks to@miloyip for the high performancei64toa implementation.</li>
+<li>Thanks to <a href="https://twitter.com/d0znpp" target="_blank" rel="external">Ivan Novikov</a> for the research in <a href="https://www.blackhat.com/us-14/briefings.html#the-new-page-of-injections-book-memcached-injections" target="_blank" rel="external">THE NEW PAGE OF INJECTIONS BOOK: MEMCACHED INJECTIONS</a> .</li>
+<li>Thanks to the PolarSSL project for the md5 implementation.</li>
+<li>Thanks to@lericson for the <a href="https://github.com/lericson/pylibmc/blob/master/bin/runbench.py" target="_blank" rel="external">benchmark script in pylibmc</a> .</li>
+<li>Thanks to the libmemcached project and some other projects possibly not mentioned here.</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/Memcached/">Memcached</a><a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/23bc0c6/" title="memcached Java客户端spymemcached的一致性Hash算法 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  memcached Java客户端spymemcached的一致性Hash算法 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/238d0d2/"  title="Linux c 开发 - Memcached源码分析之存储机制Slabs（7） -">
+ <strong>下一篇：</strong><br/> 
+ <span>Linux c 开发 - Memcached源码分析之存储机制Slabs（7） -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Build_and_Installation"><span class="toc-number">1.</span> <span class="toc-text">Build and Installation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Under_the_hood"><span class="toc-number">2.</span> <span class="toc-text">Under the hood</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configuration"><span class="toc-number">3.</span> <span class="toc-text">Configuration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contributing_to_libmc"><span class="toc-number">4.</span> <span class="toc-text">Contributing to libmc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Does_libmc_support_PHP?"><span class="toc-number">4.0.1.</span> <span class="toc-text">Does libmc support PHP?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Is_Memcached_binary_protocol_supported_?"><span class="toc-number">4.0.2.</span> <span class="toc-text">Is Memcached binary protocol supported ?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Why_reinventing_the_wheel?"><span class="toc-number">4.0.3.</span> <span class="toc-text">Why reinventing the wheel?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Is_libmc_thread-safe_?"><span class="toc-number">4.0.4.</span> <span class="toc-text">Is libmc thread-safe ?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Is_libmc_compatible_with_gevent?"><span class="toc-number">4.0.5.</span> <span class="toc-text">Is libmc compatible with gevent?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Acknowledgments"><span class="toc-number">5.</span> <span class="toc-text">Acknowledgments</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

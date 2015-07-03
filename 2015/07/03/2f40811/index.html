@@ -1,0 +1,947 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>The long road to Async/Await in JavaScript - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="This is a comparison of different methods for performing asynchronous control flow in JavaScript, specifically Callbacks , Promises , Generators / Yields (ES6), and Async / Await (ES7).&amp;#xA0;To follow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The long road to Async/Await in JavaScript -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/2f40811/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="This is a comparison of different methods for performing asynchronous control flow in JavaScript, specifically Callbacks , Promises , Generators / Yields (ES6), and Async / Await (ES7).&amp;#xA0;To follow">
+<meta property="og:updated_time" content="2015-07-03T14:09:57.436Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The long road to Async/Await in JavaScript -">
+<meta name="twitter:description" content="This is a comparison of different methods for performing asynchronous control flow in JavaScript, specifically Callbacks , Promises , Generators / Yields (ES6), and Async / Await (ES7).&amp;#xA0;To follow">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/2f40811/" title="The long road to Async/Await in JavaScript -" itemprop="url">The long road to Async/Await in JavaScript -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:57.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_0:_Synchronous Code"><span class="toc-number">1.</span> <span class="toc-text">Stage 0: Synchronous Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_1:_Callbacks"><span class="toc-number">2.</span> <span class="toc-text">Stage 1: Callbacks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_2:_Promises_(ES6 or ES5_+_Polyfill)"><span class="toc-number">3.</span> <span class="toc-text">Stage 2: Promises (ES6 or ES5 + Polyfill)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_3:_Generators/Yields_(ES6)"><span class="toc-number">4.</span> <span class="toc-text">Stage 3: Generators/Yields (ES6)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_4:_Async/Await_(ES7)"><span class="toc-number">5.</span> <span class="toc-text">Stage 4: Async/Await (ES7)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_3-5:_Generators/Yields +_co_(ES6)"><span class="toc-number">6.</span> <span class="toc-text">Stage 3.5: Generators/Yields + co (ES6)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tl;dr"><span class="toc-number">7.</span> <span class="toc-text">tl;dr</span></a></li></ol>
+		
+		</div>
+		
+		<p> This is a comparison of different methods for performing asynchronous control flow in JavaScript, specifically <strong>Callbacks</strong> , <strong>Promises</strong> , <strong>Generators</strong> / <strong>Yields</strong> (ES6), and <strong>Async</strong> / <strong>Await</strong> (ES7).&#xA0;To follow along be sure you understand how the <a href="https://thomashunter.name/blog/the-javascript-event-loop-presentation/" target="_blank" rel="external">JavaScript Event Loop</a> works and what it means&#xA0;when code is executed synchronously in the current stack, or shoved into the queue to be executed asynchronously in the future. </p>
+<p>In the following contrived examples, publishLevel() is our main application code (perhaps something we&#x2019;d see in a <strong>Controller</strong> ), whereas&#xA0; getUser() , canCreate() , and saveLevel() are functions&#xA0;nested deeper in our application (perhaps in our <strong>Model</strong> s). </p>
+<p>Compatibility:&#xA0;Keep in mind that anything marked as <strong>ES6</strong> will require Node.js &gt;= 0.12 with the —harmony flag enabled, or any version of io.js &gt;= 1.0. <a href="https://kangax.github.io/compat-table/es6/" target="_blank" rel="external">Browser support for ES6</a> is anything but spectacular and you&#x2019;ll likely need&#xA0;to transpile. Anything marked as <strong>ES7</strong> will definitely require a transpile for either Browser or Node.js. </p>
+<h2 id="Stage_0:_Synchronous&#xA0;Code">Stage 0: Synchronous&#xA0;Code</h2><p>This of course is not Asynchronous code&#xA0;but&#xA0;it does show us&#xA0;eloquent syntax. If you&#x2019;re used to writing applications in, say, PHP, all of your code looks like this. This is the cleanest&#xA0;way one can write code and have it execute sequentially.</p>
+<p>In the publishLevel() function we execute a function, get the result, pass it to the next function, run a branch, all in the current stack, all using minimal syntax.</p>
+<pre><code><span class="keyword">var</span> level_result = publishLevel(<span class="number">12</span>, {data: <span class="literal">true</span>});
+<span class="built_in">console</span>.log(level_result);
+
+<span class="function"><span class="keyword">function</span> <span class="title">publishLevel</span>(<span class="params">user_id, level_data</span>) </span>{
+  <span class="keyword">var</span> user = getUser(user_id);
+  <span class="keyword">var</span> can_create = canCreate(user);
+
+  <span class="keyword">if</span> (!can_create) {
+    <span class="keyword">return</span> <span class="literal">null</span>;
+  }
+
+  <span class="keyword">var</span> level = saveLevel(user, level_data);
+
+  <span class="keyword">return</span> level;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">getUser</span>(<span class="params">user_id</span>) </span>{
+  <span class="keyword">return</span> {
+    id: user_id,
+    nickname: &amp;apos;tlhunter&amp;apos;
+  };
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">canCreate</span>(<span class="params">user</span>) </span>{
+  <span class="keyword">return</span> user.id === <span class="number">12</span>;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">saveLevel</span>(<span class="params">user, data</span>) </span>{
+  <span class="keyword">return</span> {
+    id: <span class="number">100</span>,
+    owner: user.nickname,
+    data: data
+  };
+}
+</code></pre><h2 id="Stage_1:_Callbacks">Stage 1: Callbacks</h2><p>This is the defacto approach&#xA0;used in&#xA0;Node.js applications where sequential&#xA0;asynchronous operations need to happen. As more function calls need to happen your code starts to nest even deeper. This phenomenon is affectionately known as callback hell.</p>
+<p>What happens if you want to add another operation in the middle? You&#x2019;ve got to re-nest all subsequent tasks within the new operation. Over time&#xA0;your code begins&#xA0;to flare outward, and those git-blame&#x2019;s start to lie.</p>
+<pre><code>publishLevel(<span class="number">12</span>, {data: <span class="literal">true</span>}, <span class="function"><span class="keyword">function</span>(<span class="params">level_result</span>) </span>{
+  <span class="built_in">console</span>.log(level_result);
+});
+
+<span class="function"><span class="keyword">function</span> <span class="title">publishLevel</span>(<span class="params">user_id, level_data, cb</span>) </span>{
+  getUser(user_id, <span class="function"><span class="keyword">function</span>(<span class="params">user</span>) </span>{
+    canCreate(user, <span class="function"><span class="keyword">function</span>(<span class="params">can_create</span>) </span>{
+      <span class="keyword">if</span> (!can_create) {
+        <span class="keyword">return</span> cb(<span class="literal">null</span>);
+      }
+      saveLevel(user, level_data, <span class="function"><span class="keyword">function</span>(<span class="params">level</span>) </span>{
+        cb(level);
+      });
+    });
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">getUser</span>(<span class="params">user_id, cb</span>) </span>{
+  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+    cb({
+      id: user_id,
+      nickname: &amp;apos;tlhunter&amp;apos;
+    });
+  }, <span class="number">100</span>);
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">canCreate</span>(<span class="params">user, cb</span>) </span>{
+  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+    cb(user.id === <span class="number">12</span>);
+  }, <span class="number">100</span>);
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">saveLevel</span>(<span class="params">user, data, cb</span>) </span>{
+  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+    cb({
+      id: <span class="number">100</span>,
+      owner: user.nickname,
+      data: data
+    });
+  }, <span class="number">100</span>);
+}
+</code></pre><h2 id="Stage_2:_Promises_(ES6&#xA0;or&#xA0;ES5_+_Polyfill)">Stage 2: Promises (ES6&#xA0;or&#xA0;ES5 + Polyfill)</h2><p>This is the approach used by a large codebase I&#x2019;ve been working with lately. While we don&#x2019;t get Promises until ES6, ES5 can use them thanks to polyfills such as <a href="https://github.com/petkaantonov/bluebird" target="_blank" rel="external">Bluebird</a> . </p>
+<p>The benefit of using Promises is&#xA0;we don&#x2019;t need to continually nest functions, and adding new work in the middle is as simple as adding a few extra lines.</p>
+<p>In my opinion the syntax is a bit ugly. Chaining .then() calls from previous executions and calling&#xA0;the next bit of asynchronous work within the same function just doesn&#x2019;t feel right.</p>
+<pre><code>publishLevel(<span class="number">12</span>, {data: <span class="literal">true</span>}).then(<span class="function"><span class="keyword">function</span>(<span class="params">level_result</span>) </span>{
+  <span class="built_in">console</span>.log(level_result);
+});
+
+<span class="function"><span class="keyword">function</span> <span class="title">publishLevel</span>(<span class="params">user_id, level_data, cb</span>) </span>{
+  <span class="keyword">var</span> user = <span class="literal">null</span>;
+  <span class="keyword">return</span> getUser(user_id).then(<span class="function"><span class="keyword">function</span>(<span class="params">_user</span>) </span>{
+    user = _user;
+    <span class="keyword">return</span> canCreate(_user);
+  }).then(<span class="function"><span class="keyword">function</span>(<span class="params">can_create</span>) </span>{
+    <span class="keyword">if</span> (!can_create) {
+      <span class="keyword">return</span> <span class="literal">null</span>;
+    }
+
+    <span class="keyword">return</span> saveLevel(user, level_data);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">getUser</span>(<span class="params">user_id</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve({
+        id: user_id,
+        nickname: &amp;apos;tlhunter&amp;apos;
+      });
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">canCreate</span>(<span class="params">user</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve(user.id === <span class="number">12</span>);
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">saveLevel</span>(<span class="params">user, data</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve({
+        id: <span class="number">100</span>,
+        owner: user.nickname,
+        data: data
+      });
+    }, <span class="number">100</span>);
+  });
+}
+</code></pre><p>Promises everywhere is certainly more fun than Promises somewhere. If you&#x2019;re planning on heavily using Promises with Node.js, check out <a href="https://github.com/normalize/mz" target="_blank" rel="external">mz,</a> which will Promisify the Node.js API. </p>
+<h2 id="Stage_3:_Generators/Yields_(ES6)">Stage 3: Generators/Yields (ES6)</h2><p>ES6 gives us <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators" target="_blank" rel="external">Generator</a> functions which we can <strong>yield</strong> . When a function yields it is temporarily paused while the caller gets to do something with the yielded value. These were designed with&#xA0;doing iteration-based tasks in mind, yielding simple values, but here we&#x2019;re going to yield Promises! </p>
+<p>This is the first time&#xA0;we see code able to get executed in a different stack&#xA0;yet exist within the same function scope. Of course this new paradigm requires a new syntax. Generator functions have a <strong>*</strong> in their declaration, and we make use of the&#xA0;new&#xA0; <strong>yield</strong> keyword. </p>
+<p>These <em>can</em> be used for doing control flow, but it&#x2019;s really intended for iteration work, as you&#x2019;ll see in this next example where I run a whole bunch of ugly code to manually keep the generator alive: </p>
+<pre><code><span class="keyword">var</span> generator = publishLevel(<span class="number">12</span>, {data: <span class="literal">true</span>});
+
+generator.next().value.then(<span class="function"><span class="keyword">function</span>(<span class="params">user</span>) </span>{
+   <span class="keyword">return</span> generator.next(user).value.then(<span class="function"><span class="keyword">function</span>(<span class="params">can_create</span>) </span>{
+     <span class="keyword">return</span> generator.next(can_create).value.then(<span class="function"><span class="keyword">function</span>(<span class="params">level_result</span>) </span>{
+       <span class="built_in">console</span>.log(level_result);
+     });
+   });
+ });
+
+<span class="function"><span class="keyword">function</span> * <span class="title">publishLevel</span>(<span class="params">user_id, level_data</span>) </span>{
+  <span class="keyword">var</span> user = <span class="keyword">yield</span> getUser(user_id);
+  <span class="keyword">var</span> can_create = <span class="keyword">yield</span> canCreate(user);
+
+  <span class="keyword">if</span> (!can_create) {
+    <span class="keyword">return</span> <span class="literal">null</span>;
+  }
+
+  <span class="keyword">var</span> level = <span class="keyword">yield</span> saveLevel(user, level_data);
+
+  <span class="keyword">return</span> level;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">getUser</span>(<span class="params">user_id</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve({
+        id: user_id,
+        nickname: &amp;apos;tlhunter&amp;apos;
+      });
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">canCreate</span>(<span class="params">user</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve(user.id === <span class="number">12</span>);
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">saveLevel</span>(<span class="params">user, data</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve({
+        id: <span class="number">100</span>,
+        owner: user.nickname,
+        data: data
+      });
+    }, <span class="number">100</span>);
+  });
+}
+</code></pre><p>Notice this intimate knowledge we need to know about the function we&#x2019;re calling! We take the result, pass it into another generator.next() call as an argument (this becomes the result of the yielded assignment). </p>
+<p>Objects returned by generators have a .next() method, with a .done and .value attribute. If done is true, then the generators work is finished&#xA0;(the final return), however if done is false then there&#x2019;s more work to happen&#xA0;(the preceding yield&#x2019;s).&#xA0;The calling function is given the intermediate yield values, and has to know to continue the execution of the generator. While this is great for doing iteration work, it&#x2019;s tedious&#xA0;from the perspective of doing asynchronous control flow. </p>
+<h2 id="Stage_4:_Async/Await_(ES7)">Stage 4: Async/Await (ES7)</h2><p>Async / Await is amazing, the mecca of working with asynchronous code in JavaScript. Personally I think it&#x2019;s a shame we got Generators in ES6 instead of this. The solution is so eloquent that it will forever change the way we write JavaScript.</p>
+<p>Internally it works with Promises. When the promise returned by an await&#xA0;resolves the code in the function will continue executing, and the resolved value will be provided.</p>
+<pre><code>publishLevel(<span class="number">12</span>, {data: <span class="literal">true</span>}).then(<span class="function"><span class="keyword">function</span>(<span class="params">level_data</span>) </span>{
+  <span class="built_in">console</span>.log(level_data);
+});
+
+<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">publishLevel</span>(<span class="params">user_id, level_data</span>) </span>{
+  <span class="keyword">var</span> user = <span class="keyword">await</span> getUser(user_id);
+  <span class="keyword">var</span> can_create = <span class="keyword">await</span> canCreate(user);
+
+  <span class="keyword">if</span> (!can_create) {
+    <span class="keyword">return</span> <span class="literal">null</span>;
+  }
+
+  <span class="keyword">var</span> level = <span class="keyword">await</span> saveLevel(user, level_data);
+
+  <span class="keyword">return</span> level;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">getUser</span>(<span class="params">user_id</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve({
+        id: user_id,
+        nickname: &amp;apos;tlhunter&amp;apos;
+      });
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">canCreate</span>(<span class="params">user</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve(user.id === <span class="number">12</span>);
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">saveLevel</span>(<span class="params">user, data</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve({
+        id: <span class="number">100</span>,
+        owner: user.nickname,
+        data: data
+      });
+    }, <span class="number">100</span>);
+  });
+}
+</code></pre><p>You can transpile this down to ES5 today using Babel:</p>
+<pre><code>$ npm install babel-<span class="keyword">runtime</span>
+$ babel --stage=<span class="number">1</span> --optional <span class="keyword">runtime</span> <span class="built_in">input</span>.es7.js &amp;gt; output.es5.js
+</code></pre><p>What does this code look like after transpilation?</p>
+<pre><code>&amp;apos;use strict&amp;apos;;
+
+<span class="keyword">var</span> _regeneratorRuntime = <span class="built_in">require</span>(&amp;apos;babel-runtime/regenerator&amp;apos;)[&amp;apos;<span class="keyword">default</span>&amp;apos;];
+
+<span class="keyword">var</span> _Promise = <span class="built_in">require</span>(&amp;apos;babel-runtime/core-js/promise&amp;apos;)[&amp;apos;<span class="keyword">default</span>&amp;apos;];
+
+publishLevel(<span class="number">12</span>, { data: <span class="literal">true</span> }).then(<span class="function"><span class="keyword">function</span> (<span class="params">level_data</span>) </span>{
+  <span class="built_in">console</span>.log(level_data);
+});
+
+<span class="function"><span class="keyword">function</span> <span class="title">publishLevel</span>(<span class="params">user_id, level_data</span>) </span>{
+  <span class="keyword">var</span> user, can_create, level;
+  <span class="keyword">return</span> _regeneratorRuntime.async(<span class="function"><span class="keyword">function</span> <span class="title">publishLevel$</span>(<span class="params">context$1$0</span>) </span>{
+    <span class="keyword">while</span> (<span class="number">1</span>) <span class="keyword">switch</span> (context$<span class="number">1</span>$<span class="number">0.</span>prev = context$<span class="number">1</span>$<span class="number">0.</span>next) {
+      <span class="keyword">case</span> <span class="number">0</span>:
+        context$<span class="number">1</span>$<span class="number">0.</span>next = <span class="number">2</span>;
+        <span class="keyword">return</span> _regeneratorRuntime.awrap(getUser(user_id));
+
+      <span class="keyword">case</span> <span class="number">2</span>:
+        user = context$<span class="number">1</span>$<span class="number">0.</span>sent;
+        context$<span class="number">1</span>$<span class="number">0.</span>next = <span class="number">5</span>;
+        <span class="keyword">return</span> _regeneratorRuntime.awrap(canCreate(user));
+
+      <span class="keyword">case</span> <span class="number">5</span>:
+        can_create = context$<span class="number">1</span>$<span class="number">0.</span>sent;
+
+        <span class="keyword">if</span> (can_create) {
+          context$<span class="number">1</span>$<span class="number">0.</span>next = <span class="number">8</span>;
+          <span class="keyword">break</span>;
+        }
+
+        <span class="keyword">return</span> context$<span class="number">1</span>$<span class="number">0.</span>abrupt(&amp;apos;<span class="keyword">return</span>&amp;apos;, <span class="literal">null</span>);
+
+      <span class="keyword">case</span> <span class="number">8</span>:
+        context$<span class="number">1</span>$<span class="number">0.</span>next = <span class="number">10</span>;
+        <span class="keyword">return</span> _regeneratorRuntime.awrap(saveLevel(user, level_data));
+
+      <span class="keyword">case</span> <span class="number">10</span>:
+        level = context$<span class="number">1</span>$<span class="number">0.</span>sent;
+        <span class="keyword">return</span> context$<span class="number">1</span>$<span class="number">0.</span>abrupt(&amp;apos;<span class="keyword">return</span>&amp;apos;, level);
+
+      <span class="keyword">case</span> <span class="number">12</span>:
+      <span class="keyword">case</span> &amp;apos;end&amp;apos;:
+        <span class="keyword">return</span> context$<span class="number">1</span>$<span class="number">0.</span>stop();
+    }
+  }, <span class="literal">null</span>, <span class="keyword">this</span>);
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">getUser</span>(<span class="params">user_id</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> _Promise(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+      resolve({
+        id: user_id,
+        nickname: &amp;apos;tlhunter&amp;apos;
+      });
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">canCreate</span>(<span class="params">user</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> _Promise(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+      resolve(user.id === <span class="number">12</span>);
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">saveLevel</span>(<span class="params">user, data</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> _Promise(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+      resolve({
+        id: <span class="number">100</span>,
+        owner: user.nickname,
+        data: data
+      });
+    }, <span class="number">100</span>);
+  });
+}
+</code></pre><p>I&#x2019;m not sure how performant this code is. Certainly once JavaScript engines natively support Async / Await&#xA0;it&#x2019;ll be fast, but the output from Babel I&#x2019;m not too sure.</p>
+<h2 id="Stage_3-5:_Generators/Yields&#xA0;+_co_(ES6)">Stage 3.5: Generators/Yields&#xA0;+ co (ES6)</h2><p>I put this one out of order so you&#x2019;d first see how awesome Async / Await is, and what the <a href="https://github.com/tj/co" target="_blank" rel="external">co</a> module&#xA0;attempts to emulate. </p>
+<p>Async / Await is great&#xA0;but we can&#x2019;t use it today without complex&#xA0;transpilations! Generators are neat, but they require manual executions of .next() ! Luckily there&#x2019;s a sweet library called <strong>co</strong> which can sort of provide us the best of both worlds (transpile-free if you&#x2019;re running modern Node). It&#x2019;ll run .next() for us, and if we return Promises, when they resolve the generator will continue. Finally once the final return is called, that value is the final resolved value of the co-wrapped generator. </p>
+<pre><code><span class="keyword">var</span> co = <span class="built_in">require</span>(&amp;apos;co&amp;apos;);
+
+publishLevel(<span class="number">12</span>, {data: <span class="literal">true</span>}).then(<span class="function"><span class="keyword">function</span>(<span class="params">level_data</span>) </span>{
+  <span class="built_in">console</span>.log(level_data);
+});
+
+<span class="function"><span class="keyword">function</span> <span class="title">publishLevel</span>(<span class="params">user_id, level_data</span>) </span>{
+  <span class="keyword">return</span> co(<span class="function"><span class="keyword">function</span> * <span class="title">publishLevel</span>(<span class="params"></span>) </span>{
+    <span class="keyword">var</span> user = <span class="keyword">yield</span> getUser(user_id);
+    <span class="keyword">var</span> can_create = <span class="keyword">yield</span> canCreate(user);
+
+    <span class="keyword">if</span> (!can_create) {
+      <span class="keyword">return</span> <span class="literal">null</span>;
+    }
+
+    <span class="keyword">var</span> level = <span class="keyword">yield</span> saveLevel(user, level_data);
+
+    <span class="keyword">return</span> level;
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">getUser</span>(<span class="params">user_id</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve({
+        id: user_id,
+        nickname: &amp;apos;tlhunter&amp;apos;
+      });
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">canCreate</span>(<span class="params">user</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve(user.id === <span class="number">12</span>);
+    }, <span class="number">100</span>);
+  });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">saveLevel</span>(<span class="params">user, data</span>) </span>{
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>{
+    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+      resolve({
+        id: <span class="number">100</span>,
+        owner: user.nickname,
+        data: data
+      });
+    }, <span class="number">100</span>);
+  });
+}
+</code></pre><p>The solution isn&#x2019;t as eloquent as the Async/Await version. We need an additional function level and a library. But overall it&#x2019;s a nice alternative to nested callbacks or verbose Promises.</p>
+<h2 id="tl;dr">tl;dr</h2><ul>
+<li><strong>Stage 1: Callbacks</strong> shows us how nested callbacks give us control over Asynchronous code <ul>
+<li>Pro&#x2019;s: ES5, Simple to understand, Node.js API works this way</li>
+<li>Con&#x2019;s: Messy refactors, code nesting levels jump around</li>
+</ul>
+</li>
+<li><strong>Stage 2: Promises</strong> gives us the power of callbacks but keeps code from getting out of hand <ul>
+<li>Pro&#x2019;s: ES5&#xA0;with polyfill, nesting is under control</li>
+<li>Con&#x2019;s: Verbose syntax</li>
+</ul>
+</li>
+<li><strong>Stage 3: Generators/Yields</strong> describes generators and how they can get a bit messy <ul>
+<li>Pro&#x2019;s:&#xA0;Works great with iterators, parts of functions can be executed in future</li>
+<li>Con&#x2019;s: ES6 or transpile, painful to manually manage execution</li>
+</ul>
+</li>
+<li><strong>Stage 3.5: Generators/Yields + co</strong> is a great solution you can use today <ul>
+<li>Pro&#x2019;s: The advantage of using Generators without manually managing yields</li>
+<li>Con&#x2019;s: ES6 or transpile</li>
+</ul>
+</li>
+<li><strong>Stage 4: Async/Await</strong> is an amazing solution you can use tomorrow <ul>
+<li>Pro&#x2019;s: Eloquent syntax</li>
+<li>Con&#x2019;s: ES7 currently requires transpile regardless of environment</li>
+</ul>
+</li>
+</ul>
+<p>Pick your poison!</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ECMAScript/">ECMAScript</a><a href="/tags/Node-js/">Node.js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/2f2ef4e/" title="A Gulp.js tutorial -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  A Gulp.js tutorial -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/2ecf21a/"  title="This Week&#39;s Node.js News - Issue 93 -">
+ <strong>下一篇：</strong><br/> 
+ <span>This Week&#39;s Node.js News - Issue 93 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_0:_Synchronous Code"><span class="toc-number">1.</span> <span class="toc-text">Stage 0: Synchronous Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_1:_Callbacks"><span class="toc-number">2.</span> <span class="toc-text">Stage 1: Callbacks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_2:_Promises_(ES6 or ES5_+_Polyfill)"><span class="toc-number">3.</span> <span class="toc-text">Stage 2: Promises (ES6 or ES5 + Polyfill)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_3:_Generators/Yields_(ES6)"><span class="toc-number">4.</span> <span class="toc-text">Stage 3: Generators/Yields (ES6)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_4:_Async/Await_(ES7)"><span class="toc-number">5.</span> <span class="toc-text">Stage 4: Async/Await (ES7)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage_3-5:_Generators/Yields +_co_(ES6)"><span class="toc-number">6.</span> <span class="toc-text">Stage 3.5: Generators/Yields + co (ES6)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tl;dr"><span class="toc-number">7.</span> <span class="toc-text">tl;dr</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,1028 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>gulp简易入坑 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x672C;&amp;#x6587;&amp;#x540C;&amp;#x6B65;&amp;#x81EA;&amp;#x6211;&amp;#x7684;&amp;#x535A;&amp;#x5BA2; Reeoo&amp;apos;s Coding Blog
+&amp;#x5728;&amp;#x53D1;&amp;#x73B0;&amp;#x8FD9;&amp;#x4E2A;&amp;#x4E1C;&amp;#x897F;&amp;#x4E4B;&amp;#x524D;&amp;#xFF0C;&amp;#x524D;&amp;#x7AEF;&amp;#x678">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gulp简易入坑 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/2f28da6/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x672C;&amp;#x6587;&amp;#x540C;&amp;#x6B65;&amp;#x81EA;&amp;#x6211;&amp;#x7684;&amp;#x535A;&amp;#x5BA2; Reeoo&amp;apos;s Coding Blog
+&amp;#x5728;&amp;#x53D1;&amp;#x73B0;&amp;#x8FD9;&amp;#x4E2A;&amp;#x4E1C;&amp;#x897F;&amp;#x4E4B;&amp;#x524D;&amp;#xFF0C;&amp;#x524D;&amp;#x7AEF;&amp;#x678">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f2027d.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f204ee.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f204ee.png">
+<meta property="og:updated_time" content="2015-07-03T14:09:57.244Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gulp简易入坑 -">
+<meta name="twitter:description" content="&amp;#x672C;&amp;#x6587;&amp;#x540C;&amp;#x6B65;&amp;#x81EA;&amp;#x6211;&amp;#x7684;&amp;#x535A;&amp;#x5BA2; Reeoo&amp;apos;s Coding Blog
+&amp;#x5728;&amp;#x53D1;&amp;#x73B0;&amp;#x8FD9;&amp;#x4E2A;&amp;#x4E1C;&amp;#x897F;&amp;#x4E4B;&amp;#x524D;&amp;#xFF0C;&amp;#x524D;&amp;#x7AEF;&amp;#x678">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/2f28da6/" title="gulp简易入坑 -" itemprop="url">gulp简易入坑 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:56.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp_vs_Grunt"><span class="toc-number">1.</span> <span class="toc-text">Gulp vs Grunt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp为什么快"><span class="toc-number">2.</span> <span class="toc-text">Gulp为什么快</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp-js的核心设计"><span class="toc-number">3.</span> <span class="toc-text">Gulp.js的核心设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp快速上手"><span class="toc-number">4.</span> <span class="toc-text">gulp快速上手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp_api速览"><span class="toc-number">5.</span> <span class="toc-text">Gulp api速览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp-src(globs[,_options])"><span class="toc-number">6.</span> <span class="toc-text">gulp.src(globs[, options])</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件匹配模式"><span class="toc-number">6.1.</span> <span class="toc-text">文件匹配模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp-dest(path[,options])"><span class="toc-number">7.</span> <span class="toc-text">gulp.dest(path[,options])</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp-task(name[,_deps],_fn)"><span class="toc-number">8.</span> <span class="toc-text">gulp.task(name[, deps], fn)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp-watch(glob[,_opts],_tasks)"><span class="toc-number">9.</span> <span class="toc-text">gulp.watch(glob[, opts], tasks)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用的gulp插件介绍"><span class="toc-number">10.</span> <span class="toc-text">常用的gulp插件介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js文件压缩"><span class="toc-number">11.</span> <span class="toc-text">js文件压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重命名文件"><span class="toc-number">12.</span> <span class="toc-text">重命名文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压缩css文件"><span class="toc-number">13.</span> <span class="toc-text">压缩css文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#html文件压缩"><span class="toc-number">14.</span> <span class="toc-text">html文件压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件合并"><span class="toc-number">15.</span> <span class="toc-text">文件合并</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动刷新"><span class="toc-number">16.</span> <span class="toc-text">自动刷新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理html"><span class="toc-number">17.</span> <span class="toc-text">处理html</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串替换"><span class="toc-number">18.</span> <span class="toc-text">字符串替换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">19.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<p> &#x672C;&#x6587;&#x540C;&#x6B65;&#x81EA;&#x6211;&#x7684;&#x535A;&#x5BA2; <a href="http://www.reeoo.co/archives/gulpjs.html" target="_blank" rel="external">Reeoo&apos;s Coding Blog</a></p>
+<p>&#x5728;&#x53D1;&#x73B0;&#x8FD9;&#x4E2A;&#x4E1C;&#x897F;&#x4E4B;&#x524D;&#xFF0C;&#x524D;&#x7AEF;&#x6784;&#x5EFA;&#x6211;&#x4E00;&#x76F4;&#x5728;&#x7528; grunt &#xFF0C;&#x6709;&#x4E00;&#x5929;&#x540C;&#x5B66;&#x7ED9;&#x6211;&#x8BF4;&#x7528; gulp &#x5427;&#xFF0C;&#x6BD4; grunt &#x66F4;&#x597D;&#x7528;&#xFF0C;&#x4E8E;&#x662F;&#x4E4E;&#x6211;&#x51B3;&#x5B9A;&#x7814;&#x7A76;&#x4E00;&#x756A;&#xFF0C;&#xFFFD;&#xFFFD;&#xFFFD;&#x770B;&#x8FD9;&#x8D27;&#x5230;&#x5E95;&#x662F;&#x4E2A;&#x4EC0;&#x4E48;&#x597D;&#x4E1C;&#x897F;&#x3002; </p>
+<p><img src="http://taojinke.github.io/img/20150703/2f2027d.png" alt=""></p>
+<h2 id="Gulp_vs_Grunt">Gulp vs Grunt</h2><p>&#x5148;&#x6765;&#x8BF4;&#x8BF4; grunt &#xFF0C;&#x5728;&#x4F7F;&#x7528;grunt&#x4E4B;&#x524D;&#xFF0C;&#x9996;&#x5148;&#x8981;&#x6709;&#x4E00;&#x4E2A; Gruntfile.js &#x6587;&#x4EF6;&#xFF0C;&#x6211;&#x76EE;&#x524D;&#x9879;&#x76EE;&#x4E2D;&#x7684;&#x5927;&#x6982;&#x662F;&#x8FD9;&#x4E48;&#x4E2A;&#x6837;&#x5B50;&#xFF1A; </p>
+<pre><code><span class="xml">&amp;apos;use strict&amp;apos;;
+
+module.exports = function(grunt) </span><span class="expression">{
+  <span class="variable">grunt.initConfig</span>({
+    <span class="variable">pkg</span>: <span class="variable">grunt.file.readJSON</span>(&amp;<span class="variable">apos</span>;<span class="variable">package.json</span>&amp;<span class="variable">apos</span>;),
+    <span class="variable">cssmin</span>: {
+      <span class="variable">minify</span>: {
+        <span class="variable">expand</span>: <span class="variable">true</span>,
+        <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">css</span>/&amp;<span class="variable">apos</span>;,
+        <span class="variable">src</span>: [&amp;<span class="variable">apos</span>;*<span class="variable">.css</span>&amp;<span class="variable">apos</span>;, &amp;<span class="variable">apos</span>;!*<span class="variable">.min.css</span>&amp;<span class="variable">apos</span>;],
+        <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">css</span>/&amp;<span class="variable">apos</span>;,
+        <span class="variable">ext</span>: &amp;<span class="variable">apos</span>;<span class="variable">.min.css</span>&amp;<span class="variable">apos</span>;
+      }</span><span class="xml">,
+      my_target: </span><span class="expression">{
+        <span class="variable">files</span>: [{
+          <span class="variable">expand</span>: <span class="variable">true</span>,
+          <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/style</span>/&amp;<span class="variable">apos</span>;,
+          <span class="variable">src</span>: [&amp;<span class="variable">apos</span>;*<span class="variable">.css</span>&amp;<span class="variable">apos</span>;, &amp;<span class="variable">apos</span>;!*<span class="variable">.min.css</span>&amp;<span class="variable">apos</span>;],
+          <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/style</span>/&amp;<span class="variable">apos</span>;
+        }</span><span class="xml">]
+      }
+    },
+    copy: </span><span class="expression">{
+      <span class="variable">main</span>: {
+        <span class="variable">files</span>: [
+          {
+            <span class="variable">expand</span>: <span class="variable">true</span>,
+            <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/views</span>/&amp;<span class="variable">apos</span>;,
+            <span class="variable">src</span>: [&amp;<span class="variable">apos</span>;**&amp;<span class="variable">apos</span>;],
+            <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/views</span>/&amp;<span class="variable">apos</span>;
+          }</span><span class="xml">, </span><span class="expression">{
+            <span class="variable">expand</span>: <span class="variable">true</span>,
+            <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/img</span>/&amp;<span class="variable">apos</span>;,
+            <span class="variable">src</span>: [&amp;<span class="variable">apos</span>;**&amp;<span class="variable">apos</span>;],
+            <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/img</span>/&amp;<span class="variable">apos</span>;
+          }</span><span class="xml">, </span><span class="expression">{
+            <span class="variable">expand</span>: <span class="variable">true</span>,
+            <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span>/&amp;<span class="variable">apos</span>;,
+            <span class="variable">src</span>: [&amp;<span class="variable">apos</span>;<span class="variable">main.html</span>&amp;<span class="variable">apos</span>;],
+            <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span>/&amp;<span class="variable">apos</span>;
+          }</span><span class="xml">, </span><span class="expression">{
+            <span class="variable">expand</span>: <span class="variable">true</span>,
+            <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span>/&amp;<span class="variable">apos</span>;,
+            <span class="variable">src</span>: [&amp;<span class="variable">apos</span>;*<span class="variable">.txt</span>&amp;<span class="variable">apos</span>;],
+            <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span>/&amp;<span class="variable">apos</span>;
+          }</span><span class="xml">
+        ]
+      }
+    },
+    uglify: </span><span class="expression">{
+      <span class="variable">buildall</span>: {
+        //&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>53;&amp;<span class="variable">apos</span>;<span class="variable">minify</span>&amp;<span class="variable">apos</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">EFB</span>;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>1;&amp;<span class="begin-block">#x</span>8<span class="variable">FD</span>0;&amp;<span class="begin-block">#x</span>884<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;<span class="variable">Grunt</span>&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>06;&amp;<span class="begin-block">#x</span>81<span class="variable">EA</span>;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>5728;&amp;<span class="variable">quot</span>;<span class="variable">lib</span>/&amp;<span class="variable">quot</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>641<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">D</span>22;&amp;<span class="variable">quot</span>;**/*<span class="variable">.js</span>&amp;<span class="variable">quot</span>;, &amp;<span class="begin-block">#x</span>7136;&amp;<span class="begin-block">#x</span>540<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>6784;&amp;<span class="begin-block">#x</span>5<span class="variable">EFA</span>;&amp;<span class="begin-block">#x</span>9002;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>53;&amp;<span class="begin-block">#x</span>7684;<span class="variable">src-dest</span>&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>4<span class="variable">EF</span>6;&amp;<span class="begin-block">#x</span>6620;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>04;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>56<span class="variable">E</span>0;&amp;<span class="begin-block">#x</span>6<span class="variable">B</span>64;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>60;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>9700;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>5728;&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>4<span class="variable">EF</span>6;&amp;<span class="begin-block">#x</span>6<span class="variable">DFB</span>;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>0;&amp;<span class="begin-block">#x</span>6216;&amp;<span class="begin-block">#x</span>8005;&amp;<span class="begin-block">#x</span>79<span class="variable">FB</span>;&amp;<span class="begin-block">#x</span>9664;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>66<span class="variable">F</span>4;&amp;<span class="begin-block">#x</span>65<span class="variable">B</span>0;<span class="variable">Gruntfile</span>
+        <span class="variable">files</span>: [{
+          <span class="variable">expand</span>: <span class="variable">true</span>, //&amp;<span class="begin-block">#x</span>542<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>6001;&amp;<span class="begin-block">#x</span>6269;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>55;
+          <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/config</span>/&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>6279;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>76<span class="variable">F</span>8;&amp;<span class="begin-block">#x</span>5<span class="variable">BF</span>9;<span class="variable">lib</span>&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;&amp;<span class="begin-block">#x</span>7684;<span class="variable">src</span>&amp;<span class="begin-block">#x</span>6765;&amp;<span class="begin-block">#x</span>6<span class="variable">E</span>90;
+          <span class="variable">src</span>: &amp;<span class="variable">apos</span>;**/*<span class="variable">.js</span>&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>9<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>9645;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">A</span>21;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>0<span class="variable">F</span>;
+          <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/config</span>/&amp;<span class="variable">apos</span>; //&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>6807;&amp;<span class="begin-block">#x</span>8<span class="variable">DEF</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>84;&amp;<span class="begin-block">#x</span>524<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>00;
+        }</span><span class="xml">, </span><span class="expression">{
+          <span class="variable">expand</span>: <span class="variable">true</span>, //&amp;<span class="begin-block">#x</span>542<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>6001;&amp;<span class="begin-block">#x</span>6269;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>55;
+          <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/controllers</span>/&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>6279;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>76<span class="variable">F</span>8;&amp;<span class="begin-block">#x</span>5<span class="variable">BF</span>9;<span class="variable">lib</span>&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;&amp;<span class="begin-block">#x</span>7684;<span class="variable">src</span>&amp;<span class="begin-block">#x</span>6765;&amp;<span class="begin-block">#x</span>6<span class="variable">E</span>90;
+          <span class="variable">src</span>: &amp;<span class="variable">apos</span>;**/*<span class="variable">.js</span>&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>9<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>9645;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">A</span>21;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>0<span class="variable">F</span>;
+          <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/js</span><span class="end-block">/controllers</span>/&amp;<span class="variable">apos</span>; //&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>6807;&amp;<span class="begin-block">#x</span>8<span class="variable">DEF</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>84;&amp;<span class="begin-block">#x</span>524<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>00;
+        }</span><span class="xml">, </span><span class="expression">{
+          <span class="variable">expand</span>: <span class="variable">true</span>, //&amp;<span class="begin-block">#x</span>542<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>6001;&amp;<span class="begin-block">#x</span>6269;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>55;
+          <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/directive</span>/&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>6279;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>76<span class="variable">F</span>8;&amp;<span class="begin-block">#x</span>5<span class="variable">BF</span>9;<span class="variable">lib</span>&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;&amp;<span class="begin-block">#x</span>7684;<span class="variable">src</span>&amp;<span class="begin-block">#x</span>6765;&amp;<span class="begin-block">#x</span>6<span class="variable">E</span>90;
+          <span class="variable">src</span>: &amp;<span class="variable">apos</span>;**/*<span class="variable">.js</span>&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>9<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>9645;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">A</span>21;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>0<span class="variable">F</span>;
+          <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/js</span><span class="end-block">/directive</span>/&amp;<span class="variable">apos</span>; //&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>6807;&amp;<span class="begin-block">#x</span>8<span class="variable">DEF</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>84;&amp;<span class="begin-block">#x</span>524<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>00;
+        }</span><span class="xml">, </span><span class="expression">{
+          <span class="variable">expand</span>: <span class="variable">true</span>, //&amp;<span class="begin-block">#x</span>542<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>6001;&amp;<span class="begin-block">#x</span>6269;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>55;
+          <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/filter</span>/&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>6279;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>76<span class="variable">F</span>8;&amp;<span class="begin-block">#x</span>5<span class="variable">BF</span>9;<span class="variable">lib</span>&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;&amp;<span class="begin-block">#x</span>7684;<span class="variable">src</span>&amp;<span class="begin-block">#x</span>6765;&amp;<span class="begin-block">#x</span>6<span class="variable">E</span>90;
+          <span class="variable">src</span>: &amp;<span class="variable">apos</span>;**/*<span class="variable">.js</span>&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>9<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>9645;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">A</span>21;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>0<span class="variable">F</span>;
+          <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/js</span><span class="end-block">/filter</span>/&amp;<span class="variable">apos</span>; //&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>6807;&amp;<span class="begin-block">#x</span>8<span class="variable">DEF</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>84;&amp;<span class="begin-block">#x</span>524<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>00;
+        }</span><span class="xml">, </span><span class="expression">{
+          <span class="variable">expand</span>: <span class="variable">true</span>, //&amp;<span class="begin-block">#x</span>542<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>6001;&amp;<span class="begin-block">#x</span>6269;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>55;
+          <span class="variable">cwd</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/service</span>/&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>6279;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>76<span class="variable">F</span>8;&amp;<span class="begin-block">#x</span>5<span class="variable">BF</span>9;<span class="variable">lib</span>&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;&amp;<span class="begin-block">#x</span>7684;<span class="variable">src</span>&amp;<span class="begin-block">#x</span>6765;&amp;<span class="begin-block">#x</span>6<span class="variable">E</span>90;
+          <span class="variable">src</span>: &amp;<span class="variable">apos</span>;**/*<span class="variable">.js</span>&amp;<span class="variable">apos</span>;, //&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>9<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>9645;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">A</span>21;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>0<span class="variable">F</span>;
+          <span class="variable">dest</span>: &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/js</span><span class="end-block">/service</span>/&amp;<span class="variable">apos</span>; //&amp;<span class="begin-block">#x</span>76<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>6807;&amp;<span class="begin-block">#x</span>8<span class="variable">DEF</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>84;&amp;<span class="begin-block">#x</span>524<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>00;
+        }</span><span class="xml">]
+      },
+      builda: </span><span class="expression">{
+        <span class="variable">files</span>: {
+          &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/js</span><span class="end-block">/app.js</span>&amp;<span class="variable">apos</span>;: [&amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/app.js</span>&amp;<span class="variable">apos</span>;],
+          &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/js</span><span class="end-block">/libs</span><span class="end-block">/bridge.</span>1<span class="variable">.</span>1<span class="variable">.</span>0<span class="variable">.js</span>&amp;<span class="variable">apos</span>;: [&amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/libs</span><span class="end-block">/bridge.</span>1<span class="variable">.</span>1<span class="variable">.</span>0<span class="variable">.js</span>&amp;<span class="variable">apos</span>;]
+        }</span><span class="xml">
+      },
+      release: </span><span class="expression">{
+        <span class="variable">files</span>: {
+          &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/build</span><span class="end-block">/js</span><span class="end-block">/libs</span><span class="end-block">/libs.min.js</span>&amp;<span class="variable">apos</span>;: [&amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/libs</span><span class="end-block">/zepto.</span>20140520<span class="variable">.js</span>&amp;<span class="variable">apos</span>;, &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/libs</span><span class="end-block">/angular.min.js</span>&amp;<span class="variable">apos</span>;, &amp;<span class="variable">apos</span>;<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/libs</span>/*<span class="variable">.js</span>&amp;<span class="variable">apos</span>;, &amp;<span class="variable">apos</span>;!<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/libs</span><span class="end-block">/bridge.</span>1<span class="variable">.</span>1<span class="variable">.</span>0<span class="variable">.js</span>&amp;<span class="variable">apos</span>;, &amp;<span class="variable">apos</span>;!<span class="variable">..</span><span class="end-block">/js</span><span class="end-block">/libs</span><span class="end-block">/libs.min.js</span>&amp;<span class="variable">apos</span>;]
+        }</span><span class="xml">
+      }
+    }
+  });
+  grunt.loadNpmTasks(&amp;apos;grunt-contrib-copy&amp;apos;);
+  grunt.loadNpmTasks(&amp;apos;grunt-contrib-jshint&amp;apos;); //&amp;#x68C0;&amp;#x67E5;js&amp;#x8BED;&amp;#x6CD5;&amp;#x9519;&amp;#x8BEF;
+  grunt.loadNpmTasks(&amp;apos;grunt-contrib-concat&amp;apos;); //&amp;#x5408;&amp;#x5E76;&amp;#x6587;&amp;#x4EF6;
+  grunt.loadNpmTasks(&amp;apos;grunt-contrib-uglify&amp;apos;); //&amp;#x538B;&amp;#x7F29;&amp;#x4EE3;&amp;#x7801;
+  grunt.loadNpmTasks(&amp;apos;grunt-contrib-cssmin&amp;apos;); //css&amp;#x538B;&amp;#x7F29;
+
+  grunt.registerTask(&amp;apos;default&amp;apos;, [&amp;apos;copy&amp;apos;, &amp;apos;cssmin&amp;apos;, &amp;apos;uglify&amp;apos;]);
+
+};</span>
+</code></pre><p>&#x518D;&#x6765;&#x770B; gulp &#x7684;&#xFF0C; gulp &#x9700;&#x8981;&#x4E00;&#x4E2A; gulpfile.js &#x6587;&#x4EF6;&#xFF0C;&#x6211;&#x76EE;&#x524D;&#x9879;&#x76EE;&#x4E2D;&#x7684;&#x662F;&#x8FD9;&#x4E2A;&#x6837;&#x5B50;&#xFF1A; </p>
+<pre><code>var gulp = require(&amp;apos;gulp&amp;apos;),//gulp&amp;<span class="symbol">#x57FA</span>;&amp;<span class="symbol">#x7840</span>;&amp;<span class="symbol">#x5E93</span>;
+    concat = require(&amp;apos;gulp-concat&amp;apos;),//&amp;<span class="symbol">#x5408</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;
+    cssmin = require(&amp;apos;gulp-minify-css&amp;apos;),//&amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;css
+    htmlmin = require(&amp;quot;gulp-htmlmin&amp;quot;),//&amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;html
+    jsmin = require(&amp;apos;gulp-uglify&amp;apos;),//&amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;js
+    rename = require(&amp;apos;gulp-rename&amp;apos;),//&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x540D</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;
+    clean = require(&amp;quot;gulp-clean&amp;quot;),//&amp;<span class="symbol">#x6E05</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x5F55</span>;
+    replace = require(&amp;apos;gulp-replace&amp;apos;),//&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;
+    processhtml = require(&amp;apos;gulp-processhtml&amp;apos;),//&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;html&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;
+    addsrc = require(&amp;apos;gulp-add-src&amp;apos;),//&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x989D</span>;&amp;<span class="symbol">#x5916</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x6D41</span>;
+    option = {
+        <span class="method">buildPath:</span> &amp;quot;../dist&amp;quot;//&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x5F55</span>;
+    };
+//&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x6E05</span>;&amp;<span class="symbol">#x7406</span>;
+gulp.task(&amp;quot;clean&amp;quot;, function (done) {
+    //return cache.clearAll(done);
+    return gulp.src(option.buildPath, {
+        <span class="method">read:</span> <span class="keyword">false</span>
+    })
+    .pipe(clean({<span class="method">force:</span> <span class="keyword">true</span>}));
+})
+gulp.task(&amp;quot;imgcopy&amp;quot;, function () {//&amp;<span class="symbol">#x56FE</span>;&amp;<span class="symbol">#x7247</span>;&amp;<span class="symbol">#x62F7</span>;&amp;<span class="symbol">#x8D1D</span>;
+    gulp.src(&amp;quot;../img/**/*&amp;quot;)
+    .pipe(gulp.dest(option.buildPath + &amp;apos;/img/&amp;apos;))
+})
+//js&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;
+gulp.task(&amp;apos;jsmin&amp;apos;, function () {
+    gulp.src([&amp;quot;../js/**/**/*.js&amp;quot;,&amp;apos;!../js/libs/*.js&amp;apos;])
+        .pipe(jsmin())
+        .pipe(gulp.dest(option.buildPath+ &amp;quot;/js/&amp;quot;))
+});
+//&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5408</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;
+gulp.task(&amp;apos;concat&amp;apos;, function () {
+    gulp.src([&amp;apos;../js/libs/angular.min.js&amp;apos;,&amp;apos;../js/libs/*.js&amp;apos;, &amp;apos;!../js/libs/bridge*.js&amp;apos;])
+        .pipe(concat(&amp;apos;libs.min.js&amp;apos;))
+        .pipe(jsmin())
+        .pipe(addsrc(&amp;apos;../js/libs/bridge*.js&amp;apos;))
+        .pipe(jsmin())
+        .pipe(gulp.dest(option.buildPath + &amp;quot;/js/libs/&amp;quot;))
+});
+gulp.task(&amp;quot;processhtml&amp;quot;, function () {
+    var date = new <span class="class">Date</span>().getTime();
+    gulp.src(&amp;apos;../main.html&amp;apos;)
+        .pipe(replace(/_VERSION_/gi, date))
+        .pipe(processhtml())
+        .pipe(htmlmin({
+            <span class="method">collapseWhitespace:</span> <span class="keyword">true</span>
+        }))
+        .pipe(gulp.dest(option.buildPath + &amp;apos;/&amp;apos;))
+})
+//&amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;css
+gulp.task(&amp;quot;cssmin&amp;quot;, function () {
+    gulp.src(&amp;quot;../style/*.css&amp;quot;)
+        .pipe(cssmin())
+        .pipe(gulp.dest(option.buildPath + &amp;apos;/style&amp;apos;))
+})
+//&amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;html&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;
+gulp.task(&amp;quot;htmlmin&amp;quot;, function () {
+    gulp.src(&amp;apos;../views/**/*.html&amp;apos;)
+        .pipe(htmlmin({
+            <span class="method">collapseWhitespace:</span> <span class="keyword">true</span>
+        }))
+        .pipe(gulp.dest(option.buildPath + &amp;apos;/views&amp;apos;))
+})
+// &amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x4EFB</span>;&amp;<span class="symbol">#x52A1</span>; &amp;<span class="symbol">#x6E05</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x56FE</span>;&amp;<span class="symbol">#x7247</span>;&amp;<span class="symbol">#x3001</span>;&amp;<span class="symbol">#x6837</span>;&amp;<span class="symbol">#x5F0F</span>;&amp;<span class="symbol">#x3001</span>;js&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x5EFA</span>; &amp;<span class="symbol">#x8FD0</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x8BED</span>;&amp;<span class="symbol">#x53E5</span>; gulp
+gulp.task(&amp;apos;default&amp;apos;, [&amp;apos;clean&amp;apos;], function () {
+    gulp.start(&amp;apos;jsmin&amp;apos;, &amp;apos;cssmin&amp;apos;, &amp;apos;processhtml&amp;apos;, &amp;quot;htmlmin&amp;quot;, &amp;apos;imgcopy&amp;apos;, &amp;apos;concat&amp;apos;);
+});
+</code></pre><p>Grunt &#x5904;&#x7406;&#x4EFB;&#x52A1;&#x7684;&#x6D41;&#x7A0B;&#xFF1A; </p>
+<p><img src="http://taojinke.github.io/img/20150703/2f204ee.png" alt=""></p>
+<p>gulp &#x5904;&#x7406;&#x4EFB;&#x52A1;&#xFF1A; </p>
+<p><img src="http://taojinke.github.io/img/20150703/2f204ee.png" alt=""></p>
+<p>&#x5199; Gruntfile.js &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F60;&#x8981;&#x6309;&#x7167;&#x522B;&#x4EBA;&#x5B9A;&#x597D;&#x7684;&#x89C4;&#x5219;&#x6765;&#x5199;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x6BCF;&#x4E2A;&#x4EFB;&#x52A1;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x89C4;&#x5219;&#xFF08; JSON &#x683C;&#x5F0F;&#xFF09;&#x53EF;&#x80FD;&#x90FD;&#x4E0D;&#x5C3D;&#x76F8;&#x540C;&#xFF0C;&#x800C;&#x5199; gulpfile.js &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F60;&#x53EA;&#x9700;&#x8981;&#x4E86;&#x89E3;4&#x4E2A;gulp&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x5373;&#x4F7F;&#x4F60;&#x8981;&#x5199;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF08;&#x6BD4;&#x5982;&#x9879;&#x76EE;&#x7684;&#x6784;&#x5EFA;&#x76EE;&#x5F55;&#x662F;&#x54EA;&#x91CC;&#xFF0C;css&#x6587;&#x4EF6;&#x7684;&#x76EE;&#x5F55;&#x53C8;&#x662F;&#x54EA;&#x4E2A;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5199;&#x4E2A;JSON&#x6765;&#x6807;&#x660E;&#xFF09;&#xFF0C;&#x90A3;&#x8FD9;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x683C;&#x5F0F;&#x4E5F;&#x662F;&#x638C;&#x63E1;&#x5728;&#x4F60;&#x81EA;&#x5DF1;&#x7684;&#x624B;&#x91CC;&#xFF0C;&#x60F3;&#x600E;&#x4E48;&#x5199;&#x5C31;&#x600E;&#x4E48;&#x5199;&#xFF0C;&#x6839;&#x672C;&#x4E0D;&#x7528;&#x5173;&#x5FC3;&#x5177;&#x4F53;&#x7684;&#x683C;&#x5F0F;&#xFF0C;&#x53EA;&#x8981;&#x58F0;&#x660E;&#x5B8C;&#x683C;&#x5F0F;&#xFF0C;&#x5F85;&#x4F1A;&#x81EA;&#x5DF1;&#x7528;&#x5230;&#x7684;&#x65F6;&#x5019;&#x8BB0;&#x5F97;&#x5C31;&#x597D;&#x4E86;&#x3002; grunt &#x662F;&#x57FA;&#x4E8E;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6765;&#x505A;&#x6784;&#x5EFA;&#x7684;&#xFF0C;&#x800C; gulp &#x91C7;&#x7528;&#x7684;&#x662F;&#x4EE3;&#x7801;&#x4F18;&#x4E8E;&#x914D;&#x7F6E;&#x7684;&#x7B56;&#x7565;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x5199;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x5199;&#x4EE3;&#x7801;&#xFF0C;&#x4E2A;&#x4EBA;&#x8FD8;&#x662F;&#x6BD4;&#x8F83;&#x503E;&#x5411;&#x4E8E;&#x540E;&#x8005;&#x3002; </p>
+<p>&#x6B64;&#x5916;&#xFF0C;&#x4F7F;&#x7528; grunt &#x7684; I/O &#x8FC7;&#x7A0B;&#x4E2D;&#x4F1A;&#x4EA7;&#x751F;&#x4E00;&#x4E9B;&#x4E2D;&#x95F4;&#x6001;&#x7684;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#xFF0C;A&#x4EFB;&#x52A1;&#x5904;&#x7406;&#x5B8C;&#x4F1A;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#xFF0C;B&#x4EFB;&#x52A1;&#x4F1A;&#x8BFB;&#x53D6;&#x8FD9;&#x4E2A;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#xFF0C;&#x7EE7;&#x7EED;&#x505A;&#x81EA;&#x5DF1;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#xFF0C;&#x7ED9;C&#x4EFB;&#x52A1;&#x7528;&#xFF0C;&#x4EE5;&#x6B64;&#x7C7B;&#x63A8;&#xFF0C;&#x5176;&#x5B83;&#x4EFB;&#x52A1;&#x53EF;&#x80FD;&#x4F1A;&#x57FA;&#x4E8E;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x518D;&#x505A;&#x5904;&#x7406;&#x5E76;&#x751F;&#x6210;&#x6700;&#x7EC8;&#x7684;&#x6784;&#x5EFA;&#x540E;&#x6587;&#x4EF6;&#x3002; </p>
+<p>&#x800C;&#x4F7F;&#x7528; gulp &#x7684;&#x4F18;&#x52BF;&#x5C31;&#x662F;&#x5229;&#x7528;&#x6D41;&#x7684;&#x65B9;&#x5F0F;&#x8FDB;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x5904;&#x7406;&#xFF0C;&#x901A;&#x8FC7;&#x7BA1;&#x9053;&#x5C06;&#x591A;&#x4E2A;&#x4EFB;&#x52A1;&#x548C;&#x64CD;&#x4F5C;&#x8FDE;&#x63A5;&#x8D77;&#x6765;&#xFF0C;&#x56E0;&#x6B64;&#x53EA;&#x6709;&#x4E00;&#x6B21; I/O &#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x6D41;&#x7A0B;&#x66F4;&#x6E05;&#x6670;&#xFF0C;&#x66F4;&#x7EAF;&#x7CB9;&#x3002;&#x6784;&#x5EFA;&#x901F;&#x5EA6;&#x4E5F;&#x8981;&#x6BD4; grunt &#x5FEB;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x6784;&#x5EFA;&#x7684;&#x9879;&#x76EE;&#x5F88;&#x5C0F;&#xFF0C;&#x53EF;&#x80FD;&#x5DEE;&#x8DDD;&#x5C31;&#x4F53;&#x73B0;&#x4E0D;&#x51FA;&#x6765;&#x4E86;&#x3002; </p>
+<h2 id="Gulp&#x4E3A;&#x4EC0;&#x4E48;&#x5FEB;">Gulp&#x4E3A;&#x4EC0;&#x4E48;&#x5FEB;</h2><ul>
+<li>&#x4F7F;&#x7528; <a href="https://github.com/orchestrator/orchestrator/" target="_blank" rel="external">orchestrator</a> &#x4EFB;&#x52A1;&#x7CFB;&#x7EDF;,&#x6700;&#x5927;&#x9650;&#x5EA6;&#x7684;&#x5E76;&#x53D1;&#x8FD0;&#x884C;&#x591A;&#x4E2A;&#x4EFB;&#x52A1;.</li>
+<li>&#x6BCF;&#x4E2A;plugin&#x53EA;&#x505A;&#x4E00;&#x4EF6;&#x4E8B;,&#x505A;&#x597D;&#x4E00;&#x4EF6;&#x4E8B;, &#x63D0;&#x5347;&#x5904;&#x7406;&#x901F;&#x5EA6;</li>
+<li>&#x6D41;&#x5F0F;&#x5904;&#x7406;,&#x6781;&#x5C11;&#x7684;&#x6587;&#x4EF6;IO</li>
+</ul>
+<h2 id="Gulp-js&#x7684;&#x6838;&#x5FC3;&#x8BBE;&#x8BA1;">Gulp.js&#x7684;&#x6838;&#x5FC3;&#x8BBE;&#x8BA1;</h2><p><a href="http://gulpjs.com" target="_blank" rel="external">gulp&#x5B98;&#x7F51;</a> &#x4E0A;&#x7684;&#x7B80;&#x4ECB;&#x662F;The streaming build system &#xFF0C; </p>
+<p>&#x6838;&#x5FC3;&#x7684;&#x8BCD;&#x662F; streaming &#xFF08;&#x6D41;&#x52A8;&#x5F0F;&#xFF09;&#xFF0C; Gulp.js &#x7684;&#x7CBE;&#x9AD3;&#x5728;&#x4E8E;&#x5BF9; Node.js &#x4E2D; Streams API &#x7684;&#x5229;&#x7528;&#xFF0C; </p>
+<p>&#x6240;&#x4EE5;&#x60F3;&#x8981;&#x7406;&#x89E3; Gulp.js &#xFF0C;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x7406;&#x89E3; Streams &#xFF0C; streaming &#x5176;&#x5B9E;&#x5C31;&#x662F; Streams &#x7684;&#x8BBE;&#x8BA1;&#x601D;&#x60F3;&#xFF0C; </p>
+<p>&#x4F46;&#x662F;&#x50CF;&#x6211;&#x8FD9;&#x79CD;&#x5BF9; Node.js &#x53EA;&#x662F;&#x4E00;&#x77E5;&#x534A;&#x89E3;&#x7684;&#x5C31;&#x53EA;&#x8BF4;&#x5230;&#x8FD9;&#x91CC;&#x4E86;&#xFF0C;&#x6709;&#x5174;&#x8DA3;&#x7684;&#x53EF;&#x4EE5;&#x81EA;&#x884C; google &#x3002; </p>
+<h2 id="gulp&#x5FEB;&#x901F;&#x4E0A;&#x624B;">gulp&#x5FEB;&#x901F;&#x4E0A;&#x624B;</h2><ol>
+<li>&#x9996;&#x5148;&#x786E;&#x4FDD;&#x4F60;&#x5DF2;&#x7ECF;&#x6B63;&#x786E;&#x5B89;&#x88C5;&#x4E86; nodejs &#x73AF;&#x5883;&#x3002;&#x7136;&#x540E;&#x4EE5;&#x5168;&#x5C40;&#x65B9;&#x5F0F;&#x5B89;&#x88C5; gulp &#xFF1A;<br>$ npm install -g gulp</li>
+<li>&#x5168;&#x5C40;&#x5B89;&#x88C5; gulp &#x540E;&#xFF0C;&#x8FD8;&#x9700;&#x8981;&#x5728;&#x6BCF;&#x4E2A;&#x8981;&#x4F7F;&#x7528; gulp &#x7684;&#x9879;&#x76EE;&#x4E2D;&#x90FD;&#x5355;&#x72EC;&#x5B89;&#x88C5;&#x4E00;&#x6B21;&#x3002;&#x628A;&#x76EE;&#x5F55;&#x5207;&#x6362;&#x5230;&#x4F60;&#x7684;&#x9879;&#x76EE;&#x6587;&#x4EF6;&#x5939;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x6267;&#x884C;&#xFF1A;<br>$ npm install gulp<br>&#x5982;&#x679C;&#x60F3;&#x5728;&#x5B89;&#x88C5;&#x7684;&#x65F6;&#x5019;&#x628A; gulp &#xFFFD;&#xFFFD;&#xFFFD;&#x8FDB;&#x9879;&#x76EE; package.json &#x6587;&#x4EF6;&#x7684;&#x4F9D;&#x8D56;&#x4E2D;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x52A0;&#x4E0A; &#x2013;save-dev &#xFF1A;<br>$ npm install —save-dev gulp</li>
+<li><p>&#x5728;&#x9879;&#x76EE;&#x6839;&#x76EE;&#x5F55;&#x521B;&#x5EFA;gulpfile.js&#x6587;&#x4EF6;</p>
+<p> var gulp = require(&apos;gulp&apos;);</p>
+<p> gulp.task(&apos;default&apos;, function() {<br>   console.log(&apos;hello world&apos;);<br> });</p>
+</li>
+<li>&#x8FD0;&#x884C;gulp<br>$ gulp<br>&#x9ED8;&#x8BA4;&#x4EFB;&#x52A1;&#x5C06;&#x88AB;&#x8FD0;&#x884C;&#xFF0C;&#x5411;&#x63A7;&#x5236;&#x53F0;&#x8F93;&#x51FA; hello world &#x3002;<br>&#x5982;&#x679C;&#x9700;&#x8981;&#x8FD0;&#x884C;&#x5355;&#x4E2A;&#x4EFB;&#x52A1;, &#x4F7F;&#x7528; gulp taskname &#x547D;&#x4EE4;&#x3002;</li>
+</ol>
+<h2 id="Gulp_api&#x901F;&#x89C8;">Gulp api&#x901F;&#x89C8;</h2><p>&#x4F7F;&#x7528; gulp &#xFF0C;&#x4EC5;&#x9700;&#x77E5;&#x9053;4&#x4E2A;API&#x5373;&#x53EF;&#xFF1A; gulp.task() , gulp.src() , gulp.dest() , gulp.watch() &#xFF0C;&#x6240;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x5C31;&#x80FD;&#x638C;&#x63E1;&#x3002; </p>
+<h2 id="gulp-src(globs[,_options])">gulp.src(globs[, options])</h2><p>gulp.src() &#x65B9;&#x6CD5;&#x6B63;&#x662F;&#x7528;&#x6765;&#x83B7;&#x53D6;&#x6D41;&#x7684;&#xFF0C;&#x4F46;&#x8981;&#x6CE8;&#x610F;&#x8FD9;&#x4E2A;&#x6D41;&#x91CC;&#x7684;&#x5185;&#x5BB9;&#x4E0D;&#x662F;&#x539F;&#x59CB;&#x7684;&#x6587;&#x4EF6;&#x6D41;&#xFF0C;&#x800C;&#x662F;&#x4E00;&#x4E2A;&#x865A;&#x62DF;&#x6587;&#x4EF6;&#x5BF9;&#x8C61;&#x6D41;&#xFF0C;&#x8FD9;&#x4E2A;&#x865A;&#x62DF;&#x6587;&#x4EF6;&#x5BF9;&#x8C61;&#x4E2D;&#x5B58;&#x50A8;&#x7740;&#x539F;&#x59CB;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84;&#x3001;&#x6587;&#x4EF6;&#x540D;&#x3001;&#x5185;&#x5BB9;&#x7B49;&#x4FE1;&#x606F;&#xFF0C;&#x672C;&#x6587;&#x6682;&#x4E0D;&#x5BF9;&#x6587;&#x4EF6;&#x6D41;&#x8FDB;&#x884C;&#x5C55;&#x5F00;&#xFF0C;&#x4F60;&#x53EA;&#x9700;&#x7B80;&#x5355;&#x7684;&#x7406;&#x89E3;&#x53EF;&#x4EE5;&#x7528;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x6765;&#x8BFB;&#x53D6;&#x4F60;&#x9700;&#x8981;&#x64CD;&#x4F5C;&#x7684;&#x6587;&#x4EF6;&#x5C31;&#x884C;&#x4E86;&#xFF0C; globs &#x53C2;&#x6570;&#x662F;&#x6587;&#x4EF6;&#x5339;&#x914D;&#x6A21;&#x5F0F;(&#x7C7B;&#x4F3C;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;)&#xFF0C;&#x7528;&#x6765;&#x5339;&#x914D;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;(&#x5305;&#x62EC;&#x6587;&#x4EF6;&#x540D;)&#xFF0C;&#x5F53;&#x7136;&#x8FD9;&#x91CC;&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x6307;&#x5B9A;&#x67D0;&#x4E2A;&#x5177;&#x4F53;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x3002;&#x5F53;&#x6709;&#x591A;&#x4E2A;&#x5339;&#x914D;&#x6A21;&#x5F0F;&#x65F6;&#xFF0C;&#x8BE5;&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x4E3A;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x3002; </p>
+<p>options &#x4E3A;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x3002;&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#x6211;&#x4EEC;&#x4E0D;&#x9700;&#x8981;&#x7528;&#x5230;&#xFF0C;&#x6682;&#x4E0D;&#x8003;&#x8651;&#x3002; </p>
+<h3 id="&#x6587;&#x4EF6;&#x5339;&#x914D;&#x6A21;&#x5F0F;">&#x6587;&#x4EF6;&#x5339;&#x914D;&#x6A21;&#x5F0F;</h3><p>Gulp &#x5185;&#x90E8;&#x4F7F;&#x7528;&#x4E86; node-glob &#x6A21;&#x5757;&#x6765;&#x5B9E;&#x73B0;&#x5176;&#x6587;&#x4EF6;&#x5339;&#x914D;&#x529F;&#x80FD;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x8FD9;&#x4E9B;&#x7279;&#x6B8A;&#x7684;&#x5B57;&#x7B26;&#x6765;&#x5339;&#x914D;&#x6211;&#x4EEC;&#x60F3;&#x8981;&#x7684;&#x6587;&#x4EF6;&#xFF1A; </p>
+<ul>
+<li><ul>
+<li>&#x5339;&#x914D;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x4E2D;&#x7684;0&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x5B57;&#x7B26;&#xFF0C;&#x4F46;&#x4E0D;&#x4F1A;&#x5339;&#x914D;&#x8DEF;&#x5F84;&#x5206;&#x9694;&#x7B26;&#xFF0C;&#x9664;&#x975E;&#x8DEF;&#x5F84;&#x5206;&#x9694;&#x7B26;&#x51FA;&#x73B0;&#x5728;&#x672B;&#x5C3E; </li>
+</ul>
+</li>
+<li><p>** &#x5339;&#x914D;&#x8DEF;&#x5F84;&#x4E2D;&#x7684;0&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x76EE;&#x5F55;&#x53CA;&#x5176;&#x5B50;&#x76EE;&#x5F55;,&#x9700;&#x8981;&#x5355;&#x72EC;&#x51FA;&#x73B0;&#xFF0C;&#x5373;&#x5B83;&#x5DE6;&#x53F3;&#x4E0D;&#x80FD;&#x6709;&#x5176;&#x4ED6;&#x4E1C;&#x897F;&#x4E86;&#x3002;&#x5982;&#x679C;&#x51FA;&#x73B0;&#x5728;&#x672B;&#x5C3E;&#xFF0C;&#x4E5F;&#x80FD;&#x5339;&#x914D;&#x6587;&#x4EF6;&#x3002; </p>
+</li>
+<li><p>? &#x5339;&#x914D;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;(&#x4E0D;&#x4F1A;&#x5339;&#x914D;&#x8DEF;&#x5F84;&#x5206;&#x9694;&#x7B26;) </p>
+</li>
+<li><p>[…] &#x5339;&#x914D;&#x65B9;&#x62EC;&#x53F7;&#x4E2D;&#x51FA;&#x73B0;&#x7684;&#x5B57;&#x7B26;&#x4E2D;&#x7684;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#xFF0C;&#x5F53;&#x65B9;&#x62EC;&#x53F7;&#x4E2D;&#x7B2C;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E3A;^&#x6216;!&#x65F6;&#xFF0C;&#x5219;&#x8868;&#x793A;&#x4E0D;&#x5339;&#x914D;&#x65B9;&#x62EC;&#x53F7;&#x4E2D;&#x51FA;&#x73B0;&#x7684;&#x5176;&#x4ED6;&#x5B57;&#x7B26;&#x4E2D;&#x7684;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#xFF0C;&#x7C7B;&#x4F3C;js&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x4E2D;&#x7684;&#x7528;&#x6CD5; !(pattern|pattern|pattern) &#x5339;&#x914D;&#x4EFB;&#x4F55;&#x4E0E;&#x62EC;&#x53F7;&#x4E2D;&#x7ED9;&#x5B9A;&#x7684;&#x4EFB;&#x4E00;&#x6A21;&#x5F0F;&#x90FD;&#x4E0D;&#x5339;&#x914D;&#x7684; </p>
+</li>
+<li><p>?(pattern|pattern|pattern) &#x5339;&#x914D;&#x62EC;&#x53F7;&#x4E2D;&#x7ED9;&#x5B9A;&#x7684;&#x4EFB;&#x4E00;&#x6A21;&#x5F0F;0&#x6B21;&#x6216;1&#x6B21;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;js&#x6B63;&#x5219;&#x4E2D;&#x7684; (pattern|pattern|pattern)?  </p>
+</li>
+<li>+(pattern|pattern|pattern) &#x5339;&#x914D;&#x62EC;&#x53F7;&#x4E2D;&#x7ED9;&#x5B9A;&#x7684;&#x4EFB;&#x4E00;&#x6A21;&#x5F0F;&#x81F3;&#x5C11;1&#x6B21;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;js&#x6B63;&#x5219;&#x4E2D;&#x7684; (pattern|pattern|pattern)+  </li>
+<li><p><em>(pattern|pattern|pattern) &#x5339;&#x914D;&#x62EC;&#x53F7;&#x4E2D;&#x7ED9;&#x5B9A;&#x7684;&#x4EFB;&#x4E00;&#x6A21;&#x5F0F;0&#x6B21;&#x6216;&#x591A;&#x6B21;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;js&#x6B63;&#x5219;&#x4E2D;&#x7684;(pattern|pattern|pattern)</em> </p>
+</li>
+<li><p>@(pattern|pattern|pattern) &#x5339;&#x914D;&#x62EC;&#x53F7;&#x4E2D;&#x7ED9;&#x5B9A;&#x7684;&#x4EFB;&#x4E00;&#x6A21;&#x5F0F;1&#x6B21;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;js&#x6B63;&#x5219;&#x4E2D;&#x7684; (pattern|pattern|pattern)</p>
+</li>
+</ul>
+<p>&#x6587;&#x4EF6;&#x5339;&#x914D;&#x5217;&#x5B50;&#xFF1A;</p>
+<ul>
+<li><ul>
+<li>&#x80FD;&#x5339;&#x914D; reeoo.js , reeoo.css , reeoo , reeoo/ ,&#x4F46;&#x4E0D;&#x80FD;&#x5339;&#x914D; reeoo/reeoo.js  </li>
+</ul>
+</li>
+<li><em>.</em> &#x80FD;&#x5339;&#x914D; reeoo.js , reeoo.css , reeoo.html  </li>
+<li><em>/</em>/*.js &#x80FD;&#x5339;&#x914D; r/e/o.js , a/b/c.js ,&#x4E0D;&#x80FD;&#x5339;&#x914D; a/b.js , a/b/c/d.js  </li>
+<li><p>** &#x80FD;&#x5339;&#x914D; reeoo , reeoo/reeoo.js , reeoo/reeoo/reeoo.js , reeoo/reeoo/reeoo , reeoo/reeoo/reeoo/reeoo.co ,&#x80FD;&#x7528;&#x6765;&#x5339;&#x914D;&#x6240;&#x6709;&#x7684;&#x76EE;&#x5F55;&#x548C;&#x6587;&#x4EF6; </p>
+</li>
+<li><p><em>*/</em>.js &#x80FD;&#x5339;&#x914D; reeoo.js , reeoo/reeoo.js , reeoo/reeoo/reeoo.js , reeoo/reeoo/reeoo/reeoo.js  </p>
+</li>
+<li>reeoo/**/co &#x80FD;&#x5339;&#x914D; reeoo/co , reeoo/ooo/co , reeoo/a/b/co , reeoo/d/g/h/j/k/co  </li>
+<li><p>reeoo/<strong>b/co &#x80FD;&#x5339;&#x914D; reeoo/b/co , reeoo/sb/co ,&#x4F46;&#x4E0D;&#x80FD;&#x5339;&#x914D; reeoo/x/sb/co ,&#x56E0;&#x4E3A;&#x53EA;&#x6709;&#x5355; </strong> &#x5355;&#x72EC;&#x51FA;&#x73B0;&#x624D;&#x80FD;&#x5339;&#x914D;&#x591A;&#x7EA7;&#x76EE;&#x5F55; </p>
+</li>
+<li><p>?.js &#x80FD;&#x5339;&#x914D; reeoo.js , reeoo1.js , reeoo2.js  </p>
+</li>
+<li><p>reeoo?? &#x80FD;&#x5339;&#x914D; reeoo.co , reeooco ,&#x4F46;&#x4E0D;&#x80FD;&#x5339;&#x914D; reeooco/ ,&#x56E0;&#x4E3A;&#x5B83;&#x4E0D;&#x4F1A;&#x5339;&#x914D;&#x8DEF;&#x5F84;&#x5206;&#x9694;&#x7B26; </p>
+</li>
+<li><p>[reo].js &#x53EA;&#x80FD;&#x5339;&#x914D; r.js , e.js , o.js ,&#x4E0D;&#x4F1A;&#x5339;&#x914D; re.js , reo.js &#x7B49;,&#x6574;&#x4E2A;&#x4E2D;&#x62EC;&#x53F7;&#x53EA;&#x4EE3;&#x8868;&#x4E00;&#x4E2A;&#x5B57;&#x7B26; </p>
+</li>
+<li><p>[^reo].js &#x80FD;&#x5339;&#x914D; a.js , b.js , c.js &#x7B49;,&#x4E0D;&#x80FD;&#x5339;&#x914D; r.js , e.js , o.js</p>
+</li>
+</ul>
+<p>&#x5F53;&#x6709;&#x591A;&#x79CD;&#x5339;&#x914D;&#x6A21;&#x5F0F;&#x65F6;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6570;&#x7EC4;</p>
+<pre><code>//&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x5F0F</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x5339</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x79CD</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;
+gulp.src([&amp;apos;js/*.js&amp;apos;,&amp;apos;css/*.css&amp;apos;,&amp;apos;*.html&amp;apos;])
+</code></pre><p>&#x4F7F;&#x7528;&#x6570;&#x7EC4;&#x7684;&#x65B9;&#x5F0F;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x597D;&#x5904;&#x5C31;&#x662F;&#x53EF;&#x4EE5;&#x5F88;&#x65B9;&#x4FBF;&#x7684;&#x4F7F;&#x7528;&#x6392;&#x9664;&#x6A21;&#x5F0F;&#xFF0C;&#x5728;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x5355;&#x4E2A;&#x5339;&#x914D;&#x6A21;&#x5F0F;&#x524D;&#x52A0;&#x4E0A; ! &#x5373;&#x662F;&#x6392;&#x9664;&#x6A21;&#x5F0F;&#xFF0C;&#x5B83;&#x4F1A;&#x5728;&#x5339;&#x914D;&#x7684;&#x7ED3;&#x679C;&#x4E2D;&#x6392;&#x9664;&#x8FD9;&#x4E2A;&#x5339;&#x914D;&#xFF0C;&#x8981;&#x6CE8;&#x610F;&#x4E00;&#x70B9;&#x7684;&#x662F; &#x4E0D;&#x80FD;&#x5728;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x5143;&#x7D20; &#x4E2D;&#x4F7F;&#x7528;&#x6392;&#x9664;&#x6A21;&#x5F0F; </p>
+<p>gulp.src([<em>.js,&apos;!r</em>.js&apos;]) &#x5339;&#x914D;&#x6240;&#x6709;js&#x6587;&#x4EF6;&#xFF0C;&#x4F46;&#x6392;&#x9664;&#x6389;&#x4EE5;r&#x5F00;&#x5934;&#x7684;js&#x6587;&#x4EF6; </p>
+<p>gulp.src([&apos;!r<em>.js&apos;,</em>.js]) &#x4E0D;&#x4F1A;&#x6392;&#x9664;&#x4EFB;&#x4F55;&#x6587;&#x4EF6;&#xFF0C;&#x56E0;&#x4E3A;&#x6392;&#x9664;&#x6A21;&#x5F0F;&#x4E0D;&#x80FD;&#x51FA;&#x73B0;&#x5728;&#x6570;&#x7EC4;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#x4E2D; </p>
+<p>&#x6B64;&#x5916;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5C55;&#x5F00;&#x6A21;&#x5F0F;&#x3002;&#x5C55;&#x5F00;&#x6A21;&#x5F0F;&#x4EE5;&#x82B1;&#x62EC;&#x53F7;&#x4F5C;&#x4E3A;&#x5B9A;&#x754C;&#x7B26;&#xFF0C;&#x6839;&#x636E;&#x5B83;&#x91CC;&#x9762;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x4F1A;&#x5C55;&#x5F00;&#x4E3A;&#x591A;&#x4E2A;&#x6A21;&#x5F0F;&#xFF0C;&#x6700;&#x540E;&#x5339;&#x914D;&#x7684;&#x7ED3;&#x679C;&#x4E3A;&#x6240;&#x6709;&#x5C55;&#x5F00;&#x7684;&#x6A21;&#x5F0F;&#x76F8;&#x52A0;&#x8D77;&#x6765;&#x5F97;&#x5230;&#x7684;&#x7ED3;&#x679C;&#x3002;&#x5C55;&#x5F00;&#x7684;&#x4F8B;&#x5B50;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li>r{e,o}c &#x4F1A;&#x5C55;&#x5F00;&#x4E3A; rec , roc  </li>
+<li>r{e,}o &#x4F1A;&#x5C55;&#x5F00;&#x4E3A; reo , ro  </li>
+<li>r{0..3}o &#x4F1A;&#x5C55;&#x5F00;&#x4E3A; r0o , r1do , r2o , r3o</li>
+</ul>
+<h2 id="gulp-dest(path[,options])">gulp.dest(path[,options])</h2><p>gulp.dest() &#x65B9;&#x6CD5;&#x662F;&#x7528;&#x6765;&#x5199;&#x6587;&#x4EF6;&#x7684;&#xFF0C; path &#x4E3A;&#x5199;&#x5165;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84;, options &#x4E3A;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x7684;&#x53C2;&#x6570;&#x5BF9;&#x8C61;&#xFF0C;&#x901A;&#x5E38;&#x6211;&#x4EEC;&#x4E0D;&#x9700;&#x8981;&#x7528;&#x5230;&#xFF0C;&#x6682;&#x4E0D;&#x8003;&#x8651;&#x3002; </p>
+<p>&#x8981;&#x60F3;&#x4F7F;&#x7528;&#x597D; gulp.dest() &#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x5C31;&#x8981;&#x7406;&#x89E3;&#x7ED9;&#x5B83;&#x4F20;&#x5165;&#x7684;&#x8DEF;&#x5F84;&#x53C2;&#x6570;&#x4E0E;&#x6700;&#x7EC8;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x5173;&#x7CFB;&#x3002; </p>
+<p>gulp &#x7684;&#x4F7F;&#x7528;&#x6D41;&#x7A0B;&#x4E00;&#x822C;&#x662F;&#x8FD9;&#x6837;&#x5B50;&#x7684;&#xFF1A;&#x9996;&#x5148;&#x901A;&#x8FC7; gulp.src() &#x65B9;&#x6CD5;&#x83B7;&#x53D6;&#x5230;&#x6211;&#x4EEC;&#x60F3;&#x8981;&#x5904;&#x7406;&#x7684;&#x6587;&#x4EF6;&#x6D41;&#xFF0C;&#x7136;&#x540E;&#x628A;&#x6587;&#x4EF6;&#x6D41;&#x901A;&#x8FC7; pipe &#x65B9;&#x6CD5;&#x5BFC;&#x5165;&#x5230; gulp &#x7684;&#x63D2;&#x4EF6;&#x4E2D;&#xFF0C;&#x6700;&#x540E;&#x628A;&#x7ECF;&#x8FC7;&#x63D2;&#x4EF6;&#x5904;&#x7406;&#x540E;&#x7684;&#x6D41;&#x518D;&#x901A;&#x8FC7; pipe &#x65B9;&#x6CD5;&#x5BFC;&#x5165;&#x5230; gulp.dest() &#x4E2D;&#xFF0C; gulp.dest() &#x65B9;&#x6CD5;&#x5219;&#x628A;&#x6D41;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x5199;&#x5165;&#x5230;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x8FD9;&#x91CC;&#x9996;&#x5148;&#x9700;&#x8981;&#x5F04;&#x6E05;&#x695A;&#x7684;&#x4E00;&#x70B9;&#x662F;&#xFF0C;&#x6211;&#x4EEC;&#x7ED9; gulp.dest() &#x4F20;&#x5165;&#x7684;&#x8DEF;&#x5F84;&#x53C2;&#x6570;&#xFF0C;&#x53EA;&#x80FD;&#x7528;&#x6765;&#x6307;&#x5B9A;&#x8981;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x76EE;&#x5F55;&#xFF0C;&#x800C;&#x4E0D;&#x80FD;&#x6307;&#x5B9A;&#x751F;&#x6210;&#x6587;&#x4EF6;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x5B83;&#x751F;&#x6210;&#x6587;&#x4EF6;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x5BFC;&#x5165;&#x5230;&#x5B83;&#x7684;&#x6587;&#x4EF6;&#x6D41;&#x81EA;&#x8EAB;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x6240;&#x4EE5;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x662F;&#x7531;&#x5BFC;&#x5165;&#x5230;&#x5B83;&#x7684;&#x6587;&#x4EF6;&#x6D41;&#x51B3;&#x5B9A;&#x7684;&#xFF0C;&#x5373;&#x4F7F;&#x6211;&#x4EEC;&#x7ED9;&#x5B83;&#x4F20;&#x5165;&#x4E00;&#x4E2A;&#x5E26;&#x6709;&#x6587;&#x4EF6;&#x540D;&#x7684;&#x8DEF;&#x5F84;&#x53C2;&#x6570;&#xFF0C;&#x7136;&#x540E;&#x5B83;&#x4E5F;&#x4F1A;&#x628A;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x540D;&#x5F53;&#x505A;&#x662F;&#x76EE;&#x5F55;&#x540D;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; </p>
+<pre><code>var gulp = require(&amp;apos;gulp&amp;apos;);
+gulp.src(&amp;apos;script/jquery.js&amp;apos;)
+    .pipe(gulp.dest(&amp;apos;dist/foo.js&amp;apos;));
+//&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x7EC8</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; dist/foo.js/jquery.js,&amp;<span class="symbol">#x800C</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x662F</span>;dist/foo.js
+</code></pre><p>&#x8981;&#x60F3;&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x63D2;&#x4EF6; gulp-rename</p>
+<p>&#x4E0B;&#x9762;&#x8BF4;&#x8BF4;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x4E0E;&#x6211;&#x4EEC;&#x7ED9; gulp.dest() &#x65B9;&#x6CD5;&#x4F20;&#x5165;&#x7684;&#x8DEF;&#x5F84;&#x53C2;&#x6570;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;&#x3002; </p>
+<p>gulp.dest(path) &#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x662F;&#x6211;&#x4EEC;&#x4F20;&#x5165;&#x7684; path &#x53C2;&#x6570;&#x540E;&#x9762;&#x518D;&#x52A0;&#x4E0A; gulp.src() &#x4E2D;&#x6709;&#x901A;&#x914D;&#x7B26;&#x5F00;&#x59CB;&#x51FA;&#x73B0;&#x7684;&#x90A3;&#x90E8;&#x5206;&#x8DEF;&#x5F84;&#x3002;&#x4F8B;&#x5982;&#xFF1A; </p>
+<pre><code>var gulp = reruire(&amp;apos;gulp&amp;apos;);
+//&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; **/*.js
+gulp.src(&amp;apos;script/**/*.js&amp;apos;)
+    .pipe(gulp.dest(&amp;apos;dist&amp;apos;)); //&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; dist/**/*.js
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>; **/*.js &amp;<span class="symbol">#x5339</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x4E3A</span>; jquery/jquery.js ,&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; dist/jquery/jquery.js
+</code></pre><p>&#x518D;&#x4E3E;&#x66F4;&#x591A;&#x4E00;&#x70B9;&#x7684;&#x4F8B;&#x5B50;</p>
+<pre><code>gulp.src(&amp;apos;script/avalon/avalon.js&amp;apos;) //&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;
+    .pipe(gulp.dest(&amp;apos;dist&amp;apos;)); //&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; dist/avalon.js
+
+//&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; **/underscore.js
+
+
+gulp.src(&amp;apos;script/**/underscore.js&amp;apos;)
+    //&amp;<span class="symbol">#x5047</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x5339</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x4E3A</span>;script/util/underscore.js
+    .pipe(gulp.dest(&amp;apos;dist&amp;apos;)); //&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; dist/util/underscore.js
+gulp.src(&amp;apos;script/*&amp;apos;) //&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; *
+    //&amp;<span class="symbol">#x5047</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x5339</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x4E3A</span>;script/zepto.js
+    .pipe(gulp.dest(&amp;apos;dist&amp;apos;)); //&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; dist/zepto.js
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;lt;br /&amp;gt;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5B9A</span>;`gulp.src()`&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;`base`&amp;<span class="symbol">#x5C5E</span>;&amp;<span class="symbol">#x6027</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x7075</span>;&amp;<span class="symbol">#x6D3B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#x53D8</span>;`gulp.dest()`&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x3002</span>;
+&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5728</span>;`gulp.src()`&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;`base`&amp;<span class="symbol">#x5C5E</span>;&amp;<span class="symbol">#x6027</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#xFF0C</span>;`base`&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#xFF1A</span>;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+gulp.src(&amp;apos;app/src/**/*.css&amp;apos;) //&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x65F6</span>;base&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4E3A</span>; app/src
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;lt;br /&amp;gt;&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x7684</span>;`gulp.dest()`&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x89C4</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4E5F</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x7ED9</span>;`gulp.dest()`&amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x6389</span>;`gulp.src()`&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;`base`&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x7EC8</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x3002</span>;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+gulp.src(&amp;apos;app/src/**/*.css&amp;apos;) //&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x65F6</span>;base&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4E3A</span>;app/src,&amp;<span class="symbol">#x4E5F</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x5B83</span>;&amp;<span class="symbol">#x7684</span>;base&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>;app/src
+     //&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x6A21</span>;&amp;<span class="symbol">#x5F0F</span>;&amp;<span class="symbol">#x5339</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>; app/src/css/normal.css
+    .pipe(gulp.dest(&amp;apos;dist&amp;apos;)) //&amp;<span class="symbol">#x7528</span>;dist&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x6389</span>;base&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x7EC8</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x5230</span>; dist/css/normal.css
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;lt;br /&amp;gt;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#x53D8</span>;`base`&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;`gulp.dest()`&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E5F</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#x53D8</span>;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+gulp.src(script/lib/*.js) //&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;base&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x7684</span>;base&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>;script/lib
+    //&amp;<span class="symbol">#x5047</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x5339</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x4E3A</span>;script/lib/jquery.js
+    .pipe(gulp.dest(&amp;apos;build&amp;apos;)) //&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; build/jquery.js
+
+
+
+gulp.src(script/lib/*.js, {<span class="method">base:</span>&amp;apos;script&amp;apos;}) //&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E86</span>;base&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x65F6</span>;base&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>;script
+    //&amp;<span class="symbol">#x5047</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x5339</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x4E3A</span>;script/lib/jquery.js
+    .pipe(gulp.dest(&amp;apos;build&amp;apos;)) //&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x4E3A</span>; build/lib/jquery.js
+</code></pre><p>&#x7528; gulp.dest() &#x628A;&#x6587;&#x4EF6;&#x6D41;&#x5199;&#x5165;&#x6587;&#x4EF6;&#x540E;&#xFF0C;&#x6587;&#x4EF6;&#x6D41;&#x4ECD;&#x7136;&#x53EF;&#x4EE5;&#x7EE7;&#x7EED;&#x4F7F;&#x7528;&#x3002; </p>
+<h2 id="gulp-task(name[,_deps],_fn)">gulp.task(name[, deps], fn)</h2><p>gulp.task &#x65B9;&#x6CD5;&#x7528;&#x6765;&#x5B9A;&#x4E49;&#x4EFB;&#x52A1;&#xFF0C; </p>
+<p>name &#x4E3A;&#x4EFB;&#x52A1;&#x540D;&#xFF0C; </p>
+<p>deps &#x662F;&#x5F53;&#x524D;&#x5B9A;&#x4E49;&#x7684;&#x4EFB;&#x52A1;&#x9700;&#x8981;&#x4F9D;&#x8D56;&#x7684;&#x5176;&#x4ED6;&#x4EFB;&#x52A1;&#xFF0C; </p>
+<p>&#x4E3A;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x3002;&#x5F53;&#x524D;&#x5B9A;&#x4E49;&#x7684;&#x4EFB;&#x52A1;&#x4F1A;&#x5728;&#x6240;&#x6709;&#x4F9D;&#x8D56;&#x7684;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x540E;&#x624D;&#x5F00;&#x59CB;&#x6267;&#x884C;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x6CA1;&#x6709;&#x4F9D;&#x8D56;&#xFF0C;&#x5219;&#x53EF;&#x7701;&#x7565;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;</p>
+<p>fn &#x4E3A;&#x4EFB;&#x52A1;&#x51FD;&#x6570;&#xFF0C;&#x6211;&#x4EEC;&#x628A;&#x4EFB;&#x52A1;&#x8981;&#x6267;&#x884C;&#x7684;&#x4EE3;&#x7801;&#x90FD;&#x5199;&#x5728;&#x91CC;&#x9762;&#x3002;&#x8BE5;&#x53C2;&#x6570;&#x4E5F;&#x662F;&#x53EF;&#x9009;&#x7684;&#x3002; </p>
+<h2 id="gulp-watch(glob[,_opts],_tasks)">gulp.watch(glob[, opts], tasks)</h2><p>gulp.watch() &#x7528;&#x6765;&#x76D1;&#x89C6;&#x6587;&#x4EF6;&#x7684;&#x53D8;&#x5316;&#xFF0C;&#x5F53;&#x6587;&#x4EF6;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x5B83;&#x6765;&#x6267;&#x884C;&#x76F8;&#x5E94;&#x7684;&#x4EFB;&#x52A1;&#xFF0C;&#x4F8B;&#x5982;&#x6587;&#x4EF6;&#x538B;&#x7F29;&#x7B49;&#x3002; </p>
+<p>glob &#x4E3A;&#x8981;&#x76D1;&#x89C6;&#x7684;&#x6587;&#x4EF6;&#x5339;&#x914D;&#x6A21;&#x5F0F;&#xFF0C;&#x89C4;&#x5219;&#x548C;&#x7528;&#x6CD5;&#x4E0E; gulp.src() &#x65B9;&#x6CD5;&#x4E2D;&#x7684;glob&#x76F8;&#x540C;&#x3002; </p>
+<p>opts &#x4E3A;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x7684;&#x914D;&#x7F6E;&#x5BF9;&#x8C61;&#xFF0C;&#x901A;&#x5E38;&#x4E0D;&#x9700;&#x8981;&#x7528;&#x5230;&#xFF0C;&#x6682;&#x4E0D;&#x8003;&#x8651;&#x3002; </p>
+<p>tasks &#x4E3A;&#x6587;&#x4EF6;&#x53D8;&#x5316;&#x540E;&#x8981;&#x6267;&#x884C;&#x7684;&#x4EFB;&#x52A1;&#xFF0C;&#x4E3A;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#xFF0C; </p>
+<p>gulp.task(&apos;uglify&apos;,function(){ //do something }); gulp.task(&apos;reload&apos;,function(){ //do something }); gulp.watch(&apos;js/<em>*/</em>.js&apos;, [&apos;uglify&apos;,&apos;reload&apos;]);</p>
+<p>gulp.watch()&#x8FD8;&#x6709;&#x53E6;&#x5916;&#x4E00;&#x79CD;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<pre><code>gulp.<span class="function"><span class="title">watch</span><span class="params">(glob[, opts, cb])</span></span>
+</code></pre><p>glob &#x548C; opts &#x53C2;&#x6570;&#x4E0E;&#x7B2C;&#x4E00;&#x79CD;&#x7528;&#x6CD5;&#x76F8;&#x540C; </p>
+<p>cb &#x53C2;&#x6570;&#x4E3A;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x3002;&#x6BCF;&#x5F53;&#x76D1;&#x89C6;&#x7684;&#x6587;&#x4EF6;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x65F6;&#xFF0C;&#x5C31;&#x4F1A;&#x8C03;&#x7528;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;,&#x5E76;&#x4E14;&#x4F1A;&#x7ED9;&#x5B83;&#x4F20;&#x5165;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x8BE5;&#x5BF9;&#x8C61;&#x5305;&#x542B;&#x4E86;&#x6587;&#x4EF6;&#x53D8;&#x5316;&#x7684;&#x4E00;&#x4E9B;&#x4FE1;&#x606F;&#xFF0C; type &#x5C5E;&#x6027;&#x4E3A;&#x53D8;&#x5316;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x53EF;&#x4EE5;&#x662F; added , changed , deleted &#xFF1B; path &#x5C5E;&#x6027;&#x4E3A;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84; </p>
+<p>gulp.watch(&apos;js/<em>*/</em>.js&apos;, function(event){ console.log(event.type); //&#x53D8;&#x5316;&#x7C7B;&#x578B; added&#x4E3A;&#x65B0;&#x589E;,deleted&#x4E3A;&#x5220;&#x9664;&#xFF0C;changed&#x4E3A;&#x6539;&#x53D8; console.log(event.path); //&#x53D8;&#x5316;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84; });</p>
+<h2 id="&#x5E38;&#x7528;&#x7684;gulp&#x63D2;&#x4EF6;&#x4ECB;&#x7ECD;">&#x5E38;&#x7528;&#x7684;gulp&#x63D2;&#x4EF6;&#x4ECB;&#x7ECD;</h2><h2 id="js&#x6587;&#x4EF6;&#x538B;&#x7F29;">js&#x6587;&#x4EF6;&#x538B;&#x7F29;</h2><p>&#x4F7F;&#x7528; <a href="https://www.npmjs.com/packages/gulp-uglify/" target="_blank" rel="external">gulp-uglify</a></p>
+<p>&#x5B89;&#x88C5;&#xFF1A; npm install —save-dev gulp-uglify<br>&#x7528;&#x6765;&#x538B;&#x7F29; js &#x6587;&#x4EF6;&#xFF0C;&#x4F7F;&#x7528;&#x7684;&#x662F; uglify &#x5F15;&#x64CE; </p>
+<pre><code><span class="xml">var gulp = require(&amp;apos;gulp&amp;apos;),
+    uglify = require(&amp;quot;gulp-uglify&amp;quot;);
+gulp.task(&amp;apos;minify-js&amp;apos;, function () </span><span class="expression">{
+    <span class="variable">gulp.src</span>(&amp;<span class="variable">apos</span>;<span class="variable">js</span>/*<span class="variable">.js</span>&amp;<span class="variable">apos</span>;) /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>538<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>29;&amp;<span class="begin-block">#x</span>7684;<span class="variable">js</span>&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>4<span class="variable">EF</span>6;
+    <span class="variable">.pipe</span>(<span class="variable">uglify</span>())
+    <span class="variable">.pipe</span>(<span class="variable">gulp.dest</span>(&amp;<span class="variable">apos</span>;<span class="variable">dist</span><span class="end-block">/js</span>&amp;<span class="variable">apos</span>;)); //&amp;<span class="begin-block">#x</span>538<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>29;&amp;<span class="begin-block">#x</span>540<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>8<span class="variable">DEF</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>84;
+}</span><span class="xml">);</span>
+</code></pre><h2 id="&#x91CD;&#x547D;&#x540D;&#x6587;&#x4EF6;">&#x91CD;&#x547D;&#x540D;&#x6587;&#x4EF6;</h2><p>&#x4F7F;&#x7528; <a href="https://www.npmjs.com/packages/gulp-rename/" target="_blank" rel="external">gulp-rename</a></p>
+<p>&#x5B89;&#x88C5;&#xFF1A; npm install —save-dev gulp-rename<br>&#x7528;&#x6765;&#x91CD;&#x547D;&#x540D;&#x6587;&#x4EF6;&#x6D41;&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x7528; gulp.dest() &#x65B9;&#x6CD5;&#x5199;&#x5165;&#x6587;&#x4EF6;&#x65F6;&#xFF0C;&#x6587;&#x4EF6;&#x540D;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x6587;&#x4EF6;&#x6D41;&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x60F3;&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x90A3;&#x53EF;&#x4EE5;&#x5728;&#x4E4B;&#x524D;&#x7528; gulp-rename &#x63D2;&#x4EF6;&#x6765;&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x6D41;&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x3002; </p>
+<pre><code>var gulp = require<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;gulp&amp;apos;),</span>
+    rename = require<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;gulp-rename&amp;apos;),</span>
+    uglify = require<span class="list">(<span class="keyword">&amp;quot</span><span class="comment">;gulp-uglify&amp;quot;);</span>
+gulp.task<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;rename&amp;apos;, function () {</span>
+    gulp.src<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;js/jquery.js&amp;apos;)</span>
+    .pipe<span class="list">(<span class="keyword">uglify</span><span class="list">()</span>)</span>  //&amp;#x538B<span class="comment">;&amp;#x7F29;</span>
+    .pipe<span class="list">(<span class="keyword">rename</span><span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;jquery.min.js&amp;apos;)) //&amp;#x4F1A;&amp;#x5C06;jquery.js&amp;#x91CD;&amp;#x547D;&amp;#x540D;&amp;#x4E3A;jquery.min.js</span>
+    .pipe<span class="list">(<span class="keyword">gulp</span>.dest<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;js&amp;apos;));</span>
+})</span><span class="comment">;</span></span></span></span></span></span></span></span></span>
+</code></pre><h2 id="&#x538B;&#x7F29;css&#x6587;&#x4EF6;">&#x538B;&#x7F29;css&#x6587;&#x4EF6;</h2><p>&#x4F7F;&#x7528; <a href="https://www.npmjs.com/package/gulp-minify-css/" target="_blank" rel="external">gulp-minify-css</a></p>
+<p>&#x5B89;&#x88C5;&#xFF1A; npm install —save-dev gulp-minify-css<br>&#x8981;&#x538B;&#x7F29; css &#x6587;&#x4EF6;&#x65F6;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x8BE5;&#x63D2;&#x4EF6; </p>
+<pre><code><span class="xml">var gulp = require(&amp;apos;gulp&amp;apos;),
+    minifyCss = require(&amp;quot;gulp-minify-css&amp;quot;);
+gulp.task(&amp;apos;minify-css&amp;apos;, function () </span><span class="expression">{
+    <span class="variable">gulp.src</span>(&amp;<span class="variable">apos</span>;<span class="variable">css</span>/*<span class="variable">.css</span>&amp;<span class="variable">apos</span>;) /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>538<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>29;&amp;<span class="begin-block">#x</span>7684;<span class="variable">css</span>&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>4<span class="variable">EF</span>6;
+    <span class="variable">.pipe</span>(<span class="variable">minifyCss</span>()) //&amp;<span class="begin-block">#x</span>538<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>29;<span class="variable">css</span>
+    <span class="variable">.pipe</span>(<span class="variable">gulp.dest</span>(&amp;<span class="variable">apos</span>;<span class="variable">dist</span><span class="end-block">/css</span>&amp;<span class="variable">apos</span>;));
+}</span><span class="xml">);</span>
+</code></pre><h2 id="html&#x6587;&#x4EF6;&#x538B;&#x7F29;">html&#x6587;&#x4EF6;&#x538B;&#x7F29;</h2><p>&#x4F7F;&#x7528; <a href="https://www.npmjs.com/package/gulp-minify-html/" target="_blank" rel="external">gulp-minify-html</a></p>
+<p>&#x5B89;&#x88C5;&#xFF1A; npm install —save-dev gulp-minify-html<br>&#x7528;&#x6765;&#x538B;&#x7F29; html &#x6587;&#x4EF6; </p>
+<pre><code><span class="xml">var gulp = require(&amp;apos;gulp&amp;apos;),
+    minifyHtml = require(&amp;quot;gulp-minify-html&amp;quot;);
+gulp.task(&amp;apos;minify-html&amp;apos;, function () </span><span class="expression">{
+    <span class="variable">gulp.src</span>(&amp;<span class="variable">apos</span>;<span class="variable">html</span>/*<span class="variable">.html</span>&amp;<span class="variable">apos</span>;) /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>538<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>29;&amp;<span class="begin-block">#x</span>7684;<span class="variable">html</span>&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>4<span class="variable">EF</span>6;
+    <span class="variable">.pipe</span>(<span class="variable">minifyHtml</span>()) //&amp;<span class="begin-block">#x</span>538<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>29;
+    <span class="variable">.pipe</span>(<span class="variable">gulp.dest</span>(&amp;<span class="variable">apos</span>;<span class="variable">dist</span><span class="end-block">/html</span>&amp;<span class="variable">apos</span>;));
+}</span><span class="xml">);</span>
+</code></pre><h2 id="&#x6587;&#x4EF6;&#x5408;&#x5E76;">&#x6587;&#x4EF6;&#x5408;&#x5E76;</h2><p>&#x4F7F;&#x7528; <a href="https://www.npmjs.com/package/gulp-concat/" target="_blank" rel="external">gulp-concat</a></p>
+<p>&#x5B89;&#x88C5;&#xFF1A; npm install —save-dev gulp-concat<br>&#x7528;&#x6765;&#x628A;&#x591A;&#x4E2A;&#x6587;&#x4EF6;&#x5408;&#x5E76;&#x4E3A;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;,&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x7528;&#x5B83;&#x6765;&#x5408;&#x5E76; js &#x6216; css &#x6587;&#x4EF6;&#x7B49;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x80FD;&#x51CF;&#x5C11;&#x9875;&#x9762;&#x7684; http &#x8BF7;&#x6C42;&#x6570;&#x4E86; </p>
+<pre><code><span class="xml">var gulp = require(&amp;apos;gulp&amp;apos;),
+    concat = require(&amp;quot;gulp-concat&amp;quot;);
+gulp.task(&amp;apos;concat&amp;apos;, function () </span><span class="expression">{
+    <span class="variable">gulp.src</span>(&amp;<span class="variable">apos</span>;<span class="variable">js</span>/*<span class="variable">.js</span>&amp;<span class="variable">apos</span>;)  //&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>5408;&amp;<span class="begin-block">#x</span>5<span class="variable">E</span>76;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>4<span class="variable">EF</span>6;
+    <span class="variable">.pipe</span>(<span class="variable">concat</span>(&amp;<span class="variable">apos</span>;<span class="variable">all.js</span>&amp;<span class="variable">apos</span>;))  /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>5408;&amp;<span class="begin-block">#x</span>5<span class="variable">E</span>76;&amp;<span class="begin-block">#x</span>5339;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>5230;&amp;<span class="begin-block">#x</span>7684;<span class="variable">js</span>&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>4<span class="variable">EF</span>6;&amp;<span class="begin-block">#x</span>5<span class="variable">E</span>76;&amp;<span class="begin-block">#x</span>547<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>540<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">A</span>; &amp;<span class="variable">quot</span>;<span class="variable">all.js</span>&amp;<span class="variable">quot</span>;
+    <span class="variable">.pipe</span>(<span class="variable">gulp.dest</span>(&amp;<span class="variable">apos</span>;<span class="variable">dist</span><span class="end-block">/js</span>&amp;<span class="variable">apos</span>;));
+}</span><span class="xml">);</span>
+</code></pre><h2 id="&#x81EA;&#x52A8;&#x5237;&#x65B0;">&#x81EA;&#x52A8;&#x5237;&#x65B0;</h2><p>&#x53EF;&#x4EE5;&#x7ED3;&#x5408; browser-sync &#x505A;&#x591A;&#x7EC8;&#x7AEF;&#x81EA;&#x52A8;&#x5237;&#x65B0;&#xFF0C;&#x8BE6;&#x89C1; <a href="http://reeoo.co/2015/06/25/BrowserSync/" target="_blank" rel="external">BrowserSync&#x524D;&#x7AEF;&#x6D4B;&#x8BD5;&#x5229;&#x5668;</a></p>
+<h2 id="&#x5904;&#x7406;html">&#x5904;&#x7406;html</h2><p>&#x4F7F;&#x7528; <a href="https://www.npmjs.com/package/gulp-processhtml/" target="_blank" rel="external">gulp-processhtml</a></p>
+<p>&#x5B89;&#x88C5;&#xFF1A; npm install —save-dev gulp-processhtml<br>&#x5728;&#x6784;&#x5EFA;&#x65F6;&#x5904;&#x7406;&#x6309;&#x4F60;&#x8BBE;&#x60F3;&#x7684;&#x4FEE;&#x6539; html &#x6587;&#x4EF6;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#x4F60;&#x6784;&#x5EFA;&#x4E4B;&#x524D;&#x4F60;&#x6709; N &#x4E2A;&#x811A;&#x672C;&#x9700;&#x8981;&#x5F15;&#x5165;&#x5230; html &#x9875;&#x9762;&#x4E2D;&#xFF0C;&#x6784;&#x5EFA;&#x4E4B;&#x540E;&#x53EF;&#x80FD;&#x8FD9; N &#x4E2A;&#x6587;&#x4EF6;&#x88AB;&#x5408;&#x5E76;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x5F15;&#x5165;&#x7684;&#x5730;&#x65B9;&#x4E5F;&#x9700;&#x8981;&#x505A;&#x76F8;&#x5E94;&#x7684;&#x8C03;&#x6574;&#xFF0C;&#x90A3;&#x4E48;&#x5DEE;&#x4E2A;&#x63D2;&#x4EF6;&#x5C31;&#x80FD;&#x6D3E;&#x4E0A;&#x7528;&#x573A;&#x4E86;&#x3002; </p>
+<p>&#x63D2;&#x4EF6;&#x4F7F;&#x7528;</p>
+<pre><code>gulp.task<span class="params">(&amp;quot;processhtml&amp;quot;, function <span class="params">()</span> {
+    gulp.src<span class="params">(&amp;apos;../main.html&amp;apos;)</span>
+        .pipe<span class="params">(processhtml<span class="params">()</span>)</span>
+        .pipe<span class="params">(gulp.dest<span class="params">(option.buildPath + &amp;apos;/&amp;apos;)</span>)</span>
+})</span>
+</code></pre><p>main.html &#x6784;&#x5EFA;&#x4E4B;&#x524D;&#x7684;&#x4EE3;&#x7801; </p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!</span>DOCTYPE html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;html ng<span class="attribute">-app</span><span class="subst">=&amp;</span>quot;app<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;head lang<span class="subst">=&amp;</span>quot;en<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta charset<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta name<span class="subst">=&amp;</span>quot;viewport<span class="subst">&amp;</span>quot;
+        content<span class="subst">=&amp;</span>quot;width<span class="subst">=</span>device<span class="attribute">-width</span>,initial<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,minimum<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,maximum<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,user<span class="attribute">-scalable</span><span class="subst">=</span>no<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta name<span class="subst">=&amp;</span>quot;format<span class="attribute">-detection</span><span class="subst">&amp;</span>quot; content<span class="subst">=&amp;</span>quot;telephone<span class="subst">=</span>no<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;style/base<span class="built_in">.</span>css<span class="subst">?</span><span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;style/index<span class="built_in">.</span>css<span class="subst">?</span><span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/head<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;ui<span class="attribute">-view</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/ui<span class="attribute">-view</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> build:js js/libs/libs<span class="built_in">.</span><span class="keyword">min</span><span class="built_in">.</span>js <span class="subst">--&amp;</span><span class="literal">gt</span>; <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span>process<span class="attribute">-html</span><span class="subst">&amp;</span><span class="variable">#x63D2</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>;<span class="subst">&amp;</span><span class="variable">#x9700</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x8FD9</span>;<span class="subst">&amp;</span><span class="variable">#x4E2A</span>;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x91CA</span>;<span class="subst">--</span> <span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/libs/angular<span class="built_in">.</span><span class="keyword">min</span><span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/libs/angular<span class="built_in">.</span>touch<span class="built_in">.</span><span class="keyword">min</span><span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/libs/zepto<span class="built_in">.20140520</span><span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/libs/angular<span class="built_in">.</span>ui<span class="built_in">.</span>bootstrap<span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/libs/angular<span class="attribute">-sanitize</span><span class="built_in">.</span><span class="keyword">min</span><span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/libs/angular<span class="attribute">-ui</span><span class="attribute">-route</span><span class="built_in">.</span><span class="keyword">min</span><span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/libs/fastclick<span class="built_in">.0</span><span class="built_in">.6</span><span class="built_in">.7</span><span class="built_in">.</span><span class="keyword">min</span><span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/libs/carous<span class="built_in">.</span><span class="keyword">min</span><span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span> /build <span class="subst">--&amp;</span><span class="literal">gt</span>; <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--</span>process<span class="attribute">-html</span><span class="subst">&amp;</span><span class="variable">#x63D2</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>;<span class="subst">&amp;</span><span class="variable">#x9700</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x8FD9</span>;<span class="subst">&amp;</span><span class="variable">#x4E2A</span>;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x91CA</span>;<span class="subst">--&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/html<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>main.html &#x6784;&#x5EFA;&#x4E4B;&#x540E; </p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!</span>DOCTYPE html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;html ng<span class="attribute">-app</span><span class="subst">=&amp;</span>quot;app<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;head lang<span class="subst">=&amp;</span>quot;en<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta charset<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta name<span class="subst">=&amp;</span>quot;viewport<span class="subst">&amp;</span>quot;
+        content<span class="subst">=&amp;</span>quot;width<span class="subst">=</span>device<span class="attribute">-width</span>,initial<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,minimum<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,maximum<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,user<span class="attribute">-scalable</span><span class="subst">=</span>no<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta name<span class="subst">=&amp;</span>quot;format<span class="attribute">-detection</span><span class="subst">&amp;</span>quot; content<span class="subst">=&amp;</span>quot;telephone<span class="subst">=</span>no<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;style/base<span class="built_in">.</span>css<span class="subst">?</span><span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;style/index<span class="built_in">.</span>css<span class="subst">?</span><span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/head<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;ui<span class="attribute">-view</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/ui<span class="attribute">-view</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/libs/libs<span class="built_in">.</span><span class="keyword">min</span><span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>; <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!--&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x610F</span>;<span class="subst">&amp;</span><span class="variable">#x8FD9</span>;<span class="subst">&amp;</span><span class="variable">#x91CC</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x53D8</span>;<span class="subst">&amp;</span><span class="variable">#x5316</span>;<span class="subst">--&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/html<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><h2 id="&#x5B57;&#x7B26;&#x4E32;&#x66FF;&#x6362;">&#x5B57;&#x7B26;&#x4E32;&#x66FF;&#x6362;</h2><p>&#x4F7F;&#x7528; <a href="https://www.npmjs.com/package/gulp-replace/" target="_blank" rel="external">gulp-replace</a></p>
+<p>&#x5B89;&#x88C5;&#xFF1A; npm install —save-dev gulp-replace<br>&#x53EF;&#x4EE5;&#x66FF;&#x6362;html&#x6216;&#x8005;txt&#x7B49;&#x6587;&#x4EF6;&#x5185;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x4E3A;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x3002;</p>
+<p>&#x6BD4;&#x5982;&#x6211;&#x6BCF;&#x6B21;&#x6784;&#x5EFA;&#x7684;&#x65F6;&#x5019;&#x90FD;&#x9700;&#x8981;&#x53BB;&#x4FEE;&#x6539;&#x5F15;&#x7528;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x7248;&#x672C;&#x53F7;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x63D2;&#x4EF6;</p>
+<pre><code>gulp.task<span class="params">(&amp;quot;replace&amp;quot;, function <span class="params">()</span> {
+    var date = new Date<span class="params">()</span>.getTime<span class="params">()</span>;
+    gulp.src<span class="params">(&amp;apos;../main.html&amp;apos;)</span>
+        .pipe<span class="params">(replace<span class="params">(/_VERSION_/gi, date)</span>)</span>
+        .pipe<span class="params">(gulp.dest<span class="params">(option.buildPath + &amp;apos;/&amp;apos;)</span>)</span>
+})</span>
+</code></pre><p>main.html &#x6587;&#x4EF6; </p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!</span>DOCTYPE html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;html ng<span class="attribute">-app</span><span class="subst">=&amp;</span>quot;app<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;head lang<span class="subst">=&amp;</span>quot;en<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta charset<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta name<span class="subst">=&amp;</span>quot;viewport<span class="subst">&amp;</span>quot;
+        content<span class="subst">=&amp;</span>quot;width<span class="subst">=</span>device<span class="attribute">-width</span>,initial<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,minimum<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,maximum<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,user<span class="attribute">-scalable</span><span class="subst">=</span>no<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta name<span class="subst">=&amp;</span>quot;format<span class="attribute">-detection</span><span class="subst">&amp;</span>quot; content<span class="subst">=&amp;</span>quot;telephone<span class="subst">=</span>no<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;style/base<span class="built_in">.</span>css<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;style/index<span class="built_in">.</span>css<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/head<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;ui<span class="attribute">-view</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/ui<span class="attribute">-view</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/config/config<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/app<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/service/TrackDataService<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/service/APIService<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/service/DService<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/controllers/indexCtrl<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/directive/lazy<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/directive/slider<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/filter/filters<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span>_VERSION_<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/html<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x6784;&#x5EFA;&#x4E4B;&#x540E;&#xFF0C; <em>VERSION</em> &#x88AB;&#x66FF;&#x6362;&#x4E3A;&#x65F6;&#x95F4;&#x6233;&#x3002; </p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!</span>DOCTYPE html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;html ng<span class="attribute">-app</span><span class="subst">=&amp;</span>quot;app<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;head lang<span class="subst">=&amp;</span>quot;en<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta charset<span class="subst">=&amp;</span>quot;UTF<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta name<span class="subst">=&amp;</span>quot;viewport<span class="subst">&amp;</span>quot;
+        content<span class="subst">=&amp;</span>quot;width<span class="subst">=</span>device<span class="attribute">-width</span>,initial<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,minimum<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,maximum<span class="attribute">-scale</span><span class="subst">=</span><span class="number">1.0</span>,user<span class="attribute">-scalable</span><span class="subst">=</span>no<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta name<span class="subst">=&amp;</span>quot;format<span class="attribute">-detection</span><span class="subst">&amp;</span>quot; content<span class="subst">=&amp;</span>quot;telephone<span class="subst">=</span>no<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;style/base<span class="built_in">.</span>css<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;style/index<span class="built_in">.</span>css<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/head<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;ui<span class="attribute">-view</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/ui<span class="attribute">-view</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/config/config<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/app<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/service/TrackDataService<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/service/APIService<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/service/DService<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/controllers/indexCtrl<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/directive/lazy<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/directive/slider<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;js/filter/filters<span class="built_in">.</span>js<span class="subst">?</span>v<span class="subst">=</span><span class="number">1433405631860</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/html<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>gulp &#x8FD8;&#x6709;&#x5F88;&#x591A;&#x63D2;&#x4EF6;&#xFF0C;&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x53BB; <a href="http://gulpjs.com/plugins/" target="_blank" rel="external">gulp&#x5B98;&#x7F51;</a> &#x67E5;&#x770B; </p>
+<h2 id="&#x603B;&#x7ED3;">&#x603B;&#x7ED3;</h2><p>No Need To Grunt, Take A Gulp Of Fresh Air&#x3002;</p>
+<p>&#x5F53;&#x7136;&#xFF0C; grunt &#x4E5F;&#x5E76;&#x975E;&#x4E00;&#x65E0;&#x662F;&#x5904;&#xFF0C;&#x4F46;&#x662F;&#x73B0;&#x5728;&#x5C31;&#x662F;&#x559C;&#x6B22; gulp &#xFF0C;&#x518D;&#x4E5F;&#x56DE;&#x4E0D;&#x53BB;&#x4E86;&#x3002; </p>
+<p>&#x6700;&#x540E;&#x53EF;&#x4EE5;&#x770B;&#x770B;&#x6211;&#x505A;&#x7684; gulp &#x6784;&#x5EFA;&#x7684; demo &#xFF1A; <a href="https://github.com/ireeoo/gulp-build-project" target="_blank" rel="external">&#x4F20;&#x9001;&#x95E8;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Gulp/">Gulp</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/2ef3999/" title="Ready Steady Gulp -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Ready Steady Gulp -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/2edaba6/"  title="Learn Node.js with 10 hands-on projects -">
+ <strong>下一篇：</strong><br/> 
+ <span>Learn Node.js with 10 hands-on projects -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp_vs_Grunt"><span class="toc-number">1.</span> <span class="toc-text">Gulp vs Grunt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp为什么快"><span class="toc-number">2.</span> <span class="toc-text">Gulp为什么快</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp-js的核心设计"><span class="toc-number">3.</span> <span class="toc-text">Gulp.js的核心设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp快速上手"><span class="toc-number">4.</span> <span class="toc-text">gulp快速上手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp_api速览"><span class="toc-number">5.</span> <span class="toc-text">Gulp api速览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp-src(globs[,_options])"><span class="toc-number">6.</span> <span class="toc-text">gulp.src(globs[, options])</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件匹配模式"><span class="toc-number">6.1.</span> <span class="toc-text">文件匹配模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp-dest(path[,options])"><span class="toc-number">7.</span> <span class="toc-text">gulp.dest(path[,options])</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp-task(name[,_deps],_fn)"><span class="toc-number">8.</span> <span class="toc-text">gulp.task(name[, deps], fn)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp-watch(glob[,_opts],_tasks)"><span class="toc-number">9.</span> <span class="toc-text">gulp.watch(glob[, opts], tasks)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用的gulp插件介绍"><span class="toc-number">10.</span> <span class="toc-text">常用的gulp插件介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js文件压缩"><span class="toc-number">11.</span> <span class="toc-text">js文件压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重命名文件"><span class="toc-number">12.</span> <span class="toc-text">重命名文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压缩css文件"><span class="toc-number">13.</span> <span class="toc-text">压缩css文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#html文件压缩"><span class="toc-number">14.</span> <span class="toc-text">html文件压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件合并"><span class="toc-number">15.</span> <span class="toc-text">文件合并</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动刷新"><span class="toc-number">16.</span> <span class="toc-text">自动刷新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理html"><span class="toc-number">17.</span> <span class="toc-text">处理html</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串替换"><span class="toc-number">18.</span> <span class="toc-text">字符串替换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">19.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

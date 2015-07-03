@@ -1,0 +1,682 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>1 通过JNI混合使用Java和C++ -----&gt; 操作字符串 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="JNI(Java Native Interface)&amp;#x662F;Java&amp;#x8BED;&amp;#x8A00;&amp;#x7684;&amp;#x4E00;&amp;#x90E8;&amp;#x5206;&amp;#xFF0C;&amp;#x53EF;&amp;#x4EE5;&amp;#x8BBF;&amp;#x95EE;&amp;#xFFFD;&amp;#xFFFD;&amp;#xFFFD;Java&amp;#x8BED;&amp;#x8A00;&amp;#x7F16;&amp;#x5199;&amp;#x7684;&amp;#x7A0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1 通过JNI混合使用Java和C++ -----> 操作字符串 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/f4c6906/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="JNI(Java Native Interface)&amp;#x662F;Java&amp;#x8BED;&amp;#x8A00;&amp;#x7684;&amp;#x4E00;&amp;#x90E8;&amp;#x5206;&amp;#xFF0C;&amp;#x53EF;&amp;#x4EE5;&amp;#x8BBF;&amp;#x95EE;&amp;#xFFFD;&amp;#xFFFD;&amp;#xFFFD;Java&amp;#x8BED;&amp;#x8A00;&amp;#x7F16;&amp;#x5199;&amp;#x7684;&amp;#x7A0">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/f4c1122.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/f4c1604.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/f4c1875.png">
+<meta property="og:updated_time" content="2015-07-03T14:08:19.073Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1 通过JNI混合使用Java和C++ -----> 操作字符串 -">
+<meta name="twitter:description" content="JNI(Java Native Interface)&amp;#x662F;Java&amp;#x8BED;&amp;#x8A00;&amp;#x7684;&amp;#x4E00;&amp;#x90E8;&amp;#x5206;&amp;#xFF0C;&amp;#x53EF;&amp;#x4EE5;&amp;#x8BBF;&amp;#x95EE;&amp;#xFFFD;&amp;#xFFFD;&amp;#xFFFD;Java&amp;#x8BED;&amp;#x8A00;&amp;#x7F16;&amp;#x5199;&amp;#x7684;&amp;#x7A0">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/f4c6906/" title="1 通过JNI混合使用Java和C++ -----&gt; 操作字符串 -" itemprop="url">1 通过JNI混合使用Java和C++ -----&gt; 操作字符串 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:19.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤:"><span class="toc-number">1.</span> <span class="toc-text">步骤:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#public_native_void_callCpp();"><span class="toc-number">2.</span> <span class="toc-text">public native void callCpp();</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#static"><span class="toc-number">3.</span> <span class="toc-text">static</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#{"><span class="toc-number">4.</span> <span class="toc-text">{</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#System-loadLibrary("hellocpp");"><span class="toc-number">5.</span> <span class="toc-text">System.loadLibrary("hellocpp");</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#}"><span class="toc-number">6.</span> <span class="toc-text">}</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#public_static_void_main(String[]_args)"><span class="toc-number">7.</span> <span class="toc-text">public static void main(String[] args)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#{-1"><span class="toc-number">8.</span> <span class="toc-text">{</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#System-out-println("*_JNI_Test_*");"><span class="toc-number">9.</span> <span class="toc-text">System.out.println("* JNI Test *");</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HelloCpp_instance_=_new_HelloCpp();"><span class="toc-number">10.</span> <span class="toc-text">HelloCpp instance = new HelloCpp();</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#}-1"><span class="toc-number">11.</span> <span class="toc-text">}</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#include_<jni-h>"><span class="toc-number"></span> <span class="toc-text">include <jni.h></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ifndef__Included_HelloCpp"><span class="toc-number"></span> <span class="toc-text">ifndef _Included_HelloCpp</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#define__Included_HelloCpp"><span class="toc-number"></span> <span class="toc-text">define _Included_HelloCpp</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ifdef___cplusplus"><span class="toc-number"></span> <span class="toc-text">ifdef __cplusplus</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#endif"><span class="toc-number"></span> <span class="toc-text">endif</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ifdef___cplusplus-1"><span class="toc-number"></span> <span class="toc-text">ifdef __cplusplus</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#endif-1"><span class="toc-number"></span> <span class="toc-text">endif</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#endif-2"><span class="toc-number"></span> <span class="toc-text">endif</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="##include_"HelloCpp-h""><span class="toc-number">1.</span> <span class="toc-text">#include "HelloCpp.h"</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#include_<jni-h>-1"><span class="toc-number"></span> <span class="toc-text">include <jni.h></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#include_<iostream>"><span class="toc-number"></span> <span class="toc-text">include <iostream></span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#结果如下："><span class="toc-number">1.</span> <span class="toc-text">结果如下：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#说明："><span class="toc-number">2.</span> <span class="toc-text">说明：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#//_Prompt-java"><span class="toc-number">3.</span> <span class="toc-text">// Prompt.java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#//_Prompt-h"><span class="toc-number">4.</span> <span class="toc-text">// Prompt.h</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#//_Prompt-cpp"><span class="toc-number">5.</span> <span class="toc-text">// Prompt.cpp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#补充信息："><span class="toc-number">6.</span> <span class="toc-text">补充信息：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结："><span class="toc-number">7.</span> <span class="toc-text">总结：</span></a></li></ol>
+		
+		</div>
+		
+		<p>JNI(Java Native Interface)&#x662F;Java&#x8BED;&#x8A00;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#xFFFD;&#xFFFD;&#xFFFD;Java&#x8BED;&#x8A00;&#x7F16;&#x5199;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x5728;C++&#x7A0B;&#x5E8F;&#x4E2D;&#x6267;&#x884C;Java&#x4EE3;&#x7801;&#x3002;</p>
+<h4 id="&#x6B65;&#x9AA4;:">&#x6B65;&#x9AA4;:</h4><p>1&gt;&#xA0;&#x7F16;&#x5199;&#x5E26;&#x6709;native&#x58F0;&#x660E;&#x65B9;&#x6CD5;&#x7684;Java&#x7C7B;&#xFF0C;&#x5E76;&#x4E14;&#x8BE5;&#x65B9;&#x6CD5;&#x53EA;&#x5B9A;&#x4E49;&#x4E0D;&#x5B9E;&#x73B0;&#xFF0C;&#x540E;&#x671F;&#x7531;c++&#x8D1F;&#x8D23;&#x5B9E;&#x73B0;&#xFF1A; </p>
+<p>// HelloCpp.java</p>
+<p>public class HelloCpp</p>
+<p>{</p>
+<p>// …</p>
+<h4 id="public_native_void_callCpp();">public native void callCpp();</h4><p>// …</p>
+<p>}</p>
+<p>2&gt;&#xA0; &#x7531;&#x4E8E;&#x540E;&#x671F;&#x7684;C++&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x6700;&#x7EC8;&#x4F1A;&#x88AB;&#x7F16;&#x8BD1;&#x4E3A;&#x4E00;&#x4E2A;&#x52A8;&#x6001;&#x5E93;.dll&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x5728;Java&#x7C7B;&#x4E2D;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x9759;&#x6001;&#x4EE3;&#x7801;&#x5757;&#xFF0C;&#x63D0;&#x524D;&#x52A0;&#x8F7D;&#x8BE5;&#x52A8;&#x6001;&#x5E93;&#xFF0C;&#x5047;&#x8BBE;&#x52A8;&#x6001;&#x7684;&#x540D;&#x5B57;&#x4E3A;hellocpp.dll&#xFF1A; </p>
+<p>// HelloCpp.java</p>
+<p>public class HelloCpp</p>
+<p>{</p>
+<h4 id="static">static</h4><h4 id="{">{</h4><h4 id="System-loadLibrary(&quot;hellocpp&quot;);">System.loadLibrary(&quot;hellocpp&quot;);</h4><h4 id="}">}</h4><p>public native void callCpp();</p>
+<p>// …</p>
+<p>}</p>
+<p>3&gt;&#xA0;&#x5728;Java&#x7C7B;&#x4E2D;&#x5B9A;&#x4E49;main&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x8BE5;native&#x65B9;&#x6CD5;&#xFF1A; </p>
+<p>// HelloCpp.java</p>
+<p>public class HelloCpp</p>
+<p>{</p>
+<p>static</p>
+<p>{</p>
+<p>System.loadLibrary(&quot;hellocpp&quot;);</p>
+<p>}</p>
+<p>public native void callCpp();</p>
+<h4 id="public_static_void_main(String[]_args)">public static void main(String[] args)</h4><h4 id="{-1">{</h4><h4 id="System-out-println(&quot;*_JNI_Test_*&quot;);">System.out.println(&quot;<strong>*</strong> JNI Test <strong>*</strong>&quot;);</h4><h4 id="HelloCpp_instance_=_new_HelloCpp();">HelloCpp instance = new HelloCpp();</h4><p> instance.callCpp();&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; //  &#x8C03;&#x7528;native  &#x65B9;&#x6CD5;</p>
+<h4 id="}-1">}</h4><p>}</p>
+<p>4&gt;&#xA0;&#x7F16;&#x8BD1;&#x5305;&#x542B;native&#x65B9;&#x6CD5;&#x7684;Java&#x7C7B;&#xFF0C;&#x751F;&#x6210;class&#x5B57;&#x8282;&#x7801;&#x6587;&#x4EF6;&#xFF1A; </p>
+<p>javac HelloCpp.java&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; // &#x751F;&#x6210;HelloCpp.class</p>
+<p>5&gt;&#xA0;&#x751F;&#x6210;&#x4E0E;native&#x65B9;&#x6CD5;&#x5BF9;&#x5E94;&#x7684;.h&#x5934;&#x6587;&#x4EF6;&#xFF1A; </p>
+<p>javah &#x2013;jniHelloCpp&#xA0;// &#x751F;&#x6210;HelloCpp&#x7C7B;&#x5BF9;&#x4E8E;&#x7684;&#x5934;&#x6587;&#x4EF6;HelloCpp.h </p>
+<p>// HelloCpp.h</p>
+<p>/<em> DO NOT EDIT THIS FILE - it is machine generated </em>/</p>
+<h1 id="include_&lt;jni-h&gt;">include &lt;jni.h&gt;</h1><p>/<em> Header for class HelloCpp </em>/</p>
+<h1 id="ifndef__Included_HelloCpp">ifndef _Included_HelloCpp</h1><h1 id="define__Included_HelloCpp">define _Included_HelloCpp</h1><h1 id="ifdef___cplusplus">ifdef __cplusplus</h1><p>extern &quot;C&quot; {</p>
+<h1 id="endif">endif</h1><p>/*</p>
+<ul>
+<li><p>Class:&#xA0;&#xA0;&#xA0;&#xA0; HelloCpp</p>
+</li>
+<li><p>Method:&#xA0;&#xA0;&#xA0; callCpp</p>
+</li>
+<li><p>Signature: ()V</p>
+</li>
+</ul>
+<p>*/</p>
+<p>JNIEXPORT void JNICALL Java_HelloCpp_callCpp(JNIEnv* env, jobject this);</p>
+<h1 id="ifdef___cplusplus-1">ifdef __cplusplus</h1><p>}</p>
+<h1 id="endif-1">endif</h1><h1 id="endif-2">endif</h1><p>6&gt;&#xA0;&#x4F7F;&#x7528;C++&#x5B9E;&#x73B0;native&#x65B9;&#x6CD5;&#xFF1A; </p>
+<p>// HelloCpp.cpp</p>
+<h4 id="#include_&quot;HelloCpp-h&quot;">#include &quot;HelloCpp.h&quot;</h4><h1 id="include_&lt;jni-h&gt;-1">include &lt;jni.h&gt;</h1><h1 id="include_&lt;iostream&gt;">include &lt;iostream&gt;</h1><p>JNIEXPORT void JNICALL Java_HelloCpp_callCpp(JNIEnv* env, jobject this)</p>
+<p>{</p>
+<p>std::cout &lt;&lt; &quot;C++ Implementation&quot; &lt;&lt; std::endl;</p>
+<p>}</p>
+<p>7&gt;&#xA0;&#x7F16;&#x8BD1;&#x751F;&#x6210;&#x52A8;&#x6001;&#x5E93;hellocpp.dll: </p>
+<p>g++ -Wl,—kill-at &#x2013;shared &#x2013;I D:\jdk1.7.0_75\include &#x2013;I D:\jdk1.7.0_75\include\win32 HelloCpp.cpp &#x2013;o hellocpp.dll</p>
+<p>8&gt;&#xA0;&#x8C03;&#x7528;hellocpp.dll&#x6765;&#x8FD0;&#x884C;Java&#x7A0B;&#x5E8F;&#xFF1A; </p>
+<p>Java HelloCpp</p>
+<h4 id="&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#xFF1A;">&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</h4><p><strong>*</strong> JNI Test <strong>*</strong></p>
+<p>C++ Implementation</p>
+<h4 id="&#x8BF4;&#x660E;&#xFF1A;">&#x8BF4;&#x660E;&#xFF1A;</h4><p>JNIEXPORT void JNICALL Java_HelloCpp_callCpp(JNIEnv* env, jobject this);</p>
+<p>JNIWXPORT&#x548C;JNICALL&#x662F;&#x5B8F;&#x3002; </p>
+<p>JNIEnv*&#x6307;&#x5411;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#xFF0C;&#x8BE5;&#x4F4D;&#x7F6E;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x6307;&#x5411;&#x51FD;&#x6570;&#x8868;&#x7684;&#x6307;&#x9488;&#xFF0C;&#x8868;&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x9879;&#x90FD;&#x662F;&#x4E00;&#x4E2A;&#x6307;&#x5411;JNI&#x51FD;&#x6570;&#x7684;&#x6307;&#x9488;&#xFF0C;native&#x65B9;&#x6CD5;&#x901A;&#x8FC7;JNI&#x51FD;&#x6570;&#x8BBF;&#x95EE;JVM&#x7684;&#x4E2D;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A; </p>
+<p>  <img src="http://taojinke.github.io/img/20150703/f4c1122.png" alt=""></p>
+<p>&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x5BF9;&#x4E8E;&#x975E;&#x9759;&#x6001;&#x65B9;&#x6CD5;&#x4E3A;jobject&#xFF0C;&#x5BF9;&#x4E8E;&#x9759;&#x6001;&#x65B9;&#x6CD5;&#x4E3A;jclass&#x3002;jobject&#x8868;&#x793A;&#x8C03;&#x7528;native&#x65B9;&#x6CD5;&#x5BF9;&#x8C61;&#x81EA;&#x8EAB;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x5982;&#x540C;C++&#x4E2D;&#x7684;this&#x6307;&#x9488;&#xFF1B;jclass&#x8868;&#x793A;&#x5B9A;&#x4E49;native&#x65B9;&#x6CD5;&#x7684;&#x7C7B;&#x7684;&#x5F15;&#x7528;&#x3002; </p>
+<p>&#x5982;&#x4E0B;&#x4ECB;&#x7ECD;&#x5E26;&#x6709;&#x53C2;&#x6570;&#x548C;&#x8FD4;&#x56DE;&#x503C;&#x7684;native&#x65B9;&#x6CD5;&#xFF1A; </p>
+<h4 id="//_Prompt-java">// Prompt.java</h4><pre><code> <span class="number">1</span> class Prompt
+ <span class="number">2</span> {
+ <span class="number">3</span>     <span class="keyword">static</span>
+ <span class="number">4</span>     {
+ <span class="number">5</span>         System.loadLibrary(&amp;quot;Prompt&amp;quot;);
+ <span class="number">6</span>     }
+ <span class="number">7</span>     <span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">String</span> GetLine(<span class="keyword">String</span> prompt);
+ <span class="number">8</span>     
+ <span class="number">9</span>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args)
+<span class="number">10</span>     {
+<span class="number">11</span>         Prompt p = <span class="keyword">new</span> Prompt();
+<span class="number">12</span>         <span class="keyword">String</span> input = p.GetLine(&amp;quot;Enter a <span class="built_in">line</span>:&amp;quot;);
+<span class="number">13</span>         System.out.<span class="built_in">println</span>(&amp;quot;Your Input is: &amp;quot; + input);
+<span class="number">14</span>     }
+<span class="number">15</span> }
+</code></pre><p><img src="http://taojinke.github.io/img/20150703/f4c1604.png" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150703/f4c1875.png" alt=""></p>
+<h4 id="//_Prompt-h">// Prompt.h</h4><pre><code> <span class="number">1</span> /* DO <span class="keyword">NOT</span> EDIT THIS FILE - it is machine generated */
+ <span class="number">2</span><span class="preprocessor"> #include &amp;lt;jni.h&amp;gt;</span>
+ <span class="number">3</span> /* Header <span class="keyword">for</span> <span class="class"><span class="keyword">class</span> <span class="title">Prompt</span> */</span>
+ <span class="number">4</span> 
+ <span class="number">5</span><span class="preprocessor"> #ifndef _Included_Prompt</span>
+ <span class="number">6</span><span class="preprocessor"> #define _Included_Prompt</span>
+ <span class="number">7</span><span class="preprocessor"> #ifdef __cplusplus</span>
+ <span class="number">8</span> <span class="keyword">extern</span> &amp;quot;C&amp;quot; {
+ <span class="number">9</span><span class="preprocessor"> #<span class="keyword">endif</span></span>
+<span class="number">10</span> /*
+<span class="number">11</span>  * <span class="class"><span class="keyword">Class</span>:     <span class="title">Prompt</span></span>
+<span class="number">12</span>  * <span class="function"><span class="keyword">Method</span>:</span>    GetLine
+<span class="number">13</span>  * Signature: (Ljava/lang/String;)Ljava/lang/String;
+<span class="number">14</span>  */
+<span class="number">15</span> JNIEXPORT jstring JNICALL Java_Prompt_GetLine(JNIEnv* env, jobject _this, jstring prompt);
+<span class="number">16</span> 
+<span class="number">17</span><span class="preprocessor"> #ifdef __cplusplus</span>
+<span class="number">18</span> }
+<span class="number">19</span><span class="preprocessor"> #<span class="keyword">endif</span></span>
+<span class="number">20</span><span class="preprocessor"> #<span class="keyword">endif</span></span>
+</code></pre><h4 id="//_Prompt-cpp">// Prompt.cpp</h4><pre><code> <span class="number">1</span> <span class="symbol">#include</span> &amp;quot;<span class="class">Prompt</span>.h&amp;quot;
+ <span class="number">2</span> <span class="symbol">#include</span> &amp;lt;iostream&amp;gt;
+ <span class="number">3</span> 
+ <span class="number">4</span> <span class="class">JNIEXPORT</span> jstring <span class="class">JNICALL</span> <span class="class">Java_Prompt_GetLine</span>(<span class="class">JNIEnv</span>* env, jobject _this, jstring prompt)
+ <span class="number">5</span> {
+ <span class="number">6</span>     char buf[<span class="number">1024</span>];
+ <span class="number">7</span>     const char* str;
+ <span class="number">8</span>     str = env-&amp;gt;<span class="class">GetStringUTFChars</span>(prompt, <span class="class">NULL</span>);            /* &amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x4E32</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x8F6C</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x4E3A</span>;native <span class="class">Strings</span> */
+ <span class="number">9</span>     if(str == <span class="class">NULL</span>)                                        /* str == <span class="class">NULL</span>&amp;<span class="symbol">#x610F</span>;&amp;<span class="symbol">#x5473</span>;&amp;<span class="symbol">#x7740</span>;<span class="class">JVM</span>&amp;<span class="symbol">#x4E3A</span>;native <span class="class">String</span>&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>; */
+<span class="number">10</span>     {
+<span class="number">11</span>         return <span class="class">NULL</span>;
+<span class="number">12</span>     }
+<span class="number">13</span>     <span class="method">std:</span>:cout &amp;lt;&amp;lt; str;                                        /* &amp;<span class="symbol">#x663E</span>;&amp;<span class="symbol">#x793A</span>;&amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x4E32</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>; prompt */ 
+<span class="number">14</span>     env-&amp;gt;<span class="class">ReleaseStringUTFChars</span>(prompt, str);                /* &amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x77E5</span>;<span class="class">JVM</span>&amp;<span class="symbol">#x91CA</span>;&amp;<span class="symbol">#x653E</span>;<span class="class">String</span>&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x5360</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>; */
+<span class="number">15</span>     
+<span class="number">16</span>     <span class="method">std:</span>:cin.get(buf, <span class="number">1024</span>);
+<span class="number">17</span>     return env-&amp;gt;<span class="class">NewStringUTF</span>(buf);                        /* &amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x9020</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">Java</span>.lang.<span class="class">String</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;<span class="class">JVM</span>&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x629B</span>;&amp;<span class="symbol">#x51FA</span>;<span class="class">OutOfMemoryError</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="class">NULL</span> */
+<span class="number">18</span> }
+</code></pre><h4 id="&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF1A;">&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF1A;</h4><p>&#xFF1A;&#xFF1A; UTF-8&#x5B57;&#x7B26;&#x4E32;&#x4EE5;&#x2019;\0&#x2019;&#x7ED3;&#x5C3E;&#xFF0C;&#x800C;Unicode&#x5B57;&#x7B26;&#x4E32;&#x5219;&#x4E0D;&#x662F;&#x3002;&#x5982;&#x679C;&#x9700;&#x8981;&#x83B7;&#x5F97;Unicode&#x683C;&#x5F0F;&#x7684;jstring&#x7684;&#x957F;&#x5EA6;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;GetStringLength&#xFF1B;&#x5982;&#x679C;&#x9700;&#x8981;&#x83B7;&#x5F97;UTF-8&#x683C;&#x5F0F;&#x7684;jstring&#x7684;&#x957F;&#x5EA6;&#xFF0C;&#x53EF;&#x4EE5;&#x5148;&#x4F7F;&#x7528;GetStringUTFChars&#xFF0C;&#x5728;&#x5176;&#x7ED3;&#x679C;&#x4E0A;&#x4F7F;&#x7528;strlen&#xFF0C;&#x6216;&#x8005;&#x76F4;&#x63A5;&#x4F7F;&#x7528;GetStringUTFLength&#x3002; </p>
+<p>&#xFF1A;&#xFF1A; GetStringUTFChars&#x7684;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;jboolean *isCopy&#xFF0C;&#x5176;&#x6307;&#x5411;&#x5206;&#x914D;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#xFF0C;&#x5982;&#x679C;isCopy&#x88AB;&#x8BBE;&#x4E3A;JNI_TRUE&#xFF0C;&#x90A3;&#x4E48;&#x8FD4;&#x56DE;&#x7684;String&#x662F;Java String&#x7684;&#x4E00;&#x4E2A;&#x526F;&#x672C;&#xFF1B;&#x5982;&#x679C;&#x88AB;&#x8BBE;&#x4E3A;JNI_FALSE&#xFF0C;&#x90A3;&#x4E48;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x6307;&#x5411;Java String&#x672C;&#x8EAB;&#x7684;&#x6307;&#x9488;&#xFF0C;&#x6B64;&#x65F6;&#x4E0D;&#x5141;&#x8BB8;&#x4FEE;&#x6539;&#x8FD4;&#x56DE;&#x7684;String&#x3002;</p>
+<p>&#xFF1A;&#xFF1A; &#x51FD;&#x6570;&#x5BF9;Get/ReleaseStringCritical&#x7684;&#x4F5C;&#x7528;&#x4E8E;Get/ReleaseStringChars&#x7C7B;&#x4F3C;&#xFF0C;&#x4F46;&#x662F;&#x5BF9;&#x4E8E;&#x7A0B;&#x5E8F;&#x5458;&#x800C;&#x8A00;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x5BF9;&#x4E4B;&#x95F4;&#x7684;&#x4EE3;&#x7801;&#x76F8;&#x5F53;&#x4E8E;&#x201C;&#x4E34;&#x754C;&#x533A;&#x201D;&#x3002;&#x5728;&#x8BE5;&#x201C;&#x4E34;&#x754C;&#x533A;&#x201D;&#x5185;&#xFF0C;native&#x4EE3;&#x7801;&#x4E0D;&#x80FD;&#x8C03;&#x7528;&#x4EFB;&#x4F55;&#x7684;JNI&#x51FD;&#x6570;&#xFF0C;&#x5426;&#x5219;&#x5C06;&#x5F15;&#x8D77;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x963B;&#x585E;&#x3002;</p>
+<p>&#xFF1A;&#xFF1A; GetStringRegion/GetStringUTFRegion&#x5C06;Unicode&#x683C;&#x5F0F;&#x7684;String&#x590D;&#x5236;&#x5230;&#x9884;&#x5206;&#x914D;&#x7684;&#x7F13;&#x51B2;&#x533A;&#x4E2D;&#xFF0C;&#x7531;&#x4E8E;&#x4E0D;&#x9700;&#x8981;JVM&#x5206;&#x914D;&#x5185;&#x5B58;&#xFF0C;&#x56E0;&#x6B64;&#x4E5F;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x91CA;&#x653E;&#x64CD;&#x4F5C;&#xFF1A;</p>
+<pre><code> <span class="number">1</span> <span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_Prompt_GetLine</span><span class="params">(JNIEnv* env, jobject _this, jstring prompt)</span>
+ 2 </span>{
+ <span class="number">3</span>     <span class="keyword">char</span> inbuf[<span class="number">1024</span>], outbuf[<span class="number">1024</span>];
+ <span class="number">4</span>     <span class="keyword">int</span> len = env-&amp;gt;GetStringUTFLength(prompt);
+ <span class="number">5</span>     env-&amp;gt;GetStringUTFRegion(prompt, <span class="number">0</span>, len, outbuf);
+ <span class="number">6</span>     <span class="built_in">std</span>::<span class="built_in">cout</span> &amp;lt;&amp;lt; outbuf;
+ <span class="number">7</span>     
+ <span class="number">8</span>     <span class="built_in">std</span>::<span class="built_in">cin</span>.get(inbuf, <span class="number">1024</span>);
+ <span class="number">9</span>     <span class="keyword">return</span> env-&amp;gt;NewStringUTF(inbuf);    
+<span class="number">10</span> }
+</code></pre><h4 id="&#x603B;&#x7ED3;&#xFF1A;">&#x603B;&#x7ED3;&#xFF1A;</h4><p>1&gt;&#xA0; <strong>&#x6570;&#x636E;&#x7C7B;&#x578B;&#x5BF9;&#x5E94;&#x5173;&#x7CFB;&#x8868;&#xFF1A;</strong></p>
+<table><tbody><tr><td> Java&#x7C7B;&#x578B;<br><br></td><td> &#x672C;&#x5730;C&#x7C7B;&#x578B;<br><br></td><td> &#x5B9E;&#x9645;&#x8868;&#x793A;&#x7684;C&#x7C7B;&#x578B;&#xFF08;Win32&#xFF09;<br><br></td></tr><tr><td>boolean<br><br></td><td> jboolean<br><br></td><td>unsigned char<br><br></td></tr><tr><td>byte<br><br></td><td> jbyte<br><br></td><td>signed char<br><br></td></tr><tr><td>char<br><br></td><td> jchar<br><br></td><td>unsigned short<br><br></td></tr><tr><td>short<br><br></td><td> jshort<br><br></td><td>short<br><br></td></tr><tr><td>int<br><br></td><td> jint<br><br></td><td>long<br><br></td></tr><tr><td>long<br><br></td><td> jlong<br><br></td><td>__int64<br><br></td></tr><tr><td>float<br><br></td><td> jfloat<br><br></td><td>float<br><br></td></tr><tr><td>double<br><br></td><td> jdouble<br><br></td><td>double<br><br></td></tr><tr><td>void<br><br></td><td>void<br><br></td><td>N/A<br><br></td></tr></tbody></table> 2&gt;&#xA0; <strong>JNI**</strong>&#x5B57;&#x7B26;&#x4E32;&#x51FD;&#x6570;**<br><br><table><tbody><tr><td> JNI&#x51FD;&#x6570;<br><br></td><td>#### &#x63CF;&#x8FF0;<br><br></td><td>#### &#x7248;&#x672C;<br><br></td></tr><tr><td>GetStringChars<br><br>ReleaseStringChars<br><br></td><td>&#x83B7;&#x5F97;/&#x91CA;&#x653E;&#x4E00;&#x4E2A;Unicode&#x683C;&#x5F0F;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6307;&#x9488;&#xFF0C;&#x53EF;&#x80FD;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x526F;&#x672C;<br><br></td><td>JDK 1.1<br><br></td></tr><tr><td>GetStringUTFChars<br><br>ReleaseStringUTFChars<br><br></td><td>&#x83B7;&#x5F97;/&#x91CA;&#x653E;&#x4E00;&#x4E2A;UTF-8&#x683C;&#x5F0F;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6307;&#x9488;&#xFF0C;&#x53EF;&#x80FD;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x526F;&#x672C;<br><br></td><td>JDK 1.1<br><br></td></tr><tr><td>GetStringLength<br><br></td><td>&#x8FD4;&#x56DE;Unicode&#x683C;&#x5F0F;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x957F;&#x5EA6;<br><br></td><td>JDK 1.1<br><br></td></tr><tr><td>GetStringUTFLength<br><br></td><td>&#x8FD4;&#x56DE;UTF-8&#x683C;&#x5F0F;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x957F;&#x5EA6;<br><br></td><td>JDK 1.1<br><br></td></tr><tr><td>NewString<br><br></td><td>&#x6839;&#x636E;Unicode&#x683C;&#x5F0F;&#x7684;C&#x5B57;&#x7B26;&#x4E32;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;Java&#x5B57;&#x7B26;&#x4E32;<br><br></td><td>JDK 1.1<br><br></td></tr><tr><td>NewStringUTF<br><br></td><td>&#x6839;&#x636E;UTF-8&#x683C;&#x5F0F;&#x7684;C&#x5B57;&#x7B26;&#x4E32;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;Java&#x5B57;&#x7B26;&#x4E32;<br><br></td><td>JDK 1.1<br><br></td></tr><tr><td>GetStringCritical<br><br>ReleaseStringCritical<br><br></td><td>&#x83B7;&#x5F97;/&#x91CA;&#x653E;&#xFFFD;&#xFFFD;&#xFFFD;&#x4E2A;Unicode&#x683C;&#x5F0F;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6307;&#x9488;&#xFF0C;&#x53EF;&#x80FD;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x526F;&#x672C;&#x3010;&#x5728;&#x8BE5;&#x51FD;&#x6570;&#x5BF9;&#x533A;&#x95F4;&#x5185;&#xFF0C;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x4EFB;&#x4F55;JNI&#x51FD;&#x6570;&#x3011;<br><br></td><td>JDK 1.2<br><br></td></tr><tr><td>GetStringRegion<br><br></td><td>&#x5C06;Unicode&#x683C;&#x5F0F;&#x7684;String&#x590D;&#x5236;&#x5230;&#x9884;&#x5206;&#x914D;&#x7684;&#x7F13;&#x51B2;&#x533A;&#x4E2D;<br><br></td><td>JDK 1.2<br><br></td></tr><tr><td>GetStringUTFRegion<br><br></td><td>&#x5C06;UTF-8&#x683C;&#x5F0F;&#x7684;String&#x590D;&#x5236;&#x5230;&#x9884;&#x5206;&#x914D;&#x7684;&#x7F13;&#x51B2;&#x533A;&#x4E2D;<br><br></td><td>JDK 1.2<br><br></td></tr></tbody></table>
+
+
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/JNI/">JNI</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/03036e5/" title="docker部署zookeeper -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  docker部署zookeeper -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/f4e514e/"  title="从大二开始学C++到现在的一些感悟 -">
+ <strong>下一篇：</strong><br/> 
+ <span>从大二开始学C++到现在的一些感悟 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤:"><span class="toc-number">1.</span> <span class="toc-text">步骤:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#public_native_void_callCpp();"><span class="toc-number">2.</span> <span class="toc-text">public native void callCpp();</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#static"><span class="toc-number">3.</span> <span class="toc-text">static</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#{"><span class="toc-number">4.</span> <span class="toc-text">{</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#System-loadLibrary("hellocpp");"><span class="toc-number">5.</span> <span class="toc-text">System.loadLibrary("hellocpp");</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#}"><span class="toc-number">6.</span> <span class="toc-text">}</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#public_static_void_main(String[]_args)"><span class="toc-number">7.</span> <span class="toc-text">public static void main(String[] args)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#{-1"><span class="toc-number">8.</span> <span class="toc-text">{</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#System-out-println("*_JNI_Test_*");"><span class="toc-number">9.</span> <span class="toc-text">System.out.println("* JNI Test *");</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HelloCpp_instance_=_new_HelloCpp();"><span class="toc-number">10.</span> <span class="toc-text">HelloCpp instance = new HelloCpp();</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#}-1"><span class="toc-number">11.</span> <span class="toc-text">}</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#include_<jni-h>"><span class="toc-number"></span> <span class="toc-text">include <jni.h></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ifndef__Included_HelloCpp"><span class="toc-number"></span> <span class="toc-text">ifndef _Included_HelloCpp</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#define__Included_HelloCpp"><span class="toc-number"></span> <span class="toc-text">define _Included_HelloCpp</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ifdef___cplusplus"><span class="toc-number"></span> <span class="toc-text">ifdef __cplusplus</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#endif"><span class="toc-number"></span> <span class="toc-text">endif</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ifdef___cplusplus-1"><span class="toc-number"></span> <span class="toc-text">ifdef __cplusplus</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#endif-1"><span class="toc-number"></span> <span class="toc-text">endif</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#endif-2"><span class="toc-number"></span> <span class="toc-text">endif</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="##include_"HelloCpp-h""><span class="toc-number">1.</span> <span class="toc-text">#include "HelloCpp.h"</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#include_<jni-h>-1"><span class="toc-number"></span> <span class="toc-text">include <jni.h></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#include_<iostream>"><span class="toc-number"></span> <span class="toc-text">include <iostream></span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#结果如下："><span class="toc-number">1.</span> <span class="toc-text">结果如下：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#说明："><span class="toc-number">2.</span> <span class="toc-text">说明：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#//_Prompt-java"><span class="toc-number">3.</span> <span class="toc-text">// Prompt.java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#//_Prompt-h"><span class="toc-number">4.</span> <span class="toc-text">// Prompt.h</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#//_Prompt-cpp"><span class="toc-number">5.</span> <span class="toc-text">// Prompt.cpp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#补充信息："><span class="toc-number">6.</span> <span class="toc-text">补充信息：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结："><span class="toc-number">7.</span> <span class="toc-text">总结：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,1562 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>storm源码分析之任务分配--task assignment - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x5728;&amp;quot;storm&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x4E4B;topology&amp;#x63D0;&amp;#x4EA4;&amp;#x8FC7;&amp;#x7A0B;&amp;quot;&amp;#x4E00;&amp;#x6587;&amp;#x6700;&amp;#x540E;&amp;#xFF0C;submitTopologyWithOpts&amp;#x51FD;&amp;#x6570;&amp;#x8C03;&amp;#x7528;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="storm源码分析之任务分配--task assignment -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/11c0c6e/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x5728;&amp;quot;storm&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x4E4B;topology&amp;#x63D0;&amp;#x4EA4;&amp;#x8FC7;&amp;#x7A0B;&amp;quot;&amp;#x4E00;&amp;#x6587;&amp;#x6700;&amp;#x540E;&amp;#xFF0C;submitTopologyWithOpts&amp;#x51FD;&amp;#x6570;&amp;#x8C03;&amp;#x7528;&amp;">
+<meta property="og:updated_time" content="2015-07-03T14:09:07.709Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="storm源码分析之任务分配--task assignment -">
+<meta name="twitter:description" content="&amp;#x5728;&amp;quot;storm&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x4E4B;topology&amp;#x63D0;&amp;#x4EA4;&amp;#x8FC7;&amp;#x7A0B;&amp;quot;&amp;#x4E00;&amp;#x6587;&amp;#x6700;&amp;#x540E;&amp;#xFF0C;submitTopologyWithOpts&amp;#x51FD;&amp;#x6570;&amp;#x8C03;&amp;#x7528;&amp;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/11c0c6e/" title="storm源码分析之任务分配--task assignment -" itemprop="url">storm源码分析之任务分配--task assignment -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:06.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x5728;&quot;storm&#x6E90;&#x7801;&#x5206;&#x6790;&#x4E4B;topology&#x63D0;&#x4EA4;&#x8FC7;&#x7A0B;&quot;&#x4E00;&#x6587;&#x6700;&#x540E;&#xFF0C;submitTopologyWithOpts&#x51FD;&#x6570;&#x8C03;&#x7528;&#x4E86;mk-assignments&#x51FD;&#x6570;&#x3002;&#x8BE5;&#x51FD;&#x6570;&#x7684;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x8FDB;&#x884C;topology&#x7684;&#x4EFB;&#x52A1;&#x5206;&#x914D;&#xFF08;task assignment&#xFF09;&#x3002;mk-assignments&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>;; get existing assignment (just the executor-&gt;node+port map) -&gt; default to {}</p>
+<p>;; filter out ones which have a executor timeout</p>
+<p>;; figure out available slots on cluster. add to that the used valid slots to get total slots. figure out how many executors should be in each slot (e.g., 4, 4, 4, 5)</p>
+<p>;; only keep existing slots that satisfy one of those slots. for rest, reassign them across remaining slots</p>
+<p>;; edge case for slots with no executor timeout but with supervisor timeout… just treat these as valid slots that can be reassigned to. worst comes to worse the executor will timeout and won&apos;t assign here next time around</p>
+<p>( defnk  mk-assignments  [  nimbus  :scratch-topology-id  nil  ]</p>
+<p>( let  [  conf ( :conf  nimbus ) </p>
+<p> storm-cluster-state ( :storm-cluster-state  nimbus ) </p>
+<p> ^  INimbus  inimbus ( :inimbus  nimbus ) </p>
+<p> ;; read all the topologies</p>
+<p> topology-ids ( .active-storms  storm-cluster-state ) </p>
+<p> ;; topologies&#x7ED1;&#x5B9A;topology id-&gt;TopologyDetails&#x5BF9;&#x8C61;&#x952E;&#x503C;&#x5BF9;&#x7684;map</p>
+<p> topologies ( into  {} ( for  [  tid  topology-ids  ]</p>
+<p> {  tid ( read-topology-details  nimbus  tid  )}))</p>
+<p> ;; topologies&#x91CD;&#x65B0;&#x7ED1;&#x5B9A;Topologies&#x5BF9;&#x8C61;&#xFF0C;&#x8BF7;&#x53C2;&#x89C1;Topologies.java&#x3002;</p>
+<p> topologies ( Topologies.  topologies ) </p>
+<p> ;; read all the assignments</p>
+<p> ;; assigned-topology-ids&#x7ED1;&#x5B9A;zookeeper&#x4E2D;/assignments/&#x4E0B;&#x7684;&#x6240;&#x6709;topology id&#x3002;</p>
+<p> assigned-topology-ids ( .assignments  storm-cluster-state  nil ) </p>
+<p> ;; existing-assignments&#x7ED1;&#x5B9A;topology id-&gt;AssignmentInfo&#x4FE1;&#x606F;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#x3002;storm&#x96C6;&#x7FA4;&#x4E0A;&#x6240;&#x6709;&#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#x7684;&quot;&#x5206;&#x914D;&quot;</p>
+<p> existing-assignments ( into  {} ( for  [  tid  assigned-topology-ids  ]</p>
+<p> ;; for the topology which wants rebalance (specified by the scratch-topology-id)</p>
+<p> ;; we exclude its assignment, meaning that all the slots occupied by its assignment</p>
+<p> ;; will be treated as free slot in the scheduler code.</p>
+<p>( when ( or ( nil?  scratch-topology-id ) ( not=  tid  scratch-topology-id )) </p>
+<p>;; assignment-info&#x51FD;&#x6570;&#x8FD4;&#x56DE;tid&#x5BF9;&#x5E94;&#x7684;AssignmentInfo&#x4FE1;&#x606F;&#xFF0C;</p>
+<p>;; (defrecord Assignment [master-code-dir node-&gt;host executor-&gt;node+port executor-&gt;start-time-secs])</p>
+<p> {  tid ( .assignment-info  storm-cluster-state  tid  nil  )})))</p>
+<p> ;; make the new assignments for topologies</p>
+<p> ;; topology-&gt;executor-&gt;node+port&#x7ED1;&#x5B9A;cluster&#x4E2D;&#x6700;&#x65B0;&#x7684;&#x5206;&#x914D;&#x4FE1;&#x606F;{topology-id -&gt; {executor [node port]}}</p>
+<p> topology-&gt;executor-&gt;node+port ( compute-new-topology-&gt;executor-&gt;node+port</p>
+<p> nimbus</p>
+<p> existing-assignments</p>
+<p> topologies</p>
+<p> scratch-topology-id ) </p>
+<p> ;; now-secs&#x7ED1;&#x5B9A;&#x5F53;&#x524D;&#x65F6;&#x95F4;</p>
+<p> now-secs ( current-time-secs ) </p>
+<p> ;; basic-supervisor-details-map&#x7ED1;&#x5B9A;supervisor id-&gt;SupervisorDetails&#x7684;map</p>
+<p> basic-supervisor-details-map ( basic-supervisor-details-map  storm-cluster-state ) </p>
+<p> ;; construct the final Assignments by adding start-times etc into it</p>
+<p> ;; new-assignments&#x7ED1;&#x5B9A;&#x5F53;&#x524D;&#x96C6;&#x7FA4;&#x6700;&#x65B0;&#x5206;&#x914D;&#x4FE1;&#x606F;topology-id-&gt;Assignment&#x7684;map</p>
+<p> new-assignments ( into  {} ( for  [[  topology-id  executor-&gt;node+port  ]  topology-&gt;executor-&gt;node+port</p>
+<p> ;; existing-assignment&#x7ED1;&#x5B9A;topology-id&#x5728;zookeeper&#x4E0A;&#x7684;&#x5206;&#x914D;&#x4FE1;&#x606F;AssignmentInfo&#xFF0C;&#x5BF9;&#x4E8E;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#x6765;&#x8BF4;&#xFF0C;existing-assignment&#x4E3A;nil</p>
+<p> :let  [  existing-assignment ( get  existing-assignments  topology-id ) </p>
+<p> ;; all-nodes&#x7ED1;&#x5B9A;cluster&#x4E2D;&#x5206;&#x914D;&#x7ED9;&#x5B83;&#x7684;supervisor id&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x5982;#{node1 node2 …}</p>
+<p> all-nodes ( -&gt;&gt;  executor-&gt;node+port  vals ( map  first ) set ) </p>
+<p> ;; node-&gt;host&#x7ED1;&#x5B9A;supervisor id-&gt;host-name&#x7684;map&#xFF0C;&#x5982;{node1 host1 node2 host2 …}</p>
+<p> node-&gt;host ( -&gt;&gt;  all-nodes</p>
+<p>( mapcat ( fn  [  node  ]</p>
+<p>( if-let  [  host ( .getHostName  inimbus  basic-supervisor-details-map  node  )]</p>
+<p> [[  node  host  ]]</p>
+<p>)))</p>
+<p>( into  {}))</p>
+<p> ;; &#x5BF9;&#x4E8E;&#x8FDB;&#x884C;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;topology&#xFF0C;node-&gt;host&#x5B58;&#x653E;&#x7684;&#x662F;cluster&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7ED9;&#x5B83;&#x7684;supervisor&#xFF0C;existing-assignment&#x5B58;&#x653E;&#x4E86;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x4E4B;&#x524D;&#xFF0C;&#x8BE5;topology&#x6240;&#x62E5;&#x6709;&#x7684;&#x65E7;&#x7684; ;;&#xA0;supervisor</p>
+<p> ;; all-node-&gt;host&#x5B58;&#x653E;&#x4E86;&#x4E24;&#x8005;&#x7684;&#x5E76;&#x96C6;</p>
+<p> all-node-&gt;host ( merge ( :node-&gt;host  existing-assignment ) node-&gt;host ) </p>
+<p> ;; reassign-executors&#x7ED1;&#x5B9A;cluster&#x4E2D;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;executor&#xFF1B;changed-executors&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> reassign-executors ( changed-executors ( :executor-&gt;node+port  existing-assignment ) executor-&gt;node+port ) </p>
+<p> ;; &#x4E3A;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;executor&#x8BBE;&#x7F6E;&#x542F;&#x52A8;&#x65F6;&#x95F4;&#xFF0C;&#x5E76;&#x5C06;&#x5176;&#x4E0E;&#x65E7;&#x5206;&#x914D;&#x4E2D;executor&#x7684;&#x542F;&#x52A8;&#x65F6;&#x95F4;&#x8FDB;&#x884C;&#x5408;&#x5E76;&#xFF0C;&#x4FDD;&#x5B58;&#x5728;start-times</p>
+<p> start-times ( merge ( :executor-&gt;start-time-secs  existing-assignment ) </p>
+<p>( into  {}</p>
+<p>( for  [  id  reassign-executors  ]</p>
+<p> [  id  now-secs  ]</p>
+<p> )))]]</p>
+<p> ;; &#x521B;&#x5EFA;topology-id-&gt;Assignment&#x7684;map</p>
+<p> ;; Assignment&#x5B9A;&#x4E49;&#xFF1A;(defrecord Assignment [master-code-dir node-&gt;host executor-&gt;node+port executor-&gt;start-time-secs])</p>
+<p> {  topology-id ( Assignment.</p>
+<p> ;; master-stormdist-root&#x51FD;&#x6570;&#x8FD4;&#x56DE;topology&#x5728;nimbus&#x4E0A;&#x7684;&#x4EE3;&#x7801;&#x76EE;&#x5F55;</p>
+<p>( master-stormdist-root  conf  topology-id ) </p>
+<p> ;; select-keys&#x51FD;&#x6570;&#x8FD4;&#x56DE;all-node-&gt;host&#x4E2D;key&#x5305;&#x542B;&#x5728;all-nodes&#x96C6;&#x5408;&#x7684;&#x952E;&#x503C;&#x5BF9;</p>
+<p>( select-keys  all-node-&gt;host  all-nodes ) </p>
+<p> executor-&gt;node+port</p>
+<p> start-times  )}))]</p>
+<p> ;; tasks figure out what tasks to talk to by looking at topology at runtime</p>
+<p> ;; only log/set when there&apos;s been a change to the assignment</p>
+<p>( doseq  [[  topology-id  assignment  ]  new-assignments</p>
+<p> :let  [  existing-assignment ( get  existing-assignments  topology-id ) </p>
+<p> topology-details ( .getById  topologies  topology-id  )]]</p>
+<p> ;; &#x5982;&#x679C;&#x65B0;&#x5206;&#x914D;assignment&#x4E0D;&#x7B49;&#x4E8E;zookeeper&#x4E2D;&#x7684;existing-assignment&#xFF0C;&#x5219;&#x8C03;&#x7528;storm-cluster-state&#x7684;set-assignment!&#x51FD;&#x6570;&#x5C06;&#x8FD9;&#x4E2A;&#x65B0;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x91CD;&#x65B0;&#x5199;&#x5165;zookeeper</p>
+<p>( if ( =  existing-assignment  assignment ) </p>
+<p>( log-debug  &quot;Assignment for &quot;  topology-id  &quot; hasn&apos;t changed&quot; ) </p>
+<p>( do</p>
+<p>( log-message  &quot;Setting new assignment for topology id &quot;  topology-id  &quot;: &quot; ( pr-str  assignment )) </p>
+<p>( .set-assignment!  storm-cluster-state  topology-id  assignment ) </p>
+<p>)))</p>
+<p>( -&gt;&gt;  new-assignments</p>
+<p>( map ( fn  [[  topology-id  assignment  ]]</p>
+<p>( let  [  existing-assignment ( get  existing-assignments  topology-id  )]</p>
+<p> ;; newly-added-slots&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x65B0;&#x5206;&#x914D;&#x7ED9;&#x8BE5;topology&#x7684;slot&#x96C6;&#x5408;#{[node1 port1] [node1 port2] [node2 port1] …}</p>
+<p> ;; (map to-worker-slot)&#x8FD4;&#x56DE;WorkerSlot&#x5BF9;&#x8C61;&#x7684;&#x96C6;&#x5408;</p>
+<p> [  topology-id ( map  to-worker-slot ( newly-added-slots  existing-assignment  assignment  ))]</p>
+<p>)))</p>
+<p> ;; &#x8FD4;&#x56DE;topology-id-&gt;WorkerSlot&#x5BF9;&#x8C61;&#x96C6;&#x5408;&#x7684;map</p>
+<p>( into  {})</p>
+<p> ;; &#x5F53;&#x524D;&#x7248;&#x672C;assignSlots&#x51FD;&#x6570;&#x662F;&#x4E00;&#x4E2A;&#x7A7A;&#x5B9E;&#x73B0;</p>
+<p>( .assignSlots  inimbus  topologies )) </p>
+<p>))</p>
+<p>&#x51FD;&#x6570;&#x7684;&#x6CE8;&#x91CA;&#x9610;&#x8FF0;&#x4E86;&#x8BE5;&#x51FD;&#x6570;&#x7684;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#x3002;conf&#x7ED1;&#x5B9A;nimbus&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;inimbus&#x7ED1;&#x5B9A;nimbus&#x5B9E;&#x4F8B;&#xFF0C;topology-ids&#x7ED1;&#x5B9A;&#x6240;&#x6709;&#x72B6;&#x6001;&#x4E3A;&quot;active&quot;&#x7684;topology id&#x96C6;&#x5408;&#x3002;active-storms&#x51FD;&#x6570;&#x83B7;&#x53D6;zookeeper&#x4E2D;/storms/&#x7684;&#x6240;&#x6709;children&#xFF08;&#x5373;&#x6240;&#x6709;topology id&#xFF09;&#xFF0C;/storms/{topology-id}&#x4E2D;&#x5B58;&#x653E;&#x5F53;&#x524D;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;topology&#x4FE1;&#x606F;&#x3002;&#x4FDD;&#x5B58;&#x7684;&#x5185;&#x5BB9;&#x53C2;&#x8003;common.clj&#x4E2D;&#x7684;&#x7C7B;StormBase(defrecord StormBase [storm-name launch-time-secs status num-workers component-&gt;executors])&#x3002;topologies&#x7ED1;&#x5B9A;topology id-&gt;TopologyDetails&#x5BF9;&#x8C61;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#x3002;read-topology-details&#x51FD;&#x6570;&#x6839;&#x636E;&#x6BCF;&#x4E2A;topology id&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x5BF9;&#x5E94;&#x7684;TopologyDetails&#x5BF9;&#x8C61;&#x3002;TopologyDetails&#x7C7B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p> public  class  TopologyDetails  {</p>
+<p> String  topologyId ; </p>
+<p> Map  topologyConf ; </p>
+<p> StormTopology  topology ; </p>
+<p> Map  &lt;  ExecutorDetails  ,  String  &gt;  executorToComponent ; </p>
+<p> int  numWorkers ; </p>
+<p> //get and set&#x65B9;&#x6CD5;</p>
+<p> …  …</p>
+<p> //&#x6784;&#x9020;&#x65B9;&#x6CD5;</p>
+<p> …  …</p>
+<p> public  Map  &lt;  ExecutorDetails  ,  String  &gt;  selectExecutorToComponent ( Collection  &lt;  ExecutorDetails  &gt;  executors ) {</p>
+<p> Map  &lt;  ExecutorDetails  ,  String  &gt;  ret  =  new  HashMap  &lt;  ExecutorDetails  ,  String  &gt;(  executors  .  size ()); </p>
+<p> for ( ExecutorDetails  executor  :  executors ) {</p>
+<p> String  compId  =  this  .  executorToComponent  .  get ( executor ); </p>
+<p> if ( compId  !=  null ) {</p>
+<p> ret  .  put ( executor  ,  compId ); </p>
+<p> }</p>
+<p> }</p>
+<p> return  ret ; </p>
+<p> }</p>
+<p> public  Collection  &lt;  ExecutorDetails  &gt;  getExecutors () {</p>
+<p> return  this  .  executorToComponent  .  keySet (); </p>
+<p> }</p>
+<p>}</p>
+<p>Topologies&#x7C7B;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p> public  class  Topologies  {</p>
+<p> Map  &lt;  String  ,  TopologyDetails  &gt;  topologies ; </p>
+<p> Map  &lt;  String  ,  String  &gt;  nameToId ; </p>
+<p> public  Topologies ( Map  &lt;  String  ,  TopologyDetails  &gt;  topologies ) {</p>
+<p> if ( topologies  ==  null ) topologies  =  new  HashMap (); </p>
+<p> this  .  topologies  =  new  HashMap  &lt;  String  ,  TopologyDetails  &gt;(  topologies  .  size ()); </p>
+<p> this  .  topologies  .  putAll ( topologies ); </p>
+<p> this  .  nameToId  =  new  HashMap  &lt;  String  ,  String  &gt;(  topologies  .  size ()); </p>
+<p> for ( String  topologyId  :  topologies  .  keySet ()) {</p>
+<p> TopologyDetails  topology  =  topologies  .  get ( topologyId ); </p>
+<p> this  .  nameToId  .  put ( topology  .  getName  (),  topologyId ); </p>
+<p> }</p>
+<p> }</p>
+<p> public  TopologyDetails  getById ( String  topologyId ) {</p>
+<p> return  this  .  topologies  .  get ( topologyId ); </p>
+<p> }</p>
+<p> public  TopologyDetails  getByName ( String  topologyName ) {</p>
+<p> String  topologyId  =  this  .  nameToId  .  get ( topologyName ); </p>
+<p> if ( topologyId  ==  null ) {</p>
+<p> return  null ; </p>
+<p> }  else  {</p>
+<p> return  this  .  getById ( topologyId ); </p>
+<p> }</p>
+<p> }</p>
+<p> public  Collection  &lt;  TopologyDetails  &gt;  getTopologies () {</p>
+<p> return  this  .  topologies  .  values (); </p>
+<p> }</p>
+<p>}</p>
+<p>read-topology-details&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  read-topology-details  [  nimbus  storm-id  ]</p>
+<p>( let  [  conf ( :conf  nimbus ) </p>
+<p> storm-base ( .storm-base ( :storm-cluster-state  nimbus ) storm-id  nil ) </p>
+<p> topology-conf ( read-storm-conf  conf  storm-id ) </p>
+<p> topology ( read-storm-topology  conf  storm-id ) </p>
+<p> ;; executor-&gt;component&#x7ED1;&#x5B9A;ExecutorDetails&#x5BF9;&#x8C61;-&gt;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5982;{ExecutorDetails(1, 2) &quot;boltA&quot; ExecutorDetails(3, 4) &quot;boltA&quot; ExecutorDetails(5, 5) &quot;boltB&quot; ExecutorDetails(6, &#xA0; &#xA0; &#xA0; 6) &quot;boltB&quot;}&#xFF0C;compute-executor-&gt;component&#x51FD;&#x6570;&#x8BF7;&#x89C1;&#x5B9A;&#x4E49;&#x90E8;&#x5206;&#x3002;</p>
+<p> ;; ExecutorDetails&#x7C7B;&#x8BF7;&#x89C1;ExecutorDetails.java</p>
+<p> executor-&gt;component ( -&gt;&gt; ( compute-executor-&gt;component  nimbus  storm-id ) </p>
+<p>( map-key ( fn  [[  start-task  end-task  ]]</p>
+<p>( ExecutorDetails. ( int  start-task ) ( int  end-task  )))))]</p>
+<p> ;; &#x8FD4;&#x56DE;TopologyDetails&#x5BF9;&#x8C61;&#xFF0C;&#x8BF7;&#x53C2;&#x89C1;TopologyDetails.java</p>
+<p>( TopologyDetails.  storm-id</p>
+<p> topology-conf</p>
+<p> topology</p>
+<p>( :num-workers  storm-base ) </p>
+<p> executor-&gt;component</p>
+<p>)))</p>
+<p>storm-base&#x7ED1;&#x5B9A;topology id&#x6240;&#x5BF9;&#x5E94;&#x7684;StormBase&#x5BF9;&#x8C61;&#x3002;storm-base&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5728;cluster.clj&#x6587;&#x4EF6;&#x7684;StormClusterState&#x534F;&#x8BAE;&#x4E2D;&#xFF0C;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( storm-base</p>
+<p> [  this  storm-id  callback  ]</p>
+<p>( when  callback</p>
+<p>( swap!  storm-base-callback  assoc  storm-id  callback )) </p>
+<p>( maybe-deserialize ( get-data  cluster-state ( storm-path  storm-id ) ( not-nil? callback</p>
+<p>))))</p>
+<p>maybe-deserialize&#x51FD;&#x6570;&#x5C06;get-data&#x51FD;&#x6570;&#x4ECE;zookeeper&#x7684;/storms/{topology id}&#x83B7;&#x53D6;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6210;StormBase&#x5BF9;&#x8C61;&#x3002;topology-conf&#x7ED1;&#x5B9A;topology&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;read-storm-conf&#x51FD;&#x6570;&#x4ECE;/nimbus/stormdist/{topology id}&#x8BFB;&#x53D6;stormconf.ser&#x4FE1;&#x606F;&#x5E76;&#x5408;&#x5E76;&#x5230;conf&#x4E2D;&#x8FD4;&#x56DE;&#xFF0C;read-storm-conf&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  read-storm-conf  [  conf  storm-id  ]</p>
+<p>( let  [  stormroot ( master-stormdist-root  conf  storm-id  )]</p>
+<p>( merge  conf</p>
+<p>( Utils/deserialize</p>
+<p>( FileUtils/readFileToByteArray</p>
+<p>( File. ( master-stormconf-path  stormroot )) </p>
+<p>)))))</p>
+<p>topology&#x7ED1;&#x5B9A;read-storm-topology&#x51FD;&#x6570;&#x83B7;&#x53D6;&#x7684;topology&#x5BF9;&#x8C61;&#xFF0C;read-storm-topology&#x51FD;&#x6570;&#x4ECE;/nimbus/stormdist/{topology id}&#x8BFB;&#x53D6;stormcode.ser&#x4FE1;&#x606F;&#x5E76;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6210;&#x4E00;&#x4E2A;topology&#x5BF9;&#x8C61;&#x3002;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  read-storm-topology  [  conf  storm-id  ]</p>
+<p>( let  [  stormroot ( master-stormdist-root  conf  storm-id  )]</p>
+<p>( Utils/deserialize</p>
+<p>( FileUtils/readFileToByteArray</p>
+<p>( File. ( master-stormcode-path  stormroot )) </p>
+<p>))))</p>
+<p>compute-executor-&gt;component&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  compute-executor-&gt;component  [  nimbus  storm-id  ]</p>
+<p>( let  [  conf ( :conf  nimbus ) </p>
+<p> ;; executors&#x7ED1;&#x5B9A;&#x7EBF;&#x7A0B;id&#x96C6;&#x5408;&#xFF0C;&#x5982;([1 2] [3 4] [5 5] [6 6])&#xFF0C;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;&#x8BF7;&#x89C1;compute-executors&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x90E8;&#x5206;&#x3002;</p>
+<p> executors ( compute-executors  nimbus  storm-id ) </p>
+<p> topology ( read-storm-topology  conf  storm-id ) </p>
+<p> storm-conf ( read-storm-conf  conf  storm-id ) </p>
+<p> ;; task-&gt;component&#x7ED1;&#x5B9A;&#x4EFB;&#x52A1;id-&gt;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5F62;&#x5982;&#xFF1A;{1 &quot;boltA&quot;, 2 &quot;boltA&quot;, 3 &quot;boltA&quot;, 4 &quot;boltA&quot;, 5 &quot;boltB&quot;, 6 &quot;boltB&quot;}&#xFF0C;&#x5177;&#x4F53;&#x8BF7;&#x89C1;storm-task-info&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x90E8;&#x5206;&#x3002;</p>
+<p> task-&gt;component ( storm-task-info  topology  storm-conf ) </p>
+<p> ;; executor-&gt;component&#x7ED1;&#x5B9A;&#x7EBF;&#x7A0B;id-&gt;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5982;{[1 2] &quot;boltA&quot; [3 4] &quot;boltA&quot; [5 5] &quot;boltB&quot; [6 6] &quot;boltB&quot;}</p>
+<p> executor-&gt;component ( into  {} ( for  [  executor  executors</p>
+<p> :let  [  start-task ( first  executor ) </p>
+<p> component ( task-&gt;component  start-task  )]]</p>
+<p> {  executor  component }))]))</p>
+<p>compute-executors&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  compute-executors  [  nimbus  storm-id  ]</p>
+<p>( let  [  conf ( :conf  nimbus ) </p>
+<p> ;; storm-base&#x7ED1;&#x5B9A;start-storm&#x51FD;&#x6570;&#x5199;&#x5165;zookeeper&#x7684;topology&#x6240;&#x5BF9;&#x5E94;&#x7684;StormBase&#x5BF9;&#x8C61;</p>
+<p> storm-base ( .storm-base ( :storm-cluster-state  nimbus ) storm-id  nil ) </p>
+<p> ;; component-&gt;executors&#x7ED1;&#x5B9A;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;-&gt;&#x7EC4;&#x4EF6;&quot;&#x5E76;&#x884C;&#x5EA6;&quot;(&#x6BCF;&#x4E2A;&#x7EC4;&#x4EF6;&#x6709;&#x51E0;&#x4E2A;executor)&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5F62;&#x5982;{&quot;boltA&quot; 2, &quot;boltB&quot; 2}</p>
+<p> component-&gt;executors ( :component-&gt;executors  storm-base ) </p>
+<p> ;; storm-conf&#x7ED1;&#x5B9A;topology&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<p> storm-conf ( read-storm-conf  conf  storm-id ) </p>
+<p> ;; topology&#x7ED1;&#x5B9A;topology&#x5BF9;&#x8C61;</p>
+<p> topology ( read-storm-topology  conf  storm-id ) </p>
+<p> ;; task-&gt;component&#x7ED1;&#x5B9A;&#x4EFB;&#x52A1;id-&gt;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5F62;&#x5982;&#xFF1A;{1 &quot;boltA&quot;, 2 &quot;boltA&quot;, 3 &quot;boltA&quot;, 4 &quot;boltA&quot;, 5 &quot;boltB&quot;, 6 &quot;boltB&quot;}</p>
+<p> task-&gt;component ( storm-task-info  topology  storm-conf  )]</p>
+<p> ;; -&gt;&gt;&#x662F;clojure&#x7684;&#x4E00;&#x4E2A;&#x5B8F;&#xFF0C;&#x5C06;(storm-task-info topology storm-conf)&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x4F5C;&#x4E3A;reverse-map&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x7136;&#x540E;&#x5C06;reverse-map&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x4F5C;&#x4E3A;map-val&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x4F9D;&#x6B21;&#x7C7B;&#x63A8;</p>
+<p>( -&gt;&gt; ( storm-task-info  topology  storm-conf ) </p>
+<p> ;; reverse-map&#x51FD;&#x6570;&#x7684;&#x8F93;&#x5165;&#x53C2;&#x6570;&#x662F;&#x4E00;&#x4E2A;map&#xFF0C;&#x8FD4;&#x56DE;&#x8FD9;&#x4E2A;map&#x6309;&#x503C;&#x5206;&#x7C7B;&#x540E;&#x7684;&#x7ED3;&#x679C;map&#xFF0C;&#x8F93;&#x5165;&#x53C2;&#x6570;&#x4E3A;{1 &quot;boltA&quot;, 2 &quot;boltA&quot;, 3 &quot;boltA&quot;, 4 &quot;boltA&quot;, 5 &quot;boltB&quot;, 6 &quot;boltB&quot;}</p>
+<p> ;; &#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x4E3A;{&quot;boltA&quot; [3 4 2 1], &quot;boltB&quot; [5 6]}&#x3002;reverse-map&#x5B9A;&#x4E49;&#x5728;util.clj&#x4E2D;</p>
+<p> reverse-map</p>
+<p> ;; map-val&#x51FD;&#x6570;&#x6709;&#x4E24;&#x4E2A;&#x8F93;&#x5165;&#x53C2;&#x6570;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x7B2C;&#x4E8C;&#x53C2;&#x6570;&#x662F;map&#xFF0C;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x662F;&#x4E00;&#x4E2A;map&#xFF1B;&#x7ED3;&#x679C;map&#x7684;key&#x5C31;&#x662F;&#x8F93;&#x5165;map&#x7684;key&#xFF0C;&#x7ED3;&#x679C;map&#x7684;value&#x662F;&#x8F93;&#x5165;map&#x7684;value&#x8C03;&#x7528;&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x503C;</p>
+<p> ;;(map-val sort {&quot;boltA&quot; [3 4 2 1], &quot;boltB&quot; [5 6]})&#x8FD4;&#x56DE;{&quot;boltA&quot; (1 2 3 4), &quot;boltB&quot; (5 6)}&#x3002;map-val&#x5B9A;&#x4E49;&#x5728;util.clj&#x4E2D;</p>
+<p>( map-val  sort ) </p>
+<p> ;; join-maps&#x51FD;&#x6570;&#x5C06;component-&gt;executors&#x548C;(map-val sort)&#x7684;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x5408;&#x5E76;&#xFF0C;component-&gt;executors={&quot;boltA&quot; 2, &quot;boltB&quot; 2}&#xFF0C;(map-val sort)={&quot;boltA&quot; (1 2 3 4), &quot;boltB&quot; (5 6)}</p>
+<p> ;; join-maps&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x4E3A;{&quot;boltA&quot; (2 [1 2 3 4]), &quot;boltB&quot; (2 [5 6])}</p>
+<p>( join-maps  component-&gt;executors ) </p>
+<p> ;; map-val&#x51FD;&#x6570;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x662F;partial&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x504F;&#x51FD;&#x6570;&#xFF0C;&#x51FD;&#x6570;&#x4F53;&#x5C31;&#x662F;apply partition-fixed&#x51FD;&#x6570;&#xFF0C;&#x7B2C;&#x4E8C;&#x53C2;&#x6570;&#x662F;join-maps&#x8FD4;&#x56DE;&#x7ED3;&#x679C;{&quot;boltA&quot; (2 [1 2 3 4]), &quot;boltB&quot; (2 [5 6])}&#xFF0C;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x4E3A;</p>
+<p> ;; {&quot;boltA&quot; [(1 2) (3 4)] &quot;boltB&quot; [(5) (6)]}</p>
+<p>( map-val ( partial apply  partition-fixed )) </p>
+<p> ;;((1 2) (3 4) (5) (6))</p>
+<p>( mapcat  second ) </p>
+<p> ;;([1 2] [3 4] [5 5] [6 6])</p>
+<p>( map  to-executor-id ) </p>
+<p>)))</p>
+<p>storm-task-info&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  storm-task-info</p>
+<p>&quot;Returns map from task -&gt; component id&quot;</p>
+<p> [  ^  StormTopology  user-topology  storm-conf  ]</p>
+<p>( -&gt;&gt; ( system-topology!  storm-conf  user-topology ) </p>
+<p> ;; &#x83B7;&#x53D6;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;-&gt;&#x7EC4;&#x4EF6;&#x5BF9;&#x8C61;&#x952E;&#x503C;&#x5BF9;&#x7684;map</p>
+<p> all-components</p>
+<p> ;; &#x8FD4;&#x56DE;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;-&gt;&#x7EC4;&#x4EF6;&#x4EFB;&#x52A1;task&#x6570;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5982;{&quot;boltA&quot; 4, &quot;boltB&quot; 2}</p>
+<p>( map-val ( comp  # ( get  %  TOPOLOGY-TASKS ) component-conf )) </p>
+<p> ;; &#x6309;&#x7167;&#x7EC4;&#x4EF6;&#x540D;&#x79F0;&#x5BF9;map&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x5E8F;&#x5217;&#xFF0C;&#x5982;([&quot;boltA&quot; 4] [&quot;boltB&quot; 2])</p>
+<p>( sort-by  first ) </p>
+<p> ;; mapcat&#x51FD;&#x6570;&#x7B49;&#x4EF7;&#x4E8E;&#x5BF9;(map (fn…))&#x7684;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x6267;&#x884C;concat&#x51FD;&#x6570;&#xFF0C;&#x8FD4;&#x56DE;(&quot;boltA&quot; &quot;boltA&quot; &quot;boltA&quot; &quot;boltA&quot; &quot;boltB&quot; &quot;boltB&quot;)</p>
+<p>( mapcat ( fn  [[  c  num-tasks  ]] ( repeat  num-tasks  c ))) </p>
+<p> ;; {1 &quot;boltA&quot;, 2 &quot;boltA&quot;,3 &quot;boltA&quot;, 4 &quot;boltA&quot;, 5 &quot;boltB&quot;, 6 &quot;boltB&quot;}</p>
+<p>( map ( fn  [  id  comp  ]  [  id  comp  ]) ( iterate ( comp int  inc ) ( int  1 ))) </p>
+<p>( into  {})</p>
+<p>))</p>
+<p>compute-new-topology-&gt;executor-&gt;node+port&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;:</p>
+<p>( defn  compute-new-topology-&gt;executor-&gt;node+port  [  nimbus  existing-assignments  topologies  scratch-topology-id  ]</p>
+<p>( let  [  conf ( :conf  nimbus ) </p>
+<p> storm-cluster-state ( :storm-cluster-state  nimbus ) </p>
+<p> ;; topology-&gt;executors&#x7ED1;&#x5B9A;&#x6240;&#x6709;&#x5DF2;&#x7ECF;&#x5206;&#x914D;&#x4EFB;&#x52A1;&#x7684;topology id-&gt;executor id&#x96C6;&#x5408;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5982;{&quot;topology-id-1&quot; #{[1 2] [3 4] [5 5] [6 6]} &quot;topology-id-2&quot; #{[1 2] [3 4] [5 6] [7 8]}}</p>
+<p> ;; compute-topology-&gt;executors&#x51FD;&#x6570;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#x53EA;&#x662F;&#x5FAA;&#x73AF;&#x8C03;&#x7528;&#x4E86;compute-executors&#x51FD;&#x6570;&#xFF0C;&#x5173;&#x4E8E;compute-executors&#x51FD;&#x6570;&#x8BF7;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;&#x3002;</p>
+<p> topology-&gt;executors ( compute-topology-&gt;executors  nimbus ( keys  existing-assignments )) </p>
+<p> ;; update the executors heartbeats first.</p>
+<p> ;; &#x5C06;&#x7EBF;&#x7A0B;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x66F4;&#x65B0;&#x5230;nimbus&#x7684;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x7F13;&#x5B58;&#x4E2D;&#x3002;</p>
+<p> _ ( update-all-heartbeats!  nimbus  existing-assignments  topology-&gt;executors ) </p>
+<p> ;; topology-&gt;alive-executors&#x7ED1;&#x5B9A;topology id-&gt;alive-executor-id&#x96C6;&#x5408;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;compute-topology-&gt;alive-executors&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;&#x3002;</p>
+<p> topology-&gt;alive-executors ( compute-topology-&gt;alive-executors  nimbus</p>
+<p> existing-assignments</p>
+<p> topologies</p>
+<p> topology-&gt;executors</p>
+<p> scratch-topology-id ) </p>
+<p> ;; supervisor-&gt;dead-ports&#x7ED1;&#x5B9A;supervisor-id-&gt;dead-port&#x952E;&#x503C;&#x5BF9;&#x7684;map&#x3002;compute-supervisor-&gt;dead-ports&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;&#x3002;</p>
+<p> supervisor-&gt;dead-ports ( compute-supervisor-&gt;dead-ports  nimbus</p>
+<p> existing-assignments</p>
+<p> topology-&gt;executors</p>
+<p> topology-&gt;alive-executors ) </p>
+<p> ;; topology-&gt;scheduler-assignment&#x7ED1;&#x5B9A;topology id-&gt;SchedulerAssignmentImpl&#x5BF9;&#x8C61;&#x952E;&#x503C;&#x5BF9;&#x7684;map&#x3002;SchedulerAssignmentImpl&#x7C7B;&#x5B9A;&#x4E49;&#x53C2;&#x89C1;SchedulerAssignmentImpl.java&#x3002;compute-topology- &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &gt;scheduler-assignment&#x51FD;&#x6570;</p>
+<p> ;; &#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;&#x3002; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> topology-&gt;scheduler-assignment ( compute-topology-&gt;scheduler-assignment  nimbus</p>
+<p> existing-assignments</p>
+<p> topology-&gt;alive-executors ) </p>
+<p> ;; missing-assignment-topologies&#x7ED1;&#x5B9A;&#x4E22;&#x5931;assignment&#x7684;topology id&#x96C6;&#x5408;</p>
+<p> ;; topologies&#x7ED1;&#x5B9A;&#x4E00;&#x4E2A;Topologies&#x5BF9;&#x8C61;&#xFF0C;Topologies&#x7C7B;&#x53C2;&#x89C1;Topologies.java &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> missing-assignment-topologies ( -&gt;&gt;  topologies</p>
+<p> ;; getTopologies&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;Topologies&#x5BF9;&#x8C61;&#x4E2D;&#x7684;TopologyDetails&#x5BF9;&#x8C61;&#x7684;&#x96C6;&#x5408;</p>
+<p> .getTopologies</p>
+<p> ;; memfn&#x51FD;&#x6570;&#x5C06;java&#x4E2D;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x65B9;&#x5F0F;&#x8F6C;&#x6362;&#x6210;clojure&#x4E2D;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x65B9;&#x5F0F;&#xFF0C;(map (memfn getId))&#x8FD4;&#x56DE;topology id&#x96C6;&#x5408;</p>
+<p>( map ( memfn  getId )) </p>
+<p>( filter ( fn  [  t  ]</p>
+<p> ;; alle&#x7ED1;&#x5B9A;storm&#x96C6;&#x7FA4;&#x4E0A;&#x6240;&#x6709;executor&#x7684;&#x96C6;&#x5408;</p>
+<p>( let  [  alle ( get  topology-&gt;executors  t ) </p>
+<p> ;; alivee&#x7ED1;&#x5B9A;storm&#x96C6;&#x7FA4;&#x4E0A;&#x6240;&#x6709;&quot;alive&quot;&#x7684;executor&#x96C6;&#x5408;</p>
+<p> alivee ( get  topology-&gt;alive-executors  t  )]</p>
+<p> ;; or&#x51FD;&#x6570;&#x7531;&#x4E09;&#x4E2A;&#x6761;&#x4EF6;&#x7EC4;&#x6210;&#xFF0C;&#x7528;&#x4E8E;&#x5224;&#x65AD;topology&#x662F;&#x5426;&#x4E22;&#x5931;assignment&#xFF0C;&#x5982;&#x679C;alle&#x4E3A;&#x7A7A;&#xFF0C;&#x8BF4;&#x660E;&#x8BE5;topology&#x4E22;&#x5931;&#x4E86;&#x6240;&#x6709;&#x7684;assignment&#x5373;executor &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#x90FD;&quot;dead&quot;</p>
+<p> ;; &#x5982;&#x679C;alle&#x4E0D;&#x7B49;&#x4E8E;alivee&#xFF0C;&#x8BF4;&#x660E;&#x8BE5;topology&#x4E22;&#x5931;&#x4E86;&#x90E8;&#x5206;assignment&#x5373;&#x90E8;&#x5206;executor&#x662F;&quot;dead&quot;</p>
+<p> ;; &#x5982;&#x679C;&#x8BE5;topology&#x5F53;&#x524D;&#x5B9E;&#x9645;workslot&#x4E2A;&#x6570;&#x5C0F;&#x4E8E;&#x5B9A;&#x4E49;&#x65F6;&#x6307;&#x5B9A;&#x7684;worker&#x4E2A;&#x6570;&#xFF0C;&#x8BF4;&#x660E;&#x8BE5;topology&#x4E22;&#x5931;&#x90E8;&#x5206;workslot&#x5373;&#x90E8;&#x5206;worker&#x8FDB;&#x7A0B;</p>
+<p>( or ( empty?  alle ) </p>
+<p>( not=  alle  alivee ) </p>
+<p>( &lt; ( -&gt;  topology-&gt;scheduler-assignment</p>
+<p>( get  t ) </p>
+<p> num-used-workers ) </p>
+<p>( -&gt;  topologies ( .getById  t ) .getNumWorkers ) </p>
+<p>))</p>
+<p>))))</p>
+<p> ;; all-scheduling-slots&#x7ED1;&#x5B9A;&#x6240;&#x6709;supervisor id-&gt;&#x53EF;&#x7528;port&#x96C6;&#x5408;&#x7684;map&#xFF0C;&#x5982;{node1 #{port1 port2} node2 #{port1} …}</p>
+<p> ;; all-scheduling-slots&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x53EF;&#x7528;&#x7684;node+port&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x5982;([node1 port1] [node1 port2] [node2 port1] …)&#xFF0C;(map (fn [[node-id port]] {node-id #{port}}))&#x8FD4;&#x56DE;({node1 port1} &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; {node1 port2} {node2 port1} …)&#xFF0C;</p>
+<p> ;; (apply merge-with set/union)&#x8FD4;&#x56DE;{node1 #{port1 port2} node2 #{port1} …} &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> all-scheduling-slots ( -&gt;&gt; ( all-scheduling-slots  nimbus  topologies  missing-assignment-topologies ) </p>
+<p>( map ( fn  [[  node-id  port  ]]  {  node-id  #  {  port  }}))</p>
+<p>( apply merge-with  set/union )) </p>
+<p> ;; supervisors&#x7ED1;&#x5B9A;storm&#x96C6;&#x7FA4;&#x4E0A;&#x6240;&#x6709;supervisor id-&gt;SupervisorDetails&#x5BF9;&#x8C61;&#x7684;map&#xFF0C;read-all-supervisor-details&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> supervisors ( read-all-supervisor-details  nimbus  all-scheduling-slots  supervisor-&gt;dead-ports ) </p>
+<p> ;; cluster&#x7ED1;&#x5B9A;&#x4E00;&#x4E2A;Cluster&#x5BF9;&#x8C61;&#xFF0C;Cluster&#x7C7B;&#x53C2;&#x89C1;Cluster.java</p>
+<p> cluster ( Cluster. ( :inimbus  nimbus ) supervisors  topology-&gt;scheduler-assignment ) </p>
+<p> ;; call scheduler.schedule to schedule all the topologies</p>
+<p> ;; the new assignments for all the topologies are in the cluster object.</p>
+<p> ;; &#x8C03;&#x7528;IScheduler&#x63A5;&#x53E3;&#x5B9E;&#x73B0;&#x7C7B;&#x7684;schedule&#x65B9;&#x6CD5;&#xFF0C;topologies&#x7ED1;&#x5B9A;&#x4E86;&#x4ECE;zookeeper&#x4E0A;&#x83B7;&#x53D6;&#x7684;storm&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x5168;&#x90E8;topology&#x4FE1;&#x606F;&#xFF08;&#x5305;&#x62EC;&#x6211;&#x4EEC;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#x4FE1;&#x606F;&#xFF09;&#xFF0C;cluster&#x7ED1;&#x5B9A;&#x4E86;&#x5F53;&#x524D;storm&#x96C6;&#x7FA4;&#x4E2D;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x6240;&#x6709;</p>
+<p> ;; topology&#x7684;assignment&#x4FE1;&#x606F;&#xFF08;&#x4E0D;&#x5305;&#x62EC;&#x6211;&#x4EEC;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#xFF09;</p>
+<p> ;; nimbus&#x4E2D;&#x7684;scheduler&#x662F;&#x7531;mk-scheduler&#x51FD;&#x6570;&#x751F;&#x6210;&#x7684;&#xFF0C;&#x901A;&#x8FC7;&#x5206;&#x6790;mk-scheduler&#x51FD;&#x6570;&#xFF0C;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#x5728;&#x6CA1;&#x6709;&#x914D;&#x7F6E;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x7684;scheduler&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;mk-scheduler&#x51FD;&#x6570;&#x9ED8;&#x8BA4;&#x8FD4;&#x56DE;DefaultScheduler</p>
+<p> ;; &#x6240;&#x4EE5;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x662F;&#x8C03;&#x7528;DefaultScheduler&#x7C7B;&#x7684;schedule&#x65B9;&#x6CD5;&#xFF0C;schedule&#x65B9;&#x6CD5;&#x53C2;&#x89C1;DefaultScheduler.clj&#xFF0C;mk-scheduler&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> _ ( .schedule ( :scheduler  nimbus ) topologies  cluster ) </p>
+<p> ;; new-scheduler-assignments&#x7ED1;&#x5B9A;&#x5206;&#x914D;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x96C6;&#x7FA4;&#x4E2D;&#x5F53;&#x524D;&#x6700;&#x65B0;&#x7684;topology id-&gt;AssignmentImpl&#x7684;map</p>
+<p> new-scheduler-assignments ( .getAssignments  cluster ) </p>
+<p> ;; add more information to convert SchedulerAssignment to Assignment</p>
+<p> ;; new-topology-&gt;executor-&gt;node+port&#x7ED1;&#x5B9A;{topology-id -&gt; {executor [node port]}}&#xFF0C;compute-topology-&gt;executor-&gt;node+port&#x51FD;&#x6570;&#x5C06;topology id-&gt;AssignmentImpl&#x7684;map&#x8F6C;&#x6362;&#x6210;{topology-id &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; -&gt; {executor [node port]}}</p>
+<p> new-topology-&gt;executor-&gt;node+port ( compute-topology-&gt;executor-&gt;node+port  new-scheduler-assignments  )]</p>
+<p> ;; print some useful information.</p>
+<p>( doseq  [[  topology-id  executor-&gt;node+port  ]  new-topology-&gt;executor-&gt;node+port</p>
+<p> ;; old-executor-&gt;node+port&#x7ED1;&#x5B9A;&#x4ECE;zookeeper&#x4E0A;&#x83B7;&#x53D6;&#x7684;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x76F8;&#x5BF9;&#x4E8E;&#x4ECE;cluster&#x5BF9;&#x8C61;&#x4E2D;&#x83B7;&#x53D6;&#x7684;new-topology-&gt;executor-&gt;node+port&#x5206;&#x914D;&#x4FE1;&#x606F;&#x4E3A;&quot;&#x65E7;&#x5206;&#x914D;&#x4FE1;&#x606F;&quot;</p>
+<p> :let  [  old-executor-&gt;node+port ( -&gt;  topology-id</p>
+<p> existing-assignments</p>
+<p> :executor-&gt;node+port ) </p>
+<p> ;; reassignment&#x7ED1;&#x5B9A;&#x88AB;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;executor&#x6240;&#x5BF9;&#x5E94;&#x7684;executor-&gt;node+port&#x7684;map</p>
+<p> reassignment ( filter ( fn  [[  executor  node+port  ]]</p>
+<p>( and ( contains?  old-executor-&gt;node+port  executor ) </p>
+<p>( not ( =  node+port ( old-executor-&gt;node+port  executor ))))) </p>
+<p> executor-&gt;node+port  )]]</p>
+<p> ;; &#x5982;&#x679C;reassignment&#x4E0D;&#x4E3A;&#x7A7A;&#xFF0C;&#x5728;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x4E2D;&#x6253;&#x5370;&#x65B0;&#x589E;slot&#x7684;&#x4E2A;&#x6570;&#x548C;&#x88AB;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;executor</p>
+<p>( when-not ( empty?  reassignment ) </p>
+<p>( let  [  new-slots-cnt ( count ( set ( vals  executor-&gt;node+port ))) </p>
+<p> reassign-executors ( keys  reassignment  )]</p>
+<p>( log-message  &quot;Reassigning &quot;  topology-id  &quot; to &quot;  new-slots-cnt  &quot; slots&quot; ) </p>
+<p>( log-message  &quot;Reassign executors: &quot; ( vec  reassign-executors ))))) </p>
+<p> ;; &#x8FD4;&#x56DE;&#x6700;&#x65B0;&#x5206;&#x914D;&#x4FE1;&#x606F;new-topology-&gt;executor-&gt;node+port</p>
+<p>new-topology-&gt;executor-&gt;node+port</p>
+<p>))</p>
+<p>update-all-heartbeats!&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  update-all-heartbeats!  [  nimbus  existing-assignments  topology-&gt;executors  ]</p>
+<p>&quot;update all the heartbeats for all the topologies&apos;s executors&quot;</p>
+<p>;; assignment&#x7ED1;&#x5B9A;AssignmentInfo&#xFF0C;tid&#x7ED1;&#x5B9A;topology id</p>
+<p>( doseq  [[  tid  assignment  ]  existing-assignments</p>
+<p> ;; all-executors&#x7ED1;&#x5B9A;executor id&#x96C6;&#x5408;</p>
+<p> :let  [  all-executors ( topology-&gt;executors  tid  )]]</p>
+<p>( update-heartbeats!  nimbus  tid  all-executors assignment</p>
+<p>)))</p>
+<p>update-heartbeats!&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  update-heartbeats!  [  nimbus  storm-id  all-executors  existing-assignment  ]</p>
+<p>( log-debug  &quot;Updating heartbeats for &quot;  storm-id  &quot; &quot; ( pr-str  all-executors )) </p>
+<p>( let  [  storm-cluster-state ( :storm-cluster-state  nimbus ) </p>
+<p> ;; executor-beats&#x7ED1;&#x5B9A;&#x6307;&#x5B9A;&#x7684;executor&#x7684;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#xFF0C;executor-beats&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> executor-beats ( .executor-beats  storm-cluster-state  storm-id ( :executor-&gt;node+port  existing-assignment )) </p>
+<p> ;; (@(:heartbeats-cache nimbus) storm-id)&#x6839;&#x636E;topology id(&#x5373;storm-id)&#x83B7;&#x53D6;nimbus&#x5FC3;&#x8DF3;&#x7F13;&#x5B58;map&#x4E2D;&#x4E0E;&#x4E4B;&#x5BF9;&#x5E94;&#x7684;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x4E00;&#x4E2A;map&#x5BF9;&#x8C61;&#xFF0C;update-heartbeat-cache&#x51FD;&#x6570;</p>
+<p> ;; cache&#x7ED1;&#x5B9A;&#x66F4;&#x65B0;&#x540E;&#x7684;executor-id-&gt;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x7F13;&#x5B58;map&#x7684;&#x952E;&#x503C;&#x5BF9;map&#xFF0C;update-heartbeat-cache&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;&#x3002;</p>
+<p> cache ( update-heartbeat-cache ( @ ( :heartbeats-cache  nimbus ) storm-id ) </p>
+<p> executor-beats</p>
+<p> all-executors</p>
+<p>(( :conf  nimbus ) NIMBUS-TASK-TIMEOUT-SECS  ))]</p>
+<p> ;; &#x5C06;storm-id&#x6807;&#x793A;&#x7684;topology&#x7684;&#x6700;&#x65B0;&#x7EBF;&#x7A0B;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x66F4;&#x65B0;&#x5230;nimbus&#x5FC3;&#x8DF3;&#x7F13;&#x5B58;map&#x4E2D;&#x3002;</p>
+<p>( swap! ( :heartbeats-cache  nimbus ) assoc  storm-id cache</p>
+<p>)))</p>
+<p>executor-beats&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( executor-beats</p>
+<p> [  this  storm-id  executor-&gt;node+port  ]</p>
+<p> ;; need to take executor-&gt;node+port in explicitly so that we don&apos;t run into a situation where a</p>
+<p> ;; long dead worker with a skewed clock overrides all the timestamps. By only checking heartbeats</p>
+<p> ;; with an assigned node+port, and only reading executors from that heartbeat that are actually assigned,</p>
+<p> ;; we avoid situations like that</p>
+<p> ;; node+port-&gt;executors&#x7ED1;&#x5B9A;&#x7ED3;&#x70B9;+&#x7AEF;&#x53E3;-&gt;executor-id&#x952E;&#x503C;&#x5BF9;&#x7684;map&#xFF0C;&#x5982;{[node1 port1] [[1 2] [3 4]] [node2 port2] [[5 6] [7 8]]}</p>
+<p>( let  [  node+port-&gt;executors ( reverse-map  executor-&gt;node+port ) </p>
+<p> ;; all-heartbeats&#x7ED1;&#x5B9A;&#x6240;&#x6709;executor-id-&gt;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x7684;map&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x5982;({[1 2] {:time-secs &#x5FC3;&#x8DF3; :uptime &#x5F00;&#x59CB;&#x65F6;&#x95F4; :stats BoltExecutorStats&#x6216;SpoutExecutorStats&#x5BF9;&#x8C61;}} [3 4]…)</p>
+<p> all-heartbeats ( for  [[[  node  port  ]  executors  ]  node+port-&gt;executors  ]</p>
+<p> ;; get-worker-heartbeat&#x51FD;&#x6570;&#x4ECE;zookeeper&#x7684;/workerbeats/{storm-id}/{node-port}&#x83B7;&#x53D6;worker&#x8FDB;&#x7A0B;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;</p>
+<p>( -&gt;&gt; ( get-worker-heartbeat  this  storm-id  node  port ) </p>
+<p> ;; convert-executor-beats&#x51FD;&#x6570;&#x4ECE;worker&#x8FDB;&#x7A0B;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#x4E2D;&#x83B7;&#x53D6;&#x7EBF;&#x7A0B;&#x7684;&#x5FC3;&#x8DF3;&#x4FE1;&#x606F;&#xFF0C;convert-executor-beats&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;&#x3002;</p>
+<p>( convert-executor-beats  executors ) </p>
+<p> ))]</p>
+<p> ;; &#x5C06;all-heartbeats&#x96C6;&#x5408;&#x4E2D;&#x7684;map&#x8FDB;&#x884C;&#x5408;&#x5E76;&#xFF0C;&#x7ED3;&#x679C;&#x5982;{[1 2] {:time-secs &#x5FC3;&#x8DF3; :uptime &#x5F00;&#x59CB;&#x65F6;&#x95F4; :stats BoltExecutorStats&#x6216;SpoutExecutorStats&#x5BF9;&#x8C61;} [3 4]…}</p>
+<p>( apply merge all-heartbeats</p>
+<p>)))</p>
+<p>convert-executor-beats&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  convert-executor-beats</p>
+<p>&quot;Ensures that we only return heartbeats for executors assigned to</p>
+<p>this worker.&quot;</p>
+<p> [  executors  worker-hb  ]</p>
+<p>;; (:executor-stats worker-hb)&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;map&#xFF0C;&#x53EF;&#x4EE5;&#x4E3A;executor-id</p>
+<p>( let  [  executor-stats ( :executor-stats  worker-hb  )]</p>
+<p>( -&gt;&gt;  executors</p>
+<p>( map ( fn  [  t  ]</p>
+<p> ;; &#x5224;&#x65AD;executor&#x662F;&#x5426;&#x5C5E;&#x4E8E;&#x8FD9;&#x4E2A;worker&#x8FDB;&#x7A0B;</p>
+<p>( if ( contains?  executor-stats  t ) </p>
+<p> {  t  {  :time-secs ( :time-secs  worker-hb ) </p>
+<p> :uptime ( :uptime  worker-hb ) </p>
+<p> :stats ( get  executor-stats  t  )}})))</p>
+<p>( into {}))))</p>
+<p>update-heartbeat-cache&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  update-heartbeat-cache  [  cache  executor-beats  all-executors  timeout  ]</p>
+<p>( let  [  cache ( select-keys  cache  all-executors  )]</p>
+<p>( into  {}</p>
+<p>( for  [  executor  all-executors  :let  [  curr ( cache  executor  )]]</p>
+<p> [  executor</p>
+<p>( update-executor-cache  curr ( get  executor-beats  executor ) timeout  )]</p>
+<p>))))</p>
+<p>&#x8BE5;&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x8C03;&#x7528;&#x4E86;update-executor-cache&#x51FD;&#x6570;&#xFF0C;update-executor-cache&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  update-executor-cache  [  curr  hb  timeout  ]</p>
+<p>;; reported-time&#x7ED1;&#x5B9A;&#x7EBF;&#x7A0B;&#x7684;&#x5FC3;&#x8DF3;&#x65F6;&#x95F4;</p>
+<p>( let  [  reported-time ( :time-secs  hb ) </p>
+<p> ;; &#x7ED1;&#x5B9A;&#x6700;&#x65B0;&#x4E00;&#x6B21;nimbus&#x65F6;&#x95F4;</p>
+<p> {  last-nimbus-time  :nimbus-time</p>
+<p> ;; last-reported-time&#x7ED1;&#x5B9A;&#x6700;&#x65B0;&#x4E00;&#x6B21;&#x5FC3;&#x8DF3;&#x65F6;&#x95F4;</p>
+<p> last-reported-time  :executor-reported-time  }  curr</p>
+<p> reported-time ( cond  reported-time  reported-time</p>
+<p> last-reported-time  last-reported-time</p>
+<p> :else  0 ) </p>
+<p> ;; &#x5F53;last-nimbus-time&#x4E3A;nil&#x6216;last-reported-time&#x548C;reported-time&#x4E0D;&#x76F8;&#x7B49;&#x65F6;&#xFF0C;nimbus-time&#x7ED1;&#x5B9A;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#xFF0C;&#x5426;&#x5219;&#x7ED1;&#x5B9A;&#x6700;&#x65B0;&#x4E00;&#x6B21;nimbus&#x65F6;&#x95F4;</p>
+<p> nimbus-time ( if ( or ( not  last-nimbus-time ) </p>
+<p>( not=  last-reported-time  reported-time )) </p>
+<p>( current-time-secs ) </p>
+<p> last-nimbus-time</p>
+<p> )]</p>
+<p> ;; &#x5224;&#x65AD;&#x662F;&#x5426;&#x8D85;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x5F53;&#x524D;&#x65F6;&#x95F4;-nimbus-time&gt;=timeout(timeout&#x7684;&#x503C;&#x4E3A;storm.yaml&#x4E2D;&#x7684;&quot;nimbus.task.timeout.secs&quot;)&#xFF0C;:is-timed-out&#x503C;&#x4E3A;true&#xFF0C;&#x5426;&#x5219;&#x4E3A;false</p>
+<p> {  :is-timed-out ( and</p>
+<p> nimbus-time</p>
+<p>( &gt;= ( time-delta  nimbus-time ) timeout )) </p>
+<p> :nimbus-time  nimbus-time</p>
+<p> :executor-reported-time  reported-time }))</p>
+<p>compute-topology-&gt;alive-executors&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>;; &#x901A;&#x8FC7;&#x8C03;&#x7528;alive-executors&#x51FD;&#x6570;&#x83B7;&#x53D6;a topology-id -&gt; alive executors map&#x3002;</p>
+<p>( defn-  compute-topology-&gt;alive-executors  [  nimbus  existing-assignments  topologies  topology-&gt;executors  scratch-topology-id  ]</p>
+<p>&quot;compute a topology-id -&gt; alive executors map&quot;</p>
+<p>( into  {} ( for  [[  tid  assignment  ]  existing-assignments</p>
+<p> :let  [  topology-details ( .getById  topologies  tid ) </p>
+<p> all-executors ( topology-&gt;executors  tid ) </p>
+<p> alive-executors ( if ( and  scratch-topology-id ( =  scratch-topology-id  tid )) </p>
+<p> all-executors</p>
+<p>( set ( alive-executors  nimbus  topology-details  all-executors  assignment  )))]]</p>
+<p> {  tid  alive-executors })))</p>
+<p>alive-executors&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  alive-executors</p>
+<p> [  nimbus  ^  TopologyDetails  topology-details  all-executors  existing-assignment  ]</p>
+<p>( log-debug  &quot;Computing alive executors for &quot; ( .getId  topology-details ) &quot;\n&quot;</p>
+<p> &quot;Executors: &quot; ( pr-str  all-executors ) &quot;\n&quot;</p>
+<p> &quot;Assignment: &quot; ( pr-str  existing-assignment ) &quot;\n&quot;</p>
+<p> &quot;Heartbeat cache: &quot; ( pr-str ( @ ( :heartbeats-cache  nimbus ) ( .getId  topology-details ))) </p>
+<p>)</p>
+<p>;; TODO: need to consider all executors associated with a dead executor (in same slot) dead as well,</p>
+<p>;; don&apos;t just rely on heartbeat being the same</p>
+<p>( let  [  conf ( :conf  nimbus ) </p>
+<p> storm-id ( .getId  topology-details ) </p>
+<p> ;; executor-start-times&#x7ED1;&#x5B9A;executors&#x7684;&#x542F;&#x52A8;&#x65F6;&#x95F4;</p>
+<p> executor-start-times ( :executor-&gt;start-time-secs  existing-assignment ) </p>
+<p> ;; heartbeats-cache&#x7ED1;&#x5B9A;nimbus&#x7684;&#x5FC3;&#x8DF3;&#x7F13;&#x5B58;</p>
+<p> heartbeats-cache ( @ ( :heartbeats-cache  nimbus ) storm-id  )]</p>
+<p>( -&gt;&gt;  all-executors</p>
+<p> ;; &#x4E3A;&#x6BCF;&#x4E2A;executor&#x8C03;&#x7528;&#x4E00;&#x4E2A;&#x533F;&#x540D;&#x51FD;&#x6570;&#xFF0C;&#x5224;&#x65AD;executor&#x662F;&#x5426;&quot;alive&quot;</p>
+<p>( filter ( fn  [  executor  ]</p>
+<p> ;; start-time&#x7ED1;&#x5B9A;executor&#x7684;&#x542F;&#x52A8;&#x65F6;&#x95F4;</p>
+<p>( let  [  start-time ( get  executor-start-times  executor ) </p>
+<p> ;; is-timed-out&#x7ED1;&#x5B9A;executor&#x7684;&#x8D85;&#x65F6;&#x72B6;&#x6001;</p>
+<p> is-timed-out ( -&gt;  heartbeats-cache ( get  executor ) :is-timed-out  )]</p>
+<p> ;; &#x5982;&#x679C;start-time&#x4E0D;&#x4E3A;nil&#x5E76;&#x4E14;&#x5F53;&#x524D;&#x65F6;&#x95F4;-start-time&lt;NIMBUS-TASK-LAUNCH-SECS&#x6216;is-timed-out=false&#xFF0C;&#x90A3;&#x4E48;&#x8BE5;executor&#x662F;&quot;alive&quot;&#x7684;</p>
+<p> ;; filter&#x51FD;&#x6570;&#x53EA;&#x4F1A;&#x8FD4;&#x56DE;&#x533F;&#x540D;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x4E3A;true&#x7684;executor&#xFF0C;NIMBUS-TASK-LAUNCH-SECS&#x914D;&#x7F6E;&#x9879;&#x7684;&#x4F5C;&#x7528;&#x662F;&#xFF1A;task&#x542F;&#x52A8;&#x65F6;&#x7684;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x8D85;&#x65F6;&#x8BBE;&#x7F6E;&#xFF0C;</p>
+<p> ;; &#x5728;&#x542F;&#x52A8;&#x540E;&#x7B2C;&#x4E00;&#x6B21;&#x5FC3;&#x8DF3;&#x524D;&#x4F1A;&#x4F7F;&#x7528;&#x8BE5;&#x503C;&#x6765;&#x4E34;&#x65F6;&#x66FF;&#x4EE3;nimbus.task.timeout.secs&#x3002;&#x6240;&#x4EE5;&#x5F53;&#x524D;&#x65F6;&#x95F4;-start-time&lt;NIMBUS-TASK-LAUNCH-SECS&#x548C;is-timed-out=false&#x4E4B;&#x95F4;</p>
+<p> ;; &#x662F;&#x6216;&#x5173;&#x7CFB;&#x3002;</p>
+<p>( if ( and  start-time</p>
+<p>( or</p>
+<p>( &lt; ( time-delta  start-time ) </p>
+<p>( conf  NIMBUS-TASK-LAUNCH-SECS )) </p>
+<p>( not  is-timed-out ) </p>
+<p>))</p>
+<p> true</p>
+<p>( do</p>
+<p>( log-message  &quot;Executor &quot;  storm-id  &quot;:&quot;  executor  &quot; not alive&quot; ) </p>
+<p> false )) </p>
+<p>)))</p>
+<p>doall</p>
+<p>)))</p>
+<p>compute-supervisor-&gt;dead-ports&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;:</p>
+<p>( defn-  compute-supervisor-&gt;dead-ports  [  nimbus  existing-assignments  topology-&gt;executors  topology-&gt;alive-executors  ]</p>
+<p>;; dead-slots&#x96C6;&#x5408;&#x5982;[([node1 port1]) ([node2 port2]) ([node1 port1]) ([node1 port2])]</p>
+<p>( let  [  dead-slots ( into  [] ( for  [[  tid  assignment  ]  existing-assignments</p>
+<p> ;; all-executors&#x7ED1;&#x5B9A;&#x6240;&#x6709;executor</p>
+<p> :let  [  all-executors ( topology-&gt;executors  tid ) </p>
+<p> ;; alive-executors&#x7ED1;&#x5B9A;&#x6240;&#x6709;&quot;alive&quot;&#x7684;executor</p>
+<p> alive-executors ( topology-&gt;alive-executors  tid ) </p>
+<p> ;; dead-executors&#x7ED1;&#x5B9A;all-executors&#x548C;alive-executors&#x7684;&#x5DEE;&#x96C6;&#xFF0C;&#x5373;&quot;dead&quot;&#x7684;executor</p>
+<p> dead-executors ( set/difference  all-executors  alive-executors ) </p>
+<p> ;; dead-slots&#x7ED1;&#x5B9A;dead-executors&#x96C6;&#x5408;&#x4E2D;executor&#x5BF9;&#x5E94;&#x7684;[node port]&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x5982;(([node1 port1]) ([node2 port2]) ([node1 port1]) ([node1 port2]))</p>
+<p> ;; &#x6CE8;&#x610F;dead-slots&#x96C6;&#x5408;&#x53EF;&#x80FD;&#x5305;&#x542B;&#x91CD;&#x590D;&#x5143;&#x7D20;&#x3002;</p>
+<p> dead-slots ( -&gt;&gt; ( :executor-&gt;node+port  assignment ) </p>
+<p>( filter  # ( contains?  dead-executors ( first  % ))) </p>
+<p> vals  )]]</p>
+<p> dead-slots )) </p>
+<p> ;; supervisor-&gt;dead-ports&#x7ED1;&#x5B9A;supervisor-id-&gt;dead-port&#x96C6;&#x5408;&#x952E;&#x503C;&#x5BF9;&#x7684;map</p>
+<p> supervisor-&gt;dead-ports ( -&gt;&gt;  dead-slots</p>
+<p> ;; apply&#x51FD;&#x6570;&#x7684;&#x7ED3;&#x679C;&#x5982;([node1 port1] [node2 port2] [node1 port1] [node1 port2])</p>
+<p>( apply  concat ) </p>
+<p> ;; map&#x51FD;&#x6570;&#x7684;&#x7ED3;&#x679C;&#x5982;({node1 #{port1}} {node2 #{port2}} {node1 #{port1}} {node1 #{port2}})</p>
+<p>( map ( fn  [[  sid  port  ]]  {  sid  #  {  port  }}))</p>
+<p> ;; apply&#x51FD;&#x6570;&#x7684;&#x7ED3;&#x679C;&#x5982;({node1 #{port1 port2}} {node2 #{port2}}})&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x53BB;&#x91CD;&#x5408;&#x5E76;&#x3002;</p>
+<p>( apply ( partial merge-with  set/union  )))]</p>
+<p>( or  supervisor-&gt;dead-ports {})))</p>
+<p>compute-topology-&gt;scheduler-assignment&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  compute-topology-&gt;scheduler-assignment  [  nimbus  existing-assignments  topology-&gt;alive-executors  ]</p>
+<p>&quot;convert assignment information in zk to SchedulerAssignment, so it can be used by scheduler api.&quot;</p>
+<p>;; tid&#x7ED1;&#x5B9A;topology id&#xFF0C;assignment&#x7ED1;&#x5B9A;&#x5BF9;&#x5E94;&#x7684;AssignmentInfo&#x5BF9;&#x8C61;</p>
+<p>( into  {} ( for  [[  tid  assignment  ]  existing-assignments</p>
+<p> ;; alive-executors&#x7ED1;&#x5B9A;&quot;alive&quot;&#x7684;executor&#x7684;&#x96C6;&#x5408;</p>
+<p> :let  [  alive-executors ( topology-&gt;alive-executors  tid ) </p>
+<p> ;; executor-&gt;node+port&#x7ED1;&#x5B9A;AssignmentInfo&#x5BF9;&#x8C61;&#x4E2D;&#x7684;executor-&gt;node+port&#x7684;map</p>
+<p> executor-&gt;node+port ( :executor-&gt;node+port  assignment ) </p>
+<p> ;; &#x5FAA;&#x73AF;&#x904D;&#x5386;executor-&gt;node+port&#xFF0C;&#x5982;&#x679C;executor&#x5305;&#x542B;&#x5728;alive-executors&#x96C6;&#x5408;&#x4E2D;&#xFF0C;&#x90A3;&#x4E48;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;ExecutorDetails-&gt;WorkerSlot&#x7684;map&#xFF0C;&#x6700;&#x540E;&#x5C06;for&#x5FAA;&#x73AF;&#x521B;&#x5EFA;&#x7684;map&#x5408;&#x5E76;&#x8D4B;&#x503C;&#x7ED9;executor-&gt;slot</p>
+<p> executor-&gt;slot ( into  {} ( for  [[  executor  [  node  port  ]]  executor-&gt;node+port  ]</p>
+<p> ;; filter out the dead executors</p>
+<p>( if ( contains?  alive-executors  executor ) </p>
+<p> {(  ExecutorDetails. ( first  executor ) </p>
+<p>( second  executor )) </p>
+<p>( WorkerSlot.  node  port  )}</p>
+<p> {})))]]</p>
+<p> ;; &#x8FD4;&#x56DE;topology id-&gt;SchedulerAssignmentImpl&#x5BF9;&#x8C61;&#x7684;map&#xFF0C;SchedulerAssignmentImpl&#x7C7B;&#x53C2;&#x89C1;SchedulerAssignmentImpl.java &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> {  tid ( SchedulerAssignmentImpl.  tid  executor-&gt;slot )})))</p>
+<p>SchedulerAssignmentImpl.java&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p> public  class  SchedulerAssignmentImpl  implements  SchedulerAssignment  {</p>
+<p> /**</p>
+<ul>
+<li>topology-id this assignment is for.</li>
+</ul>
+<p>*/</p>
+<p> String  topologyId ; </p>
+<p> /**</p>
+<ul>
+<li>assignment detail, a mapping from executor to &lt;code&gt;WorkerSlot&lt;/code&gt;</li>
+</ul>
+<p>*/</p>
+<p> Map  &lt;  ExecutorDetails  ,  WorkerSlot  &gt;  executorToSlot ; </p>
+<p> public  SchedulerAssignmentImpl ( String  topologyId  ,  Map  &lt;  ExecutorDetails  ,  WorkerSlot  &gt;  executorToSlots ) {</p>
+<p> this  .  topologyId  =  topologyId ; </p>
+<p> this  .  executorToSlot  =  new  HashMap  &lt;  ExecutorDetails  ,  WorkerSlot  &gt;(  0 ); </p>
+<p> if ( executorToSlots  !=  null ) {</p>
+<p> this  .  executorToSlot  .  putAll ( executorToSlots ); </p>
+<p> }</p>
+<p> }</p>
+<p> @Override</p>
+<p> public  Set  &lt;  WorkerSlot  &gt;  getSlots () {</p>
+<p> return  new  HashSet ( executorToSlot  .  values ()); </p>
+<p> }</p>
+<p> /**</p>
+<ul>
+<li><p>Assign the slot to executors.</p>
+</li>
+<li><p>@param slot</p>
+</li>
+<li><p>@param executors</p>
+</li>
+</ul>
+<p>*/</p>
+<p> public  void  assign ( WorkerSlot  slot  ,  Collection  &lt;  ExecutorDetails  &gt;  executors ) {</p>
+<p> for ( ExecutorDetails  executor  :  executors ) {</p>
+<p> this  .  executorToSlot  .  put ( executor  ,  slot ); </p>
+<p> }</p>
+<p> }</p>
+<p> /**</p>
+<ul>
+<li><p>Release the slot occupied by this assignment.</p>
+</li>
+<li><p>@param slot</p>
+</li>
+</ul>
+<p>*/</p>
+<p> public  void  unassignBySlot ( WorkerSlot  slot ) {</p>
+<p> List  &lt;  ExecutorDetails  &gt;  executors  =  new  ArrayList  &lt;  ExecutorDetails  &gt;();</p>
+<p> for ( ExecutorDetails  executor  :  this  .  executorToSlot  .  keySet ()) {</p>
+<p> WorkerSlot  ws  =  this  .  executorToSlot  .  get ( executor ); </p>
+<p> if ( ws  .  equals ( slot )) {</p>
+<p> executors  .  add ( executor ); </p>
+<p> }</p>
+<p> }</p>
+<p> // remove</p>
+<p> for ( ExecutorDetails  executor  :  executors ) {</p>
+<p> this  .  executorToSlot  .  remove ( executor ); </p>
+<p> }</p>
+<p> }</p>
+<p> /**</p>
+<ul>
+<li><p>Does this slot occupied by this assignment?</p>
+</li>
+<li><p>@param slot</p>
+</li>
+<li><p>@return</p>
+</li>
+</ul>
+<p>*/</p>
+<p> public  boolean  isSlotOccupied ( WorkerSlot  slot ) {</p>
+<p> return  this  .  executorToSlot  .  containsValue ( slot ); </p>
+<p> }</p>
+<p> public  boolean  isExecutorAssigned ( ExecutorDetails  executor ) {</p>
+<p> return  this  .  executorToSlot  .  containsKey ( executor ); </p>
+<p> }</p>
+<p> public  String  getTopologyId () {</p>
+<p> return  this  .  topologyId ; </p>
+<p> }</p>
+<p> public  Map  &lt;  ExecutorDetails  ,  WorkerSlot  &gt;  getExecutorToSlot () {</p>
+<p> return  this  .  executorToSlot ; </p>
+<p> }</p>
+<p> /**</p>
+<ul>
+<li><p>Return the executors covered by this assignments</p>
+</li>
+<li><p>@return</p>
+</li>
+</ul>
+<p>*/</p>
+<p> public  Set  &lt;  ExecutorDetails  &gt;  getExecutors () {</p>
+<p> return  this  .  executorToSlot  .  keySet (); </p>
+<p> }</p>
+<p>}</p>
+<p>all-scheduling-slots&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  all-scheduling-slots</p>
+<p> [  nimbus  topologies  missing-assignment-topologies  ]</p>
+<p>( let  [  storm-cluster-state ( :storm-cluster-state  nimbus ) </p>
+<p> ^  INimbus  inimbus ( :inimbus  nimbus ) </p>
+<p> ;; supervisor-infos&#x7ED1;&#x5B9A;supervisor id-&gt;SupervisorInfo&#x5BF9;&#x8C61;&#x952E;&#x503C;&#x5BF9;&#x7684;map</p>
+<p> ;; SupervisorInfod&#x5B9A;&#x4E49;&#xFF1A;(defrecord SupervisorInfo [time-secs hostname assignment-id used-ports meta scheduler-meta uptime-secs])</p>
+<p> supervisor-infos ( all-supervisor-info  storm-cluster-state  nil ) </p>
+<p> ;; supervisor-details&#x7ED1;&#x5B9A;SupervisorDetails&#x5BF9;&#x8C61;&#x96C6;&#x5408;&#xFF0C;SupervisorDetails&#x7C7B;&#x53C2;&#x89C1;SupervisorDetails.java</p>
+<p> supervisor-details ( dofor  [[  id  info  ]  supervisor-infos  ]</p>
+<p> ;; info&#x7684;:meta&#x7684;&#x503C;&#x4E3A;&#x8FD9;&#x4E2A;&#x7ED3;&#x70B9;&#x7684;&#x6240;&#x6709;&#x7AEF;&#x53E3;&#x7684;&#x96C6;&#x5408;</p>
+<p>( SupervisorDetails.  id ( :meta  info ))) </p>
+<p> ;; ret&#x7ED1;&#x5B9A;storm&#x96C6;&#x7FA4;&#x4E0A;&#x6240;&#x6709;&#x53EF;&#x7528;&#x7684;workslot</p>
+<p> ret ( .allSlotsAvailableForScheduling  inimbus</p>
+<p> supervisor-details</p>
+<p> topologies</p>
+<p>( set  missing-assignment-topologies ) </p>
+<p>)</p>
+<p> ]</p>
+<p> ;; &#x8FD4;&#x56DE;&#x6240;&#x6709;&#x53EF;&#x7528;&#x7684;node+port&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x5982;([node1 port1] [node1 port2] [node2 port1] …)</p>
+<p>( dofor  [  ^  WorkerSlot  slot  ret  ]</p>
+<p> [(  .getNodeId  slot ) ( .getPort  slot  )]</p>
+<p>)))</p>
+<p>SupervisorDetails&#x7C7B;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p> public  class  SupervisorDetails  {</p>
+<p> String  id ; </p>
+<p> /**</p>
+<ul>
+<li>hostname of this supervisor</li>
+</ul>
+<p>*/</p>
+<p> String  host ; </p>
+<p> Object  meta ; </p>
+<p> /**</p>
+<ul>
+<li>meta data configured for this supervisor</li>
+</ul>
+<p>*/</p>
+<p> Object  schedulerMeta ; </p>
+<p> /**</p>
+<ul>
+<li>all the ports of the supervisor</li>
+</ul>
+<p>*/</p>
+<p> Set  &lt;  Integer  &gt;  allPorts ; </p>
+<p> // &#x6784;&#x9020;&#x65B9;&#x6CD5;</p>
+<p> …  …</p>
+<p> // get&#x548C;set&#x65B9;&#x6CD5;</p>
+<p> …  …</p>
+<p>}</p>
+<p>read-all-supervisor-details&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  read-all-supervisor-details  [  nimbus  all-scheduling-slots  supervisor-&gt;dead-ports  ]</p>
+<p>&quot;return a map: {topology-id SupervisorDetails}&quot;</p>
+<p>( let  [  storm-cluster-state ( :storm-cluster-state  nimbus ) </p>
+<p> ;; supervisor-infos&#x7ED1;&#x5B9A;&#x4ECE;zookeeper&#x4E0A;&#x83B7;&#x53D6;&#x7684;supervisor id-&gt;SupervisorInfo&#x5BF9;&#x8C61;&#x952E;&#x503C;&#x5BF9;&#x7684;map</p>
+<p> supervisor-infos ( all-supervisor-info  storm-cluster-state ) </p>
+<p> ;; nonexistent-supervisor-slots&#x7ED1;&#x5B9A;all-scheduling-slots&#x4E2D;&#x6709;&#xFF0C;&#x4F46;supervisor-infos&#x4E2D;&#x6CA1;&#x6709;&#x7684;supervisor&#xFF0C;</p>
+<p> ;; &#x6839;&#x636E;all-scheduling-slots&#x7684;&#x5B9A;&#x4E49;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x77E5;&#x9053;all-scheduling-slots&#x5C31;&#x662F;&#x7531;supervisor-infos&#x751F;&#x6210;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x76EE;&#x524D;nonexistent-supervisor-slots&#x5E94;&#x8BE5;&#x662F;&#x4E00;&#x4E2A;&#x7A7A;map</p>
+<p> nonexistent-supervisor-slots ( apply dissoc  all-scheduling-slots ( keys  supervisor-infos )) </p>
+<p> ;; all-supervisor-details&#x7ED1;&#x5B9A;supervisor id-&gt;SupervisorDetails&#x5BF9;&#x8C61;&#x952E;&#x503C;&#x5BF9;&#x7684;map</p>
+<p> all-supervisor-details ( into  {} ( for  [[  sid  supervisor-info  ]  supervisor-infos</p>
+<p> :let  [  hostname ( :hostname  supervisor-info ) </p>
+<p> scheduler-meta ( :scheduler-meta  supervisor-info ) </p>
+<p> dead-ports ( supervisor-&gt;dead-ports  sid ) </p>
+<p> ;; hide the dead-ports from the all-ports</p>
+<p> ;; these dead-ports can be reused in next round of assignments</p>
+<p> ;; all-ports&#x7ED1;&#x5B9A;&#x53BB;&#x9664;&quot;&#x6B7B;&#x4EA1;&quot;port&#x540E;&#x7684;&#x6240;&#x6709;port</p>
+<p> all-ports ( -&gt; ( get  all-scheduling-slots  sid ) </p>
+<p>( set/difference  dead-ports ) </p>
+<p>(( fn  [  ports  ] ( map int  ports )))) </p>
+<p> ;; supervisor-details&#x7ED1;&#x5B9A;SupervisorDetails&#x5BF9;&#x8C61;</p>
+<p> supervisor-details ( SupervisorDetails.  sid  hostname  scheduler-meta  all-ports  )]]</p>
+<p> {  sid  supervisor-details  }))]</p>
+<p> ;; &#x8FD4;&#x56DE;&#x5408;&#x5E76;&#x540E;&#x7684;supervisor id-&gt;SupervisorDetails&#x5BF9;&#x8C61;&#x7684;map &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p>( merge  all-supervisor-details</p>
+<p>( into  {}</p>
+<p>( for  [[  sid  ports  ]  nonexistent-supervisor-slots  ]</p>
+<p> [  sid ( SupervisorDetails.  sid  nil  ports  )]))</p>
+<p>)))</p>
+<p>Cluster&#x7C7B;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p> public  class  Cluster  {</p>
+<p> /**</p>
+<ul>
+<li>key: supervisor id, value: supervisor details</li>
+</ul>
+<p>*/</p>
+<p> private  Map  &lt;  String  ,  SupervisorDetails  &gt;  supervisors ; </p>
+<p> /**</p>
+<ul>
+<li>key: topologyId, value: topology&apos;s current assignments.</li>
+</ul>
+<p>*/</p>
+<p> private  Map  &lt;  String  ,  SchedulerAssignmentImpl  &gt;  assignments ; </p>
+<p> /**</p>
+<ul>
+<li>a map from hostname to supervisor id.</li>
+</ul>
+<p>*/</p>
+<p> private  Map  &lt;  String  ,  List  &lt;  String  &gt;&gt;  hostToId ; </p>
+<p> private  Set  &lt;  String  &gt;  blackListedHosts  =  new  HashSet  &lt;  String  &gt;();</p>
+<p> private  INimbus  inimbus ; </p>
+<p> // &#x5176;&#x4ED6;&#x65B9;&#x6CD5;</p>
+<p> …  …</p>
+<p>}</p>
+<p>mk-scheduler&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  mk-scheduler  [  conf  inimbus  ]</p>
+<p>;; &#x5F53;&#x524D;&#x7248;&#x672C;getForcedScheduler&#x51FD;&#x6570;&#x8FD4;&#x56DE;nil</p>
+<p>( let  [  forced-scheduler ( .getForcedScheduler  inimbus ) </p>
+<p> ;; scheduler&#x7ED1;&#x5B9A;IScheduler&#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x73B0;</p>
+<p> ;; cond&#x7B49;&#x4EF7;&#x4E8E;java&#x4E2D;&#x7684;switch&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#x9996;&#x5148;&#x68C0;&#x67E5;forced-scheduler&#xFF0C;&#x5982;&#x679C;forced-scheduler&#x4E3A;nil&#xFF0C;&#x5219;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x6709;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x7684;scheduler&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5219;</p>
+<p> ;; &#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x7684;DefaultScheduler</p>
+<p> scheduler ( cond</p>
+<p> forced-scheduler</p>
+<p>( do ( log-message  &quot;Using forced scheduler from INimbus &quot; ( class  forced-scheduler )) </p>
+<p> forced-scheduler ) </p>
+<p>( conf  STORM-SCHEDULER ) </p>
+<p>( do ( log-message  &quot;Using custom scheduler: &quot; ( conf  STORM-SCHEDULER )) </p>
+<p>( -&gt; ( conf  STORM-SCHEDULER ) new-instance )) </p>
+<p> :else</p>
+<p>( do ( log-message  &quot;Using default scheduler&quot; ) </p>
+<p>( DefaultScheduler.  )))]</p>
+<p> ;; &#x5148;&#x8C03;&#x7528;prepare&#x51FD;&#x6570;</p>
+<p>( .prepare  scheduler  conf ) </p>
+<p> ;; &#x7136;&#x540E;&#x8FD4;&#x56DE;scheduler</p>
+<p> scheduler</p>
+<p>))</p>
+<p>DefaultScheduler.clj&#x4E2D;&#x7684;schedule&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;&#x53EA;&#x662F;&#x7B80;&#x5355;&#x8C03;&#x7528;default-schedule&#x51FD;&#x6570;</p>
+<p>( defn  -schedule  [  this  ^  Topologies  topologies  ^  Cluster  cluster  ]</p>
+<p>( default-schedule  topologies cluster</p>
+<p>))</p>
+<p>DefaultScheduler.clj&#x4E2D;&#x7684;default-schedule&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  default-schedule  [  ^  Topologies  topologies  ^  Cluster  cluster  ]</p>
+<p>;; needs-scheduling-topologies&#x7ED1;&#x5B9A;&#x9700;&#x8981;assign&#x7684;topology</p>
+<p>;; Cluster&#x7C7B;&#x4E2D;&#x7684;needsSchedulingTopologies&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x9700;&#x8981;assign&#x7684;topology&#x7684;List&lt;TopologyDetails&gt;&#x4FE1;&#x606F;&#xFF0C;needsSchedulingTopologies&#x65B9;&#x6CD5;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( let  [  needs-scheduling-topologies ( .needsSchedulingTopologies  cluster  topologies  )]</p>
+<p>( doseq  [  ^  TopologyDetails  topology  needs-scheduling-topologies</p>
+<p> :let  [  topology-id ( .getId  topology ) </p>
+<p> ;; available-slots&#x7ED1;&#x5B9A;storm&#x96C6;&#x7FA4;&#x4E2D;&#x6240;&#x6709;&#x672A;&#x88AB;&#x5206;&#x914D;&#x7684;node+port&#x96C6;&#x5408;&#xFF0C;&#x5982;([node1 port3] [node1 port6] [node1 port7] …)</p>
+<p> ;; getAvailableSlots&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x5C06;&#x96C6;&#x7FA4;&#x4E2D;supervisor&#x5B9A;&#x4E49;&#x7684;&#x63A5;&#x53E3;&#x96C6;&#x5408;&#x51CF;&#x53BB;&#x5F53;&#x524D;&#x5DF2;&#x5206;&#x914D;&#x7684;&#x63A5;&#x53E3;&#x96C6;&#x5408;</p>
+<p> available-slots ( -&gt;&gt; ( .getAvailableSlots  cluster ) </p>
+<p>( map  # ( vector ( .getNodeId  % ) ( .getPort  % )))) </p>
+<p> ;; all-executors&#x7ED1;&#x5B9A;&#x6307;&#x5B9A;&#x9700;&#x8981;&#x5206;&#x914D;&#x7684;topology&#x7684;executor id&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x5982;([1 2] [3 4] [5 6] …)</p>
+<p> all-executors ( -&gt;&gt;  topology</p>
+<p> .getExecutors</p>
+<p>( map  # ( vector ( .getStartTask  % ) ( .getEndTask  % ))) </p>
+<p> set ) </p>
+<p> ;; alive-assigned&#x7ED1;&#x5B9A;&quot;alive&quot;&#x5206;&#x914D;&#x4FE1;&#x606F;&#xFF0C;&#x5982;{[node1 port1] [[1 2] [3 4]] [node2 port1] [[5 6] [7 8]]}&#xFF0C;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;topology-id&#x6807;&#x793A;</p>
+<p> ;; &#x4E86;&#x4E24;&#x79CD;topology&#xFF0C;&#x4E00;&#x79CD;&#x662F;&#x5B9E;&#x9645;&#x5206;&#x914D;&#x7684;&#x8FDB;&#x7A0B;&#x5C0F;&#x4E8E;&#x671F;&#x671B;&#x8FDB;&#x7A0B;&#x5373;&#x8FDB;&#x884C;&#x4E86;&#x90E8;&#x5206;&#x5206;&#x914D;&#x7684;topology&#xFF0C;&#x4E00;&#x79CD;&#x662F;&#x5B8C;&#x5168;&#x6CA1;&#x6709;&#x5206;&#x914D;&#x7684;topology(&#x6211;&#x4EEC;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#x5C31;&#x662F;&#x5B8C;&#x5168;&#x6CA1;&#x6709;&#x5206;&#x914D;&#x7684;)&#xFF0C;&#x5BF9;&#x4E8E;&#x540E;&#x8005;alive-assigned&#x4E00;&#x5B9A; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#x662F;&#x4E00;&#x4E2A;&#x7A7A;map</p>
+<p> ;; get-alive-assigned-node+port-&gt;executors&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> alive-assigned ( EvenScheduler/get-alive-assigned-node+port-&gt;executors  cluster  topology-id ) </p>
+<p> ;; alive-executors&#x5982;#{[1 2] [3 4] [5 6] [7 8]}&#xFF0C;&#x6CE8;&#x610F;&#x5BF9;&#x4E8E;&#x5B8C;&#x5168;&#x6CA1;&#x6709;&#x5206;&#x914D;&#x7684;topology&#xFF0C;alive-executors&#x4E3A;&#x7A7A;set</p>
+<p> alive-executors ( -&gt;&gt;  alive-assigned  vals ( apply  concat ) set ) </p>
+<p> ;; can-reassign-slots&#x7ED1;&#x5B9A;&#x4E86;&#x6240;&#x6709;&#x53EF;&#x4EE5;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;slot&#xFF0C;alive executors&#x662F;&#x6709;&#x53EF;&#x80FD;&#x8DD1;&#x5728;dead slot&#x4E0A;&#x7684;, &#x6240;&#x4EE5;&#x4E0D;&#x662F;&#x6240;&#x6709;alive executors&#x7684;slot&#x90FD;&#x53EF;&#x7528;</p>
+<p> ;; reassign&#x7684;&#x6761;&#x4EF6;, node&#x4E0D;&#x5728;cluster&#x7684;blacklist, port&#x662F;&#x5426;&#x5728;supervisor&#x7684;allPort&#x4E2D;(allPort&#x5DF2;&#x7ECF;&#x5728;read-all-supervisor-details&#x51FD;&#x6570;&#x4E2D;&#x53BB;&#x9664;&#x4E86;dead port), &#x5373;&#x8FD9;&#x4E2A;slot&#x662F;&#x53EF;&#x7528;&#x7684;</p>
+<p> can-reassign-slots ( slots-can-reassign  cluster ( keys  alive-assigned )) </p>
+<p> ;; total-slots-to-use&#x7ED1;&#x5B9A;&#x6307;&#x5B9A;topology&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;slot&#x603B;&#x6570;&#xFF0C;&#x53D6;&#x6307;&#x5B9A;topology&#x7684;&#x8FDB;&#x7A0B;&#x6570;&#x4E0E;&#xFF08;&#x53EF;&#x91CD;&#x65B0;&#x5206;&#x914D;slot&#x6570;+&#x53EF;&#x7528;slot&#x6570;&#xFF09;&#x7684;&#x6700;&#x5C0F;&#x503C;</p>
+<p> total-slots-to-use ( min ( .getNumWorkers  topology ) </p>
+<p>( + ( count  can-reassign-slots ) ( count  available-slots ))) </p>
+<p> ;; bad-slots&#x7ED1;&#x5B9A;&quot;&#x5206;&#x914D;&#x4E0D;&#x7406;&#x60F3;&quot;&#x7684;WorkSlot&#x96C6;&#x5408;&#xFF0C;&quot;&#x5206;&#x914D;&#x4E0D;&#x7406;&#x60F3;&quot;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x7406;&#x89E3;&#xFF0C;&#x4E00;&#x4E2A;topology&#x5B9A;&#x4E49;&#x4E2D;&#x6709;3n&#x4E2A;executor&#xFF0C;n&#x4E2A;slot&#xFF08;&#x8FDB;&#x7A0B;&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x96C6;&#x7FA4;&#x53EA;&#x7ED9;&#x5B83;&#x5206;&#x914D;&#x4E86;m&#xFF08;m&lt;n&#xFF09;&#x4E2A;slot,&#x6309;&#x7167;&#x5B9A;&#x4E49;&#x6BCF;&#x4E2A;slot &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#x4E0A;&#x8FD0;&#x884C;3&#x4E2A;executor&#xFF0C;&#x4F46;&#x662F;</p>
+<p> ;; &#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x5B83;&#x53EA;&#x6709;m&#x4E2A;slot&#xFF0C;&#x6BCF;&#x4E2A;slot&#x8FD0;&#x884C;3n/m&#x4E2A;executor&#xFF08;3n/m&#x662F;&#x5426;&#x6574;&#x9664;&#x6CA1;&#x6709;&#x5173;&#x7CFB;&#xFF09;&#xFF0C;&#x8FD8;&#x6709;&#x4E00;&#x79CD;&#x60C5;&#x51B5;&#x5206;&#x914D;&#x7ED9;topology&#x7684;&#x67D0;&#x4E9B;slot&#x6302;&#x6389;&#x4E86;&#xFF0C;&#x800C;&#x4E14;&#x96C6;&#x7FA4;&#x4E5F;&#x6CA1;&#x6709;&#x7A7A;&#x95F2;&#x7684;slot&#x5206;&#x914D;&#x7ED9;&#x5B83;&#xFF0C;&#x8FD9;&#x6837;&#x9020;&#x6210;&#x5B9E;&#x9645;&#x5206;&#x914D;&#x4E0E;&#x5B9A;&#x4E49; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#x4E0D;&#x7B26;&#x3002;</p>
+<p> ;; alive-assigned&#x4E0E;alive-executors&#x662F;&#x4E00;&#x4E00;&#x5BF9;&#x5E94;&#x7684;&#xFF0C;&#x5982;&#x679C;or&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x6761;&#x4EF6;&#x4E3A;true&#xFF0C;&#x5373;&#x8BE5;topology&#x5F53;&#x524D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;slot&#x603B;&#x6570;&#x5927;&#x4E8E;&#x96C6;&#x7FA4;&#x5DF2;&#x5206;&#x914D;&#x7ED9;&#x5B83;&#x7684;slot&#x603B;&#x6570;&#xFF0C;&#x8BF4;&#x660E;&#x4E0A;&#x6B21;&#x5206;&#x914D;&#x7ED9;&#x5B83;&#x7684;slot&#x6570;&#x4E0D;&#x591F;</p>
+<p> ;; &#x5373;&#x5B58;&#x5728;&quot;bad&quot;slot&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x6761;&#x4EF6;&#x4E3A;true&#xFF0C;alive-executors&#x96C6;&#x5408;&#x4E0D;&#x7B49;&#x4E8E;all-executors&#x96C6;&#x5408;&#xFF0C;&#x8BF4;&#x660E;&#x8BE5;topology&#x7684;&#x67D0;&#x4E9B;executor&#x56E0;&#x4E3A;&quot;&#x5FC3;&#x8DF3;&#x8D85;&#x65F6;&quot;&#x6216;&#x5176;&#x4ED6;&#x539F;&#x56E0;&#x6302;&#x6389;&#x4E86;&#xFF0C;&#x5373;&#x4E00;&#x5B9A;&#x5B58;&#x5728;&quot;bad&quot;slot</p>
+<p> ;; &#x5BF9;&#x4E8E;&#x6211;&#x4EEC;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#x6765;&#x8BF4;&#xFF0C;or&#x7684;&#x4E24;&#x4E2A;&#x6761;&#x4EF6;&#x90FD;&#x4E3A;true&#xFF0C;bad-slots&#x51FD;&#x6570;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> bad-slots ( if ( or ( &gt;  total-slots-to-use ( count  alive-assigned )) </p>
+<p>( not=  alive-executors  all-executors )) </p>
+<p> ;; bad-slots&#x8FD4;&#x56DE;&quot;&#x5206;&#x914D;&#x4E0D;&#x7406;&#x60F3;&quot;&#x7684;WorkSlot&#x96C6;&#x5408;&#xFF0C;&#x5BF9;&#x4E8E;&#x6211;&#x4EEC;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#xFF0C;bad-slots&#x8FD4;&#x56DE;&#x7A7A;&#x96C6;&#x5408;</p>
+<p>( bad-slots  alive-assigned ( count  all-executors ) total-slots-to-use ) </p>
+<p> [])]]</p>
+<p> ;; freeSlots&#x51FD;&#x6570;&#x4ECE;cluster&#x7684;SchedulerAssignmentImpl&#x4E2D;&#x628A;&#x6240;&#x6709;bad-slots&#x96C6;&#x5408;&#x5305;&#x542B;&#x7684;slot&#x4ECE;executorToSlot&#x4E2D;&#x5220;&#x9664;&#xFF0C;&#x53EA;&#x8981;slot&#x6CA1;&#x6709;&#x88AB;executor&#x5360;&#x7528;&#x5C31;&#x662F;free&#xFF0C;freeSlots&#x65B9;&#x6CD5;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p>( .freeSlots  cluster  bad-slots ) </p>
+<p>( EvenScheduler/schedule-topologies-evenly ( Topologies.  {  topology-id  topology  }) cluster</p>
+<p>))))</p>
+<p>Cluster&#x7C7B;&#x7684;needsSchedulingTopologies&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;&#x53C2;&#x6570;topologies&#x7ED1;&#x5B9A;&#x4E86;storm&#x96C6;&#x7FA4;&#x4E0A;&#x6240;&#x6709;&#x7684;topology</p>
+<p> public  List  &lt;  TopologyDetails  &gt;  needsSchedulingTopologies ( Topologies  topologies ) {</p>
+<p> List  &lt;  TopologyDetails  &gt;  ret  =  new  ArrayList  &lt;  TopologyDetails  &gt;();</p>
+<p> for ( TopologyDetails  topology  :  topologies  .  getTopologies ()) {</p>
+<p> // needsScheduling&#x65B9;&#x6CD5;&#x5224;&#x65AD;topology&#x662F;&#x5426;&#x9700;&#x8981;assign&#xFF0C;needsScheduling&#x65B9;&#x6CD5;&#x53C2;&#x89C1;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> if ( needsScheduling ( topology )) {</p>
+<p> ret  .  add ( topology ); </p>
+<p> }</p>
+<p> }</p>
+<p> return  ret ; </p>
+<p>}</p>
+<p>Cluster&#x7C7B;&#x7684;needsScheduling&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>/**</p>
+<ul>
+<li>Does the topology need scheduling?</li>
+</ul>
+<p>*</p>
+<ul>
+<li><p>A topology needs scheduling if one of the following conditions holds:</p>
+</li>
+<li><p>&lt;ul&gt;</p>
+</li>
+<li><p>&#xA0; &#xA0; &#xA0; &#x5982;&#x679C;topology&#x5DF2;&#x7ECF;assign&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x5206;&#x914D;&#x7684;&#x7EBF;&#x7A0B;&#x5C11;&#x4E8E;&#x671F;&#x671B;&#x7684;&#x7EBF;&#x7A0B;(&quot;&#x6B7B;&#x4EA1;&quot;slot&#x6216;&#x8005;&#x53EF;&#x7528;slot&#x4E0D;&#x591F;)&#xFF0C;&#x5219;&#x8BE5;topology&#x9700;&#x8981;assign</p>
+</li>
+<li><p>&#xA0; &lt;li&gt;Although the topology is assigned slots, but is squeezed. i.e. the topology is assigned less slots than desired.&lt;/li&gt;</p>
+</li>
+</ul>
+<p>&#x8BE5;topology&#x6CA1;&#x6709;&#x5206;&#x914D;&#xFF0C;&#x5219;&#x9700;&#x8981;assign</p>
+<ul>
+<li><p>&#xA0; &lt;li&gt;There are unassigned executors in this topology&lt;/li&gt;</p>
+</li>
+<li><p>&lt;/ul&gt;</p>
+</li>
+</ul>
+<p>*/</p>
+<p> public  boolean  needsScheduling ( TopologyDetails  topology ) {</p>
+<p> int  desiredNumWorkers  =  topology  .  getNumWorkers (); </p>
+<p> // this&#x6307;&#x5411;&#x5F53;&#x524D;Cluster&#x5BF9;&#x8C61;&#xFF0C;Cluster&#x5BF9;&#x8C61;&#x5B58;&#x653E;&#x4E86;&#x5F53;&#x524D;storm&#x96C6;&#x7FA4;&#x8FD0;&#x884C;&#x7684;topology&#x7684;assignment&#x4FE1;&#x606F;,getAssignedNumWorkers&#x65B9;&#x6CD5;&#x83B7;&#x53D6;&#x6307;&#x5B9A;topology&#x7684;&#x5B9E;&#x9645;&#x8FDB;&#x7A0B;&#x6570;</p>
+<p> int  assignedNumWorkers  =  this  .  getAssignedNumWorkers ( topology ); </p>
+<p> if ( desiredNumWorkers  &gt;  assignedNumWorkers ) {</p>
+<p> return  true ; </p>
+<p> }</p>
+<p> // getUnassignedExecutors&#x65B9;&#x6CD5;&#x83B7;&#x53D6;&#x6307;&#x5B9A;topology&#x7684;&#x672A;assign&#x7684;Executors&#x7684;&#x96C6;&#x5408;</p>
+<p> // &#x5BF9;&#x4E8E;&#x6211;&#x4EEC;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#xFF0C;&#x8BE5;&#x6761;&#x4EF6;&#x4E00;&#x5B9A;&#x4E3A;true&#xFF1B;&#x8FD8;&#x6709;&#x4E00;&#x79CD;&#x60C5;&#x51B5;&#x5F53;&#x524D;&#x96C6;&#x7FA4;&#x4E0A;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x67D0;&#x4E2A;topology&#x7684;&#x67D0;&#x4E2A;executor&#x56E0;&#x4E3A;&quot;&#x5FC3;&#x8DF3;&quot;&#x8D85;&#x65F6;&#xFF0C;&#x4E5F;&#x4F1A;&#x4F7F;&#x8BE5;&#x6761;&#x4EF6;&#x4E3A;true</p>
+<p> // getUnassignedExecutors&#x65B9;&#x6CD5;&#x53C2;&#x89C1;&#x5176;&#x5B9A;&#x4E49;&#x90E8;&#x5206;</p>
+<p> return  this  .  getUnassignedExecutors ( topology  ).  size () &gt;  0 ; </p>
+<p>}</p>
+<p>Cluster&#x7C7B;&#x7684;getUnassignedExecutors&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1B;</p>
+<p> public  Collection  &lt;  ExecutorDetails  &gt;  getUnassignedExecutors ( TopologyDetails  topology ) {</p>
+<p> if ( topology  ==  null ) {</p>
+<p> return  new  ArrayList  &lt;  ExecutorDetails  &gt;(  0 ); </p>
+<p> }</p>
+<p> // ret&#x6682;&#x5B58;topology&#x5B9A;&#x4E49;&#x4E2D;&#x9700;&#x8981;&#x7684;executor</p>
+<p> Collection  &lt;  ExecutorDetails  &gt;  ret  =  new  HashSet ( topology  .  getExecutors ()); </p>
+<p> // &#x83B7;&#x53D6;&#x6307;&#x5B9A;topology&#x7684;SchedulerAssignment</p>
+<p> SchedulerAssignment  assignment  =  this  .  getAssignmentById ( topology  .  getId ()); </p>
+<p> if ( assignment  !=  null ) {</p>
+<p> // &#x83B7;&#x53D6;storm&#x96C6;&#x7FA4;&#x5B9E;&#x9645;&#x5206;&#x914D;&#x7ED9;&#x8BE5;topology&#x7684;executor</p>
+<p> Set  &lt;  ExecutorDetails  &gt;  assignedExecutors  =  assignment  .  getExecutors (); </p>
+<p> // ret&#x5220;&#x9664;&#x5B9E;&#x9645;&#x5206;&#x914D;&#x7684;executor&#xFF0C;&#x4FDD;&#x7559;&#x672A;&#x5206;&#x914D;&#x7684;executor</p>
+<p> ret  .  removeAll ( assignedExecutors ); </p>
+<p> }</p>
+<p> return  ret ; </p>
+<p>}</p>
+<p>EvenScheduler.clj&#x4E2D;&#x7684;get-alive-assigned-node+port-&gt;executors&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  get-alive-assigned-node+port-&gt;executors  [  cluster  topology-id  ]</p>
+<p>;; existing-assignment&#x7ED1;&#x5B9A;topology-id&#x5BF9;&#x5E94;&#x7684;SchedulerAssignmentImpl</p>
+<p>( let  [  existing-assignment ( .getAssignmentById  cluster  topology-id ) </p>
+<p> ;; executor-&gt;slot&#x7ED1;&#x5B9A;ExecutorDetails-&gt;WorkerSlot&#x7684;map</p>
+<p> executor-&gt;slot ( if  existing-assignment</p>
+<p>( .getExecutorToSlot  existing-assignment ) </p>
+<p> {})</p>
+<p> ;; executor-&gt;node+port&#x5982;{[1 2] [node1 port1], [3 4] [node1 port1], [5 6] [node2 port1], [7 8] [node2 port1]}</p>
+<p> executor-&gt;node+port ( into  {} ( for  [[  ^  ExecutorDetails  executor  ^  WorkerSlot  slot  ]  executor-&gt;slot</p>
+<p> :let  [  executor  [(  .getStartTask  executor ) ( .getEndTask  executor  )]</p>
+<p> node+port  [(  .getNodeId  slot ) ( .getPort  slot  )]]]</p>
+<p> {  executor  node+port  }))</p>
+<p> ;; alive-assigned&#x5982;{[node1 port1] [[1 2] [3 4]] [node2 port1] [[5 6] [7 8]]}</p>
+<p> alive-assigned ( reverse-map  executor-&gt;node+port  )]</p>
+<p>alive-assigned</p>
+<p>))</p>
+<p>bad-slots&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>;; existing-slots&#x7ED1;&#x5B9A;[node+port]-&gt;[slot-id]&#x7684;map&#xFF0C;&#x8868;&#x793A;&#x8BE5;topology&#x7684;&quot;&#x4E0A;&#x4E00;&#x6B21;&#x5212;&#x5206;&quot;&#xFF0C;num-executors&#x7ED1;&#x5B9A;&#x8BE5;topology&#x5B9A;&#x4E49;&#x4E2D;&#x7684;executor&#x603B;&#x6570;&#xFF0C;num-workers&#x7ED1;&#x5B9A;&#x5F53;&#x524D;&#x96C6;&#x7FA4;&#x4E2D;&#x8BE5;topology&#x53EF;&#x4EE5;&#x5206;&#x914D;&#x5230;&#x7684;&#x8FDB;&#x7A0B;&#x603B;&#x6570;&#xFF08;slot&#x603B;&#x6570;&#xFF09;</p>
+<p>;; &#x5BF9;&#x4E8E;&#x6211;&#x4EEC;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#x6765;&#x8BF4;&#xFF0C;bad-slots&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x7A7A;&#x7684;&#x96C6;&#x5408;</p>
+<p>( defn-  bad-slots  [  existing-slots  num-executors  num-workers  ]</p>
+<p>( if ( =  0  num-workers ) </p>
+<p> &apos; () </p>
+<p> ;; distribution&#x7ED1;&#x5B9A;&#x5728;&#x5F53;&#x524D;&#x96C6;&#x7FA4;&#x72B6;&#x6001;&#x4E0B;&#x8BE5;topology&#x7684;&#x65B0;&#x5212;&#x5206;&#xFF0C;&#x5982;(integer-divided 5 2)&#x8FD4;&#x56DE;{2 1, 3 1}&#x8868;&#x793A;&#x4E00;&#x4E2A;slot&#x8FD0;&#x884C;2&#x4E2A;executor&#xFF0C;&#x4E00;&#x4E2A;slot&#x8FD0;&#x884C;3&#x4E2A;executor</p>
+<p>( let  [  distribution ( atom ( integer-divided  num-executors  num-workers )) </p>
+<p> ;; keepers&#x7ED1;&#x5B9A;&quot;&#x5206;&#x914D;&#x7406;&#x60F3;&quot;&#x7684;slot</p>
+<p> keepers ( atom  {})]</p>
+<p> ;; doseq&#x5FAA;&#x73AF;&#x7528;&#x4E8E;&#x8FC7;&#x6EE4;&#x51FA;&#x8BE5;topology&#x7684;&quot;&#x4E0A;&#x4E00;&#x6B21;&#x5212;&#x5206;&quot;&#x4E0E;&quot;&#x65B0;&#x5212;&#x5206;&quot;&#x76F8;&#x540C;&#x7684;&#x5212;&#x5206;&#x90E8;&#x5206;&#xFF0C;&#x5E76;&#x5C06;&#x5176;&#x5B58;&#x5165;keepers&#x4E2D;</p>
+<p>( doseq  [[  node+port  executor-list  ]  existing-slots  :let  [  executor-count ( count  executor-list  )]]</p>
+<p>( when ( pos? ( get  @  distribution  executor-count  0 )) </p>
+<p>( swap!  keepers  assoc  node+port  executor-list ) </p>
+<p>( swap!  distribution  update-in  [  executor-count  ]  dec ) </p>
+<p>))</p>
+<p> ;; &#x4ECE;&quot;&#x4E0A;&#x4E00;&#x6B21;&#x5212;&#x5206;&quot;existing-slots&#x4E2D;&#x5220;&#x9664;&quot;&#x5206;&#x914D;&#x7406;&#x60F3;&quot;&#x7684;&#x5212;&#x5206;keepers&#xFF0C;&#x5E76;&#x8FD4;&#x56DE;&quot;&#x5206;&#x914D;&#x4E0D;&#x7406;&#x60F3;&quot;&#x7684;WorkSlot&#x96C6;&#x5408;</p>
+<p>( -&gt;&gt;  @  keepers</p>
+<p> keys</p>
+<p>( apply dissoc  existing-slots ) </p>
+<p> keys</p>
+<p>( map ( fn  [[  node  port  ]]</p>
+<p>( WorkerSlot.  node port</p>
+<p>)))))))</p>
+<p>Cluster&#x7C7B;&#x4E2D;&#x7684;freeSlots&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;&#x5FAA;&#x73AF;&#x8C03;&#x7528;&#x4E86;freeSlot&#x65B9;&#x6CD5;</p>
+<p> public  void  freeSlots ( Collection  &lt;  WorkerSlot  &gt;  slots ) {</p>
+<p> if ( slots  !=  null ) {</p>
+<p> for ( WorkerSlot  slot  :  slots ) {</p>
+<p> this  .  freeSlot ( slot ); </p>
+<p> }</p>
+<p> }</p>
+<p>}</p>
+<p>Cluster&#x7C7B;&#x4E2D;&#x7684;freeSlot&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;&#x5224;&#x65AD;&#x8BE5;slot&#x662F;&#x5426;&#x88AB;&#x5360;&#x7528;&#xFF08;cluster&#x4E2D;SchedulerAssignmentImpl&#x7684;executorToSlot&#x662F;&#x5426;&#x5305;&#x542B;&#x8BE5;slot&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x5360;&#x7528;&#xFF08;executorToSlot&#x5305;&#x542B;slot&#xFF09;&#x5219;&#x91CA;&#x653E;&#x5360;&#x7528;&#xFF0C;&#x6240;&#x8C13;&#x91CA;&#x653E;&#x5360;&#x7528;&#x5C31;&#x662F;&#x4ECE;SchedulerAssignmentImpl&#x7684;executorToSlot&#x4E2D;&#x5220;&#x9664;&#x8BE5;slot&#x5BF9;&#x5E94;&#x7684;&#x952E;&#x503C;&#x5BF9;&#x3002;</p>
+<p> public  void  freeSlot ( WorkerSlot  slot ) {</p>
+<p> // remove the slot from the existing assignments</p>
+<p> for ( SchedulerAssignmentImpl  assignment  :  this  .  assignments  .  values ()) {</p>
+<p> if ( assignment  .  isSlotOccupied ( slot )) {</p>
+<p> assignment  .  unassignBySlot ( slot ); </p>
+<p> }</p>
+<p> }</p>
+<p>}</p>
+<p>Cluster&#x7C7B;&#x4E2D;&#x7684;unassignBySlot&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p> public  void  unassignBySlot ( WorkerSlot  slot ) {</p>
+<p> List  &lt;  ExecutorDetails  &gt;  executors  =  new  ArrayList  &lt;  ExecutorDetails  &gt;();</p>
+<p> for ( ExecutorDetails  executor  :  this  .  executorToSlot  .  keySet ()) {</p>
+<p> WorkerSlot  ws  =  this  .  executorToSlot  .  get ( executor ); </p>
+<p> if ( ws  .  equals ( slot )) {</p>
+<p> executors  .  add ( executor ); </p>
+<p> }</p>
+<p> }</p>
+<p> // remove</p>
+<p> for ( ExecutorDetails  executor  :  executors ) {</p>
+<p> this  .  executorToSlot  .  remove ( executor ); </p>
+<p> }</p>
+<p>}</p>
+<p>EvenScheduler.clj&#x4E2D;&#x7684;schedule-topologies-evenly&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>;; topologies&#x7ED1;&#x5B9A;Topologies&#x5BF9;&#x8C61;&#xFF0C;cluster&#x7ED1;&#x5B9A;&#x5F53;&#x524D;&#x96C6;&#x7FA4;&#x7684;&#x72B6;&#x6001;</p>
+<p>( defn  schedule-topologies-evenly  [  ^  Topologies  topologies  ^  Cluster  cluster  ]</p>
+<p>;; &#x8FD9;&#x91CC;&#x6709;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;topologies&#x660E;&#x660E;&#x662F;&#x7531;&quot;&#x9700;&#x8981;&#x5206;&#x914D;&quot;&#x7684;topology id&#x548C;&#x5BF9;&#x5E94;TopologyDetails&#x6784;&#x5EFA;&#x7684;&#xFF0C;&#x4F46;&#x4E3A;&#x4EC0;&#x4E48;&#x8FD9;&#x91CC;&#x53C8;&#x91CD;&#x65B0;&#x8C03;&#x7528;&#x4E86;&#x4E00;&#x6B21;cluster&#x7684;needsSchedulingTopologies&#x65B9;&#x6CD5;&#x5462;&#xFF1F;</p>
+<p>;; &#x539F;&#x56E0;&#x662F;&#x5728;default-schedule&#x51FD;&#x6570;&#x4E2D;&#x8C03;&#x7528;&#x4E86;(.freeSlots cluster bad-slots)&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x4ECE;cluster&#x4E2D;&#x5220;&#x9664;&#x4E86;&quot;bad&quot; slot&#xFF0C;&#x6539;&#x53D8;&#x4E86;&#x96C6;&#x7FA4;&#x4E2D;&#x67D0;&#x4E9B;topology&#x7684;TopologyDetails&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x8C03;&#x7528;needsSchedulingTopologies</p>
+<p>( let  [  needs-scheduling-topologies ( .needsSchedulingTopologies  cluster  topologies  )]</p>
+<p>( doseq  [  ^  TopologyDetails  topology  needs-scheduling-topologies</p>
+<p> :let  [  topology-id ( .getId  topology ) </p>
+<p> ;; new-assignment&#x7ED1;&#x5B9A;&#x8BE5;topology&#x7684;&#x65B0;&#x589E;&#x5206;&#x914D;executor id-&gt;[node+port]&#x7684;map</p>
+<p> new-assignment ( schedule-topology  topology  cluster ) </p>
+<p> node+port-&gt;executors ( reverse-map  new-assignment  )]]</p>
+<p>( doseq  [[  node+port  executors  ]  node+port-&gt;executors</p>
+<p> ;; &#x751F;&#x6210;WorkerSlot&#x5BF9;&#x8C61;</p>
+<p> :let  [  ^  WorkerSlot  slot ( WorkerSlot. ( first  node+port ) ( last  node+port )) </p>
+<p> ;; &#x751F;&#x6210;ExecutorDetails&#x5BF9;&#x8C61;</p>
+<p> executors ( for  [[  start-task  end-task  ]  executors  ]</p>
+<p>( ExecutorDetails.  start-task  end-task  ))]]</p>
+<p> ;; &#x901A;&#x8FC7;&#x8C03;&#x7528;cluster&#x7684;assign&#x65B9;&#x6CD5;&#xFF0C;&#x628A;&#x65B0;&#x589E;&#x7684;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x6DFB;&#x52A0;&#x5230;cluster&#x4E2D;&#xFF0C;&#x8FD9;&#x6837;&#x6211;&#x4EEC;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#x7684;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x4E5F;&#x6DFB;&#x52A0;&#x5230;&#x4E86;cluter&#x4E2D; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p>( .assign  cluster  slot  topology-id executors</p>
+<p>)))))</p>
+<p>schedule-topology&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn-  schedule-topology  [  ^  TopologyDetails  topology  ^  Cluster  cluster  ]</p>
+<p>( let  [  topology-id ( .getId  topology ) </p>
+<p> ;; available-slots&#x7ED1;&#x5B9A;&#x5F53;&#x524D;&#x96C6;&#x7FA4;&#x6240;&#x6709;&#x53EF;&#x7528;&#x7684;slot</p>
+<p> available-slots ( -&gt;&gt; ( .getAvailableSlots  cluster ) </p>
+<p>( map  # ( vector ( .getNodeId  % ) ( .getPort  % )))) </p>
+<p> ;; all-executors&#x7ED1;&#x5B9A;topology&#x5B9A;&#x4E49;&#x4E2D;&#x7684;&#x6240;&#x6709;executor&#x96C6;&#x5408; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p>
+<p> all-executors ( -&gt;&gt;  topology</p>
+<p> .getExecutors</p>
+<p>( map  # ( vector ( .getStartTask  % ) ( .getEndTask  % ))) </p>
+<p> set ) </p>
+<p> ;; alive-assigned&#x7ED1;&#x5B9A;&#x5DF2;&#x7ECF;&#x5206;&#x914D;&#x7ED9;&#x8BE5;topology&#x7684;slot&#xFF0C;&#x5BF9;&#x4E8E;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#xFF0C;alive-assigned&#x4E3A;&#x7A7A;&#x96C6;&#x5408;</p>
+<p> alive-assigned ( get-alive-assigned-node+port-&gt;executors  cluster  topology-id ) </p>
+<p> ;; total-slots-to-use&#x7ED1;&#x5B9A;&#x8BE5;topology&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;slot&#x603B;&#x6570;</p>
+<p> total-slots-to-use ( min ( .getNumWorkers  topology ) </p>
+<p>( + ( count  available-slots ) ( count  alive-assigned ))) </p>
+<p> ;; reassign-slots&#x7ED1;&#x5B9A;&#x4E3A;&#x8BE5;topology&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;slot&#xFF0C;&#x5373;&#x589E;&#x52A0;&#x5206;&#x914D;&#x7684;slot&#xFF0C;&#x5206;&#x914D;&#x7684;&#x4E2A;&#x6570;&#x4E3A;total-slots-to-use&#x51CF;&#x53BB;&#x5DF2;&#x5206;&#x914D;&#x7684;slot&#x6570;</p>
+<p> ;; sort-slots&#x51FD;&#x6570;&#x5BF9;available-slots&#x8FDB;&#x884C;&#x4EA4;&#x53C9;&#x6392;&#x5E8F;&#xFF0C;&#x5982;available-slots=([11 1] [11 2] [11 5] [22 1] [22 2] [22 3] [22 4] [22 5] [33 3] [33 4])</p>
+<p> ;; &#x6392;&#x5E8F;&#x540E;&#x4E3A;([11 1] [22 1] [33 3] [11 2] [22 2] [33 4] [11 5] [22 3] [22 4] [22 5])</p>
+<p> reassign-slots ( take ( -  total-slots-to-use ( count  alive-assigned )) </p>
+<p>( sort-slots  available-slots )) </p>
+<p> ;; reassign-executors&#x7ED1;&#x5B9A;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7684;executor&#x7684;&#x96C6;&#x5408;</p>
+<p> reassign-executors ( sort ( set/difference  all-executors ( set ( apply concat ( vals  alive-assigned ))))) </p>
+<p> ;; reassignment&#x7ED1;&#x5B9A;executor id-&gt;slot id&#x7684;map&#xFF0C;&#x8868;&#x793A;&#x589E;&#x52A0;&#x7684;assignment&#xFF0C;&#x4ECE;reassign-executors&#x53D6;&#x4E00;&#x4E2A;executor id&#x4F5C;&#x4E3A;map&#x7684;key&#xFF0C;&#x518D;&#x4ECE;reassign-slots&#x4E2D;</p>
+<p> ;; &#x53D6;&#x4E00;&#x4E2A;slot&#x4F5C;&#x4E3A;map&#x7684;value&#xFF0C;&#x7531;&#x4E8E;reassign-slots&#x662F;&#x4EA4;&#x53C9;&#x6709;&#x5E8F;&#x7684;&#xFF0C;&#x8FD9;&#x6837;executor&#x5C31;&#x53EF;&#x4EE5;&#x5747;&#x5300;&#x7684;&#x5206;&#x914D;&#x7ED9;&#x5404;&#x4E2A;supervisor</p>
+<p> reassignment ( into  {}</p>
+<p>( map  vector</p>
+<p> reassign-executors</p>
+<p> ;; for some reason it goes into infinite loop without limiting the repeat-seq</p>
+<p> ;; repeat-seq&#x51FD;&#x6570;&#x5C06;reassign-slots&#x96C6;&#x5408;&#x6269;&#x5C55;&#x6210;&#x539F;&#x6765;&#x7684;(count reassign-executors)&#x500D;&#xFF0C;&#x5982;reassign-slots=([11 1] [22 1])&#xFF0C;(count reassign-executors)=3</p>
+<p> ;; &#x8FD4;&#x56DE;([11 1] [22 1] [11 1] [22 1] [11 1] [22 1])&#xFF0C;&#x8FD9;&#x6837;[11 1]&#x88AB;&#x5206;&#x914D;2&#x4E2A;executor&#xFF0C;[22 1]&#x88AB;&#x5206;&#x914D;1&#x4E2A;executor</p>
+<p> ;; &#x4E4B;&#x6240;&#x4EE5;&#x9700;&#x8981;repeat-seq, &#x662F;&#x56E0;&#x4E3A;executors&#x5F80;&#x5F80;&#x591A;&#x4E8E;slots</p>
+<p>( repeat-seq ( count  reassign-executors ) reassign-slots  )))]</p>
+<p>( when-not ( empty?  reassignment ) </p>
+<p>( log-message  &quot;Available slots: &quot; ( pr-str  available-slots )) </p>
+<p>)</p>
+<p> ;; &#x8FD4;&#x56DE;reassignment</p>
+<p>reassignment</p>
+<p>))</p>
+<p>Cluter&#x7C7B;&#x4E2D;&#x7684;assign&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;&#x8BE5;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x5C06;&#x65B0;&#x589E;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x6DFB;&#x52A0;&#x5230;cluster&#x7684;SchedulerAssignmentImpl&#x7684;executorToSlot&#x4E2D;&#x3002;&#x901A;&#x8FC7;&#x8C03;&#x7528;assign&#x65B9;&#x6CD5;&#xFF0C;&#x6211;&#x4EEC;&#x521A;&#x521A;&#x63D0;&#x4EA4;&#x7684;topology&#x7684;&#x5206;&#x914D;&#x4FE1;&#x606F;&#x4E5F;&#x6DFB;&#x52A0;&#x5230;&#x4E86;cluster&#x4E2D;&#x3002;</p>
+<p> public  void  assign ( WorkerSlot  slot  ,  String  topologyId  ,  Collection  &lt;  ExecutorDetails  &gt;  executors ) {</p>
+<p> if ( this  .  isSlotOccupied ( slot )) {</p>
+<p> throw  new  RuntimeException ( &quot;slot: [&quot;  +  slot  .  getNodeId () +  &quot;, &quot;  +  slot  .  getPort () +  &quot;] is already occupied.&quot; ); </p>
+<p> }</p>
+<p> SchedulerAssignmentImpl  assignment  = ( SchedulerAssignmentImpl ) this  .  getAssignmentById ( topologyId ); </p>
+<p> if ( assignment  ==  null ) {</p>
+<p> assignment  =  new  SchedulerAssignmentImpl ( topologyId  ,  new  HashMap  &lt;  ExecutorDetails  ,  WorkerSlot  &gt;());</p>
+<p> this  .  assignments  .  put ( topologyId  ,  assignment ); </p>
+<p> }  else  {</p>
+<p> for ( ExecutorDetails  executor  :  executors ) {</p>
+<p> if ( assignment  .  isExecutorAssigned ( executor )) {</p>
+<p> throw  new  RuntimeException ( &quot;the executor is already assigned, you should unassign it before assign it to another slot.&quot; ); </p>
+<p> }</p>
+<p> }</p>
+<p> }</p>
+<p> assignment  .  assign ( slot  ,  executors ); </p>
+<p>}</p>
+<p>changed-executors&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>( defn  changed-executors  [  executor-&gt;node+port  new-executor-&gt;node+port  ]</p>
+<p>;; slot-assigned&#x5982;{[node1 port1] [[1 2] [3 4] [5 6]], [node1 port2] [[7 8] [9 10]]}</p>
+<p>( let  [  slot-assigned ( reverse-map  executor-&gt;node+port ) </p>
+<p> ;; new-slot-assigned&#x5982;{[node1 port1] [[1 2] [7 8]], [node2 port1] [[3 4] [9 10]], [node1 port2] [[5 6]]}</p>
+<p> new-slot-assigned ( reverse-map  new-executor-&gt;node+port ) </p>
+<p> ;; brand-new-slots&#x7ED1;&#x5B9A;&#x5728;new-slot-assigned&#x4E2D;&#x5B58;&#x5728;&#xFF0C;&#x4F46;&#x5728;slot-assigned&#x4E2D;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x5982;{[node1 port1] [[1 2] [7 8]], [node2 port1] [[3 4] [9 10]], [node1 port2] [[5 6]]}</p>
+<p> brand-new-slots ( map-diff  slot-assigned  new-slot-assigned  )]</p>
+<p> ;; ([1 2] [3 4] [5 6] [7 8] [9 10])</p>
+<p>( apply concat ( vals  brand-new-slots )) </p>
+<p>))</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ZooKeeper/">ZooKeeper</a><a href="/tags/源码分析/">源码分析</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/19812eb/" title="RDBMS，memcache -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  RDBMS，memcache -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/10b0b67/"  title="QConf 正式开源！ -">
+ <strong>下一篇：</strong><br/> 
+ <span>QConf 正式开源！ -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

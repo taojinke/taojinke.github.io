@@ -1,0 +1,1668 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Linux c 开发 - Memcached源码分析之增删改查操作（5） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x524D;&amp;#x8A00; 
+&amp;#x5728;&amp;#x7B2C;&amp;#x4E8C;&amp;#x7AE0;&amp;#x300A;Linux c &amp;#x5F00;&amp;#x53D1; - Memcached&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x4E4B;&amp;#x547D;&amp;#x4EE4;&amp;#x89E3;&amp;#x6790;&amp;#xFF08;2&amp;#xFF09;&amp;#x300B; &amp;#x548C;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux c 开发 - Memcached源码分析之增删改查操作（5） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/23f2d3d/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x524D;&amp;#x8A00; 
+&amp;#x5728;&amp;#x7B2C;&amp;#x4E8C;&amp;#x7AE0;&amp;#x300A;Linux c &amp;#x5F00;&amp;#x53D1; - Memcached&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x4E4B;&amp;#x547D;&amp;#x4EE4;&amp;#x89E3;&amp;#x6790;&amp;#xFF08;2&amp;#xFF09;&amp;#x300B; &amp;#x548C;">
+<meta property="og:updated_time" content="2015-07-03T14:09:38.315Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux c 开发 - Memcached源码分析之增删改查操作（5） -">
+<meta name="twitter:description" content="&amp;#x524D;&amp;#x8A00; 
+&amp;#x5728;&amp;#x7B2C;&amp;#x4E8C;&amp;#x7AE0;&amp;#x300A;Linux c &amp;#x5F00;&amp;#x53D1; - Memcached&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x4E4B;&amp;#x547D;&amp;#x4EE4;&amp;#x89E3;&amp;#x6790;&amp;#xFF08;2&amp;#xFF09;&amp;#x300B; &amp;#x548C;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/23f2d3d/" title="Linux c 开发 - Memcached源码分析之增删改查操作（5） -" itemprop="url">Linux c 开发 - Memcached源码分析之增删改查操作（5） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:38.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p> &#x524D;&#x8A00; </p>
+<p>&#x5728;&#x7B2C;&#x4E8C;&#x7AE0;&#x300A;Linux c &#x5F00;&#x53D1; - Memcached&#x6E90;&#x7801;&#x5206;&#x6790;&#x4E4B;&#x547D;&#x4EE4;&#x89E3;&#x6790;&#xFF08;2&#xFF09;&#x300B; &#x548C;&#x7B2C;&#x4E09;&#x7AE0;&#x300A;Linux c &#x5F00;&#x53D1; - Memcached&#x6E90;&#x7801;&#x5206;&#x6790;&#x4E4B;&#x6D88;&#x606F;&#x56DE;&#x5E94;&#xFF08;3&#xFF09;&#x300B; &#x4E2D;&#x6211;&#x4EEC;&#x4E3B;&#x8981;&#x901A;&#x8FC7;Memcached&#x7684;get&#x547D;&#x4EE4;&#xFF0C;&#x5206;&#x6790;&#x4E86;Memcached&#x7684;&#x547D;&#x4EE4;&#x89E3;&#x6790;&#x548C;&#x6D88;&#x606F;&#x56DE;&#x5E94;&#x7684;&#x6A21;&#x5757;&#x529F;&#x80FD;&#x3002;&#x8FD9;&#x4E00;&#x7AE0;&#xFF0C;&#x6211;&#x4EEC;&#x4E3B;&#x8981;&#x6765;&#x8BE6;&#x7EC6;&#x770B;&#x4E00;&#x4E0B;Memcached&#x5E38;&#x7528;&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x5728;&#x770B;Memcached&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x64CD;&#x4F5C;&#x524D;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x6765;&#x770B;&#x4E00;&#x4E0B;process_command&#x65B9;&#x6CD5;&#x3002;Memcached&#x89E3;&#x6790;&#x547D;&#x4EE4;&#x4E4B;&#x540E;&#xFF0C;&#x5C31;&#x901A;&#x8FC7;process_command&#x65B9;&#x6CD5;&#x5C06;&#x4E0D;&#x540C;&#x64CD;&#x4F5C;&#x7C7B;&#x578B;&#x7684;&#x547D;&#x4EE4;&#x8FDB;&#x884C;&#x5206;&#x53D1;&#x3002;</p>
+<pre><code>//&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x51FD</span>;&amp;<span class="symbol">#x6570</span>;  
+//&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E86</span>;rbuf&amp;<span class="symbol">#x4E2D</span>;\n&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7136</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x6210</span>;\<span class="number">0</span>  
+static void process_command(conn *c, char *command) {  
+
+    //tokens&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5C06</span>;c-&amp;gt;rcurr&amp;<span class="symbol">#xFF08</span>;command&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x62C6</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x6765</span>;  
+    //&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x683C</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x9694</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5143</span>;&amp;<span class="symbol">#x7D20</span>;  
+    //&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#xFF1A</span>;set username zhuli,&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x62C6</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x6210</span>;<span class="number">3</span>&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5143</span>;&amp;<span class="symbol">#x7D20</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x522B</span>;&amp;<span class="symbol">#x662F</span>;set&amp;<span class="symbol">#x548C</span>;username&amp;<span class="symbol">#x548C</span>;zhuli  
+    //<span class="class">MAX_TOKENS</span>&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">8</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;memcached&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x62C6</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x6210</span>;<span class="number">8</span>&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5143</span>;&amp;<span class="symbol">#x7D20</span>;  
+    token_t tokens[<span class="class">MAX_TOKENS</span>];  
+    size_t ntokens;  
+    int comm;  
+
+    assert(c != <span class="class">NULL</span>);  
+
+    <span class="class">MEMCACHED_PROCESS_COMMAND_START</span>(c-&amp;gt;sfd, c-&amp;gt;rcurr, c-&amp;gt;rbytes);  
+
+    if (settings.verbose &amp;gt; <span class="number">1</span>)  
+        fprintf(stderr, &amp;quot;&amp;lt;%d %s\n&amp;quot;, c-&amp;gt;sfd, command);  
+
+    /* 
+     * for commands set/add/replace, we build an item and read the data 
+     * directly into it, then continue in nread_complete(). 
+     */  
+
+    c-&amp;gt;msgcurr = <span class="number">0</span>;  
+    c-&amp;gt;msgused = <span class="number">0</span>;  
+    c-&amp;gt;iovused = <span class="number">0</span>;  
+    if (add_msghdr(c) != <span class="number">0</span>) {  
+        out_of_memory(c, &amp;quot;<span class="class">SERVER_ERROR</span> out of memory preparing response&amp;quot;);  
+        return;  
+    }  
+
+    //tokenize_command&amp;<span class="symbol">#x975E</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x62C6</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x7684</span>;  
+    //&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x62C6</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x5143</span>;&amp;<span class="symbol">#x7D20</span>;&amp;<span class="symbol">#x653E</span>;&amp;<span class="symbol">#x8FDB</span>;tokens&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>;&amp;<span class="symbol">#x4E2D</span>;  
+    //&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;:command&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+    ntokens = tokenize_command(command, tokens, <span class="class">MAX_TOKENS</span>);  
+
+    //tokens[<span class="class">COMMAND_TOKEN</span>] <span class="class">COMMAND_TOKEN</span>=<span class="number">0</span>  
+    //&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;  
+    if (ntokens &amp;gt;= <span class="number">3</span>  
+            &amp;amp;&amp;amp; ((strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;get&amp;quot;) == <span class="number">0</span>)  
+                    || (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;bget&amp;quot;) == <span class="number">0</span>))) {  
+
+        //&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;get&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+        process_get_command(c, tokens, ntokens, <span class="keyword">false</span>);  
+
+    } else if ((ntokens == <span class="number">6</span> || ntokens == <span class="number">7</span>)  
+            &amp;amp;&amp;amp; ((strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;add&amp;quot;) == <span class="number">0</span> &amp;amp;&amp;amp; (comm =  
+                    <span class="class">NREAD_ADD</span>))  
+                    || (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;set&amp;quot;) == <span class="number">0</span>  
+                            &amp;amp;&amp;amp; (comm = <span class="class">NREAD_SET</span>))  
+                    || (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;replace&amp;quot;) == <span class="number">0</span>  
+                            &amp;amp;&amp;amp; (comm = <span class="class">NREAD_REPLACE</span>))  
+                    || (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;prepend&amp;quot;) == <span class="number">0</span>  
+                            &amp;amp;&amp;amp; (comm = <span class="class">NREAD_PREPEND</span>))  
+                    || (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;append&amp;quot;) == <span class="number">0</span>  
+                            &amp;amp;&amp;amp; (comm = <span class="class">NREAD_APPEND</span>)))) {  
+
+        //&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>; add/set/replace/prepend/append  
+        process_update_command(c, tokens, ntokens, comm, <span class="keyword">false</span>);  
+
+    } else if ((ntokens == <span class="number">7</span> || ntokens == <span class="number">8</span>)  
+            &amp;amp;&amp;amp; (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;cas&amp;quot;) == <span class="number">0</span> &amp;amp;&amp;amp; (comm =  
+                    <span class="class">NREAD_CAS</span>))) {  
+
+        process_update_command(c, tokens, ntokens, comm, <span class="keyword">true</span>);  
+
+    } else if ((ntokens == <span class="number">4</span> || ntokens == <span class="number">5</span>)  
+            &amp;amp;&amp;amp; (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;incr&amp;quot;) == <span class="number">0</span>)) {  
+
+        process_arithmetic_command(c, tokens, ntokens, <span class="number">1</span>);  
+
+    } else if (ntokens &amp;gt;= <span class="number">3</span>  
+            &amp;amp;&amp;amp; (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;gets&amp;quot;) == <span class="number">0</span>)) {  
+
+        process_get_command(c, tokens, ntokens, <span class="keyword">true</span>);  
+
+    } else if ((ntokens == <span class="number">4</span> || ntokens == <span class="number">5</span>)  
+            &amp;amp;&amp;amp; (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;decr&amp;quot;) == <span class="number">0</span>)) {  
+
+        process_arithmetic_command(c, tokens, ntokens, <span class="number">0</span>);  
+
+    } else if (ntokens &amp;gt;= <span class="number">3</span> &amp;amp;&amp;amp; ntokens &amp;lt;= <span class="number">5</span>  
+            &amp;amp;&amp;amp; (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;delete&amp;quot;) == <span class="number">0</span>)) {  
+
+        //&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>; delete  
+        process_delete_command(c, tokens, ntokens);  
+
+    } else if ((ntokens == <span class="number">4</span> || ntokens == <span class="number">5</span>)  
+            &amp;amp;&amp;amp; (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;touch&amp;quot;) == <span class="number">0</span>)) {  
+
+        process_touch_command(c, tokens, ntokens);  
+
+    } else if (ntokens &amp;gt;= <span class="number">2</span>  
+            &amp;amp;&amp;amp; (strcmp(tokens[<span class="class">COMMAND_TOKEN</span>].value, &amp;quot;stats&amp;quot;) == <span class="number">0</span>)) {  
+
+        //&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+        process_stat(c, tokens, ntokens);  
+//.....more code  
+}
+</code></pre><p>Memcached&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x64CD;&#x4F5C;&#x6E90;&#x7801;&#x5206;&#x6790; </p>
+<p>&#x589E;/&#x6539; set add replace &#x64CD;&#x4F5C;</p>
+<p>&#x6211;&#x4EEC;&#x770B;&#x4E00;&#x4E2A;Memcached&#x7684;&#x547D;&#x4EE4;&#x884C;&#x7684;set&#x64CD;&#x4F5C;&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code><span class="built_in">set</span> <span class="built_in">key</span> flags exptime vlen  
+<span class="built_in">value</span>
+</code></pre><p>set&#xFF1A;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;&#x540D;&#x79F0;</p>
+<p>key&#xFF1A;&#x7F13;&#x5B58;&#x7684;key</p>
+<p>flags&#xFF1A;&#x7F13;&#x5B58;&#x6807;&#x8BC6;</p>
+<p>exptime&#xFF1A;&#x7F13;&#x5B58;&#x65F6;&#x95F4;&#xFF0C;0 - &#x4E0D;&#x8FC7;&#x671F;</p>
+<p>vlen&#xFF1A;&#x7F13;&#x5B58;value&#x7684;&#x957F;&#x5EA6;</p>
+<p>value&#xFF1A;&#x7F13;&#x5B58;&#x7684;&#x503C;&#xFF0C;&#x4E00;&#x822C;&#x4F1A;&#x5728;&#x7B2C;&#x4E8C;&#x884C;&#x3002;</p>
+<p>&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code><span class="keyword">set</span> username <span class="number">0</span> <span class="number">10</span> <span class="number">9</span>  
+woshishen
+</code></pre><p>&#x6211;&#x4EEC;&#x5728;&#x7B2C;&#x4E8C;&#x7AE0;&#x300A;Linux c &#x5F00;&#x53D1; - Memcached&#x6E90;&#x7801;&#x5206;&#x6790;&#x4E4B;&#x547D;&#x4EE4;&#x89E3;&#x6790;&#xFF08;2&#xFF09;&#x300B;&#x4E2D;&#x8BB2;&#x89E3;&#x5230;&#x4E86;&#x5982;&#x4F55;&#x89E3;&#x6790;&#x547D;&#x4EE4;&#x7684;&#x3002;Memcached&#x4E00;&#x822C;&#x4F1A;&#x901A;&#x8FC7;\n&#x7B26;&#x53F7;&#x53BB;&#x5206;&#x9694;&#x6BCF;&#x4E2A;&#x547D;&#x4EE4;&#x884C;&#x8BED;&#x53E5;&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x7A7A;&#x683C;&#x5C06;&#x4E00;&#x884C;&#x547D;&#x4EE4;&#x5207;&#x5272;&#x6210;N&#x4E2A;&#x5143;&#x7D20;&#xFF0C;&#x5143;&#x7D20;&#x4F1A;&#x653E;&#x8FDB;&#x4E00;&#x4E2A;tokens&#x7684;&#x6570;&#x7EC4;&#x4E2D;&#x3002;</p>
+<p>&#x8FD9;&#x8FB9;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;set&#x547D;&#x4EE4;&#x4F1A;&#x5206;&#x5C42;&#x4E24;&#x90E8;&#x5206;&#xFF1A;&#x547D;&#x4EE4;&#x884C;&#x90E8;&#x5206;&#x548C;Value&#x503C;&#x90E8;&#x5206;&#xFF1A;</p>
+<ol>
+<li><p>Memcached&#x4F1A;&#x5148;&#x53BB;&#x89E3;&#x6790;&#x547D;&#x4EE4;&#x884C;&#x90E8;&#x5206;&#xFF0C;&#x5E76;&#x4E14;&#x547D;&#x4EE4;&#x884C;&#x90E8;&#x5206;&#x4E2D;&#x5E26;&#x4E0A;&#x4E86;vlen&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x77E5;&#x9053;value&#x7684;&#x957F;&#x5EA6;&#xFF0C;&#x7136;&#x540E;&#x5C31;&#x4F1A;&#x53BB;&#x521D;&#x59CB;&#x5316;&#x4E00;&#x4E2A;Item&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x7528;&#x4E8E;&#x5B58;&#x653E;&#x7F13;&#x5B58;&#x6570;&#x636E;&#x3002;</p>
+</li>
+<li><p>&#x547D;&#x4EE4;&#x884C;&#x90E8;&#x5206;&#x89E3;&#x6790;&#x5B8C;&#x6BD5;&#xFF0C;Memcached&#x4F1A;&#x53BB;&#x7EE7;&#x7EED;&#x8BFB;&#x53D6;Socket&#x4E2D;&#x7684;&#x5269;&#x4F59;&#x6570;&#x636E;&#x62A5;&#x6587;&#xFF0C;&#x8FB9;&#x8BFB;&#x53D6;&#x8FB9;&#x590D;&#x5236;&#x5230;Item&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x4E2D;&#xFF0C;&#x76F4;&#x5230;&#x8BFB;&#x53D6;&#x5230;&#x7684;Value&#x6570;&#x636E;&#x957F;&#x5EA6;&#x548C;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x7684;vlen&#x957F;&#x5EA6;&#x4E00;&#x81F4;&#x7684;&#x65F6;&#x5019;&#x624D;&#x4F1A;&#x7ED3;&#x675F;&#x3002;&#x7136;&#x540E;&#x4F1A;&#x53BB;&#x5B58;&#x50A8;item&#xFF0C;&#x5982;&#x679C;item&#x5B58;&#x50A8;&#x6210;&#x529F;&#xFF0C;&#x5219;&#x4F1A;&#x5C06;item&#x6302;&#x5230;HashTable&#x548C;LRU&#x94FE;&#x4E0A;&#x9762;&#xFF1B;&#x5982;&#x679C;&#x5B58;&#x50A8;&#x5931;&#x8D25;&#xFF0C;&#x5219;&#x4F1A;&#x5220;&#x9664;item&#x3002;</p>
+</li>
+</ol>
+<p>&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x5148;&#x770B;&#x4E00;&#x4E0B;process_update_command&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;</p>
+<p>1.&#xA0; &#x5E2E;&#x52A9;&#x89E3;&#x6790;&#x547D;&#x4EE4;&#x884C;&#x90E8;&#x5206;</p>
+<p>2.&#xA0; &#x5206;&#x914D;&#x4E00;&#x4E2A;Item&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x6570;&#x636E;&#x3002;</p>
+<p>&#x8BE5;&#x65B9;&#x6CD5;&#x7ED3;&#x675F;&#x540E;&#xFF0C;&#x4F1A;&#x8DF3;&#x8F6C;&#x5230;&#x72B6;&#x6001;&#x673A;drive_machine&#x4E2D;conn_nread&#x7684;&#x4EE3;&#x7801;&#x5757;&#x3002;conn_nread&#x4E3B;&#x8981;&#x662F;&#x7528;&#x4E8E;&#x8BFB;&#x53D6;value&#x6570;&#x636E;&#x3002;</p>
+<pre><code>/********************************* 
+&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x589E</span>;&amp;<span class="symbol">#x3001</span>;&amp;<span class="symbol">#x7F16</span>;&amp;<span class="symbol">#x8F91</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>; 
+&amp;<span class="symbol">#x770B</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;set&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>; 
+
+&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#xFF1A</span>; 
+set key flags exptime vlen 
+value 
+
+&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x4E2D</span>;vlen&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>; 
+flages &amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x5FD7</span>; 
+exptime&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x671F</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#xFF0C</span>;<span class="number">0</span> &amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x671F</span>; 
+value &amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF0C</span>;value&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x822C</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E8C</span>;&amp;<span class="symbol">#x884C</span>; 
+
+&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x5982</span>; 
+set username <span class="number">0</span> <span class="number">10</span> <span class="number">9</span> 
+woshishen 
+**************************************/  
+static void process_update_command(conn *c, token_t *tokens,  
+        const size_t ntokens, int comm, bool handle_cas) {  
+    char *key; //key  
+    size_t nkey; //key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+    unsigned int flags; //&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x5FD7</span>;  
+    int32_t exptime_int = <span class="number">0</span>;  
+    time_t exptime; //&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x6548</span>;&amp;<span class="symbol">#x671F</span>;  
+    int vlen; //value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+    uint64_t req_cas_id = <span class="number">0</span>;  
+    //item&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#xFF0C</span>;<span class="class">Memcached</span>&amp;<span class="symbol">#x7684</span>;key/value&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5728</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x4E2D</span>;  
+    //item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5728</span>;slabclass&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x7684</span>;  
+    item *it;  
+
+    assert(c != <span class="class">NULL</span>);  
+
+    set_noreply_maybe(c, tokens, ntokens);  
+    //&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x67E5</span>; key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#xFF0C</span>;key&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;<span class="number">250</span>&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x8282</span>;  
+    if (tokens[<span class="class">KEY_TOKEN</span>].length &amp;gt; <span class="class">KEY_MAX_LENGTH</span>) {  
+        out_string(c, &amp;quot;<span class="class">CLIENT_ERROR</span> bad command line format&amp;quot;);  
+        return;  
+    }  
+
+    //&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x548C</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+    //tokens[<span class="number">0</span>]&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+    key = tokens[<span class="class">KEY_TOKEN</span>].value; //&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;  
+    nkey = tokens[<span class="class">KEY_TOKEN</span>].length; //key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+
+    //&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5408</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x6027</span>;  
+    if (!(safe_strtoul(tokens[<span class="number">2</span>].value, (uint32_t *) &amp;amp;flags)  
+            &amp;amp;&amp;amp; safe_strtol(tokens[<span class="number">3</span>].value, &amp;amp;exptime_int)  
+            &amp;amp;&amp;amp; safe_strtol(tokens[<span class="number">4</span>].value, (int32_t *) &amp;amp;vlen))) {  
+        out_string(c, &amp;quot;<span class="class">CLIENT_ERROR</span> bad command line format&amp;quot;);  
+        return;  
+    }  
+
+    /* <span class="class">Ubuntu</span> <span class="number">8.04</span> breaks when <span class="class">I</span> pass exptime to safe_strtol */  
+    exptime = exptime_int;  
+
+    /* <span class="class">Negative</span> exptimes can underflow and end up immortal. realtime() will 
+     immediately expire values that are greater than <span class="class">REALTIME_MAXDELTA</span>, but less 
+     than process_started, so lets aim for that. */  
+    if (exptime &amp;lt; <span class="number">0</span>)  
+        exptime = <span class="class">REALTIME_MAXDELTA</span> + <span class="number">1</span>;  
+
+    // does cas value exist?  
+    if (handle_cas) {  
+        if (!safe_strtoull(tokens[<span class="number">5</span>].value, &amp;amp;req_cas_id)) {  
+            out_string(c, &amp;quot;<span class="class">CLIENT_ERROR</span> bad command line format&amp;quot;);  
+            return;  
+        }  
+    }  
+
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4F55</span>;vlen&amp;<span class="symbol">#x8981</span>;+<span class="number">2</span>&amp;<span class="symbol">#x5462</span>;&amp;<span class="symbol">#xFF1F</span>;  
+    //&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x4E3A</span>;value&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x5C3E</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x4E0A</span>;/r/n  
+    //&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x4E0A</span>;/r/n&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;\r\n&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x5272</span>; &amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;  
+    vlen += <span class="number">2</span>;  
+    if (vlen &amp;lt; <span class="number">0</span> || vlen - <span class="number">2</span> &amp;lt; <span class="number">0</span>) {  
+        out_string(c, &amp;quot;<span class="class">CLIENT_ERROR</span> bad command line format&amp;quot;);  
+        return;  
+    }  
+
+    if (settings.detail_enabled) {  
+        stats_prefix_record_set(key, nkey);  
+    }  
+
+    //item_alloc&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x6838</span>;&amp;<span class="symbol">#x5FC3</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#xFF0C</span>;item_alloc&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;item  
+    //&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4FE1</span>;&amp;<span class="symbol">#x606F</span>;  
+    //key&amp;<span class="symbol">#xFF1A</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7684</span>;key  
+    //nkey&amp;<span class="symbol">#xFF1A</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+    //<span class="method">flags:</span>&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x8BC6</span>;  
+    //exptime&amp;<span class="symbol">#xFF1A</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x671F</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;  
+    //vlen&amp;<span class="symbol">#xFF1A</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x4F60</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x7591</span>;&amp;<span class="symbol">#x95EE</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF1F</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4F55</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x9012</span>;&amp;<span class="symbol">#x4E86</span>;vlen&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x800C</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x5462</span>;&amp;<span class="symbol">#xFF1F</span>;  
+    //<span class="number">1.</span> &amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x4E3A</span>;set/add/replace&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E9B</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E24</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x8F93</span>;  
+    //<span class="number">2.</span> &amp;<span class="symbol">#x800C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x9996</span>;&amp;<span class="symbol">#x9009</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5305</span>;&amp;<span class="symbol">#x62EC</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x6837</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x6839</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x9884</span>;&amp;<span class="symbol">#x5148</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x95F4</span>;  
+    //<span class="number">3.</span> &amp;<span class="symbol">#x7136</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x7EE7</span>;&amp;<span class="symbol">#x7EED</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x3002</span>;&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x822C</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x6BD4</span>;&amp;<span class="symbol">#x8F83</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#xFF0C</span>;<span class="class">TCP</span>&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x7C98</span>;&amp;<span class="symbol">#x5305</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x62C6</span>;&amp;<span class="symbol">#x5305</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x624D</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x5230</span>;  
+    //&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x6574</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x5148</span>;&amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x9012</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x6837</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x9884</span>;&amp;<span class="symbol">#x5148</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x5B8C</span>;  
+    //value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x5373</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x3002</span>;  
+    //<span class="number">4.</span> &amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#x51FD</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#xFF1A</span>;conn_set_state(c, conn_nread); &amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8DF3</span>;&amp;<span class="symbol">#x8F6C</span>;&amp;<span class="symbol">#x5230</span>;conn_nread&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x800C</span>;conn_nread  
+    //&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;  
+    it = item_alloc(key, nkey, flags, realtime(exptime), vlen);  
+
+    //&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;  
+    if (it == <span class="number">0</span>) {  
+        if (!item_size_ok(nkey, flags, vlen))  
+            out_string(c, &amp;quot;<span class="class">SERVER_ERROR</span> object too large for cache&amp;quot;);  
+        else  
+            out_of_memory(c, &amp;quot;<span class="class">SERVER_ERROR</span> out of memory storing object&amp;quot;);  
+        /* swallow the data line */  
+        c-&amp;gt;write_and_go = conn_swallow;  
+        c-&amp;gt;sbytes = vlen;  
+
+        /* <span class="class">Avoid</span> stale data persisting in cache because we failed alloc. 
+         * <span class="class">Unacceptable</span> for <span class="class">SET</span>. <span class="class">Anywhere</span> else too? */  
+        if (comm == <span class="class">NREAD_SET</span>) {  
+            it = item_get(key, nkey);  
+            if (it) {  
+                item_unlink(it);  
+                item_remove(it);  
+            }  
+        }  
+
+        return;  
+    }  
+    <span class="class">ITEM_set_cas</span>(it, req_cas_id);  
+
+    c-&amp;gt;item = it;  
+    c-&amp;gt;ritem = <span class="class">ITEM_data</span>(it); //value&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x9488</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;  
+    c-&amp;gt;rlbytes = it-&amp;gt;nbytes; //value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+    c-&amp;gt;cmd = comm;  
+    //&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x8DF3</span>;&amp;<span class="symbol">#x8F6C</span>;&amp;<span class="symbol">#x5230</span>;conn_nread&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7EE7</span>;&amp;<span class="symbol">#x7EED</span>;&amp;<span class="symbol">#x5FAA</span>;&amp;<span class="symbol">#x73AF</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x7684</span>;value&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+    conn_set_state(c, conn_nread);  
+}
+</code></pre><p>&#x770B;&#x4E00;&#x4E0B;item_alloc&#x65B9;&#x6CD5;&#xFF0C;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;</p>
+<ol>
+<li><p>&#x5206;&#x914D;&#x4E00;&#x5757;&#x53EF;&#x4EE5;&#x7528;&#x7684;Item&#x5185;&#x5B58;&#x5757;&#xFF0C;&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x7F13;&#x5B58;&#x6570;&#x636E;&#x3002;</p>
+</li>
+<li><p>Memcached&#x662F;&#x901A;&#x8FC7;&#x5B58;&#x50A8;&#x6570;&#x636E;&#x7684;&#x957F;&#x5EA6;&#x9009;&#x62E9;&#x5408;&#x9002;&#x7684;slab class&#xFF0C;&#x7136;&#x540E;&#x5728;&#x8BE5;slabs class&#x4E0A;&#x5206;&#x914D;&#x4E00;&#x5757;item&#x3002;</p>
+</li>
+</ol>
+<p>&#x5148;&#x770B;&#x4E00;&#x4E0B;Item&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;</p>
+<pre><code>//item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5177</span>;&amp;<span class="symbol">#x4F53</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+typedef struct _stritem {  
+    //&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#xFF1A</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;  
+    struct _stritem *next;  //&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+    //&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#xFF1A</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">Item</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;  
+    struct _stritem *prev;  //&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+    struct _stritem *h_next; //hashtable&amp;<span class="symbol">#x7684</span>;list   /* hash chain next */  
+    //&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x8FD1</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BBF</span>;&amp;<span class="symbol">#x95EE</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;  
+    rel_time_t      time;       /* least recent access */  
+    //&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x671F</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;  
+    rel_time_t      exptime;    /* expire time */  
+    //value&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x5C0F</span>;  
+    int             nbytes;     /* size of data */  
+    unsigned short  refcount;  
+    uint8_t         nsuffix;    /* length of flags-and-length string */  
+    uint8_t         it_flags;   /* <span class="class">ITEM_</span>* above */  
+    //slab class&amp;<span class="symbol">#x7684</span>;<span class="class">ID</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x54EA</span>;&amp;<span class="symbol">#x4E2A</span>;slab class&amp;<span class="symbol">#x4E0A</span>;  
+    uint8_t         slabs_clsid;/* which slab class we&amp;apos;re in */  
+    uint8_t         nkey;       /* key length, w/terminating null and padding */  
+    /* this odd type prevents type-punning issues when we do 
+     * the little shuffle to save space when not using <span class="class">CAS</span>. */  
+    //&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;  
+    union {  
+        uint64_t cas;  
+        char end;  
+    } data[];  
+    /* if it_flags &amp;amp; <span class="class">ITEM_CAS</span> we have <span class="number">8</span> bytes <span class="class">CAS</span> */  
+    /* then null-terminated key */  
+    /* then &amp;quot; flags length\r\n&amp;quot; (no terminating null) */  
+    /* then data with terminating \r\n (no terminating null; it&amp;apos;s binary!) */  
+} item;
+
+
+/* 
+ * <span class="class">Allocates</span> a new item. 
+ */  
+//&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">Item</span>  
+item *item_alloc(char *key, size_t nkey, int flags, rel_time_t exptime, int nbytes) {  
+    item *it;  
+    /* do_item_alloc handles its own locks */  
+    it = do_item_alloc(key, nkey, flags, exptime, nbytes, <span class="number">0</span>);  
+    return it;  
+}
+
+
+//&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">Item</span>  
+item *do_item_alloc(char *key, const size_t nkey, const int flags,  
+                    const rel_time_t exptime, const int nbytes,  
+                    const uint32_t cur_hv) {  
+    uint8_t nsuffix;  
+    item *it = <span class="class">NULL</span>; //item&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+    char suffix[<span class="number">40</span>];  
+    //item_make_header &amp;<span class="symbol">#x8BA1</span>;&amp;<span class="symbol">#x7B97</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x603B</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+    size_t ntotal = item_make_header(nkey + <span class="number">1</span>, flags, nbytes, suffix, &amp;amp;nsuffix);  
+    if (settings.use_cas) {  
+        ntotal += sizeof(uint64_t);  
+    }  
+    //&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;ntotal &amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x8BE2</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x54EA</span>;&amp;<span class="symbol">#x4E2A</span>;slabs_class&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x9762</span>;  
+    //<span class="class">Memcached</span>&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x6839</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x540C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="class">N</span>&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;slabs_class  
+    //&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6839</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x8BE2</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x54EA</span>;&amp;<span class="symbol">#x4E2A</span>;slabs_class&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x3002</span>;  
+    //&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E2A</span>;slabs_class&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x7531</span>;&amp;<span class="symbol">#x8BFA</span>;&amp;<span class="symbol">#x5E72</span>;&amp;<span class="symbol">#x4E2A</span>;slabs&amp;<span class="symbol">#x7EC4</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#xFF0C</span>;slabs&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">1</span>M&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x5728</span>;slabs&amp;<span class="symbol">#x4E0A</span>;  
+    //&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E2A</span>;slabs&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x6839</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x5DF1</span>;slabs_class&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5757</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x5272</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x8BFA</span>;&amp;<span class="symbol">#x5E72</span>;&amp;<span class="symbol">#x4E2A</span>;chunk  
+    //  
+    //&amp;<span class="symbol">#x4E3E</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#xFF1A</span>;  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;id=<span class="number">1</span>&amp;<span class="symbol">#x7684</span>;slabs_class&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>; &amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">224</span>&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+    //&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x603B</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">200</span>&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;item&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5230</span>;id=<span class="number">1</span>&amp;<span class="symbol">#x7684</span>;slabs_class&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x3002</span>;  
+    //&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x6216</span>;&amp;<span class="symbol">#x8005</span>;slabs_class&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;slabs&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x591F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;slabs_class&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="number">1</span>M&amp;<span class="symbol">#x7684</span>;slabs&amp;<span class="symbol">#x7ED9</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;item&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;  
+    //&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x4E3A</span>;id=<span class="number">1</span>&amp;<span class="symbol">#x7684</span>;slabs_class&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#x4E8E</span>;<span class="number">224</span>&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x4EE5</span>;slabs&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x5272</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x8BFA</span>;&amp;<span class="symbol">#x5E72</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">224</span>&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x7684</span>;chunk&amp;<span class="symbol">#x5757</span>;  
+    //&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;chunk&amp;<span class="symbol">#x5757</span>;&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x9762</span>;  
+    unsigned int id = slabs_clsid(ntotal);  
+    if (id == <span class="number">0</span>)  
+        return <span class="number">0</span>;  
+    mutex_lock(&amp;amp;cache_lock);  
+    /* do a quick check if we have any expired items in the tail.. */  
+    int tries = <span class="number">5</span>;  
+    /* <span class="class">Avoid</span> hangs if a slab has nothing but refcounted stuff in it. */  
+    int tries_lrutail_reflocked = <span class="number">1000</span>;  
+    int tried_alloc = <span class="number">0</span>;  
+    item *search;  
+    item *next_it;  
+    void *hold_lock = <span class="class">NULL</span>;  
+    rel_time_t oldest_live = settings.oldest_live;  
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x5230</span>;slabs_class&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x7B2C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;  
+    //item&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;item-&amp;gt;next&amp;<span class="symbol">#x548C</span>;item-&amp;gt;prev &amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+    search = tails[id];  
+    /* <span class="class">We</span> walk up *only* for locked items. <span class="class">Never</span> searching for expired. 
+     * <span class="class">Waste</span> of <span class="class">CPU</span> for almost all deployments */  
+    for (; tries &amp;gt; <span class="number">0</span> &amp;amp;&amp;amp; search != <span class="class">NULL</span>; tries--, search=next_it) {  
+        /* we might relink search mid-loop, so search-&amp;gt;prev isn&amp;apos;t reliable */  
+        next_it = search-&amp;gt;prev;  
+        if (search-&amp;gt;nbytes == <span class="number">0</span> &amp;amp;&amp;amp; search-&amp;gt;nkey == <span class="number">0</span> &amp;amp;&amp;amp; search-&amp;gt;it_flags == <span class="number">1</span>) {  
+            /* <span class="class">We</span> are a crawler, ignore it. */  
+            tries++;  
+            continue;  
+        }  
+        uint32_t hv = hash(<span class="class">ITEM_key</span>(search), search-&amp;gt;nkey);  
+        /* <span class="class">Attempt</span> to hash item lock the &amp;quot;search&amp;quot; item. <span class="class">If</span> locked, no 
+         * other callers can incr the refcount 
+         */  
+        /* <span class="class">Don</span>&amp;apos;t accidentally grab ourselves, or bail if we can&amp;apos;t quicklock */  
+        if (hv == cur_hv || (hold_lock = item_trylock(hv)) == <span class="class">NULL</span>)  
+            continue;  
+        /* <span class="class">Now</span> see if the item is refcount locked */  
+        if (refcount_incr(&amp;amp;search-&amp;gt;refcount) != <span class="number">2</span>) {  
+            /* <span class="class">Avoid</span> pathological case with ref&amp;apos;ed items in tail */  
+            do_item_update_nolock(search);  
+            tries_lrutail_reflocked--;  
+            tries++;  
+            refcount_decr(&amp;amp;search-&amp;gt;refcount);  
+            itemstats[id].lrutail_reflocked++;  
+            /* <span class="class">Old</span> rare bug could cause a refcount leak. <span class="class">We</span> haven&amp;apos;t seen 
+             * it in years, but we leave this code in to prevent failures 
+             * just in case */  
+            if (settings.tail_repair_time &amp;amp;&amp;amp;  
+                    search-&amp;gt;time + settings.tail_repair_time &amp;lt; current_time) {  
+                itemstats[id].tailrepairs++;  
+                search-&amp;gt;refcount = <span class="number">1</span>;  
+                do_item_unlink_nolock(search, hv);  
+            }  
+            if (hold_lock)  
+                item_trylock_unlock(hold_lock);  
+            if (tries_lrutail_reflocked &amp;lt; <span class="number">1</span>)  
+                break;  
+            continue;  
+        }  
+        /* <span class="class">Expired</span> or flushed */  
+        if ((search-&amp;gt;exptime != <span class="number">0</span> &amp;amp;&amp;amp; search-&amp;gt;exptime &amp;lt; current_time)  
+            || (search-&amp;gt;time &amp;lt;= oldest_live &amp;amp;&amp;amp; oldest_live &amp;lt;= current_time)) {  
+            itemstats[id].reclaimed++;  
+            if ((search-&amp;gt;it_flags &amp;amp; <span class="class">ITEM_FETCHED</span>) == <span class="number">0</span>) {  
+                itemstats[id].expired_unfetched++;  
+            }  
+            it = search;  
+            slabs_adjust_mem_requested(it-&amp;gt;slabs_clsid, <span class="class">ITEM_ntotal</span>(it), ntotal);  
+            do_item_unlink_nolock(it, hv);  
+            /* <span class="class">Initialize</span> the item <span class="method">block:</span> */  
+            it-&amp;gt;slabs_clsid = <span class="number">0</span>;  
+        //slabs_alloc&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5757</span>;  
+        } else if ((it = slabs_alloc(ntotal, id)) == <span class="class">NULL</span>) {  
+            tried_alloc = <span class="number">1</span>;  
+            if (settings.evict_to_free == <span class="number">0</span>) {  
+                itemstats[id].outofmemory++;  
+            } else {  
+                itemstats[id].evicted++;  
+                itemstats[id].evicted_time = current_time - search-&amp;gt;time;  
+                if (search-&amp;gt;exptime != <span class="number">0</span>)  
+                    itemstats[id].evicted_nonzero++;  
+                if ((search-&amp;gt;it_flags &amp;amp; <span class="class">ITEM_FETCHED</span>) == <span class="number">0</span>) {  
+                    itemstats[id].evicted_unfetched++;  
+                }  
+                it = search;  
+                slabs_adjust_mem_requested(it-&amp;gt;slabs_clsid, <span class="class">ITEM_ntotal</span>(it), ntotal);  
+                do_item_unlink_nolock(it, hv);  
+                /* <span class="class">Initialize</span> the item <span class="method">block:</span> */  
+                it-&amp;gt;slabs_clsid = <span class="number">0</span>;  
+                /* <span class="class">If</span> we&amp;apos;ve just evicted an item, and the automover is set to 
+                 * angry bird mode, attempt to rip memory into this slab class. 
+                 * <span class="class">TODO</span>: <span class="class">Move</span> valid object detection into a function, and on a 
+                 * &amp;quot;successful&amp;quot; memory pull, look behind and see if the next alloc 
+                 * would be an eviction. <span class="class">Then</span> kick off the slab mover before the 
+                 * eviction happens. 
+                 */  
+                if (settings.slab_automove == <span class="number">2</span>)  
+                    slabs_reassign(-<span class="number">1</span>, id);  
+            }  
+        }  
+        refcount_decr(&amp;amp;search-&amp;gt;refcount);  
+        /* <span class="class">If</span> hash values were equal, we don&amp;apos;t grab a second lock */  
+        if (hold_lock)  
+            item_trylock_unlock(hold_lock);  
+        break;  
+    }  
+    if (!tried_alloc &amp;amp;&amp;amp; (tries == <span class="number">0</span> || search == <span class="class">NULL</span>))  
+        it = slabs_alloc(ntotal, id);  
+    if (it == <span class="class">NULL</span>) {  
+        itemstats[id].outofmemory++;  
+        mutex_unlock(&amp;amp;cache_lock);  
+        return <span class="class">NULL</span>;  
+    }  
+    assert(it-&amp;gt;slabs_clsid == <span class="number">0</span>);  
+    assert(it != heads[id]);  
+    /* <span class="class">Item</span> initialization can happen outside of the lock; the item&amp;apos;s already 
+     * been removed from the slab <span class="class">LRU</span>. 
+     */  
+    it-&amp;gt;refcount = <span class="number">1</span>;     /* the caller will have a reference */  
+    mutex_unlock(&amp;amp;cache_lock);  
+    it-&amp;gt;next = it-&amp;gt;prev = it-&amp;gt;h_next = <span class="number">0</span>;  
+    it-&amp;gt;slabs_clsid = id;  
+    <span class="class">DEBUG_REFCNT</span>(it, &amp;apos;*&amp;apos;);  
+    it-&amp;gt;it_flags = settings.use_cas ? <span class="class">ITEM_CAS</span> : <span class="number">0</span>;  
+    it-&amp;gt;nkey = nkey;  
+    it-&amp;gt;nbytes = nbytes;  
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x62F7</span>;&amp;<span class="symbol">#x8D1D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x62F7</span>;&amp;<span class="symbol">#x8D1D</span>;&amp;<span class="symbol">#x5230</span>;item&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5757</span>;&amp;<span class="symbol">#x4E0A</span>;  
+    memcpy(<span class="class">ITEM_key</span>(it), key, nkey);  
+    it-&amp;gt;exptime = exptime;  
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x4E5F</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x62F7</span>;&amp;<span class="symbol">#x8D1D</span>;  
+    memcpy(<span class="class">ITEM_suffix</span>(it), suffix, (size_t)nsuffix);  
+    it-&amp;gt;nsuffix = nsuffix;  
+    return it;  
+}
+</code></pre><p>&#x7136;&#x540E;&#x6211;&#x4EEC;&#x770B;&#x4E00;&#x4E0B;&#x72B6;&#x6001;&#x673A;drive_machine&#x4E2D;conn_nread&#x7684;&#x4EE3;&#x7801;&#x5757;&#xFF0C;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;</p>
+<ol>
+<li><p>&#x8BFB;&#x53D6;&#x7F13;&#x5B58;&#x7684;value&#x503C;</p>
+</li>
+<li><p>&#x5C06;&#x6570;&#x636E;&#x62F7;&#x8D1D;&#x5230;item&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;</p>
+<p> //conn_nread &#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x8BFB;&#x53D6;&#x7F13;&#x5B58;&#x7684;value&#x6570;&#x636E;&#x62A5;&#x6587;<br> case conn_nread:  </p>
+<pre><code>//&amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>; value&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x4E86</span>;  
+if (c-&amp;gt;rlbytes == <span class="number">0</span>) {  
+    complete_nread(c);  
+    break;  
+}  
+/* <span class="class">Check</span> if rbytes &amp;lt; <span class="number">0</span>, to prevent crash */  
+//&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x95ED</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;  
+if (c-&amp;gt;rlbytes &amp;lt; <span class="number">0</span>) {  
+    if (settings.verbose) {  
+        fprintf(stderr, &amp;quot;<span class="class">Invalid</span> rlbytes to <span class="method">read:</span> len %d\n&amp;quot;,  
+                c-&amp;gt;rlbytes);  
+    }  
+    conn_set_state(c, conn_closing);  
+    break;  
+}  
+/* first check if we have leftovers in the conn_read buffer */  
+//c-&amp;gt;rbytes &amp;<span class="symbol">#x672A</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+//c-&amp;gt;rlbytes &amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;value&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;  
+if (c-&amp;gt;rbytes &amp;gt; <span class="number">0</span>) {  
+    //&amp;<span class="symbol">#x603B</span>;&amp;<span class="symbol">#x5171</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x62F7</span>;&amp;<span class="symbol">#x8D1D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x62F7</span>;&amp;<span class="symbol">#x8D1D</span>;c-&amp;gt;rlbytes&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;c-&amp;gt;rbytes &amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x4E8E</span>; c-&amp;gt;rlbytes &amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x672A</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x5BB9</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x4E8E</span>;value&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;c-&amp;gt;rbytes &amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#x4E8E</span>; c-&amp;gt;rlbytes &amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x7684</span>;value&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53E6</span>;&amp;<span class="symbol">#x5916</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x8FD8</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x4E0A</span>;  
+    int tocopy = c-&amp;gt;rbytes &amp;gt; c-&amp;gt;rlbytes ? c-&amp;gt;rlbytes : c-&amp;gt;rbytes;  
+    //c-&amp;gt;ritem &amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x6B21</span>;set/add/replace&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x9488</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;  
+    if (c-&amp;gt;ritem != c-&amp;gt;rcurr) {  
+        memmove(c-&amp;gt;ritem, c-&amp;gt;rcurr, tocopy);  
+    }  
+    c-&amp;gt;ritem += tocopy; //&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x9488</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x5F80</span>;&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x52A0</span>;  
+    c-&amp;gt;rlbytes -= tocopy; //&amp;<span class="symbol">#x603B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x7684</span>;value&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>; &amp;<span class="symbol">#x51CF</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x62F7</span>;&amp;<span class="symbol">#x8D1D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+    c-&amp;gt;rcurr += tocopy; //&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x9488</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;  
+    c-&amp;gt;rbytes -= tocopy; //&amp;<span class="symbol">#x672A</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>; &amp;<span class="symbol">#x51CF</span>;&amp;<span class="symbol">#x53BB</span>; &amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;c-&amp;gt;rlbytes&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;value&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8DF3</span>;&amp;<span class="symbol">#x51FA</span>;  
+    if (c-&amp;gt;rlbytes == <span class="number">0</span>) {  
+        break;  
+    }  
+}  
+/*  now try reading from the socket */  
+//&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x771F</span>;&amp;<span class="symbol">#x6B63</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;  
+//&amp;<span class="symbol">#x4ECE</span>;socket&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5230</span>;c-&amp;gt;ritem&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;value&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x9488</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x4E3A</span>;c-&amp;gt;rlbytes  
+//&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x5FAA</span>;&amp;<span class="symbol">#x73AF</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x5230</span>;value&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x62A5</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x6574</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x6B62</span>;  
+res = read(c-&amp;gt;sfd, c-&amp;gt;ritem, c-&amp;gt;rlbytes);  
+if (res &amp;gt; <span class="number">0</span>) {  
+    pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+    c-&amp;gt;thread-&amp;gt;stats.bytes_read += res;  
+    pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+    if (c-&amp;gt;rcurr == c-&amp;gt;ritem) {  
+        c-&amp;gt;rcurr += res;  
+    }  
+    c-&amp;gt;ritem += res;  
+    c-&amp;gt;rlbytes -= res;  
+    break;  
+}  
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x6D41</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x95ED</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x95ED</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;  
+if (res == <span class="number">0</span>) { /* end of stream */  
+    conn_set_state(c, conn_closing);  
+    break;  
+}  
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x95ED</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6216</span>;&amp;<span class="symbol">#x8005</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x9519</span>;&amp;<span class="symbol">#x8BEF</span>;  
+if (res == -<span class="number">1</span> &amp;amp;&amp;amp; (errno == <span class="class">EAGAIN</span> || errno == <span class="class">EWOULDBLOCK</span>)) {  
+    if (!update_event(c, <span class="class">EV_READ</span> | <span class="class">EV_PERSIST</span>)) {  
+        if (settings.verbose &amp;gt; <span class="number">0</span>)  
+            fprintf(stderr, &amp;quot;<span class="class">Couldn</span>&amp;apos;t update event\n&amp;quot;);  
+        conn_set_state(c, conn_closing);  
+        break;  
+    }  
+    stop = <span class="keyword">true</span>;  
+    break;  
+}  
+/* otherwise we have a real error, on which we close the connection */  
+if (settings.verbose &amp;gt; <span class="number">0</span>) {  
+    fprintf(stderr, &amp;quot;<span class="class">Failed</span> to read, and not due to <span class="method">blocking:</span>\n&amp;quot;  
+            &amp;quot;<span class="method">errno:</span> %d %s \n&amp;quot;  
+            &amp;quot;rcurr=%lx ritem=%lx rbuf=%lx rlbytes=%d rsize=%d\n&amp;quot;, errno,  
+            strerror(errno), (long) c-&amp;gt;rcurr, (long) c-&amp;gt;ritem,  
+            (long) c-&amp;gt;rbuf, (int) c-&amp;gt;rlbytes, (int) c-&amp;gt;rsize);  
+}  
+//&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;<span class="class">Socket</span>&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x95ED</span>;  
+conn_set_state(c, conn_closing);  
+break;
+</code></pre></li>
+</ol>
+<p>&#x8FD9;&#x8FB9;&#x5982;&#x679C;&#x8BFB;&#x53D6;&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x4F1A;&#x8C03;&#x7528;complete_nread(c)&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x3002;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5F80;&#x4E0B;&#x4E00;&#x76F4;&#x770B;&#xFF0C;&#x6211;&#x4EEC;&#x627E;&#x5230;complete_nread_ascii&#xFF0C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;</p>
+<ol>
+<li><p>&#x8C03;&#x7528;&#x5B58;&#x50A8;&#x6570;&#x636E;store_item&#x7684;&#x65B9;&#x6CD5;</p>
+</li>
+<li><p>&#x8C03;&#x7528;item_remove&#x5220;&#x9664;item&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+<p> static void complete_nread_ascii(conn *c) {  </p>
+<pre><code>assert(c != NULL);  
+
+item *it = c-&amp;<span class="keyword">gt</span>;item;  
+<span class="keyword">int</span> comm = c-&amp;<span class="keyword">gt</span>;cmd;  
+enum store_item_type ret;  
+
+pthread_mutex_lock(&amp;amp;c-&amp;<span class="keyword">gt</span>;thread-&amp;<span class="keyword">gt</span>;stats.mutex);  
+c-&amp;<span class="keyword">gt</span>;thread-&amp;<span class="keyword">gt</span>;stats.slab_stats[it-&amp;<span class="keyword">gt</span>;slabs_clsid].set_cmds++;  
+pthread_mutex_unlock(&amp;amp;c-&amp;<span class="keyword">gt</span>;thread-&amp;<span class="keyword">gt</span>;stats.mutex);  
+
+<span class="keyword">if</span> (strncmp(ITEM_data(it) + it-&amp;<span class="keyword">gt</span>;nbytes - <span class="number">2</span>, &amp;quot;\r\n&amp;quot;, <span class="number">2</span>) != <span class="number">0</span>) {  
+    out_string(c, &amp;quot;CLIENT_ERROR bad data chunk&amp;quot;);  
+} <span class="keyword">else</span> {  
+    <span class="regexp">//</span>&amp;<span class="comment">#x8FD9;&amp;#x8FB9;&amp;#x8C03;&amp;#x7528;&amp;#x5B58;&amp;#x50A8;Item&amp;#x7684;&amp;#x65B9;&amp;#x6CD5;  </span>
+    ret = store_item(it, comm, c);  
+</code></pre><p> //….  </p>
+<pre><code>    switch (ret) {  
+    case <span class="class">STORED</span>:  
+        out_string(c, &amp;quot;<span class="class">STORED</span>&amp;quot;);  
+        break;  
+    case <span class="class">EXISTS</span>:  
+        out_string(c, &amp;quot;<span class="class">EXISTS</span>&amp;quot;);  
+        break;  
+    case <span class="class">NOT_FOUND</span>:  
+        out_string(c, &amp;quot;<span class="class">NOT_FOUND</span>&amp;quot;);  
+        break;  
+    case <span class="class">NOT_STORED</span>:  
+        out_string(c, &amp;quot;<span class="class">NOT_STORED</span>&amp;quot;);  
+        break;  
+    <span class="method">default:</span>  
+        out_string(c, &amp;quot;<span class="class">SERVER_ERROR</span> <span class="class">Unhandled</span> storage type.&amp;quot;);  
+    }  
+
+}  
+
+//&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x7ADF</span>;&amp;<span class="symbol">#x7136</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">Item</span>&amp;<span class="symbol">#xFF1F</span>;&amp;<span class="symbol">#x4F60</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x89C9</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x5947</span>;&amp;<span class="symbol">#x602A</span>;&amp;<span class="symbol">#x4E48</span>;&amp;<span class="symbol">#xFF1F</span>;  
+//&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x77E5</span>;&amp;<span class="symbol">#x9053</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;item&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x5224</span>;&amp;<span class="symbol">#x65AD</span>;item-&amp;gt;refcount,&amp;<span class="symbol">#x5F15</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x6570</span>;  
+//&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x5728</span>;alloc&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;refcount&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">1</span>  
+//  
+//&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;store_item&amp;<span class="symbol">#xFF0C</span>;add/set/replace/prepend/append&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;do_item_link  
+//&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5C06</span>;refcount&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">2</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x518D</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#x5224</span>;&amp;<span class="symbol">#x65AD</span>;&amp;<span class="symbol">#x5F15</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x6570</span>;  
+//if (refcount_decr(&amp;amp;it-&amp;gt;refcount) == <span class="number">0</span>) &amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;  
+//  
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;store_item&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x5F15</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">1</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x800C</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x786E</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;item&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;item  
+//  
+//&amp;<span class="symbol">#x5F88</span>;&amp;<span class="symbol">#x7ED5</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x903B</span>;&amp;<span class="symbol">#x8F91</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4F46</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5F88</span>;&amp;<span class="symbol">#x5DE7</span>;&amp;<span class="symbol">#x5999</span>;  
+item_remove(c-&amp;gt;item); /* release the c-&amp;gt;item reference */  
+c-&amp;gt;item = <span class="number">0</span>;  
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>&#x7136;&#x540E;&#x6211;&#x4EEC;&#x770B;&#x4E00;&#x4E0B;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;do_store_item&#x65B9;&#x6CD5;&#x3002;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x662F;&#x7528;&#x6765;&#x5B58;&#x50A8;&#x6570;&#x636E;&#x3002;&#x57FA;&#x672C;&#x5305;&#x62EC;&#x4E24;&#x79CD;&#x72B6;&#x6001;&#xFF1A;&#x5B58;&#x50A8;&#x6210;&#x529F;&#x548C;&#x5B58;&#x50A8;&#x5931;&#x8D25;&#x3002;</p>
+<ol>
+<li><p>add/replace&#x547D;&#x4EE4;&#xFF0C;&#x4F1A;&#x5224;&#x65AD;item&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x5982;&#x679C;&#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#xFF0C;&#x5219;add&#x547D;&#x4EE4;&#x64CD;&#x4F5C;&#x5931;&#x8D25;</p>
+</li>
+<li><p>set&#x547D;&#x4EE4;&#xFF0C;item&#x5B58;&#x5728;&#x6216;&#x8005;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x90FD;&#x4F1A;&#x521B;&#x5EFA;&#x65B0;&#x7684;item&#xFF0C;&#x66FF;&#x6362;&#x8001;&#x7684;item&#x3002;</p>
+<p> //&#x5B58;&#x50A8;Item&#x64CD;&#x4F5C;<br> enum store_item_type do_store_item(item <em>it, int comm, conn </em>c,  </p>
+<pre><code>    const uint32_t hv) {  
+char *key = <span class="class">ITEM_key</span>(it);  
+//&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;<span class="class">KEY</span>&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x65E7</span>;&amp;<span class="symbol">#x7684</span>;item  
+//add/set/replace/prepend/append&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5148</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;item  
+item *old_it = do_item_get(key, it-&amp;gt;nkey, hv);  
+enum store_item_type stored = <span class="class">NOT_STORED</span>;  
+item *new_it = <span class="class">NULL</span>;  
+int flags;  
+//<span class="class">ADD</span>&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x4FDD</span>;&amp;<span class="symbol">#x8BC1</span>;<span class="class">ITEM</span>&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x624D</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;  
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;<span class="class">ADD</span>&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x73B0</span>;item&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="class">NOT_STORED</span>  
+if (old_it != <span class="class">NULL</span> &amp;amp;&amp;amp; comm == <span class="class">NREAD_ADD</span>) {  
+    /* add only adds a nonexistent item, but promote to head of <span class="class">LRU</span> */  
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4F55</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;item&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x4E24</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x539F</span>;&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#xFF1A</span>;  
+    //<span class="number">1.</span>&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;item&amp;<span class="symbol">#x7684</span>;it-&amp;gt;time&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x5EFA</span>;<span class="class">LRU</span>&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x987A</span>;&amp;<span class="symbol">#x5E8F</span>;  
+    //<span class="number">2.</span>&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x4EE3</span>;&amp;<span class="symbol">#x7801</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x6267</span>;&amp;<span class="symbol">#x884C</span>;do_item_remove&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x6B21</span>;remove&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5224</span>;&amp;<span class="symbol">#x65AD</span>;it-&amp;gt;refcount  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x5F15</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x51CF</span>;&amp;<span class="symbol">#x53BB</span>;<span class="number">1</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x3002</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x5EFA</span>;<span class="class">LRU</span>&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;it-&amp;gt;refcount=<span class="number">2</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;old_it&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;  
+    do_item_update(old_it);  
+//replace/prepend/append &amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;item&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x505A</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;  
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;item&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="class">NOT_STORED</span>  
+} else if (!old_it  
+        &amp;amp;&amp;amp; (comm == <span class="class">NREAD_REPLACE</span> || comm == <span class="class">NREAD_APPEND</span>  
+                || comm == <span class="class">NREAD_PREPEND</span>)) {  
+    /* replace only replaces an existing value; don&amp;apos;t store */  
+} else if (comm == <span class="class">NREAD_CAS</span>) {  
+    /* validate cas operation */  
+    if (old_it == <span class="class">NULL</span>) {  
+        // <span class="class">LRU</span> expired  
+        stored = <span class="class">NOT_FOUND</span>;  
+        pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+        c-&amp;gt;thread-&amp;gt;stats.cas_misses++;  
+        pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+    } else if (<span class="class">ITEM_get_cas</span>(it) == <span class="class">ITEM_get_cas</span>(old_it)) {  
+        // cas validates  
+        // it and old_it may belong to different classes.  
+        // <span class="class">I</span>&amp;apos;m updating the stats for the one that&amp;apos;s getting pushed out  
+        pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+        c-&amp;gt;thread-&amp;gt;stats.slab_stats[old_it-&amp;gt;slabs_clsid].cas_hits++;  
+        pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+        item_replace(old_it, it, hv);  
+        stored = <span class="class">STORED</span>;  
+    } else {  
+        pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+        c-&amp;gt;thread-&amp;gt;stats.slab_stats[old_it-&amp;gt;slabs_clsid].cas_badval++;  
+        pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+        if (settings.verbose &amp;gt; <span class="number">1</span>) {  
+            fprintf(stderr, &amp;quot;<span class="class">CAS</span>:  <span class="method">failure:</span> expected %llu, got %llu\n&amp;quot;,  
+                    (unsigned long long) <span class="class">ITEM_get_cas</span>(old_it),  
+                    (unsigned long long) <span class="class">ITEM_get_cas</span>(it));  
+        }  
+        stored = <span class="class">EXISTS</span>;  
+    }  
+} else {  
+    /* 
+     * <span class="class">Append</span> - combine new and old record into single one. <span class="class">Here</span> it&amp;apos;s 
+     * atomic and thread-safe. 
+     */  
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8001</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x8FFD</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>; append&amp;<span class="symbol">#x548C</span>;prepend&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;  
+    if (comm == <span class="class">NREAD_APPEND</span> || comm == <span class="class">NREAD_PREPEND</span>) {  
+        /* 
+         * <span class="class">Validate</span> <span class="class">CAS</span> 
+         */  
+        if (<span class="class">ITEM_get_cas</span>(it) != <span class="number">0</span>) {  
+            // <span class="class">CAS</span> much be equal  
+            if (<span class="class">ITEM_get_cas</span>(it) != <span class="class">ITEM_get_cas</span>(old_it)) {  
+                stored = <span class="class">EXISTS</span>;  
+            }  
+        }  
+        if (stored == <span class="class">NOT_STORED</span>) {  
+            /* we have it and old_it here - alloc memory to hold both */  
+            /* flags was already lost - so recover them from <span class="class">ITEM_suffix</span>(it) */  
+            flags = (int) strtol(<span class="class">ITEM_suffix</span>(old_it), (char **) <span class="class">NULL</span>, <span class="number">10</span>);  
+            new_it = do_item_alloc(key, it-&amp;gt;nkey, flags, old_it-&amp;gt;exptime,  
+                    it-&amp;gt;nbytes + old_it-&amp;gt;nbytes - <span class="number">2</span> /* <span class="class">CRLF</span> */, hv);  
+            if (new_it == <span class="class">NULL</span>) {  
+                /* <span class="class">SERVER_ERROR</span> out of memory */  
+                if (old_it != <span class="class">NULL</span>)  
+                    do_item_remove(old_it);  
+                return <span class="class">NOT_STORED</span>;  
+            }  
+            /* copy data from it and old_it to new_it */  
+            if (comm == <span class="class">NREAD_APPEND</span>) {  
+                memcpy(<span class="class">ITEM_data</span>(new_it), <span class="class">ITEM_data</span>(old_it),  
+                        old_it-&amp;gt;nbytes);  
+                memcpy(<span class="class">ITEM_data</span>(new_it) + old_it-&amp;gt;nbytes - <span class="number">2</span> /* <span class="class">CRLF</span> */,  
+                        <span class="class">ITEM_data</span>(it), it-&amp;gt;nbytes);  
+            } else {  
+                /* <span class="class">NREAD_PREPEND</span> */  
+                memcpy(<span class="class">ITEM_data</span>(new_it), <span class="class">ITEM_data</span>(it), it-&amp;gt;nbytes);  
+                memcpy(<span class="class">ITEM_data</span>(new_it) + it-&amp;gt;nbytes - <span class="number">2</span> /* <span class="class">CRLF</span> */,  
+                        <span class="class">ITEM_data</span>(old_it), old_it-&amp;gt;nbytes);  
+            }  
+            it = new_it;  
+        }  
+    }  
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x662F</span>;add/set/replace/prepend/append&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;  
+    if (stored == <span class="class">NOT_STORED</span>) {  
+        if (old_it != <span class="class">NULL</span>)  
+            //&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#xFF0C</span>;old_it&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;  
+            //it&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x5230</span>;<span class="class">LRU</span>&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x548C</span>;<span class="class">HASHTABLE</span>&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;it-&amp;gt;refcount=<span class="number">2</span>  
+            item_replace(old_it, it, hv);  
+        else  
+            //&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">LRU</span>&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x548C</span>;<span class="class">HASHTABLE</span>&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#xFF0C</span>;it-&amp;gt;refcount=<span class="number">2</span>  
+            do_item_link(it, hv);  
+        c-&amp;gt;cas = <span class="class">ITEM_get_cas</span>(it);  
+        stored = <span class="class">STORED</span>;  
+    }  
+    //&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;&amp;<span class="symbol">#xFF1A</span>;  
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x4EE3</span>;&amp;<span class="symbol">#x7801</span>;&amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4F55</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x53C8</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x63D0</span>;&amp;<span class="symbol">#x5230</span>;it-&amp;gt;refcount?  
+    //<span class="number">1.</span> &amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x4E3A</span>;it-&amp;gt;refcount&amp;<span class="symbol">#x4EE3</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5F15</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x9632</span>;&amp;<span class="symbol">#x6B62</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x540C</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;item  
+    //<span class="number">2.</span> do_item_remove&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x5224</span>;&amp;<span class="symbol">#x65AD</span>;it-&amp;gt;refcount&amp;<span class="symbol">#x51CF</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x6210</span>;<span class="number">0</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">ITEM</span>  
+    //  
+    //&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;do_store_item&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;memcached&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;do_item_remove(it);&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x3002</span>;  
+    //do_item_remove&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5C06</span>;item&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x679C</span>;<span class="class">SET</span>/<span class="class">ADD</span>&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x597D</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;<span class="class">SET</span>&amp;<span class="symbol">#x548C</span>;<span class="class">ADD</span>&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x822C</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;do_item_link&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5C06</span>;item&amp;<span class="symbol">#x7684</span>;refcount&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x4E0A</span>;<span class="number">1</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53D8</span>;&amp;<span class="symbol">#x6210</span>;<span class="number">2</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5F53</span>;  
+    //&amp;<span class="symbol">#x518D</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x8C03</span>;&amp;<span class="symbol">#x7528</span>;do_item_remove(it);&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x5F15</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x4E8E</span>;<span class="number">0</span>&amp;<span class="symbol">#x800C</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;  
+    //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4EE3</span>;&amp;<span class="symbol">#x7801</span>;&amp;<span class="symbol">#x5757</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x771F</span>;&amp;<span class="symbol">#x5FC3</span>;&amp;<span class="symbol">#x5F88</span>;&amp;<span class="symbol">#x7ED5</span>;.....  
+}  
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x8001</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;  
+if (old_it != <span class="class">NULL</span>)  
+    do_item_remove(old_it); /* release our reference */  
+//new_it&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E8E</span>;prepend/append&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;  
+if (new_it != <span class="class">NULL</span>)  
+    do_item_remove(new_it);  
+if (stored == <span class="class">STORED</span>) {  
+    c-&amp;gt;cas = <span class="class">ITEM_get_cas</span>(it);  
+}  
+return stored;  
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>&#x5728;do_store_item&#x65B9;&#x6CD5;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x6700;&#x7EC8;&#x4F1A;&#x627E;&#x5230;do_item_link&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;</p>
+<ol>
+<li><p>&#x5C06;item&#x6302;&#x5230;Hashtable&#x4E0A;&#x9762;</p>
+</li>
+<li><p>&#x5C06;item&#x6302;&#x5230;LRU&#x94FE;&#x4E0A;&#x9762;</p>
+</li>
+</ol>
+<p>HashTable&#xFF1A;&#x628A;Item&#x6302;&#x5230;HashTable&#x4E0A;&#x53BB;&#x540E;&#xFF0C;&#x7528;&#x6237;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x7F13;&#x5B58;&#x7684;key&#x5230;HashTable&#x4E0A;&#x67E5;&#x8BE2;&#x8FD9;&#x4E2A;Item&#x6570;&#x636E;&#x4E86;&#x3002;</p>
+<p>LRU&#xFF1A;&#x662F;&#x4E00;&#x4E2A;&#x6E05;&#x9664;&#x7F13;&#x5B58;&#x7684;&#x7B56;&#x7565;&#xFF0C;&#x4E00;&#x822C;&#x4F1A;&#x6E05;&#x7406;&#x6700;&#x4E0D;&#x5E38;&#x7528;&#x7684;&#x5143;&#x7D20;&#x3002;LRU&#x7684;&#x94FE;&#xFF0C;&#x4F1A;&#x653E;&#x5728;&#x4E0B;&#x9762;&#x4E24;&#x4E2A;Item&#x6307;&#x9488;&#x5730;&#x5740;&#x7684;&#x6570;&#x7EC4;&#x94FE;&#x8868;&#x4E0A;&#x9762;&#x3002;</p>
+<pre><code>static item *heads[<span class="class">LARGEST_ID</span>]; //&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x5934</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;  
+static item *tails[<span class="class">LARGEST_ID</span>]; //&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x5C3E</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;
+</code></pre><p>v</p>
+<pre><code><span class="comment">//&amp;#x65B0;&amp;#x589E;&amp;#x4E00;&amp;#x4E2A;Item&amp;#x7684;&amp;#x8FDE;&amp;#x63A5;&amp;#x5173;&amp;#x7CFB;  </span>
+int do_item_link<span class="params">(item *it, const uint32_t hv)</span> {  
+    MEMCACHED_ITEM_LINK<span class="params">(ITEM_key<span class="params">(it)</span>, it-&amp;gt;nkey, it-&amp;gt;nbytes)</span>;  
+    assert<span class="params">(<span class="params">(it-&amp;gt;it_flags &amp;amp; <span class="params">(ITEM_LINKED|ITEM_SLABBED)</span>)</span> == <span class="number">0</span>)</span>;  
+    mutex_lock<span class="params">(&amp;amp;cache_lock)</span>;  
+    it-&amp;gt;it_flags |= ITEM_LINKED;  
+    it-&amp;gt;time = current_time;  
+
+    STATS_LOCK<span class="params">()</span>;  
+    stats.curr_bytes += ITEM_ntotal<span class="params">(it)</span>;  
+    stats.curr_items += <span class="number">1</span>;  
+    stats.total_items += <span class="number">1</span>;  
+    STATS_UNLOCK<span class="params">()</span>;  
+
+    <span class="comment">/* Allocate a new CAS ID on link. */</span>  
+    ITEM_set_cas<span class="params">(it, <span class="params">(settings.use_cas)</span> ? get_cas_id<span class="params">()</span> : <span class="number">0</span>)</span>;  
+    <span class="comment">//&amp;#x5206;&amp;#x914D;&amp;#x5230;HashTable&amp;#x7684;&amp;#x6876;&amp;#x4E0A;  </span>
+    assoc_insert<span class="params">(it, hv)</span>;  
+    <span class="comment">//LRU&amp;#x94FE;  </span>
+    item_link_q<span class="params">(it)</span>;  
+    refcount_incr<span class="params">(&amp;amp;it-&amp;gt;refcount)</span>; <span class="comment">//&amp;#x5F15;&amp;#x7528;&amp;#x6B21;&amp;#x6570;+1  </span>
+    mutex_unlock<span class="params">(&amp;amp;cache_lock)</span>;  
+
+    return <span class="number">1</span>;  
+}
+</code></pre><p>&#x67E5;&#x8BE2; get &#x64CD;&#x4F5C;</p>
+<p>&#x67E5;&#x8BE2;&#x64CD;&#x4F5C;&#x4E3B;&#x8981;&#x770B;&#x4E0B;process_get_command&#x65B9;&#x6CD5;&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;</p>
+<ol>
+<li><p>&#x5206;&#x89E3;get&#x547D;&#x4EE4;&#x3002;</p>
+</li>
+<li><p>&#x901A;&#x8FC7;key&#x53BB;HashTable&#x4E0A;&#x627E;&#x5230;item&#x7684;&#x5730;&#x5740;&#x503C;&#x3002;</p>
+</li>
+<li><p>&#x8FD4;&#x56DE;&#x627E;&#x5230;&#x7684;item&#x6570;&#x636E;&#x503C;&#x3002;</p>
+<p> /<em> ntokens is overwritten here… shrug.. </em>/<br> //&#x5904;&#x7406;GET&#x8BF7;&#x6C42;&#x7684;&#x547D;&#x4EE4;<br> static inline void process_get_command(conn <em>c, token_t </em>tokens, size_t ntokens,  </p>
+<pre><code>    bool return_cas) {  
+//&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;<span class="class">GET</span>&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+char *key;  
+size_t nkey;  
+int i = <span class="number">0</span>;  
+item *it;  
+//&amp;amp;tokens[<span class="number">0</span>] &amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;  
+//&amp;amp;tokens[<span class="number">1</span>] &amp;<span class="symbol">#x4E3A</span>;key  
+//token_t &amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x4E86</span>;value&amp;<span class="symbol">#x548C</span>;length  
+token_t *key_token = &amp;amp;tokens[<span class="class">KEY_TOKEN</span>];  
+char *suffix;  
+assert(c != <span class="class">NULL</span>);  
+do {  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>  
+    while (key_token-&amp;gt;length != <span class="number">0</span>) {  
+        key = key_token-&amp;gt;value;  
+        nkey = key_token-&amp;gt;length;  
+        //&amp;<span class="symbol">#x5224</span>;&amp;<span class="symbol">#x65AD</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#xFF0C</span>;memcache key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">250</span>  
+        //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x975E</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x610F</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x5E73</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD8</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x610F</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x7684</span>;  
+        if (nkey &amp;gt; <span class="class">KEY_MAX_LENGTH</span>) {  
+            //out_string &amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5916</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+            out_string(c, &amp;quot;<span class="class">CLIENT_ERROR</span> bad command line format&amp;quot;);  
+            while (i-- &amp;gt; <span class="number">0</span>) {  
+                item_remove(*(c-&amp;gt;ilist + i));  
+            }  
+            return;  
+        }  
+        //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4ECE</span>;<span class="class">Memcached</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5FEB</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+        it = item_get(key, nkey);  
+        if (settings.detail_enabled) {  
+            //&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#xFF0C</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;  
+            stats_prefix_record_get(key, nkey, <span class="class">NULL</span> != it);  
+        }  
+        //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+        if (it) {  
+            //c-&amp;gt;ilist &amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x653E</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5916</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;buf  
+            //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;ilist&amp;<span class="symbol">#x592A</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x5757</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;  
+            if (i &amp;gt;= c-&amp;gt;isize) {  
+                item **new_list = realloc(c-&amp;gt;ilist,  
+                        sizeof(item *) * c-&amp;gt;isize * <span class="number">2</span>);  
+                if (new_list) {  
+                    //&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x653E</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+                    c-&amp;gt;isize *= <span class="number">2</span>;  
+                    //&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x653E</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x652F</span>;&amp;<span class="symbol">#x6301</span>;  
+                    c-&amp;gt;ilist = new_list;  
+                } else {  
+                    <span class="class">STATS_LOCK</span>();  
+                    stats.malloc_fails++;  
+                    <span class="class">STATS_UNLOCK</span>();  
+                    item_remove(it);  
+                    break;  
+                }  
+            }  
+            /* 
+             * <span class="class">Construct</span> the response. <span class="class">Each</span> hit adds three elements to the 
+             * outgoing data <span class="method">list:</span> 
+             *   &amp;quot;<span class="class">VALUE</span> &amp;quot; 
+             *   key 
+             *   &amp;quot; &amp;quot; + flags + &amp;quot; &amp;quot; + data length + &amp;quot;\r\n&amp;quot; + data (with \r\n) 
+             */  
+            //&amp;<span class="symbol">#x521D</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+            if (return_cas) {  
+                <span class="class">MEMCACHED_COMMAND_GET</span>(c-&amp;gt;sfd, <span class="class">ITEM_key</span>(it), it-&amp;gt;nkey,  
+                        it-&amp;gt;nbytes, <span class="class">ITEM_get_cas</span>(it));  
+                /* <span class="class">Goofy</span> mid-flight realloc. */  
+                if (i &amp;gt;= c-&amp;gt;suffixsize) {  
+                    char **new_suffix_list = realloc(c-&amp;gt;suffixlist,  
+                            sizeof(char *) * c-&amp;gt;suffixsize * <span class="number">2</span>);  
+                    if (new_suffix_list) {  
+                        c-&amp;gt;suffixsize *= <span class="number">2</span>;  
+                        c-&amp;gt;suffixlist = new_suffix_list;  
+                    } else {  
+                        <span class="class">STATS_LOCK</span>();  
+                        stats.malloc_fails++;  
+                        <span class="class">STATS_UNLOCK</span>();  
+                        item_remove(it);  
+                        break;  
+                    }  
+                }  
+                suffix = cache_alloc(c-&amp;gt;thread-&amp;gt;suffix_cache);  
+                if (suffix == <span class="class">NULL</span>) {  
+                    <span class="class">STATS_LOCK</span>();  
+                    stats.malloc_fails++;  
+                    <span class="class">STATS_UNLOCK</span>();  
+                    out_of_memory(c,  
+                            &amp;quot;<span class="class">SERVER_ERROR</span> out of memory making <span class="class">CAS</span> suffix&amp;quot;);  
+                    item_remove(it);  
+                    while (i-- &amp;gt; <span class="number">0</span>) {  
+                        item_remove(*(c-&amp;gt;ilist + i));  
+                    }  
+                    return;  
+                }  
+                *(c-&amp;gt;suffixlist + i) = suffix;  
+                int suffix_len = snprintf(suffix, <span class="class">SUFFIX_SIZE</span>, &amp;quot; %llu\r\n&amp;quot;,  
+                        (unsigned long long) <span class="class">ITEM_get_cas</span>(it));  
+                if (add_iov(c, &amp;quot;<span class="class">VALUE</span> &amp;quot;, <span class="number">6</span>) != <span class="number">0</span>  
+                        || add_iov(c, <span class="class">ITEM_key</span>(it), it-&amp;gt;nkey) != <span class="number">0</span>  
+                        || add_iov(c, <span class="class">ITEM_suffix</span>(it), it-&amp;gt;nsuffix - <span class="number">2</span>) != <span class="number">0</span>  
+                        || add_iov(c, suffix, suffix_len) != <span class="number">0</span>  
+                        || add_iov(c, <span class="class">ITEM_data</span>(it), it-&amp;gt;nbytes) != <span class="number">0</span>) {  
+                    item_remove(it);  
+                    break;  
+                }  
+            } else {  
+                <span class="class">MEMCACHED_COMMAND_GET</span>(c-&amp;gt;sfd, <span class="class">ITEM_key</span>(it), it-&amp;gt;nkey,  
+                        it-&amp;gt;nbytes, <span class="class">ITEM_get_cas</span>(it));  
+                //&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x586B</span>;&amp;<span class="symbol">#x5145</span>;&amp;<span class="symbol">#x5230</span>;<span class="class">IOV</span>&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x4E2D</span>;  
+                //&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#xFF1A</span>;get userId  
+                //&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#xFF1A</span>;  
+                //<span class="class">VALUE</span> userId <span class="number">0</span> <span class="number">5</span>  
+                //<span class="number">55555</span>  
+                //<span class="class">END</span>  
+                if (add_iov(c, &amp;quot;<span class="class">VALUE</span> &amp;quot;, <span class="number">6</span>) != <span class="number">0</span>  
+                        || add_iov(c, <span class="class">ITEM_key</span>(it), it-&amp;gt;nkey) != <span class="number">0</span>  
+                        || add_iov(c, <span class="class">ITEM_suffix</span>(it),  
+                                it-&amp;gt;nsuffix + it-&amp;gt;nbytes) != <span class="number">0</span>) {  
+                    item_remove(it);  
+                    break;  
+                }  
+            }  
+            if (settings.verbose &amp;gt; <span class="number">1</span>) {  
+                int ii;  
+                fprintf(stderr, &amp;quot;&amp;gt;%d sending key &amp;quot;, c-&amp;gt;sfd);  
+                for (ii = <span class="number">0</span>; ii &amp;lt; it-&amp;gt;nkey; ++ii) {  
+                    fprintf(stderr, &amp;quot;%c&amp;quot;, key[ii]);  
+                }  
+                fprintf(stderr, &amp;quot;\n&amp;quot;);  
+            }  
+            /* item_get() has incremented it-&amp;gt;refcount for us */  
+            pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+            c-&amp;gt;thread-&amp;gt;stats.slab_stats[it-&amp;gt;slabs_clsid].get_hits++;  
+            c-&amp;gt;thread-&amp;gt;stats.get_cmds++;  
+            pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+            item_update(it);  
+            *(c-&amp;gt;ilist + i) = it;  
+            i++;  
+        } else {  
+            pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+            c-&amp;gt;thread-&amp;gt;stats.get_misses++;  
+            c-&amp;gt;thread-&amp;gt;stats.get_cmds++;  
+            pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+            <span class="class">MEMCACHED_COMMAND_GET</span>(c-&amp;gt;sfd, key, nkey, -<span class="number">1</span>, <span class="number">0</span>);  
+        }  
+        key_token++;  
+    }  
+    /* 
+     * <span class="class">If</span> the command string hasn&amp;apos;t been fully processed, get the next set 
+     * of tokens. 
+     */  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5168</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x7EE7</span>;&amp;<span class="symbol">#x7EED</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+    //&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;get&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5143</span>;&amp;<span class="symbol">#x7D20</span>;  
+    if (key_token-&amp;gt;value != <span class="class">NULL</span>) {  
+        ntokens = tokenize_command(key_token-&amp;gt;value, tokens, <span class="class">MAX_TOKENS</span>);  
+        key_token = tokens;  
+    }  
+} while (key_token-&amp;gt;value != <span class="class">NULL</span>);  
+c-&amp;gt;icurr = c-&amp;gt;ilist;  
+c-&amp;gt;ileft = i;  
+if (return_cas) {  
+    c-&amp;gt;suffixcurr = c-&amp;gt;suffixlist;  
+    c-&amp;gt;suffixleft = i;  
+}  
+if (settings.verbose &amp;gt; <span class="number">1</span>)  
+    fprintf(stderr, &amp;quot;&amp;gt;%d <span class="class">END</span>\n&amp;quot;, c-&amp;gt;sfd);  
+/* 
+ <span class="class">If</span> the loop was terminated because of out-of-memory, it is not 
+ reliable to add <span class="class">END</span>\r\n to the buffer, because it might not end 
+ in \r\n. <span class="class">So</span> we send <span class="class">SERVER_ERROR</span> instead. 
+ */  
+//&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x675F</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x5FD7</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x53F7</span>;  
+if (key_token-&amp;gt;value != <span class="class">NULL</span> || add_iov(c, &amp;quot;<span class="class">END</span>\r\n&amp;quot;, <span class="number">5</span>) != <span class="number">0</span>  
+        || (<span class="class">IS_UDP</span>(c-&amp;gt;transport) &amp;amp;&amp;amp; build_udp_headers(c) != <span class="number">0</span>)) {  
+    out_of_memory(c, &amp;quot;<span class="class">SERVER_ERROR</span> out of memory writing get response&amp;quot;);  
+} else {  
+    //&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x4FEE</span>;&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5230</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53C8</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5F80</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x3002</span>;  
+    conn_set_state(c, conn_mwrite);  
+    c-&amp;gt;msgcurr = <span class="number">0</span>;  
+}  
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>Memcached&#x7684;&#x67E5;&#x8BE2;&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;HashTable&#x6765;&#x67E5;&#x8BE2;&#x7F13;&#x5B58;&#x6570;&#x636E;&#x7684;&#x3002;</p>
+<p>HashTable&#x6211;&#x4EEC;&#x5728;&#x4E0A;&#x4E00;&#x7AE0;&#x5DF2;&#x7ECF;&#x8BB2;&#x8FC7;&#x3002;&#x524D;&#x9762;&#x4E5F;&#x8BB2;&#x8FC7;&#xFF0C;&#x5F53;&#x7F13;&#x5B58;&#x6570;&#x636E;SET&#x64CD;&#x4F5C;&#x5B8C;&#x6210;&#x540E;&#xFF0C;Memcached&#x4F1A;&#x5C06;item&#x6570;&#x636E;&#x7ED3;&#x6784;&#x5173;&#x8054;&#x5230;HashTable&#x548C;&#x5B83;&#x7684;LRU&#x7684;&#x94FE;&#x4E0A;&#x9762;&#x3002;</p>
+<pre><code>//&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x7684</span>;item_*&amp;<span class="symbol">#x7CFB</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;<span class="class">Memcached</span>&amp;<span class="symbol">#x6838</span>;&amp;<span class="symbol">#x5FC3</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5757</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x53E3</span>;  
+item *item_get(const char *key, const size_t nkey) {  
+    item *it;  
+    uint32_t hv;  
+    hv = hash(key, nkey); //&amp;<span class="symbol">#x5BF9</span>;key&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;hash,&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;uint32_t&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x578B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;  
+    item_lock(hv); //&amp;<span class="symbol">#x5757</span>;&amp;<span class="symbol">#x9501</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x5141</span>;&amp;<span class="symbol">#x8BB8</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x4ED6</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4FDD</span>;&amp;<span class="symbol">#x8BC1</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x539F</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x6027</span>;  
+    it = do_item_get(key, nkey, hv);  
+    item_unlock(hv);  
+    return it;  
+}
+</code></pre><p>&#x8FD9;&#x8FB9;&#x7740;&#x91CD;&#x770B;assoc_find&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;&#x4ECE;HashTable&#x4E0A;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x7684;Item&#x5730;&#x5740;&#x503C;&#x3002;</p>
+<pre><code><span class="comment">/** wrapper around assoc_find which does the lazy expiration logic */</span>  
+<span class="keyword">item</span> *do_item_get(const <span class="keyword">char</span> *key, const size_t nkey, const uint32_t hv) {  
+   <span class="comment"> //mutex_lock(&amp;amp;cache_lock);  </span>
+   <span class="comment"> //&amp;#x5728;HashTable&amp;#x4E0A;&amp;#x627E;Item  </span>
+    <span class="keyword">item</span> *<span class="keyword">it</span> = assoc_find(key, nkey, hv);  
+    <span class="keyword">if</span> (<span class="keyword">it</span> != <span class="constant">NULL</span>) {  
+        refcount_incr(&amp;amp;<span class="keyword">it</span>-&amp;gt;refcount);  
+        <span class="comment">/* Optimization for slab reassignment. prevents popular items from 
+         * jamming in busy wait. Can only do this here to satisfy lock order 
+         * of item_lock, cache_lock, slabs_lock. */</span>  
+        <span class="keyword">if</span> (slab_rebalance_signal &amp;amp;&amp;amp;  
+            ((void *)<span class="keyword">it</span> &amp;gt;= slab_rebal.slab_start &amp;amp;&amp;amp; (void *)<span class="keyword">it</span> &amp;lt; slab_rebal.slab_end)) {  
+            do_item_unlink_nolock(<span class="keyword">it</span>, hv);  
+            do_item_remove(<span class="keyword">it</span>);  
+            <span class="keyword">it</span> = <span class="constant">NULL</span>;  
+        }  
+    }  
+   <span class="comment"> //mutex_unlock(&amp;amp;cache_lock);  </span>
+    int was_found = <span class="number">0</span>;  
+    <span class="keyword">if</span> (settings.verbose &amp;gt; <span class="number">2</span>) {  
+        int ii;  
+        <span class="keyword">if</span> (<span class="keyword">it</span> == <span class="constant">NULL</span>) {  
+            fprintf(<span class="keyword">stderr</span>, &amp;quot;&amp;gt; NOT FOUND &amp;quot;);  
+        } <span class="keyword">else</span> {  
+            fprintf(<span class="keyword">stderr</span>, &amp;quot;&amp;gt; FOUND KEY &amp;quot;);  
+            was_found++;  
+        }  
+        <span class="keyword">for</span> (ii = <span class="number">0</span>; ii &amp;lt; nkey; ++ii) {  
+            fprintf(<span class="keyword">stderr</span>, &amp;quot;%c&amp;quot;, key[ii]);  
+        }  
+    }  
+    <span class="keyword">if</span> (<span class="keyword">it</span> != <span class="constant">NULL</span>) {  
+        <span class="keyword">if</span> (settings.oldest_live != <span class="number">0</span> &amp;amp;&amp;amp; settings.oldest_live &amp;lt;= current_time &amp;amp;&amp;amp;  
+            <span class="keyword">it</span>-&amp;gt;<span class="built_in">time</span> &amp;lt;= settings.oldest_live) {  
+            do_item_unlink(<span class="keyword">it</span>, hv);  
+            do_item_remove(<span class="keyword">it</span>);  
+            <span class="keyword">it</span> = <span class="constant">NULL</span>;  
+            <span class="keyword">if</span> (was_found) {  
+                fprintf(<span class="keyword">stderr</span>, &amp;quot; -nuked <span class="keyword">by</span> flush&amp;quot;);  
+            }  
+       <span class="comment"> //&amp;#x68C0;&amp;#x67E5;&amp;#x662F;&amp;#x5426;&amp;#x8FC7;&amp;#x671F;  </span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">it</span>-&amp;gt;exptime != <span class="number">0</span> &amp;amp;&amp;amp; <span class="keyword">it</span>-&amp;gt;exptime &amp;lt;= current_time) {  
+            do_item_unlink(<span class="keyword">it</span>, hv);  
+            do_item_remove(<span class="keyword">it</span>);  
+            <span class="keyword">it</span> = <span class="constant">NULL</span>;  
+            <span class="keyword">if</span> (was_found) {  
+                fprintf(<span class="keyword">stderr</span>, &amp;quot; -nuked <span class="keyword">by</span> expire&amp;quot;);  
+            }  
+        } <span class="keyword">else</span> {  
+            <span class="keyword">it</span>-&amp;gt;it_flags |= ITEM_FETCHED;  
+            DEBUG_REFCNT(<span class="keyword">it</span>, &amp;apos;+&amp;apos;);  
+        }  
+    }  
+    <span class="keyword">if</span> (settings.verbose &amp;gt; <span class="number">2</span>)  
+        fprintf(<span class="keyword">stderr</span>, &amp;quot;\n&amp;quot;);  
+    <span class="constant">return</span> <span class="keyword">it</span>;  
+}
+</code></pre><p>&#x5220;&#x9664; delete &#x64CD;&#x4F5C;</p>
+<p>&#x5220;&#x9664;&#x64CD;&#x4F5C;&#x4E3B;&#x8981;&#x770B;process_delete_command&#x65B9;&#x6CD5;&#xFF1A;</p>
+<ol>
+<li><p>&#x5148;&#x67E5;&#x8BE2;item&#x662F;&#x5426;&#x5B58;&#x5728;</p>
+</li>
+<li><p>&#x5982;&#x679C;&#x5B58;&#x5728;&#x5219;&#x5220;&#x9664;item&#xFF0C;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;NOT FOUND</p>
+<p> static void process_delete_command(conn <em>c, token_t </em>tokens,  </p>
+<pre><code>    const size_t ntokens) {  
+char *key;  
+size_t nkey;  
+item *it;  
+assert(c != <span class="class">NULL</span>);  
+//&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x5408</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x6027</span>;  
+if (ntokens &amp;gt; <span class="number">3</span>) {  
+    bool hold_is_zero = strcmp(tokens[<span class="class">KEY_TOKEN</span> + <span class="number">1</span>].value, &amp;quot;<span class="number">0</span>&amp;quot;) == <span class="number">0</span>;  
+    bool sets_noreply = set_noreply_maybe(c, tokens, ntokens);  
+    bool valid = (ntokens == <span class="number">4</span> &amp;amp;&amp;amp; (hold_is_zero || sets_noreply))  
+            || (ntokens == <span class="number">5</span> &amp;amp;&amp;amp; hold_is_zero &amp;amp;&amp;amp; sets_noreply);  
+    if (!valid) {  
+        out_string(c, &amp;quot;<span class="class">CLIENT_ERROR</span> bad command line format.  &amp;quot;  
+                &amp;quot;<span class="class">Usage</span>: delete &amp;lt;key&amp;gt; [noreply]&amp;quot;);  
+        return;  
+    }  
+}  
+//&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+key = tokens[<span class="class">KEY_TOKEN</span>].value;  
+nkey = tokens[<span class="class">KEY_TOKEN</span>].length;  
+if (nkey &amp;gt; <span class="class">KEY_MAX_LENGTH</span>) {  
+    out_string(c, &amp;quot;<span class="class">CLIENT_ERROR</span> bad command line format&amp;quot;);  
+    return;  
+}  
+if (settings.detail_enabled) {  
+    stats_prefix_record_delete(key, nkey);  
+}  
+//&amp;<span class="symbol">#x5148</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x8BE2</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x8BE2</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="class">NOT</span> <span class="class">FOUND</span>  
+it = item_get(key, nkey);  
+if (it) {  
+    <span class="class">MEMCACHED_COMMAND_DELETE</span>(c-&amp;gt;sfd, <span class="class">ITEM_key</span>(it), it-&amp;gt;nkey);  
+    pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+    c-&amp;gt;thread-&amp;gt;stats.slab_stats[it-&amp;gt;slabs_clsid].delete_hits++;  
+    pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E86</span>;<span class="class">Item</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;<span class="class">Item</span>  
+    item_unlink(it);  
+    item_remove(it); /* release our reference */  
+    out_string(c, &amp;quot;<span class="class">DELETED</span>&amp;quot;);  
+} else {  
+    //&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x627E</span>;&amp;<span class="symbol">#x5230</span>;  
+    pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+    c-&amp;gt;thread-&amp;gt;stats.delete_misses++;  
+    pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+    out_string(c, &amp;quot;<span class="class">NOT_FOUND</span>&amp;quot;);  
+}  
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>item_unlink&#x548C;do_item_unlink&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x4E24;&#x4E2A;&#x4F5C;&#x7528;&#xFF1A;</p>
+<ol>
+<li><p>&#x4ECE;HashTable&#x4E0A;&#x5C06;Item&#x7684;&#x5730;&#x5740;&#x503C;&#x5220;&#x9664;</p>
+</li>
+<li><p>&#x4ECE;LRU&#x7684;&#x94FE;&#x8868;&#x4E0A;&#xFF0C;&#x5C06;Item&#x7684;&#x5730;&#x5740;&#x503C;&#x5220;&#x9664;&#xFF08;LRU&#x94FE;&#x8868;&#x53EA;&#x8981;&#x5904;&#x7406;&#x5934;&#x90E8;&#x548C;&#x5C3E;&#x90E8;&#x5C31;&#x884C;&#x4E86;&#xFF09;</p>
+<p> //&#x4ECE;LRU&#x548C;HashTable&#x89E3;&#x7ED1;<br> void item_unlink(item *item) {  </p>
+<pre><code>uint32_t hv<span class="comment">;  </span>
+hv = hash<span class="list">(<span class="keyword">ITEM_key</span><span class="list">(<span class="keyword">item</span>)</span>, item-&amp;gt<span class="comment">;nkey);  </span>
+item_lock<span class="list">(<span class="keyword">hv</span>)</span><span class="comment">;  </span>
+do_item_unlink<span class="list">(<span class="keyword">item</span>, hv)</span><span class="comment">;  </span>
+item_unlock<span class="list">(<span class="keyword">hv</span>)</span><span class="comment">;  </span></span>
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>item_remove&#x4E3B;&#x8981;&#x662F;&#x91CA;&#x653E;item</p>
+<pre><code><span class="comment">//&amp;#x5220;&amp;#x9664;Item  </span>
+void item_remove<span class="params">(item *item)</span> {  
+    uint32_t hv;  
+    hv = hash<span class="params">(ITEM_key<span class="params">(item)</span>, item-&amp;gt;nkey)</span>; <span class="comment">//Hash&amp;#x503C;  </span>
+
+    item_lock<span class="params">(hv)</span>;  
+    do_item_remove<span class="params">(item)</span>;  
+    item_unlock<span class="params">(hv)</span>;  
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Memcached/">Memcached</a><a href="/tags/源码分析/">源码分析</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/26f6ec1/" title="Redis、Memcached、Guava、Ehcache中的算法 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Redis、Memcached、Guava、Ehcache中的算法 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/23ed2e8/"  title="Linux c 开发 - Memcached源码分析之LRU算法（6） -">
+ <strong>下一篇：</strong><br/> 
+ <span>Linux c 开发 - Memcached源码分析之LRU算法（6） -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

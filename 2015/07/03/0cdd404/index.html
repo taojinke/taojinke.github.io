@@ -1,0 +1,592 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Zookeeper常见问题整理 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="ZK&amp;#x9009;&amp;#x4E3E;&amp;#x8FC7;&amp;#x7A0B;&amp;#x5F53;leader&amp;#x5D29;&amp;#x6E83;&amp;#x6216;&amp;#x8005;leader&amp;#x5931;&amp;#x53BB;&amp;#x5927;&amp;#x591A;&amp;#x6570;&amp;#x7684;follower&amp;#xFF0C;&amp;#x8FD9;&amp;#x65F6;&amp;#x5019;zk&amp;#x8FDB;&amp;#x5165;&amp;#x6062;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper常见问题整理 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/0cdd404/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="ZK&amp;#x9009;&amp;#x4E3E;&amp;#x8FC7;&amp;#x7A0B;&amp;#x5F53;leader&amp;#x5D29;&amp;#x6E83;&amp;#x6216;&amp;#x8005;leader&amp;#x5931;&amp;#x53BB;&amp;#x5927;&amp;#x591A;&amp;#x6570;&amp;#x7684;follower&amp;#xFF0C;&amp;#x8FD9;&amp;#x65F6;&amp;#x5019;zk&amp;#x8FDB;&amp;#x5165;&amp;#x6062;">
+<meta property="og:updated_time" content="2015-07-03T14:08:59.854Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zookeeper常见问题整理 -">
+<meta name="twitter:description" content="ZK&amp;#x9009;&amp;#x4E3E;&amp;#x8FC7;&amp;#x7A0B;&amp;#x5F53;leader&amp;#x5D29;&amp;#x6E83;&amp;#x6216;&amp;#x8005;leader&amp;#x5931;&amp;#x53BB;&amp;#x5927;&amp;#x591A;&amp;#x6570;&amp;#x7684;follower&amp;#xFF0C;&amp;#x8FD9;&amp;#x65F6;&amp;#x5019;zk&amp;#x8FDB;&amp;#x5165;&amp;#x6062;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/0cdd404/" title="Zookeeper常见问题整理 -" itemprop="url">Zookeeper常见问题整理 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:59.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ZK选举过程"><span class="toc-number">1.</span> <span class="toc-text">ZK选举过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#master/slave之间通信"><span class="toc-number">2.</span> <span class="toc-text">master/slave之间通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#节点变多时，PtBalancer速度变慢"><span class="toc-number">3.</span> <span class="toc-text">节点变多时，PtBalancer速度变慢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端对ServerList的轮询机制是什么"><span class="toc-number">4.</span> <span class="toc-text">客户端对ServerList的轮询机制是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个客户端修改了某个节点的数据，其它客户端能够马上获取到这个最新数据吗"><span class="toc-number">5.</span> <span class="toc-text">一个客户端修改了某个节点的数据，其它客户端能够马上获取到这个最新数据吗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ZK为什么不提供一个永久性的Watcher注册机制"><span class="toc-number">6.</span> <span class="toc-text">ZK为什么不提供一个永久性的Watcher注册机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我能否收到每次节点变化的通知"><span class="toc-number">7.</span> <span class="toc-text">我能否收到每次节点变化的通知</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#能为临时节点创建子节点吗"><span class="toc-number">8.</span> <span class="toc-text">能为临时节点创建子节点吗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#是否可以拒绝单个IP对ZK的访问,操作"><span class="toc-number">9.</span> <span class="toc-text">是否可以拒绝单个IP对ZK的访问,操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建的临时节点什么时候会被删除，是连接一断就删除吗？延时是多少？"><span class="toc-number">10.</span> <span class="toc-text">创建的临时节点什么时候会被删除，是连接一断就删除吗？延时是多少？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zookeeper是否支持动态进行机器扩容？如果目前不支持，那么要如何扩容呢？"><span class="toc-number">11.</span> <span class="toc-text">zookeeper是否支持动态进行机器扩容？如果目前不支持，那么要如何扩容呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ZooKeeper集群中个服务器之间是怎样通信的？"><span class="toc-number">12.</span> <span class="toc-text">ZooKeeper集群中个服务器之间是怎样通信的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zookeeper是否会自动进行日志清理？如何进行日志清理？"><span class="toc-number">13.</span> <span class="toc-text">zookeeper是否会自动进行日志清理？如何进行日志清理？</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="ZK&#x9009;&#x4E3E;&#x8FC7;&#x7A0B;">ZK&#x9009;&#x4E3E;&#x8FC7;&#x7A0B;</h2><p>&#x5F53;leader&#x5D29;&#x6E83;&#x6216;&#x8005;leader&#x5931;&#x53BB;&#x5927;&#x591A;&#x6570;&#x7684;follower&#xFF0C;&#x8FD9;&#x65F6;&#x5019;zk&#x8FDB;&#x5165;&#x6062;&#x590D;&#x6A21;&#x5F0F;&#xFF0C;&#x6062;&#x590D;&#x6A21;&#x5F0F;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x9009;&#x4E3E;&#x51FA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;leader&#xFF0C;&#x8BA9;&#x6240;&#x6709;&#x7684;Server&#x90FD;&#x6062;&#x590D;&#x5230;&#x4E00;&#x4E2A;&#x6B63;&#x786E;&#x7684;&#x72B6;&#x6001;&#x3002;Zk&#x7684;&#x9009;&#x4E3E;&#x7B97;&#x6CD5;&#x4F7F;&#x7528;ZAB&#x534F;&#x8BAE;&#xFF1A;</p>
+<ol>
+<li>&#x9009;&#x4E3E;&#x7EBF;&#x7A0B;&#x7531;&#x5F53;&#x524D;Server&#x53D1;&#x8D77;&#x9009;&#x4E3E;&#x7684;&#x7EBF;&#x7A0B;&#x62C5;&#x4EFB;&#xFF0C;&#x5176;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x662F;&#x5BF9;&#x6295;&#x7968;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;&#xFF0C;&#x5E76;&#x9009;&#x51FA;&#x63A8;&#x8350;&#x7684;Server&#xFF1B;</li>
+<li>&#x9009;&#x4E3E;&#x7EBF;&#x7A0B;&#x9996;&#x5148;&#x5411;&#x6240;&#x6709;Server&#x53D1;&#x8D77;&#x4E00;&#x6B21;&#x8BE2;&#x95EE;(&#x5305;&#x62EC;&#x81EA;&#x5DF1;)&#xFF1B;</li>
+<li>&#x9009;&#x4E3E;&#x7EBF;&#x7A0B;&#x6536;&#x5230;&#x56DE;&#x590D;&#x540E;&#xFF0C;&#x9A8C;&#x8BC1;&#x662F;&#x5426;&#x662F;&#x81EA;&#x5DF1;&#x53D1;&#x8D77;&#x7684;&#x8BE2;&#x95EE;(&#x9A8C;&#x8BC1;zxid&#x662F;&#x5426;&#x4E00;&#x81F4;)&#xFF0C;&#x7136;&#x540E;&#x83B7;&#x53D6;&#x5BF9;&#x65B9;&#x7684;id(myid)&#xFF0C;&#x5E76;&#x5B58;&#x50A8;&#x5230;&#x5F53;&#x524D;&#x8BE2;&#x95EE;&#x5BF9;&#x8C61;&#x5217;&#x8868;&#x4E2D;&#xFF0C;&#x6700;&#x540E;&#x83B7;&#x53D6;&#x5BF9;&#x65B9;&#x63D0;&#x8BAE;&#x7684;leader&#x76F8;&#x5173;&#x4FE1;&#x606F;(id,zxid)&#xFF0C;&#x5E76;&#x5C06;&#x8FD9;&#x4E9B;&#x4FE1;&#x606F;&#x5B58;&#x50A8;&#x5230;&#x5F53;&#x6B21;&#x9009;&#x4E3E;&#x7684;&#x6295;&#x7968;&#x8BB0;&#x5F55;&#x8868;&#x4E2D;&#xFF1B;</li>
+<li>&#x6536;&#x5230;&#x6240;&#x6709;Server&#x56DE;&#x590D;&#x4EE5;&#x540E;&#xFF0C;&#x5C31;&#x8BA1;&#x7B97;&#x51FA;zxid&#x6700;&#x5927;&#x7684;&#x90A3;&#x4E2A;Server&#xFF0C;&#x5E76;&#x5C06;&#x8FD9;&#x4E2A;Server&#x76F8;&#x5173;&#x4FE1;&#x606F;&#x8BBE;&#x7F6E;&#x6210;&#x4E0B;&#x4E00;&#x6B21;&#x8981;&#x6295;&#x7968;&#x7684;Server&#xFF1B;</li>
+<li>&#x7EBF;&#x7A0B;&#x5C06;&#x5F53;&#x524D;zxid&#x6700;&#x5927;&#x7684;Server&#x8BBE;&#x7F6E;&#x4E3A;&#x5F53;&#x524D;Server&#x8981;&#x63A8;&#x8350;&#x7684;Leader&#xFF0C;&#x5982;&#x679C;&#x6B64;&#x65F6;&#x83B7;&#x80DC;&#x7684;Server&#x83B7;&#x5F97;n/2 + 1&#x7684;Server&#x7968;&#x6570;&#xFF0C; &#x8BBE;&#x7F6E;&#x5F53;&#x524D;&#x63A8;&#x8350;&#x7684;leader&#x4E3A;&#x83B7;&#x80DC;&#x7684;Server&#xFF0C;&#x5C06;&#x6839;&#x636E;&#x83B7;&#x80DC;&#x7684;Server&#x76F8;&#x5173;&#x4FE1;&#x606F;&#x8BBE;&#x7F6E;&#x81EA;&#x5DF1;&#x7684;&#x72B6;&#x6001;&#xFF0C;&#x5426;&#x5219;&#xFF0C;&#x7EE7;&#x7EED;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#xFF0C;&#x76F4;&#x5230;leader&#x88AB;&#x9009;&#x4E3E;&#x51FA;&#x6765;&#x3002;</li>
+</ol>
+<p>&#x901A;&#x8FC7;&#x6D41;&#x7A0B;&#x5206;&#x6790;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5F97;&#x51FA;&#xFF1A;&#x8981;&#x4F7F;Leader&#x83B7;&#x5F97;&#x591A;&#x6570;Server&#x7684;&#x652F;&#x6301;&#xFF0C;&#x5219;Server&#x603B;&#x6570;&#x6700;&#x597D;&#x662F;&#x5947;&#x6570;2n+1&#xFF0C;&#x4E14;&#x5B58;&#x6D3B;&#x7684;Server&#x7684;&#x6570;&#x76EE;&#x4E0D;&#x5F97;&#x5C11;&#x4E8E;n+1</p>
+<h2 id="master/slave&#x4E4B;&#x95F4;&#x901A;&#x4FE1;">master/slave&#x4E4B;&#x95F4;&#x901A;&#x4FE1;</h2><p>Storm&#xFF1A;&#x5B9A;&#x671F;&#x626B;&#x63CF;PtBalancer&#xFF1A;&#x8282;&#x70B9;&#x76D1;&#x542C; </p>
+<h2 id="&#x8282;&#x70B9;&#x53D8;&#x591A;&#x65F6;&#xFF0C;PtBalancer&#x901F;&#x5EA6;&#x53D8;&#x6162;">&#x8282;&#x70B9;&#x53D8;&#x591A;&#x65F6;&#xFF0C;PtBalancer&#x901F;&#x5EA6;&#x53D8;&#x6162;</h2><p>&#x7C7B;&#x4F3C;&#x95EE;&#x9898;&#xFF1A;&#x6839;&#x636E;Netflix&#x7684;Curator&#x4F5C;&#x8005;&#x6240;&#x8BF4;&#xFF0C;ZooKeeper&#x771F;&#x5FC3;&#x4E0D;&#x9002;&#x5408;&#x505A;Queue&#xFF0C;&#x6216;&#x8005;&#x8BF4;ZK&#x6CA1;&#x6709;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x597D;&#x7684;Queue&#xFF0C;&#x8BE6;&#x7EC6;&#x5185;&#x5BB9;&#x53EF;&#x4EE5;&#x770B; <a href="https://cwiki.apache.org/confluence/display/CURATOR/TN4" target="_blank" rel="external">https://cwiki.apache.org/confluence/display/CURATOR/TN4</a> &#xFF0C; </p>
+<p>&#x539F;&#x56E0;&#x6709;&#x4E94;&#xFF1A;</p>
+<ol>
+<li>ZK&#x6709;1MB &#x7684;&#x4F20;&#x8F93;&#x9650;&#x5236;&#x3002; &#x5B9E;&#x8DF5;&#x4E2D;ZNode&#x5FC5;&#x987B;&#x76F8;&#x5BF9;&#x8F83;&#x5C0F;&#xFF0C;&#x800C;&#x961F;&#x5217;&#x5305;&#x542B;&#x6210;&#x5343;&#x4E0A;&#x4E07;&#x7684;&#x6D88;&#x606F;&#xFF0C;&#x975E;&#x5E38;&#x7684;&#x5927;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x6709;&#x5F88;&#x591A;&#x8282;&#x70B9;&#xFF0C;ZK&#x542F;&#x52A8;&#x65F6;&#x76F8;&#x5F53;&#x7684;&#x6162;&#x3002; &#x800C;&#x4F7F;&#x7528;queue&#x4F1A;&#x5BFC;&#x81F4;&#x597D;&#x591A;ZNode. &#x4F60;&#x9700;&#x8981;&#x663E;&#x8457;&#x589E;&#x5927; initLimit &#x548C; syncLimit.</li>
+<li>ZNode&#x5F88;&#x5927;&#x7684;&#x65F6;&#x5019;&#x5F88;&#x96BE;&#x6E05;&#x7406;&#x3002;Netflix&#x4E0D;&#x5F97;&#x4E0D;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x4E13;&#x95E8;&#x7684;&#x7A0B;&#x5E8F;&#x505A;&#x8FD9;&#x4E8B;&#x3002;</li>
+<li>&#x5F53;&#x5F88;&#x5927;&#x91CF;&#x7684;&#x5305;&#x542B;&#x6210;&#x5343;&#x4E0A;&#x4E07;&#x7684;&#x5B50;&#x8282;&#x70B9;&#x7684;ZNode&#x65F6;&#xFF0C; ZK&#x7684;&#x6027;&#x80FD;&#x53D8;&#x5F97;&#x4E0D;&#x597D;</li>
+<li>ZK&#x7684;&#x6570;&#x636E;&#x5E93;&#x5B8C;&#x5168;&#x653E;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x3002; &#x5927;&#x91CF;&#x7684;Queue&#x610F;&#x5473;&#x7740;&#x4F1A;&#x5360;&#x7528;&#x5F88;&#x591A;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x3002;</li>
+</ol>
+<p>&#x5C3D;&#x7BA1;&#x5982;&#x6B64;&#xFF0C; Curator&#x8FD8;&#x662F;&#x521B;&#x5EFA;&#x4E86;&#x5404;&#x79CD;Queue&#x7684;&#x5B9E;&#x73B0;&#x3002; &#x5982;&#x679C;Queue&#x7684;&#x6570;&#x636E;&#x91CF;&#x4E0D;&#x592A;&#x591A;&#xFF0C;&#x6570;&#x636E;&#x91CF;&#x4E0D;&#x592A;&#x5927;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x914C;&#x60C5;&#x8003;&#x8651;&#xFF0C;&#x8FD8;&#x662F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;&#x3002;</p>
+<h2 id="&#x5BA2;&#x6237;&#x7AEF;&#x5BF9;ServerList&#x7684;&#x8F6E;&#x8BE2;&#x673A;&#x5236;&#x662F;&#x4EC0;&#x4E48;">&#x5BA2;&#x6237;&#x7AEF;&#x5BF9;ServerList&#x7684;&#x8F6E;&#x8BE2;&#x673A;&#x5236;&#x662F;&#x4EC0;&#x4E48;</h2><p>&#x968F;&#x673A;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x5728;&#x521D;&#x59CB;&#x5316;( new ZooKeeper(String connectString, int sessionTimeout, Watcher watcher) )&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x5C06;&#x6240;&#x6709;Server&#x4FDD;&#x5B58;&#x5728;&#x4E00;&#x4E2A;List&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x968F;&#x673A;&#x6253;&#x6563;&#xFF0C;&#x5F62;&#x6210;&#x4E00;&#x4E2A;&#x73AF;&#x3002;&#x4E4B;&#x540E;&#x4ECE;0&#x53F7;&#x4F4D;&#x5F00;&#x59CB;&#x4E00;&#x4E2A;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;&#x3002;&#x4E24;&#x4E2A;&#x6CE8;&#x610F;&#x70B9;&#xFF1A; </p>
+<ol>
+<li>Server&#x5730;&#x5740;&#x80FD;&#x591F;&#x91CD;&#x590D;&#x914D;&#x7F6E;&#xFF0C;&#x8FD9;&#x6837;&#x80FD;&#x591F;&#x5F25;&#x8865;&#x5BA2;&#x6237;&#x7AEF;&#x65E0;&#x6CD5;&#x8BBE;&#x7F6E;Server&#x6743;&#x91CD;&#x7684;&#x7F3A;&#x9677;&#xFF0C;&#x4F46;&#x662F;&#x4E5F;&#x4F1A;&#x52A0;&#x5927;&#x98CE;&#x9669;&#x3002;&#xFF08;&#x6BD4;&#x5982;: 192.168.1.1:2181,192.168.1.1:2181,192.168.1.2:2181).</li>
+<li>&#x5982;&#x679C;&#x5BA2;&#x6237;&#x7AEF;&#x5728;&#x8FDB;&#x884C;Server&#x5207;&#x6362;&#x8FC7;&#x7A0B;&#x4E2D;&#x8017;&#x65F6;&#x8FC7;&#x957F;&#xFF0C;&#x90A3;&#x4E48;&#x5C06;&#x4F1A;&#x6536;&#x5230;SESSION_EXPIRED. &#x8FD9;&#x4E5F;&#x662F;&#x4E0A;&#x9762;&#x7B2C;1&#x70B9;&#x4E2D;&#x7684;&#x52A0;&#x5927;&#x98CE;&#x9669;&#x4E4B;&#x5904;&#x3002;&#x66F4;&#x591A;&#x5173;&#x4E8E;&#x5BA2;&#x6237;&#x7AEF;&#x5730;&#x5740;&#x5217;&#x8868;&#x76F8;&#x5173;&#x7684;&#xFF0C;</li>
+</ol>
+<p>&#x5BA2;&#x6237;&#x7AEF;&#x5982;&#x4F55;&#x6B63;&#x786E;&#x5904;&#x7406;CONNECTIONLOSS(&#x8FDE;&#x63A5;&#x65AD;&#x5F00;) &#x548C; SESSIONEXPIRED(Session &#x8FC7;&#x671F;)&#x4E24;&#x7C7B;&#x8FDE;&#x63A5;&#x5F02;&#x5E38;</p>
+<p>&#x5728;ZooKeeper&#x4E2D;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x548C;&#x5BA2;&#x6237;&#x7AEF;&#x4E4B;&#x95F4;&#x7EF4;&#x6301;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x957F;&#x8FDE;&#x63A5;&#xFF0C;&#x5728; SESSION_TIMEOUT &#x65F6;&#x95F4;&#x5185;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x4F1A;&#x786E;&#x5B9A;&#x5BA2;&#x6237;&#x7AEF;&#x662F;&#x5426;&#xFFFD;&#xFFFD;&#xFFFD;&#x5E38;&#x8FDE;&#x63A5;(&#x5BA2;&#x6237;&#x7AEF;&#x4F1A;&#x5B9A;&#x65F6;&#x5411;&#x670D;&#x52A1;&#x5668;&#x53D1;&#x9001;heart_beat),&#x670D;&#x52A1;&#x5668;&#x91CD;&#x7F6E;&#x4E0B;&#x6B21;SESSION_TIMEOUT&#x65F6;&#x95F4;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x6B63;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;Session&#x4E00;&#x76F4;&#x6709;&#x6548;&#xFF0C;&#x5E76;&#x4E14;zk&#x96C6;&#x7FA4;&#x6240;&#x6709;&#x673A;&#x5668;&#x4E0A;&#x90FD;&#x4FDD;&#x5B58;&#x8FD9;&#x4E2A;Session&#x4FE1;&#x606F;&#x3002;&#x5728;&#x51FA;&#x73B0;&#x95EE;&#x9898;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x4E0E;&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x95F4;&#x8FDE;&#x63A5;&#x65AD;&#x4E86;&#xFF08;&#x5BA2;&#x6237;&#x7AEF;&#x6240;&#x8FDE;&#x63A5;&#x7684;&#x90A3;&#x53F0;zk&#x673A;&#x5668;&#x6302;&#x4E86;&#xFF0C;&#x6216;&#x662F;&#x5176;&#x5B83;&#x539F;&#x56E0;&#x7684;&#x7F51;&#x7EDC;&#x95EA;&#x65AD;&#xFF09;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5BA2;&#x6237;&#x7AEF;&#x4F1A;&#x4E3B;&#x52A8;&#x5728;&#x5730;&#x5740;&#x5217;&#x8868;&#xFF08;&#x521D;&#x59CB;&#x5316;&#x7684;&#x65F6;&#x5019;&#x4F20;&#x5165;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x7684;&#x90A3;&#x4E2A;&#x53C2;&#x6570;connectString&#xFF09;&#x4E2D;&#x9009;&#x62E9;&#x65B0;&#x7684;&#x5730;&#x5740;&#x8FDB;&#x884C;&#x8FDE;&#x63A5;&#x3002;</p>
+<p>&#x597D;&#x4E86;&#xFF0C;&#x4E0A;&#x9762;&#x57FA;&#x672C;&#x5C31;&#x662F;&#x670D;&#x52A1;&#x5668;&#x4E0E;&#x5BA2;&#x6237;&#x7AEF;&#x4E4B;&#x95F4;&#x7EF4;&#x6301;&#x957F;&#x8FDE;&#x63A5;&#x7684;&#x8FC7;&#x7A0B;&#x4E86;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x7528;&#x6237;&#x53EF;&#x80FD;&#x4F1A;&#x770B;&#x5230;&#x4E24;&#x7C7B;&#x5F02;&#x5E38;CONNECTIONLOSS(&#x8FDE;&#x63A5;&#x65AD;&#x5F00;) &#x548C;SESSIONEXPIRED(Session &#x8FC7;&#x671F;)&#x3002;</p>
+<p>CONNECTIONLOSS&#x53D1;&#x751F;&#x5728;&#x4E0A;&#x9762;&#x7EA2;&#x8272;&#x6587;&#x5B57;&#x90E8;&#x5206;&#xFF0C;&#x5E94;&#x7528;&#x5728;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;A&#x65F6;&#xFF0C;&#x53D1;&#x751F;&#x4E86;CONNECTIONLOSS&#xFF0C;&#x6B64;&#x65F6;&#x7528;&#x6237;&#x4E0D;&#x9700;&#x8981;&#x5173;&#x5FC3;&#x6211;&#x7684;&#x4F1A;&#x8BDD;&#x662F;&#x5426;&#x53EF;&#x7528;&#xFF0C;&#x5E94;&#x7528;&#x6240;&#x8981;&#x505A;&#x7684;&#x5C31;&#x662F;&#x7B49;&#x5F85;&#x5BA2;&#x6237;&#x7AEF;&#x5E2E;&#x6211;&#x4EEC;&#x81EA;&#x52A8;&#x8FDE;&#x63A5;&#x4E0A;&#x65B0;&#x7684;zk&#x673A;&#x5668;&#xFF0C;&#x4E00;&#x65E6;&#x6210;&#x529F;&#x8FDE;&#x63A5;&#x4E0A;&#x65B0;&#x7684;zk&#x673A;&#x5668;&#x540E;&#xFF0C;&#x786E;&#x8BA4;&#x521A;&#x521A;&#x7684;&#x64CD;&#x4F5C;A&#x662F;&#x5426;&#x6267;&#x884C;&#x6210;&#x529F;&#x4E86;&#x3002;</p>
+<h2 id="&#x4E00;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x4FEE;&#x6539;&#x4E86;&#x67D0;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5176;&#x5B83;&#x5BA2;&#x6237;&#x7AEF;&#x80FD;&#x591F;&#x9A6C;&#x4E0A;&#x83B7;&#x53D6;&#x5230;&#x8FD9;&#x4E2A;&#x6700;&#x65B0;&#x6570;&#x636E;&#x5417;">&#x4E00;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x4FEE;&#x6539;&#x4E86;&#x67D0;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5176;&#x5B83;&#x5BA2;&#x6237;&#x7AEF;&#x80FD;&#x591F;&#x9A6C;&#x4E0A;&#x83B7;&#x53D6;&#x5230;&#x8FD9;&#x4E2A;&#x6700;&#x65B0;&#x6570;&#x636E;&#x5417;</h2><p>ZooKeeper&#x4E0D;&#x80FD;&#x786E;&#x4FDD;&#x4EFB;&#x4F55;&#x5BA2;&#x6237;&#x7AEF;&#x80FD;&#x591F;&#x83B7;&#x53D6;&#xFF08;&#x5373;Read Request&#xFF09;&#x5230;&#x4E00;&#x6837;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x9664;&#x975E;&#x5BA2;&#x6237;&#x7AEF;&#x81EA;&#x5DF1;&#x8981;&#x6C42;&#xFF1A;&#x65B9;&#x6CD5;&#x662F;&#x5BA2;&#x6237;&#x7AEF;&#x5728;&#x83B7;&#x53D6;&#x6570;&#x636E;&#x4E4B;&#x524D;&#x8C03;&#x7528;org.apache.zookeeper.AsyncCallback.VoidCallback, java.lang.Object) sync.</p>
+<p>&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#xFF08;&#x8FD9;&#x91CC;&#x6240;&#x8BF4;&#x7684;&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x6EE1;&#x8DB3;&#xFF1A;1. &#x5BF9;&#x83B7;&#x53D6;&#x7684;&#x6570;&#x636E;&#x662F;&#x5426;&#x662F;&#x6700;&#x65B0;&#x7248;&#x672C;&#x4E0D;&#x654F;&#x611F;&#xFF0C;2. &#x4E00;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x4FEE;&#x6539;&#x4E86;&#x6570;&#x636E;&#xFF0C;&#x5176;&#x5B83;&#x5BA2;&#x6237;&#x7AEF;&#x9700;&#x8981;&#x4E0D;&#x9700;&#x8981;&#x7ACB;&#x5373;&#x80FD;&#x591F;&#x83B7;&#x53D6;&#x6700;&#x65B0;&#xFF09;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x5173;&#x5FC3;&#x8FD9;&#x70B9;&#x3002;</p>
+<p>&#x5728;&#x5176;&#x5B83;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6700;&#x6E05;&#x6670;&#x7684;&#x573A;&#x666F;&#x662F;&#x8FD9;&#x6837;&#xFF1A;ZK&#x5BA2;&#x6237;&#x7AEF;A&#x5BF9; /my_test &#x7684;&#x5185;&#x5BB9;&#x4ECE; v1-&gt;v2, &#x4F46;&#x662F;ZK&#x5BA2;&#x6237;&#x7AEF;B&#x5BF9; /my_test &#x7684;&#x5185;&#x5BB9;&#x83B7;&#x53D6;&#xFF0C;&#x4F9D;&#x7136;&#x5F97;&#x5230;&#x7684;&#x662F; v1. &#x8BF7;&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;&#x5B9E;&#x9645;&#x5B58;&#x5728;&#x7684;&#x73B0;&#x8C61;&#xFF0C;&#x5F53;&#x7136;&#x5EF6;&#x65F6;&#x5F88;&#x77ED;&#x3002;&#x89E3;&#x51B3;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x5BA2;&#x6237;&#x7AEF;B&#x5148;&#x8C03;&#x7528; sync(), &#x518D;&#x8C03;&#x7528; getData().</p>
+<h2 id="ZK&#x4E3A;&#x4EC0;&#x4E48;&#x4E0D;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x6C38;&#x4E45;&#x6027;&#x7684;Watcher&#x6CE8;&#x518C;&#x673A;&#x5236;">ZK&#x4E3A;&#x4EC0;&#x4E48;&#x4E0D;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x6C38;&#x4E45;&#x6027;&#x7684;Watcher&#x6CE8;&#x518C;&#x673A;&#x5236;</h2><p>&#x4E0D;&#x652F;&#x6301;&#x7528;&#x6301;&#x4E45;Watcher&#x7684;&#x539F;&#x56E0;&#x5F88;&#x7B80;&#x5355;&#xFF0C;ZK&#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;&#x6027;&#x80FD;&#x3002;&#x4F7F;&#x7528;watch&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x51E0;&#x70B9; </p>
+<ol>
+<li>Watches&#x901A;&#x77E5;&#x662F;&#x4E00;&#x6B21;&#x6027;&#x7684;&#xFF0C;&#x5FC5;&#x987B;&#x91CD;&#x590D;&#x6CE8;&#x518C;.</li>
+<li>&#x53D1;&#x751F;CONNECTIONLOSS&#x4E4B;&#x540E;&#xFF0C;&#x53EA;&#x8981;&#x5728;session_timeout&#x4E4B;&#x5185;&#x518D;&#x6B21;&#x8FDE;&#x63A5;&#x4E0A;&#xFF08;&#x5373;&#x4E0D;&#x53D1;&#x751F;SESSIONEXPIRED&#xFF09;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x8FDE;&#x63A5;&#x6CE8;&#x518C;&#x7684;watches&#x4F9D;&#x7136;&#x5728;&#x3002;</li>
+<li>&#x8282;&#x70B9;&#x6570;&#x636E;&#x7684;&#x7248;&#x672C;&#x53D8;&#x5316;&#x4F1A;&#x89E6;&#x53D1;NodeDataChanged&#xFF0C;&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x91CC;&#x7279;&#x610F;&#x8BF4;&#x660E;&#x4E86;&#x662F;&#x7248;&#x672C;&#x53D8;&#x5316;&#x3002;&#x5B58;&#x5728;&#x8FD9;&#x6837;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x53EA;&#x8981;&#x6210;&#x529F;&#x6267;&#x884C;&#x4E86;setData()&#x65B9;&#x6CD5;&#xFF0C;&#x65E0;&#x8BBA;&#x5185;&#x5BB9;&#x662F;&#x5426;&#x548C;&#x4E4B;&#x524D;&#x4E00;&#x81F4;&#xFF0C;&#x90FD;&#x4F1A;&#x89E6;&#x53D1;NodeDataChanged&#x3002;</li>
+<li>&#x5BF9;&#x67D0;&#x4E2A;&#x8282;&#x70B9;&#x6CE8;&#x518C;&#x4E86;watch&#xFF0C;&#x4F46;&#x662F;&#x8282;&#x70B9;&#x88AB;&#x5220;&#x9664;&#x4E86;&#xFF0C;&#x90A3;&#x4E48;&#x6CE8;&#x518C;&#x5728;&#x8FD9;&#x4E2A;&#x8282;&#x70B9;&#x4E0A;&#x7684;watches&#x90FD;&#x4F1A;&#x88AB;&#x79FB;&#x9664;&#x3002;</li>
+<li>&#x540C;&#x4E00;&#x4E2A;zk&#x5BA2;&#x6237;&#x7AEF;&#x5BF9;&#x67D0;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x6CE8;&#x518C;&#x76F8;&#x540C;&#x7684;watch&#xFF0C;&#x53EA;&#x4F1A;&#x6536;&#x5230;&#x4E00;&#x6B21;&#x901A;&#x77E5;&#x3002;&#x5373;</li>
+<li>Watcher&#x5BF9;&#x8C61;&#x53EA;&#x4F1A;&#x4FDD;&#x5B58;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x4E0D;&#x4F1A;&#x4F20;&#x9012;&#x5230;&#x670D;&#x52A1;&#x7AEF;&#x3002;</li>
+</ol>
+<h2 id="&#x6211;&#x80FD;&#x5426;&#x6536;&#x5230;&#x6BCF;&#x6B21;&#x8282;&#x70B9;&#x53D8;&#x5316;&#x7684;&#x901A;&#x77E5;">&#x6211;&#x80FD;&#x5426;&#x6536;&#x5230;&#x6BCF;&#x6B21;&#x8282;&#x70B9;&#x53D8;&#x5316;&#x7684;&#x901A;&#x77E5;</h2><p>&#x5982;&#x679C;&#x8282;&#x70B9;&#x6570;&#x636E;&#x7684;&#x66F4;&#x65B0;&#x9891;&#x7387;&#x5F88;&#x9AD8;&#x7684;&#x8BDD;&#xFF0C;&#x4E0D;&#x80FD;&#x3002;&#x539F;&#x56E0;&#x5728;&#x4E8E;&#xFF1A;&#x5F53;&#x4E00;&#x6B21;&#x6570;&#x636E;&#x4FEE;&#x6539;&#xFF0C;&#x901A;&#x77E5;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x518D;&#x6B21;&#x6CE8;&#x518C;watch&#xFF0C;&#x5728;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x53EF;&#x80FD;&#x6570;&#x636E;&#x5DF2;&#x7ECF;&#x53D1;&#x751F;&#x4E86;&#x8BB8;&#x591A;&#x6B21;&#x6570;&#x636E;&#x4FEE;&#x6539;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5343;&#x4E07;&#x4E0D;&#x8981;&#x505A;&#x8FD9;&#x6837;&#x7684;&#x6D4B;&#x8BD5;&#xFF1A;&#x201D;&#x6570;&#x636E;&#x88AB;&#x4FEE;&#x6539;&#x4E86;n&#x6B21;&#xFF0C;&#x4E00;&#x5B9A;&#x4F1A;&#x6536;&#x5230;n&#x6B21;&#x901A;&#x77E5;&#x201D;&#x6765;&#x6D4B;&#x8BD5;server&#x662F;&#x5426;&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;&#x3002;&#xFF08;&#x6211;&#x66FE;&#x7ECF;&#x5C31;&#x505A;&#x8FC7;&#x8FD9;&#x6837;&#x7684;&#x50BB;&#x4E8B;&#xFF0C;&#x53D1;&#x73B0;Server&#x4E00;&#x76F4;&#x5DE5;&#x4F5C;&#x4E0D;&#x6B63;&#x5E38;&#xFF1F;&#x5176;&#x5B9E;&#x4E0D;&#x662F;&#xFF09;&#x3002;&#x5373;&#x4F7F;&#x4F60;&#x4F7F;&#x7528;&#x4E86;GitHub&#x4E0A;&#x8FD9;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x4E5F;&#x4E00;&#x6837;&#x3002; </p>
+<h2 id="&#x80FD;&#x4E3A;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x521B;&#x5EFA;&#x5B50;&#x8282;&#x70B9;&#x5417;">&#x80FD;&#x4E3A;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x521B;&#x5EFA;&#x5B50;&#x8282;&#x70B9;&#x5417;</h2><p>&#x4E0D;&#x80FD;&#x3002;</p>
+<h2 id="&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x62D2;&#x7EDD;&#x5355;&#x4E2A;IP&#x5BF9;ZK&#x7684;&#x8BBF;&#x95EE;,&#x64CD;&#x4F5C;">&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x62D2;&#x7EDD;&#x5355;&#x4E2A;IP&#x5BF9;ZK&#x7684;&#x8BBF;&#x95EE;,&#x64CD;&#x4F5C;</h2><p>ZK&#x672C;&#x8EAB;&#x4E0D;&#x63D0;&#x4F9B;&#x8FD9;&#x6837;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5B83;&#x4EC5;&#x4EC5;&#x63D0;&#x4F9B;&#x4E86;&#x5BF9;&#x5355;&#x4E2A;IP&#x7684;&#x8FDE;&#x63A5;&#x6570;&#x7684;&#x9650;&#x5236;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4FEE;&#x6539;iptables&#x6765;&#x5B9E;&#x73B0;&#x5BF9;&#x5355;&#x4E2A;ip&#x7684;&#x9650;&#x5236;&#xFF0C;&#x5F53;&#x7136;&#xFF0C;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8FD9;&#x6837;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x89E3;&#x51B3;&#x3002; <a href="https://issues.apache.org/jira/browse/ZOOKEEPER-1320" target="_blank" rel="external">https://issues.apache.org/jira/browse/ZOOKEEPER-1320</a></p>
+<p>&#x5728;getChildren(String path, boolean watch)&#x662F;&#x6CE8;&#x518C;&#x4E86;&#x5BF9;&#x8282;&#x70B9;&#x5B50;&#x8282;&#x70B9;&#x7684;&#x53D8;&#x5316;&#xFF0C;&#x90A3;&#x4E48;&#x5B50;&#x8282;&#x70B9;&#x7684;&#x5B50;&#x8282;&#x70B9;&#x53D8;&#x5316;&#x80FD;&#x901A;&#x77E5;&#x5417;</p>
+<p>&#x4E0D;&#x80FD;</p>
+<h2 id="&#x521B;&#x5EFA;&#x7684;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x4F1A;&#x88AB;&#x5220;&#x9664;&#xFF0C;&#x662F;&#x8FDE;&#x63A5;&#x4E00;&#x65AD;&#x5C31;&#x5220;&#x9664;&#x5417;&#xFF1F;&#x5EF6;&#x65F6;&#x662F;&#x591A;&#x5C11;&#xFF1F;">&#x521B;&#x5EFA;&#x7684;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x4F1A;&#x88AB;&#x5220;&#x9664;&#xFF0C;&#x662F;&#x8FDE;&#x63A5;&#x4E00;&#x65AD;&#x5C31;&#x5220;&#x9664;&#x5417;&#xFF1F;&#x5EF6;&#x65F6;&#x662F;&#x591A;&#x5C11;&#xFF1F;</h2><p>&#x8FDE;&#x63A5;&#x65AD;&#x4E86;&#x4E4B;&#x540E;&#xFF0C;ZK&#x4E0D;&#x4F1A;&#x9A6C;&#x4E0A;&#x79FB;&#x9664;&#x4E34;&#x65F6;&#x6570;&#x636E;&#xFF0C;&#x53EA;&#x6709;&#x5F53;SESSIONEXPIRED&#x4E4B;&#x540E;&#xFF0C;&#x624D;&#x4F1A;&#x628A;&#x8FD9;&#x4E2A;&#x4F1A;&#x8BDD;&#x5EFA;&#x7ACB;&#x7684;&#x4E34;&#x65F6;&#x6570;&#x636E;&#x79FB;&#x9664;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x7528;&#x6237;&#x9700;&#x8981;&#x8C28;&#x614E;&#x8BBE;&#x7F6E;Session_TimeOut</p>
+<h2 id="zookeeper&#x662F;&#x5426;&#x652F;&#x6301;&#x52A8;&#x6001;&#x8FDB;&#x884C;&#x673A;&#x5668;&#x6269;&#x5BB9;&#xFF1F;&#x5982;&#x679C;&#x76EE;&#x524D;&#x4E0D;&#x652F;&#x6301;&#xFF0C;&#x90A3;&#x4E48;&#x8981;&#x5982;&#x4F55;&#x6269;&#x5BB9;&#x5462;&#xFF1F;">zookeeper&#x662F;&#x5426;&#x652F;&#x6301;&#x52A8;&#x6001;&#x8FDB;&#x884C;&#x673A;&#x5668;&#x6269;&#x5BB9;&#xFF1F;&#x5982;&#x679C;&#x76EE;&#x524D;&#x4E0D;&#x652F;&#x6301;&#xFF0C;&#x90A3;&#x4E48;&#x8981;&#x5982;&#x4F55;&#x6269;&#x5BB9;&#x5462;&#xFF1F;</h2><p>&#x622A;&#x6B62;3.4.3&#x7248;&#x672C;&#x7684;zookeeper&#xFF0C;&#x8FD8;&#x4E0D;&#x652F;&#x6301;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#xFF0C;&#x5728;3.5.0&#x7248;&#x672C;&#x5F00;&#x59CB;&#xFF0C;&#x652F;&#x6301;&#x52A8;&#x6001;&#x52A0;&#x673A;&#x5668;&#x4E86;&#xFF0C;&#x671F;&#x5F85;&#x4E0B;&#x5427;: <a href="https://issues.apache.org/jira/browse/ZOOKEEPER-107" target="_blank" rel="external">https://issues.apache.org/jira/browse/ZOOKEEPER-107</a></p>
+<h2 id="ZooKeeper&#x96C6;&#x7FA4;&#x4E2D;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x95F4;&#x662F;&#x600E;&#x6837;&#x901A;&#x4FE1;&#x7684;&#xFF1F;">ZooKeeper&#x96C6;&#x7FA4;&#x4E2D;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x95F4;&#x662F;&#x600E;&#x6837;&#x901A;&#x4FE1;&#x7684;&#xFF1F;</h2><p>Leader&#x670D;&#x52A1;&#x5668;&#x4F1A;&#x548C;&#x6BCF;&#x4E00;&#x4E2A;Follower/Observer&#x670D;&#x52A1;&#x5668;&#x90FD;&#x5EFA;&#x7ACB;TCP&#x8FDE;&#x63A5;&#xFF0C;&#x540C;&#x65F6;&#x4E3A;&#x6BCF;&#x4E2A;F/O&#x90FD;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x53EB;&#x505A;LearnerHandler&#x7684;&#x5B9E;&#x4F53;&#x3002;LearnerHandler&#x4E3B;&#x8981;&#x8D1F;&#x8D23;Leader&#x548C;F/O&#x4E4B;&#x95F4;&#x7684;&#x7F51;&#x7EDC;&#x901A;&#x8BAF;&#xFF0C;&#x5305;&#x62EC;&#x6570;&#x636E;&#x540C;&#x6B65;&#xFF0C;&#x8BF7;&#x6C42;&#x8F6C;&#x53D1;&#x548C;Proposal&#x63D0;&#x8BAE;&#x7684;&#x6295;&#x7968;&#x7B49;&#x3002;Leader&#x670D;&#x52A1;&#x5668;&#x4FDD;&#x5B58;&#x4E86;&#x6240;&#x6709;F/O&#x7684;LearnerHandler&#x3002;</p>
+<h2 id="zookeeper&#x662F;&#x5426;&#x4F1A;&#x81EA;&#x52A8;&#x8FDB;&#x884C;&#x65E5;&#x5FD7;&#x6E05;&#x7406;&#xFF1F;&#x5982;&#x4F55;&#x8FDB;&#x884C;&#x65E5;&#x5FD7;&#x6E05;&#x7406;&#xFF1F;">zookeeper&#x662F;&#x5426;&#x4F1A;&#x81EA;&#x52A8;&#x8FDB;&#x884C;&#x65E5;&#x5FD7;&#x6E05;&#x7406;&#xFF1F;&#x5982;&#x4F55;&#x8FDB;&#x884C;&#x65E5;&#x5FD7;&#x6E05;&#x7406;&#xFF1F;</h2><p>zk&#x81EA;&#x5DF1;&#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x65E5;&#x5FD7;&#x6E05;&#x7406;&#xFF0C;&#x9700;&#x8981;&#x8FD0;&#x7EF4;&#x4EBA;&#x5458;&#x8FDB;&#x884C;&#x65E5;&#x5FD7;&#x6E05;&#x7406;</p>
+<p>&#x4F5C;&#x8005;&#xFF1A;WuyouJie2008 &#x53D1;&#x8868;&#x4E8E;2015/5/12 21:23:38 <a href="http://blog.csdn.net/jiewuyou/article/details/45675201" target="_blank" rel="external">&#x539F;&#x6587;&#x94FE;&#x63A5;</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/0cf0ef5/" title="Apache Curator 2.8.0 发布，简化 zookeeper 客户端 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Apache Curator 2.8.0 发布，简化 zookeeper 客户端 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/0cd5781/"  title="hadoop2.x通过Zookeeper来实现namenode的HA方案以及ResourceManager单点故障的解决方案 -">
+ <strong>下一篇：</strong><br/> 
+ <span>hadoop2.x通过Zookeeper来实现namenode的HA方案以及ResourceManager单点故障的解决方案 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ZK选举过程"><span class="toc-number">1.</span> <span class="toc-text">ZK选举过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#master/slave之间通信"><span class="toc-number">2.</span> <span class="toc-text">master/slave之间通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#节点变多时，PtBalancer速度变慢"><span class="toc-number">3.</span> <span class="toc-text">节点变多时，PtBalancer速度变慢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端对ServerList的轮询机制是什么"><span class="toc-number">4.</span> <span class="toc-text">客户端对ServerList的轮询机制是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个客户端修改了某个节点的数据，其它客户端能够马上获取到这个最新数据吗"><span class="toc-number">5.</span> <span class="toc-text">一个客户端修改了某个节点的数据，其它客户端能够马上获取到这个最新数据吗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ZK为什么不提供一个永久性的Watcher注册机制"><span class="toc-number">6.</span> <span class="toc-text">ZK为什么不提供一个永久性的Watcher注册机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我能否收到每次节点变化的通知"><span class="toc-number">7.</span> <span class="toc-text">我能否收到每次节点变化的通知</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#能为临时节点创建子节点吗"><span class="toc-number">8.</span> <span class="toc-text">能为临时节点创建子节点吗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#是否可以拒绝单个IP对ZK的访问,操作"><span class="toc-number">9.</span> <span class="toc-text">是否可以拒绝单个IP对ZK的访问,操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建的临时节点什么时候会被删除，是连接一断就删除吗？延时是多少？"><span class="toc-number">10.</span> <span class="toc-text">创建的临时节点什么时候会被删除，是连接一断就删除吗？延时是多少？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zookeeper是否支持动态进行机器扩容？如果目前不支持，那么要如何扩容呢？"><span class="toc-number">11.</span> <span class="toc-text">zookeeper是否支持动态进行机器扩容？如果目前不支持，那么要如何扩容呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ZooKeeper集群中个服务器之间是怎样通信的？"><span class="toc-number">12.</span> <span class="toc-text">ZooKeeper集群中个服务器之间是怎样通信的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zookeeper是否会自动进行日志清理？如何进行日志清理？"><span class="toc-number">13.</span> <span class="toc-text">zookeeper是否会自动进行日志清理？如何进行日志清理？</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,573 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Qt 5.5正式发布 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x4EE5;&amp;#x4E0B;&amp;#x4E3A;&amp;#x5B98;&amp;#x65B9;&amp;#x53D1;&amp;#x5E03;&amp;#x65E5;&amp;#x5FD7;&amp;#x7684;&amp;#x6458;&amp;#x8BD1;&amp;#xFF08;&amp;#x8BE5;&amp;#x65E5;&amp;#x5FD7;&amp;#x7531;&amp;#x8BFA;&amp;#x57FA;&amp;#x4E9A;Qt&amp;#x5F00;&amp;#x53D1;&amp;#x6846;&amp;#x67B6;&amp;#x999">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt 5.5正式发布 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/c72fe11/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x4EE5;&amp;#x4E0B;&amp;#x4E3A;&amp;#x5B98;&amp;#x65B9;&amp;#x53D1;&amp;#x5E03;&amp;#x65E5;&amp;#x5FD7;&amp;#x7684;&amp;#x6458;&amp;#x8BD1;&amp;#xFF08;&amp;#x8BE5;&amp;#x65E5;&amp;#x5FD7;&amp;#x7531;&amp;#x8BFA;&amp;#x57FA;&amp;#x4E9A;Qt&amp;#x5F00;&amp;#x53D1;&amp;#x6846;&amp;#x67B6;&amp;#x999">
+<meta property="og:updated_time" content="2015-07-03T14:07:02.693Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Qt 5.5正式发布 -">
+<meta name="twitter:description" content="&amp;#x4EE5;&amp;#x4E0B;&amp;#x4E3A;&amp;#x5B98;&amp;#x65B9;&amp;#x53D1;&amp;#x5E03;&amp;#x65E5;&amp;#x5FD7;&amp;#x7684;&amp;#x6458;&amp;#x8BD1;&amp;#xFF08;&amp;#x8BE5;&amp;#x65E5;&amp;#x5FD7;&amp;#x7531;&amp;#x8BFA;&amp;#x57FA;&amp;#x4E9A;Qt&amp;#x5F00;&amp;#x53D1;&amp;#x6846;&amp;#x67B6;&amp;#x999">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/c72fe11/" title="Qt 5.5正式发布 -" itemprop="url">Qt 5.5正式发布 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:07:02.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简化产品结构"><span class="toc-number">1.</span> <span class="toc-text">简化产品结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新功能"><span class="toc-number">2.</span> <span class="toc-text">新功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#蓝牙"><span class="toc-number">2.1.</span> <span class="toc-text">蓝牙</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#图形"><span class="toc-number">2.2.</span> <span class="toc-text">图形</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qt_Location"><span class="toc-number">2.3.</span> <span class="toc-text">Qt Location</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qt_Quick"><span class="toc-number">2.4.</span> <span class="toc-text">Qt Quick</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qt_Multimedia"><span class="toc-number">2.5.</span> <span class="toc-text">Qt Multimedia</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qt_WebEngine"><span class="toc-number">2.6.</span> <span class="toc-text">Qt WebEngine</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其它"><span class="toc-number">2.7.</span> <span class="toc-text">其它</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#废弃模块"><span class="toc-number">2.8.</span> <span class="toc-text">废弃模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进一步了解Qt_5-5"><span class="toc-number">2.9.</span> <span class="toc-text">进一步了解Qt 5.5</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>&#x4EE5;&#x4E0B;&#x4E3A;&#x5B98;&#x65B9;&#x53D1;&#x5E03;&#x65E5;&#x5FD7;&#x7684;&#x6458;&#x8BD1;&#xFF08;&#x8BE5;&#x65E5;&#x5FD7;&#x7531;&#x8BFA;&#x57FA;&#x4E9A;Qt&#x5F00;&#x53D1;&#x6846;&#x67B6;&#x9996;&#x5E2D;Qt&#x8BBE;&#x8BA1;&#x5E08;&#x6240;&#x64B0;&#x5199;&#xFF09;&#xFF1A;</p>
+<p>&#x6211;&#x5F88;&#x9AD8;&#x5174;&#x5730;&#x5BA3;&#x5E03;&#xFF0C;Qt 5.5&#x5728;&#x4ECA;&#x5929;&#x6B63;&#x5F0F;&#x53D1;&#x5E03;&#x3002;&#x5728;&#x8FC7;&#x53BB;&#x7684;6&#x4E2A;&#x6708;&#x65F6;&#x95F4;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x4E00;&#x76F4;&#x52AA;&#x529B;&#x5DE5;&#x4F5C;&#x4EE5;&#x8425;&#x9020;&#x4E00;&#x6B21;&#x8D85;&#x8D5E;&#x7684;&#x7248;&#x672C;&#x53D1;&#x5E03;&#x3002;</p>
+<p>&#x7ED3;&#x679C;&#x662F;&#xFF0C;&#x6211;&#x4EEC;&#x6536;&#x5230;&#x4E86;&#x63A5;&#x8FD1;1500&#x4E2A;&#x62A5;&#x544A;&#x7684;Bug&#xFF0C;&#x5E76;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x4FEE;&#x590D;&#xFF0C;&#x4EE5;&#x53CA;&#x5BF9;&#x6211;&#x4EEC;&#x7684;&#x6574;&#x4E2A;&#x6808;&#x5B9E;&#x73B0;&#x4E86;&#x5927;&#x5E45;&#x7684;&#x6027;&#x80FD;&#x6539;&#x8FDB;&#x3002;&#x540C;&#x65F6;&#x8FD8;&#x4FEE;&#x8865;&#x4E86;&#x4EA7;&#x54C1;&#x5728;&#x8DE8;&#x5E73;&#x53F0;&#x65B9;&#x9762;&#x7684;&#x51E0;&#x4E2A;&#x7F3A;&#x9677;&#xFF0C;&#x8BA9;&#x5728;&#x5404;&#x4E2A;&#x5E73;&#x53F0;&#x7684;&#x529F;&#x80FD;&#x66F4;&#x52A0;&#x7684;&#x5E73;&#x8861;&#x548C;&#x6709;&#x597D;&#xFF0C;&#x5E76;&#x4E14;&#x4F18;&#x5316;&#x4E86;&#x8BF8;&#x5982;&#x591A;&#x5A92;&#x4F53;&#x548C;&#x84DD;&#x7259;&#x65B9;&#x9762;&#x7684;&#x529F;&#x80FD;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x4E5F;&#x4ED8;&#x51FA;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x65F6;&#x95F4;&#x548C;&#x52AA;&#x529B;&#xFF0C;&#x4EE5;&#x786E;&#x4FDD; <a href="http://blog.qt.io/blog/2015/04/29/windows-10-support-in-qt/" target="_blank" rel="external">Windows 10</a> &#x4E00; &#x7ECF;&#x5FAE;&#x8F6F;&#x53D1;&#x5E03;&#x540E;&#xFF0C;Qt 5.5&#x63D0;&#x4F9B;&#x5BF9;&#x8BE5;&#x7CFB;&#x7EDF;&#x7684;&#x5B8C;&#x7F8E;&#x652F;&#x6301;&#x3002;&#x4ECE;QT 5.3&#x5F00;&#x59CB;&#xFF0C;QT&#x5C31;&#x53EF;&#x4EE5;&#x5F88;&#x597D;&#x5730;&#x8FD0;&#x884C;&#x5728;Windows 8&#x4E0A;&#x7684;&#x65B0;WinRT APIs&#xFF0C;&#x8FD9;&#x8BA9;&#x6211;&#x4EEC;&#x5F88;&#x53D7;&#x9F13;&#x821E;&#x3002;&#x4E5F;&#x7531;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x63A5;&#x4E0B;&#x6765;&#x6709;&#x4FE1;&#x5FC3;&#x76F8;&#x4FE1;QT 5.5&#x80FD;&#x591F;&#x5B8C;&#x7F8E;&#x652F;&#x6301;Windows 10&#xFF0C;&#x53EA;&#x8981;&#x80FD;&#x591F;&#x53CA;&#x65F6;&#x66F4;&#x65B0;Qt 5.5.x&#x5C31;&#x597D;&#x3002; </p>
+<p>&#x73B0;&#x5728;&#xFF0C;Linux&#x5305;&#x53EF;&#x5728; <a href="http://blog.qt.io/blog/2015/06/24/qt-is-coming-to-red-hat-enterprise-linux/" target="_blank" rel="external">RedHat Enterprise Linux</a> &#x4E0A;&#x8FDB;&#x884C;&#x6784;&#x5EFA;&#xFF0C;&#x652F;&#x6301;&#x66F4;&#x591A;&#x7684;Linux&#x53D1;&#x884C;&#x7248;&#xFF08;&#x4ECE;RHEL 6.6&#x5230;Ubuntu 15.04&#xFF09;&#x3002; </p>
+<p>&#x5927;&#x91CF;&#x7684;&#x5DE5;&#x4F5C;&#x65F6;&#x95F4;&#x4E5F;&#x88AB;&#x6295;&#x5165;&#x5230;&#x4E86;Mac OS X&#x7248;&#x7684;QT&#xFF0C;&#x6211;&#x4EEC;&#x73B0;&#x5728;&#x4F7F;&#x7528;&#x82F9;&#x679C;&#x7684;Secure Transport&#x5C42;&#x6765;&#x542F;&#x7528;SSL&#x529F;&#x80FD;&#xFF0C;&#x652F;&#x6301;&#x84DD;&#x7259;&#x548C;Bluetooth LE&#xFF0C;&#x652F;&#x6301;Qt WebView&#x548C;&#x4FEE;&#x590D;&#x4E86;Qt Multimedia&#x65B9;&#x9762;&#x7684;&#x5927;&#x91CF;&#x95EE;&#x9898;&#x3002;</p>
+<h3 id="&#x7B80;&#x5316;&#x4EA7;&#x54C1;&#x7ED3;&#x6784;">&#x7B80;&#x5316;&#x4EA7;&#x54C1;&#x7ED3;&#x6784;</h3><p>QT 5.5&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x5927;&#x7684;&#x53D8;&#x5316;&#x662F;&#x5927;&#x5927;&#x7B80;&#x5316;&#x4E86;&#x4EA7;&#x54C1;&#x7ED3;&#x6784;&#xFF0C;&#x73B0;&#x5728;Qt&#x6709;&#x4E09;&#x4E2A;&#x7248;&#x672C;&#xFF1A;</p>
+<p><a href="http://www.qt.io/application-development/" target="_blank" rel="external">Qt for Application Development</a> &#xFF1A; &#x8FD9;&#x662F;&#x5546;&#x4E1A;&#x7248;&#x672C;&#xFF0C;&#x5141;&#x8BB8;&#x4F60;&#x5728;Qt&#x652F;&#x6301;&#x7684;&#x6240;&#x6709;&#x684C;&#x9762;&#x548C;&#x79FB;&#x52A8;&#x5E73;&#x53F0;&#x521B;&#x5EFA;&#x5E94;&#x7528;&#x3002;&#x5B83;&#x6709;&#x7740;&#x5168;&#x9762;&#x7684;&#x652F;&#x6301;&#x548C;&#x5B8C;&#x5584;&#x5546;&#x4E1A;&#x8BB8;&#x53EF;&#x3002; </p>
+<p><a href="http://www.qt.io/qt-for-device-creation/" target="_blank" rel="external">Qt for Device Creation</a> &#xFF1A; &#x8FD9;&#x662F;&#x7B2C;&#x4E8C;&#x4E2A;&#x5546;&#x4E1A;&#x4EA7;&#x54C1;&#xFF0C;&#x76EE;&#x6807;&#x662F;&#x6784;&#x5EFA;&#x548C;&#x5F00;&#x53D1;&#x5D4C;&#x5165;&#x5F0F;&#x8BBE;&#x5907;&#xFF0C;&#x5E76;&#x63D0;&#x4F9B;&#x5927;&#x91CF;&#x5DE5;&#x5177;&#x94FE;&#x548C;&#x5176;&#x5B83;&#x7684;&#x4E00;&#x4E9B;&#x652F;&#x6301;&#xFF0C;&#x8BA9;&#x4F60;&#x7684;&#x4E00;&#x5207;&#x5DE5;&#x4F5C;&#x53D8;&#x5F97;&#x66F4;&#x52A0;&#x8F7B;&#x677E;&#xFF0C;&#x5F53;&#x7136;&#x4E5F;&#x6709;&#x7740;&#x5168;&#x9762;&#x7684;&#x652F;&#x6301;&#x548C;&#x5546;&#x4E1A;&#x8BB8;&#x53EF;&#x3002; </p>
+<p><a href="http://www.qt.io/qt-licensing-terms/" target="_blank" rel="external">Qt Open Source&#xFF1A;</a> &#xFF1A; &#x8FD9;&#x662F;&#x6211;&#x4EEC;&#x7684;&#x5F00;&#x6E90;&#x7248;&#x672C;&#xFF0C;&#x9075;&#x5FAA;LGPL 2.1/3&#x6216;&#x8005;GPL&#x3002; </p>
+<p>&#x4EA7;&#x54C1;&#x7684;&#x66F4;&#x591A;&#x7EC6;&#x8282;&#x8BF7;&#x5173;&#x6CE8;QT&#x7684;&#x65B0;&#x4EA7;&#x54C1;&#x9875;&#x9762;&#xFF1A; <a href="http://www.qt.io/" target="_blank" rel="external">qt.io</a> &#x3002; </p>
+<h3 id="&#x65B0;&#x529F;&#x80FD;">&#x65B0;&#x529F;&#x80FD;</h3><p>&#x548C;&#x5F80;&#x5E38;&#x4E00;&#x6837;&#xFF0C;Qt 5.5&#x6346;&#x7ED1;&#x4E86; <a href="http://blog.qt.io/blog/2015/07/01/qt-creator-3-4-2-released/" target="_blank" rel="external">&#x6700;&#x65B0;&#x7684;Qt Creator&#x7248;&#x672C;</a> &#x548C;&#x5927;&#x91CF;&#x7684;&#x65B0;&#x529F;&#x80FD;&#x3002;&#x6211;&#x9009;&#x4E86;&#x4E00;&#x4E9B;&#x653E;&#x5728;&#x4E86;&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x91CC;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A; </p>
+<h4 id="&#x84DD;&#x7259;">&#x84DD;&#x7259;</h4><p>Bluetooth LE API&#x5148;&#x524D;&#x5DF2;&#x51FA;&#x73B0;&#x5728;&#x4E86;Qt 5.4&#x6280;&#x672F;&#x9884;&#x89C8;&#x7248;&#x4E2D;&#xFF0C;&#x73B0;&#x5728;&#x662F;&#x6700;&#x7EC8;&#x7248;&#xFF0C;&#x53EF;&#x5168;&#x9762;&#x652F;&#x6301;Android&#x3001;Mac OS X&#x548C;iOS&#xFF0C;&#x53C8;&#x6216;&#x8005;&#x662F;Linux&#x73B0;&#x6709;&#x7684;&#x540E;&#x7AEF;&#x4E0A;&#x3002;</p>
+<h4 id="&#x56FE;&#x5F62;">&#x56FE;&#x5F62;</h4><p>&#x7531;&#x4E8E;Qt&#x7684;root&#x662F;&#x4E00;&#x4E2A;&#x56FE;&#x5F62;&#x5316;&#x7684;&#x5DE5;&#x5177;&#x5305;&#xFF0C;&#x6211;&#x4EEC;&#x4E00;&#x76F4;&#x5728;&#x4E13;&#x6CE8;&#x4E8E;&#x56FE;&#x5F62;&#x7684;&#x529F;&#x80FD;&#x5F3A;&#x5316;&#x3002;&#x81EA;Qt 2&#x95EE;&#x4E16;&#x5C31;&#x96C6;&#x6210;&#x4E86;OpenGL&#xFF0C;&#x8FD9;&#x79CD;&#x505A;&#x6CD5;&#x4E00;&#x76F4;&#x4EE5;&#x6765;&#x76F8;&#x5BF9;&#x800C;&#x8A00;&#x8FD8;&#x662F;&#x6BD4;&#x8F83;low&#x7684;&#x3002;</p>
+<p>&#x5728;&#x6700;&#x65B0;&#x7684;Qt 5.5&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x6709;&#x4E86;&#x5F88;&#x5927;&#x7684;&#x8FDB;&#x6B65;&#xFF0C;&#x65B0;&#x589E;&#x4E86;2&#x4E2A;&#x6A21;&#x5757;&#xFF08;Qt Canva 3D&#x548C;Qt 3D&#xFF09;&#x6765;&#x6269;&#x5C55;3D APIs&#xFF0C;&#x4ECE;&#x800C;&#x5B8C;&#x5584;&#x548C;&#x6539;&#x8FDB;&#x56FE;&#x5F62;&#x5DE5;&#x5177;&#x5305;&#x3002;</p>
+<p><a href="http://doc.qt.io/qt-5/qtcanvas3d-index.html" target="_blank" rel="external">Qt Canvas 3D</a> &#x662F; &#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6A21;&#x5757;&#xFF0C;&#x53EF;&#x975E;&#x5E38;&#x8F7B;&#x677E;&#x5730;&#x4ECE;Qt Quick&#x76F4;&#x63A5;&#x4F7F;&#x7528;WebGL&#x3002;&#x8BE5;&#x6A21;&#x5757;&#x6700;&#x5148;&#x51FA;&#x73B0;&#x5728;Qt 5.4&#x7684;&#x6280;&#x672F;&#x9884;&#x89C8;&#x7248;&#x4E2D;&#xFF0C;&#x73B0;&#x5728;&#x5B83;&#x5DF2;&#x7ECF;&#x975E;&#x5E38;&#x6210;&#x719F;&#x4E86;&#xFF0C;&#x6700;&#x7EC8;&#x4F5C;&#x4E3A;&#x4E86;Qt frameworks&#x5185;&#x5B8C;&#x5168;&#x652F;&#x6301;&#x7684;&#x6A21;&#x5757;&#x3002;Qt Canvas 3D&#x9762;&#x5411;Qt Quick&#x5B9E;&#x73B0;&#x4E86;&#x4E00;&#x4E2A;WebGL-like API&#xFF0C;&#x53EF;&#x88AB;&#x7528;&#x4E8E;&#x8F83;&#x4F4E;&#x7EA7;WebGL&#x4EE3;&#x7801;&#x6216;&#x7ED3;&#x5408;JavaScript frameworks&#xFF08;three.js&#xFF09;&#x3002; </p>
+<p>&#x53E6;&#x4E00;&#x4E2A;&#x65B0;&#x6A21;&#x5757;&#x662F; <a href="http://doc.qt.io/qt-5/qt3d-index.html" target="_blank" rel="external">Qt 3D</a> &#xFF0C;&#x662F;Qt 5.5&#x6280;&#x672F;&#x9884;&#x89C8;&#x7248;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x6B64;&#x524D;&#x662F;&#x4F5C;&#x4E3A;QT 4&#x95EE;&#x4E16;&#x65F6;&#x7684;&#x4E00;&#x4E2A;&#x5E93;&#xFF0C;&#x4F46;&#x73B0;&#x5728;&#x7ECF;&#x8FC7;&#x8F83;&#x5927;&#x7684;&#x91CD;&#x65B0;&#x7684;&#x6784;&#x5EFA;&#xFF0C;&#x5B83;&#x5DF2;&#x7ECF;&#x975E;&#x5E38;&#x9002;&#x5408;&#x73B0;&#x4EE3;OpenGL&#x7684;&#x4E16;&#x754C;&#x3002; </p>
+<p>&#x89C6;&#x9891;&#x89E3;&#x8BFB;&#xFF1A; <a href="https://youtu.be/S8oVS3onQV0" target="_blank" rel="external">https://youtu.be/S8oVS3onQV0</a> &#xFF08;&#x65F6;&#x957F;&#x7EA6;1&#x5206;37&#x79D2;&#xFF0C;&#x9700;&#x79D1;&#x5B66;&#x4E0A;&#x7F51;&#xFF09; </p>
+<p>Qt 3D&#x5BF9;&#x4E8E;OpenGL&#x6700;&#x5927;&#x7684;&#x652F;&#x6301;&#x6539;&#x8FDB;&#x662F;&#x8BA9;&#x5B83;&#x66F4;&#x5BB9;&#x6613;&#x6574;&#x5408;3D&#x5185;&#x5BB9;&#x81F3;Qt&#x5E94;&#x7528;&#x3002;&#x8BE5;&#x6A21;&#x5757;&#x8FD8;&#x5E26;&#x6765;&#x4E86;C++&#x548C;QML APIs&#x3002;&#x66F4;&#x591A;&#x7EC6;&#x8282;&#x53C2;&#x89C1;&#xFF1A; <a href="http://doc.qt.io/qt-5/qt3d-index.html" target="_blank" rel="external">Qt 3D&#x6587;&#x6863;</a> &#x548C; <a href="http://blog.qt.io/blog/2015/07/01/qt3d-2-0-technology-preview/" target="_blank" rel="external">KDAB&#x535A;&#x6587;</a> &#xFF0C;&#x53CA; <a href="http://www.qt.io/qt5-5/#section-4" target="_blank" rel="external">Qt 3D&#x6E38;&#x620F;demo</a> &#x3002;&#x4F46;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x6280;&#x672F;&#x9884;&#x89C8;&#xFF0C;&#x8FD9;&#x4E2A;&#x6A21;&#x5757;&#x4ECD;&#x7136;&#x6709;&#x4E00;&#x70B9;&#x7C97;&#x7CD9;&#x3002;&#x8BF7;&#x5927;&#x5BB6;&#x591A;&#x591A;&#x53CD;&#x9988;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x5728;Qt 5.6&#x4E2D;&#x63D0;&#x4F9B;&#x66F4;&#x597D;&#x7684;&#x652F;&#x6301;&#x548C;&#x517C;&#x5BB9;&#x3002; </p>
+<p>&#x5728;Windows&#x4E0A;&#x4F7F;&#x7528;OpenGL&#x4E00;&#x76F4;&#x6709;&#x4E00;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x56E0;&#x4E3A;&#x5E76;&#x975E;&#x6240;&#x6709;&#x7684;&#x9A71;&#x52A8;&#x90FD;&#x662F;&#x9ED8;&#x8BA4;&#x5B89;&#x88C5;&#xFF0C;Qt 5.5&#x5DF2;&#x7ECF;&#x89E3;&#x51B3;&#x4E86;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002;</p>
+<h4 id="Qt_Location">Qt Location</h4><p>&#x53E6;&#x4E00;&#x4E2A;Qt 5.5&#x6280;&#x672F;&#x9884;&#x89C8;&#x7248;&#x7684;&#x65B0;&#x6A21;&#x5757;&#x662F;Qt Location&#xFF0C;&#x589E;&#x52A0;&#x4E86;mapping&#x3001;geocoding&#x3001;routes&#x548C;places&#x652F;&#x6301;&#x3002;&#x8FD9;&#x4E9B;&#x53EF;&#x7ED3;&#x5408;&#x73B0;&#x6709;&#x7684;Qt Positioning API&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x4ECE;&#x800C;&#x63D0;&#x4F9B;&#x5E94;&#x7528;&#x7684;&#x4F4D;&#x7F6E;&#x670D;&#x52A1;&#x3002;Qt Location&#x8FD8;&#x53EF;&#x4EE5;&#x652F;&#x6301;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x56FE;&#x670D;&#x52A1;&#x5546;&#x3002;&#x76EE;&#x524D;&#xFF0C;&#x6211;&#x4EEC;&#x652F;&#x6301;Nokia Here&#x3001;Mapbox&#x548C;Openstreetmap&#x3002;&#x66F4;&#x591A;&#x4F8B;&#x5B50;&#x8BF7;&#x53C2;&#x89C1;&#x8FD9;&#x4E2A;&#x6587;&#x6863;&#xFF1A; <a href="http://doc.qt.io/qt-5/qtlocation-examples.html" target="_blank" rel="external">http://doc.qt.io/qt-5/qtlocation-examples.html</a></p>
+<h4 id="Qt_Quick">Qt Quick</h4><p>QML&#x548C;JavaScript&#x5F15;&#x64CE;&#x73B0;&#x5728;&#x652F;&#x6301;JavaScript&#x7C7B;&#x578B;&#x6570;&#x7EC4;&#x3002;&#x5728;QT&#x6838;&#x5FC3;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x589E;&#x52A0;&#x4E86;Q_GADGETs&#x7684;&#x6027;&#x80FD;&#x548C;&#x53EF;&#x8C03;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x4EE5;&#x53CA;&#x6539;&#x8FDB;Mac OS X&#x3001;iOS&#x4E0A;&#x7684;Flickable&#x548C;PinchArea&#x3002;</p>
+<p>The Enterprise Controls&#x5DF2;&#x5E76;&#x5165;Qt Quick Controls&#xFF0C;&#x73B0;&#x5728;&#x4E5F;&#x5DF2;&#x5F00;&#x6E90;&#x3002;</p>
+<h4 id="Qt_Multimedia">Qt Multimedia</h4><p>&#x5728;Linux&#x4E0A;&#xFF0C;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x589E;&#x52A0;&#x4E86;GStreamer 1.0&#x652F;&#x6301;&#x548C;&#x8BB8;&#x591A;&#x5176;&#x5B83;&#x5E73;&#x53F0;&#x4E0A;&#x7684;bug&#x4FEE;&#x590D;&#xFF1B;&#x76F8;&#x673A;&#x652F;&#x6301;&#x6709;&#x4E86;&#x8F83;&#x5927;&#x7684;&#x6539;&#x8FDB;&#xFF1B;&#x65B0;&#x589E;&#x7684;Video filtering framework&#x975E;&#x5E38;&#x5F3A;&#x5927;&#xFF0C;&#x5141;&#x8BB8;&#x96C6;&#x6210;frameworks&#xFF0C;&#x6BD4;&#x5982;OpenCL&#x6216;CUDA&#x3002;</p>
+<p>&#x89E3;&#x8BFB;&#x89C6;&#x9891;&#xFF1A; <a href="https://youtu.be/8KShQnKgnms" target="_blank" rel="external">https://youtu.be/8KShQnKgnms</a> &#xFF08;&#x65F6;&#x957F;&#x7EA6;56&#x79D2;&#xFF09; </p>
+<h4 id="Qt_WebEngine">Qt WebEngine</h4><p>Qt WebEngine&#x5DF2;&#x66F4;&#x65B0;&#x81F3;Chromium 40&#x7248;&#x672C;&#xFF0C;&#x5E76;&#x83B7;&#x5F97;&#x4E86;&#x65B0;API&#x6765;&#x7BA1;&#x7406;&#x6587;&#x4EF6;&#x7684;&#x4E0B;&#x8F7D;&#x3001;&#x63A7;&#x5236;&#x7F13;&#x5B58;&#x548C;cookies&#xFF0C;&#x53CA;&#x8BBE;&#x7F6E;&#x3002;Qt WebChannel&#x73B0;&#x5728;&#x662F;&#x5185;&#x7F6E;&#x7684;&#xFF0C;&#x8BB8;&#x591A;&#x7684;&#x5B9E;&#x9A8C;&#x6027;&#x7684;APIs&#x662F;&#x516C;&#x5F00;&#x7684;&#x5E76;&#x83B7;&#x5F97;&#x4E86;&#x5168;&#x9762;&#x7684;&#x652F;&#x6301;&#x3002;</p>
+<h4 id="&#x5176;&#x5B83;">&#x5176;&#x5B83;</h4><p>&#x5176;&#x4ED6;&#x66F4;&#x591A;&#x7684;QT 5.5&#x6539;&#x8FDB;&#x548C;&#x65B0;&#x7279;&#x6027;&#x53C2;&#x89C1; <a href="https://wiki.qt.io/New_Features_in_Qt_5.5" target="_blank" rel="external">wiki</a> &#x3002; </p>
+<h4 id="&#x5E9F;&#x5F03;&#x6A21;&#x5757;">&#x5E9F;&#x5F03;&#x6A21;&#x5757;</h4><p>&#x65B0;&#x529F;&#x80FD;&#x5230;&#x6765;&#x9884;&#x793A;&#x8FD9;&#x4E5F;&#x6709;&#x4E00;&#x4E9B;&#x529F;&#x80FD;&#x7684;&#x79BB;&#x5F00;&#xFF0C;&#x4ED6;&#x4EEC;&#x662F;Qt WebKit&#x3001;Qt Quick 1&#x548C;Qt Script&#x3002;&#x6240;&#x6709;&#x8FD9;&#x4E9B;&#x6A21;&#x5757;&#x4F9D;&#x7136;&#x5728;Qt 5.5&#x4E2D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x5F3A;&#x70C8;&#x5EFA;&#x8BAE;&#x4F7F;&#x7528;&#x4ED6;&#x4EEC;&#x7684;&#x66FF;&#x4EE3;&#x54C1;&#xFF1A;Qt WebEngine&#x3001;Qt Quick&#x548C; Qt QML&#xFF0C;&#x8FD9;&#x4E9B;&#x80FD;&#x5B8C;&#x5168;&#x517C;&#x5BB9;JavaScript&#x5F15;&#x64CE;&#x3002;&#x5927;&#x591A;&#x6570;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x65B0;&#x7684;&#x6A21;&#x5757;&#x53EF;&#x63D0;&#x4F9B;&#x66F4;&#x591A;&#x5B8C;&#x5584;&#x7684;&#x7279;&#x6027;&#x548C;&#x5B8C;&#x7F8E;&#x7684;&#x517C;&#x5BB9;&#x6027;&#x3002;</p>
+<h4 id="&#x8FDB;&#x4E00;&#x6B65;&#x4E86;&#x89E3;Qt_5-5">&#x8FDB;&#x4E00;&#x6B65;&#x4E86;&#x89E3;Qt 5.5</h4><p>&#x4E3A;&#x4E86;&#x8BA9;&#x4F60;&#x66F4;&#x597D;&#x5730;&#x4E86;&#x89E3;Qt 5.5&#xFF0C;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x5B89;&#x6392;&#x4E86;&#x4E24;&#x573A;&#x5728;&#x7EBF;&#x7814;&#x8BA8;&#x4F1A;&#xFF08;7&#x6708;2&#x65E5;&#x548C;7&#x6708;3&#x65E5;&#xFF09;&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x7B2C;&#x4E00;&#x624B;&#x7684;Qt 5.5&#x65B0;&#x6D88;&#x606F;&#xFF0C;&#x8BF7;&#x786E;&#x4FDD;&#x5DF2;&#x7ECF;&#x6CE8;&#x518C;&#xFF1A; <a href="http://www.qt.io/webinar-qt5-5/" target="_blank" rel="external">http://www.qt.io/webinar-qt5-5/</a> &#x3002; </p>
+<p>Qt World Summit 2015&#xFF08;10&#x6708;5&#x65E5;&#x81F3;7&#x65E5;&#xFF0C;&#x67CF;&#x6797;&#xFF09;&#x662F;&#x4E00;&#x4E2A;&#x5F00;&#x653E;&#x7684;&#x4F1A;&#x8BAE;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5173;&#x6CE8;&#x4E0B;&#xFF1A; <a href="http://www.qtworldsummit.com/" target="_blank" rel="external">http://www.qtworldsummit.com/</a> &#x3002; </p>
+<p>&#x53D1;&#x5E03;&#x65E5;&#x5FD7;&#xFF1A; <a href="http://blog.qt.io/blog/2015/07/01/qt-5-5-released/" target="_blank" rel="external">http://blog.qt.io/blog/2015/07/01/qt-5-5-released/</a></p>
+<p>&#x4E0B;&#x8F7D;&#x5730;&#x5740;&#xFF1A; <a href="http://www.qt.io/download/" target="_blank" rel="external">http://www.qt.io/download/</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Qt/">Qt</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/c72dbe3/" title="Qt Creator 3.4.2 发布 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Qt Creator 3.4.2 发布 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/02/a9e5d59/"  title="io.js发布2.0版本，并讨论加入Node基金会的可能性 -">
+ <strong>下一篇：</strong><br/> 
+ <span>io.js发布2.0版本，并讨论加入Node基金会的可能性 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简化产品结构"><span class="toc-number">1.</span> <span class="toc-text">简化产品结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新功能"><span class="toc-number">2.</span> <span class="toc-text">新功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#蓝牙"><span class="toc-number">2.1.</span> <span class="toc-text">蓝牙</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#图形"><span class="toc-number">2.2.</span> <span class="toc-text">图形</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qt_Location"><span class="toc-number">2.3.</span> <span class="toc-text">Qt Location</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qt_Quick"><span class="toc-number">2.4.</span> <span class="toc-text">Qt Quick</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qt_Multimedia"><span class="toc-number">2.5.</span> <span class="toc-text">Qt Multimedia</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qt_WebEngine"><span class="toc-number">2.6.</span> <span class="toc-text">Qt WebEngine</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其它"><span class="toc-number">2.7.</span> <span class="toc-text">其它</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#废弃模块"><span class="toc-number">2.8.</span> <span class="toc-text">废弃模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进一步了解Qt_5-5"><span class="toc-number">2.9.</span> <span class="toc-text">进一步了解Qt 5.5</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

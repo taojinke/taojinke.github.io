@@ -1,0 +1,573 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>有了malloc/free为什么还要new/delete ？ - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="malloc  &amp;#x4E0E;  free  &amp;#x662F;  C++/C  &amp;#x8BED;&amp;#x8A00;&amp;#x7684;&amp;#x6807;&amp;#x51C6;&amp;#x5E93;&amp;#x51FD;&amp;#x6570;&amp;#xFF0C;  new/delete  &amp;#x662F;  C++  &amp;#x7684;&amp;#x8FD0;&amp;#x7B97;&amp;#x7B26;&amp;#x3002;&amp;#x5B83;&amp;#x4EEC;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有了malloc/free为什么还要new/delete ？ -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/ef8a145/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="malloc  &amp;#x4E0E;  free  &amp;#x662F;  C++/C  &amp;#x8BED;&amp;#x8A00;&amp;#x7684;&amp;#x6807;&amp;#x51C6;&amp;#x5E93;&amp;#x51FD;&amp;#x6570;&amp;#xFF0C;  new/delete  &amp;#x662F;  C++  &amp;#x7684;&amp;#x8FD0;&amp;#x7B97;&amp;#x7B26;&amp;#x3002;&amp;#x5B83;&amp;#x4EEC;&amp;#">
+<meta property="og:updated_time" content="2015-07-03T14:08:10.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="有了malloc/free为什么还要new/delete ？ -">
+<meta name="twitter:description" content="malloc  &amp;#x4E0E;  free  &amp;#x662F;  C++/C  &amp;#x8BED;&amp;#x8A00;&amp;#x7684;&amp;#x6807;&amp;#x51C6;&amp;#x5E93;&amp;#x51FD;&amp;#x6570;&amp;#xFF0C;  new/delete  &amp;#x662F;  C++  &amp;#x7684;&amp;#x8FD0;&amp;#x7B97;&amp;#x7B26;&amp;#x3002;&amp;#x5B83;&amp;#x4EEC;&amp;#">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/ef8a145/" title="有了malloc/free为什么还要new/delete ？ -" itemprop="url">有了malloc/free为什么还要new/delete ？ -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:10.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p> malloc  &#x4E0E;  free  &#x662F;  C++/C  &#x8BED;&#x8A00;&#x7684;&#x6807;&#x51C6;&#x5E93;&#x51FD;&#x6570;&#xFF0C;  new/delete  &#x662F;  C++  &#x7684;&#x8FD0;&#x7B97;&#x7B26;&#x3002;&#x5B83;&#x4EEC;&#x90FD;&#x53EF;&#x7528;&#x4E8E;&#x7533;&#x8BF7;&#x52A8;&#x6001;&#x5185;&#x5B58;&#x548C;&#x91CA;&#x653E;&#x5185;&#x5B58;&#x3002;</p>
+<p> &#x5BF9;&#x4E8E;&#x975E;&#x5185;&#x90E8;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x7684;&#x5BF9;&#x8C61;&#x800C;&#x8A00;&#xFF0C;&#x5149;&#x7528;  maloc/free  &#x65E0;&#x6CD5;&#x6EE1;&#x8DB3;&#x52A8;&#x6001;&#x5BF9;&#x8C61;&#x7684;&#x8981;&#x6C42;&#x3002;&#x5BF9;&#x8C61;&#x5728;&#x521B;&#x5EFA;&#x7684;&#x540C;&#x65F6;&#x8981;&#x81EA;&#x52A8;&#x6267;&#x884C;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x5BF9;&#x8C61;&#x5728;&#x6D88;&#x4EA1;&#x4E4B;&#x524D;&#x8981;&#x81EA;&#x52A8;&#x6267;&#x884C;&#x6790;&#x6784;&#x51FD;&#x6570;&#x3002;&#x7531;&#x4E8E;  malloc/free  &#x662F;&#x5E93;&#x51FD;&#x6570;&#x800C;&#x4E0D;&#x662F;&#x8FD0;&#x7B97;&#x7B26;&#xFF0C;&#x4E0D;&#x5728;&#x7F16;&#x8BD1;&#x5668;&#x63A7;&#x5236;&#x6743;&#x9650;&#x4E4B;&#x5185;&#xFF0C;&#x4E0D;&#x80FD;&#x591F;&#x628A;&#x6267;&#x884C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x548C;&#x6790;&#x6784;&#x51FD;&#x6570;&#x7684;&#x4EFB;&#x52A1;&#x5F3A;&#x52A0;&#x4E8E;  malloc/free  &#x3002;</p>
+<p>  &#x56E0;&#x6B64;  C++  &#x8BED;&#x8A00;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x80FD;&#x5B8C;&#x6210;&#x52A8;&#x6001;&#x5185;&#x5B58;&#x5206;&#x914D;&#x548C;&#x521D;&#x59CB;&#x5316;&#x5DE5;&#x4F5C;&#x7684;&#x8FD0;&#x7B97;&#x7B26;  new  &#xFF0C;&#x4EE5;&#x53CA;&#x4E00;&#x4E2A;&#x80FD;&#x5B8C;&#x6210;&#x6E05;&#x7406;&#x4E0E;&#x91CA;&#x653E;&#x5185;&#x5B58;&#x5DE5;&#x4F5C;&#x7684;&#x8FD0;&#x7B97;&#x7B26;  delete  &#x3002;&#x6CE8;&#x610F;  new/delete  &#x4E0D;&#x662F;&#x5E93;&#x51FD;&#x6570;&#x3002;</p>
+<p> &#x6211;&#x4EEC;&#x5148;&#x770B;&#x4E00;&#x770B;  malloc/free  &#x548C;  new/delete  &#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x5BF9;&#x8C61;&#x7684;&#x52A8;&#x6001;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#xFF0C;&#x89C1;&#x4E0B;&#x5217;&#x4EE3;&#x7801;  &#x3002;</p>
+<pre><code><span class="xml"> 1 class Obj
+ 2 </span><span class="expression">{
+ 3 <span class="variable">public</span> :
+ 4 <span class="variable">Obj</span>(<span class="variable">void</span>){ <span class="variable">cout</span> &amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">lt</span></span>; &amp;<span class="variable">quot</span>;<span class="variable">Initialization</span>&amp;<span class="variable">quot</span>; &amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">lt</span></span>; <span class="variable">endl</span>; }</span><span class="xml">
+ 5 ~Obj(void)</span><span class="expression">{ <span class="variable">cout</span> &amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">lt</span></span>; &amp;<span class="variable">quot</span>;<span class="variable">Destroy</span>&amp;<span class="variable">quot</span>; &amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">lt</span></span>; <span class="variable">endl</span>; }</span><span class="xml">
+ 6 void    Initialize(void)</span><span class="expression">{ <span class="variable">cout</span> &amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">lt</span></span>; &amp;<span class="variable">quot</span>;<span class="variable">Initialization</span>&amp;<span class="variable">quot</span>; &amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">lt</span></span>; <span class="variable">endl</span>; }</span><span class="xml">
+ 7 void    Destroy(void)</span><span class="expression">{ <span class="variable">cout</span> &amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">lt</span></span>; &amp;<span class="variable">quot</span>;<span class="variable">Destroy</span>&amp;<span class="variable">quot</span>; &amp;<span class="variable"><span class="keyword">lt</span></span>;&amp;<span class="variable"><span class="keyword">lt</span></span>; <span class="variable">endl</span>; }</span><span class="xml">
+ 8 };
+ 9 
+10 void UseMallocFree(void)
+11 </span><span class="expression">{
+12     <span class="variable">Obj</span> *<span class="variable">a</span> = (<span class="variable">obj</span> *)<span class="variable">malloc</span>(<span class="variable">sizeof</span>(<span class="variable">obj</span>));   /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>7533;&amp;<span class="begin-block">#x</span>8<span class="variable">BF</span>7;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>6001;&amp;<span class="begin-block">#x</span>5185;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>58;
+13     <span class="variable">a-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">Initialize</span>();                        /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;
+14     //&amp;<span class="begin-block">#x</span>2026;
+15     <span class="variable">a-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">Destroy</span>();   /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>6<span class="variable">E</span>05;&amp;<span class="begin-block">#x</span>9664;&amp;<span class="begin-block">#x</span>5<span class="variable">DE</span>5;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>5<span class="variable">C</span>;
+16     <span class="variable">free</span>(<span class="variable">a</span>);        /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>91<span class="variable">CA</span>;&amp;<span class="begin-block">#x</span>653<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>5185;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>58;
+17 }</span><span class="xml">
+18 
+19 void UseNewDelete(void)
+20 </span><span class="expression">{
+21     <span class="variable">Obj</span> *<span class="variable">a</span> = <span class="variable">new</span> <span class="variable">Obj</span>; /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>7533;&amp;<span class="begin-block">#x</span>8<span class="variable">BF</span>7;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>6001;&amp;<span class="begin-block">#x</span>5185;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>58;&amp;<span class="begin-block">#x</span>5<span class="variable">E</span>76;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>14;&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;
+22     //&amp;<span class="begin-block">#x</span>2026;
+23     <span class="variable">delete</span> <span class="variable">a</span>;           /<span class="end-block">/ </span>&amp;<span class="begin-block">#x</span>6<span class="variable">E</span>05;&amp;<span class="begin-block">#x</span>9664;&amp;<span class="begin-block">#x</span>5<span class="variable">E</span>76;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>14;&amp;<span class="begin-block">#x</span>91<span class="variable">CA</span>;&amp;<span class="begin-block">#x</span>653<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>5185;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>58;
+24 }</span><span class="xml"></span>
+</code></pre><p> &#x7C7B;  Obj  &#x7684;&#x51FD;&#x6570;  Initialize  &#x6A21;&#x62DF;&#x4E86;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x51FD;&#x6570;  Destroy  &#x6A21;&#x62DF;&#x4E86;&#x6790;&#x6784;&#x51FD;&#x6570;&#x7684;&#x529F;&#x80FD;&#x3002;&#x51FD;&#x6570;  UseMallocFree  &#x4E2D;&#xFF0C;&#x7531;&#x4E8E;  malloc/free  &#x4E0D;&#x80FD;&#x6267;&#x884C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E0E;&#x6790;&#x6784;&#x51FD;&#x6570;&#xFF0C;&#x5FC5;&#x987B;&#x8C03;&#x7528;&#x6210;&#x5458;&#x51FD;&#x6570;  Initialize  &#x548C;  Destroy  &#x6765;&#x5B8C;&#x6210;&#x521D;&#x59CB;&#x5316;&#x4E0E;&#x6E05;&#x9664;&#x5DE5;&#x4F5C;&#x3002;&#x51FD;&#x6570;  UseNewDelete  &#x5219;&#x7B80;&#x5355;&#x5F97;&#x591A;&#x3002;</p>
+<p> &#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x4E0D;&#x8981;&#x4F01;&#x56FE;&#x7528;  malloc/free  &#x6765;&#x5B8C;&#x6210; &#x52A8;&#x6001;&#x5BF9;&#x8C61; &#x7684;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#xFF0C;&#x5E94;&#x8BE5;&#x7528;  new/delete  &#x3002;&#x7531;&#x4E8E;&#x5185;&#x90E8;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x7684;  &quot;  &#x5BF9;&#x8C61;  &quot;  &#x6CA1;&#x6709;&#x6784;&#x9020;&#x4E0E;&#x6790;&#x6784;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x5BF9;&#x5B83;&#x4EEC;&#x800C;&#x8A00;  malloc/free  &#x548C;  new/delete  &#x662F;&#x7B49;&#x4EF7;&#x7684;&#x3002;</p>
+<p> &#x65E2;&#x7136;  new/delete  &#x7684;&#x529F;&#x80FD;&#x5B8C;&#x5168;&#x8986;&#x76D6;&#x4E86;  malloc/free  &#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;  C++  &#x4E0D;&#x628A;  malloc/free  &#x6DD8;&#x6C70;&#x51FA;&#x5C40;&#x5462;&#xFF1F;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;  C++  &#x7A0B;&#x5E8F;&#x7ECF;&#x5E38;&#x8981;&#x8C03;&#x7528;  C  &#x51FD;&#x6570;&#xFF0C;&#x800C;  C  &#x7A0B;&#x5E8F;&#x53EA;&#x80FD;&#x7528;  malloc/free  &#x7BA1;&#x7406;&#x52A8;&#x6001;&#x5185;&#x5B58;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x7528;free&#x91CA;&#x653E;&quot;new&#x521B;&#x5EFA;&#x7684;&#x52A8;&#x6001;&#x5BF9;&#x8C61;&quot;&#xFF0C;&#x90A3;&#x4E48;&#x8BE5;&#x5BF9;&#x8C61;&#x56E0;&#x65E0;&#x6CD5;&#x6267;&#x884C;&#x6790;&#x6784;&#x51FD;&#x6570;&#x800C;&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x51FA;&#x9519;&#x3002;&#x5982;&#x679C;&#x7528;delete&#x91CA;&#x653E;&quot;malloc&#x7533;&#x8BF7;&#x7684;&#x52A8;&#x6001;&#x5185;&#x5B58;&quot;&#xFF0C;&#x7406;&#x8BBA;&#x4E0A;&#x8BB2;&#x7A0B;&#x5E8F;&#x4E0D;&#x4F1A;&#x51FA;&#x9519;&#xFF0C;&#x4F46;&#x662F;&#x8BE5;&#x7A0B;&#x5E8F;&#x7684;&#x53EF;&#x8BFB;&#x6027;&#x5F88;&#x5DEE;&#x3002;&#x6240;&#x4EE5;new/delete&#x5FC5;&#x987B;&#x914D;&#x5BF9;&#x4F7F;&#x7528;&#xFF0C;malloc/free&#x4E5F;&#x4E00;&#x6837;&#x3002;&#xA0;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/ef6c2c1/" title="编程菜鸟入门必备书籍 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  编程菜鸟入门必备书籍 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/ef8be91/"  title="C++ Primer快速学习 第一章 入门之二：输入与输出 -">
+ <strong>下一篇：</strong><br/> 
+ <span>C++ Primer快速学习 第一章 入门之二：输入与输出 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

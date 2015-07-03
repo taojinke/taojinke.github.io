@@ -1,0 +1,663 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Linux c 开发 - Memcached源码分析之总结篇（8） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Memcached&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x5171;8&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#xFF0C;&amp;#x524D;7&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x4E3B;&amp;#x8981;&amp;#x5206;&amp;#x6790;&amp;#x6BCF;&amp;#x4E2A;&amp;#x6A21;&amp;#x5757;&amp;#x7684;c&amp;#x6E90;&amp;#x4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux c 开发 - Memcached源码分析之总结篇（8） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/23731c8/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Memcached&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x5171;8&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#xFF0C;&amp;#x524D;7&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x4E3B;&amp;#x8981;&amp;#x5206;&amp;#x6790;&amp;#x6BCF;&amp;#x4E2A;&amp;#x6A21;&amp;#x5757;&amp;#x7684;c&amp;#x6E90;&amp;#x4">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/23705d6.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2370847.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2370847.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/237147c.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/23716ed.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/237195e.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2371bcf.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:09:37.582Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux c 开发 - Memcached源码分析之总结篇（8） -">
+<meta name="twitter:description" content="Memcached&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x5171;8&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#xFF0C;&amp;#x524D;7&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x4E3B;&amp;#x8981;&amp;#x5206;&amp;#x6790;&amp;#x6BCF;&amp;#x4E2A;&amp;#x6A21;&amp;#x5757;&amp;#x7684;c&amp;#x6E90;&amp;#x4">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/23731c8/" title="Linux c 开发 - Memcached源码分析之总结篇（8） -" itemprop="url">Linux c 开发 - Memcached源码分析之总结篇（8） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:37.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>Memcached&#x6E90;&#x7801;&#x5206;&#x6790;&#x5171;8&#x7BC7;&#x6587;&#x7AE0;&#xFF0C;&#x524D;7&#x7BC7;&#x6587;&#x7AE0;&#x4E3B;&#x8981;&#x5206;&#x6790;&#x6BCF;&#x4E2A;&#x6A21;&#x5757;&#x7684;c&#x6E90;&#x4EE3;&#x7801;&#x3002;&#x8FD9;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x4E3B;&#x8981;&#x662F;&#x5C06;&#x4E4B;&#x524D;&#x7684;&#x6D41;&#x7A0B;&#x4E32;&#x8D77;&#x6765;&#xFF0C;&#x603B;&#x7ED3;&#x548C;&#x56DE;&#x987E;&#x3002;&#x540C;&#x65F6;&#x901A;&#x8FC7;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x53EF;&#x4EE5;&#x5168;&#x5C40;&#x53BB;&#x770B;Memcached&#x7684;&#x7ED3;&#x6784;&#x3002;</p>
+<p>Memcache&#x7684;&#x7F51;&#x7EDC;&#x6A21;&#x578B; </p>
+<ol>
+<li><p>Memcached&#x4E3B;&#x8981;&#x662F;&#x57FA;&#x4E8E;Libevent &#x7F51;&#x7EDC;&#x4E8B;&#x4EF6;&#x5E93;&#x8FDB;&#x884C;&#x5F00;&#x53D1;&#x7684;&#x3002;</p>
+</li>
+<li><p>Memcached&#x7684;&#x7F51;&#x7EDC;&#x6A21;&#x578B;&#x5206;&#x4E3A;&#x4E24;&#x90E8;&#x5206;&#xFF1A;&#x4E3B;&#x7EBF;&#x7A0B;&#x548C;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x3002;&#x4E3B;&#x7EBF;&#x7A0B;&#x4E3B;&#x8981;&#x7528;&#x6765;&#x63A5;&#x6536;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8FDE;&#x63A5;&#x4FE1;&#x606F;&#xFF1B;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x4E3B;&#x8981;&#x7528;&#x6765;&#x63A5;&#x7BA1;&#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;&#xFF0C;&#x5904;&#x7406;&#x5177;&#x4F53;&#x7684;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&#x3002;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x4F1A;&#x5F00;&#x542F;8&#x4E2A;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x3002;</p>
+</li>
+<li><p>&#x4E3B;&#x7EBF;&#x7A0B;&#x548C;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x4E4B;&#x95F4;&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;pipe&#x7BA1;&#x9053;&#x6765;&#x8FDB;&#x884C;&#x901A;&#x4FE1;&#x3002;&#x5F53;&#x4E3B;&#x7EBF;&#x7A0B;&#x63A5;&#x6536;&#x5230;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8FDE;&#x63A5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x901A;&#x8FC7;&#x8F6E;&#x8BE2;&#x7684;&#x65B9;&#x5F0F;&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#xFF0C;&#x7136;&#x540E;&#x5411;&#x8BE5;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x7684;&#x7BA1;&#x9053;pipe&#x5199;&#x6570;&#x636E;&#x3002;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x76D1;&#x542C;&#x5230;&#x7BA1;&#x9053;&#x4E2D;&#x6709;&#x6570;&#x636E;&#x5199;&#x5165;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x4F1A;&#x89E6;&#x53D1;&#x4EE3;&#x7801;&#x903B;&#x8F91;&#x53BB;&#x63A5;&#x7BA1;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8FDE;&#x63A5;&#x3002;</p>
+</li>
+<li><p>&#x6BCF;&#x4E2A;&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x4E5F;&#x662F;&#x57FA;&#x4E8E;Libevent&#x7684;&#x4E8B;&#x4EF6;&#x673A;&#x5236;&#xFF0C;&#x5F53;&#x5BA2;&#x6237;&#x7AEF;&#x6709;&#x6570;&#x636E;&#x5199;&#x5165;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x4F1A;&#x89E6;&#x53D1;&#x8BFB;&#x53D6;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
+</li>
+</ol>
+<p>&#x8BE6;&#x7EC6;&#x7684;&#x6E90;&#x7801;&#x89E3;&#x8BFB;&#x8FD8;&#x662F;&#x8BF7;&#x770B;&#x7F51;&#x7EDC;&#x6A21;&#x578B;&#x8FD9;&#x4E00;&#x7AE0;&#x8282;&#xFF0C;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x5F20;Memcached&#x7684;&#x7F51;&#x7EDC;&#x6A21;&#x578B;&#x56FE;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/23705d6.jpg" alt=""></p>
+<p>Memcached&#x7684;&#x547D;&#x4EE4;&#x89E3;&#x6790;&#x548C;&#x6D88;&#x606F;&#x56DE;&#x5E94; </p>
+<ol>
+<li><p>&#x6BCF;&#x4E00;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;&#x90FD;&#x4F1A;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;struct conn&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;&#x8BE5;&#x7ED3;&#x6784;&#x4E3B;&#x8981;&#x7528;&#x6765;&#x4FDD;&#x5B58;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8FDE;&#x63A5;&#x76F8;&#x5173;&#x4FE1;&#x606F;&#xFF0C;&#x4EE5;&#x53CA;&#x8BFB;&#x53D6;&#x5BA2;&#x6237;&#x7AEF;&#x6570;&#x636E;&#x7684;buf&#x7ED3;&#x6784;&#xFF0C;&#x4EE5;&#x53CA;&#x6D88;&#x606F;&#x56DE;&#x5E94;&#x7684;iov&#x548C;msghdr&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;</p>
+</li>
+<li><p>Memcached&#x7684;&#x547D;&#x4EE4;&#x662F;&#x901A;&#x8FC7;\n&#x7B26;&#x53F7;&#x6765;&#x8FDB;&#x884C;&#x5206;&#x5272;&#x7684;&#x3002;&#x5F53;&#x63A5;&#x6536;&#x5230;&#x4E00;&#x4E32;&#x547D;&#x4EE4;&#x4E4B;&#x540E;&#xFF0C;&#x4F1A;&#x53BB;&#x68C0;&#x67E5;rbuf&#x4E2D;&#x662F;&#x5426;&#x6709;\n&#x7B26;&#x53F7;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#xFF0C;&#x5219;&#x7EE7;&#x7EED;&#x7B49;&#x5F85;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x6570;&#x636E;&#x5230;&#x6765;&#xFF1B;&#x5982;&#x679C;&#x6709;\n&#x7B26;&#x53F7;&#xFF0C;&#x5219;&#x53BB;&#x89E3;&#x6790;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x3002;</p>
+</li>
+<li><p>&#x6BCF;&#x4E2A;&#x547D;&#x4EE4;&#x884C;&#x547D;&#x4EE4;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x90FD;&#x662F;&#x901A;&#x8FC7;&#x7A7A;&#x683C;&#x7B26;&#x53F7;&#x5206;&#x5272;&#x7684;&#x3002;&#x4F8B;&#x5982;&#xFF1A;get username&#x3002;&#x901A;&#x8FC7;&#x7A7A;&#x683C;&#x7B26;&#x53F7;&#xFF0C;&#x5C06;&#x547D;&#x4EE4;&#x5206;&#x89E3;&#x6210;N&#xFF08;N&#x5C0F;&#x4E8E;8&#xFF09;&#x4E2A;&#x90E8;&#x5206;&#xFF0C;&#x7136;&#x540E;&#x653E;&#x5165;tokens&#x7684;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x4E2D;&#x3002;&#x7136;&#x540E;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0D;&#x540C;&#x7684;&#x64CD;&#x4F5C;&#x547D;&#x4EE4;&#xFF0C;&#x6765;&#x8C03;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&#x3002;</p>
+</li>
+<li><p>Memcached&#x7684;&#x6D88;&#x606F;&#x56DE;&#x5E94;&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;&#x5C01;&#x88C5;iov&#x548C;msghdr&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x8C03;&#x7528;sendmsg&#x65B9;&#x6CD5;&#x6765;&#x5411;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x9001;&#x6570;&#x636E;&#x3002;&#x5BA2;&#x6237;&#x7AEF;&#x4E5F;&#x662F;&#x901A;&#x8FC7;\n&#x7684;&#x7B26;&#x53F7;&#x6765;&#x5206;&#x9694;&#x547D;&#x4EE4;&#x884C;&#x3002;</p>
+</li>
+</ol>
+<p>&#x5177;&#x4F53;&#x7684;&#x6E90;&#x7801;&#x89E3;&#x6790;&#xFF0C;&#x9700;&#x8981;&#x8BE6;&#x7EC6;&#x770B;&#x547D;&#x4EE4;&#x89E3;&#x6790;&#x548C;&#x6D88;&#x606F;&#x56DE;&#x5E94;&#x7684;&#x7AE0;&#x8282;&#x3002;</p>
+<p>&#x770B;&#x4E00;&#x4E0B;conn&#x7ED3;&#x6784;&#x4E2D;&#x6BD4;&#x8F83;&#x91CD;&#x8981;&#x7684;&#x51E0;&#x4E2A;&#x53C2;&#x6570;:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2370847.jpg" alt=""></p>
+<p>&#x7136;&#x540E;&#x770B;&#x4E00;&#x4E0B;&#x6574;&#x4E2A;&#x547D;&#x4EE4;&#x89E3;&#x6790;&#x548C;&#x6D88;&#x606F;&#x56DE;&#x5E94;&#x7684;&#x6D41;&#x7A0B;&#x56FE;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/2370847.jpg" alt=""></p>
+<p>Memcached&#x7684;&#x7F13;&#x5B58;&#x5B58;&#x50A8; </p>
+<ol>
+<li><p>Memcached&#x7684;&#x7F13;&#x5B58;&#x5B58;&#x50A8;&#x7684;&#x57FA;&#x672C;&#x5355;&#x5143;&#x662F;struct item&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;&#x6BCF;&#x4E00;&#x4E2A;item&#x90FD;&#x5305;&#x542B;&#x4E86;&#x5B58;&#x50A8;&#x7F13;&#x5B58;&#x7684;key&#xFF0C;key&#x7684;&#x957F;&#x5EA6;&#xFF0C;value&#x503C;&#xFF0C;value&#x503C;&#x7684;&#x957F;&#x5EA6;&#xFF0C;&#x7F13;&#x5B58;&#x6709;&#x6548;&#x671F;&#xFF0C;&#x6700;&#x8FD1;&#x8BBF;&#x95EE;&#x65F6;&#x95F4;&#x7B49;&#x4FE1;&#x606F;&#x3002;</p>
+</li>
+<li><p>Memcached&#x5728;&#x521D;&#x59CB;&#x5316;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x521D;&#x59CB;&#x5316;&#x4E00;&#x4E2A;slabclass_t&#x7ED3;&#x6784;&#x7684;&#x6570;&#x7EC4;&#xFF08;slabclass&#xFF09;&#x3002;slabclass&#x662F;&#x6570;&#x636E;&#x7A7A;&#x95F4;&#xFF0C;&#x89C4;&#x5B9A;&#x4E86;&#x4E0D;&#x540C;&#x957F;&#x5EA6;&#x7684;item&#x4F1A;&#x5B58;&#x50A8;&#x5728;&#x4E0D;&#x540C;&#x7684;slabclass_t&#x7684;&#x7ED3;&#x6784;&#x4E0A;&#x9762;&#x3002;&#x4F8B;&#x5982;slabclass<a href="http://taojinke.github.io/img/20150703/23705d6.jpg">0</a>&#x6700;&#x5927;&#x5B58;&#x50A8;96byte&#xFF0C;slabclass<a href="http://taojinke.github.io/img/20150703/2370847.jpg">1</a>&#x6700;&#x5927;&#x5B58;&#x50A8;120byte&#xFF0C;slabclass<a href="http://taojinke.github.io/img/20150703/237147c.jpg">2</a>&#x6700;&#x5927;&#x5B58;&#x50A8;150byte&#xFF0C;&#x5219;&#x5F53;&#x4E00;&#x4E2A;item&#x7684;&#x5927;&#x5C0F;&#x4E3A;135byte&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x5B58;&#x50A8;&#x5728;slabclass<a href="http://taojinke.github.io/img/20150703/237147c.jpg">2</a>&#x4E0A;&#x9762;&#x3002;</p>
+</li>
+<li><p>Memcached&#x6BCF;&#x6B21;&#x5206;&#x914D;&#x5185;&#x5B58;&#x90FD;&#x662F;&#x4EE5;slab&#x4E3A;&#x57FA;&#x7840;&#x5355;&#x4F4D;&#x3002;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;slab&#x7684;&#x5927;&#x5C0F;&#x4E3A;1M&#x3002;slabclass&#x5728;&#x521D;&#x59CB;&#xFFFD;&#xFFFD;&#xFFFD;&#x7684;&#x65F6;&#x5019;&#xFF0C;Memcached&#x4F1A;&#x7ED9;&#x6BCF;&#x4E00;&#x4E2A;slabclass_t&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x5206;&#x914D;&#x4E00;&#x4E2A;1M&#x5927;&#x5C0F;&#x7684;slab&#x3002;slab&#x4E3B;&#x8981;&#x662F;&#x7528;&#x6765;&#x5B58;&#x50A8;item&#x6570;&#x636E;&#x7684;&#xFF0C;&#x5F53;slab&#x88AB;&#x5206;&#x914D;&#x4E86;&#x4E4B;&#x540E;&#xFF0C;&#x5C31;&#x4F1A;&#x6839;&#x636E;&#x6BCF;&#x4E2A;slabclass_t&#x6240;&#x80FD;&#x5B58;&#x50A8;&#x7684;&#x6700;&#x5927;size&#xFF08;slabclass_t-&gt;size&#xFF09;&#xFF0C;&#x6765;&#x5207;&#x5206;&#x6210;N&#x4E2A;item&#xFF0C;&#x5E76;&#x4E14;&#x5C06;&#x8FD9;&#x90E8;&#x5206;item&#x653E;&#x5165;slabclass_t&#x7684;&#x7A7A;&#x95F2;&#x5217;&#x8868;&#xFF08;*slots&#xFF09;&#xFF0C;&#x5F53;&#x9700;&#x8981;&#x4F7F;&#x7528;item&#x7684;&#x65F6;&#x5019;&#x5C31;&#x4F1A;&#x4ECE;&#x8FD9;&#x4E2A;&#x7A7A;&#x95F2;&#x91CC;&#x5217;&#x8868;&#x4E2D;&#x53D6;&#x4E00;&#x4E2A;&#x3002;</p>
+</li>
+<li><p>&#x6BCF;&#x4E2A;slabclass_t&#x5206;&#x914D;&#x7684;item&#x5927;&#x5C0F;&#x90FD;&#x662F;&#x6839;&#x636E;slabclass_t-&gt;size&#x6765;&#x8BBE;&#x7F6E;&#x7684;&#xFF0C;&#x771F;&#x6B63;&#x5B58;&#x50A8;&#x7684;&#x65F6;&#x5019;&#x5B9E;&#x9645;item&#x7684;&#x5927;&#x5C0F;&#x53EF;&#x80FD;&#x4F1A;&#x5C0F;&#x4E8E;slabclass_t-&gt;size&#x7684;&#x60C5;&#x51B5;&#x3002;&#x6D6A;&#x8D39;&#x4E3B;&#x8981;&#x662F;&#x4E3A;&#x4E86;&#x51CF;&#x5C11;&#x5185;&#x5B58;&#x788E;&#x7247;&#xFF0C;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x8D77;&#x6765;&#x66F4;&#x52A0;&#x5408;&#x7406;&#x3002;</p>
+</li>
+<li><p>Memcached&#x5728;&#x8BFB;&#x53D6;&#x6570;&#x636E;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x4F9D;&#x8D56;&#x4E8E;HashTable&#x3002;&#x5F53;&#x6BCF;&#x6B21;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;Item&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x90FD;&#x4F1A;&#x5C06;item&#x7684;&#x5730;&#x5740;&#x6302;&#x8F7D;&#x5230;HashTable&#x4E0A;&#x53BB;&#x3002;&#x5BA2;&#x6237;&#x7AEF;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;key&#x6765;&#x67E5;&#x8BE2;&#x5230;&#x5BF9;&#x5E94;&#x7684;item&#x5730;&#x5740;&#x4E86;&#x3002;</p>
+</li>
+<li><p>&#x5F53;Memcached&#x7684;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x4E0D;&#x591F;&#x7528;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x4F1A;&#x4ECE;LRU&#x94FE;&#x4E2D;&#x5F3A;&#x5236;&#x6DD8;&#x6C70;&#x4E00;&#x4E2A;item&#xFF0C;&#x8BA9;&#x5165;&#x7A7A;&#x95F2;&#x5217;&#x8868;&#xFF0C;&#x4EE5;&#x4F9B;&#x4F7F;&#x7528;&#x3002;</p>
+</li>
+</ol>
+<p>&#x8BE6;&#x7EC6;&#x7684;&#x6E90;&#x7801;&#x89E3;&#x8BFB;&#x8FD8;&#x5F97;&#x770B;&#x524D;&#x9762;&#x7684;&#x6587;&#x7AE0;&#xFF0C;Memcached&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x64CD;&#x4F5C;&#xFF0C;HashTable&#xFF0C;LRU&#xFF0C;&#x7F13;&#x5B58;&#x5B58;&#x50A8;&#x673A;&#x5236;slabs</p>
+<p>&#x770B;&#x4E00;&#x4E0B;Item&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF1A;</p>
+<pre><code><span class="xml">//item&amp;#x7684;&amp;#x5177;&amp;#x4F53;&amp;#x7ED3;&amp;#x6784;    
+typedef struct _stritem </span><span class="expression">{    
+    //&amp;<span class="begin-block">#x</span>8<span class="variable">BB</span>0;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>00;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;<span class="variable">item</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5730;&amp;<span class="begin-block">#x</span>5740;,&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>8<span class="variable">E</span>;<span class="variable">LRU</span>&amp;<span class="begin-block">#x</span>94<span class="variable">FE</span>;&amp;<span class="begin-block">#x</span>548<span class="variable">C</span>;<span class="variable">freelist</span>&amp;<span class="begin-block">#x</span>94<span class="variable">FE</span>;    
+    <span class="variable">struct</span> _<span class="variable">stritem</span> *<span class="variable">next</span>;    
+    //&amp;<span class="begin-block">#x</span>8<span class="variable">BB</span>0;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>00;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;<span class="variable">item</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5730;&amp;<span class="begin-block">#x</span>5740;,&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>8<span class="variable">E</span>;<span class="variable">LRU</span>&amp;<span class="begin-block">#x</span>94<span class="variable">FE</span>;&amp;<span class="begin-block">#x</span>548<span class="variable">C</span>;<span class="variable">freelist</span>&amp;<span class="begin-block">#x</span>94<span class="variable">FE</span>;    
+    <span class="variable">struct</span> _<span class="variable">stritem</span> *<span class="variable">prev</span>;    
+    //&amp;<span class="begin-block">#x</span>8<span class="variable">BB</span>0;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;<span class="variable">HashTable</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>00;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;<span class="variable">Item</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5730;&amp;<span class="begin-block">#x</span>5740;    
+    <span class="variable">struct</span> _<span class="variable">stritem</span> *<span class="variable">h</span>_<span class="variable">next</span>;    
+    //&amp;<span class="begin-block">#x</span>6700;&amp;<span class="begin-block">#x</span>8<span class="variable">FD</span>1;&amp;<span class="begin-block">#x</span>8<span class="variable">BBF</span>;&amp;<span class="begin-block">#x</span>95<span class="variable">EE</span>;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>95<span class="variable">F</span>4;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>53<span class="variable">EA</span>;&amp;<span class="begin-block">#x</span>6709;<span class="variable">set</span><span class="end-block">/add</span><span class="end-block">/replace</span>&amp;<span class="begin-block">#x</span>7<span class="variable">B</span>49;&amp;<span class="begin-block">#x</span>64<span class="variable">CD</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>5<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>624<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>1<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>66<span class="variable">F</span>4;&amp;<span class="begin-block">#x</span>65<span class="variable">B</span>0;&amp;<span class="begin-block">#x</span>8<span class="variable">FD</span>9;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>57;&amp;<span class="begin-block">#x</span>6<span class="variable">BB</span>5;    
+    //&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>53;&amp;<span class="begin-block">#x</span>6267;&amp;<span class="begin-block">#x</span>884<span class="variable">C</span>;<span class="variable">flush</span>&amp;<span class="begin-block">#x</span>547<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">EE</span>4;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>5019;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>9700;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>8<span class="variable">FD</span>9;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>95<span class="variable">F</span>4;&amp;<span class="begin-block">#x</span>548<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>6267;&amp;<span class="begin-block">#x</span>884<span class="variable">C</span>;<span class="variable">flush</span>&amp;<span class="begin-block">#x</span>547<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">EE</span>4;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>95<span class="variable">F</span>4;&amp;<span class="begin-block">#x</span>76<span class="variable">F</span>8;&amp;<span class="begin-block">#x</span>6<span class="variable">BD</span>4;&amp;<span class="begin-block">#x</span>8<span class="variable">F</span>83;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>6765;&amp;<span class="begin-block">#x</span>5224;&amp;<span class="begin-block">#x</span>65<span class="variable">AD</span>;&amp;<span class="begin-block">#x</span>662<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>5426;&amp;<span class="begin-block">#x</span>5931;&amp;<span class="begin-block">#x</span>6548;    
+    <span class="variable">rel</span>_<span class="variable">time</span>_<span class="variable">t</span>      <span class="variable">time</span>;       /* <span class="variable">least</span> <span class="variable">recent</span> <span class="variable">access</span> *<span class="end-block">/    </span>
+    //&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>13;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>58;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>8<span class="variable">FC</span>7;&amp;<span class="begin-block">#x</span>671<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>95<span class="variable">F</span>4;&amp;<span class="begin-block">#x</span>3002;&amp;<span class="begin-block">#x</span>8<span class="variable">BBE</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>6<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">A</span>;0&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>5019;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>5219;&amp;<span class="begin-block">#x</span>6<span class="variable">C</span>38;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>45;&amp;<span class="begin-block">#x</span>6709;&amp;<span class="begin-block">#x</span>6548;&amp;<span class="begin-block">#x</span>3002;    
+    //&amp;<span class="begin-block">#x</span>5982;&amp;<span class="begin-block">#x</span>679<span class="variable">C</span>;<span class="variable">Memcached</span>&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>80<span class="variable">FD</span>;&amp;<span class="begin-block">#x</span>5206;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>65<span class="variable">B</span>0;&amp;<span class="begin-block">#x</span>7684;<span class="variable">item</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>5019;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>8<span class="variable">BBE</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">F</span>6<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">A</span>;0&amp;<span class="begin-block">#x</span>7684;<span class="variable">item</span>&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>5<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>6709;&amp;<span class="begin-block">#x</span>53<span class="variable">EF</span>;&amp;<span class="begin-block">#x</span>80<span class="variable">FD</span>;&amp;<span class="begin-block">#x</span>88<span class="variable">AB</span>;<span class="variable">LRU</span>&amp;<span class="begin-block">#x</span>6<span class="variable">DD</span>8;&amp;<span class="begin-block">#x</span>6<span class="variable">C</span>70;    
+    <span class="variable">rel</span>_<span class="variable">time</span>_<span class="variable">t</span>      <span class="variable">exptime</span>;    /* <span class="variable">expire</span> <span class="variable">time</span> *<span class="end-block">/    </span>
+    /<span class="end-block">/value</span>&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>5927;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>0<span class="variable">F</span>;    
+    <span class="variable">int</span>             <span class="variable">nbytes</span>;     /* <span class="variable">size</span> <span class="variable">of</span> <span class="variable">data</span> *<span class="end-block">/    </span>
+    //&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>15;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>6<span class="variable">B</span>21;&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>3002;&amp;<span class="begin-block">#x</span>901<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>8<span class="variable">FC</span>7;&amp;<span class="begin-block">#x</span>8<span class="variable">FD</span>9;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>15;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>6<span class="variable">B</span>21;&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>53<span class="variable">EF</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">EE</span>5;&amp;<span class="begin-block">#x</span>5224;&amp;<span class="begin-block">#x</span>65<span class="variable">AD</span>;<span class="variable">item</span>&amp;<span class="begin-block">#x</span>662<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>5426;&amp;<span class="begin-block">#x</span>88<span class="variable">AB</span>;&amp;<span class="begin-block">#x</span>5176;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>83;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>7<span class="variable">EBF</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">A</span>0<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>5728;&amp;<span class="begin-block">#x</span>64<span class="variable">CD</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>5<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>3002;    
+    //&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>5<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>53<span class="variable">EF</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">EE</span>5;&amp;<span class="begin-block">#x</span>901<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>8<span class="variable">FC</span>7;<span class="variable">refcount</span>&amp;<span class="begin-block">#x</span>6765;&amp;<span class="begin-block">#x</span>5224;&amp;<span class="begin-block">#x</span>65<span class="variable">AD</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>53;&amp;<span class="begin-block">#x</span>524<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>7684;<span class="variable">item</span>&amp;<span class="begin-block">#x</span>662<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>5426;&amp;<span class="begin-block">#x</span>53<span class="variable">EF</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">EE</span>5;&amp;<span class="begin-block">#x</span>88<span class="variable">AB</span>;&amp;<span class="begin-block">#x</span>5220;&amp;<span class="begin-block">#x</span>9664;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>53<span class="variable">EA</span>;&amp;<span class="begin-block">#x</span>6709;<span class="variable">refcount</span> <span class="variable">-</span>1 = 0&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>5019;&amp;<span class="begin-block">#x</span>624<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>80<span class="variable">FD</span>;&amp;<span class="begin-block">#x</span>88<span class="variable">AB</span>;&amp;<span class="begin-block">#x</span>5220;&amp;<span class="begin-block">#x</span>9664;    
+    <span class="variable">unsigned</span> <span class="variable">short</span>  <span class="variable">refcount</span>;    
+    <span class="variable">uint</span>8_<span class="variable">t</span>         <span class="variable">nsuffix</span>;    /* <span class="variable">length</span> <span class="variable">of</span> <span class="variable">flags-and-length</span> <span class="variable">string</span> *<span class="end-block">/    </span>
+    <span class="variable">uint</span>8_<span class="variable">t</span>         <span class="variable">it</span>_<span class="variable">flags</span>;   /* <span class="variable">ITEM</span>_* <span class="variable">above</span> *<span class="end-block">/    </span>
+    /<span class="end-block">/slabs</span>_<span class="variable">class</span>&amp;<span class="begin-block">#x</span>7684;<span class="variable">ID</span>&amp;<span class="begin-block">#x</span>3002;    
+    <span class="variable">uint</span>8_<span class="variable">t</span>         <span class="variable">slabs</span>_<span class="variable">clsid</span>;/* <span class="variable">which</span> <span class="variable">slab</span> <span class="variable">class</span> <span class="variable">we</span>&amp;<span class="variable">apos</span>;<span class="variable">re</span> <span class="variable">in</span> *<span class="end-block">/    </span>
+    <span class="variable">uint</span>8_<span class="variable">t</span>         <span class="variable">nkey</span>;       /* <span class="variable">key</span> <span class="variable">length</span>, <span class="variable">w</span><span class="end-block">/terminating null and padding </span>*<span class="end-block">/    </span>
+    /* <span class="variable">this</span> <span class="variable">odd</span> <span class="variable">type</span> <span class="variable">prevents</span> <span class="variable">type-punning</span> <span class="variable">issues</span> <span class="variable">when</span> <span class="variable">we</span> <span class="variable">do</span>  
+     * <span class="variable">the</span> <span class="variable">little</span> <span class="variable">shuffle</span> <span class="variable">to</span> <span class="variable">save</span> <span class="variable">space</span> <span class="variable">when</span> <span class="variable">not</span> <span class="variable">using</span> <span class="variable">CAS.</span> *<span class="end-block">/    </span>
+    //&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>58;&amp;<span class="begin-block">#x</span>50<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>7<span class="variable">ED</span>3;&amp;<span class="begin-block">#x</span>6784;    
+    <span class="variable">union</span> {    
+        <span class="variable">uint</span>64_<span class="variable">t</span> <span class="variable">cas</span>;    
+        <span class="variable">char</span> <span class="variable">end</span>;    
+    }</span><span class="xml"> data[];    
+    /* if it_flags &amp;amp; ITEM_CAS we have 8 bytes CAS */    
+    /* then null-terminated key */    
+    /* then &amp;quot; flags length\r\n&amp;quot; (no terminating null) */    
+    /* then data with terminating \r\n (no terminating null; it&amp;apos;s binary!) */    
+} item;</span>
+</code></pre><p>slabclass&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF1A;</p>
+<pre><code>//slabclass&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;    
+typedef struct {    
+    //&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x7684</span>;slabclass&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x7684</span>;item    
+    unsigned int size;    
+    //&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;slab&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x5C11</span>;&amp;<span class="symbol">#x4E2A</span>;item.&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E2A</span>;slab&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">1</span>M&amp;<span class="symbol">#xFF0C</span>; &amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x6839</span>;&amp;<span class="symbol">#x636E</span>;size&amp;<span class="symbol">#x51B3</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x3002</span>;    
+    unsigned int perslab;    
+    //&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;slabclass&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x95F2</span>;item&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#xFF09</span>;freelist &amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x5934</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;    
+    //freelist&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x901A</span>;&amp;<span class="symbol">#x8FC7</span>;item&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;item-&amp;gt;next&amp;<span class="symbol">#x548C</span>;item-&amp;gt;prev&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7ACB</span>;&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x7CFB</span>;    
+    void *slots;           /* list of item ptrs */    
+    //&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x603B</span>;&amp;<span class="symbol">#x5171</span>;&amp;<span class="symbol">#x5269</span>;&amp;<span class="symbol">#x4F59</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x5C11</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x95F2</span>;&amp;<span class="symbol">#x7684</span>;item    
+    //&amp;<span class="symbol">#x5F53</span>;sl_curr=<span class="number">0</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x95F2</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;slab&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="number">1</span>M&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x5207</span>;&amp;<span class="symbol">#x5272</span>;&amp;<span class="symbol">#x6210</span>;<span class="class">N</span>&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">Item</span>&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#xFF09</span>;    
+    unsigned int sl_curr;   /* total free items in list */    
+    //&amp;<span class="symbol">#x603B</span>;&amp;<span class="symbol">#x5171</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x5C11</span>;&amp;<span class="symbol">#x4E2A</span>;slabs    
+    unsigned int slabs;     /* how many slabs were allocated for this class */    
+    //&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7684</span>;slab&amp;<span class="symbol">#x94FE</span>;&amp;<span class="symbol">#x8868</span>;    
+    void **slab_list;       /* array of slab pointers */    
+    unsigned int list_size; /* size of prev array */    
+    unsigned int killing;  /* index+<span class="number">1</span> of dying slab, or zero if none */    
+    //&amp;<span class="symbol">#x603B</span>;&amp;<span class="symbol">#x5171</span>;&amp;<span class="symbol">#x8BF7</span>;&amp;<span class="symbol">#x6C42</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x603B</span>;bytes    
+    size_t requested; /* <span class="class">The</span> number of requested bytes */    
+} slabclass_t;    
+//&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x4E49</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;slabclass&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;<span class="number">200</span>&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7684</span>;slabclass_t&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x3002</span>;    
+static slabclass_t slabclass[<span class="class">MAX_NUMBER_OF_SLAB_CLASSES</span>];
+</code></pre><p>slabclass&#x548C;slab&#x3001;item&#x4EE5;&#x53CA;free list&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/237147c.jpg" alt=""></p>
+<p>&#x901A;&#x8FC7;item&#x7684;size&#x6765;&#x9009;&#x62E9;slab_class&#x7684;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/23716ed.jpg" alt=""></p>
+<p>HashTable&#xFF0C;Memcahced&#x4E3B;&#x8981;&#x901A;&#x8FC7;HashTable&#x6765;&#x67E5;&#x8BE2;Item&#x7684;&#x5730;&#x5740;&#xFF1A;&#xA0;</p>
+<p><img src="http://taojinke.github.io/img/20150703/237195e.jpg" alt=""></p>
+<p>LUR&#x94FE;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5185;&#x5B58;&#x4E0D;&#x591F;&#x5206;&#x914D;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8FDB;&#x884C;item&#x7684;&#x6DD8;&#x6C70;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/2371bcf.jpg" alt=""></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Memcached/">Memcached</a><a href="/tags/Nosql/">Nosql</a><a href="/tags/源码分析/">源码分析</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/2374f14/" title="memcache 源代码研究 - 请求处理流程 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  memcache 源代码研究 - 请求处理流程 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/236f4bf/"  title="Memcache的hash策略及配置总结 -">
+ <strong>下一篇：</strong><br/> 
+ <span>Memcache的hash策略及配置总结 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

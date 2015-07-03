@@ -1,0 +1,742 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>zookeeper Watcher API 说明 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="Watcher&amp;#xA0; &amp;#x5728;&amp;#xA0;  ZooKeeper&amp;#xA0;  &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x6838;&amp;#x5FC3;&amp;#x529F;&amp;#x80FD;  ,Watcher&amp;#xA0;  &amp;#x53EF;&amp;#x4EE5;&amp;#x76D1;&amp;#x63A7;&amp;#x76EE;&amp;#x5F55;&amp;#x8282;&amp;#x70B9;&amp;#x7684;&amp;#x6570">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper Watcher API 说明 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/10c48c9/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="Watcher&amp;#xA0; &amp;#x5728;&amp;#xA0;  ZooKeeper&amp;#xA0;  &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x6838;&amp;#x5FC3;&amp;#x529F;&amp;#x80FD;  ,Watcher&amp;#xA0;  &amp;#x53EF;&amp;#x4EE5;&amp;#x76D1;&amp;#x63A7;&amp;#x76EE;&amp;#x5F55;&amp;#x8282;&amp;#x70B9;&amp;#x7684;&amp;#x6570">
+<meta property="og:updated_time" content="2015-07-03T14:09:06.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zookeeper Watcher API 说明 -">
+<meta name="twitter:description" content="Watcher&amp;#xA0; &amp;#x5728;&amp;#xA0;  ZooKeeper&amp;#xA0;  &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x6838;&amp;#x5FC3;&amp;#x529F;&amp;#x80FD;  ,Watcher&amp;#xA0;  &amp;#x53EF;&amp;#x4EE5;&amp;#x76D1;&amp;#x63A7;&amp;#x76EE;&amp;#x5F55;&amp;#x8282;&amp;#x70B9;&amp;#x7684;&amp;#x6570">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/10c48c9/" title="zookeeper Watcher API 说明 -" itemprop="url">zookeeper Watcher API 说明 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:05.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#2、创建节点"><span class="toc-number">1.</span> <span class="toc-text">2、创建节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、删除节点"><span class="toc-number">2.</span> <span class="toc-text">3、删除节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、节点赋值/更新节点"><span class="toc-number">3.</span> <span class="toc-text">4、节点赋值/更新节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、读取节点值"><span class="toc-number">4.</span> <span class="toc-text">5、读取节点值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、判断节点是否存在"><span class="toc-number">5.</span> <span class="toc-text">6、判断节点是否存在</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、获取某个节点下的子节点"><span class="toc-number">6.</span> <span class="toc-text">7、获取某个节点下的子节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8、释放链接"><span class="toc-number">7.</span> <span class="toc-text">8、释放链接</span></a></li></ol>
+		
+		</div>
+		
+		<p> Watcher&#xA0; &#x5728;&#xA0;  ZooKeeper&#xA0;  &#x662F;&#x4E00;&#x4E2A;&#x6838;&#x5FC3;&#x529F;&#x80FD;  ,Watcher&#xA0;  &#x53EF;&#x4EE5;&#x76D1;&#x63A7;&#x76EE;&#x5F55;&#x8282;&#x70B9;&#x7684;&#x6570;&#x636E;&#x53D8;&#x5316;&#x4EE5;&#x53CA;&#x5B50;&#x76EE;&#x5F55;&#x7684;&#x53D8;&#x5316;  ,  &#x4E00;&#x65E6;&#x8FD9;&#x4E9B;&#x72B6;&#x6001;&#x53D1;&#x751F;&#x53D8;&#x5316;  ,  &#x670D;&#x52A1;&#x5668;&#x5C31;&#x4F1A;&#x901A;&#x77E5;&#x6240;&#x6709;&#x8BBE;&#x7F6E;&#x5728;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x8282;&#x70B9;&#x4E0A;&#x7684;&#xA0;  Watcher,  &#x4ECE;&#x800C;&#x6BCF;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x90FD;&#x5F88;&#x5FEB;&#x77E5;&#x9053;&#x5B83;&#x6240;&#x5173;&#x6CE8;&#x7684;&#x76EE;&#x5F55;&#x8282;&#x70B9;&#x7684;&#x72B6;&#x6001;&#x53D1;&#x751F;&#x53D8;&#x5316;  ,  &#x800C;&#x505A;&#x51FA;&#x76F8;&#x5E94;&#x7684;&#x53CD;&#x5E94;.</p>
+<p>&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x89C2;&#x5BDF;&#x7684;&#x64CD;&#x4F5C;&#xFF1A; exists,getChildren,getData</p>
+<p>&#x53EF;&#x4EE5;&#x89E6;&#x53D1;&#x89C2;&#x5BDF;&#x7684;&#x64CD;&#x4F5C;&#xFF1A; create,delete,setData</p>
+<p>znode &#x4EE5;&#x67D0;&#x79CD;&#x65B9;&#x5F0F;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x65F6;  ,  &#x201C;&#x89C2;&#x5BDF;&#x201D;(  watch)  &#x673A;&#x5236;&#x53EF;&#x4EE5;&#x8BA9;&#x5BA2;&#x6237;&#x7AEF;&#x5F97;&#x5230;&#x901A;&#x77E5;  . &#x53EF;&#x4EE5;&#x9488;&#x5BF9; ZooKeeper  &#x670D;&#x52A1;&#x7684;&#x201C;&#x64CD;&#x4F5C;&#x201D;&#x6765;&#x8BBE;&#x7F6E;&#x89C2;&#x5BDF;  ,  &#x8BE5;&#x670D;&#x52A1;&#x7684;&#x5176;&#x4ED6;&#xA0;&#x64CD;&#x4F5C;&#x53EF;&#x4EE5;&#x89E6;&#x53D1;&#x89C2;&#x5BDF;  .</p>
+<p>&#x6BD4;&#x5982; ,  &#x5BA2;&#x6237;&#x7AEF;&#x53EF;&#x4EE5;&#x5BF9;&#x67D0;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x8C03;&#x7528;  exists  &#x64CD;&#x4F5C;  ,  &#x540C;&#x65F6;&#x5728;&#x5B83;&#x4E0A;&#x9762;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x89C2;&#x5BDF;  ,  &#x5982;&#x679C;&#x6B64;&#x65F6;&#x8FD9;&#x4E2A;  znode  &#x4E0D;&#x5B58;&#x5728;  ,  &#x5219;  exists  &#x8FD4;&#x56DE;&#xA0;  false,  &#x5982;&#x679C;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x4E4B;&#x540E;  ,  &#x8FD9;&#x4E2A;  znode  &#x88AB;&#x5176;&#x4ED6;&#x5BA2;&#x6237;&#x7AEF;&#x521B;&#x5EFA;  ,  &#x5219;&#x8FD9;&#x4E2A;&#x89C2;&#x5BDF;&#x4F1A;&#x88AB;&#x89E6;&#x53D1;  ,  &#x4E4B;&#x524D;&#x7684;&#x90A3;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x5C31;&#x4F1A;&#x5F97;&#x5230;&#x901A;&#x77E5;  .<br><strong>&#x8BF4;&#x660E;</strong> : zookeeper&#x5BA2;&#x6237;&#x7AEF;&#x5BF9;server&#x7684;&#x64CD;&#x4F5C;&#x90FD;&#x662F;&#x4E0D;&#x53EF;&#x56DE;&#x9000;&#x7684;&#x3002;<br>&#x610F;&#x601D;&#x662F;&#x8BF4;&#xFF0C;zk&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x6BCF;&#x6B21;&#x548C;server&#x8FDB;&#x884C;&#x901A;&#x4FE1;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x8BB0;&#x4F4F;server&#x4E0A;&#x6700;&#x65B0;&#x7684;zxid&#x3002;&#x5982;&#x679C;&#x67D0;&#x4E2A;&#x65F6;&#x523B;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x548C;server&#x65AD;&#x5F00;&#x4E86;&#x8FDE;&#x63A5;&#xFF0C;&#x90A3;&#x4E48;&#x7B49;&#x5230;&#x4E0B;&#x6B21;&#x91CD;&#x65B0;&#x8FDE;&#x63A5;&#x5230;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x673A;&#x5668;&#x4E0A;&#x65F6;&#xFF0C;&#x4F1A;&#x68C0;&#x67E5;&#x5F53;&#x524D;&#x8FDE;&#x63A5;&#x4E0A;&#x7684;&#x90A3;&#x4E2A;server&#x662F;&#x5426;&#x548C;client&#x6709;&#x76F8;&#x540C;&#x7684;zxid&#xFF0C;&#x6216;&#x8005;&#x5DF2;&#x7ECF;&#x662F;&#x66F4;&#x65B0;&#x7684;zxid&#x4E86;&#x3002;&#x4E00;&#x65E6;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x73B0;server&#x7684;zxid&#x6BD4;&#x81EA;&#x5DF1;&#x5C0F;&#xFF0C;&#x90A3;&#x4E48;&#x5BA2;&#x6237;&#x7AEF;&#x4F1A;&#x65AD;&#x5F00;&#x548C;&#x8FD9;&#x4E2A;server&#x7684;&#x8FDE;&#x63A5;&#xFF0C;&#x5E76;&#x4E14;&#x91CD;&#x65B0;&#x8FDE;&#x63A5;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x5176;&#x5B83;server.<br><strong>1&#x3001;&#x94FE;&#x63A5;Zookeeper&#x670D;&#x52A1;&#x5668;</strong></p>
+<pre><code>/**
+    * &amp;lt;p&amp;gt;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;<span class="class">Zookeeper</span>&amp;lt;/p&amp;gt;
+    * &amp;lt;pre&amp;gt;
+    *    [&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x4E8E</span>;connectString&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;]
+    *    &amp;<span class="symbol">#x683C</span>;&amp;<span class="symbol">#x5F0F</span>;: <span class="number">192.168</span>.1.1:<span class="number">2181</span>,<span class="number">192.168</span>.1.2:<span class="number">2181</span>,<span class="number">192.168</span>.1.3:<span class="number">2181</span>
+    *    &amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="method">ip:</span>port&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x9017</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x9694</span>;,&amp;<span class="symbol">#x5E95</span>;&amp;<span class="symbol">#x5C42</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;
+    *    <span class="class">ConnectStringParser</span> connectStringParser =  new <span class="class">ConnectStringParser</span>(&amp;<span class="symbol">#x201C</span>;<span class="number">192.168</span>.1.1:<span class="number">2181</span>,<span class="number">192.168</span>.1.2:<span class="number">2181</span>,<span class="number">192.168</span>.1.3:<span class="number">2181</span>&amp;<span class="symbol">#x201D</span>;);
+    *    &amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x4E32</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x5B83</span>;&amp;<span class="symbol">#x4FDD</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">ArrayList</span>&amp;<span class="symbol">#x4E2D</span>;
+    *    <span class="class">ArrayList</span>&amp;lt;<span class="class">InetSocketAddress</span>&amp;gt; serverAddresses = new <span class="class">ArrayList</span>&amp;lt;<span class="class">InetSocketAddress</span>&amp;gt;();
+    *    &amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B65</span>;&amp;<span class="symbol">#x5C01</span>;&amp;<span class="symbol">#x88C5</span>;&amp;<span class="symbol">#x6210</span>;<span class="class">StaticHostProvider</span>&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FD0</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x7EF4</span>;&amp;<span class="symbol">#x62A4</span>;&amp;<span class="symbol">#x6574</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x3002</span>;
+    *    <span class="class">ZK</span>&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;<span class="class">Server</span>&amp;<span class="symbol">#x4FDD</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">List</span>&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7136</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x968F</span>;&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x6253</span>;&amp;<span class="symbol">#x4E71</span>;(&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x968F</span>;&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x6027</span>;&amp;<span class="symbol">#x7684</span>;)&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x5F62</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x73AF</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5177</span>;&amp;<span class="symbol">#x4F53</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4ECE</span>;<span class="number">0</span>&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x4F4D</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x3002</span>;
+    *    &amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#xFF0C</span>;<span class="class">Server</span>&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x591F</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x590D</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x6837</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x591F</span>;&amp;<span class="symbol">#x5F25</span>;&amp;<span class="symbol">#x8865</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x65E0</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;<span class="class">Server</span>&amp;<span class="symbol">#x6743</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7F3A</span>;&amp;<span class="symbol">#x9677</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4F46</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4E5F</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x98CE</span>;&amp;<span class="symbol">#x9669</span>;&amp;<span class="symbol">#x3002</span>;
+    *
+    *    [&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;]
+    *    <span class="class">ZooKeeper</span>&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7ACB</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x968F</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7ACB</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5168</span>;&amp;<span class="symbol">#x5C40</span>;&amp;<span class="symbol">#x552F</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;<span class="class">ID</span>(<span class="class">Session</span> <span class="class">ID</span>)&amp;<span class="symbol">#x3002</span>;
+    *    &amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x7EF4</span>;&amp;<span class="symbol">#x6301</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5728</span>;<span class="class">SESSION_TIMEOUT</span>&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x786E</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x6B63</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;(&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;heart_beat&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x6B21</span>;<span class="class">SESSION_TIMEOUT</span>&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;)&amp;<span class="symbol">#x3002</span>;
+    *    &amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x6B64</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x6B63</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#xFF0C</span>;<span class="class">Session</span>&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x6548</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;<span class="class">ZK</span>&amp;<span class="symbol">#x96C6</span>;&amp;<span class="symbol">#x7FA4</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x4FDD</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">Session</span>&amp;<span class="symbol">#x4FE1</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x3002</span>;
+    *    &amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x7F51</span>;&amp;<span class="symbol">#x7EDC</span>;&amp;<span class="symbol">#x6216</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x5B83</span>;&amp;<span class="symbol">#x95EE</span>;&amp;<span class="symbol">#x9898</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x53F0</span>;<span class="class">ZK</span>&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x6302</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6216</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x5B83</span>;&amp;<span class="symbol">#x539F</span>;&amp;<span class="symbol">#x56E0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7F51</span>;&amp;<span class="symbol">#x7EDC</span>;&amp;<span class="symbol">#x95EA</span>;&amp;<span class="symbol">#x65AD</span>;&amp;<span class="symbol">#xFF09</span>;,&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x4E0E</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x53F0</span>;&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x65AD</span>;&amp;<span class="symbol">#x4E86</span>;,
+    *    &amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x5316</span>;<span class="class">ZK</span>&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x8C61</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#x4F20</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x9020</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;connectString&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x9009</span>;&amp;<span class="symbol">#x62E9</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x3002</span>;
+    *
+    *    [&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;]
+    *    &amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x968F</span>;&amp;<span class="symbol">#x610F</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5728</span>;<span class="class">ZK</span>&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x9650</span>;&amp;<span class="symbol">#x5236</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x662F</span>;minSessionTimeout&amp;<span class="symbol">#x548C</span>;maxSessionTimeout&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E24</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x3002</span>;
+    *    &amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x8303</span>;&amp;<span class="symbol">#x56F4</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x90A3</span>;&amp;<span class="symbol">#x4E48</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5F3A</span>;&amp;<span class="symbol">#x5236</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x6216</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x3002</span>; &amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">Session</span>&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5728</span>;<span class="number">2</span> * tickTime ~ <span class="number">20</span> * tickTime
+    * &amp;lt;/pre&amp;gt;
+    * @param connectString  <span class="class">Zookeeper</span>&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;
+    * @param sessionTimeout <span class="class">Zookeeper</span>&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;
+    */
+    public void connectionZookeeper(<span class="class">String</span> connectString, int sessionTimeout){
+       this.releaseConnection();
+       try {
+          // <span class="class">ZK</span>&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5141</span>;&amp;<span class="symbol">#x8BB8</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x5C06</span>;<span class="class">ZK</span>&amp;<span class="symbol">#x670D</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x91CC</span>;
+          zk = new <span class="class">ZooKeeper</span>(connectString, sessionTimeout, this );
+          // &amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;<span class="class">CountDownLatch</span>.await()&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#x963B</span>;&amp;<span class="symbol">#x585E</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x5B83</span>;&amp;<span class="symbol">#x62E5</span>;&amp;<span class="symbol">#x6709</span>;<span class="class">CountDownLatch</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x6267</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x6BD5</span>;&amp;<span class="symbol">#xFF08</span>;countDown()&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>&amp;<span class="symbol">#xFF09</span>;
+          connectedSemaphore.await();
+       } catch ( <span class="class">InterruptedException</span> e ) {
+          <span class="class">LOG</span>.error(&amp;quot;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>; <span class="class">InterruptedException</span> , e &amp;quot; + e.getMessage(), e);
+       } catch ( <span class="class">IOException</span> e ) {
+          <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>; <span class="class">IOException</span> , e &amp;quot; + e.getMessage(), e );
+       }
+    }
+</code></pre><h4 id="2&#x3001;&#x521B;&#x5EFA;&#x8282;&#x70B9;">2&#x3001;&#x521B;&#x5EFA;&#x8282;&#x70B9;</h4><pre><code>    /**
+ * &amp;lt;p&amp;gt;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;zNode&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;, <span class="class">String</span> create(path&amp;lt;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;gt;, data[]&amp;lt;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5BB9</span>;&amp;gt;, <span class="class">List</span>(<span class="class">ACL</span>&amp;<span class="symbol">#x8BBF</span>;&amp;<span class="symbol">#x95EE</span>;&amp;<span class="symbol">#x63A7</span>;&amp;<span class="symbol">#x5236</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;), <span class="class">CreateMode</span>&amp;lt;zNode&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x578B</span>;&amp;gt;) &amp;lt;/p&amp;gt;&amp;lt;br/&amp;gt;
+ * &amp;lt;pre&amp;gt;
+ *     &amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x578B</span>;(<span class="class">CreateMode</span>)
+ *     <span class="number">1</span>&amp;<span class="symbol">#x3001</span>;<span class="class">PERSISTENT</span>:&amp;<span class="symbol">#x6301</span>;&amp;<span class="symbol">#x4E45</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;
+ *     <span class="number">2</span>&amp;<span class="symbol">#x3001</span>;<span class="class">PERSISTENT_SEQUENTIAL</span>:&amp;<span class="symbol">#x987A</span>;&amp;<span class="symbol">#x5E8F</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x7F16</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x6301</span>;&amp;<span class="symbol">#x4E45</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x79CD</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x6839</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x52A0</span>; <span class="number">1</span>
+ *     <span class="number">3</span>&amp;<span class="symbol">#x3001</span>;<span class="class">EPHEMERAL</span>:&amp;<span class="symbol">#x4E34</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;,session&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;
+ *     <span class="number">4</span>&amp;<span class="symbol">#x3001</span>;<span class="class">EPHEMERAL_SEQUENTIAL</span>:&amp;<span class="symbol">#x4E34</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x7F16</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;
+ * &amp;lt;/pre&amp;gt;
+ * @param path zNode&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;
+ * @param data zNode&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5BB9</span>;
+ * @return &amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">true</span>, &amp;<span class="symbol">#x53CD</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">false</span>.
+ */
+public boolean createPath( <span class="class">String</span> path, <span class="class">String</span> data ) {
+    try {
+        <span class="class">String</span> zkPath =  this.zk.create(path, data.getBytes(), <span class="class">ZooDefs</span>.<span class="class">Ids</span>.<span class="class">OPEN_ACL_UNSAFE</span>, <span class="class">CreateMode</span>.<span class="class">PERSISTENT</span>);
+        <span class="class">LOG</span>.info( &amp;quot;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;, <span class="class">Path</span>: &amp;quot; + zkPath + &amp;quot;, <span class="method">content:</span> &amp;quot; + data );
+        return <span class="keyword">true</span>;
+    } catch ( <span class="class">KeeperException</span> e ) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;, &amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">KeeperException</span>! <span class="method">path:</span> &amp;quot; + path + &amp;quot;, <span class="method">data:</span>&amp;quot; + data
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    } catch ( <span class="class">InterruptedException</span> e ) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;, &amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>; <span class="class">InterruptedException</span>! <span class="method">path:</span> &amp;quot; + path + &amp;quot;, <span class="method">data:</span>&amp;quot; + data
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    }
+    return <span class="keyword">false</span>;
+}
+</code></pre><h4 id="3&#x3001;&#x5220;&#x9664;&#x8282;&#x70B9;">3&#x3001;&#x5220;&#x9664;&#x8282;&#x70B9;</h4><pre><code>    /**
+ * &amp;lt;p&amp;gt;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;zMode&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;, void delete(path&amp;lt;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;gt;, stat&amp;lt;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x53F7</span>;&amp;gt;)&amp;lt;/p&amp;gt;&amp;lt;br/&amp;gt;
+ * &amp;lt;pre&amp;gt;
+ *     &amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;
+ *     <span class="number">1</span>&amp;<span class="symbol">#x3001</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x81F4</span>;,&amp;<span class="symbol">#x65E0</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;.
+ *     <span class="number">2</span>&amp;<span class="symbol">#x3001</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x4E0E</span>;znode&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x81F4</span>;,&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x65E0</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;,&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x79CD</span>;&amp;<span class="symbol">#x4E50</span>;&amp;<span class="symbol">#x89C2</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#x9501</span>;&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x5236</span>;;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E3A</span>;-<span class="number">1</span>,&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x6D4B</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;,&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;.
+ * &amp;lt;/pre&amp;gt;
+ * @param path zNode&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;
+ * @return &amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">true</span>,&amp;<span class="symbol">#x53CD</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">false</span>.
+ */
+public boolean deletePath( <span class="class">String</span> path ){
+    try {
+        this.zk.delete(path,-<span class="number">1</span>);
+        <span class="class">LOG</span>.info( &amp;quot;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;, <span class="class">Path</span>: &amp;quot; + path);
+        return <span class="keyword">true</span>;
+    } catch ( <span class="class">KeeperException</span> e ) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;, &amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">KeeperException</span>! <span class="method">path:</span> &amp;quot; + path
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    } catch ( <span class="class">InterruptedException</span> e ) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;, &amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>; <span class="class">InterruptedException</span>! <span class="method">path:</span> &amp;quot; + path
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    }
+    return <span class="keyword">false</span>;
+}
+</code></pre><h4 id="4&#x3001;&#x8282;&#x70B9;&#x8D4B;&#x503C;/&#x66F4;&#x65B0;&#x8282;&#x70B9;">4&#x3001;&#x8282;&#x70B9;&#x8D4B;&#x503C;/&#x66F4;&#x65B0;&#x8282;&#x70B9;</h4><pre><code>    /**
+ * &amp;lt;p&amp;gt;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5BB9</span>;, <span class="class">Stat</span> setData(path&amp;lt;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;gt;, data[]&amp;lt;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5BB9</span>;&amp;gt;, stat&amp;lt;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x53F7</span>;&amp;gt;)&amp;lt;/p&amp;gt;
+ * &amp;lt;pre&amp;gt;
+ *     &amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x67D0</span>;&amp;<span class="symbol">#x4E2A</span>;znode&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x4E3A</span>;-<span class="number">1</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8DF3</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x67E5</span>;
+ * &amp;lt;/pre&amp;gt;
+ * @param path zNode&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;
+ * @param data zNode&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5BB9</span>;
+ * @return &amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">true</span>,&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">false</span>
+ */
+public boolean writeData( <span class="class">String</span> path, <span class="class">String</span> data){
+    try {
+        <span class="class">Stat</span> stat = this.zk.setData(path, data.getBytes(), -<span class="number">1</span>);
+        <span class="class">LOG</span>.info( &amp;quot;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;, path&amp;<span class="symbol">#xFF1A</span>;&amp;quot; + path + &amp;quot;, <span class="method">stat:</span> &amp;quot; + stat );
+        return <span class="keyword">true</span>;
+    } catch (<span class="class">KeeperException</span> e) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;, &amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">KeeperException</span>! <span class="method">path:</span> &amp;quot; + path + &amp;quot;, <span class="method">data:</span>&amp;quot; + data
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    } catch (<span class="class">InterruptedException</span> e) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;, &amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">InterruptedException</span>! <span class="method">path:</span> &amp;quot; + path + &amp;quot;, <span class="method">data:</span>&amp;quot; + data
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    }
+    return <span class="keyword">false</span>;
+}
+</code></pre><h4 id="5&#x3001;&#x8BFB;&#x53D6;&#x8282;&#x70B9;&#x503C;">5&#x3001;&#x8BFB;&#x53D6;&#x8282;&#x70B9;&#x503C;</h4><pre><code>    /**
+ * &amp;lt;p&amp;gt;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5BB9</span>;,byte[] getData(path&amp;lt;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;gt;, watcher&amp;lt;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x89C6</span>;&amp;<span class="symbol">#x5668</span>;&amp;gt;, stat&amp;lt;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7248</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x53F7</span>;&amp;gt;)&amp;lt;/p&amp;gt;
+ * @param path zNode&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;
+ * @return &amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;,&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;,&amp;<span class="symbol">#x65E0</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;null
+ */
+public <span class="class">String</span> readData( <span class="class">String</span> path ){
+    <span class="class">String</span> data = null;
+    try {
+        data = new <span class="class">String</span>( this.zk.getData( path, <span class="keyword">false</span>, null ) );
+        <span class="class">LOG</span>.info( &amp;quot;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;, <span class="method">path:</span>&amp;quot; + path + &amp;quot;, <span class="method">content:</span>&amp;quot; + data);
+    } catch (<span class="class">KeeperException</span> e) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;,&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">KeeperException</span>! <span class="method">path:</span> &amp;quot; + path
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    } catch (<span class="class">InterruptedException</span> e) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;,&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">InterruptedException</span>! <span class="method">path:</span> &amp;quot; + path
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    }
+    return  data;
+}
+</code></pre><h4 id="6&#x3001;&#x5224;&#x65AD;&#x8282;&#x70B9;&#x662F;&#x5426;&#x5B58;&#x5728;">6&#x3001;&#x5224;&#x65AD;&#x8282;&#x70B9;&#x662F;&#x5426;&#x5B58;&#x5728;</h4><pre><code>    /**
+ * &amp;lt;p&amp;gt;&amp;<span class="symbol">#x5224</span>;&amp;<span class="symbol">#x65AD</span>;&amp;<span class="symbol">#x67D0</span>;&amp;<span class="symbol">#x4E2A</span>;zNode&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;, <span class="class">Stat</span> exists(path&amp;lt;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;gt;, watch&amp;lt;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x63A7</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x91CC</span>;&amp;<span class="symbol">#x7684</span>; watcher &amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>; <span class="class">ZooKeeper</span> &amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x4F8B</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x7684</span>; watcher&amp;gt;)&amp;lt;/p&amp;gt;
+ * @param path zNode&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;
+ * @return &amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">true</span>,&amp;<span class="symbol">#x53CD</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="keyword">false</span>
+ */
+public boolean isExists( <span class="class">String</span> path ){
+    try {
+        <span class="class">Stat</span> stat = this.zk.exists( path, <span class="keyword">false</span> );
+        return null != stat;
+    } catch (<span class="class">KeeperException</span> e) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;,&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">KeeperException</span>! <span class="method">path:</span> &amp;quot; + path
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    } catch (<span class="class">InterruptedException</span> e) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;,&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">InterruptedException</span>! <span class="method">path:</span> &amp;quot; + path
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    }
+    return <span class="keyword">false</span>;
+}
+</code></pre><h4 id="7&#x3001;&#x83B7;&#x53D6;&#x67D0;&#x4E2A;&#x8282;&#x70B9;&#x4E0B;&#x7684;&#x5B50;&#x8282;&#x70B9;">7&#x3001;&#x83B7;&#x53D6;&#x67D0;&#x4E2A;&#x8282;&#x70B9;&#x4E0B;&#x7684;&#x5B50;&#x8282;&#x70B9;</h4><pre><code>    /**
+ * &amp;lt;p&amp;gt;&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x67D0</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;,<span class="class">List</span> getChildren(path&amp;lt;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;gt;, watcher&amp;lt;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x89C6</span>;&amp;<span class="symbol">#x5668</span>;&amp;gt;)&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x8F7D</span>;&amp;lt;/p&amp;gt;
+ * @param path zNode&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;
+ * @return &amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x96C6</span>;&amp;<span class="symbol">#x5408</span>; &amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;,&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x91CC</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x540D</span>;
+ * &amp;lt;pre&amp;gt;
+ *     eg.
+ *     /node
+ *     /node/child1
+ *     /node/child2
+ *     getChild( &amp;quot;node&amp;quot; )&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x96C6</span>;&amp;<span class="symbol">#x5408</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4E3A</span>;[&amp;quot;child1&amp;quot;,&amp;quot;child2&amp;quot;]
+ * &amp;lt;/pre&amp;gt;
+ *
+ *
+ *
+ * @throws <span class="class">KeeperException</span>
+ * @throws <span class="class">InterruptedException</span>
+ */
+public <span class="class">List</span>&amp;lt;<span class="class">String</span>&amp;gt; getChild( <span class="class">String</span> path ){
+    try{
+        <span class="class">List</span>&amp;lt;<span class="class">String</span>&amp;gt; list=this.zk.getChildren( path, <span class="keyword">false</span> );
+        if(list.isEmpty()){
+            <span class="class">LOG</span>.info( &amp;quot;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;quot; + path );
+        }
+        return list;
+    }catch (<span class="class">KeeperException</span> e) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;,&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">KeeperException</span>! <span class="method">path:</span> &amp;quot; + path
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    } catch (<span class="class">InterruptedException</span> e) {
+        <span class="class">LOG</span>.error( &amp;quot;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5B50</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x70B9</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;,&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x751F</span>;<span class="class">InterruptedException</span>! <span class="method">path:</span> &amp;quot; + path
+                + &amp;quot;, <span class="method">errMsg:</span>&amp;quot; + e.getMessage(), e );
+    }
+    return null;
+}
+</code></pre><h4 id="8&#x3001;&#x91CA;&#x653E;&#x94FE;&#x63A5;">8&#x3001;&#x91CA;&#x653E;&#x94FE;&#x63A5;</h4><pre><code>  <span class="comment">/**
+ * &amp;#x5173;&amp;#x95ED;ZK&amp;#x8FDE;&amp;#x63A5;
+ */</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">releaseConnection</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> ( <span class="keyword">null</span> != zk ) {
+        <span class="keyword">try</span> {
+            <span class="keyword">this</span>.zk.close();
+        } <span class="keyword">catch</span> ( InterruptedException e ) {
+            LOG.<span class="keyword">error</span>(&amp;quot;release connection <span class="keyword">error</span> ,&amp;quot; + e.getMessage() ,e);
+        }
+    }
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/10c06de/" title="基于zookeeper的远程方法调用(RMI)的实现 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  基于zookeeper的远程方法调用(RMI)的实现 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/10b2160/"  title="ZooKeeper运维经验 -">
+ <strong>下一篇：</strong><br/> 
+ <span>ZooKeeper运维经验 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#2、创建节点"><span class="toc-number">1.</span> <span class="toc-text">2、创建节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、删除节点"><span class="toc-number">2.</span> <span class="toc-text">3、删除节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、节点赋值/更新节点"><span class="toc-number">3.</span> <span class="toc-text">4、节点赋值/更新节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、读取节点值"><span class="toc-number">4.</span> <span class="toc-text">5、读取节点值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、判断节点是否存在"><span class="toc-number">5.</span> <span class="toc-text">6、判断节点是否存在</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、获取某个节点下的子节点"><span class="toc-number">6.</span> <span class="toc-text">7、获取某个节点下的子节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8、释放链接"><span class="toc-number">7.</span> <span class="toc-text">8、释放链接</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

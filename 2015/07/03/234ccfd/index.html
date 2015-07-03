@@ -1,0 +1,609 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>深入学习Memcached - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x7531;&amp;#x4E8E;&amp;#x5B9E;&amp;#x9A8C;&amp;#x5BA4;&amp;#x5728;&amp;#x4E00;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;&amp;#x4E2D;&amp;#x7528;&amp;#x5230;&amp;#x4E86;Memcached&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7F13;&amp;#x5B58;&amp;#xFF0C;&amp;#x81EA;&amp;#x5DF1;&amp;#x8FD9;&amp;#x6BB5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入学习Memcached -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/234ccfd/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x7531;&amp;#x4E8E;&amp;#x5B9E;&amp;#x9A8C;&amp;#x5BA4;&amp;#x5728;&amp;#x4E00;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;&amp;#x4E2D;&amp;#x7528;&amp;#x5230;&amp;#x4E86;Memcached&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7F13;&amp;#x5B58;&amp;#xFF0C;&amp;#x81EA;&amp;#x5DF1;&amp;#x8FD9;&amp;#x6BB5">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/234a10b.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/234a37c.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:09:37.205Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入学习Memcached -">
+<meta name="twitter:description" content="&amp;#x7531;&amp;#x4E8E;&amp;#x5B9E;&amp;#x9A8C;&amp;#x5BA4;&amp;#x5728;&amp;#x4E00;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;&amp;#x4E2D;&amp;#x7528;&amp;#x5230;&amp;#x4E86;Memcached&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7F13;&amp;#x5B58;&amp;#xFF0C;&amp;#x81EA;&amp;#x5DF1;&amp;#x8FD9;&amp;#x6BB5">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/234ccfd/" title="深入学习Memcached -" itemprop="url">深入学习Memcached -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:37.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Memcached是什么"><span class="toc-number">1.</span> <span class="toc-text">Memcached是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LRU算法"><span class="toc-number">2.</span> <span class="toc-text">LRU算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一致性哈希算法"><span class="toc-number">3.</span> <span class="toc-text">一致性哈希算法</span></a></li></ol>
+		
+		</div>
+		
+		<p>&#x7531;&#x4E8E;&#x5B9E;&#x9A8C;&#x5BA4;&#x5728;&#x4E00;&#x4E2A;&#x9879;&#x76EE;&#x4E2D;&#x7528;&#x5230;&#x4E86;Memcached&#x5206;&#x5E03;&#x5F0F;&#x7F13;&#x5B58;&#xFF0C;&#x81EA;&#x5DF1;&#x8FD9;&#x6BB5;&#x65F6;&#x95F4;&#x4E5F;&#x5BF9;&#x5206;&#x5E03;&#x5F0F;&#x7F13;&#x5B58;&#x6DF1;&#x5165;&#x5B66;&#x4E60;&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x672C;&#x6587;&#x5C31;&#x603B;&#x7ED3;&#x4E00;&#x4E0B;&#x81EA;&#x5DF1;&#x7684;&#x6536;&#x83B7;&#xFF0C;&#x8FD8;&#x662F;&#x4ECE;Memcached&#x662F;&#x4EC0;&#x4E48;&#x8C08;&#x8D77;&#x5427;&#x3002;</p>
+<h2 id="Memcached&#x662F;&#x4EC0;&#x4E48;">Memcached&#x662F;&#x4EC0;&#x4E48;</h2><p>Memcached&#x662F;&#x4E00;&#x6B3E;&#x9AD8;&#x6027;&#x80FD;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x5185;&#x5B58;&#x5BF9;&#x8C61;&#x7F13;&#x5B58;&#x7CFB;&#x7EDF;&#xFF0C;&#x4F7F;&#x7528;&#x5B83;&#x53EF;&#x4EE5;&#x51CF;&#x5C11;&#x5E94;&#x7528;&#x7CFB;&#x7EDF;&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x7684;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#xFF0C;&#x51CF;&#x8F7B;&#x4E86;&#x6570;&#x636E;&#x5E93;&#x8D1F;&#x8F7D;&#xFF0C;&#x5E76;&#x4E14;&#x63D0;&#x5347;&#x4E86;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x54CD;&#x5E94;&#x901F;&#x5EA6;&#x3002;&#x53EF;&#x4EE5;&#x5C06;Memcached&#x6BD4;&#x4F5C;&#x4E00;&#x4E2A;&#x5DE8;&#x5927;&#x7684;&#x3001;&#x5B58;&#x50A8;&#x4E86;&#x5F88;&#x591A; &#x5BF9;&#x7684;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x901A;&#x8FC7;key&#x53EF;&#x4EE5;&#x5B58;&#x50A8;&#x6216;&#x67E5;&#x8BE2;&#x4EFB;&#x610F;&#x7684;&#x6570;&#x636E;&#x3002;&#x5B83;&#x7684;&#x5B9E;&#x73B0;&#x4F9D;&#x8D56;&#x4E8E;&#x51E0;&#x4E2A;&#x91CD;&#x8981;&#x7684;&#x7B97;&#x6CD5;&#xFF0C;&#x4E0B;&#x9762;&#x5C31;&#x8BE6;&#x7EC6;&#x8BB2;&#x8BB2; <strong>&#x6700;&#x8FD1;&#x6700;&#x5C11;&#x4F7F;&#x7528;&#xFF08;LRU&#xFF09;&#x7B97;&#x6CD5;</strong> &#x548C; <strong>&#x4E00;&#x81F4;&#x6027;&#x54C8;&#x5E0C;&#x7B97;&#x6CD5;</strong> &#x3002; </p>
+<h2 id="LRU&#x7B97;&#x6CD5;">LRU&#x7B97;&#x6CD5;</h2><p>&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7684;&#x9875;&#x9762;&#x7F6E;&#x6362;&#x7B97;&#x6CD5;&#x4E2D;&#x4E5F;&#x5305;&#x62EC;&#x8BE5;&#x7B97;&#x6CD5;&#xFF0C;&#x8FD9;&#x79CD;&#x7B97;&#x6CD5;&#x975E;&#x5E38;&#x9002;&#x5408;&#x4E8E;&#x7F13;&#x5B58;&#x7CFB;&#x7EDF;&#x3002;&#x5B83;&#x57FA;&#x4E8E;&#x4E00;&#x79CD;&#x5047;&#x8BBE;&#xFF1A;&#x8FC7;&#x53BB;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x4F7F;&#x7528;&#x9891;&#x7387;&#x6700;&#x4F4E;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5C06;&#x6765;&#x4E5F;&#x4F1A;&#x5F88;&#x5C11;&#x4F7F;&#x7528;&#x3002;&#x4E0B;&#x9762;&#x662F;&#x6211;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;&#x7684;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;LRU&#x7B97;&#x6CD5;&#x7684;&#x7F13;&#x5B58;&#xFF0C;&#x5B83;&#x5B9E;&#x73B0;&#x4E86;&#x57FA;&#x672C;&#x7684;&#x7F13;&#x5B58;&#x529F;&#x80FD;&#xFF0C;&#x4E0D;&#x8FC7;&#x9700;&#x8981;&#x6539;&#x8FDB;&#x7684;&#x4E00;&#x70B9;&#x662F;&#x8BE5;&#x7F13;&#x5B58;&#x5E94;&#x8BE5;&#x662F;&#x5355;&#x4F8B;&#x7684;&#x3002; </p>
+<pre><code><span class="package"><span class="keyword">package</span> <span class="title">colin</span>.<span class="title">cache</span>;  </span>
+</code></pre><p>/**  </p>
+<ul>
+<li></li>
+<li>@author Colin Wang  </li>
+<li><p>Created on Apr 18, 2015<br>*/<br>public class LRUCache {<br> private static final int DEFAULT_MAX_SIZE = 10;<br> private Object[] elements;<br> private int size;  </p>
+<p> public LRUCache(int maxSize) {  </p>
+<pre><code>elements = <span class="keyword">new</span> <span class="built_in">Object</span>[maxSize];  
+</code></pre><p> }  </p>
+<p> public LRUCache() {  </p>
+<pre><code>this<span class="list">(<span class="keyword">DEFAULT_MAX_SIZE</span>)</span><span class="comment">;  </span>
+</code></pre><p> }  </p>
+<p> public boolean isEmpty() {  </p>
+<pre><code><span class="keyword">return</span> <span class="built_in">size</span> == <span class="number">0</span>;  
+</code></pre><p> }  </p>
+<p> public int size() {  </p>
+<pre><code><span class="keyword">return</span> <span class="built_in">size</span>;  
+</code></pre><p> }  </p>
+<p> public boolean isFull() {  </p>
+<pre><code><span class="keyword">return</span> <span class="built_in">size</span> == elements.<span class="built_in">length</span>;  
+</code></pre><p> }  </p>
+<p> /**  </p>
+<ul>
+<li>&#x8FD4;&#x56DE;&#x5143;&#x7D20;&#x5728;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;  </li>
+<li></li>
+<li>@param element  </li>
+<li><p>@return<br>*/<br>public int indexOf(Object element) {<br> for (int i = 0; i &lt; size; i++) {  </p>
+<pre><code><span class="keyword">if</span> (element.<span class="keyword">equals</span>(elements[i])) {  
+<span class="command">    return</span> i;  
+}  
+</code></pre><p> }<br> return -1;<br>}  </p>
+<p>public Object push(Object element) {<br> int index = -1;<br> if (!isFull() &amp;&amp; indexOf(element) == -1) {  </p>
+<pre><code>// &amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x672A</span>;&amp;<span class="symbol">#x6EE1</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x542B</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x63D2</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5143</span>;&amp;<span class="symbol">#x7D20</span>;  
+elements[size++] = element;  
+</code></pre><p> } else if (isFull() &amp;&amp; indexOf(element) == -1) {  </p>
+<pre><code>// &amp;<span class="symbol">#x7F13</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x6EE1</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E14</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x542B</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x63D2</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5143</span>;&amp;<span class="symbol">#x7D20</span>;  
+for (int i = <span class="number">0</span>; i &amp;lt; size - <span class="number">1</span>; i++) {  
+    elements[i] = elements[i + <span class="number">1</span>];  
+}  
+elements[size - <span class="number">1</span>] = element;  
+</code></pre><p> } else {  </p>
+<pre><code><span class="keyword">index</span> = indexOf(element);  
+<span class="keyword">for</span> (int i = <span class="keyword">index</span>; i &amp;lt; size - <span class="number">1</span>; i++) <span class="comment">{  
+    elements[i] = elements[i + 1];  
+}</span>  
+elements[size - <span class="number">1</span>] = element;  
+</code></pre><p> }<br> return index == -1 ? null : elements[index];<br>}  </p>
+<p>public void show() {<br> for (int i = 0; i &lt; size; i++) {  </p>
+<pre><code><span class="tag">System</span><span class="class">.out</span><span class="class">.print</span>(<span class="tag">elements</span><span class="attr_selector">[i]</span><span class="class">.toString</span>() + &amp;<span class="tag">quot</span>; &amp;<span class="tag">quot</span>;);  
+</code></pre><p> }<br>}<br>}</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x4E00;&#x81F4;&#x6027;&#x54C8;&#x5E0C;&#x7B97;&#x6CD5;">&#x4E00;&#x81F4;&#x6027;&#x54C8;&#x5E0C;&#x7B97;&#x6CD5;</h2><p>&#x8BE5;&#x7B97;&#x6CD5;&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7F13;&#x5B58;&#x7CFB;&#x7EDF;&#x4E2D;&#x5E94;&#x7528;&#x5341;&#x5206;&#x5E7F;&#x6CDB;&#xFF0C;&#x5B83;&#x7684;&#x5173;&#x952E;&#x4E4B;&#x5904;&#x5728;&#x4E8E;&#x4F7F;&#x7528;&#x73AF;&#x5F62;&#x7684;&#x54C8;&#x5E0C;&#x7A7A;&#x95F4;&#x3002;&#x9996;&#x5148;&#x6211;&#x4EEC;&#x5148;&#x8003;&#x8651;&#x4E00;&#x4E0B;JDK&#x4E2D;HashMap&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#xFF0C;HashMap&#x6709;&#x4E00;&#x4E2A;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x548C;&#x88C5;&#x8F7D;&#x56E0;&#x5B50;&#xFF0C;&#x5F53;HashMap&#x4E2D;&#x5143;&#x7D20;&#x7684;&#x6570;&#x91CF;&#x8FBE;&#x5230;&#x4E86; &#x521D;&#x59CB;&#x5BB9;&#x91CF;*&#x88C5;&#x8F7D;&#x56E0;&#x5B50; &#x8FD9;&#x4E48;&#x591A;&#x65F6;&#xFF0C;HashMap&#x5C31;&#x4F1A;&#x8FDB;&#x884C;&#x6269;&#x5BB9;&#xFF08;&#x53D8;&#x4E3A;&#x539F;&#x6765;&#x7684;2&#x500D;&#xFF09;&#x7136;&#x540E;&#x518D;&#x54C8;&#x5E0C;&#xFF0C;&#x5F53;&#x5143;&#x7D20;&#x5F88;&#x591A;&#x65F6;&#xFF0C;&#x8FD9;&#x79CD;&#x518D;&#x54C8;&#x5E0C;&#x64CD;&#x4F5C;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x5F88;&#x6D88;&#x8017;&#x8D44;&#x6E90;&#x7684;&#x3002;&#x5C3D;&#x7BA1;HashMap&#x4F7F;&#x7528;&#x4E86;&#x4E00;&#x79CD;&#x6BD4;&#x8F83;&#x4F18;&#x5316;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;HashMap&#x7684;&#x5927;&#x5C0F;&#x603B;&#x662F;&#x4E3A;2&#x7684;n&#x6B21;&#x5E42;&#xFF08;&#x9ED8;&#x8BA4;&#x5927;&#x5C0F;&#x4E3A;16&#xFF09;&#xFF0C;&#x8FD9;&#x6837;&#x65E2;&#x51CF;&#x5C11;&#x4E86;&#x54C8;&#x5E0C;&#x78B0;&#x649E;&#x7684;&#x51E0;&#x7387;&#xFF08;&#x56E0;&#x4E3A; 2&#x7684;n&#x6B21;&#x5E42;-1 &#x8F6C;&#x5316;&#x4E3A;&#x4E8C;&#x8FDB;&#x5236;&#x65F6;&#x6240;&#x6709;&#x4F4D;&#x5747;&#x4E3A;1&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x907F;&#x514D;&#x4E86;&#x67D0;&#x4E9B;&#x4F4D;&#x4E0D;&#x80FD;&#x53D1;&#x6325;&#x4F5C;&#x7528;&#xFF09;&#xFF0C;&#x53C8;&#x589E;&#x52A0;&#x4E86;HashMap&#x5728;&#x5B9A;&#x4F4D;&#x5143;&#x7D20;&#x65F6;&#x7684;&#x6548;&#x7387;&#xFF0C;&#x6BD4;&#x5982;&#x65B9;&#x6CD5;&#xFF1A; </p>
+<pre><code><span class="keyword">static</span> <span class="function"><span class="keyword">int</span> <span class="title">indexFor</span><span class="params">(<span class="keyword">int</span> h, <span class="keyword">int</span> length)</span> </span>{  
+<span class="keyword">return</span> h &amp;amp; (length-<span class="number">1</span>);  
+</code></pre><p>}</p>
+<p>&#x5F53;length&#x603B;&#x662F;2&#x7684;n&#x6B21;&#x65B9;&#x65F6;&#xFF0C; h &amp; (length - 1) &#x8FD0;&#x7B97;&#x7B49;&#x4EF7;&#x4E8E;&#x5BF9;length&#x53D6;&#x6A21;&#x3002;&#x4F46;&#x662F;&#x8FD9;&#x4E9B;&#x4ECD;&#x7136;&#x4E0D;&#x80FD;&#x5B8C;&#x5168;&#x5F25;&#x8865;&#x6240;&#x6709;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x5168;&#x90E8;&#x91CD;&#x65B0;&#x54C8;&#x5E0C;&#x7684;&#x5F31;&#x70B9;&#x3002;&#x6BD4;&#x5982;&#x6211;&#x4EEC;&#x62E5;&#x6709;N&#x53F0;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x70ED;&#x6570;&#x636E;&#x5DF2;&#x7ECF;&#x901A;&#x8FC7;Hash&#x7B97;&#x6CD5;&#x6620;&#x5C04;&#x5230;&#x4E86;&#x8FD9;N&#x53F0;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x5F53;&#x5176;&#x4E2D;&#x4E00;&#x53F0;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#x6302;&#x6389;&#xFF0C;&#xFFFD;&#xFFFD;&#xFFFD;&#x8005;&#x6211;&#x4EEC;&#x53C8;&#x65B0;&#x6DFB;&#x4E86;&#x51E0;&#x53F0;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#x8FDB;&#x6765;&#x65F6;&#xFF0C;&#x6240;&#x6709;&#x5DF2;&#x7ECF;&#x6620;&#x5C04;&#x597D;&#x7684;&#x6570;&#x636E;&#x90FD;&#x5C06;&#x5931;&#x6548;&#xFF0C;&#x800C;&#x6211;&#x4EEC;&#x7684;&#x540E;&#x7AEF;&#x6570;&#x636E;&#x5E93;&#x5C06;&#x4F1A;&#x627F;&#x53D7;&#x8FD9;&#x4E00;&#x5207;&#xFF01;&#x6240;&#x4EE5;&#xFF0C;&#x4E00;&#x81F4;&#x6027;Hash&#x7B97;&#x6CD5;&#x5C31;&#x6D3E;&#x4E0A;&#x7528;&#x573A;&#x4E86;&#xFF0C;&#x4E0A;&#x9762;&#x5DF2;&#x7ECF;&#x63D0;&#x5230;&#xFF0C;&#x4E00;&#x81F4;&#x6027;&#x54C8;&#x5E0C;&#x7B97;&#x6CD5;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x73AF;&#x5F62;&#x7684;&#x54C8;&#x5E0C;&#x7A7A;&#x95F4;&#xFF0C;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A; </p>
+<p><img src="http://taojinke.github.io/img/20150703/234a10b.jpg" alt=""></p>
+<p>&#x5E38;&#x89C4;&#x7684;Hash&#x7B97;&#x6CD5;&#x4E3A;&#x5C06;&#x67D0;&#x4E2A;key&#x6620;&#x5C04;&#x4E3A;&#x4E00;&#x4E2A;32&#x4F4D;&#x6574;&#x6570;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x8FD9;0&#x81F3;2^32-1&#x7684;&#x6570;&#x503C;&#x7A7A;&#x95F4;&#x9996;&#x4F4D;&#x76F8;&#x63A5;&#x4FBF;&#x5F62;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x73AF;&#x3002;&#x7136;&#x540E;&#x628A;&#x6211;&#x4EEC;&#x7684;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#x901A;&#x8FC7;&#x6563;&#x5217;&#xFF08;&#x5BF9;IP&#x6216;&#x673A;&#x5668;&#x540D;&#x7B49;&#x8FDB;&#x884C;&#x6563;&#x5217;&#xFF09;&#x6620;&#x5C04;&#x5230;&#x8FD9;&#x4E2A;&#x73AF;&#x4E0A;&#xFF0C;&#x8FD9;&#x6837;&#xFF0C;&#x5F53;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x88AB;&#x6563;&#x5217;&#x5230;&#x67D0;&#x4E2A;&#x4F4D;&#x7F6E;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x628A;&#x8BE5;&#x5BF9;&#x8C61;&#x7F13;&#x5B58;&#x5230; <strong>&#x987A;&#x65F6;&#x9488;&#x65B9;&#x5411;</strong> &#x79BB;&#x5B83;&#x6700;&#x8FD1;&#x7684;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#x7ED3;&#x70B9;&#x4E0A;&#x3002;&#x4F7F;&#x7528;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;&#x5F53;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#x7ED3;&#x70B9;&#x5931;&#x6548;&#x65F6;&#xFF0C;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x6240;&#x6709;&#x7684;&#x7F13;&#x5B58;&#x6570;&#x636E;&#x90FD;&#x5931;&#x6548;&#xFF0C;&#x4E5F;&#x4EC5;&#x4EC5;&#x9700;&#x8981;&#x628A;&#x539F;&#x6765;&#x88AB;&#x7F13;&#x5B58;&#x5230;&#x8BE5;&#x7ED3;&#x70B9;&#x4E0A;&#x7684;&#x6570;&#x636E;&#x7EE7;&#x7EED;&#x7F13;&#x5B58;&#x5230;&#x4E0B;&#x4E00;&#x4E2A;&#x987A;&#x65F6;&#x9488;&#x65B9;&#x5411;&#x79BB;&#x5B83;&#x6700;&#x8FD1;&#x7684;&#x7ED3;&#x70B9;&#x4E0A;&#x5373;&#x53EF;&#x3002;&#x5F53;&#x65B0;&#x589E;&#x4E00;&#x4E2A;&#x7ED3;&#x70B9;&#x65F6;&#xFF0C;&#x540C;&#x6837;&#x4E5F;&#x53EA;&#x9700;&#x8981;&#x5BF9;&#x5F88;&#x5C11;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x518D;&#x54C8;&#x5E0C;&#x5E76;&#x6620;&#x5C04;&#x5230;&#x65B0;&#x7684;&#x7ED3;&#x70B9;&#x4E0A;&#x5373;&#x53EF;&#x3002;&#x4E3A;&#x4E86;&#x907F;&#x514D;&#x51FA;&#x73B0;&#x6570;&#x636E;&#x5206;&#x914D;&#x4E0D;&#x5747;&#x5300;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x6BD4;&#x5982;&#x7EDD;&#x5927;&#x591A;&#x6570;&#x7684;&#x6570;&#x636E;&#x90FD;&#x88AB;&#x7F13;&#x5B58;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x7ED3;&#x70B9;&#x4E0A;&#xFF0C;&#x800C;&#x5176;&#x4ED6;&#x7684;&#x7ED3;&#x70B9;&#x5219;&#x7F13;&#x5B58;&#x5F88;&#x5C11;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x4E00;&#x81F4;&#x6027;&#x54C8;&#x5E0C;&#x7B97;&#x6CD5;&#x8FD8;&#x63D0;&#x51FA;&#x4E86; <strong>&#x865A;&#x62DF;&#x7ED3;&#x70B9;</strong> &#x7684;&#x6982;&#x5FF5;&#x3002;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A; </p>
+<p><img src="http://taojinke.github.io/img/20150703/234a37c.jpg" alt=""></p>
+<p>A1&#x548C;A2&#x4E3A;&#x7ED3;&#x70B9;A&#x7684;&#x865A;&#x62DF;&#x7ED3;&#x70B9;&#xFF0C;&#x865A;&#x62DF;&#x7ED3;&#x70B9;&#x7684;hash&#x503C;&#x8BA1;&#x7B97;&#x53EF;&#x4EE5;&#x91C7;&#x7528;&#x5BF9;&#x5E94;&#x7ED3;&#x70B9;&#x7684;IP&#x5730;&#x5740;&#x52A0;&#x6570;&#x5B57;&#x540E;&#x7F00;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5982;&#x201C;192.168.1.1#1&#x201D;&#x3002;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x5C06;&#x88AB;&#x6563;&#x5217;&#x5230;A1&#x548C;A2&#x7684;&#x6570;&#x636E;&#x90FD;&#x7F13;&#x5B58;&#x8FDB;&#x7ED3;&#x70B9;A&#x4E2D;&#xFF0C;&#x4ECE;&#x800C;&#x907F;&#x514D;&#x4E86;&#x6570;&#x636E;&#x5206;&#x5E03;&#x4E0D;&#x5E73;&#x8861;&#x7684;&#x73B0;&#x8C61;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Memcached/">Memcached</a><a href="/tags/Nosql/">Nosql</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/2359a11/" title="论实现序列化的在云端的必要性 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  论实现序列化的在云端的必要性 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/2348d83/"  title="memcache源代码研究 - 数据结构篇（上） -">
+ <strong>下一篇：</strong><br/> 
+ <span>memcache源代码研究 - 数据结构篇（上） -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Memcached是什么"><span class="toc-number">1.</span> <span class="toc-text">Memcached是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LRU算法"><span class="toc-number">2.</span> <span class="toc-text">LRU算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一致性哈希算法"><span class="toc-number">3.</span> <span class="toc-text">一致性哈希算法</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

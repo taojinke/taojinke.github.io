@@ -1,0 +1,749 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>hbase-site.xml参数集合 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x8BE5;&amp;#x6587;&amp;#x6863;&amp;#x662F;&amp;#x7528;hbase&amp;#x9ED8;&amp;#x8BA4;&amp;#x914D;&amp;#x7F6E;&amp;#x6587;&amp;#x4EF6;&amp;#x751F;&amp;#x6210;&amp;#x7684;&amp;#xFF0C;&amp;#x6587;&amp;#x4EF6;&amp;#x6E90;&amp;#x662F; hbase-default.xml&amp;#x3002;
+&amp;#x5728;&amp;#x5B9E;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hbase-site.xml参数集合 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/03c6703/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x8BE5;&amp;#x6587;&amp;#x6863;&amp;#x662F;&amp;#x7528;hbase&amp;#x9ED8;&amp;#x8BA4;&amp;#x914D;&amp;#x7F6E;&amp;#x6587;&amp;#x4EF6;&amp;#x751F;&amp;#x6210;&amp;#x7684;&amp;#xFF0C;&amp;#x6587;&amp;#x4EF6;&amp;#x6E90;&amp;#x662F; hbase-default.xml&amp;#x3002;
+&amp;#x5728;&amp;#x5B9E;">
+<meta property="og:updated_time" content="2015-07-03T14:08:44.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hbase-site.xml参数集合 -">
+<meta name="twitter:description" content="&amp;#x8BE5;&amp;#x6587;&amp;#x6863;&amp;#x662F;&amp;#x7528;hbase&amp;#x9ED8;&amp;#x8BA4;&amp;#x914D;&amp;#x7F6E;&amp;#x6587;&amp;#x4EF6;&amp;#x751F;&amp;#x6210;&amp;#x7684;&amp;#xFF0C;&amp;#x6587;&amp;#x4EF6;&amp;#x6E90;&amp;#x662F; hbase-default.xml&amp;#x3002;
+&amp;#x5728;&amp;#x5B9E;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/03c6703/" title="hbase-site.xml参数集合 -" itemprop="url">hbase-site.xml参数集合 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:44.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p> &#x8BE5;&#x6587;&#x6863;&#x662F;&#x7528;hbase&#x9ED8;&#x8BA4;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x751F;&#x6210;&#x7684;&#xFF0C;&#x6587;&#x4EF6;&#x6E90;&#x662F; hbase-default.xml&#x3002;</p>
+<p>&#x5728;&#x5B9E;&#x9645;&#x7684;HBase&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x4E2D;&#x5E94;&#x7528;&#x4E8E;%HBASE_HOME%/conf/hbase-site.xml&#x4E2D;&#x3002;</p>
+<p>hbase.rootdir</p>
+<p>&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x662F;region server&#x7684;&#x5171;&#x4EAB;&#x76EE;&#x5F55;&#xFF0C;&#x7528;&#x6765;&#x6301;&#x4E45;&#x5316;HBase&#x3002;URL&#x9700;&#x8981;&#x662F;&apos;&#x5B8C;&#x5168;&#x6B63;&#x786E;&apos;&#x7684;&#xFF0C;&#x8FD8;&#x8981;&#x5305;&#x542B;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;scheme&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x8981;&#x8868;&#x793A;hdfs&#x4E2D;&#x7684;&apos;/hbase&apos;&#x76EE;&#x5F55;&#xFF0C;namenode &#x8FD0;&#x884C;&#x5728;namenode.example.org&#x7684;9090&#x7AEF;&#x53E3;&#x3002;&#x5219;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x4E3A;hdfs://namenode.example.org:9000/hbase&#x3002;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;HBase&#x662F;&#x5199;&#x5230;/tmp&#x7684;&#x3002;&#x4E0D;&#x6539;&#x8FD9;&#x4E2A;&#x914D;&#x7F6E;&#xFF0C;&#x6570;&#x636E;&#x4F1A;&#x5728;&#x91CD;&#x542F;&#x7684;&#x65F6;&#x5019;&#x4E22;&#x5931;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: file:///tmp/hbase-${user.name}/hbase</p>
+<p>hbase.master.port</p>
+<p>HBase&#x7684;Master&#x7684;&#x7AEF;&#x53E3;.</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.cluster.distributed</p>
+<p>HBase&#x7684;&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#x3002;false&#x662F;&#x5355;&#x673A;&#x6A21;&#x5F0F;&#xFF0C;true&#x662F;&#x5206;&#x5E03;&#x5F0F;&#x6A21;&#x5F0F;&#x3002;&#x82E5;&#x4E3A;false,HBase&#x548C;Zookeeper&#x4F1A;&#x8FD0;&#x884C;&#x5728;&#x540C;&#x4E00;&#x4E2A;JVM&#x91CC;&#x9762;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: false</p>
+<p>hbase.tmp.dir</p>
+<p>&#x672C;&#x5730;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x5939;&#x3002;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x5230;&#x4E00;&#x4E2A;&#x66F4;&#x4E3A;&#x6301;&#x4E45;&#x7684;&#x76EE;&#x5F55;&#x4E0A;&#x3002;(/tmp&#x4F1A;&#x5728;&#x91CD;&#x542F;&#x65F6;&#x6E05;&#x695A;)</p>
+<p>&#x9ED8;&#x8BA4;: /tmp/hbase-${user.name}</p>
+<p>hbase.master.info.port</p>
+<p>HBase Master web &#x754C;&#x9762;&#x7AEF;&#x53E3;. &#x8BBE;&#x7F6E;&#x4E3A;-1 &#x610F;&#x5473;&#x7740;&#x4F60;&#x4E0D;&#x60F3;&#x8BA9;&#x4ED6;&#x8FD0;&#x884C;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.master.info.bindAddress</p>
+<p>HBase Master web &#x754C;&#x9762;&#x7ED1;&#x5B9A;&#x7684;&#x7AEF;&#x53E3;</p>
+<p>&#x9ED8;&#x8BA4;: 0.0.0.0</p>
+<p>hbase.client.write.buffer</p>
+<p>HTable&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x5199;&#x7F13;&#x51B2;&#x7684;&#x9ED8;&#x8BA4;&#x5927;&#x5C0F;&#x3002;&#x8FD9;&#x4E2A;&#x503C;&#x8D8A;&#x5927;&#xFF0C;&#x9700;&#x8981;&#x6D88;&#x8017;&#x7684;&#x5185;&#x5B58;&#x8D8A;&#x5927;&#x3002;&#x56E0;&#x4E3A;&#x7F13;&#x51B2;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x548C;&#x670D;&#x52A1;&#x7AEF;&#x90FD;&#x6709;&#x5B9E;&#x4F8B;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x6D88;&#x8017;&#x5BA2;&#x6237;&#x7AEF;&#x548C;&#x670D;&#x52A1;&#x7AEF;&#x4E24;&#x4E2A;&#x5730;&#x65B9;&#x7684;&#x5185;&#x5B58;&#x3002;&#x5F97;&#x5230;&#x7684;&#x597D;&#x5904;&#x662F;&#xFF0C;&#x53EF;&#x4EE5;&#x51CF;&#x5C11;RPC&#x7684;&#x6B21;&#x6570;&#x3002;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x4F30;&#x7B97;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x88AB;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58;&#xFF1A; hbase.client.write.buffer * hbase.regionserver.handler.count</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.port</p>
+<p>HBase RegionServer&#x7ED1;&#x5B9A;&#x7684;&#x7AEF;&#x53E3;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.info.port</p>
+<p>HBase RegionServer web &#x754C;&#x9762;&#x7ED1;&#x5B9A;&#x7684;&#x7AEF;&#x53E3; &#x8BBE;&#x7F6E;&#x4E3A; -1 &#x610F;&#x5473;&#x8FD9;&#x4F60;&#x4E0D;&#x60F3;&#x4E0E;&#x8FD0;&#x884C; RegionServer &#x754C;&#x9762;.</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.info.port.auto</p>
+<p>Master&#x6216;RegionServer&#x662F;&#x5426;&#x8981;&#x52A8;&#x6001;&#x641C;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#x6765;&#x7ED1;&#x5B9A;&#x754C;&#x9762;&#x3002;&#x5F53;hbase.regionserver.info.port&#x5DF2;&#x7ECF;&#x88AB;&#x5360;&#x7528;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EF;&#x4EE5;&#x641C;&#x4E00;&#x4E2A;&#x7A7A;&#x95F2;&#x7684;&#x7AEF;&#x53E3;&#x7ED1;&#x5B9A;&#x3002;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x5728;&#x6D4B;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#x5F88;&#x6709;&#x7528;&#x3002;&#x9ED8;&#x8BA4;&#x5173;&#x95ED;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: false</p>
+<p>hbase.regionserver.info.bindAddress</p>
+<p>HBase RegionServer web &#x754C;&#x9762;&#x7684;IP&#x5730;&#x5740;</p>
+<p>&#x9ED8;&#x8BA4;: 0.0.0.0</p>
+<p>hbase.regionserver.class</p>
+<p>RegionServer &#x4F7F;&#x7528;&#x7684;&#x63A5;&#x53E3;&#x3002;&#x5BA2;&#x6237;&#x7AEF;&#x6253;&#x5F00;&#x4EE3;&#x7406;&#x6765;&#x8FDE;&#x63A5;region server&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x4F7F;&#x7528;&#x5230;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: org.apache.hadoop.hbase.ipc.HRegionInterface</p>
+<p>hbase.client.pause</p>
+<p>&#x901A;&#x5E38;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x6682;&#x505C;&#x65F6;&#x95F4;&#x3002;&#x6700;&#x591A;&#x7684;&#x7528;&#x6CD5;&#x662F;&#x5BA2;&#x6237;&#x7AEF;&#x5728;&#x91CD;&#x8BD5;&#x524D;&#x7684;&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#x3002;&#x6BD4;&#x5982;&#x5931;&#x8D25;&#x7684;get&#x64CD;&#x4F5C;&#x548C;region&#x67E5;&#x8BE2;&#x64CD;&#x4F5C;&#x7B49;&#x90FD;&#x5F88;&#x53EF;&#x80FD;&#x7528;&#x5230;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.client.retries.number</p>
+<p>&#x6700;&#x5927;&#x91CD;&#x8BD5;&#x6B21;&#x6570;&#x3002;&#x4F8B;&#x5982; region&#x67E5;&#x8BE2;&#xFF0C;Get&#x64CD;&#x4F5C;&#xFF0C;Update&#x64CD;&#x4F5C;&#x7B49;&#x7B49;&#x90FD;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x9519;&#x8BEF;&#xFF0C;&#x9700;&#x8981;&#x91CD;&#x8BD5;&#x3002;&#x8FD9;&#x662F;&#x6700;&#x5927;&#x91CD;&#x8BD5;&#x9519;&#x8BEF;&#x7684;&#x503C;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.client.scanner.caching</p>
+<p>&#x5F53;&#x8C03;&#x7528;Scanner&#x7684;next&#x65B9;&#x6CD5;&#xFF0C;&#x800C;&#x503C;&#x53C8;&#x4E0D;&#x5728;&#xFFFD;&#xFFFD;&#xFFFD;&#x5B58;&#x91CC;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4ECE;&#x670D;&#x52A1;&#x7AEF;&#x4E00;&#x6B21;&#x83B7;&#x53D6;&#x7684;&#x884C;&#x6570;&#x3002;&#x8D8A;&#x5927;&#x7684;&#x503C;&#x610F;&#x5473;&#x7740;Scanner&#x4F1A;&#x5FEB;&#x4E00;&#x4E9B;&#xFF0C;&#x4F46;&#x662F;&#x4F1A;&#x5360;&#x7528;&#x66F4;&#x591A;&#x7684;&#x5185;&#x5B58;&#x3002;&#x5F53;&#x7F13;&#x51B2;&#x88AB;&#x5360;&#x6EE1;&#x7684;&#x65F6;&#x5019;&#xFF0C;next&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x4F1A;&#x8D8A;&#x6765;&#x8D8A;&#x6162;&#x3002;&#x6162;&#x5230;&#x4E00;&#x5B9A;&#x7A0B;&#x5EA6;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x8D85;&#x65F6;&#x3002;&#x4F8B;&#x5982;&#x8D85;&#x8FC7;&#x4E86;hbase.regionserver.lease.period&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.client.keyvalue.maxsize</p>
+<p>&#x4E00;&#x4E2A;KeyValue&#x5B9E;&#x4F8B;&#x7684;&#x6700;&#x5927;size.&#x8FD9;&#x4E2A;&#x662F;&#x7528;&#x6765;&#x8BBE;&#x7F6E;&#x5B58;&#x50A8;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5355;&#x4E2A;entry&#x7684;&#x5927;&#x5C0F;&#x4E0A;&#x754C;&#x3002;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;KeyValue&#x662F;&#x4E0D;&#x80FD;&#x5206;&#x5272;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x56E0;&#x4E3A;&#x6570;&#x636E;&#x8FC7;&#x5927;&#x5BFC;&#x81F4;region&#x4E0D;&#x53EF;&#x5206;&#x5272;&#x3002;&#x660E;&#x667A;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x628A;&#x5B83;&#x8BBE;&#x4E3A;&#x53EF;&#x4EE5;&#x88AB;&#x6700;&#x5927;region size&#x6574;&#x9664;&#x7684;&#x6570;&#x3002;&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x4E3A;0&#x6216;&#x8005;&#x66F4;&#x5C0F;&#xFF0C;&#x5C31;&#x4F1A;&#x7981;&#x7528;&#x8FD9;&#x4E2A;&#x68C0;&#x67E5;&#x3002;&#x9ED8;&#x8BA4;10MB&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.lease.period</p>
+<p>&#x5BA2;&#x6237;&#x7AEF;&#x79DF;&#x7528;HRegion server &#x671F;&#x9650;&#xFF0C;&#x5373;&#x8D85;&#x65F6;&#x9600;&#x503C;&#x3002;&#x5355;&#x4F4D;&#x662F;&#x6BEB;&#x79D2;&#x3002;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x5FC5;&#x987B;&#x5728;&#x8FD9;&#x4E2A;&#x65F6;&#x95F4;&#x5185;&#x53D1;&#x4E00;&#x6761;&#x4FE1;&#x606F;&#xFF0C;&#x5426;&#x5219;&#x89C6;&#x4E3A;&#x6B7B;&#x6389;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.handler.count</p>
+<p>RegionServers&#x53D7;&#x7406;&#x7684;RPC Server&#x5B9E;&#x4F8B;&#x6570;&#x91CF;&#x3002;&#x5BF9;&#x4E8E;Master&#x6765;&#x8BF4;&#xFF0C;&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#x662F;Master&#x53D7;&#x7406;&#x7684;handler&#x6570;&#x91CF;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.msginterval</p>
+<p>RegionServer &#x53D1;&#x6D88;&#x606F;&#x7ED9; Master &#x65F6;&#x95F4;&#x95F4;&#x9694;&#xFF0C;&#x5355;&#x4F4D;&#x662F;&#x6BEB;&#x79D2;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.optionallogflushinterval</p>
+<p>&#x5C06;Hlog&#x540C;&#x6B65;&#x5230;HDFS&#x7684;&#x95F4;&#x9694;&#x3002;&#x5982;&#x679C;Hlog&#x6CA1;&#x6709;&#x79EF;&#x7D2F;&#x5230;&#x4E00;&#x5B9A;&#x7684;&#x6570;&#x91CF;&#xFF0C;&#x5230;&#x4E86;&#x65F6;&#x95F4;&#xFF0C;&#x4E5F;&#x4F1A;&#x89E6;&#x53D1;&#x540C;&#x6B65;&#x3002;&#x9ED8;&#x8BA4;&#x662F;1&#x79D2;&#xFF0C;&#x5355;&#x4F4D;&#x6BEB;&#x79D2;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.regionSplitLimit</p>
+<p>region&#x7684;&#x6570;&#x91CF;&#x5230;&#x4E86;&#x8FD9;&#x4E2A;&#x503C;&#x540E;&#x5C31;&#x4E0D;&#x4F1A;&#x5728;&#x5206;&#x88C2;&#x4E86;&#x3002;&#x8FD9;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;region&#x6570;&#x91CF;&#x7684;&#x786C;&#x6027;&#x9650;&#x5236;&#x3002;&#x4F46;&#x662F;&#x8D77;&#x5230;&#x4E86;&#x4E00;&#x5B9A;&#x6307;&#x5BFC;&#x6027;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x5230;&#x4E86;&#x8FD9;&#x4E2A;&#x503C;&#x5C31;&#x8BE5;&#x505C;&#x6B62;&#x5206;&#x88C2;&#x4E86;&#x3002;&#x9ED8;&#x8BA4;&#x662F;MAX_INT.&#x5C31;&#x662F;&#x8BF4;&#x4E0D;&#x963B;&#x6B62;&#x5206;&#x88C2;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.logroll.period</p>
+<p>&#x63D0;&#x4EA4;commit log&#x7684;&#x95F4;&#x9694;&#xFF0C;&#x4E0D;&#x7BA1;&#x6709;&#x6CA1;&#x6709;&#x5199;&#x8DB3;&#x591F;&#x7684;&#x503C;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.hlog.reader.impl</p>
+<p>HLog file reader &#x7684;&#x5B9E;&#x73B0;.</p>
+<p>&#x9ED8;&#x8BA4;: org.apache.hadoop.hbase.regionserver.wal.SequenceFileLogReader</p>
+<p>hbase.regionserver.hlog.writer.impl</p>
+<p>HLog file writer &#x7684;&#x5B9E;&#x73B0;.</p>
+<p>&#x9ED8;&#x8BA4;: org.apache.hadoop.hbase.regionserver.wal.SequenceFileLogWriter</p>
+<p>hbase.regionserver.thread.splitcompactcheckfrequency</p>
+<p>region server &#x591A;&#x4E45;&#x6267;&#x884C;&#x4E00;&#x6B21;split/compaction &#x68C0;&#x67E5;.</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regionserver.nbreservationblocks</p>
+<p>&#x50A8;&#x5907;&#x7684;&#x5185;&#x5B58;block&#x7684;&#x6570;&#x91CF;(&#x8BD1;&#x8005;&#x6CE8;:&#x5C31;&#x50CF;&#x77F3;&#x6CB9;&#x50A8;&#x5907;&#x4E00;&#x6837;)&#x3002;&#x5F53;&#x53D1;&#x751F;out of memory &#x5F02;&#x5E38;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x7528;&#x8FD9;&#x4E9B;&#x5185;&#x5B58;&#x5728;RegionServer&#x505C;&#x6B62;&#x4E4B;&#x524D;&#x505A;&#x6E05;&#x7406;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.zookeeper.dns.interface</p>
+<p>&#x5F53;&#x4F7F;&#x7528;DNS&#x7684;&#x65F6;&#x5019;&#xFF0C;Zookeeper&#x7528;&#x6765;&#x4E0A;&#x62A5;&#x7684;IP&#x5730;&#x5740;&#x7684;&#x7F51;&#x7EDC;&#x63A5;&#x53E3;&#x540D;&#x5B57;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: default</p>
+<p>hbase.zookeeper.dns.nameserver</p>
+<p>&#x5F53;&#x4F7F;&#x7528;DNS&#x7684;&#x65F6;&#x5019;&#xFF0C;Zookeepr&#x4F7F;&#x7528;&#x7684;DNS&#x7684;&#x57DF;&#x540D;&#x6216;&#x8005;IP &#x5730;&#x5740;&#xFF0C;Zookeeper&#x7528;&#x5B83;&#x6765;&#x786E;&#x5B9A;&#x548C;master&#x7528;&#x6765;&#x8FDB;&#x884C;&#x901A;&#x8BAF;&#x7684;&#x57DF;&#x540D;.</p>
+<p>&#x9ED8;&#x8BA4;: default</p>
+<p>hbase.regionserver.dns.interface</p>
+<p>&#x5F53;&#x4F7F;&#x7528;DNS&#x7684;&#x65F6;&#x5019;&#xFF0C;RegionServer&#x7528;&#x6765;&#x4E0A;&#x62A5;&#x7684;IP&#x5730;&#x5740;&#x7684;&#x7F51;&#x7EDC;&#x63A5;&#x53E3;&#x540D;&#x5B57;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: default</p>
+<p>hbase.regionserver.dns.nameserver</p>
+<p>&#x5F53;&#x4F7F;&#x7528;DNS&#x7684;&#x65F6;&#x5019;&#xFF0C;RegionServer&#x4F7F;&#x7528;&#x7684;DNS&#x7684;&#x57DF;&#x540D;&#x6216;&#x8005;IP &#x5730;&#x5740;&#xFF0C;RegionServer&#x7528;&#x5B83;&#x6765;&#x786E;&#x5B9A;&#x548C;master&#x7528;&#x6765;&#x8FDB;&#x884C;&#x901A;&#x8BAF;&#x7684;&#x57DF;&#x540D;.</p>
+<p>&#x9ED8;&#x8BA4;: default</p>
+<p>hbase.master.dns.interface</p>
+<p>&#x5F53;&#x4F7F;&#x7528;DNS&#x7684;&#x65F6;&#x5019;&#xFF0C;Master&#x7528;&#x6765;&#x4E0A;&#x62A5;&#x7684;IP&#x5730;&#x5740;&#x7684;&#x7F51;&#x7EDC;&#x63A5;&#x53E3;&#x540D;&#x5B57;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: default</p>
+<p>hbase.master.dns.nameserver</p>
+<p>&#x5F53;&#x4F7F;&#x7528;DNS&#x7684;&#x65F6;&#x5019;&#xFF0C;RegionServer&#x4F7F;&#x7528;&#x7684;DNS&#x7684;&#x57DF;&#x540D;&#x6216;&#x8005;IP &#x5730;&#x5740;&#xFF0C;Master&#x7528;&#x5B83;&#x6765;&#x786E;&#x5B9A;&#x7528;&#x6765;&#x8FDB;&#x884C;&#x901A;&#x8BAF;&#x7684;&#x57DF;&#x540D;.</p>
+<p>&#x9ED8;&#x8BA4;: default</p>
+<p>hbase.balancer.period</p>
+<p>Master&#x6267;&#x884C;region balancer&#x7684;&#x95F4;&#x9694;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.regions.slop</p>
+<p>&#x5F53;&#x4EFB;&#x4E00;regionserver&#x6709;average + (average * slop)&#x4E2A;region&#x662F;&#x4F1A;&#x6267;&#x884C;Rebalance</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.master.logcleaner.ttl</p>
+<p>Hlog&#x5B58;&#x5728;&#x4E8E;.oldlogdir &#x6587;&#x4EF6;&#x5939;&#x7684;&#x6700;&#x957F;&#x65F6;&#x95F4;, &#x8D85;&#x8FC7;&#x4E86;&#x5C31;&#x4F1A;&#x88AB; Master &#x7684;&#x7EBF;&#x7A0B;&#x6E05;&#x7406;&#x6389;.</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.master.logcleaner.plugins</p>
+<p>LogsCleaner&#x670D;&#x52A1;&#x4F1A;&#x6267;&#x884C;&#x7684;&#x4E00;&#x7EC4;LogCleanerDelegat&#x3002;&#x503C;&#x7528;&#x9017;&#x53F7;&#x95F4;&#x9694;&#x7684;&#x6587;&#x672C;&#x8868;&#x793A;&#x3002;&#x8FD9;&#x4E9B;WAL/HLog cleaners&#x4F1A;&#x6309;&#x987A;&#x5E8F;&#x8C03;&#x7528;&#x3002;&#x53EF;&#x4EE5;&#x628A;&#x5148;&#x8C03;&#x7528;&#x7684;&#x653E;&#x5728;&#x524D;&#x9762;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x81EA;&#x5DF1;&#x7684;LogCleanerDelegat&#xFF0C;&#x52A0;&#x5230;Classpath&#x4E0B;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x8FD9;&#x91CC;&#x5199;&#x4E0B;&#x7C7B;&#x7684;&#x5168;&#x79F0;&#x3002;&#x4E00;&#x822C;&#x90FD;&#x662F;&#x52A0;&#x5728;&#x9ED8;&#x8BA4;&#x503C;&#x7684;&#x524D;&#x9762;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: org.apache.hadoop.hbase.master.TimeToLiveLogCleaner</p>
+<p>hbase.regionserver.global.memstore.upperLimit</p>
+<p>&#x5355;&#x4E2A;region server&#x7684;&#x5168;&#x90E8;memtores&#x7684;&#x6700;&#x5927;&#x503C;&#x3002;&#x8D85;&#x8FC7;&#x8FD9;&#x4E2A;&#x503C;&#xFF0C;&#x4E00;&#x4E2A;&#x65B0;&#x7684;update&#x64CD;&#x4F5C;&#x4F1A;&#x88AB;&#x6302;&#x8D77;&#xFF0C;&#x5F3A;&#x5236;&#x6267;&#x884C;flush&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: 0.4</p>
+<p>hbase.regionserver.global.memstore.lowerLimit</p>
+<p>&#x5F53;&#x5F3A;&#x5236;&#x6267;&#x884C;flush&#x64CD;&#x4F5C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5F53;&#x4F4E;&#x4E8E;&#x8FD9;&#x4E2A;&#x503C;&#x7684;&#x65F6;&#x5019;&#xFF0C;flush&#x4F1A;&#x505C;&#x6B62;&#x3002;&#x9ED8;&#x8BA4;&#x662F;&#x5806;&#x5927;&#x5C0F;&#x7684; 35% . &#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x503C;&#x548C; hbase.regionserver.global.memstore.upperLimit &#x76F8;&#x540C;&#x5C31;&#x610F;&#x5473;&#x7740;&#x5F53;update&#x64CD;&#x4F5C;&#x56E0;&#x4E3A;&#x5185;&#x5B58;&#x9650;&#x5236;&#x88AB;&#x6302;&#x8D77;&#x65F6;&#xFF0C;&#x4F1A;&#x5C3D;&#x91CF;&#x5C11;&#x7684;&#x6267;&#x884C;flush(&#x8BD1;&#x8005;&#x6CE8;:&#x4E00;&#x65E6;&#x6267;&#x884C;flush&#xFF0C;&#x503C;&#x5C31;&#x4F1A;&#x6BD4;&#x4E0B;&#x9650;&#x8981;&#x4F4E;&#xFF0C;&#x4E0D;&#x518D;&#x6267;&#x884C;)</p>
+<p>&#x9ED8;&#x8BA4;: 0.35</p>
+<p>hbase.server.thread.wakefrequency</p>
+<p>service&#x5DE5;&#x4F5C;&#x7684;sleep&#x95F4;&#x9694;&#xFF0C;&#x5355;&#x4F4D;&#x6BEB;&#x79D2;&#x3002; &#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;service&#x7EBF;&#x7A0B;&#x7684;sleep&#x95F4;&#x9694;&#xFF0C;&#x6BD4;&#x5982;log roller.</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.hregion.memstore.flush.size</p>
+<p>&#x5F53;memstore&#x7684;&#x5927;&#x5C0F;&#x8D85;&#x8FC7;&#x8FD9;&#x4E2A;&#x503C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;flush&#x5230;&#x78C1;&#x76D8;&#x3002;&#x8FD9;&#x4E2A;&#x503C;&#x88AB;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x6BCF;&#x9694;hbase.server.thread.wakefrequency&#x68C0;&#x67E5;&#x4E00;&#x4E0B;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.hregion.preclose.flush.size</p>
+<p>&#x5F53;&#x4E00;&#x4E2A;region&#x4E2D;&#x7684;memstore&#x7684;&#x5927;&#x5C0F;&#x5927;&#x4E8E;&#x8FD9;&#x4E2A;&#x503C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x4EEC;&#x53C8;&#x89E6;&#x53D1;&#x4E86;close.&#x4F1A;&#x5148;&#x8FD0;&#x884C;&#x201C;pre-flush&#x201D;&#x64CD;&#x4F5C;&#xFF0C;&#x6E05;&#x7406;&#x8FD9;&#x4E2A;&#x9700;&#x8981;&#x5173;&#x95ED;&#x7684;memstore&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x8FD9;&#x4E2A;region&#x4E0B;&#x7EBF;&#x3002;&#x5F53;&#x4E00;&#x4E2A;region&#x4E0B;&#x7EBF;&#x4E86;&#xFF0C;&#x6211;&#x4EEC;&#x65E0;&#x6CD5;&#x518D;&#x8FDB;&#x884C;&#x4EFB;&#x4F55;&#x5199;&#x64CD;&#x4F5C;&#x3002;&#x5982;&#x679C;&#x4E00;&#x4E2A;memstore&#x5F88;&#x5927;&#x7684;&#x65F6;&#x5019;&#xFF0C;flush&#x64CD;&#x4F5C;&#x4F1A;&#x6D88;&#x8017;&#x5F88;&#x591A;&#x65F6;&#x95F4;&#x3002;&quot;pre-flush&quot;&#x64CD;&#x4F5C;&#x610F;&#x5473;&#x7740;&#x5728;region&#x4E0B;&#x7EBF;&#x4E4B;&#x524D;&#xFF0C;&#x4F1A;&#x5148;&#x628A;memstore&#x6E05;&#x7A7A;&#x3002;&#x8FD9;&#x6837;&#x5728;&#x6700;&#x7EC8;&#x6267;&#x884C;close&#x64CD;&#x4F5C;&#x7684;&#x65F6;&#x5019;&#xFF0C;flush&#x64CD;&#x4F5C;&#x4F1A;&#x5F88;&#x5FEB;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.hregion.memstore.block.multiplier</p>
+<p>&#x5982;&#x679C;memstore&#x6709;hbase.hregion.memstore.block.multiplier&#x500D;&#x6570;&#x7684;hbase.hregion.flush.size&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x5C31;&#x4F1A;&#x963B;&#x585E;update&#x64CD;&#x4F5C;&#x3002;&#x8FD9;&#x662F;&#x4E3A;&#x4E86;&#x9884;&#x9632;&#x5728;update&#x9AD8;&#x5CF0;&#x671F;&#x4F1A;&#x5BFC;&#x81F4;&#x7684;&#x5931;&#x63A7;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x8BBE;&#x4E0A;&#x754C;&#xFF0C;flush&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x82B1;&#x5F88;&#x957F;&#x7684;&#x65F6;&#x95F4;&#x6765;&#x5408;&#x5E76;&#x6216;&#x8005;&#x5206;&#x5272;&#xFF0C;&#x6700;&#x574F;&#x7684;&#x60C5;&#x51B5;&#x5C31;&#x662F;&#x5F15;&#x53D1;out of memory&#x5F02;&#x5E38;&#x3002;(&#x8BD1;&#x8005;&#x6CE8;:&#x5185;&#x5B58;&#x64CD;&#x4F5C;&#x7684;&#x901F;&#x5EA6;&#x548C;&#x78C1;&#x76D8;&#x4E0D;&#x5339;&#x914D;&#xFF0C;&#x9700;&#x8981;&#x7B49;&#x4E00;&#x7B49;&#x3002;&#x539F;&#x6587;&#x4F3C;&#x4E4E;&#x6709;&#x8BEF;)</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.hregion.memstore.mslab.enabled</p>
+<p>&#x4F53;&#x9A8C;&#x7279;&#x6027;&#xFF1A;&#x542F;&#x7528;memStore&#x5206;&#x914D;&#x672C;&#x5730;&#x7F13;&#x51B2;&#x533A;&#x3002;&#x8FD9;&#x4E2A;&#x7279;&#x6027;&#x662F;&#x4E3A;&#x4E86;&#x9632;&#x6B62;&#x5728;&#x5927;&#x91CF;&#x5199;&#x8D1F;&#x8F7D;&#x7684;&#x65F6;&#x5019;&#x5806;&#x7684;&#x788E;&#x7247;&#x8FC7;&#x591A;&#x3002;&#x8FD9;&#x53EF;&#x4EE5;&#x51CF;&#x5C11;GC&#x64CD;&#x4F5C;&#x7684;&#x9891;&#x7387;&#x3002;(GC&#x6709;&#x53EF;&#x80FD;&#x4F1A;Stop the world)(&#x8BD1;&#x8005;&#x6CE8;&#xFF1A;&#x5B9E;&#x73B0;&#x7684;&#x539F;&#x7406;&#x76F8;&#x5F53;&#x4E8E;&#x9884;&#x5206;&#x914D;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6BCF;&#x4E00;&#x4E2A;&#x503C;&#x90FD;&#x8981;&#x4ECE;&#x5806;&#x91CC;&#x5206;&#x914D;)</p>
+<p>&#x9ED8;&#x8BA4;: false</p>
+<p>hbase.hregion.max.filesize</p>
+<p>&#x6700;&#x5927;HStoreFile&#x5927;&#x5C0F;&#x3002;&#x82E5;&#x67D0;&#x4E2A;Column families&#x7684;HStoreFile&#x589E;&#x957F;&#x8FBE;&#x5230;&#x8FD9;&#x4E2A;&#x503C;&#xFF0C;&#x8FD9;&#x4E2A;Hegion&#x4F1A;&#x88AB;&#x5207;&#x5272;&#x6210;&#x4E24;&#x4E2A;&#x3002; Default: 256M.</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.hstore.compactionThreshold</p>
+<p>&#x5F53;&#x4E00;&#x4E2A;HStore&#x542B;&#x6709;&#x591A;&#x4E8E;&#x8FD9;&#x4E2A;&#x503C;&#x7684;HStoreFiles(&#x6BCF;&#x4E00;&#x4E2A;memstore flush&#x4EA7;&#x751F;&#x4E00;&#x4E2A;HStoreFile)&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x5408;&#x5E76;&#x64CD;&#x4F5C;&#xFF0C;&#x628A;&#x8FD9;HStoreFiles&#x5199;&#x6210;&#x4E00;&#x4E2A;&#x3002;&#x8FD9;&#x4E2A;&#x503C;&#x8D8A;&#x5927;&#xFF0C;&#x9700;&#x8981;&#x5408;&#x5E76;&#x7684;&#x65F6;&#x95F4;&#x5C31;&#x8D8A;&#x957F;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.hstore.blockingStoreFiles</p>
+<p>&#x5F53;&#x4E00;&#x4E2A;HStore&#x542B;&#x6709;&#x591A;&#x4E8E;&#x8FD9;&#x4E2A;&#x503C;&#x7684;HStoreFiles(&#x6BCF;&#x4E00;&#x4E2A;memstore flush&#x4EA7;&#x751F;&#x4E00;&#x4E2A;HStoreFile)&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x5408;&#x5E76;&#x64CD;&#x4F5C;&#xFF0C;update&#x4F1A;&#x963B;&#x585E;&#x76F4;&#x5230;&#x5408;&#x5E76;&#x5B8C;&#x6210;&#xFF0C;&#x76F4;&#x5230;&#x8D85;&#x8FC7;&#x4E86;hbase.hstore.blockingWaitTime&#x7684;&#x503C;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.hstore.blockingWaitTime</p>
+<p>hbase.hstore.blockingStoreFiles&#x6240;&#x9650;&#x5236;&#x7684;StoreFile&#x6570;&#x91CF;&#x4F1A;&#x5BFC;&#x81F4;update&#x963B;&#x585E;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x95F4;&#x662F;&#x6765;&#x9650;&#x5236;&#x963B;&#x585E;&#x65F6;&#x95F4;&#x7684;&#x3002;&#x5F53;&#x8D85;&#x8FC7;&#x4E86;&#x8FD9;&#x4E2A;&#x65F6;&#x95F4;&#xFF0C;HRegion&#x4F1A;&#x505C;&#x6B62;&#x963B;&#x585E;update&#x64CD;&#x4F5C;&#xFF0C;&#x4E0D;&#x8FC7;&#x5408;&#x5E76;&#x8FD8;&#x6709;&#x6CA1;&#x6709;&#x5B8C;&#x6210;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A;90s.</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.hstore.compaction.max</p>
+<p>&#x6BCF;&#x4E2A;&#x201C;&#x5C0F;&#x201D;&#x5408;&#x5E76;&#x7684;HStoreFiles&#x6700;&#x5927;&#x6570;&#x91CF;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.hregion.majorcompaction</p>
+<p>&#x4E00;&#x4E2A;Region&#x4E2D;&#x7684;&#x6240;&#x6709;HStoreFile&#x7684;major compactions&#x7684;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x3002;&#x9ED8;&#x8BA4;&#x662F;1&#x5929;&#x3002; &#x8BBE;&#x7F6E;&#x4E3A;0&#x5C31;&#x662F;&#x7981;&#x7528;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.mapreduce.hfileoutputformat.blocksize</p>
+<p>MapReduce&#x4E2D;HFileOutputFormat&#x53EF;&#x4EE5;&#x5199; storefiles/hfiles. &#x8FD9;&#x4E2A;&#x503C;&#x662F;hfile&#x7684;blocksize&#x7684;&#x6700;&#x5C0F;&#x503C;&#x3002;&#x901A;&#x5E38;&#x5728;HBase&#x5199;Hfile&#x7684;&#x65F6;&#x5019;&#xFF0C;bloocksize&#x662F;&#x7531;table schema(HColumnDescriptor)&#x51B3;&#x5B9A;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x5728;mapreduce&#x5199;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x4EEC;&#x65E0;&#x6CD5;&#x83B7;&#x53D6;schema&#x4E2D;blocksize&#x3002;&#x8FD9;&#x4E2A;&#x503C;&#x8D8A;&#x5C0F;&#xFF0C;&#x4F60;&#x7684;&#x7D22;&#x5F15;&#x5C31;&#x8D8A;&#x5927;&#xFF0C;&#x4F60;&#x968F;&#x673A;&#x8BBF;&#x95EE;&#x9700;&#x8981;&#x83B7;&#x53D6;&#x7684;&#x6570;&#x636E;&#x5C31;&#x8D8A;&#x5C0F;&#x3002;&#x5982;&#x679C;&#x4F60;&#x7684;cell&#x90FD;&#x5F88;&#x5C0F;&#xFF0C;&#x800C;&#x4E14;&#x4F60;&#x9700;&#x8981;&#x66F4;&#x5FEB;&#x7684;&#x968F;&#x673A;&#x8BBF;&#x95EE;&#xFF0C;&#x53EF;&#x4EE5;&#x628A;&#x8FD9;&#x4E2A;&#x503C;&#x8C03;&#x4F4E;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hfile.block.cache.size</p>
+<p>&#x5206;&#x914D;&#x7ED9;HFile/StoreFile&#x7684;block cache&#x5360;&#x6700;&#x5927;&#x5806;(-Xmx setting)&#x7684;&#x6BD4;&#x4F8B;&#x3002;&#x9ED8;&#x8BA4;&#x662F;20%&#xFF0C;&#x8BBE;&#x7F6E;&#x4E3A;0&#x5C31;&#x662F;&#x4E0D;&#x5206;&#x914D;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: 0.2</p>
+<p>hbase.hash.type</p>
+<p>&#x54C8;&#x5E0C;&#x51FD;&#x6570;&#x4F7F;&#x7528;&#x7684;&#x54C8;&#x5E0C;&#x7B97;&#x6CD5;&#x3002;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x4E24;&#x4E2A;&#x503C;:: murmur (MurmurHash) &#x548C; jenkins (JenkinsHash). &#x8FD9;&#x4E2A;&#x54C8;&#x5E0C;&#x662F;&#x7ED9; bloom filters&#x7528;&#x7684;.</p>
+<p>&#x9ED8;&#x8BA4;: murmur</p>
+<p>hbase.master.keytab.file</p>
+<p>HMaster server&#x9A8C;&#x8BC1;&#x767B;&#x5F55;&#x4F7F;&#x7528;&#x7684;kerberos keytab &#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x3002;(&#x8BD1;&#x8005;&#x6CE8;&#xFF1A;HBase&#x4F7F;&#x7528;Kerberos&#x5B9E;&#x73B0;&#x5B89;&#x5168;)</p>
+<p>hbase.master.kerberos.principal</p>
+<p>&#x4F8B;&#x5982;. &quot;hbase/_HOST@EXAMPLE.COM&quot;. HMaster&#x8FD0;&#x884C;&#x9700;&#x8981;&#x4F7F;&#x7528; kerberos principal name. principal name &#x53EF;&#x4EE5;&#x5728;: user/hostname@DOMAIN &#x4E2D;&#x83B7;&#x53D6;. &#x5982;&#x679C; &quot;_HOST&quot; &#x88AB;&#x7528;&#x505A;hostname portion&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5B9E;&#x9645;&#x8FD0;&#x884C;&#x7684;hostname&#x6765;&#x66FF;&#x4EE3;&#x5B83;&#x3002;</p>
+<p>hbase.regionserver.keytab.file</p>
+<p>HRegionServer&#x9A8C;&#x8BC1;&#x767B;&#x5F55;&#x4F7F;&#x7528;&#x7684;kerberos keytab &#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x3002;</p>
+<p>hbase.regionserver.kerberos.principal</p>
+<p>&#x4F8B;&#x5982;. &quot;hbase/_HOST@EXAMPLE.COM&quot;. HRegionServer&#x8FD0;&#x884C;&#x9700;&#x8981;&#x4F7F;&#x7528; kerberos principal name. principal name &#x53EF;&#x4EE5;&#x5728;: user/hostname@DOMAIN &#x4E2D;&#x83B7;&#x53D6;. &#x5982;&#x679C; &quot;_HOST&quot; &#x88AB;&#x7528;&#x505A;hostname portion&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5B9E;&#x9645;&#x8FD0;&#x884C;&#x7684;hostname&#x6765;&#x66FF;&#x4EE3;&#x5B83;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x4E2D;&#x5FC5;&#x987B;&#x8981;&#x6709;&#x4E00;&#x4E2A;entry&#x6765;&#x63CF;&#x8FF0; hbase.regionserver.keytab.file</p>
+<p>zookeeper.session.timeout</p>
+<p>ZooKeeper &#x4F1A;&#x8BDD;&#x8D85;&#x65F6;.HBase&#x628A;&#x8FD9;&#x4E2A;&#x503C;&#x4F20;&#x9012;&#x6539;zk&#x96C6;&#x7FA4;&#xFF0C;&#x5411;&#x4ED6;&#x63A8;&#x8350;&#x4E00;&#x4E2A;&#x4F1A;&#x8BDD;&#x7684;&#x6700;&#x5927;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x3002;&#x8BE6;&#x89C1;<a href="http://hadoop.apache.org/zookeeper/docs/current/zookeeperProgrammers.html#ch_zkSessions" target="_blank" rel="external">http://hadoop.apache.org/zookeeper/docs/current/zookeeperProgrammers.html#ch_zkSessions</a> &quot;The client sends a requested timeout, the server responds with the timeout that it can give the client. &quot;&#x3002; &#x5355;&#x4F4D;&#x662F;&#x6BEB;&#x79D2;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>zookeeper.znode.parent</p>
+<p>ZooKeeper&#x4E2D;&#x7684;HBase&#x7684;&#x6839;ZNode&#x3002;&#x6240;&#x6709;&#x7684;HBase&#x7684;ZooKeeper&#x4F1A;&#x7528;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x914D;&#x7F6E;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;&#x3002;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x7684;HBase&#x7684;ZooKeeper&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x662F;&#x7528;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;&#xFF0C;&#x6240;&#x4EE5;&#x4ED6;&#x4EEC;&#x4F1A;&#x90FD;&#x53BB;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;&#x9762;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: /hbase</p>
+<p>zookeeper.znode.rootserver</p>
+<p>ZNode &#x4FDD;&#x5B58;&#x7684; &#x6839;region&#x7684;&#x8DEF;&#x5F84;. &#x8FD9;&#x4E2A;&#x503C;&#x662F;&#x7531;Master&#x6765;&#x5199;&#xFF0C;client&#x548C;regionserver &#x6765;&#x8BFB;&#x7684;&#x3002;&#x5982;&#x679C;&#x8BBE;&#x4E3A;&#x4E00;&#x4E2A;&#x76F8;&#x5BF9;&#x5730;&#x5740;&#xFF0C;&#x7236;&#x76EE;&#x5F55;&#x5C31;&#x662F; ${zookeeper.znode.parent}.&#x9ED8;&#x8BA4;&#x60C5;&#x5F62;&#x4E0B;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x6839;region&#x7684;&#x8DEF;&#x5F84;&#x5B58;&#x50A8;&#x5728;/hbase/root-region-server.</p>
+<p>&#x9ED8;&#x8BA4;: root-region-server</p>
+<p>hbase.zookeeper.quorum</p>
+<p>Zookeeper&#x96C6;&#x7FA4;&#x7684;&#x5730;&#x5740;&#x5217;&#x8868;&#xFF0C;&#x7528;&#x9017;&#x53F7;&#x5206;&#x5272;&#x3002;&#x4F8B;&#x5982;&#xFF1A;&quot;host1.mydomain.com,host2.mydomain.com,host3.mydomain.com&quot;.&#x9ED8;&#x8BA4;&#x662F;localhost,&#x662F;&#x7ED9;&#x4F2A;&#x5206;&#x5E03;&#x5F0F;&#x7528;&#x7684;&#x3002;&#x8981;&#x4FEE;&#x6539;&#x624D;&#x80FD;&#x5728;&#x5B8C;&#x5168;&#x5206;&#x5E03;&#x5F0F;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x4F7F;&#x7528;&#x3002;&#x5982;&#x679C;&#x5728;hbase-env.sh&#x8BBE;&#x7F6E;&#x4E86;HBASE_MANAGES_ZK&#xFF0C;&#x8FD9;&#x4E9B;ZooKeeper&#x8282;&#x70B9;&#x5C31;&#x4F1A;&#x548C;HBase&#x4E00;&#x8D77;&#x542F;&#x52A8;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;: localhost</p>
+<p>hbase.zookeeper.peerport</p>
+<p>ZooKeeper&#x8282;&#x70B9;&#x4F7F;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#x3002;&#x8BE6;&#x7EC6;&#x53C2;&#x89C1;&#xFF1A;<a href="http://hadoop.apache.org/zookeeper/docs/r3.1.1/zookeeperStarted.html#sc_RunningReplicatedZooKeeper" target="_blank" rel="external">http://hadoop.apache.org/zookeeper/docs/r3.1.1/zookeeperStarted.html#sc_RunningReplicatedZooKeeper</a></p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.zookeeper.leaderport</p>
+<p>ZooKeeper&#x7528;&#x6765;&#x9009;&#x62E9;Leader&#x7684;&#x7AEF;&#x53E3;&#xFF0C;&#x8BE6;&#x7EC6;&#x53C2;&#x89C1;&#xFF1A;<a href="http://hadoop.apache.org/zookeeper/docs/r3.1.1/zookeeperStarted.html#sc_RunningReplicatedZooKeeper" target="_blank" rel="external">http://hadoop.apache.org/zookeeper/docs/r3.1.1/zookeeperStarted.html#sc_RunningReplicatedZooKeeper</a></p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.zookeeper.property.initLimit</p>
+<p>ZooKeeper&#x7684;zoo.conf&#x4E2D;&#x7684;&#x914D;&#x7F6E;&#x3002; &#x521D;&#x59CB;&#x5316;synchronization&#x9636;&#x6BB5;&#x7684;ticks&#x6570;&#x91CF;&#x9650;&#x5236;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.zookeeper.property.syncLimit</p>
+<p>ZooKeeper&#x7684;zoo.conf&#x4E2D;&#x7684;&#x914D;&#x7F6E;&#x3002; &#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x5230;&#x83B7;&#x5F97;&#x627F;&#x8BA4;&#x4E4B;&#x95F4;&#x7684;ticks&#x7684;&#x6570;&#x91CF;&#x9650;&#x5236;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.zookeeper.property.dataDir</p>
+<p>ZooKeeper&#x7684;zoo.conf&#x4E2D;&#x7684;&#x914D;&#x7F6E;&#x3002; &#x5FEB;&#x7167;&#x7684;&#x5B58;&#x50A8;&#x4F4D;&#x7F6E;</p>
+<p>&#x9ED8;&#x8BA4;: ${hbase.tmp.dir}/zookeeper</p>
+<p>hbase.zookeeper.property.clientPort</p>
+<p>ZooKeeper&#x7684;zoo.conf&#x4E2D;&#x7684;&#x914D;&#x7F6E;&#x3002; &#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;&#x7684;&#x7AEF;&#x53E3;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.zookeeper.property.maxClientCnxns</p>
+<p>ZooKeeper&#x7684;zoo.conf&#x4E2D;&#x7684;&#x914D;&#x7F6E;&#x3002; ZooKeeper&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x5355;&#x4E2A;&#x8282;&#x70B9;&#x63A5;&#x53D7;&#x7684;&#x5355;&#x4E2A;Client(&#x4EE5;IP&#x533A;&#x5206;)&#x7684;&#x8BF7;&#x6C42;&#x7684;&#x5E76;&#x53D1;&#x6570;&#xFFFD;&#xFFFD;&#xFFFD;&#x8FD9;&#x4E2A;&#x503C;&#x53EF;&#x4EE5;&#x8C03;&#x9AD8;&#x4E00;&#x70B9;&#xFF0C;&#x9632;&#x6B62;&#x5728;&#x5355;&#x673A;&#x548C;&#x4F2A;&#x5206;&#x5E03;&#x5F0F;&#x6A21;&#x5F0F;&#x4E2D;&#x51FA;&#x95EE;&#x9898;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.rest.port</p>
+<p>HBase REST server&#x7684;&#x7AEF;&#x53E3;</p>
+<p>&#x9ED8;&#x8BA4;:</p>
+<p>hbase.rest.readonly</p>
+<p>&#x5B9A;&#x4E49;REST server&#x7684;&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#x3002;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x6210;&#x5982;&#x4E0B;&#x7684;&#x503C;&#xFF1A; false: &#x6240;&#x6709;&#x7684;HTTP&#x8BF7;&#x6C42;&#x90FD;&#x662F;&#x88AB;&#x5141;&#x8BB8;&#x7684; - GET/PUT/POST/DELETE. true:&#x53EA;&#x6709;GET&#x8BF7;&#x6C42;&#x662F;&#x88AB;&#x5141;&#x8BB8;&#x7684;</p>
+<p>&#x9ED8;&#x8BA4;: false</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/HBase/">HBase</a><a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/03b950d/" title="ZooKeeper （一）概览 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  ZooKeeper （一）概览 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/03959c3/"  title="zookeeper 理论 -">
+ <strong>下一篇：</strong><br/> 
+ <span>zookeeper 理论 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

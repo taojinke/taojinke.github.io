@@ -1,0 +1,562 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>如何在 Linux 中安装漂亮的 GTK+ 扁平化主题 Arc - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4EEC;&amp;#x5C06;&amp;#x5411;&amp;#x4F60;&amp;#x4ECB;&amp;#x7ECD;&amp;#x6700;&amp;#x65B0;&amp;#x53D1;&amp;#x5E03;&amp;#x7684;GTK+&amp;#x4E3B;&amp;#x9898;&amp;#xFF0C;&amp;#x5B83;&amp;#x62E5;&amp;#x6709;&amp;#x900F;&amp;#x660E;&amp;#x548C;&amp;#x6241;&amp;#x5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在 Linux 中安装漂亮的 GTK+ 扁平化主题 Arc -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/e8fb9cd/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4EEC;&amp;#x5C06;&amp;#x5411;&amp;#x4F60;&amp;#x4ECB;&amp;#x7ECD;&amp;#x6700;&amp;#x65B0;&amp;#x53D1;&amp;#x5E03;&amp;#x7684;GTK+&amp;#x4E3B;&amp;#x9898;&amp;#xFF0C;&amp;#x5B83;&amp;#x62E5;&amp;#x6709;&amp;#x900F;&amp;#x660E;&amp;#x548C;&amp;#x6241;&amp;#x5">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/e8f6e1e.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/e8f708f.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/e8f8417.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:07:59.318Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何在 Linux 中安装漂亮的 GTK+ 扁平化主题 Arc -">
+<meta name="twitter:description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4EEC;&amp;#x5C06;&amp;#x5411;&amp;#x4F60;&amp;#x4ECB;&amp;#x7ECD;&amp;#x6700;&amp;#x65B0;&amp;#x53D1;&amp;#x5E03;&amp;#x7684;GTK+&amp;#x4E3B;&amp;#x9898;&amp;#xFF0C;&amp;#x5B83;&amp;#x62E5;&amp;#x6709;&amp;#x900F;&amp;#x660E;&amp;#x548C;&amp;#x6241;&amp;#x5">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/e8fb9cd/" title="如何在 Linux 中安装漂亮的 GTK+ 扁平化主题 Arc -" itemprop="url">如何在 Linux 中安装漂亮的 GTK+ 扁平化主题 Arc -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:07:59.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#要求和安装指导"><span class="toc-number">1.</span> <span class="toc-text">要求和安装指导</span></a></li></ol>
+		
+		</div>
+		
+		<p> &#x4ECA;&#x5929;&#x6211;&#x4EEC;&#x5C06;&#x5411;&#x4F60;&#x4ECB;&#x7ECD;&#x6700;&#x65B0;&#x53D1;&#x5E03;&#x7684;GTK+&#x4E3B;&#x9898;&#xFF0C;&#x5B83;&#x62E5;&#x6709;&#x900F;&#x660E;&#x548C;&#x6241;&#x5E73;&#x5143;&#x7D20;&#xFF0C;&#x5E76;&#x4E14;&#x4E0E;&#x591A;&#x4E2A;&#x684C;&#x9762;&#x73AF;&#x5883;&#x548C;Linux&#x53D1;&#x884C;&#x7248;&#x517C;&#x5BB9;&#x3002; <a href="https://github.com/horst3180/Arc-theme" target="_blank" rel="external">&#x8FD9;&#x4E2A;&#x4E3B;&#x9898;&#x53EB;Arc</a> &#x3002; </p>
+<p>&#x5F00;&#x59CB;&#x8BB2;&#x7EC6;&#x8282;&#x4E4B;&#x524D;&#xFF0C;&#x6211;&#x5EFA;&#x8BAE;&#x4F60;&#x5FEB;&#x901F;&#x6D4F;&#x89C8;&#x4E00;&#x4E0B;&#x4E0B;&#x9762;&#x7684;&#x56FE;&#xFF0C;&#x8FD9;&#x6837;&#x4F60;&#x6709;&#x4F1A;&#x5BF9;&#x8FD9;&#x4E2A;&#x4E3B;&#x9898;&#x5C31;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x57FA;&#x672C;&#x7684;&#x6982;&#x5FF5;&#x4E86;&#x3002;&#x540C;&#x6837;&#x4F60;&#x5E94;&#x8BE5;&#x77E5;&#x9053;&#x5B83;&#x76EE;&#x524D;&#x53EF;&#x4EE5;&#x5DE5;&#x4F5C;&#x5728;GTK+ 2.x&#x3001;GTK+ 3.x&#x3001;GNOME-Shell&#x3001; Budgie&#x3001; Unity&#x548C;Pantheon&#x7528;&#x6237;&#x754C;&#x9762;&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x4F7F;&#x7528;&#x4E86;GNOME &#x4F53;&#x7CFB;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150703/e8f6e1e.jpg" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150703/e8f708f.jpg" alt=""></p>
+<p><img src="http://taojinke.github.io/img/20150703/e8f8417.jpg" alt=""></p>
+<p>&#x540C;&#x6837;&#x3001;Arc&#x4E3B;&#x9898;&#x7684;&#x5F00;&#x53D1;&#x8005;&#x544A;&#x8BC9;&#x6211;&#x4EEC;&#x5B83;&#x5DF2;&#x7ECF;&#x6210;&#x529F;&#x5730;&#x5728;Ubuntu 15.04&#xFF08;Vivid Vervet&#xFF09;&#x3001; Arch Linux&#x3001; elementary OS 0.3 Freya&#x3001; Fedora 21&#x3001; Fedora 22&#x3001; Debian GNU/Linux 8.0 (Jessie)&#x3001; Debian Testing&#x3001; Debian Unstable&#x3001; openSUSE 13.2&#x3001; openSUSE Tumbleweed&#x548C;Gentoo&#x6D4B;&#x8BD5;&#x8FC7;&#x4E86;&#x3002;</p>
+<h3 id="&#x8981;&#x6C42;&#x548C;&#x5B89;&#x88C5;&#x6307;&#x5BFC;">&#x8981;&#x6C42;&#x548C;&#x5B89;&#x88C5;&#x6307;&#x5BFC;</h3><p>&#x8981;&#x6784;&#x5EFA;Arc&#x4E3B;&#x9898;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x5148;&#x5B89;&#x88C5;&#x4E00;&#x4E9B;&#x5305;&#xFF0C;&#x6BD4;&#x5982;autoconf&#x3001; automake&#x3001; pkg-config (&#x5BF9;&#x4E8E;Fedora&#x5219;&#x662F;pkgconfig)&#x3001;&#x57FA;&#x4E8E;Debian/Ubuntu-based&#x53D1;&#x884C;&#x7248;&#x7684;libgtk-3-dev&#x6216;&#x8005;&#x57FA;&#x4E8E;RPM&#x7684;gtk3-devel&#x3001; git&#x3001; gtk2-engines-pixbuf&#x548C;gtk-engine-murrine (&#x5BF9;&#x4E8E;Fedora&#x5219;&#x662F;gtk-murrine-engine)&#x3002;</p>
+<p>Arc&#x4E3B;&#x9898;&#x8FD8;&#x6CA1;&#x6709;&#x4E8C;&#x8FDB;&#x5236;&#x5305;&#xFF0C;&#x56E0;&#x6B64;&#x4F60;&#x9700;&#x8981;&#x4ECE;git&#x4ED3;&#x5E93;&#x4E2D;&#x53D6;&#x4E0B;&#x6700;&#x65B0;&#x7684;&#x6E90;&#x7801;&#x5E76;&#x7F16;&#x8BD1;&#x3002;&#x8FD9;&#x6837;&#xFF0C;&#x6253;&#x5F00;&#x7EC8;&#x7AEF;&#x5E76;&#x8FD0;&#x884C;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x4E00;&#x884C;&#x884C;&#x5730;&#x8F93;&#x5165;&#xFF0C;&#x5E76;&#x5728;&#x6BCF;&#x884C;&#x7684;&#x672B;&#x5C3E;&#x6309;&#x4E0B;&#x56DE;&#x8F66;&#x952E;&#x5E76;&#x7B49;&#x5F85;&#x4E0A;&#x4E00;&#x6B65;&#x5B8C;&#x6210;&#x6765;&#x7EE7;&#x7EED;&#x4E0B;&#x4E00;&#x6B65;&#x3002;</p>
+<pre><code>git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/horst3180/arc-theme --depth <span class="number">1</span> &amp;amp;&amp;amp; <span class="keyword">cd</span> arc-theme
+git fetch --<span class="keyword">tags</span>
+git checkout $(git describe --<span class="keyword">tags</span> `git rev-<span class="keyword">list</span> --<span class="keyword">tags</span> --<span class="built_in">max</span>-<span class="built_in">count</span>=<span class="number">1</span>`)
+./autogen.<span class="keyword">sh</span> --prefix=/usr
+sudo <span class="keyword">make</span> install
+</code></pre><p>&#x5C31;&#x662F;&#x8FD9;&#x6837;&#xFF01;&#x6B64;&#x65F6;&#x4F60;&#x5DF2;&#x7ECF;&#x5728;&#x4F60;&#x7684;GNU/Linux&#x53D1;&#x884C;&#x7248;&#x4E2D;&#x5B89;&#x88C5;&#x4E86;Arc&#x4E3B;&#x9898;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;GNOME&#x53EF;&#x4EE5;&#x4F7F;&#x7528;GONME Tweak&#x5DE5;&#x5177;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;Ubuntu&#x7684;Unity&#x53EF;&#x4EE5;&#x4F7F;&#x7528;Unity Tweak&#x5DE5;&#x5177;&#x6765;&#x6FC0;&#x6D3B;&#x4E3B;&#x9898;&#x3002;&#x73A9;&#x5F97;&#x5F00;&#x5FC3;&#x4F46;&#x4E0D;&#x8981;&#x5FD8;&#x4E86;&#x5728;&#x4E0B;&#x9762;&#x7684;&#x8BC4;&#x8BBA;&#x680F;&#x91CC;&#x7559;&#x4E0B;&#x4F60;&#x7684;&#x622A;&#x56FE;&#x3002;</p>
+<p>via: <a href="http://news.softpedia.com/news/Here-s-How-to-Install-the-Beautiful-Arc-GTK-plus-Flat-Theme-on-Linux-483143.shtml" target="_blank" rel="external">http://news.softpedia.com/news/Here-s-How-to-Install-the-Beautiful-Arc-GTK-plus-Flat-Theme-on-Linux-483143.shtml</a></p>
+<p>&#x4F5C;&#x8005;&#xFF1A; <a href="http://news.softpedia.com/editors/browse/marius-nestor" target="_blank" rel="external">Marius Nestor</a> &#x8BD1;&#x8005;&#xFF1A; <a href="https://github.com/geekpi" target="_blank" rel="external">geekpi</a> &#x6821;&#x5BF9;&#xFF1A; <a href="https://github.com/carolinewuyan" target="_blank" rel="external">caroline</a></p>
+<p>&#x672C;&#x6587;&#x7531; <a href="https://github.com/LCTT/TranslateProject" target="_blank" rel="external">LCTT</a> &#x539F;&#x521B;&#x7FFB;&#x8BD1;&#xFF0C;Linux&#x4E2D;&#x56FD; &#x8363;&#x8A89;&#x63A8;&#x51FA; </p>
+<p>&#x6765;&#x6E90;&#xFF1A; <a href="https://linux.cn/article-5709-1.html" target="_blank" rel="external">https://linux.cn/article-5709-1.html</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/GTK/">GTK</a><a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/e900a5e/" title="Facebook应用Moments使用C++实现跨平台代码共享 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Facebook应用Moments使用C++实现跨平台代码共享 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/e8e9c28/"  title="2015-06学习总结——c++ -">
+ <strong>下一篇：</strong><br/> 
+ <span>2015-06学习总结——c++ -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#要求和安装指导"><span class="toc-number">1.</span> <span class="toc-text">要求和安装指导</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

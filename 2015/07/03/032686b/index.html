@@ -1,0 +1,647 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>python使用etcd来实现配置共享及集群服务发现 【上】 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x8FD9;&amp;#x4E24;&amp;#x5929;&amp;#x62BD;&amp;#x4E86;&amp;#x70B9;&amp;#x65F6;&amp;#x95F4;&amp;#x7814;&amp;#x7A76;&amp;#x4E86;&amp;#x4E0B;&amp;#x73B0;&amp;#x5728;&amp;#x6BD4;&amp;#x8F83;&amp;#x706B;&amp;#x8FA3;&amp;#x7684;etcd&amp;#xFF0C;&amp;#x7F51;&amp;#x4E0A;&amp;#x5F88;&amp;#x591A;&amp;#x7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python使用etcd来实现配置共享及集群服务发现 【上】 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/032686b/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x8FD9;&amp;#x4E24;&amp;#x5929;&amp;#x62BD;&amp;#x4E86;&amp;#x70B9;&amp;#x65F6;&amp;#x95F4;&amp;#x7814;&amp;#x7A76;&amp;#x4E86;&amp;#x4E0B;&amp;#x73B0;&amp;#x5728;&amp;#x6BD4;&amp;#x8F83;&amp;#x706B;&amp;#x8FA3;&amp;#x7684;etcd&amp;#xFF0C;&amp;#x7F51;&amp;#x4E0A;&amp;#x5F88;&amp;#x591A;&amp;#x7">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/0325272.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:08:43.180Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python使用etcd来实现配置共享及集群服务发现 【上】 -">
+<meta name="twitter:description" content="&amp;#x8FD9;&amp;#x4E24;&amp;#x5929;&amp;#x62BD;&amp;#x4E86;&amp;#x70B9;&amp;#x65F6;&amp;#x95F4;&amp;#x7814;&amp;#x7A76;&amp;#x4E86;&amp;#x4E0B;&amp;#x73B0;&amp;#x5728;&amp;#x6BD4;&amp;#x8F83;&amp;#x706B;&amp;#x8FA3;&amp;#x7684;etcd&amp;#xFF0C;&amp;#x7F51;&amp;#x4E0A;&amp;#x5F88;&amp;#x591A;&amp;#x7">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/032686b/" title="python使用etcd来实现配置共享及集群服务发现 【上】 -" itemprop="url">python使用etcd来实现配置共享及集群服务发现 【上】 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:43.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x8FD9;&#x4E24;&#x5929;&#x62BD;&#x4E86;&#x70B9;&#x65F6;&#x95F4;&#x7814;&#x7A76;&#x4E86;&#x4E0B;&#x73B0;&#x5728;&#x6BD4;&#x8F83;&#x706B;&#x8FA3;&#x7684;etcd&#xFF0C;&#x7F51;&#x4E0A;&#x5F88;&#x591A;&#x7684;&#x6587;&#x7AE0;&#x90FD;&#x662F;&#x5199;etcd&#x548C;docker&#x7684;&#x7ED3;&#x5408;&#x4F7F;&#x7528;&#x3002; &#xA0;&#x4E0D;&#x8BF4;docker&#xFF0C;&#x54B1;&#x4EEC;&#x5355;&#x72EC;&#x5C31;etcd&#x8FD9;&#x4E2A;&#x9AD8;&#x53EF;&#x7528;&#x952E;&#x503C;&#x6765;&#x804A;&#x804A;&#x5427;&#x3002;&#xA0;</p>
+<p>etcd&#x662F;&#x4E00;&#x4E2A;&#x9AD8;&#x53EF;&#x7528;&#x7684;&#x952E;&#x503C;&#x5B58;&#x50A8;&#x7CFB;&#x7EDF;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5171;&#x4EAB;&#x914D;&#x7F6E;&#x548C;&#x670D;&#x52A1;&#x53D1;&#x73B0;&#x3002;etcd&#x662F;&#x7531;CoreOS&#x5F00;&#x53D1;&#x5E76;&#x7EF4;&#x62A4;&#x7684;&#xFF0C;&#x7075;&#x611F;&#x6765;&#x81EA;&#x4E8E; ZooKeeper &#x548C; Doozer&#xFF0C;&#x5B83;&#x4F7F;&#x7528;Go&#x8BED;&#x8A00;&#x7F16;&#x5199;&#xFF0C;&#x5E76;&#x901A;&#x8FC7;Raft&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x5904;&#x7406;&#x65E5;&#x5FD7;&#x590D;&#x5236;&#x4EE5;&#x4FDD;&#x8BC1;&#x5F3A;&#x4E00;&#x81F4;&#x6027;&#x3002;Raft&#x662F;&#x4E00;&#x4E2A;&#x6765;&#x81EA;Stanford&#x7684;&#x65B0;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#xFF0C;&#x9002;&#x7528;&#x4E8E;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x7684;&#x65E5;&#x5FD7;&#x590D;&#x5236;&#xFF0C;Raft&#x901A;&#x8FC7;&#x9009;&#x4E3E;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x5B9E;&#x73B0;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x5728;Raft&#x4E2D;&#xFF0C;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x90FD;&#x53EF;&#x80FD;&#x6210;&#x4E3A;Leader&#x3002;</p>
+<p>Google&#x7684;&#x5BB9;&#x5668;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;Kubernetes&#x3001;&#x5F00;&#x6E90;PaaS&#x5E73;&#x53F0;Cloud Foundry&#x548C;CoreOS&#x7684;Fleet&#x90FD;&#x5E7F;&#x6CDB;&#x4F7F;&#x7528;&#x4E86;etcd&#x3002;</p>
+<p> &#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x5982;&#x4F55;&#x7BA1;&#x7406;&#x8282;&#x70B9;&#x95F4;&#x7684;&#x72B6;&#x6001;&#x4E00;&#x76F4;&#x662F;&#x4E00;&#x4E2A;&#x96BE;&#x9898;&#xFF0C;etcd&#x50CF;&#x662F;&#x4E13;&#x95E8;&#x4E3A;&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x7684;&#x670D;&#x52A1;&#x53D1;&#x73B0;&#x548C;&#x6CE8;&#x518C;&#x800C;&#x8BBE;&#x8BA1;&#xFF0C;&#x5B83;&#x63D0;&#x4F9B;&#x4E86;&#x6570;&#x636E;TTL&#x5931;&#x6548;&#x3001;&#x6570;&#x636E;&#x6539;&#x53D8;&#x76D1;&#x89C6;&#x3001;&#x591A;&#x503C;&#x3001;&#x76EE;&#x5F55;&#x76D1;&#x542C;&#x3001;&#x5206;&#x5E03;&#x5F0F;&#x9501;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x7B49;&#x529F;&#x80FD;&#xFF0C;&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x7684;&#x8DDF;&#x8E2A;&#x5E76;&#x7BA1;&#x7406;&#x96C6;&#x7FA4;&#x8282;&#x70B9;&#x7684;&#x72B6;&#x6001;&#x3002;etcd&#x76EE;&#x524D;&#x7684;&#x7248;&#x672C;&#x662F;0.4.5&#xFF0C;&#x867D;&#x7136;&#x672A;&#x53D1;&#x5E03;1.0&#x7248;&#x672C;&#xFF08;&#x4ECA;&#x5E74;&#x4F1A;&#x53D1;&#x5E03;&#xFF09;&#xFF0C;&#x4F46;&#x5176;&#x5DF2;&#x7ECF;&#x4F7F;&#x7528;&#x5728;&#x591A;&#x4E2A;&#x751F;&#x4EA7;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x53EF;&#x89C1;&#x5176;&#x706B;&#x70ED;&#x7A0B;&#x5EA6;&#x3002;etcd&#x7684;&#x7279;&#x6027;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x7B80;&#x5355;: curl&#x53EF;&#x8BBF;&#x95EE;&#x7684;&#x7528;&#x6237;&#x7684;API&#xFF08;HTTP+JSON&#xFF09;</p>
+<p>&#x5B89;&#x5168;: &#x53EF;&#x9009;&#x7684;SSL&#x5BA2;&#x6237;&#x7AEF;&#x8BC1;&#x4E66;&#x8BA4;&#x8BC1;</p>
+<p>&#x5FEB;&#x901F;: &#x5355;&#x5B9E;&#x4F8B;&#x6BCF;&#x79D2; 1000 &#x6B21;&#x5199;&#x64CD;&#x4F5C;</p>
+<p>&#x53EF;&#x9760;: &#x4F7F;&#x7528;Raft&#x4FDD;&#x8BC1;&#x4E00;&#x81F4;&#x6027;</p>
+<p>&#x76EE;&#x524D;&#x6709;&#x5F88;&#x591A;&#x652F;&#x6301;etcd&#x7684;&#x5E93;&#x548C;&#x5DE5;&#x5177;&#xFF0C;&#x6BD4;&#x5982;&#x547D;&#x4EE4;&#x884C;&#x5BA2;&#x6237;&#x7AEF;&#x5DE5;&#x5177;etcdctl&#x3001;Go&#x5BA2;&#x6237;&#x7AEF;go-etcd&#x3001;Java&#x5BA2;&#x6237;&#x7AEF;jetcd&#x3002;</p>
+<p>&#x90A3;&#x4E48;zookeeper&#x548C;etcd&#x7684;&#x533A;&#x522B;&#x6709;&#x4EC0;&#x4E48;&#x65B9;&#x9762; &#xFF1F;&#xA0;</p>
+<p>&#x5728;&#x539F;&#x751F;&#x63A5;&#x53E3;&#x548C;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x65B9;&#x5F0F;&#x65B9;&#x9762;&#xFF0C;etcd&#x66F4;&#x9002;&#x5408;&#x4F5C;&#x4E3A;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x7528;&#x6765;&#x5B58;&#x50A8;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x5927;&#x91CF;&#x6570;&#x636E;&#x3002;&#x65B9;&#x4FBF;&#x7684;REST&#x63A5;&#x53E3;&#x4E5F;&#x53EF;&#x4EE5;&#x8BA9;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x5728;&#x4F7F;&#x7528;Key/Value&#x670D;&#x52A1;&#x65F6;&#x83B7;&#x53D6;&#x65B9;&#x4FBF;&#x3002;ZooKeeper&#x5219;&#x66F4;&#x52A0;&#x7684;&#x9002;&#x5408;&#x4E8E;&#x63D0;&#x4F9B;&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x670D;&#x52A1;&#xFF0C;&#x4ED6;&#x5728;&#x5B9E;&#x73B0;&#x5206;&#x5E03;&#x5F0F;&#x9501;&#x6A21;&#x578B;&#x65B9;&#x9762;&#x8F83;etcd&#x8981;&#x7B80;&#x5355;&#x7684;&#x591A;&#x3002;&#x6240;&#x4EE5;&#x5728;&#x5B9E;&#x9645;&#x4F7F;&#x7528;&#x4E2D;&#x5E94;&#x8BE5;&#x6839;&#x636E;&#x81EA;&#x8EAB;&#x4F7F;&#x7528;&#x60C5;&#x51B5;&#x6765;&#x9009;&#x62E9;&#x76F8;&#x5E94;&#x7684;&#x670D;&#x52A1;&#x3002; </p>
+<p> <a href="http://xiaorui.cc" target="_blank" rel="external">xiaorui.cc</a></p>
+<p><a href="http://xiaorui.cc/" target="_blank" rel="external">xiaorui.cc</a></p>
+<p><a href="http://xiaorui.cc/" target="_blank" rel="external">xiaorui.cc</a></p>
+<p><a href="http://xiaorui.cc/" target="_blank" rel="external">xiaorui.cc</a></p>
+<p> <img src="http://taojinke.github.io/img/20150703/0325272.jpg" alt=""></p>
+<p>&#x6211;&#x8FD9;&#x91CC;&#x7167;&#x7740;&#x5B98;&#x7F51;&#x7684;&#x4F8B;&#x5B50;&#x63CD;&#x4E00;&#x904D;&#xFF0C; &#x600E;&#x4E48;&#x7528;&#x90FD;&#x611F;&#x89C9;&#x5728;&#x7528;zookeeper&#x7684;kazoo&#x4F3C;&#x7684;&#x3002;&#xA0;</p>
+<p>Python</p>
+<pre><code><span class="type">In</span> [<span class="number">1</span>]: <span class="keyword">import</span> etcd
+
+<span class="type">In</span> [<span class="number">2</span>]: client = etcd.<span class="type">Client</span>(host=&amp;apos;<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>&amp;apos;, port=<span class="number">4001</span>)
+
+<span class="type">In</span> [<span class="number">3</span>]: client.write(&amp;apos;/nodes/n1&amp;apos;, <span class="number">1</span>)
+<span class="type">Out</span>[<span class="number">3</span>]: &amp;lt;class &amp;apos;etcd.<span class="type">EtcdResult</span>&amp;apos;&amp;gt;({&amp;apos;newKey&amp;apos;: <span class="type">False</span>, &amp;apos;_prev_node&amp;apos;: &amp;lt;class &amp;apos;etcd.<span class="type">EtcdResult</span>&amp;apos;&amp;gt;({&amp;apos;newKey&amp;apos;: <span class="type">False</span>, &amp;apos;_children&amp;apos;: [], &amp;apos;createdIndex&amp;apos;: <span class="number">3</span>, &amp;apos;modifiedIndex&amp;apos;: <span class="number">3</span>, &amp;apos;value&amp;apos;: u&amp;apos;<span class="number">1</span>&amp;apos;, &amp;apos;expiration&amp;apos;: <span class="type">None</span>, &amp;apos;key&amp;apos;: u&amp;apos;/nodes/n1&amp;apos;, &amp;apos;ttl&amp;apos;: <span class="type">None</span>, &amp;apos;action&amp;apos;: <span class="type">None</span>, &amp;apos;dir&amp;apos;: <span class="type">False</span>}), &amp;apos;raft_index&amp;apos;: <span class="number">168</span>, &amp;apos;_children&amp;apos;: [], &amp;apos;createdIndex&amp;apos;: <span class="number">4</span>, &amp;apos;modifiedIndex&amp;apos;: <span class="number">4</span>, &amp;apos;value&amp;apos;: u&amp;apos;<span class="number">1</span>&amp;apos;, &amp;apos;etcd_index&amp;apos;: <span class="number">4</span>, &amp;apos;expiration&amp;apos;: <span class="type">None</span>, &amp;apos;key&amp;apos;: u&amp;apos;/nodes/n1&amp;apos;, &amp;apos;ttl&amp;apos;: <span class="type">None</span>, &amp;apos;action&amp;apos;: u&amp;apos;<span class="type">set</span>&amp;apos;, &amp;apos;dir&amp;apos;: <span class="type">False</span>})
+
+<span class="type">In</span> [<span class="number">4</span>]: <span class="literal">result</span> = client.read(&amp;apos;/nodes/n1&amp;apos;)
+
+<span class="type">In</span> [<span class="number">5</span>]: <span class="literal">result</span>.
+<span class="literal">result</span>.action         <span class="literal">result</span>.createdIndex   <span class="literal">result</span>.etcd_index     <span class="literal">result</span>.get_subtree    <span class="literal">result</span>.leaves         <span class="literal">result</span>.newKey         <span class="literal">result</span>.raft_index     <span class="literal">result</span>.value
+<span class="literal">result</span>.children       <span class="literal">result</span>.dir            <span class="literal">result</span>.expiration     <span class="literal">result</span>.key            <span class="literal">result</span>.modifiedIndex  <span class="literal">result</span>.parse_headers  <span class="literal">result</span>.ttl
+
+<span class="type">In</span> [<span class="number">5</span>]: <span class="literal">result</span>.value
+<span class="type">Out</span>[<span class="number">5</span>]: u&amp;apos;<span class="number">1</span>&amp;apos;
+</code></pre><p>&#x65E2;&#x7136;&#x6211;&#x4EEC;&#x8BF4;etcd &#x548C; ZooKeeper&#x5F88;&#x50CF;&#xFF0C;&#x90A3;&#x4E5F;&#x662F;&#x5B8C;&#x5168;&#x53EF;&#x4EE5;&#x505A;&#x6210;&#x5168;&#x5C40;&#x7F51;&#x7EDC;&#x9501;&#x7684;&#x3002; </p>
+<p>Python</p>
+<pre><code>client = etcd.Client()
+<span class="operator"><span class="keyword">lock</span> = client.<span class="keyword">get_lock</span>(&amp;apos;</span>/customer1&amp;apos;, ttl=60)
+
+# <span class="operator"><span class="keyword">Use</span> the <span class="keyword">lock</span> object:
+<span class="keyword">lock</span>.acquire()
+<span class="keyword">lock</span>.is_locked()  # <span class="literal">True</span>
+<span class="keyword">lock</span>.renew(<span class="number">60</span>)
+<span class="keyword">lock</span>.<span class="keyword">release</span>()
+<span class="keyword">lock</span>.is_locked()  # <span class="literal">False</span>
+
+# The <span class="keyword">lock</span> object may also be used <span class="keyword">as</span> a context manager:
+client = etcd.Client()
+<span class="keyword">lock</span> = client.<span class="keyword">get_lock</span>(&amp;apos;</span>/customer1&amp;apos;, ttl=60)
+with <span class="operator"><span class="keyword">lock</span> <span class="keyword">as</span> my_lock:
+    do_stuff()
+    <span class="keyword">lock</span>.is_locked()  # <span class="literal">True</span>
+    <span class="keyword">lock</span>.renew(<span class="number">60</span>)
+<span class="keyword">lock</span>.is_locked()  # <span class="literal">False</span></span>
+</code></pre><p>&#x8FD9;&#x91CC;&#x518D;&#x628A;etcd&#x7684;python api&#x518D;&#x6765;&#x8BE6;&#x7EC6;&#x7684;&#x63CF;&#x8FF0;&#x4E0B;</p>
+<p>&#x521B;&#x5EFA;etcd&#x7684;&#x8FDE;&#x63A5;&#x5BF9;&#x8C61; client = etcd.Client(host=&#x2019;127.0.0.1&#x2032;, port=4001) &#xA0;&#x5565;&#x7AEF;&#x53E3;&#xFF0C;&#x5565;&#x4E3B;&#x673A;&#xFF0C;&#x4F60;&#x81EA;&#x5DF1;&#x641E;&#x5B9A;&#x3002;</p>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x65F6;&#xFF0C;allow_redirect=True &#xA0;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x5F53;&#x65AD;&#x94FE;&#x7684;&#x65F6;&#x5019;&#xFF0C;etcd&#x4F1A;&#x518D;&#x6B21;&#x590D;&#x7528;connect&#x521B;&#x5EFA;&#x53EF;&#x7528;&#x7684;&#x8FDE;&#x63A5;</p>
+<p>Python</p>
+<pre><code>[root@slave1 etcd-v0.<span class="number">4.6</span>-linux-amd64]# ./etcd
+[etcd] Jan <span class="number">23</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">00.703</span> WARNING   | <span class="keyword">Using</span> the directory slave1.etcd <span class="keyword">as</span> the etcd curation directory because a directory was <span class="keyword">not</span> specified.
+[etcd] Jan <span class="number">23</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">00.703</span> INFO      | slave1 <span class="keyword">is</span> starting a <span class="keyword">new</span> cluster
+[etcd] Jan <span class="number">23</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">00.707</span> INFO      | etcd server [name slave1, listen <span class="keyword">on</span> :<span class="number">4001</span>, advertised url http:<span class="comment">//127.0.0.1:4001]</span>
+[etcd] Jan <span class="number">23</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">00.707</span> INFO      | peer server [name slave1, listen <span class="keyword">on</span> :<span class="number">7001</span>, advertised url http:<span class="comment">//127.0.0.1:7001]</span>
+
+
+client = etcd.Client(
+             host=&amp;apos;<span class="number">127.0</span>.<span class="number">0.1</span>&amp;apos;,
+             port=<span class="number">4003</span>,
+             allow_reconnect=<span class="keyword">True</span>,
+             protocol=&amp;apos;https&amp;apos;,)
+</code></pre><p>&#x4E0B;&#x9762;&#x7684;&#x4E1C;&#x897F;&#x548C;zookeeper&#x5F88;&#x50CF;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x90A3;&#x79CD;&#x76EE;&#x5F55;&#x7ED3;&#x6784;&#x4F53;&#x3002;</p>
+<p>Python</p>
+<pre><code>client.write(&amp;apos;/nodes/n1&amp;apos;, <span class="number">1</span>)
+<span class="array"># with ttl </span>&amp;<span class="array">#x</span>8BBE;&amp;<span class="array">#x</span>7F6E;&amp;<span class="array">#x</span>51E0;&amp;<span class="array">#x</span>79D2;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>51E0;&amp;<span class="array">#x</span>79D2;&amp;<span class="array">#x</span>540E;&amp;<span class="array">#x</span>8FD9;&amp;<span class="array">#x</span>6570;&amp;<span class="array">#x</span>636E;&amp;<span class="array">#x</span>5C31;&amp;<span class="array">#x</span>6CA1;&amp;<span class="array">#x</span>4E86;
+client.write(&amp;apos;/nodes/n2&amp;apos;, <span class="number">2</span>, ttl=<span class="number">4</span>)  <span class="array"># sets the ttl to </span><span class="number">4</span> seconds
+<span class="array"># create only</span>
+client.write(&amp;apos;/nodes/n3&amp;apos;, &amp;apos;test&amp;apos;, prevExist=False)   prevExist &amp;<span class="array">#x</span>5982;&amp;<span class="array">#x</span>679C;&amp;<span class="array">#x</span>6570;&amp;<span class="array">#x</span>636E;&amp;<span class="array">#x</span>6709;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>8BDD;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>5C31;&amp;<span class="array">#x</span>4E0D;&amp;<span class="array">#x</span>518D;&amp;<span class="array">#x</span>63D2;&amp;<span class="array">#x</span>5165;&amp;<span class="array">#x</span>4E86;&amp;<span class="array">#x</span>3002; 
+
+client.write(&amp;apos;/nodes/n3&amp;apos;, &amp;apos;test2&amp;apos;, prevValue=&amp;apos;test1&amp;apos;) &amp;<span class="array">#x</span>4FDD;&amp;<span class="array">#x</span>8BC1;value&amp;<span class="array">#x</span>4EE5;&amp;<span class="array">#x</span>524D;&amp;<span class="array">#x</span>662F;test1 
+
+<span class="array"># mkdir</span>
+client.write(&amp;apos;/nodes/queue&amp;apos;, dir=True)   &amp;<span class="array">#x</span>65B0;&amp;<span class="array">#x</span>7248;&amp;<span class="array">#x</span>672C;&amp;<span class="array">#x</span>4E0D;&amp;<span class="array">#x</span>7528;&amp;<span class="array">#x</span>8FD9;&amp;<span class="array">#x</span>4E2A;&amp;<span class="array">#x</span>4E5F;&amp;<span class="array">#x</span>884C;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>6700;&amp;<span class="array">#x</span>5C11;&amp;<span class="array">#x</span>6211;&amp;<span class="array">#x</span>4E0D;&amp;<span class="array">#x</span>7528;&amp;<span class="array">#x</span>6307;&amp;<span class="array">#x</span>660E;dir   &amp;<span class="array">#x</span>4E5F;&amp;<span class="array">#x</span>662F;&amp;<span class="array">#x</span>53EF;&amp;<span class="array">#x</span>4EE5;&amp;<span class="array">#x</span>521B;&amp;<span class="array">#x</span>5EFA;mkdir&amp;<span class="array">#x</span>7684;
+<span class="array"># Append a value to a queue dir</span>
+client.write(&amp;apos;/nodes/queue&amp;apos;, &amp;apos;test&amp;apos;, append=True) <span class="array">#will write i.e. </span>/nodes/queue/<span class="number">11</span>
+client.write(&amp;apos;/nodes/queue&amp;apos;, &amp;apos;test2&amp;apos;, append=True) <span class="array">#will write i.e. </span>/nodes/queue/<span class="number">12</span>
+</code></pre><p> &#x5BF9;&#x4E8E;&#x6570;&#x636E;&#x7684;&#x4FEE;&#x6539;&#x4E5F;&#x53EF;&#x4EE5;&#x7528; update</p>
+<p>Python</p>
+<pre><code><span class="literal">result</span> = client.read(&amp;apos;/foo&amp;apos;)
+print(<span class="literal">result</span>.value) <span class="comment"># bar</span>
+<span class="literal">result</span>.value += u&amp;apos;bar&amp;apos;
+updated = client.update(<span class="literal">result</span>)  
+print(updated.value)
+</code></pre><p>&#x7528;read()&#x65B9;&#x6CD5; &#x4ECE;etcd&#x83B7;&#x53D6;&#x8282;&#x70B9;&#x6570;&#x636E;</p>
+<p>Python</p>
+<pre><code>client.<span class="built_in">read</span>(&amp;apos;/nodes/n2&amp;apos;).<span class="built_in">value</span>
+
+<span class="comment">#recursive&amp;#x9012;&amp;#x5F52;&amp;#x7684;&amp;#x76EE;&amp;#x5F55;  </span>
+<span class="comment">#sorted &amp;#x6392;&amp;#x5E8F;</span>
+r = client.<span class="built_in">read</span>(&amp;apos;/nodes&amp;apos;, recursive=True, sorted=True)
+<span class="keyword">for</span> child <span class="operator">in</span> r.children:
+    print(&amp;quot;%s: %s&amp;quot; % (child.key,child.<span class="built_in">value</span>))
+
+<span class="comment">#&amp;#x76F8;&amp;#x5F53;&amp;#x4E8E;zookeeper&amp;#x7684;watch&amp;#x76D1;&amp;#x542C;</span>
+client.<span class="built_in">read</span>(&amp;apos;/nodes/n2&amp;apos;, <span class="built_in">wait</span>=True) <span class="comment">#Waits for a change in value in the key before returning.</span>
+client.<span class="built_in">read</span>(&amp;apos;/nodes/n2&amp;apos;, <span class="built_in">wait</span>=True, waitIndex=<span class="number">10</span>)
+</code></pre><p>&#x8FC7;&#x4E24;&#x5929;&#x518D;&#x5199;&#x4E00;&#x7BC7;&#xFF0C;&#x5173;&#x4E8E;etcd &#x548C; docker&#x7EC4;&#x5408;&#x5728;&#x4E00;&#x8D77;&#x7684;&#x5E94;&#x7528;&#x65B9;&#x6848;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Nosql/">Nosql</a><a href="/tags/Python/">Python</a><a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/032c04f/" title="ZooKeeper API简单调用 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  ZooKeeper API简单调用 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/0356223/"  title="zookeeper应用场景 -">
+ <strong>下一篇：</strong><br/> 
+ <span>zookeeper应用场景 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

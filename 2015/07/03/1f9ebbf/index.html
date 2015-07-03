@@ -1,0 +1,579 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>质量度量平台性能优化-4 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x5728;&amp;#x8D28;&amp;#x91CF;&amp;#x5EA6;&amp;#x91CF;&amp;#x5E73;&amp;#x53F0;&amp;#x4E2D;&amp;#xFF0C;&amp;#x6709;&amp;#x5C11;&amp;#x6570;&amp;#x51E0;&amp;#x4E2A;&amp;#x9875;&amp;#x9762;&amp;#x6253;&amp;#x5F00;&amp;#x901F;&amp;#x5EA6;&amp;#x662F;&amp;#x5F88;&amp;#x6162;&amp;#x7684;&amp;#xFF08;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="质量度量平台性能优化-4 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/1f9ebbf/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x5728;&amp;#x8D28;&amp;#x91CF;&amp;#x5EA6;&amp;#x91CF;&amp;#x5E73;&amp;#x53F0;&amp;#x4E2D;&amp;#xFF0C;&amp;#x6709;&amp;#x5C11;&amp;#x6570;&amp;#x51E0;&amp;#x4E2A;&amp;#x9875;&amp;#x9762;&amp;#x6253;&amp;#x5F00;&amp;#x901F;&amp;#x5EA6;&amp;#x662F;&amp;#x5F88;&amp;#x6162;&amp;#x7684;&amp;#xFF08;">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/1f9d355.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:09:30.982Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="质量度量平台性能优化-4 -">
+<meta name="twitter:description" content="&amp;#x5728;&amp;#x8D28;&amp;#x91CF;&amp;#x5EA6;&amp;#x91CF;&amp;#x5E73;&amp;#x53F0;&amp;#x4E2D;&amp;#xFF0C;&amp;#x6709;&amp;#x5C11;&amp;#x6570;&amp;#x51E0;&amp;#x4E2A;&amp;#x9875;&amp;#x9762;&amp;#x6253;&amp;#x5F00;&amp;#x901F;&amp;#x5EA6;&amp;#x662F;&amp;#x5F88;&amp;#x6162;&amp;#x7684;&amp;#xFF08;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/1f9ebbf/" title="质量度量平台性能优化-4 -" itemprop="url">质量度量平台性能优化-4 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:30.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&#x5728;&#x8D28;&#x91CF;&#x5EA6;&#x91CF;&#x5E73;&#x53F0;&#x4E2D;&#xFF0C;&#x6709;&#x5C11;&#x6570;&#x51E0;&#x4E2A;&#x9875;&#x9762;&#x6253;&#x5F00;&#x901F;&#x5EA6;&#x662F;&#x5F88;&#x6162;&#x7684;&#xFF08;&#x4E0D;&#x8FC7;&#x7531;&#x4E8E;&#x7528;&#x6237;&#x91CF;&#x4E0D;&#x5927;&#xFF0C;&#x4EE5;&#x524D;&#x4E5F;&#x6CA1;&#x5173;&#x6CE8;&#xFF09;&#xFF0C;&#x539F;&#x56E0;&#x662F;&#x9700;&#x8981;&#x5BF9;&#x5927;&#x91CF;&#x7684;&#x6570;&#x636E;&#x505A;&#x8FD0;&#x7B97;&#x5206;&#x6790;&#x624D;&#x5C55;&#x73B0;&#x51FA;&#x7ED3;&#x679C;&#xFF0C;&#x8FD9;&#x51E0;&#x5929;&#x505A;&#x4E86;&#x4E00;&#x4E0B;&#x4F18;&#x5316;&#x3002;&#x65B9;&#x6CD5;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x8FD9;&#x51E0;&#x4E2A;&#x5F88;&#x6162;&#x7684;&#x9875;&#x9762;&#x90FD;&#x662F;&#x53EA;&#x8BFB;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x4F7F;&#x7528;memcached&#x7F13;&#x5B58;&#x4E00;&#x4E0B;&#x6570;&#x636E;&#xFF0C;&#x6548;&#x679C;&#x4F1A;&#x975E;&#x5E38;&#x7684;&#x597D;&#x3002;</p>
+<p>Django&#x4E2D;&#x5F88;&#x65B9;&#x4FBF;&#x4F7F;&#x7528;Cache&#xFF0C;&#x5148;&#x9700;&#x8981;&#x5B89;&#x88C5;python-memcached&#x8FD9;&#x4E2A;python&#x5305;&#xFF0C;&#x5728;settings.py&#x6587;&#x4EF6;&#x4E2D;&#x6DFB;&#x52A0;&#x5982;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;</p>
+<pre><code>CACHES = {
+    &amp;apos<span class="comment">;default&amp;apos;: {</span>
+        &amp;apos<span class="comment">;BACKEND&amp;apos;: &amp;apos;django.core.cache.backends.memcached.MemcachedCache&amp;apos;,</span>
+        &amp;apos<span class="comment">;LOCATION&amp;apos;: &amp;apos;192.168.1.2:11211&amp;apos;,</span>
+    }
+}
+</code></pre><p>&#x5176;&#x4E2D;192.168.1.2:11211&#x5C31;&#x662F;&#x642D;&#x5EFA;&#x7684;memcached&#x670D;&#x52A1;&#xFF08;&#x642D;&#x5EFA;&#x65B9;&#x6CD5;&#x4E5F;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#xFF09;&#x3002;</p>
+<p>&#x7136;&#x540E;&#x5728;&#x4EE3;&#x7801;&#x4E2D;&#xFF0C;&#x5148;&#x53BB;cache&#x4E2D;&#x53D6;&#x4E00;&#x4E0B;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x53D6;&#x5230;&#xFF0C;&#x5C31;&#x91CD;&#x65B0;&#x4ECE;&#x539F;&#x59CB;&#x53D6;&#x5230;&#x83B7;&#x53D6;&#x6570;&#x636E;&#x5373;&#x53EF;&#x3002;&#x4F8B;&#x5982;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x7247;&#x6BB5;&#xFF1A;</p>
+<pre><code>from django.core.cache import <span class="operator"><span class="keyword">cache</span>
+def get_web_status(<span class="keyword">start</span>, <span class="keyword">end</span>):
+    &amp;apos;</span>&amp;apos;&amp;apos;
+    @summary: get the web HTTP status data.
+              it will <span class="operator"><span class="keyword">call</span> the remote AEW (<span class="keyword">in</span> product env).
+    @param <span class="keyword">start</span>: the <span class="keyword">start</span> <span class="built_in">date</span>.  <span class="keyword">Not</span> used yet.
+    @param <span class="keyword">end</span>: the <span class="keyword">end</span> <span class="built_in">date</span>.  <span class="keyword">Not</span> used yet.
+    @<span class="keyword">return</span>: a list <span class="keyword">of</span> the web HTTP <span class="keyword">status</span> <span class="keyword">count</span> <span class="keyword">data</span>.
+    &amp;apos;</span>&amp;apos;&amp;apos;
+    key = &amp;apos;weekly_web_status&amp;apos;
+    ret = <span class="operator"><span class="keyword">cache</span>.<span class="keyword">get</span>(<span class="keyword">key</span>)
+    <span class="keyword">if</span> <span class="keyword">not</span> ret:
+        try:
+            remote_api = &amp;apos;</span>http://10.1.1.2:8080/api/remote/weekly_web_status&amp;apos;
+            days = 7
+            remote_url = &amp;apos;%s?days=%s&amp;apos; % (remote_api, days)
+            doc = urllib.urlopen(remote_url)
+            ret = json.loads(doc.read())[&amp;apos;detail&amp;apos;]
+            <span class="operator"><span class="keyword">cache</span>.<span class="keyword">set</span>(<span class="keyword">key</span>, ret, <span class="number">1</span>*<span class="number">3600</span>)
+        <span class="keyword">except</span>:
+            pass
+    <span class="keyword">return</span> ret</span>
+</code></pre><p>&#x7531;&#x4E8E;&#x6211;&#x7684;&#x6570;&#x636E;&#x662F;&#x4ECE;DW&#x90E8;&#x95E8;&#x6765;&#x8FC7;&#x6765;&#x7684;&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x662F;&#x6BCF;&#x5929;&#x66F4;&#x65B0;&#x4E00;&#x6B21;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5BF9;&#x7A0D;&#x5FAE;&#x7684;&#x5EF6;&#x8FDF;&#x4E0D;&#x654F;&#x611F;&#xFF0C;cache&#x8BBE;&#x7F6E;&#x7684;&#x8FC7;&#x671F;&#x65F6;&#x95F4;&#x662F;1&#x5C0F;&#x65F6;&#x3002;</p>
+<p>&#x53E6;&#x5916;&#xFF0C;&#x8FD8;&#x5728;&#x540E;&#x53F0;&#x6709;&#x4E2A;job&#x5728;&#x6BCF;&#x5929;&#x51CC;&#x6668;&#x5C31;&#x53BB;&#x83B7;&#x53D6;&#x6700;&#x65B0;&#x7684;&#x6570;&#x636E;&#x5E76;set&#x5230;memcached&#x4E2D;&#xFF0C;&#x8FD9;&#x6837;&#x6BCF;&#x5929;&#x7B2C;&#x4E00;&#x4E2A;&#x4EBA;&#x8BBF;&#x95EE;&#x65F6;&#x4E5F;&#x4E0D;&#x4F1A;&#x592A;&#x6162;&#x3002;</p>
+<p>&#x4F7F;&#x7528;&#x4E86;Cache&#x6548;&#x679C;&#x975E;&#x5E38;&#x660E;&#x663E;&#xFF0C;&#x4EE5;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;API&#x4E3A;&#x4F8B;&#xFF0C;&#x6D4B;&#x8BD5;&#x6570;&#x636E;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/1f9d355.jpg" alt=""></p>
+<p>&#x5728;&#x6CA1;&#x6709;&#x4F7F;&#x7528;cache&#x65F6;&#xFF0C;&#x8FD9;&#x4E2A;&#x9875;&#x9762;&#x53BB;&#x8C03;&#x7528;&#x5916;&#x90E8;&#x7684;API&#xFF08;&#x8FDB;&#x884C;&#x7684;&#x662F;&#x5B9E;&#x65F6;&#x8BA1;&#x7B97;&#x7EDF;&#x8BA1;&#x5206;&#x6790;&#xFF09;&#xFF0C;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x5728;30s&#x5DE6;&#x53F3;&#xFF08;&#x2299;&#xFE4F;&#x2299;b&#x6C57;&#xFF09;&#xFF0C;&#x4F7F;&#x7528;cache&#x540E;&#x7F29;&#x77ED;&#x4E3A;6ms&#xFF1B;&#x5728;&#x4F7F;&#x7528;1&#x4E2A;&#x5E76;&#x53D1;&#x538B;&#x6D4B;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;TPS&#x63D0;&#x5347;300&#x500D;&#x3002;100&#x5E76;&#x53D1;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;memcached&#x7684;API&#x7684;TPS&#x8FBE;&#x5230;866&#xFF0C;&#x8FD8;&#x4E0D;&#x9519;&#x7684;~ &#xFF08;&#x670D;&#x52A1;&#x8DD1;&#x5728;4&#x6838;4GB&#x5185;&#x5B58;&#x7684;&#x865A;&#x62DF;&#x673A;&#x4E0A;&#xFF09;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/HTTP-Cache/">HTTP Cache</a><a href="/tags/Memcached/">Memcached</a><a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/1fae736/" title="Memcached(一)、HelloWorld -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Memcached(一)、HelloWorld -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/1fa6ab3/"  title="在windows上编译memcached v1.4.24 (用cygwin) -">
+ <strong>下一篇：</strong><br/> 
+ <span>在windows上编译memcached v1.4.24 (用cygwin) -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

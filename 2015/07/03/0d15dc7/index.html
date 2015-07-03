@@ -1,0 +1,640 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>zookeeper使用和原理探究（一） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="zookeeper&amp;#x4ECB;&amp;#x7ECD; 
+zookeeper&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E3A;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x5E94;&amp;#x7528;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E00;&amp;#x81F4;&amp;#x6027;&amp;#x670D;&amp;#x52A1;&amp;#x7684;&amp;#x8F6F;&amp;#x4EF6;&amp;#xFF0C;&amp;#x5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper使用和原理探究（一） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/0d15dc7/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="zookeeper&amp;#x4ECB;&amp;#x7ECD; 
+zookeeper&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E3A;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x5E94;&amp;#x7528;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E00;&amp;#x81F4;&amp;#x6027;&amp;#x670D;&amp;#x52A1;&amp;#x7684;&amp;#x8F6F;&amp;#x4EF6;&amp;#xFF0C;&amp;#x5">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/0d116fa.jpg">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/0d1196b.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:09:00.029Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zookeeper使用和原理探究（一） -">
+<meta name="twitter:description" content="zookeeper&amp;#x4ECB;&amp;#x7ECD; 
+zookeeper&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E3A;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x5E94;&amp;#x7528;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E00;&amp;#x81F4;&amp;#x6027;&amp;#x670D;&amp;#x52A1;&amp;#x7684;&amp;#x8F6F;&amp;#x4EF6;&amp;#xFF0C;&amp;#x5">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/0d15dc7/" title="zookeeper使用和原理探究（一） -" itemprop="url">zookeeper使用和原理探究（一） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:08:59.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<p> zookeeper&#x4ECB;&#x7ECD; </p>
+<p>zookeeper&#x662F;&#x4E00;&#x4E2A;&#x4E3A;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x63D0;&#x4F9B;&#x4E00;&#x81F4;&#x6027;&#x670D;&#x52A1;&#x7684;&#x8F6F;&#x4EF6;&#xFF0C;&#x5B83;&#x662F;&#x5F00;&#x6E90;&#x7684;Hadoop&#x9879;&#x76EE;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x5B50;&#x9879;&#x76EE;&#xFF0C;&#x5E76;&#x4E14;&#x6839;&#x636E;google&#x53D1;&#x8868;&#x7684;&#x8BBA;&#x6587;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x9996;&#x5148;&#x6765;&#x5B89;&#x88C5;&#x4F7F;&#x7528;&#x4E0B;&#x8FD9;&#x4E2A;&#x8F6F;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x6765;&#x63A2;&#x7D22;&#x4E0B;&#x5176;&#x4E2D;&#x6BD4;&#x8F83;&#x91CD;&#x8981;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x3002;</p>
+<p>zookeeper&#x5B89;&#x88C5;&#x548C;&#x4F7F;&#x7528; </p>
+<p>zookeeper&#x7684;&#x5B89;&#x88C5;&#x57FA;&#x672C;&#x4E0A;&#x53EF;&#x4EE5;&#x6309;&#x7167; <a href="http://hadoop.apache.org/zookeeper/docs/current/" target="_blank" rel="external">http://hadoop.apache.org/zookeeper/docs/current/</a> zookeeperStarted.html &#x8FD9;&#x4E2A;&#x9875;&#x9762;&#x4E0A;&#x7684;&#x6B65;&#x9AA4;&#x5B8C;&#x6210;&#x5B89;&#x88C5;&#xFF0C;&#x8FD9;&#x91CC;&#x4E3B;&#x8981;&#x4ECB;&#x7ECD;&#x4E0B;&#x90E8;&#x7F72;&#x4E00;&#x4E2A;&#x96C6;&#x7FA4;&#x7684;&#x6B65;&#x9AA4;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x4E2A;&#x5B98;&#x65B9;&#x9875;&#x9762;&#x4F3C;&#x4E4E;&#x8BB2;&#x5F97;&#x5E76;&#x4E0D;&#x662F;&#x975E;&#x5E38;&#x8BE6;&#x7EC6;(Running Replicated Zookeeper)&#x3002;</p>
+<p>&#x7531;&#x4E8E;&#x624B;&#x5934;&#x673A;&#x5668;&#x4E0D;&#x8DB3;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x4E00;&#x53F0;&#x673A;&#x5668;&#x4E0A;&#x90E8;&#x7F72;&#x4E86;3&#x4E2A;server,&#x5982;&#x679C;&#x4F60;&#x624B;&#x5934;&#x4E5F;&#x6BD4;&#x8F83;&#x7D27;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x8FD9;&#x4E48;&#x505A;&#x3002;&#x90A3;&#x4E48;&#x6211;&#x5EFA;&#x4E86;3&#x4E2A;&#x6587;&#x4EF6;&#x5939;&#xFF0C;&#x5982;&#x4E0B;</p>
+<p>server1 server2 server3 </p>
+<p>&#x7136;&#x540E;&#x6BCF;&#x4E2A;&#x6587;&#x4EF6;&#x5939;&#x91CC;&#x9762;&#x89E3;&#x538B;&#x4E00;&#x4E2A;zookeeper&#x7684;&#x4E0B;&#x8F7D;&#x5305;&#xFF0C;&#x5E76;&#x4E14;&#x8FD8;&#x5EFA;&#x4E86;&#x51E0;&#x4E2A;&#x6587;&#x4EF6;&#x5939;&#xFF0C;&#x603B;&#x4F53;&#x7ED3;&#x6784;&#x5982;&#x4E0B;,&#x6700;&#x540E;&#x90A3;&#x4E2A;&#x662F;&#x4E0B;&#x8F7D;&#x8FC7;&#x6765;&#x538B;&#x7F29;&#x5305;&#x7684;&#x89E3;&#x538B;&#x6587;&#x4EF6;</p>
+<p>data dataLog logs zookeeper-3.3.2 </p>
+<p>&#x90A3;&#x4E48;&#x9996;&#x5148;&#x8FDB;&#x5165;data&#x76EE;&#x5F55;&#xFF0C;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;myid&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x91CC;&#x9762;&#x5199;&#x5165;&#x4E00;&#x4E2A;&#x6570;&#x5B57;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x8FD9;&#x4E2A;&#x662F;server1,&#x90A3;&#x4E48;&#x5C31;&#x5199;&#x4E00;&#x4E2A;1&#xFF0C;server2&#x5BF9;&#x5E94;myid&#x6587;&#x4EF6;&#x5C31;&#x5199;&#x5165;2&#xFF0C;server3&#x5BF9;&#x5E94;myid&#x6587;&#x4EF6;&#x5C31;&#x5199;&#x4E2A;3</p>
+<p>&#x7136;&#x540E;&#x8FDB;&#x5165;zookeeper-3.3.2/conf&#x76EE;&#x5F55;&#xFF0C;&#x90A3;&#x4E48;&#x5982;&#x679C;&#x662F;&#x521A;&#x4E0B;&#x8FC7;&#x6765;&#xFF0C;&#x4F1A;&#x6709;3&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;configuration.xml, log4j.properties,zoo_sample.cfg,&#x8FD9;3&#x4E2A;&#x6587;&#x4EF6;&#x6211;&#x4EEC;&#x9996;&#x5148;&#x8981;&#x505A;&#x7684;&#x5C31;&#x662F;&#x5728;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#xFFFD;&#xFFFD;&#xFFFD;&#x5EFA;&#x4E00;&#x4E2A;zoo.cfg&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x5F53;&#x7136;&#x4F60;&#x53EF;&#x4EE5;&#x628A;zoo_sample.cfg&#x6587;&#x4EF6;&#x6539;&#x6210;zoo.cfg&#xFF0C;&#x914D;&#x7F6E;&#x7684;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<p>tickTime=2000</p>
+<p>initLimit=5</p>
+<p>syncLimit=2</p>
+<p>dataDir=xxxx/zookeeper/server1/data</p>
+<p>dataLogDir=xxx/zookeeper/server1/dataLog</p>
+<p>server.1=127.0.0.1:2888:3888</p>
+<p>server.2=127.0.0.1:2889:3889</p>
+<p>server.3=127.0.0.1:2890:3890</p>
+<p>&#x6807;&#x7EA2;&#x7684;&#x51E0;&#x4E2A;&#x914D;&#x7F6E;&#x5E94;&#x8BE5;&#x5B98;&#x7F51;&#x8BB2;&#x5F97;&#x5F88;&#x6E05;&#x695A;&#x4E86;&#xFF0C;&#x53EA;&#x662F;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;clientPort&#x8FD9;&#x4E2A;&#x7AEF;&#x53E3;&#x5982;&#x679C;&#x4F60;&#x662F;&#x5728;1&#x53F0;&#x673A;&#x5668;&#x4E0A;&#x90E8;&#x7F72;&#x591A;&#x4E2A;server,&#x90A3;&#x4E48;&#x6BCF;&#x53F0;&#x673A;&#x5668;&#x90FD;&#x8981;&#x4E0D;&#x540C;&#x7684;clientPort&#xFF0C;&#x6BD4;&#x5982;&#x6211;server1&#x662F;2181,server2&#x662F;2182&#xFF0C;server3&#x662F;2183&#xFF0C;dataDir&#x548C;dataLogDir&#x4E5F;&#x9700;&#x8981;&#x533A;&#x5206;&#x4E0B;&#x3002;</p>
+<p>&#x6700;&#x540E;&#x51E0;&#x884C;&#x552F;&#x4E00;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x5730;&#x65B9;&#x5C31;&#x662F; server.X &#x8FD9;&#x4E2A;&#x6570;&#x5B57;&#x5C31;&#x662F;&#x5BF9;&#x5E94; data/myid&#x4E2D;&#x7684;&#x6570;&#x5B57;&#x3002;&#x4F60;&#x5728;3&#x4E2A;server&#x7684;myid&#x6587;&#x4EF6;&#x4E2D;&#x5206;&#x522B;&#x5199;&#x5165;&#x4E86;1&#xFF0C;2&#xFF0C;3&#xFF0C;&#x90A3;&#x4E48;&#x6BCF;&#x4E2A;server&#x4E2D;&#x7684;zoo.cfg&#x90FD;&#x914D;server.1,server.2,server.3&#x5C31;OK&#x4E86;&#x3002;&#x56E0;&#x4E3A;&#x5728;&#x540C;&#x4E00;&#x53F0;&#x673A;&#x5668;&#x4E0A;&#xFF0C;&#x540E;&#x9762;&#x8FDE;&#x7740;&#x7684;2&#x4E2A;&#x7AEF;&#x53E3;3&#x4E2A;server&#x90FD;&#x4E0D;&#x8981;&#x4E00;&#x6837;&#xFF0C;&#x5426;&#x5219;&#x7AEF;&#x53E3;&#x51B2;&#x7A81;&#xFF0C;&#x5176;&#x4E2D;&#x7B2C;&#x4E00;&#x4E2A;&#x7AEF;&#x53E3;&#x7528;&#x6765;&#x96C6;&#x7FA4;&#x6210;&#x5458;&#x7684;&#x4FE1;&#x606F;&#x4EA4;&#x6362;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x7AEF;&#x53E3;&#x662F;&#x5728;leader&#x6302;&#x6389;&#x65F6;&#x4E13;&#x95E8;&#x7528;&#x6765;&#x8FDB;&#x884C;&#x9009;&#x4E3E;leader&#x6240;&#x7528;&#x3002;</p>
+<p>&#x8FDB;&#x5165;zookeeper-3.3.2/bin &#x76EE;&#x5F55;&#x4E2D;&#xFF0C;./zkServer.sh start&#x542F;&#x52A8;&#x4E00;&#x4E2A;server,&#x8FD9;&#x65F6;&#x4F1A;&#x62A5;&#x5927;&#x91CF;&#x9519;&#x8BEF;&#xFF1F;&#x5176;&#x5B9E;&#x6CA1;&#x4EC0;&#x4E48;&#x5173;&#x7CFB;&#xFF0C;&#x56E0;&#x4E3A;&#x73B0;&#x5728;&#x96C6;&#x7FA4;&#x53EA;&#x8D77;&#x4E86;1&#x53F0;server&#xFF0C;zookeeper&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x8D77;&#x6765;&#x4F1A;&#x6839;&#x636E;zoo.cfg&#x7684;&#x670D;&#x52A1;&#x5668;&#x5217;&#x8868;&#x53D1;&#x8D77;&#x9009;&#x4E3E;leader&#x7684;&#x8BF7;&#x6C42;&#xFF0C;&#x56E0;&#x4E3A;&#x8FDE;&#x4E0D;&#x4E0A;&#x5176;&#x4ED6;&#x673A;&#x5668;&#x800C;&#x62A5;&#x9519;&#xFF0C;&#x90A3;&#x4E48;&#x5F53;&#x6211;&#x4EEC;&#x8D77;&#x7B2C;&#x4E8C;&#x4E2A;zookeeper&#x5B9E;&#x4F8B;&#x540E;&#xFF0C;leader&#x5C06;&#x4F1A;&#x88AB;&#x9009;&#x51FA;&#xFF0C;&#x4ECE;&#x800C;&#x4E00;&#x81F4;&#x6027;&#x670D;&#x52A1;&#x5F00;&#x59CB;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF0C;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;3&#x53F0;&#x673A;&#x5668;&#x53EA;&#x8981;&#x6709;2&#x53F0;&#x53EF;&#x7528;&#x5C31;&#x53EF;&#x4EE5;&#x9009;&#x51FA;leader&#x5E76;&#x4E14;&#x5BF9;&#x5916;&#x63D0;&#x4F9B;&#x670D;&#x52A1;(2n+1&#x53F0;&#x673A;&#x5668;&#xFF0C;&#x53EF;&#x4EE5;&#x5BB9;n&#x53F0;&#x673A;&#x5668;&#x6302;&#x6389;)&#x3002;</p>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E86;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5148;&#x901A;&#x8FC7; zookeeper&#x81EA;&#x5E26;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x4EA4;&#x4E92;&#x7A0B;&#x5E8F;&#x6765;&#x7B80;&#x5355;&#x611F;&#x53D7;&#x4E0B;zookeeper&#x5230;&#x5E95;&#x505A;&#x4E00;&#x4E9B;&#x4EC0;&#x4E48;&#x4E8B;&#x60C5;&#x3002;&#x8FDB;&#x5165;zookeeper-3.3.2/bin(3&#x4E2A;server&#x4E2D;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;)&#x4E0B;&#xFF0C;./zkCli.sh -server 127.0.0.1:2182,&#x6211;&#x8FDE;&#x7684;&#x662F;&#x5F00;&#x7740;2182&#x7AEF;&#x53E3;&#x7684;&#x673A;&#x5668;&#x3002;</p>
+<p>&#x90A3;&#x4E48;&#xFF0C;&#x9996;&#x5148;&#x6211;&#x4EEC;&#x968F;&#x4FBF;&#x6253;&#x4E2A;&#x547D;&#x4EE4;&#xFF0C;&#x56E0;&#x4E3A;zookeeper&#x4E0D;&#x8BA4;&#x8BC6;&#xFF0C;&#x4ED6;&#x4F1A;&#x7ED9;&#x51FA;&#x547D;&#x4EE4;&#x7684;help,&#x5982;&#x4E0B;&#x56FE;</p>
+<p><img src="http://taojinke.github.io/img/20150703/0d116fa.jpg" alt=""></p>
+<p>ls(&#x67E5;&#x770B;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x6570;&#x636E;),</p>
+<p>ls2(&#x67E5;&#x770B;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x6570;&#x636E;&#x5E76;&#x80FD;&#x770B;&#x5230;&#x66F4;&#x65B0;&#x6B21;&#x6570;&#x7B49;&#x6570;&#x636E;) ,</p>
+<p>create(&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x8282;&#x70B9;) ,</p>
+<p>get(&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#xFF0C;&#x5305;&#x542B;&#x6570;&#x636E;&#x548C;&#x66F4;&#x65B0;&#x6B21;&#x6570;&#x7B49;&#x6570;&#x636E;),</p>
+<p>set(&#x4FEE;&#x6539;&#x8282;&#x70B9;)</p>
+<p>delete(&#x5220;&#x9664;&#x4E00;&#x4E2A;&#x8282;&#x70B9;)</p>
+<p>&#x901A;&#x8FC7;&#x4E0A;&#x8FF0;&#x547D;&#x4EE4;&#x5B9E;&#x8DF5;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#xFF0C;zookeeper&#x4F7F;&#x7528;&#x4E86;&#x4E00;&#x4E2A;&#x7C7B;&#x4F3C;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x6811;&#x7ED3;&#x6784;&#xFF0C;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x6302;&#x5728;&#x67D0;&#x4E2A;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x53EF;&#x4EE5;&#x5BF9;&#x8FD9;&#x4E2A;&#x8282;&#x70B9;&#x8FDB;&#x884C;&#x5220;&#x6539;&#x3002;&#x53E6;&#x5916;&#x6211;&#x4EEC;&#x8FD8;&#x53D1;&#x73B0;&#xFF0C;&#x5F53;&#x6539;&#x52A8;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x96C6;&#x7FA4;&#x4E2D;&#x6D3B;&#x7740;&#x7684;&#x673A;&#x5668;&#x90FD;&#x4F1A;&#x66F4;&#x65B0;&#x5230;&#x4E00;&#x81F4;&#x7684;&#x6570;&#x636E;&#x3002;</p>
+<p>zookeeper&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B; </p>
+<p>&#x5728;&#x7B80;&#x5355;&#x4F7F;&#x7528;&#x4E86;zookeeper&#x4E4B;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x53D1;&#x73B0;&#x5176;&#x6570;&#x636E;&#x6A21;&#x578B;&#x6709;&#x4E9B;&#x50CF;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7684;&#x6587;&#x4EF6;&#x7ED3;&#x6784;&#xFF0C;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/0d1196b.jpg" alt=""></p>
+<p>(1) &#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x5728;zookeeper&#x4E2D;&#x53EB;&#x505A;znode,&#x5E76;&#x4E14;&#x5176;&#x6709;&#x4E00;&#x4E2A;&#x552F;&#x4E00;&#x7684;&#x8DEF;&#x5F84;&#x6807;&#x8BC6;&#xFF0C;&#x5982;/SERVER2&#x8282;&#x70B9;&#x7684;&#x6807;&#x8BC6;&#x5C31;&#x4E3A;/APP3/SERVER2</p>
+<p>(2) Znode&#x53EF;&#x4EE5;&#x6709;&#x5B50;znode&#xFF0C;&#x5E76;&#x4E14;znode&#x91CC;&#x53EF;&#x4EE5;&#x5B58;&#x6570;&#x636E;&#xFF0C;&#x4F46;&#x662F;EPHEMERAL&#x7C7B;&#x578B;&#x7684;&#x8282;&#x70B9;&#x4E0D;&#x80FD;&#x6709;&#x5B50;&#x8282;&#x70B9;</p>
+<p>(3) Znode&#x4E2D;&#x7684;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x7248;&#x672C;&#xFF0C;&#x6BD4;&#x5982;&#x67D0;&#x4E00;&#x4E2A;&#x8DEF;&#x5F84;&#x4E0B;&#x5B58;&#x6709;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x7248;&#x672C;&#xFF0C;&#x90A3;&#x4E48;&#x67E5;&#x8BE2;&#x8FD9;&#x4E2A;&#x8DEF;&#x5F84;&#x4E0B;&#x7684;&#x6570;&#x636E;&#x5C31;&#x9700;&#x8981;&#x5E26;&#x4E0A;&#x7248;&#x672C;&#x3002;</p>
+<p>(4) znode &#x53EF;&#x4EE5;&#x662F;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#xFF0C;&#x4E00;&#x65E6;&#x521B;&#x5EFA;&#x8FD9;&#x4E2A; znode &#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x4E0E;&#x670D;&#x52A1;&#x5668;&#x5931;&#x53BB;&#x8054;&#x7CFB;&#xFF0C;&#x8FD9;&#x4E2A; znode &#x4E5F;&#x5C06;&#x81EA;&#x52A8;&#x5220;&#x9664;&#xFF0C;Zookeeper &#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x548C;&#x670D;&#x52A1;&#x5668;&#x901A;&#x4FE1;&#x91C7;&#x7528;&#x957F;&#x8FDE;&#x63A5;&#x65B9;&#x5F0F;&#xFF0C;&#x6BCF;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x548C; &#x670D;&#x52A1;&#x5668;&#x901A;&#x8FC7;&#x5FC3;&#x8DF3;&#x6765;&#x4FDD;&#x6301;&#x8FDE;&#x63A5;&#xFF0C;&#x8FD9;&#x4E2A;&#x8FDE;&#x63A5;&#x72B6;&#x6001;&#x79F0;&#x4E3A; session&#xFF0C;&#x5982;&#x679C; znode &#x662F;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#xFF0C;&#x8FD9;&#x4E2A; session &#x5931;&#x6548;&#xFF0C;znode &#x4E5F;&#x5C31;&#x5220;&#x9664;&#x4E86;</p>
+<p>(5) znode &#x7684;&#x76EE;&#x5F55;&#x540D;&#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x7F16;&#x53F7;&#xFF0C;&#x5982; App1 &#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#xFF0C;&#x518D;&#x521B;&#x5EFA;&#x7684;&#x8BDD;&#xFF0C;&#x5C06;&#x4F1A;&#x81EA;&#x52A8;&#x547D;&#x540D;&#x4E3A; App2</p>
+<p>(6) znode &#x53EF;&#x4EE5;&#x88AB;&#x76D1;&#x63A7;&#xFF0C;&#x5305;&#x62EC;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x8282;&#x70B9;&#x4E2D;&#x5B58;&#x50A8;&#x7684;&#x6570;&#x636E;&#x7684;&#x4FEE;&#x6539;&#xFF0C;&#x5B50;&#x8282;&#x70B9;&#x76EE;&#x5F55;&#x7684;&#x53D8;&#x5316;&#x7B49;&#xFF0C;&#x4E00;&#x65E6;&#x53D8;&#x5316;&#x53EF;&#x4EE5;&#x901A;&#x77E5;&#x8BBE;&#x7F6E;&#x76D1;&#x63A7;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x662F;zookeeper&#x5BF9;&#x4E8E;&#x5E94;&#x7528;&#x6700;&#x91CD;&#x8981;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x7279;&#x6027;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x7684;&#x529F;&#x80FD;&#x5305;&#x62EC;&#x914D;&#x7F6E;&#x7684;&#x96C6;&#x4E2D;&#x7BA1;&#x7406;&#xFF0C;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#xFF0C;&#x5206;&#x5E03;&#x5F0F;&#x9501;&#x7B49;&#x7B49;&#x3002;</p>
+<p>&#x901A;&#x8FC7;java&#x4EE3;&#x7801;&#x4F7F;&#x7528;zookeeper </p>
+<p>Zookeeper&#x7684;&#x4F7F;&#x7528;&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;&#x521B;&#x5EFA;&#x5176;jar&#x5305;&#x4E0B;&#x7684;Zookeeper&#x5B9E;&#x4F8B;&#xFF0C;&#x5E76;&#x4E14;&#x8C03;&#x7528;&#x5176;&#x63A5;&#x53E3;&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x7684;&#xFF0C;&#x4E3B;&#x8981;&#x7684;&#x64CD;&#x4F5C;&#x5C31;&#x662F;&#x5BF9;znode&#x7684;&#x589E;&#x5220;&#x6539;&#x64CD;&#x4F5C;&#xFF0C;&#x76D1;&#x542C;znode&#x7684;&#x53D8;&#x5316;&#x4EE5;&#x53CA;&#x5904;&#x7406;&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x4E3A;&#x4E3B;&#x8981;&#x7684;API&#x4F7F;&#x7528;&#x548C;&#x89E3;&#x91CA;</p>
+<p>//&#x521B;&#x5EFA;&#x4E00;&#x4E2A;Zookeeper&#x5B9E;&#x4F8B;&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x76EE;&#x6807;&#x670D;&#x52A1;&#x5668;&#x5730;&#x5740;&#x548C;&#x7AEF;&#x53E3;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;Session&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF0C;&#x7B2C;&#x4E09;&#x4E2A;&#x4E3A;&#x8282;&#x70B9;&#x53D8;&#x5316;&#x65F6;&#x7684;&#x56DE;&#x8C03;&#x65B9;&#x6CD5;</p>
+<p>ZooKeeper zk =newZooKeeper(&quot;127.0.0.1:2181&quot;,,newWatcher() {</p>
+<p>// &#x76D1;&#x63A7;&#x6240;&#x6709;&#x88AB;&#x89E6;&#x53D1;&#x7684;&#x4E8B;&#x4EF6;</p>
+<p>publicvoidprocess(WatchedEvent event) {</p>
+<p>//dosomething</p>
+<p>}</p>
+<p>});</p>
+<p>//&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x8282;&#x70B9;root&#xFF0C;&#x6570;&#x636E;&#x662F;mydata,&#x4E0D;&#x8FDB;&#x884C;ACL&#x6743;&#x9650;&#x63A7;&#x5236;&#xFF0C;&#x8282;&#x70B9;&#x4E3A;&#x6C38;&#x4E45;&#x6027;&#x7684;(&#x5373;&#x5BA2;&#x6237;&#x7AEF;shutdown&#x4E86;&#x4E5F;&#x4E0D;&#x4F1A;&#x6D88;&#x5931;)</p>
+<p>zk.create(&quot;/root&quot;,&quot;mydata&quot;.getBytes(),Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);</p>
+<p>//&#x5728;root&#x4E0B;&#x9762;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;childone znode,&#x6570;&#x636E;&#x4E3A;childone,&#x4E0D;&#x8FDB;&#x884C;ACL&#x6743;&#x9650;&#x63A7;&#x5236;&#xFF0C;&#x8282;&#x70B9;&#x4E3A;&#x6C38;&#x4E45;&#x6027;&#x7684;</p>
+<p>zk.create(&quot;/root/childone&quot;,&quot;childone&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);</p>
+<p>//&#x53D6;&#x5F97;/root&#x8282;&#x70B9;&#x4E0B;&#x7684;&#x5B50;&#x8282;&#x70B9;&#x540D;&#x79F0;,&#x8FD4;&#x56DE;List&lt;String&gt;</p>
+<p>zk.getChildren(&quot;/root&quot;,true);</p>
+<p>//&#x53D6;&#x5F97;/root/childone&#x8282;&#x70B9;&#x4E0B;&#x7684;&#x6570;&#x636E;,&#x8FD4;&#x56DE;byte[]</p>
+<p>zk.getData(&quot;/root/childone&quot;,true,null);</p>
+<p>//&#x4FEE;&#x6539;&#x8282;&#x70B9;/root/childone&#x4E0B;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x7248;&#x672C;&#xFF0C;&#x5982;&#x679C;&#x662F;-1&#xFF0C;&#x90A3;&#x4F1A;&#x65E0;&#x89C6;&#x88AB;&#x4FEE;&#x6539;&#x7684;&#x6570;&#x636E;&#x7248;&#x672C;&#xFF0C;&#x76F4;&#x63A5;&#x6539;&#x6389;</p>
+<p>zk.setData(&quot;/root/childone&quot;,&quot;childonemodify&quot;.getBytes(), -);</p>
+<p>//&#x5220;&#x9664;/root/childone&#x8FD9;&#x4E2A;&#x8282;&#x70B9;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x7248;&#x672C;&#xFF0C;&#xFF0D;1&#x7684;&#x8BDD;&#x76F4;&#x63A5;&#x5220;&#x9664;&#xFF0C;&#x65E0;&#x89C6;&#x7248;&#x672C;</p>
+<p>zk.delete(&quot;/root/childone&quot;, -);</p>
+<p>//&#x5173;&#x95ED;session</p>
+<p>zk.close();</p>
+<p>Zookeeper&#x7684;&#x4E3B;&#x6D41;&#x5E94;&#x7528;&#x573A;&#x666F;&#x5B9E;&#x73B0;&#x601D;&#x8DEF;&#x9664;&#x53BB;&#x5B98;&#x65B9;&#x793A;&#x4F8B;) </p>
+<p>(1)&#x914D;&#x7F6E;&#x7BA1;&#x7406; </p>
+<p>&#x96C6;&#x4E2D;&#x5F0F;&#x7684;&#x914D;&#x7F6E;&#x7BA1;&#x7406;&#x5728;&#x5E94;&#x7528;&#x96C6;&#x7FA4;&#x4E2D;&#x662F;&#x975E;&#x5E38;&#x5E38;&#x89C1;&#x7684;&#xFF0C;&#x4E00;&#x822C;&#x5546;&#x4E1A;&#x516C;&#x53F8;&#x5185;&#x90E8;&#x90FD;&#x4F1A;&#x5B9E;&#x73B0;&#x4E00;&#x5957;&#x96C6;&#x4E2D;&#x7684;&#x914D;&#x7F6E;&#x7BA1;&#x7406;&#x4E2D;&#x5FC3;&#xFF0C;&#x5E94;&#x5BF9;&#x4E0D;&#x540C;&#x7684;&#x5E94;&#x7528;&#x96C6;&#x7FA4;&#x5BF9;&#x4E8E;&#x5171;&#x4EAB;&#x5404;&#x81EA;&#x914D;&#x7F6E;&#x7684;&#x9700;&#x6C42;&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x914D;&#x7F6E;&#x53D8;&#x66F4;&#x65F6;&#x80FD;&#x591F;&#x901A;&#x77E5;&#x5230;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x4E2A;&#x673A;&#x5668;&#x3002;</p>
+<p>Zookeeper&#x5F88;&#x5BB9;&#x6613;&#x5B9E;&#x73B0;&#x8FD9;&#x79CD;&#x96C6;&#x4E2D;&#x5F0F;&#x7684;&#x914D;&#x7F6E;&#x7BA1;&#x7406;&#xFF0C;&#x6BD4;&#x5982;&#x5C06;APP1&#x7684;&#x6240;&#x6709;&#x914D;&#x7F6E;&#x914D;&#x7F6E;&#x5230;/APP1 znode&#x4E0B;&#xFF0C;APP1&#x6240;&#x6709;&#x673A;&#x5668;&#x4E00;&#x542F;&#x52A8;&#x5C31;&#x5BF9;/APP1&#x8FD9;&#x4E2A;&#x8282;&#x70B9;&#x8FDB;&#x884C;&#x76D1;&#x63A7;(zk.exist(&#x201C;/APP1&#x2033;,true)),&#x5E76;&#x4E14;&#x5B9E;&#x73B0;&#x56DE;&#x8C03;&#x65B9;&#x6CD5;Watcher&#xFF0C;&#x90A3;&#x4E48;&#x5728;zookeeper&#x4E0A;/APP1 znode&#x8282;&#x70B9;&#x4E0B;&#x6570;&#x636E;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6BCF;&#x4E2A;&#x673A;&#x5668;&#x90FD;&#x4F1A;&#x6536;&#x5230;&#x901A;&#x77E5;&#xFF0C;Watcher&#x65B9;&#x6CD5;&#x5C06;&#x4F1A;&#x88AB;&#x6267;&#x884C;&#xFF0C;&#x90A3;&#x4E48;&#x5E94;&#x7528;&#x518D;&#x53D6;&#x4E0B;&#x6570;&#x636E;&#x5373;&#x53EF;(zk.getData(&#x201C;/APP1&#x2033;,false,null));</p>
+<p>&#x4EE5;&#x4E0A;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x53EA;&#x662F;&#x7B80;&#x5355;&#x7684;&#x7C97;&#x9897;&#x7C92;&#x5EA6;&#x914D;&#x7F6E;&#x76D1;&#x63A7;&#xFF0C;&#x7EC6;&#x9897;&#x7C92;&#x5EA6;&#x7684;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x5206;&#x5C42;&#x7EA7;&#x76D1;&#x63A7;&#xFF0C;&#x8FD9;&#x4E00;&#x5207;&#x90FD;&#x662F;&#x53EF;&#x4EE5;&#x8BBE;&#x8BA1;&#x548C;&#x63A7;&#x5236;&#x7684;&#x3002;</p>
+<p>(2)&#x96C6;&#x7FA4;&#x7BA1;&#x7406; </p>
+<p>&#x5E94;&#x7528;&#x96C6;&#x7FA4;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x5E38;&#x5E38;&#x9700;&#x8981;&#x8BA9;&#x6BCF;&#x4E00;&#x4E2A;&#x673A;&#x5668;&#x77E5;&#x9053;&#x96C6;&#x7FA4;&#x4E2D;(&#x6216;&#x4F9D;&#x8D56;&#x7684;&#x5176;&#x4ED6;&#x67D0;&#x4E00;&#x4E2A;&#x96C6;&#x7FA4;)&#x54EA;&#x4E9B;&#x673A;&#x5668;&#x662F;&#x6D3B;&#x7740;&#x7684;&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x96C6;&#x7FA4;&#x673A;&#x5668;&#x56E0;&#x4E3A;&#x5B95;&#x673A;&#xFF0C;&#x7F51;&#x7EDC;&#x65AD;&#x94FE;&#x7B49;&#x539F;&#x56E0;&#x80FD;&#x591F;&#x4E0D;&#x5728;&#x4EBA;&#x5DE5;&#x4ECB;&#x5165;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x8FC5;&#x901F;&#x901A;&#x77E5;&#x5230;&#x6BCF;&#x4E00;&#x4E2A;&#x673A;&#x5668;&#x3002;</p>
+<p>Zookeeper&#x540C;&#x6837;&#x5F88;&#x5BB9;&#x6613;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x5728;zookeeper&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x6709;&#x4E00;&#x4E2A;znode&#x53EB;/APP1SERVERS,&#x90A3;&#x4E48;&#x96C6;&#x7FA4;&#x4E2D;&#x6BCF;&#x4E00;&#x4E2A;&#x673A;&#x5668;&#x542F;&#x52A8;&#x7684;&#x65F6;&#x5019;&#x90FD;&#x53BB;&#x8FD9;&#x4E2A;&#x8282;&#x70B9;&#x4E0B;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;EPHEMERAL&#x7C7B;&#x578B;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x6BD4;&#x5982;server1&#x521B;&#x5EFA;/APP1SERVERS/SERVER1(&#x53EF;&#x4EE5;&#x4F7F;&#x7528;ip,&#x4FDD;&#x8BC1;&#x4E0D;&#x91CD;&#x590D;)&#xFF0C;server2&#x521B;&#x5EFA;/APP1SERVERS/SERVER2&#xFF0C;&#x7136;&#x540E;SERVER1&#x548C;SERVER2&#x90FD;watch /APP1SERVERS&#x8FD9;&#x4E2A;&#x7236;&#x8282;&#x70B9;&#xFF0C;&#x90A3;&#x4E48;&#x4E5F;&#x5C31;&#x662F;&#x8FD9;&#x4E2A;&#x7236;&#x8282;&#x70B9;&#x4E0B;&#x6570;&#x636E;&#x6216;&#x8005;&#x5B50;&#x8282;&#x70B9;&#x53D8;&#x5316;&#x90FD;&#x4F1A;&#x901A;&#x77E5;&#x5BF9;&#x8BE5;&#x8282;&#x70B9;&#x8FDB;&#x884C;watch&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x3002;&#x56E0;&#x4E3A;EPHEMERAL&#x7C7B;&#x578B;&#x8282;&#x70B9;&#x6709;&#x4E00;&#x4E2A;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x5C31;&#x662F;&#x5BA2;&#x6237;&#x7AEF;&#x548C;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x8FDE;&#x63A5;&#x65AD;&#x6389;&#x6216;&#x8005;session&#x8FC7;&#x671F;&#x5C31;&#x4F1A;&#x4F7F;&#x8282;&#x70B9;&#x6D88;&#x5931;&#xFF0C;&#x90A3;&#x4E48;&#x5728;&#x67D0;&#x4E00;&#x4E2A;&#x673A;&#x5668;&#x6302;&#x6389;&#x6216;&#x8005;&#x65AD;&#x94FE;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5176;&#x5BF9;&#x5E94;&#x7684;&#x8282;&#x70B9;&#x5C31;&#x4F1A;&#x6D88;&#x5931;&#xFF0C;&#x7136;&#x540E;&#x96C6;&#x7FA4;&#x4E2D;&#x6240;&#x6709;&#x5BF9;/APP1SERVERS&#x8FDB;&#x884C;watch&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x90FD;&#x4F1A;&#x6536;&#x5230;&#x901A;&#x77E5;&#xFF0C;&#x7136;&#x540E;&#x53D6;&#x5F97;&#x6700;&#x65B0;&#x5217;&#x8868;&#x5373;&#x53EF;&#x3002;</p>
+<p>&#x53E6;&#x5916;&#x6709;&#x4E00;&#x4E2A;&#x5E94;&#x7528;&#x573A;&#x666F;&#x5C31;&#x662F;&#x96C6;&#x7FA4;&#x9009;master,&#x4E00;&#x65E6;master&#x6302;&#x6389;&#x80FD;&#x591F;&#x9A6C;&#x4E0A;&#x80FD;&#x4ECE;slave&#x4E2D;&#x9009;&#x51FA;&#x4E00;&#x4E2A;master,&#x5B9E;&#x73B0;&#x6B65;&#x9AA4;&#x548C;&#x524D;&#x8005;&#x4E00;&#x6837;&#xFF0C;&#x53EA;&#x662F;&#x673A;&#x5668;&#x5728;&#x542F;&#x52A8;&#x7684;&#x65F6;&#x5019;&#x5728;APP1SERVERS&#x521B;&#x5EFA;&#x7684;&#x8282;&#x70B9;&#x7C7B;&#x578B;&#x53D8;&#x4E3A;EPHEMERAL_SEQUENTIAL&#x7C7B;&#x578B;&#xFF0C;&#x8FD9;&#x6837;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x4F1A;&#x81EA;&#x52A8;&#x88AB;&#x7F16;&#x53F7;&#xFF0C;&#x4F8B;&#x5982;</p>
+<p>zk.create(&quot;/testRootPath/testChildPath1&quot;,&quot;1&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL_SEQUENTIAL);</p>
+<p>zk.create(&quot;/testRootPath/testChildPath2&quot;,&quot;2&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL_SEQUENTIAL);</p>
+<p>zk.create(&quot;/testRootPath/testChildPath3&quot;,&quot;3&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL_SEQUENTIAL);</p>
+<p>// &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5B50;&#x76EE;&#x5F55;&#x8282;&#x70B9;</p>
+<p>zk.create(&quot;/testRootPath/testChildPath4&quot;,&quot;4&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL_SEQUENTIAL);</p>
+<p>System.out.println(zk.getChildren(&quot;/testRootPath&quot;,false));</p>
+<p>&#x6253;&#x5370;&#x7ED3;&#x679C;&#xFF1A;[testChildPath10000000000, testChildPath20000000001, testChildPath40000000003, testChildPath30000000002]</p>
+<p>zk.create(&quot;/testRootPath&quot;,&quot;testRootData&quot;.getBytes(),Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);</p>
+<p>// &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5B50;&#x76EE;&#x5F55;&#x8282;&#x70B9;</p>
+<p>zk.create(&quot;/testRootPath/testChildPath1&quot;,&quot;1&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL);</p>
+<p>zk.create(&quot;/testRootPath/testChildPath2&quot;,&quot;2&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL);</p>
+<p>zk.create(&quot;/testRootPath/testChildPath3&quot;,&quot;3&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL);</p>
+<p>// &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5B50;&#x76EE;&#x5F55;&#x8282;&#x70B9;</p>
+<p>zk.create(&quot;/testRootPath/testChildPath4&quot;,&quot;4&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL);</p>
+<p>System.out.println(zk.getChildren(&quot;/testRootPath&quot;,false));</p>
+<p>&#x6253;&#x5370;&#x7ED3;&#x679C;:[testChildPath2, testChildPath1, testChildPath4, testChildPath3]</p>
+<p>&#x6211;&#x4EEC;&#x9ED8;&#x8BA4;&#x89C4;&#x5B9A;&#x7F16;&#x53F7;&#x6700;&#x5C0F;&#x7684;&#x4E3A;master,&#x6240;&#x4EE5;&#x5F53;&#x6211;&#x4EEC;&#x5BF9;/APP1SERVERS&#x8282;&#x70B9;&#x505A;&#x76D1;&#x63A7;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5F97;&#x5230;&#x670D;&#x52A1;&#x5668;&#x5217;&#x8868;&#xFF0C;&#x53EA;&#x8981;&#x6240;&#x6709;&#x96C6;&#x7FA4;&#x673A;&#x5668;&#x903B;&#x8F91;&#x8BA4;&#x4E3A;&#x6700;&#x5C0F;&#x7F16;&#x53F7;&#x8282;&#x70B9;&#x4E3A;master&#xFF0C;&#x90A3;&#x4E48;master&#x5C31;&#x88AB;&#x9009;&#x51FA;&#xFF0C;&#x800C;&#x8FD9;&#x4E2A;master&#x5B95;&#x673A;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x76F8;&#x5E94;&#x7684;znode&#x4F1A;&#x6D88;&#x5931;&#xFF0C;&#x7136;&#x540E;&#x65B0;&#x7684;&#x670D;&#x52A1;&#x5668;&#x5217;&#x8868;&#x5C31;&#x88AB;&#x63A8;&#x9001;&#x5230;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x7136;&#x540E;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x903B;&#x8F91;&#x8BA4;&#x4E3A;&#x6700;&#x5C0F;&#x7F16;&#x53F7;&#x8282;&#x70B9;&#x4E3A;master&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x505A;&#x5230;&#x52A8;&#x6001;master&#x9009;&#x4E3E;&#x3002;</p>
+<h4 id="&#x603B;&#x7ED3;">&#x603B;&#x7ED3;</h4><p>&#x6211;&#x4EEC;&#x521D;&#x6B65;&#x4F7F;&#x7528;&#x4E86;&#x4E00;&#x4E0B;zookeeper&#x5E76;&#x4E14;&#x5C1D;&#x8BD5;&#x7740;&#x63CF;&#x8FF0;&#x4E86;&#x51E0;&#x79CD;&#x5E94;&#x7528;&#x573A;&#x666F;&#x7684;&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#x601D;&#x8DEF;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x7684;&#x6587;&#x7AE0;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x5C1D;&#x8BD5;&#x7740;&#x53BB;&#x63A2;&#x7A76;&#x4E00;&#x4E0B;zookeeper&#x7684;&#x9AD8;&#x53EF;&#x7528;&#x6027;&#x4E0E;leaderElection&#x7B97;&#x6CD5;&#x3002;</p>
+<p>&#x53C2;&#x8003;&#xFF1A; <a href="http://www.ibm.com/developerworks/cn/opensource/os-cn-zookeeper/" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/opensource/os-cn-zookeeper/</a></p>
+<p><a href="http://hadoop.apache.org/zookeeper/docs/current/" target="_blank" rel="external">http://hadoop.apache.org/zookeeper/docs/current/</a></p>
+<p><a href="http://rdc.taobao.com/team/jm/archives/448" target="_blank" rel="external">http://rdc.taobao.com/team/jm/archives/448</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/0cf77f0/" title="Zookeeper 基本机制 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Zookeeper 基本机制 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/0cb1755/"  title="zookeeper原理和实现 -">
+ <strong>下一篇：</strong><br/> 
+ <span>zookeeper原理和实现 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

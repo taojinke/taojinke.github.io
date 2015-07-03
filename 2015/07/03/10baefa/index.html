@@ -1,0 +1,639 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>kiteq - 一个多种持久化方案的 MQ 框架 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="* &amp;amp;#x57FA;&amp;amp;#x4E8E;zk&amp;amp;#x7EF4;&amp;amp;#x62A4;&amp;amp;#x53D1;&amp;amp;#x9001;&amp;amp;#x65B9;&amp;amp;#x3001;&amp;amp;#x8BA2;&amp;amp;#x9605;&amp;amp;#x65B9;&amp;amp;#x3001;broker&amp;amp;#x8BA2;&amp;amp;#x9605;&amp;amp;#x53D1;&amp;amp;#x900">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kiteq - 一个多种持久化方案的 MQ 框架 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/10baefa/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="* &amp;amp;#x57FA;&amp;amp;#x4E8E;zk&amp;amp;#x7EF4;&amp;amp;#x62A4;&amp;amp;#x53D1;&amp;amp;#x9001;&amp;amp;#x65B9;&amp;amp;#x3001;&amp;amp;#x8BA2;&amp;amp;#x9605;&amp;amp;#x65B9;&amp;amp;#x3001;broker&amp;amp;#x8BA2;&amp;amp;#x9605;&amp;amp;#x53D1;&amp;amp;#x900">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/10ba7a7.png">
+<meta property="og:updated_time" content="2015-07-03T14:09:06.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kiteq - 一个多种持久化方案的 MQ 框架 -">
+<meta name="twitter:description" content="* &amp;amp;#x57FA;&amp;amp;#x4E8E;zk&amp;amp;#x7EF4;&amp;amp;#x62A4;&amp;amp;#x53D1;&amp;amp;#x9001;&amp;amp;#x65B9;&amp;amp;#x3001;&amp;amp;#x8BA2;&amp;amp;#x9605;&amp;amp;#x65B9;&amp;amp;#x3001;broker&amp;amp;#x8BA2;&amp;amp;#x9605;&amp;amp;#x53D1;&amp;amp;#x900">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/10baefa/" title="kiteq - 一个多种持久化方案的 MQ 框架 -" itemprop="url">kiteq - 一个多种持久化方案的 MQ 框架 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:05.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#工程结构"><span class="toc-number">1.</span> <span class="toc-text">工程结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Zookeeper数据结构"><span class="toc-number">2.</span> <span class="toc-text">Zookeeper数据结构</span></a></li></ol>
+		
+		</div>
+		
+		<pre><code>* &amp;<span class="id">#x57FA</span>;&amp;<span class="id">#x4E8E</span>;<span class="tag">zk</span>&amp;<span class="id">#x7EF4</span>;&amp;<span class="id">#x62A4</span>;&amp;<span class="id">#x53D1</span>;&amp;<span class="id">#x9001</span>;&amp;<span class="id">#x65B9</span>;&amp;<span class="id">#x3001</span>;&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;&amp;<span class="id">#x65B9</span>;&amp;<span class="id">#x3001</span>;<span class="tag">broker</span>&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;&amp;<span class="id">#x53D1</span>;&amp;<span class="id">#x9001</span>;&amp;<span class="id">#x5173</span>;&amp;<span class="id">#x7CFB</span>;&amp;<span class="id">#x3001</span>;&amp;<span class="id">#x652F</span>;&amp;<span class="id">#x6301</span>;&amp;<span class="id">#x6C34</span>;&amp;<span class="id">#x5E73</span>;&amp;<span class="id">#x3001</span>;&amp;<span class="id">#x5782</span>;&amp;<span class="id">#x76F4</span>;&amp;<span class="id">#x65B9</span>;&amp;<span class="id">#x9762</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x6269</span>;&amp;<span class="id">#x5C55</span>;
+* &amp;<span class="id">#x57FA</span>;&amp;<span class="id">#x4E8E</span>;&amp;<span class="id">#x4E0E</span>;<span class="tag">topic</span>&amp;<span class="id">#x4EE5</span>;&amp;<span class="id">#x53CA</span>;&amp;<span class="id">#x7B2C</span>;&amp;<span class="id">#x4E8C</span>;&amp;<span class="id">#x7EA7</span>;<span class="tag">messageType</span>&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;
+* &amp;<span class="id">#x57FA</span>;&amp;<span class="id">#x4E8E</span>;<span class="tag">mysql</span>&amp;<span class="id">#x3001</span>;&amp;<span class="id">#x6587</span>;&amp;<span class="id">#x4EF6</span>;&amp;<span class="id">#x5B58</span>;&amp;<span class="id">#x50A8</span>;&amp;<span class="id">#x65B9</span>;&amp;<span class="id">#x5F0F</span>;&amp;<span class="id">#x591A</span>;&amp;<span class="id">#x91CD</span>;&amp;<span class="id">#x6301</span>;&amp;<span class="id">#x4E45</span>;&amp;<span class="id">#x5C42</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;&amp;<span class="id">#x5B58</span>;&amp;<span class="id">#x50A8</span>;
+* &amp;<span class="id">#x4FDD</span>;&amp;<span class="id">#x8BC1</span>;&amp;<span class="id">#x53EF</span>;&amp;<span class="id">#x9760</span>;&amp;<span class="id">#x5F02</span>;&amp;<span class="id">#x6B65</span>;&amp;<span class="id">#x6295</span>;&amp;<span class="id">#x9012</span>;
+* &amp;<span class="id">#x652F</span>;&amp;<span class="id">#x6301</span>;&amp;<span class="id">#x4E24</span>;&amp;<span class="id">#x9636</span>;&amp;<span class="id">#x6BB5</span>;&amp;<span class="id">#x63D0</span>;&amp;<span class="id">#x4EA4</span>;&amp;<span class="id">#x5206</span>;&amp;<span class="id">#x5E03</span>;&amp;<span class="id">#x5F0F</span>;&amp;<span class="id">#x4E8B</span>;&amp;<span class="id">#x52A1</span>;
+</code></pre><h4 id="&#x5DE5;&#x7A0B;&#x7ED3;&#x6784;">&#x5DE5;&#x7A0B;&#x7ED3;&#x6784;</h4><pre><code>kiteq<span class="subst">/</span>
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; README<span class="built_in">.</span>md
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; binding           <span class="subst">&amp;</span><span class="variable">#x8BA2</span>;<span class="subst">&amp;</span><span class="variable">#x9605</span>;<span class="subst">&amp;</span><span class="variable">#x5173</span>;<span class="subst">&amp;</span><span class="variable">#x7CFB</span>;<span class="subst">&amp;</span><span class="variable">#x7BA1</span>;<span class="subst">&amp;</span><span class="variable">#x7406</span>;<span class="subst">&amp;</span><span class="variable">#x5904</span>;<span class="subst">&amp;</span><span class="variable">#x7406</span>;<span class="subst">&amp;</span><span class="variable">#x8DDF</span>;ZK<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x4EA4</span>;<span class="subst">&amp;</span><span class="variable">#x4E92</span>;
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; build<span class="built_in">.</span>sh          <span class="subst">&amp;</span><span class="variable">#x5B89</span>;<span class="subst">&amp;</span><span class="variable">#x88C5</span>;<span class="subst">&amp;</span><span class="variable">#x811A</span>;<span class="subst">&amp;</span><span class="variable">#x672C</span>;
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; client            KiteQ<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5BA2</span>;<span class="subst">&amp;</span><span class="variable">#x6237</span>;<span class="subst">&amp;</span><span class="variable">#x7AEF</span>;
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; doc               <span class="subst">&amp;</span><span class="variable">#x6587</span>;<span class="subst">&amp;</span><span class="variable">#x6863</span>;
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; handler           KiteQ<span class="subst">&amp;</span><span class="variable">#x6240</span>;<span class="subst">&amp;</span><span class="variable">#x9700</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5904</span>;<span class="subst">&amp;</span><span class="variable">#x7406</span>;Handler
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; kite_benchmark<span class="built_in">.</span>go KiteQ<span class="subst">&amp;</span><span class="variable">#x7684</span>;Benchmark<span class="subst">&amp;</span><span class="variable">#x7A0B</span>;<span class="subst">&amp;</span><span class="variable">#x5E8F</span>;
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; kiteq<span class="built_in">.</span>go          KiteQ<span class="subst">&amp;</span><span class="variable">#x5BF9</span>;<span class="subst">&amp;</span><span class="variable">#x5916</span>;<span class="subst">&amp;</span><span class="variable">#x542F</span>;<span class="subst">&amp;</span><span class="variable">#x52A8</span>;<span class="subst">&amp;</span><span class="variable">#x5165</span>;<span class="subst">&amp;</span><span class="variable">#x53E3</span>;
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; pipe              <span class="subst">&amp;</span><span class="variable">#x7C7B</span>;<span class="subst">&amp;</span><span class="variable">#x4F3C</span>;netty<span class="subst">&amp;</span><span class="variable">#x7684</span>;pipeline<span class="subst">&amp;</span><span class="variable">#x7ED3</span>;<span class="subst">&amp;</span><span class="variable">#x6784</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6846</span>;<span class="subst">&amp;</span><span class="variable">#x67B6</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x7EC4</span>;<span class="subst">&amp;</span><span class="variable">#x7EC7</span>;event<span class="subst">&amp;</span><span class="variable">#x548C</span>;handler<span class="subst">&amp;</span><span class="variable">#x6D41</span>;<span class="subst">&amp;</span><span class="variable">#x8F6C</span>;
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; protocol          KiteQ<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x534F</span>;<span class="subst">&amp;</span><span class="variable">#x8BAE</span>;<span class="subst">&amp;</span><span class="variable">#x5305</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x57FA</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;PB<span class="subst">&amp;</span><span class="variable">#x548C</span>;<span class="subst">&amp;</span><span class="variable">#x5B9A</span>;<span class="subst">&amp;</span><span class="variable">#x4E49</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;Packet
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; remoting          <span class="subst">&amp;</span><span class="variable">#x7F51</span>;<span class="subst">&amp;</span><span class="variable">#x7EDC</span>;<span class="subst">&amp;</span><span class="variable">#x5C42</span>;<span class="subst">&amp;</span><span class="variable">#x5305</span>;<span class="subst">&amp;</span><span class="variable">#x62EC</span>;remoting<span class="attribute">-server</span><span class="subst">&amp;</span><span class="variable">#x548C</span>;client<span class="subst">&amp;</span><span class="variable">#x53CA</span>;<span class="subst">&amp;</span><span class="variable">#x91CD</span>;<span class="subst">&amp;</span><span class="variable">#x8FDE</span>;<span class="subst">&amp;</span><span class="variable">#x903B</span>;<span class="subst">&amp;</span><span class="variable">#x8F91</span>;<span class="subst">&amp;</span><span class="variable">#x3001</span>;<span class="subst">&amp;</span><span class="variable">#x5BA2</span>;<span class="subst">&amp;</span><span class="variable">#x6237</span>;<span class="subst">&amp;</span><span class="variable">#x7AEF</span>;<span class="subst">&amp;</span><span class="variable">#x7BA1</span>;<span class="subst">&amp;</span><span class="variable">#x7406</span>;
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; server            KiteQ<span class="subst">&amp;</span><span class="variable">#x7684</span>;Server<span class="subst">&amp;</span><span class="variable">#x7AEF</span>;<span class="subst">&amp;</span><span class="variable">#x7EC4</span>;<span class="subst">&amp;</span><span class="variable">#x88C5</span>;<span class="subst">&amp;</span><span class="variable">#x9700</span>;<span class="subst">&amp;</span><span class="variable">#x8981</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x7EC4</span>;<span class="subst">&amp;</span><span class="variable">#x4EF6</span>;
+<span class="subst">&amp;</span><span class="variable">#x251C</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; stat              <span class="subst">&amp;</span><span class="variable">#x72B6</span>;<span class="subst">&amp;</span><span class="variable">#x6001</span>;<span class="subst">&amp;</span><span class="variable">#x4FE1</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#x7EDF</span>;<span class="subst">&amp;</span><span class="variable">#x8BA1</span>;
+<span class="subst">&amp;</span><span class="variable">#x2514</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>;<span class="subst">&amp;</span><span class="variable">#x2500</span>; store             KiteQ<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x50A8</span>;<span class="subst">&amp;</span><span class="variable">#x7ED3</span>;<span class="subst">&amp;</span><span class="variable">#x6784</span>;
+
+
+<span class="subst">*</span> Binding:<span class="subst">&amp;</span><span class="variable">#x8BA2</span>;<span class="subst">&amp;</span><span class="variable">#x9605</span>;<span class="subst">&amp;</span><span class="variable">#x5173</span>;<span class="subst">&amp;</span><span class="variable">#x7CFB</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x63CF</span>;<span class="subst">&amp;</span><span class="variable">#x8FF0</span>;<span class="subst">&amp;</span><span class="variable">#x8BA2</span>;<span class="subst">&amp;</span><span class="variable">#x9605</span>;<span class="subst">&amp;</span><span class="variable">#x67D0</span>;<span class="subst">&amp;</span><span class="variable">#x79CD</span>;<span class="subst">&amp;</span><span class="variable">#x6D88</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#x7C7B</span>;<span class="subst">&amp;</span><span class="variable">#x578B</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#x7ED3</span>;<span class="subst">&amp;</span><span class="variable">#x6784</span>;
+<span class="subst">*</span> Consumer : <span class="subst">&amp;</span><span class="variable">#x6D88</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6D88</span>;<span class="subst">&amp;</span><span class="variable">#x8D39</span>;<span class="subst">&amp;</span><span class="variable">#x65B9</span>;
+<span class="subst">*</span> Producer : <span class="subst">&amp;</span><span class="variable">#x6D88</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x53D1</span>;<span class="subst">&amp;</span><span class="variable">#x9001</span>;<span class="subst">&amp;</span><span class="variable">#x65B9</span>;
+<span class="subst">*</span> Topic: <span class="subst">&amp;</span><span class="variable">#x6D88</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x4E3B</span>;<span class="subst">&amp;</span><span class="variable">#x9898</span>;<span class="subst">&amp;</span><span class="variable">#x6BD4</span>;<span class="subst">&amp;</span><span class="variable">#x5982</span>; Trade<span class="subst">&amp;</span><span class="variable">#x5219</span>;<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="subst">&amp;</span><span class="variable">#x6D88</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#x4E3B</span>;<span class="subst">&amp;</span><span class="variable">#x9898</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x4E00</span>;<span class="subst">&amp;</span><span class="variable">#x822C</span>;<span class="subst">&amp;</span><span class="variable">#x53EF</span>;<span class="subst">&amp;</span><span class="variable">#x4EE5</span>;<span class="subst">&amp;</span><span class="variable">#x5B9A</span>;<span class="subst">&amp;</span><span class="variable">#x4E49</span>;<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="subst">&amp;</span><span class="variable">#x67D0</span>;<span class="subst">&amp;</span><span class="variable">#x79CD</span>;<span class="subst">&amp;</span><span class="variable">#x4E1A</span>;<span class="subst">&amp;</span><span class="variable">#x52A1</span>;<span class="subst">&amp;</span><span class="variable">#x7C7B</span>;<span class="subst">&amp;</span><span class="variable">#x578B</span>;
+<span class="subst">*</span> MessageType: <span class="subst">&amp;</span><span class="variable">#x7B2C</span>;<span class="subst">&amp;</span><span class="variable">#x4E8C</span>;<span class="subst">&amp;</span><span class="variable">#x7EA7</span>;<span class="subst">&amp;</span><span class="variable">#x522B</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6D88</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#x7C7B</span>;<span class="subst">&amp;</span><span class="variable">#x578B</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x6BD4</span>;<span class="subst">&amp;</span><span class="variable">#x5982</span>;Trade<span class="subst">&amp;</span><span class="variable">#x4E0B</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x652F</span>;<span class="subst">&amp;</span><span class="variable">#x4ED8</span>;<span class="subst">&amp;</span><span class="variable">#x6210</span>;<span class="subst">&amp;</span><span class="variable">#x529F</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;pay<span class="attribute">-succ</span><span class="subst">-</span><span class="number">200</span><span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6D88</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#x7C7B</span>;<span class="subst">&amp;</span><span class="variable">#x578B</span>;
+</code></pre><p><img src="http://taojinke.github.io/img/20150703/10ba7a7.png" alt=""></p>
+<h4 id="Zookeeper&#x6570;&#x636E;&#x7ED3;&#x6784;">Zookeeper&#x6570;&#x636E;&#x7ED3;&#x6784;</h4><pre><code>    <span class="class">KiteServer</span> : /kiteq/server/<span class="char">${</span>topic}/<span class="method">ip:</span>port
+    <span class="class">Producer</span>   : /kiteq/pub/<span class="char">${</span>topic}/<span class="char">${</span>groupId}/<span class="method">ip:</span>port
+    <span class="class">Consumer</span>   : /kiteq/sub/<span class="char">${</span>topic}/<span class="char">${</span>groupId}-bind/#<span class="char">$d</span>ata(bind)
+
+
+<span class="number">1.</span> <span class="class">KiteQ</span>&amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x5DF1</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x53D7</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x6295</span>;&amp;<span class="symbol">#x9012</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">Topics</span>&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x7ED9</span>;&amp;<span class="symbol">#x5230</span>;zookeeper
+<span class="number">2.</span> <span class="class">KiteQ</span>&amp;<span class="symbol">#x62C9</span>;&amp;<span class="symbol">#x53D6</span>;<span class="class">Zookeeper</span>&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">Topics</span>&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BA2</span>;&amp;<span class="symbol">#x9605</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x7CFB</span>;(<span class="class">Bingding</span>:&amp;<span class="symbol">#x8BA2</span>;&amp;<span class="symbol">#x9605</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x63A8</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x4E0A</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BA2</span>;&amp;<span class="symbol">#x9605</span>;&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x4FE1</span>;&amp;<span class="symbol">#x606F</span>;)&amp;<span class="symbol">#x3002</span>;
+<span class="number">3.</span> <span class="class">Consumer</span>&amp;<span class="symbol">#x63A8</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x5DF1</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x8BA2</span>;&amp;<span class="symbol">#x9605</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">Topic</span>+messageType&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BA2</span>;&amp;<span class="symbol">#x9605</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x7CFB</span>;(<span class="class">Binding</span>)&amp;<span class="symbol">#x5230</span>;<span class="class">Zookeeper</span>
+<span class="number">4.</span> <span class="class">Consumer</span>&amp;<span class="symbol">#x62C9</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x63D0</span>;&amp;<span class="symbol">#x4F9B</span>;&amp;<span class="symbol">#x63A8</span>;&amp;<span class="symbol">#x9001</span>;<span class="class">Topics</span>&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">KiteQ</span>&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x8D77</span>;<span class="class">TCP</span>&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;
+<span class="number">5.</span> <span class="class">Producer</span>&amp;<span class="symbol">#x63A8</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x81EA</span>;&amp;<span class="symbol">#x5DF1</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x5E03</span>;&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;<span class="class">Topics</span>&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x5230</span>;<span class="class">Zookeeper</span>
+<span class="number">6.</span> <span class="class">Producer</span>&amp;<span class="symbol">#x62C9</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x63D0</span>;&amp;<span class="symbol">#x4F9B</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x53D7</span>;<span class="class">Topics</span>&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x7684</span>;<span class="class">KiteQ</span>&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x8D77</span>;<span class="class">TCP</span>&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;
+</code></pre><p>&#x8BA2;&#x9605;&#x65B9;&#x5F0F;: </p>
+<pre><code><span class="tag">Direct</span> (&amp;<span class="id">#x76F4</span>;&amp;<span class="id">#x63A5</span>;&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;)&amp;<span class="id">#xFF1A</span>; &amp;<span class="id">#x660E</span>;&amp;<span class="id">#x786E</span>;&amp;<span class="id">#x7684</span>;<span class="tag">Topic</span>+<span class="tag">MessageType</span>&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;
+<span class="tag">Regx</span>(&amp;<span class="id">#x6B63</span>;&amp;<span class="id">#x5219</span>;&amp;<span class="id">#x5F0F</span>;&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;):  <span class="tag">Topic</span>&amp;<span class="id">#x7EA7</span>;&amp;<span class="id">#x522B</span>;&amp;<span class="id">#x4E0B</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x5BF9</span>;<span class="tag">MessageType</span>&amp;<span class="id">#x8FDB</span>;&amp;<span class="id">#x884C</span>;&amp;<span class="id">#x6B63</span>;&amp;<span class="id">#x5219</span>;&amp;<span class="id">#x5339</span>;&amp;<span class="id">#x914D</span>;&amp;<span class="id">#x65B9</span>;&amp;<span class="id">#x5F0F</span>;&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;
+<span class="tag">Fanout</span>(&amp;<span class="id">#x5E7F</span>;&amp;<span class="id">#x64AD</span>;&amp;<span class="id">#x5F0F</span>;&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;): <span class="tag">Topic</span>&amp;<span class="id">#x7EA7</span>;&amp;<span class="id">#x522B</span>;&amp;<span class="id">#x4E0B</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;&amp;<span class="id">#x6240</span>;&amp;<span class="id">#x6709</span>;&amp;<span class="id">#x7684</span>;<span class="tag">MessageType</span>&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;
+</code></pre><p>&#x4E24;&#x9636;&#x6BB5;&#x63D0;&#x4EA4;&#xFF1A; </p>
+<pre><code>&amp;<span class="id">#x56E0</span>;&amp;<span class="id">#x4E3A</span>;&amp;<span class="id">#x5F15</span>;&amp;<span class="id">#x5165</span>;&amp;<span class="id">#x4E86</span>;&amp;<span class="id">#x5F02</span>;&amp;<span class="id">#x6B65</span>;&amp;<span class="id">#x6295</span>;&amp;<span class="id">#x9012</span>;&amp;<span class="id">#x65B9</span>;&amp;<span class="id">#x6848</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x6240</span>;&amp;<span class="id">#x4EE5</span>;&amp;<span class="id">#x5728</span>;&amp;<span class="id">#x6709</span>;&amp;<span class="id">#x4E9B</span>;&amp;<span class="id">#x573A</span>;&amp;<span class="id">#x666F</span>;&amp;<span class="id">#x4E0B</span>;&amp;<span class="id">#x9700</span>;&amp;<span class="id">#x8981</span>;&amp;<span class="id">#x672C</span>;&amp;<span class="id">#x5730</span>;&amp;<span class="id">#x6267</span>;&amp;<span class="id">#x884C</span>;&amp;<span class="id">#x67D0</span>;&amp;<span class="id">#x4E2A</span>;&amp;<span class="id">#x4E8B</span>;&amp;<span class="id">#x52A1</span>;&amp;<span class="id">#x6210</span>;&amp;<span class="id">#x529F</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x65F6</span>;&amp;<span class="id">#x5019</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x672C</span>;&amp;<span class="id">#x6761</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;&amp;<span class="id">#x624D</span>;&amp;<span class="id">#x53EF</span>;&amp;<span class="id">#x4EE5</span>;&amp;<span class="id">#x88AB</span>;&amp;<span class="id">#x8BA2</span>;&amp;<span class="id">#x9605</span>;&amp;<span class="id">#x65B9</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x8D39</span>;&amp;<span class="id">#x3002</span>;
+&amp;<span class="id">#x4F8B</span>;&amp;<span class="id">#x5982</span>;&amp;<span class="id">#xFF1A</span>;
+    &amp;<span class="id">#x7528</span>;&amp;<span class="id">#x6237</span>;&amp;<span class="id">#x8D2D</span>;&amp;<span class="id">#x4E70</span>;&amp;<span class="id">#x4F1A</span>;&amp;<span class="id">#x5458</span>;&amp;<span class="id">#x652F</span>;&amp;<span class="id">#x4ED8</span>;&amp;<span class="id">#x6210</span>;&amp;<span class="id">#x529F</span>;&amp;<span class="id">#x6210</span>;&amp;<span class="id">#x529F</span>;&amp;<span class="id">#x9700</span>;&amp;<span class="id">#x8981</span>;&amp;<span class="id">#x4FEE</span>;&amp;<span class="id">#x6539</span>;&amp;<span class="id">#x672C</span>;&amp;<span class="id">#x5730</span>;&amp;<span class="id">#x7528</span>;&amp;<span class="id">#x6237</span>;&amp;<span class="id">#x8D26</span>;&amp;<span class="id">#x6237</span>;<span class="tag">Mysql</span>&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x4F59</span>;&amp;<span class="id">#x989D</span>;&amp;<span class="id">#x3001</span>;&amp;<span class="id">#x5E76</span>;&amp;<span class="id">#x4E14</span>;&amp;<span class="id">#x544A</span>;&amp;<span class="id">#x77E5</span>;&amp;<span class="id">#x4F1A</span>;&amp;<span class="id">#x5458</span>;&amp;<span class="id">#x7CFB</span>;&amp;<span class="id">#x7EDF</span>;&amp;<span class="id">#x4E3A</span>;&amp;<span class="id">#x7528</span>;&amp;<span class="id">#x6237</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x4F1A</span>;&amp;<span class="id">#x5458</span>;&amp;<span class="id">#x671F</span>;&amp;<span class="id">#x9650</span>;&amp;<span class="id">#x5EF6</span>;&amp;<span class="id">#x957F</span>;&amp;<span class="id">#x3002</span>;
+    &amp;<span class="id">#x8FD9</span>;&amp;<span class="id">#x4E2A</span>;&amp;<span class="id">#x65F6</span>;&amp;<span class="id">#x5019</span>;&amp;<span class="id">#x5C31</span>;&amp;<span class="id">#x4F1A</span>;&amp;<span class="id">#x78B0</span>;&amp;<span class="id">#x5230</span>;&amp;<span class="id">#x3001</span>;&amp;<span class="id">#x5FC5</span>;&amp;<span class="id">#x987B</span>;&amp;<span class="id">#x5728</span>;&amp;<span class="id">#x4FDD</span>;&amp;<span class="id">#x8BC1</span>;<span class="tag">mysql</span>&amp;<span class="id">#x64CD</span>;&amp;<span class="id">#x4F5C</span>;&amp;<span class="id">#x6210</span>;&amp;<span class="id">#x529F</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x60C5</span>;&amp;<span class="id">#x51B5</span>;&amp;<span class="id">#x4E0B</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x4F1A</span>;&amp;<span class="id">#x5458</span>;&amp;<span class="id">#x7CFB</span>;&amp;<span class="id">#x7EDF</span>;&amp;<span class="id">#x624D</span>;&amp;<span class="id">#x53EF</span>;&amp;<span class="id">#x4EE5</span>;&amp;<span class="id">#x63A5</span>;&amp;<span class="id">#x6536</span>;&amp;<span class="id">#x5230</span>;&amp;<span class="id">#x4F1A</span>;&amp;<span class="id">#x5458</span>;&amp;<span class="id">#x5EF6</span>;&amp;<span class="id">#x671F</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;&amp;<span class="id">#x3002</span>;
+&amp;<span class="id">#x5BF9</span>;&amp;<span class="id">#x4E8E</span>;&amp;<span class="id">#x4EE5</span>;&amp;<span class="id">#x4E0A</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x95EE</span>;&amp;<span class="id">#x9898</span>;&amp;<span class="id">#xFF0C</span>;<span class="tag">KiteQ</span>&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x5904</span>;&amp;<span class="id">#x7406</span>;&amp;<span class="id">#x548C</span>;<span class="tag">ali</span>&amp;<span class="id">#x7684</span>;<span class="tag">Notify</span>&amp;<span class="id">#x7CFB</span>;&amp;<span class="id">#x7EDF</span>;&amp;<span class="id">#x4E00</span>;&amp;<span class="id">#x6837</span>;&amp;<span class="id">#xFF0C</span>;
+    1. &amp;<span class="id">#x53D1</span>;&amp;<span class="id">#x9001</span>;&amp;<span class="id">#x4E00</span>;&amp;<span class="id">#x4E2A</span>;<span class="tag">UnCommit</span>&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;&amp;<span class="id">#x5230</span>;<span class="tag">KiteQ</span> ,<span class="tag">KiteQ</span> &amp;<span class="id">#x4E0D</span>;&amp;<span class="id">#x4F1A</span>;&amp;<span class="id">#x5BF9</span>;<span class="tag">Uncommite</span>&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;&amp;<span class="id">#x505A</span>;&amp;<span class="id">#x6295</span>;&amp;<span class="id">#x9012</span>;&amp;<span class="id">#x64CD</span>;&amp;<span class="id">#x4F5C</span>;
+    2. <span class="tag">KiteQ</span>&amp;<span class="id">#x5B9A</span>;&amp;<span class="id">#x671F</span>;&amp;<span class="id">#x5BF9</span>;<span class="tag">UnCommit</span>&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;&amp;<span class="id">#xFFFD</span>;&amp;<span class="id">#xFFFD</span>;&amp;<span class="id">#xFFFD</span>;<span class="tag">Producer</span>&amp;<span class="id">#x53D1</span>;&amp;<span class="id">#x9001</span>;<span class="tag">TxAck</span>&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x8BE2</span>;&amp;<span class="id">#x95EE</span>;
+    3. &amp;<span class="id">#x76F4</span>;&amp;<span class="id">#x5230</span>;<span class="tag">Producer</span>&amp;<span class="id">#x660E</span>;&amp;<span class="id">#x786E</span>;&amp;<span class="id">#x544A</span>;&amp;<span class="id">#x8BC9</span>;<span class="tag">Commit</span>&amp;<span class="id">#x6216</span>;&amp;<span class="id">#x8005</span>;<span class="tag">Rollback</span>&amp;<span class="id">#x8BE5</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;
+    4. <span class="tag">Commit</span>&amp;<span class="id">#x4F1A</span>;&amp;<span class="id">#x8D70</span>;&amp;<span class="id">#x6B63</span>;&amp;<span class="id">#x5E38</span>;&amp;<span class="id">#x6295</span>;&amp;<span class="id">#x9012</span>;&amp;<span class="id">#x6D41</span>;&amp;<span class="id">#x7A0B</span>;&amp;<span class="id">#x3001</span>;<span class="tag">Rollback</span>&amp;<span class="id">#x4F1A</span>;&amp;<span class="id">#x5BF9</span>;&amp;<span class="id">#x5F53</span>;&amp;<span class="id">#x524D</span>;&amp;<span class="id">#x6D88</span>;&amp;<span class="id">#x606F</span>;&amp;<span class="id">#x56DE</span>;&amp;<span class="id">#x6EDA</span>;&amp;<span class="id">#x5373</span>;&amp;<span class="id">#x5220</span>;&amp;<span class="id">#x9664</span>;&amp;<span class="id">#x64CD</span>;&amp;<span class="id">#x4F5C</span>;&amp;<span class="id">#x3002</span>;
+</code></pre><p>QuickStart </p>
+<pre><code><span class="number">1.</span>&amp;<span class="symbol">#x7F16</span>;&amp;<span class="symbol">#x8BD1</span>;&amp;<span class="symbol">#xFF1A</span>;sh build.sh 
+<span class="number">2.</span>&amp;<span class="symbol">#x5B89</span>;&amp;<span class="symbol">#x88C5</span>;&amp;<span class="symbol">#x88C5</span>;<span class="class">Zookeeper</span>:&amp;<span class="symbol">#x7701</span>;&amp;<span class="symbol">#x7565</span>;
+&amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;<span class="class">KiteQ</span>:
+    ./kiteq -bind=<span class="number">172.30</span>.3.124:<span class="number">13800</span> -pport=<span class="number">13801</span> -db=&amp;quot;<span class="method">mock:</span>//kiteq&amp;quot; -topics=trade,feed -zkhost=<span class="method">localhost:</span><span class="number">2181</span>
+    -bind  //&amp;<span class="symbol">#x7ED1</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x5730</span>;<span class="class">IP</span>:<span class="class">Port</span>
+    -pport //pprof&amp;<span class="symbol">#x7684</span>;<span class="class">Http</span>&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x53E3</span>;
+    -db //&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x534F</span>;&amp;<span class="symbol">#x8BAE</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;  <span class="method">mock:</span>// &amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;mock&amp;<span class="symbol">#x6A21</span>;&amp;<span class="symbol">#x5F0F</span>; <span class="method">mysql:</span>// <span class="method">mmap:</span>// 
+    -topics //&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x673A</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x7684</span>;topics&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x9017</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x9694</span>;
+    -zkhost //zk&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x5740</span>;
+&amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#xFF1A</span>;
+    &amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x4E8E</span>;<span class="class">KiteQClient</span>&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5B9E</span>;&amp;<span class="symbol">#x73B0</span>;&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x76D1</span>;&amp;<span class="symbol">#x542C</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x5B9A</span>;&amp;<span class="symbol">#x4E49</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x53E3</span>;&amp;<span class="symbol">#xFF1A</span>;
+    type <span class="class">IListener</span> interface {
+        //&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x53D7</span>;&amp;<span class="symbol">#x6295</span>;&amp;<span class="symbol">#x9012</span>;&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x8C03</span>;
+        <span class="class">OnMessage</span>(msg *protocol.<span class="class">StringMessage</span>) bool
+        //&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6536</span>;&amp;<span class="symbol">#x4E8B</span>;&amp;<span class="symbol">#x52A1</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x8C03</span>;
+        // &amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x975E</span>;&amp;<span class="symbol">#x660E</span>;&amp;<span class="symbol">#x786E</span>;&amp;<span class="symbol">#x63D0</span>;&amp;<span class="symbol">#x4EA4</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x3001</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x4F59</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;
+        // &amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5F02</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x6216</span>;&amp;<span class="symbol">#x8005</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="keyword">false</span>&amp;<span class="symbol">#x5747</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x63D0</span>;&amp;<span class="symbol">#x4EA4</span>;
+        <span class="class">OnMessageCheck</span>(tx *protocol.<span class="class">TxResponse</span>) error
+    }
+&amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;<span class="class">Producer</span> :
+    producer := client.<span class="class">NewKiteQClient</span>(<span class="char">${</span>zkhost}, <span class="char">${</span>groupId}, <span class="char">${</span>password}, &amp;amp;defualtListener{})
+    producer.<span class="class">SetTopics</span>([]string{&amp;quot;trade&amp;quot;})
+    producer.<span class="class">Start</span>()
+    //&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;
+    msg := &amp;amp;protocol.<span class="class">StringMessage</span>{}
+    msg.<span class="class">Header</span> = &amp;amp;protocol.<span class="class">Header</span>{
+        <span class="class">MessageId</span>:     proto.<span class="class">String</span>(store.<span class="class">MessageId</span>()),
+        <span class="class">Topic</span>:         proto.<span class="class">String</span>(&amp;quot;trade&amp;quot;),
+        <span class="class">MessageType</span>:   proto.<span class="class">String</span>(&amp;quot;pay-succ&amp;quot;),
+        <span class="class">ExpiredTime</span>:   proto.<span class="class">Int64</span>(time.<span class="class">Now</span>().<span class="class">Unix</span>()),
+        <span class="class">DeliveryLimit</span>: proto.<span class="class">Int32</span>(-<span class="number">1</span>),
+        <span class="class">GroupId</span>:       proto.<span class="class">String</span>(&amp;quot;go-kite-test&amp;quot;),
+        <span class="class">Commit</span>:        proto.<span class="class">Bool</span>(<span class="keyword">true</span>)}
+    msg.<span class="class">Body</span> = proto.<span class="class">String</span>(&amp;quot;echo&amp;quot;)
+    //&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;
+    producer.<span class="class">SendStringMessage</span>(msg)
+&amp;<span class="symbol">#x542F</span>;&amp;<span class="symbol">#x52A8</span>;<span class="class">Consumer</span>:
+    <span class="method">consumer:</span>= client.<span class="class">NewKiteQClient</span>(<span class="char">${</span>zkhost}, <span class="char">${</span>groupId}, <span class="char">${</span>password}, &amp;amp;defualtListener{})
+    consumer.<span class="class">SetBindings</span>([]*binding.<span class="class">Binding</span>{
+        binding.<span class="class">Bind_Direct</span>(&amp;quot;s-mts-test&amp;quot;, &amp;quot;trade&amp;quot;, &amp;quot;pay-succ&amp;quot;, <span class="number">1000</span>, <span class="keyword">true</span>),
+    })
+    consumer.<span class="class">Start</span>()
+&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x5E03</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x8BA2</span>;&amp;<span class="symbol">#x9605</span>;&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x4E86</span>;.....
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MySQL/">MySQL</a><a href="/tags/Nosql/">Nosql</a><a href="/tags/ZooKeeper/">ZooKeeper</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/10b9b72/" title="分布式服务协调员zookeeper - 应用场景和监控 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  分布式服务协调员zookeeper - 应用场景和监控 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/10c06de/"  title="基于zookeeper的远程方法调用(RMI)的实现 -">
+ <strong>下一篇：</strong><br/> 
+ <span>基于zookeeper的远程方法调用(RMI)的实现 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#工程结构"><span class="toc-number">1.</span> <span class="toc-text">工程结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Zookeeper数据结构"><span class="toc-number">2.</span> <span class="toc-text">Zookeeper数据结构</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

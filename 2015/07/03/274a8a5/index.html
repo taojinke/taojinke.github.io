@@ -1,0 +1,1074 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Linux c 开发 - Memcached源码分析之消息回应（3） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x524D;&amp;#x8A00; 
+&amp;#x4E0A;&amp;#x4E00;&amp;#x7AE0;&amp;#x300A;Linux c &amp;#x5F00;&amp;#x53D1; - Memcached&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x4E4B;&amp;#x547D;&amp;#x4EE4;&amp;#x89E3;&amp;#x6790;&amp;#xFF08;2&amp;#xFF09;&amp;#x300B;&amp;#xFF0C;&amp;#x6211;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux c 开发 - Memcached源码分析之消息回应（3） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/274a8a5/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x524D;&amp;#x8A00; 
+&amp;#x4E0A;&amp;#x4E00;&amp;#x7AE0;&amp;#x300A;Linux c &amp;#x5F00;&amp;#x53D1; - Memcached&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x4E4B;&amp;#x547D;&amp;#x4EE4;&amp;#x89E3;&amp;#x6790;&amp;#xFF08;2&amp;#xFF09;&amp;#x300B;&amp;#xFF0C;&amp;#x6211;&amp;">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2748dca.jpg">
+<meta property="og:updated_time" content="2015-07-03T14:09:43.808Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux c 开发 - Memcached源码分析之消息回应（3） -">
+<meta name="twitter:description" content="&amp;#x524D;&amp;#x8A00; 
+&amp;#x4E0A;&amp;#x4E00;&amp;#x7AE0;&amp;#x300A;Linux c &amp;#x5F00;&amp;#x53D1; - Memcached&amp;#x6E90;&amp;#x7801;&amp;#x5206;&amp;#x6790;&amp;#x4E4B;&amp;#x547D;&amp;#x4EE4;&amp;#x89E3;&amp;#x6790;&amp;#xFF08;2&amp;#xFF09;&amp;#x300B;&amp;#xFF0C;&amp;#x6211;&amp;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/274a8a5/" title="Linux c 开发 - Memcached源码分析之消息回应（3） -" itemprop="url">Linux c 开发 - Memcached源码分析之消息回应（3） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:43.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p> &#x524D;&#x8A00; </p>
+<p>&#x4E0A;&#x4E00;&#x7AE0;&#x300A;Linux c &#x5F00;&#x53D1; - Memcached&#x6E90;&#x7801;&#x5206;&#x6790;&#x4E4B;&#x547D;&#x4EE4;&#x89E3;&#x6790;&#xFF08;2&#xFF09;&#x300B;&#xFF0C;&#x6211;&#x4EEC;&#x82B1;&#x4E86;&#x5F88;&#x5927;&#x7684;&#x529B;&#x6C14;&#x53BB;&#x8BB2;&#x89E3;Memcached&#x5982;&#x4F55;&#x4ECE;&#x5BA2;&#x6237;&#x7AEF;&#x8BFB;&#x53D6;&#x547D;&#x4EE4;&#xFF0C;&#x5E76;&#x4E14;&#x89E3;&#x6790;&#x547D;&#x4EE4;&#xFF0C;&#x7136;&#x540E;&#x5904;&#x7406;&#x547D;&#x4EE4;&#x5E76;&#x4E14;&#x5411;&#x5BA2;&#x6237;&#x7AEF;&#x56DE;&#x5E94;&#x6D88;&#x606F;&#x3002;</p>
+<p>&#x8FD9;&#x4E00;&#x7AE0;&#xFF0C;&#x6211;&#x4EEC;&#x4E3B;&#x8981;&#x6765;&#x8BB2;&#x89E3;Memcached&#x56DE;&#x5E94;&#x6D88;&#x606F;&#x7684;&#x6280;&#x672F;&#x7EC6;&#x8282;&#x3002;</p>
+<p>&#x672C;&#x7AE0;&#x524D;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x9700;&#x8981;&#x4E86;&#x89E3;&#x51E0;&#x4E2A;&#x77E5;&#x8BC6;&#x70B9;(msghdr&#x548C;iovc)&#x3002;</p>
+<p>msghdr&#x7ED3;&#x6784;&#xFF1A;</p>
+<pre><code><span class="keyword">struct</span> msghdr {  
+    <span class="keyword">void</span> *msg_name;  
+    <span class="keyword">socklen_t</span> msg_namelen;  
+    <span class="keyword">struct</span> iovec *msg_iov;  
+    <span class="keyword">size_t</span> msg_iovlen;  
+    <span class="keyword">void</span> *msg_control;  
+    <span class="keyword">size_t</span> msg_controllen;  
+    <span class="keyword">int</span> msg_flags;  
+};
+</code></pre><p>iovc&#x7ED3;&#x6784;&#xFF1A;</p>
+<pre><code><span class="preprocessor">#include &amp;lt;sys/uio.h&amp;gt;  </span>
+<span class="comment">/* Structure for scatter/gather I/O. */</span>  
+<span class="keyword">struct</span> iovec {  
+    <span class="keyword">void</span> *iov_base; <span class="comment">/* Pointer to data. */</span>  
+    <span class="keyword">size_t</span> iov_len; <span class="comment">/* Length of data. */</span>  
+};
+</code></pre><p>Memcached&#x662F;&#x901A;&#x8FC7;sendmsg&#x51FD;&#x6570;&#x5411;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x9001;&#x6570;&#x636E;&#x7684;&#xFF0C;&#x5C31;&#x4F1A;&#x7528;&#x5230;&#x4E0A;&#x9762;&#x7684;&#x7ED3;&#x6784;&#xFF0C;&#x4E0D;&#x4E86;&#x89E3;&#x8FD9;&#x4E2A;&#x7ED3;&#x6784;&#x7684;&#xFF0C;&#x5EFA;&#x8BAE;&#x5148;&#x4E86;&#x89E3;&#x4E4B;&#x540E;&#x518D;&#x7EE7;&#x7EED;&#x5F80;&#x4E0B;&#x770B;&#x3002;</p>
+<p>Memcached&#x6D88;&#x606F;&#x56DE;&#x5E94;&#x6E90;&#x7801;&#x5206;&#x6790; </p>
+<p>&#x6570;&#x636E;&#x7ED3;&#x6784;</p>
+<p>&#x6211;&#x4EEC;&#x7EE7;&#x7EED;&#x770B;&#x4E00;&#x4E0B;conn&#x8FD9;&#x4E2A;&#x7ED3;&#x6784;&#x3002;conn&#x7ED3;&#x6784;&#x6211;&#x4EEC;&#x4E0A;&#x4E00;&#x671F;&#x8BF4;&#x8FC7;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x5B58;&#x50A8;&#x5355;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8FDE;&#x63A5;&#x8BE6;&#x60C5;&#xFFFD;&#xFFFD;&#xFFFD;&#x606F;&#x3002;&#x6BCF;&#x4E00;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;&#x5230;Memcached&#x90FD;&#x4F1A;&#x6709;&#x8FD9;&#x4E48;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;</p>
+<pre><code><span class="xml">typedef struct conn conn;  
+struct conn </span><span class="expression">{  
+    /<span class="end-block">/....  </span>
+    /* <span class="variable">data</span> <span class="variable">for</span> <span class="variable">the</span> <span class="variable">mwrite</span> <span class="variable">state</span> *<span class="end-block">/  </span>
+    /<span class="end-block">/iov</span>&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>58;&amp;<span class="begin-block">#x</span>50<span class="variable">A</span>8;<span class="variable">iov</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">ED</span>3;&amp;<span class="begin-block">#x</span>6784;  
+    /<span class="end-block">/iov</span>&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">ED</span>3;&amp;<span class="begin-block">#x</span>6784;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>1<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>5728;<span class="variable">conn</span>_<span class="variable">new</span>&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>5019;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">CFB</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">EDF</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>1<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>5206;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;400&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;<span class="variable">iovec</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>7<span class="variable">ED</span>3;&amp;<span class="begin-block">#x</span>6784;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>6700;&amp;<span class="begin-block">#x</span>9<span class="variable">AD</span>8;&amp;<span class="begin-block">#x</span>6<span class="variable">C</span>34;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>4<span class="variable">D</span>;600&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;  
+    <span class="variable">struct</span> <span class="variable">iovec</span> *<span class="variable">iov</span>;  
+    /<span class="end-block">/iov</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>957<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">EA</span>6;  
+    <span class="variable">int</span>    <span class="variable">iovsize</span>;   /* <span class="variable">number</span> <span class="variable">of</span> <span class="variable">elements</span> <span class="variable">allocated</span> <span class="variable">in</span> <span class="variable">iov</span>[] *<span class="end-block">/  </span>
+    /<span class="end-block">/iovused </span>&amp;<span class="begin-block">#x</span>8<span class="variable">FD</span>9;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>8<span class="variable">BB</span>0;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;<span class="variable">iov</span>&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>7<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>86;&amp;<span class="begin-block">#x</span>591<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>11;  
+    <span class="variable">int</span>    <span class="variable">iovused</span>;   /* <span class="variable">number</span> <span class="variable">of</span> <span class="variable">elements</span> <span class="variable">used</span> <span class="variable">in</span> <span class="variable">iov</span>[] *<span class="end-block">/  </span>
+
+    /<span class="end-block">/msglist</span>&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>58;&amp;<span class="begin-block">#x</span>50<span class="variable">A</span>8;<span class="variable">msghdr</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>5217;&amp;<span class="begin-block">#x</span>8868;&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">ED</span>3;&amp;<span class="begin-block">#x</span>6784;  
+    /<span class="end-block">/msglist</span>&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">ED</span>3;&amp;<span class="begin-block">#x</span>6784;&amp;<span class="begin-block">#x</span>5728;<span class="variable">conn</span>_<span class="variable">new</span>&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>5019;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">CFB</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">EDF</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>1<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>5206;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;10&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>7<span class="variable">ED</span>3;&amp;<span class="begin-block">#x</span>6784;  
+    <span class="variable">struct</span> <span class="variable">msghdr</span> *<span class="variable">msglist</span>;  
+    /<span class="end-block">/msglist</span>&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>957<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">EA</span>6;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">A</span>;10&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>6700;&amp;<span class="begin-block">#x</span>9<span class="variable">AD</span>8;&amp;<span class="begin-block">#x</span>6<span class="variable">C</span>34;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>4<span class="variable">D</span>;100&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>0<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>591<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>65<span class="variable">F</span>6;&amp;<span class="begin-block">#x</span>5019;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>1<span class="variable">A</span>;<span class="variable">realloc</span>&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">BCF</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">B</span>21;&amp;<span class="begin-block">#x</span>6269;&amp;<span class="begin-block">#x</span>5<span class="variable">BB</span>9;&amp;<span class="begin-block">#x</span>90<span class="variable">FD</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>1<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>6269;&amp;<span class="begin-block">#x</span>5<span class="variable">BB</span>9;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>00;&amp;<span class="begin-block">#x</span>500<span class="variable">D</span>;  
+    <span class="variable">int</span>    <span class="variable">msgsize</span>;   /* <span class="variable">number</span> <span class="variable">of</span> <span class="variable">elements</span> <span class="variable">allocated</span> <span class="variable">in</span> <span class="variable">msglist</span>[] *<span class="end-block">/  </span>
+    /<span class="end-block">/msglist</span>&amp;<span class="begin-block">#x</span>5<span class="variable">DF</span>2;&amp;<span class="begin-block">#x</span>7<span class="variable">ECF</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>7<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>957<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>5<span class="variable">EA</span>6;  
+    <span class="variable">int</span>    <span class="variable">msgused</span>;   /* <span class="variable">number</span> <span class="variable">of</span> <span class="variable">elements</span> <span class="variable">used</span> <span class="variable">in</span> <span class="variable">msglist</span>[] *<span class="end-block">/  </span>
+    //&amp;<span class="begin-block">#x</span>8<span class="variable">FD</span>9;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>2<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>53<span class="variable">C</span>2;&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>3<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>8981;&amp;<span class="begin-block">#x</span>5<span class="variable">E</span>2<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>52<span class="variable">A</span>9;&amp;<span class="begin-block">#x</span>8<span class="variable">BB</span>0;&amp;<span class="begin-block">#x</span>5<span class="variable">F</span>55;&amp;<span class="begin-block">#x</span>90<span class="variable">A</span>3;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>9<span class="variable">B</span>;<span class="variable">msglist</span>&amp;<span class="begin-block">#x</span>5<span class="variable">DF</span>2;&amp;<span class="begin-block">#x</span>7<span class="variable">ECF</span>;&amp;<span class="begin-block">#x</span>53<span class="variable">D</span>1;&amp;<span class="begin-block">#x</span>9001;&amp;<span class="begin-block">#x</span>8<span class="variable">FC</span>7;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>86;&amp;<span class="begin-block">#xFF</span>0<span class="variable">C</span>;&amp;<span class="begin-block">#x</span>54<span class="variable">EA</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>9<span class="variable">B</span>;&amp;<span class="begin-block">#x</span>6<span class="variable">CA</span>1;&amp;<span class="begin-block">#x</span>6709;&amp;<span class="begin-block">#x</span>53<span class="variable">D</span>1;&amp;<span class="begin-block">#x</span>9001;&amp;<span class="begin-block">#x</span>8<span class="variable">FC</span>7;&amp;<span class="begin-block">#x</span>3002;  
+    <span class="variable">int</span>    <span class="variable">msgcurr</span>;   /* <span class="variable">element</span> <span class="variable">in</span> <span class="variable">msglist</span>[] <span class="variable">being</span> <span class="variable">transmitted</span> <span class="variable">now</span> *<span class="end-block">/  </span>
+    <span class="variable">int</span>    <span class="variable">msgbytes</span>;  /* <span class="variable">number</span> <span class="variable">of</span> <span class="variable">bytes</span> <span class="variable">in</span> <span class="variable">current</span> <span class="variable">msg</span> *<span class="end-block">/  </span>
+}</span><span class="xml"></span>
+</code></pre><p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x4E00;&#x4E0B;conn_new&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5E94;&#x8BE5;&#x5728;&#x7B2C;&#x4E00;&#x7AE0;&#x8282;&#x7684;&#x65F6;&#x5019;&#x8BB2;&#x5230;&#x8FC7;&#x3002;&#x8FD9;&#x8FB9;&#x4E3B;&#x8981;&#x770B;&#x4E00;&#x4E0B;iov&#x548C;msglist&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#x521D;&#x59CB;&#x5316;&#x7684;&#x8FC7;&#x7A0B;&#x3002;</p>
+<pre><code><span class="xml">conn *conn_new(const int sfd, enum conn_states init_state,  
+      const int event_flags, const int read_buffer_size,  
+      enum network_transport transport, struct event_base *base) </span><span class="expression">{  
+/<span class="end-block">/...  </span>
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">rbuf</span> = <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">wbuf</span> = 0;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">ilist</span> = 0;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">suffixlist</span> = 0;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">iov</span> = 0;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">msglist</span> = 0;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">hdrbuf</span> = 0;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">rsize</span> = <span class="variable">read</span>_<span class="variable">buffer</span>_<span class="variable">size</span>;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">wsize</span> = <span class="variable">DATA</span>_<span class="variable">BUFFER</span>_<span class="variable">SIZE</span>;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">isize</span> = <span class="variable">ITEM</span>_<span class="variable">LIST</span>_<span class="variable">INITIAL</span>;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">suffixsize</span> = <span class="variable">SUFFIX</span>_<span class="variable">LIST</span>_<span class="variable">INITIAL</span>;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">iovsize</span> = <span class="variable">IOV</span>_<span class="variable">LIST</span>_<span class="variable">INITIAL</span>; //&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;400  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">msgsize</span> = <span class="variable">MSG</span>_<span class="variable">LIST</span>_<span class="variable">INITIAL</span>; //&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;10  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">hdrsize</span> = 0;  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">rbuf</span> = (<span class="variable">char</span> *) <span class="variable">malloc</span>((<span class="variable">size</span>_<span class="variable">t</span>) <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">rsize</span>);  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">wbuf</span> = (<span class="variable">char</span> *) <span class="variable">malloc</span>((<span class="variable">size</span>_<span class="variable">t</span>) <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">wsize</span>);  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">ilist</span> = (<span class="variable">item</span> **) <span class="variable">malloc</span>(<span class="variable">sizeof</span>(<span class="variable">item</span> *) * <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">isize</span>);  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">suffixlist</span> = (<span class="variable">char</span> **) <span class="variable">malloc</span>(<span class="variable">sizeof</span>(<span class="variable">char</span> *) * <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">suffixsize</span>);  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">iov</span> = (<span class="variable">struct</span> <span class="variable">iovec</span> *) <span class="variable">malloc</span>(<span class="variable">sizeof</span>(<span class="variable">struct</span> <span class="variable">iovec</span>) * <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">iovsize</span>); //&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;<span class="variable">iov</span>  
+      <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">msglist</span> = (<span class="variable">struct</span> <span class="variable">msghdr</span> *) <span class="variable">malloc</span>(  
+            <span class="variable">sizeof</span>(<span class="variable">struct</span> <span class="variable">msghdr</span>) * <span class="variable">c-</span>&amp;<span class="variable"><span class="keyword">gt</span></span>;<span class="variable">msgsize</span>); //&amp;<span class="begin-block">#x</span>521<span class="variable">D</span>;&amp;<span class="begin-block">#x</span>59<span class="variable">CB</span>;&amp;<span class="begin-block">#x</span>5316;<span class="variable">msglist</span>  
+/<span class="end-block">/...  </span>
+}</span><span class="xml"></span>
+</code></pre><p>&#x6570;&#x636E;&#x7ED3;&#x6784;&#x5173;&#x7CFB;&#x56FE;&#xFF08;iov&#x548C;msglist&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;&#xFF09;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150703/2748dca.jpg" alt=""></p>
+<p>&#x4ECE;process_get_command&#x5F00;&#x59CB;</p>
+<p>&#x6211;&#x4EEC;&#x7EE7;&#x7EED;&#x4ECE;process_get_command&#xFF0C;&#x83B7;&#x53D6;memcached&#x7684;&#x7F13;&#x5B58;&#x6570;&#x636E;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5F00;&#x59CB;&#x3002;</p>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x4E3B;&#x8981;&#x770B;add_iov&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x3002;Memcached&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;add_iov&#x65B9;&#x6CD5;&#xFF0C;&#x5C06;&#x9700;&#x8981;&#x53D1;&#x9001;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x6570;&#x636E;&#x88C5;&#x5230;iov&#x548C;msglist&#x7ED3;&#x6784;&#x4E2D;&#x53BB;&#x7684;&#x3002;</p>
+<pre><code>/* ntokens is overwritten here... shrug.. */  
+//&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;<span class="class">GET</span>&amp;<span class="symbol">#x8BF7</span>;&amp;<span class="symbol">#x6C42</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+static inline void process_get_command(conn *c, token_t *tokens, size_t ntokens,  
+        bool return_cas) {  
+    //&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;<span class="class">GET</span>&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+    char *key;  
+    size_t nkey;  
+    int i = <span class="number">0</span>;  
+    item *it;  
+    //&amp;amp;tokens[<span class="number">0</span>] &amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;  
+    //&amp;amp;tokens[<span class="number">1</span>] &amp;<span class="symbol">#x4E3A</span>;key  
+    //token_t &amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x4E86</span>;value&amp;<span class="symbol">#x548C</span>;length  
+    token_t *key_token = &amp;amp;tokens[<span class="class">KEY_TOKEN</span>];  
+    char *suffix;  
+    assert(c != <span class="class">NULL</span>);  
+    do {  
+        //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>  
+        while (key_token-&amp;gt;length != <span class="number">0</span>) {  
+            key = key_token-&amp;gt;value;  
+            nkey = key_token-&amp;gt;length;  
+            //&amp;<span class="symbol">#x5224</span>;&amp;<span class="symbol">#x65AD</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x8FC7</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#xFF0C</span>;memcache key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">250</span>  
+            //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5730</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x975E</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x610F</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x5E73</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD8</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x6CE8</span>;&amp;<span class="symbol">#x610F</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x8282</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x7684</span>;  
+            if (nkey &amp;gt; <span class="class">KEY_MAX_LENGTH</span>) {  
+                //out_string &amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5916</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+                out_string(c, &amp;quot;<span class="class">CLIENT_ERROR</span> bad command line format&amp;quot;);  
+                while (i-- &amp;gt; <span class="number">0</span>) {  
+                    item_remove(*(c-&amp;gt;ilist + i));  
+                }  
+                return;  
+            }  
+            //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4ECE</span>;<span class="class">Memcached</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;&amp;<span class="symbol">#x5FEB</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+            it = item_get(key, nkey);  
+            if (settings.detail_enabled) {  
+                //&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#xFF0C</span>;key&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BB0</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;  
+                stats_prefix_record_get(key, nkey, <span class="class">NULL</span> != it);  
+            }  
+            //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+            if (it) {  
+                //c-&amp;gt;ilist &amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x653E</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5916</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;buf  
+                //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;ilist&amp;<span class="symbol">#x592A</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x5206</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x5757</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;  
+                if (i &amp;gt;= c-&amp;gt;isize) {  
+                    item **new_list = realloc(c-&amp;gt;ilist,  
+                            sizeof(item *) * c-&amp;gt;isize * <span class="number">2</span>);  
+                    if (new_list) {  
+                        //&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x653E</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+                        c-&amp;gt;isize *= <span class="number">2</span>;  
+                        //&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x653E</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x652F</span>;&amp;<span class="symbol">#x6301</span>;  
+                        c-&amp;gt;ilist = new_list;  
+                    } else {  
+                        <span class="class">STATS_LOCK</span>();  
+                        stats.malloc_fails++;  
+                        <span class="class">STATS_UNLOCK</span>();  
+                        item_remove(it);  
+                        break;  
+                    }  
+                }  
+                /* 
+                 * <span class="class">Construct</span> the response. <span class="class">Each</span> hit adds three elements to the 
+                 * outgoing data <span class="method">list:</span> 
+                 *   &amp;quot;<span class="class">VALUE</span> &amp;quot; 
+                 *   key 
+                 *   &amp;quot; &amp;quot; + flags + &amp;quot; &amp;quot; + data length + &amp;quot;\r\n&amp;quot; + data (with \r\n) 
+                 */  
+                //&amp;<span class="symbol">#x521D</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+                if (return_cas) {  
+                    //......  
+                } else {  
+                    <span class="class">MEMCACHED_COMMAND_GET</span>(c-&amp;gt;sfd, <span class="class">ITEM_key</span>(it), it-&amp;gt;nkey,  
+                            it-&amp;gt;nbytes, <span class="class">ITEM_get_cas</span>(it));  
+                    //&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x586B</span>;&amp;<span class="symbol">#x5145</span>;&amp;<span class="symbol">#x5230</span>;<span class="class">IOV</span>&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x4E2D</span>;  
+                    //&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#xFF1A</span>;get userId  
+                    //&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#xFF1A</span>;  
+                    //<span class="class">VALUE</span> userId <span class="number">0</span> <span class="number">5</span>  
+                    //<span class="number">55555</span>  
+                    //<span class="class">END</span>  
+                    if (&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;<span class="method">color:</span><span class="symbol">#FF0000</span>;&amp;quot;&amp;gt;add_iov&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;(c, &amp;quot;<span class="class">VALUE</span> &amp;quot;, <span class="number">6</span>) != <span class="number">0</span>  
+                            || &amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;<span class="method">color:</span><span class="symbol">#FF0000</span>;&amp;quot;&amp;gt;add_iov&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;(c, <span class="class">ITEM_key</span>(it), it-&amp;gt;nkey) != <span class="number">0</span>  
+                            || &amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;<span class="method">color:</span><span class="symbol">#FF0000</span>;&amp;quot;&amp;gt;add_iov&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;(c, <span class="class">ITEM_suffix</span>(it),  
+                                    it-&amp;gt;nsuffix + it-&amp;gt;nbytes) != <span class="number">0</span>) {  
+                        item_remove(it);  
+                        break;  
+                    }  
+                }  
+                if (settings.verbose &amp;gt; <span class="number">1</span>) {  
+                    int ii;  
+                    fprintf(stderr, &amp;quot;&amp;gt;%d sending key &amp;quot;, c-&amp;gt;sfd);  
+                    for (ii = <span class="number">0</span>; ii &amp;lt; it-&amp;gt;nkey; ++ii) {  
+                        fprintf(stderr, &amp;quot;%c&amp;quot;, key[ii]);  
+                    }  
+                    fprintf(stderr, &amp;quot;\n&amp;quot;);  
+                }  
+                /* item_get() has incremented it-&amp;gt;refcount for us */  
+                pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+                c-&amp;gt;thread-&amp;gt;stats.slab_stats[it-&amp;gt;slabs_clsid].get_hits++;  
+                c-&amp;gt;thread-&amp;gt;stats.get_cmds++;  
+                pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+                item_update(it);  
+                *(c-&amp;gt;ilist + i) = it;  
+                i++;  
+            } else {  
+                pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+                c-&amp;gt;thread-&amp;gt;stats.get_misses++;  
+                c-&amp;gt;thread-&amp;gt;stats.get_cmds++;  
+                pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+                <span class="class">MEMCACHED_COMMAND_GET</span>(c-&amp;gt;sfd, key, nkey, -<span class="number">1</span>, <span class="number">0</span>);  
+            }  
+            key_token++;  
+        }  
+        /* 
+         * <span class="class">If</span> the command string hasn&amp;apos;t been fully processed, get the next set 
+         * of tokens. 
+         */  
+        //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x5168</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x88AB</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x7EE7</span>;&amp;<span class="symbol">#x7EED</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+        //&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;get&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5143</span>;&amp;<span class="symbol">#x7D20</span>;  
+        if (key_token-&amp;gt;value != <span class="class">NULL</span>) {  
+            ntokens = tokenize_command(key_token-&amp;gt;value, tokens, <span class="class">MAX_TOKENS</span>);  
+            key_token = tokens;  
+        }  
+    } while (key_token-&amp;gt;value != <span class="class">NULL</span>);  
+    c-&amp;gt;icurr = c-&amp;gt;ilist;  
+    c-&amp;gt;ileft = i;  
+    if (return_cas) {  
+        c-&amp;gt;suffixcurr = c-&amp;gt;suffixlist;  
+        c-&amp;gt;suffixleft = i;  
+    }  
+    if (settings.verbose &amp;gt; <span class="number">1</span>)  
+        fprintf(stderr, &amp;quot;&amp;gt;%d <span class="class">END</span>\n&amp;quot;, c-&amp;gt;sfd);  
+    /* 
+     <span class="class">If</span> the loop was terminated because of out-of-memory, it is not 
+     reliable to add <span class="class">END</span>\r\n to the buffer, because it might not end 
+     in \r\n. <span class="class">So</span> we send <span class="class">SERVER_ERROR</span> instead. 
+     */  
+    //&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#x675F</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x5FD7</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x53F7</span>;  
+    if (key_token-&amp;gt;value != <span class="class">NULL</span> || &amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;<span class="method">color:</span><span class="symbol">#FF0000</span>;&amp;quot;&amp;gt;add_iov&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;(c, &amp;quot;<span class="class">END</span>\r\n&amp;quot;, <span class="number">5</span>) != <span class="number">0</span>  
+            || (<span class="class">IS_UDP</span>(c-&amp;gt;transport) &amp;amp;&amp;amp; build_udp_headers(c) != <span class="number">0</span>)) {  
+        out_of_memory(c, &amp;quot;<span class="class">SERVER_ERROR</span> out of memory writing get response&amp;quot;);  
+    } else {  
+        //&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x4FEE</span>;&amp;<span class="symbol">#x6539</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x5230</span>;item&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53C8</span>;&amp;<span class="symbol">#x5F00</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5F80</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x3002</span>;  
+        conn_set_state(c, conn_mwrite);  
+        c-&amp;gt;msgcurr = <span class="number">0</span>;  
+    }  
+}
+</code></pre><p>add_iov &#x65B9;&#x6CD5;</p>
+<p>add_iov&#x65B9;&#x6CD5;&#xFF0C;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;</p>
+<ol>
+<li><p>&#x5C06;Memcached&#x9700;&#x8981;&#x53D1;&#x9001;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5206;&#x6210;N&#x591A;&#x4E2A;IOV&#x7684;&#x5757;</p>
+</li>
+<li><p>&#x5C06;IOV&#x5757;&#x6DFB;&#x52A0;&#x5230;msghdr&#x7684;&#x7ED3;&#x6784;&#x4E2D;&#x53BB;&#x3002;</p>
+<p> static int add_iov(conn <em>c, const void </em>buf, int len) {  </p>
+<pre><code>struct msghdr *m;  
+int leftover;  
+bool limit_to_mtu;  
+assert(c != <span class="class">NULL</span>);  
+do {  
+  //&amp;<span class="symbol">#x6D88</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>; msglist &amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;msghdr&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+  //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x83B7</span>;&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;msghdr&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x9488</span>;  
+  m = &amp;amp;c-&amp;gt;msglist[c-&amp;gt;msgused - <span class="number">1</span>];  
+  /* 
+   * <span class="class">Limit</span> <span class="class">UDP</span> packets, and the first payloads of <span class="class">TCP</span> replies, to 
+   * <span class="class">UDP_MAX_PAYLOAD_SIZE</span> bytes. 
+   */  
+  limit_to_mtu = <span class="class">IS_UDP</span>(c-&amp;gt;transport) || (<span class="number">1</span> == c-&amp;gt;msgused);  
+  /* <span class="class">We</span> may need to start a new msghdr if this one is full. */  
+  //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;msghdr&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x7684</span>;iov&amp;<span class="symbol">#x6EE1</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;msghdr&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+  if (m-&amp;gt;msg_iovlen == <span class="class">IOV_MAX</span>  
+        || (limit_to_mtu &amp;amp;&amp;amp; c-&amp;gt;msgbytes &amp;gt;= <span class="class">UDP_MAX_PAYLOAD_SIZE</span>)) {  
+    //&amp;<span class="symbol">#x6DFB</span>;&amp;<span class="symbol">#x52A0</span>;msghdr,&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x5224</span>;&amp;<span class="symbol">#x65AD</span>;&amp;<span class="symbol">#x521D</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;<span class="number">10</span>&amp;<span class="symbol">#x4E2A</span>;msghdr&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x591F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x591F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x6269</span>;&amp;<span class="symbol">#x5BB9</span>;  
+    add_msghdr(c);  
+    //&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;msghdr&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+    m = &amp;amp;c-&amp;gt;msglist[c-&amp;gt;msgused - <span class="number">1</span>];  
+  }  
+  //&amp;<span class="symbol">#x786E</span>;&amp;<span class="symbol">#x8BA4</span>;<span class="class">IOV</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x7A7A</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x521D</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x9ED8</span>;&amp;<span class="symbol">#x8BA4</span>;&amp;<span class="symbol">#x662F</span>;<span class="number">400</span>&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6C34</span>;&amp;<span class="symbol">#x4F4D</span>;<span class="number">600</span>  
+  //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;<span class="class">IOV</span>&amp;<span class="symbol">#x4E5F</span>;&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x591F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x53BB</span>;&amp;<span class="symbol">#x6269</span>;&amp;<span class="symbol">#x5BB9</span>;  
+  if (ensure_iov_space(c) != <span class="number">0</span>)  
+    return -<span class="number">1</span>;  
+  /* <span class="class">If</span> the fragment is too big to fit in the datagram, split it up */  
+  if (limit_to_mtu &amp;amp;&amp;amp; len + c-&amp;gt;msgbytes &amp;gt; <span class="class">UDP_MAX_PAYLOAD_SIZE</span>) {  
+    leftover = len + c-&amp;gt;msgbytes - <span class="class">UDP_MAX_PAYLOAD_SIZE</span>;  
+    len -= leftover;  
+  } else {  
+    leftover = <span class="number">0</span>;  
+  }  
+  m = &amp;amp;c-&amp;gt;msglist[c-&amp;gt;msgused - <span class="number">1</span>];  
+  //m-&amp;gt;msg_iov&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5411</span>;c-&amp;gt;iov&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x3002</span>;  
+  //&amp;<span class="symbol">#x5177</span>;&amp;<span class="symbol">#x4F53</span>;m-&amp;gt;msg_iov&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x4F55</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5230</span>;c-&amp;gt;iov&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x770B</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E0B</span>;add_msghdr&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;  
+  //&amp;<span class="symbol">#x5411</span>;<span class="class">IOV</span>&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x586B</span>;&amp;<span class="symbol">#x5145</span>;<span class="class">BUF</span>  
+  m-&amp;gt;msg_iov[m-&amp;gt;msg_iovlen].iov_base = (void *) buf;  
+  //buf&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+  m-&amp;gt;msg_iov[m-&amp;gt;msg_iovlen].iov_len = len; //&amp;<span class="symbol">#x586B</span>;&amp;<span class="symbol">#x5145</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;  
+  c-&amp;gt;msgbytes += len;  
+  c-&amp;gt;iovused++;  
+  m-&amp;gt;msg_iovlen++; //msg_iovlen + <span class="number">1</span>  
+  buf = ((char *) buf) + len;  
+  len = leftover;  
+} while (leftover &amp;gt; <span class="number">0</span>);  
+return <span class="number">0</span>;  
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>add_msghdr &#x65B9;&#x6CD5; msghdr&#x6269;&#x5BB9;</p>
+<p>&#x5728;add_iov&#x65B9;&#x6CD5;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x5F53;IOV&#x5757;&#x6DFB;&#x52A0;&#x6EE1;&#x4E86;&#x4E4B;&#x540E;&#xFF0C;&#x4F1A;&#x8C03;&#x7528;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x6269;&#x5BB9;msgdhr&#x7684;&#x4E2A;&#x6570;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x4E24;&#x4E2A;&#x4F5C;&#x7528;&#xFF1A;</p>
+<ol>
+<li><p>&#x68C0;&#x67E5;c-&gt;msglist&#x5217;&#x8868;&#x957F;&#x5EA6;&#x662F;&#x5426;&#x591F;&#x7528;&#x3002;</p>
+</li>
+<li><p>&#x4F7F;&#x7528;&#x6700;&#x65B0;&#x7684;c-&gt;msglist&#x4E2D;&#x7684;&#x4E00;&#x4E2A;msghdr&#x5143;&#x7D20;&#xFF0C;&#x5E76;&#x4E14;&#x5C06;msghdr-&gt;msg_iov&#x6307;&#x5411;c-&gt;iov&#x6700;&#x65B0;&#x672A;&#x4F7F;&#x7528;&#x7684;&#x90A3;&#x4E2A;iov&#x7684;&#x6307;&#x9488;&#x5730;&#x5740;&#x3002;</p>
+<p> static int add_msghdr(conn *c) {  </p>
+<pre><code>//c-&amp;gt;msglist &amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x50A8</span>;msghdr&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+struct msghdr *msg;  
+assert(c != <span class="class">NULL</span>);  
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;msglist&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x548C</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x957F</span>;&amp;<span class="symbol">#x5EA6</span>;&amp;<span class="symbol">#x76F8</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;msglist&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x6269</span>;&amp;<span class="symbol">#x5BB9</span>;  
+if (c-&amp;gt;msgsize == c-&amp;gt;msgused) {  
+    //&amp;<span class="symbol">#x6269</span>;&amp;<span class="symbol">#x5BB9</span>;&amp;<span class="symbol">#x4E24</span>;&amp;<span class="symbol">#x500D</span>;  
+    msg = realloc(c-&amp;gt;msglist, c-&amp;gt;msgsize * <span class="number">2</span> * sizeof(struct msghdr));  
+    if (!msg) {  
+        <span class="class">STATS_LOCK</span>();  
+        stats.malloc_fails++;  
+        <span class="class">STATS_UNLOCK</span>();  
+        return -<span class="number">1</span>;  
+    }  
+    c-&amp;gt;msglist = msg; //&amp;<span class="symbol">#x5C06</span>;c-&amp;gt;msglist&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5F53</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5217</span>;&amp;<span class="symbol">#x8868</span>;  
+    c-&amp;gt;msgsize *= <span class="number">2</span>; //size&amp;<span class="symbol">#x4E5F</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x8DDF</span>;&amp;<span class="symbol">#x7740</span>;&amp;<span class="symbol">#x589E</span>;&amp;<span class="symbol">#x52A0</span>;  
+}  
+//msg&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x672A</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x7684</span>;msghdr&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x9488</span>;&amp;<span class="symbol">#x4F4D</span>;&amp;<span class="symbol">#x7F6E</span>;  
+msg = c-&amp;gt;msglist + c-&amp;gt;msgused;  
+/* this wipes msg_iovlen, msg_control, msg_controllen, and 
+ msg_flags, the last <span class="number">3</span> of which aren&amp;apos;t defined on <span class="method">solaris:</span> */  
+//&amp;<span class="symbol">#x5C06</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;msghdr&amp;<span class="symbol">#x5757</span>;&amp;<span class="symbol">#x521D</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x5316</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4E3A</span>;<span class="number">0</span>  
+memset(msg, <span class="number">0</span>, sizeof(struct msghdr));  
+//&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;msghdr&amp;<span class="symbol">#x7684</span>;msg_iov&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x5411</span>; struct iovec *iov&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+msg-&amp;gt;msg_iov = &amp;amp;c-&amp;gt;iov[c-&amp;gt;iovused];  
+if (<span class="class">IS_UDP</span>(c-&amp;gt;transport) &amp;amp;&amp;amp; c-&amp;gt;request_addr_size &amp;gt; <span class="number">0</span>) {  
+    msg-&amp;gt;msg_name = &amp;amp;c-&amp;gt;request_addr;  
+    msg-&amp;gt;msg_namelen = c-&amp;gt;request_addr_size;  
+}  
+c-&amp;gt;msgbytes = <span class="number">0</span>;  
+c-&amp;gt;msgused++;  
+if (<span class="class">IS_UDP</span>(c-&amp;gt;transport)) {  
+    /* <span class="class">Leave</span> room for the <span class="class">UDP</span> header, which we&amp;apos;ll fill in later. */  
+    return add_iov(c, <span class="class">NULL</span>, <span class="class">UDP_HEADER_SIZE</span>);  
+}  
+return <span class="number">0</span>;  
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>ensure_iov_space &#x65B9;&#x6CD5; IOV&#x6269;&#x5BB9;</p>
+<p>&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x68C0;&#x67E5;c-&gt;iov&#x662F;&#x5426;&#x8FD8;&#x6709;&#x5269;&#x4F59;&#x7A7A;&#x95F4;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x591F;&#x7528;&#x4E86;&#xFF0C;&#x5219;&#x6269;&#x5BB9;2&#x500D;&#x3002;</p>
+<pre><code><span class="keyword">static</span> int ensure_iov_space(conn *<span class="built_in">c</span>) {  
+    <span class="built_in">assert</span>(<span class="built_in">c</span> != <span class="type">NULL</span>);  
+    <span class="comment">//&amp;#x5982;&amp;#x679C;IOV&amp;#x4E5F;&amp;#x4F7F;&amp;#x7528;&amp;#x5B8C;&amp;#x4E86;....IOV&amp;#xFF0C;&amp;#x5206;&amp;#x914D;&amp;#x65B0;&amp;#x7684;IOV  </span>
+    <span class="keyword">if</span> (<span class="built_in">c</span>-&amp;gt;iovused &amp;gt;= <span class="built_in">c</span>-&amp;gt;iovsize) {  
+        int i, iovnum;  
+        <span class="class"><span class="keyword">struct</span> <span class="title">iovec</span> *<span class="title">new_iov</span> = (<span class="title">struct</span> <span class="title">iovec</span> *) <span class="title">realloc</span>(<span class="title">c</span>-&amp;<span class="title">gt</span>;<span class="title">iov</span>,  
+                (<span class="title">c</span>-&amp;<span class="title">gt</span>;<span class="title">iovsize</span> * 2) * <span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">iovec</span>));  
+        <span class="title">if</span> (!<span class="title">new_iov</span>) </span>{  
+            <span class="type">STATS_LOCK</span>();  
+            stats.malloc_fails++;  
+            <span class="type">STATS_UNLOCK</span>();  
+            <span class="keyword">return</span> -<span class="number">1</span>;  
+        }  
+        <span class="built_in">c</span>-&amp;gt;iov = new_iov;  
+        <span class="built_in">c</span>-&amp;gt;iovsize *= <span class="number">2</span>; <span class="comment">//&amp;#x6269;&amp;#x5BB9;&amp;#x4E24;&amp;#x500D;  </span>
+        <span class="comment">/* Point all the msghdr structures at the new list. */</span>  
+        <span class="keyword">for</span> (i = <span class="number">0</span>, iovnum = <span class="number">0</span>; i &amp;lt; <span class="built_in">c</span>-&amp;gt;msgused; i++) {  
+            <span class="built_in">c</span>-&amp;gt;msglist[i].msg_iov = &amp;amp;<span class="built_in">c</span>-&amp;gt;iov[iovnum];  
+            iovnum += <span class="built_in">c</span>-&amp;gt;msglist[i].msg_iovlen;  
+        }  
+    }  
+    <span class="keyword">return</span> <span class="number">0</span>;  
+}
+</code></pre><p>conn_mwrite</p>
+<p>conn_mwrite&#x72B6;&#x6001;&#x5728;drive_machine&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E2D;&#x3002;&#x4E3B;&#x8981;&#x5C31;&#x662F;&#x5411;&#x5BA2;&#x6237;&#x7AEF;&#x5199;&#x6570;&#x636E;&#x4E86;&#x3002;</p>
+<p>&#x4ECE;&#x4E0A;&#x9762;&#x7684;add_iov&#x65B9;&#x6CD5;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x77E5;&#x9053;Memcached&#x4F1A;&#x5C06;&#x9700;&#x8981;&#x5F85;&#x53D1;&#x9001;&#x7684;&#x6570;&#x636E;&#x5199;&#x5165;c-&gt;msglist&#x7ED3;&#x6784;&#x4E2D;&#x3002;</p>
+<p>&#x771F;&#x6B63;&#x5199;&#x6570;&#x636E;&#x7684;&#x65B9;&#x6CD5;&#x662F;transmit&#x3002;</p>
+<pre><code>//drive_machine&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;  
+//&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;conn_mwrite&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+case <span class="method">conn_mwrite:</span>  
+    if (<span class="class">IS_UDP</span>(c-&amp;gt;transport) &amp;amp;&amp;amp; c-&amp;gt;msgcurr == <span class="number">0</span>  
+            &amp;amp;&amp;amp; build_udp_headers(c) != <span class="number">0</span>) {  
+        if (settings.verbose &amp;gt; <span class="number">0</span>)  
+            fprintf(stderr, &amp;quot;<span class="class">Failed</span> to build <span class="class">UDP</span> headers\n&amp;quot;);  
+        conn_set_state(c, conn_closing);  
+        break;  
+    }  
+    //transmit&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x975E</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;  
+    //&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;transmit_result&amp;<span class="symbol">#x679A</span>;&amp;<span class="symbol">#x4E3E</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x578B</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x4E8E</span>;&amp;<span class="symbol">#x5224</span>;&amp;<span class="symbol">#x65AD</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x5173</span>;&amp;<span class="symbol">#x95ED</span>;&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;  
+    switch (transmit(c)) {  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;  
+    case <span class="class">TRANSMIT_COMPLETE</span>:  
+        if (c-&amp;gt;state == conn_mwrite) {  
+            conn_release_items(c);  
+            /* <span class="class">XXX</span>:  <span class="class">I</span> don&amp;apos;t know why this wasn&amp;apos;t the general case */  
+            if (c-&amp;gt;protocol == binary_prot) {  
+                conn_set_state(c, c-&amp;gt;write_and_go);  
+            } else {  
+                //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x662F</span>;<span class="class">TCP</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;  
+                //&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#x53C8</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x5207</span>;&amp;<span class="symbol">#x56DE</span>;&amp;<span class="symbol">#x5230</span>;conn_new_cmd&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;  
+                //conn_new_cmd&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x7EE7</span>;&amp;<span class="symbol">#x7EED</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;c-&amp;gt;rbuf&amp;<span class="symbol">#x5BB9</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x5269</span>;&amp;<span class="symbol">#x4F59</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x53C2</span>;&amp;<span class="symbol">#x6570</span>;  
+                conn_set_state(c, conn_new_cmd);  
+            }  
+        } else if (c-&amp;gt;state == conn_write) {  
+            if (c-&amp;gt;write_and_free) {  
+                free(c-&amp;gt;write_and_free);  
+                c-&amp;gt;write_and_free = <span class="number">0</span>;  
+            }  
+            conn_set_state(c, c-&amp;gt;write_and_go);  
+        } else {  
+            if (settings.verbose &amp;gt; <span class="number">0</span>)  
+                fprintf(stderr, &amp;quot;<span class="class">Unexpected</span> state %d\n&amp;quot;, c-&amp;gt;state);  
+            conn_set_state(c, conn_closing);  
+        }  
+        break;
+</code></pre><p>transmit &#x65B9;&#x6CD5;</p>
+<p>&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;&#x5411;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x9001;&#x6570;&#x636E;</p>
+<pre><code>//&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x4E3B</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+//&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x5FAA</span>;&amp;<span class="symbol">#x73AF</span>;conn_mwrite&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x6B62</span>;  
+static enum transmit_result transmit(conn *c) {  
+    assert(c != <span class="class">NULL</span>);  
+    //&amp;<span class="symbol">#x6BCF</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x6821</span>;&amp;<span class="symbol">#x9A8C</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x4E86</span>;  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x6B21</span>;&amp;<span class="symbol">#x7684</span>;msghdr&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x4F53</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;c-&amp;gt;msgcurr&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x9488</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#xFFFD</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x79FB</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4F4D</span>;&amp;<span class="symbol">#xFF0C</span>;  
+    //&amp;<span class="symbol">#x79FB</span>;&amp;<span class="symbol">#x52A8</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E0B</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x7684</span>;msghdr&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;&amp;<span class="symbol">#x4F53</span>;&amp;<span class="symbol">#x6307</span>;&amp;<span class="symbol">#x9488</span>;&amp;<span class="symbol">#x4E0A</span>;  
+    //c-&amp;gt;msgcurr&amp;<span class="symbol">#x521D</span>;&amp;<span class="symbol">#x59CB</span>;&amp;<span class="symbol">#x503C</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#xFF1A</span>;<span class="number">0</span>  
+    if (c-&amp;gt;msgcurr &amp;lt; c-&amp;gt;msgused &amp;amp;&amp;amp; c-&amp;gt;msglist[c-&amp;gt;msgcurr].msg_iovlen == <span class="number">0</span>) {  
+        /* <span class="class">Finished</span> writing the current msg; advance to the next. */  
+        c-&amp;gt;msgcurr++;  
+    }  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;c-&amp;gt;msgcurr&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#x5C0F</span>;&amp;<span class="symbol">#x4E8E</span>;c-&amp;gt;msgused&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x5C31</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x77E5</span>;&amp;<span class="symbol">#x9053</span>;&amp;<span class="symbol">#x8FD8</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x7EE7</span>;&amp;<span class="symbol">#x7EED</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;c-&amp;gt;msgcurr&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x4E8E</span>;c-&amp;gt;msgused&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x8BF4</span>;&amp;<span class="symbol">#x660E</span>;&amp;<span class="symbol">#x5DF2</span>;&amp;<span class="symbol">#x7ECF</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x8FD4</span>;&amp;<span class="symbol">#x56DE</span>;<span class="class">TRANSMIT_COMPLETE</span>&amp;<span class="symbol">#x72B6</span>;&amp;<span class="symbol">#x6001</span>;  
+    if (c-&amp;gt;msgcurr &amp;lt; c-&amp;gt;msgused) {  
+        ssize_t res;  
+        //&amp;<span class="symbol">#x4ECE</span>;c-&amp;gt;msglist&amp;<span class="symbol">#x53D6</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x7684</span>;msghdr&amp;<span class="symbol">#x7ED3</span>;&amp;<span class="symbol">#x6784</span>;  
+        struct msghdr *m = &amp;amp;c-&amp;gt;msglist[c-&amp;gt;msgcurr];  
+        //&amp;<span class="symbol">#x5411</span>;&amp;<span class="symbol">#x5BA2</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7AEF</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;  
+        res = sendmsg(c-&amp;gt;sfd, m, <span class="number">0</span>);  
+        //&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x529F</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;  
+        if (res &amp;gt; <span class="number">0</span>) {  
+            pthread_mutex_lock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+            c-&amp;gt;thread-&amp;gt;stats.bytes_written += res;  
+            pthread_mutex_unlock(&amp;amp;c-&amp;gt;thread-&amp;gt;stats.mutex);  
+            /* <span class="class">We</span>&amp;apos;ve written some of the data. <span class="class">Remove</span> the completed 
+             iovec entries from the list of pending writes. */  
+            //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x8FB9</span>;&amp;<span class="symbol">#x4F1A</span>;&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x5C11</span>;  
+            while (m-&amp;gt;msg_iovlen &amp;gt; <span class="number">0</span> &amp;amp;&amp;amp; res &amp;gt;= m-&amp;gt;msg_iov-&amp;gt;iov_len) {  
+                res -= m-&amp;gt;msg_iov-&amp;gt;iov_len;  
+                m-&amp;gt;msg_iovlen--;  
+                m-&amp;gt;msg_iov++;  
+            }  
+            /* <span class="class">Might</span> have written just part of the last iovec entry; 
+             adjust it so the next write will do the rest. */  
+            if (res &amp;gt; <span class="number">0</span>) {  
+                m-&amp;gt;msg_iov-&amp;gt;iov_base = (caddr_t) m-&amp;gt;msg_iov-&amp;gt;iov_base + res;  
+                m-&amp;gt;msg_iov-&amp;gt;iov_len -= res;  
+            }  
+            return <span class="class">TRANSMIT_INCOMPLETE</span>;  
+        }  
+        //&amp;<span class="symbol">#x53D1</span>;&amp;<span class="symbol">#x9001</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x60C5</span>;&amp;<span class="symbol">#x51B5</span>;  
+        if (res == -<span class="number">1</span> &amp;amp;&amp;amp; (errno == <span class="class">EAGAIN</span> || errno == <span class="class">EWOULDBLOCK</span>)) {  
+            if (!update_event(c, <span class="class">EV_WRITE</span> | <span class="class">EV_PERSIST</span>)) {  
+                if (settings.verbose &amp;gt; <span class="number">0</span>)  
+                    fprintf(stderr, &amp;quot;<span class="class">Couldn</span>&amp;apos;t update event\n&amp;quot;);  
+                conn_set_state(c, conn_closing);  
+                return <span class="class">TRANSMIT_HARD_ERROR</span>;  
+            }  
+            return <span class="class">TRANSMIT_SOFT_ERROR</span>;  
+        }  
+        /* if res == <span class="number">0</span> or res == -<span class="number">1</span> and error is not <span class="class">EAGAIN</span> or <span class="class">EWOULDBLOCK</span>, 
+         we have a real error, on which we close the connection */  
+        if (settings.verbose &amp;gt; <span class="number">0</span>)  
+            perror(&amp;quot;<span class="class">Failed</span> to write, and not due to blocking&amp;quot;);  
+        if (<span class="class">IS_UDP</span>(c-&amp;gt;transport))  
+            conn_set_state(c, conn_read);  
+        else  
+            conn_set_state(c, conn_closing);  
+        return <span class="class">TRANSMIT_HARD_ERROR</span>;  
+    } else {  
+        return <span class="class">TRANSMIT_COMPLETE</span>;  
+    }  
+}
+</code></pre><p>conn_shrink &#x65B9;&#x6CD5;</p>
+<p>&#x5F53;&#x6570;&#x636E;&#x53D1;&#x9001;&#x6210;&#x529F;&#x540E;&#xFF0C;&#x4F1A;&#x8DF3;&#x8F6C;&#x5230;conn_new_cmd&#x8FD9;&#x4E2A;&#x72B6;&#x6001;&#x7EE7;&#x7EED;&#x5904;&#x7406;&#xFF0C;&#x7136;&#x540E;&#x8FDB;&#x5165;reset_cmd_handler&#x65B9;&#x6CD5;&#xFF0C;&#x7136;&#x540E;&#x8FDB;&#x5165;conn_shrink&#x65B9;&#x6CD5;&#x3002;</p>
+<p>conn_shrink&#x4E3B;&#x8981;&#x662F;&#x7528;&#x4E8E;&#x68C0;&#x67E5;buf&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x662F;&#x5426;&#x8D85;&#x8FC7;&#x4E86;&#x9884;&#x5B9A;&#x7684;&#x6C34;&#x4F4D;&#xFF0C;&#x5982;&#x679C;&#x8D85;&#x8FC7;&#x4E86;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x91CD;&#x65B0;realloc&#x3002;</p>
+<pre><code>//&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x8BBE</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;handler  
+static void reset_cmd_handler(conn *c) {  
+    c-&amp;gt;cmd = -<span class="number">1</span>;  
+    c-&amp;gt;substate = bin_no_state;  
+    if (c-&amp;gt;item != <span class="class">NULL</span>) {  
+        item_remove(c-&amp;gt;item);  
+        c-&amp;gt;item = <span class="class">NULL</span>;  
+    }  
+    conn_shrink(c); //&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x65B9</span>;&amp;<span class="symbol">#x6CD5</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x67E5</span>;c-&amp;gt;rbuf&amp;<span class="symbol">#x5BB9</span>;&amp;<span class="symbol">#x5668</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x5C0F</span>;  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x5269</span>;&amp;<span class="symbol">#x4F59</span>;&amp;<span class="symbol">#x672A</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>; &amp;gt; <span class="number">0</span>&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BDD</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x7EE7</span>;&amp;<span class="symbol">#x7EED</span>;&amp;<span class="symbol">#x8DF3</span>;&amp;<span class="symbol">#x8F6C</span>;&amp;<span class="symbol">#x5230</span>;conn_parse_cmd&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;  
+    if (c-&amp;gt;rbytes &amp;gt; <span class="number">0</span>) {  
+        conn_set_state(c, conn_parse_cmd);  
+    } else {  
+        //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x547D</span>;&amp;<span class="symbol">#x4EE4</span>;&amp;<span class="symbol">#x90FD</span>;&amp;<span class="symbol">#x89E3</span>;&amp;<span class="symbol">#x6790</span>;&amp;<span class="symbol">#x5B8C</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x7EE7</span>;&amp;<span class="symbol">#x7EED</span>;&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x5F85</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x6765</span>;  
+        conn_set_state(c, conn_waiting);  
+    }  
+}
+
+
+//&amp;<span class="symbol">#x68C0</span>;&amp;<span class="symbol">#x67E5</span>;rbuf&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x5C0F</span>;  
+static void conn_shrink(conn *c) {  
+    assert(c != <span class="class">NULL</span>);  
+    if (<span class="class">IS_UDP</span>(c-&amp;gt;transport))  
+        return;  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;bufsize&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x4E8E</span>;<span class="class">READ_BUFFER_HIGHWAT</span>&amp;<span class="symbol">#xFF08</span>;<span class="number">8192</span>&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x5019</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;  
+    //<span class="class">DATA_BUFFER_SIZE</span>&amp;<span class="symbol">#x7B49</span>;&amp;<span class="symbol">#x4E8E</span>;<span class="number">2048</span>&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x6211</span>;&amp;<span class="symbol">#x4EEC</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x770B</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E4B</span>;&amp;<span class="symbol">#x524D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x4EE3</span>;&amp;<span class="symbol">#x7801</span>;&amp;<span class="symbol">#x4E2D</span>;&amp;<span class="symbol">#x5BF9</span>;rbuf&amp;<span class="symbol">#x6700</span>;&amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;<span class="number">4</span>&amp;<span class="symbol">#x6B21</span>;recalloc  
+    if (c-&amp;gt;rsize &amp;gt; <span class="class">READ_BUFFER_HIGHWAT</span> &amp;amp;&amp;amp; c-&amp;gt;rbytes &amp;lt; <span class="class">DATA_BUFFER_SIZE</span>) {  
+        char *newbuf;  
+        if (c-&amp;gt;rcurr != c-&amp;gt;rbuf)  
+            memmove(c-&amp;gt;rbuf, c-&amp;gt;rcurr, (size_t) c-&amp;gt;rbytes); //&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x79FB</span>;&amp;<span class="symbol">#x52A8</span>;  
+        newbuf = (char *) realloc((void *) c-&amp;gt;rbuf, <span class="class">DATA_BUFFER_SIZE</span>);  
+        if (newbuf) {  
+            c-&amp;gt;rbuf = newbuf;  
+            c-&amp;gt;rsize = <span class="class">DATA_BUFFER_SIZE</span>;  
+        }  
+        /* <span class="class">TODO</span> check other branch... */  
+        c-&amp;gt;rcurr = c-&amp;gt;rbuf;  
+    }  
+    if (c-&amp;gt;isize &amp;gt; <span class="class">ITEM_LIST_HIGHWAT</span>) {  
+        item **newbuf = (item**) realloc((void *) c-&amp;gt;ilist,  
+                <span class="class">ITEM_LIST_INITIAL</span> * sizeof(c-&amp;gt;ilist[<span class="number">0</span>]));  
+        if (newbuf) {  
+            c-&amp;gt;ilist = newbuf;  
+            c-&amp;gt;isize = <span class="class">ITEM_LIST_INITIAL</span>;  
+        }  
+        /* <span class="class">TODO</span> check error condition? */  
+    }  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x4E8E</span>;c-&amp;gt;msglist&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6C34</span>;&amp;<span class="symbol">#x4F4D</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x65B0</span>;realloc  
+    if (c-&amp;gt;msgsize &amp;gt; <span class="class">MSG_LIST_HIGHWAT</span>) {  
+        struct msghdr *newbuf = (struct msghdr *) realloc((void *) c-&amp;gt;msglist,  
+                <span class="class">MSG_LIST_INITIAL</span> * sizeof(c-&amp;gt;msglist[<span class="number">0</span>]));  
+        if (newbuf) {  
+            c-&amp;gt;msglist = newbuf;  
+            c-&amp;gt;msgsize = <span class="class">MSG_LIST_INITIAL</span>;  
+        }  
+        /* <span class="class">TODO</span> check error condition? */  
+    }  
+    //&amp;<span class="symbol">#x5982</span>;&amp;<span class="symbol">#x679C</span>;&amp;<span class="symbol">#x5927</span>;&amp;<span class="symbol">#x4E8E</span>;c-&amp;gt;iovsize&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6C34</span>;&amp;<span class="symbol">#x4F4D</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5219</span>;&amp;<span class="symbol">#x91CD</span>;&amp;<span class="symbol">#x65B0</span>;realloc  
+    if (c-&amp;gt;iovsize &amp;gt; <span class="class">IOV_LIST_HIGHWAT</span>) {  
+        struct iovec *newbuf = (struct iovec *) realloc((void *) c-&amp;gt;iov,  
+                <span class="class">IOV_LIST_INITIAL</span> * sizeof(c-&amp;gt;iov[<span class="number">0</span>]));  
+        if (newbuf) {  
+            c-&amp;gt;iov = newbuf;  
+            c-&amp;gt;iovsize = <span class="class">IOV_LIST_INITIAL</span>;  
+        }  
+        /* <span class="class">TODO</span> check return value */  
+    }  
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Memcached/">Memcached</a><a href="/tags/源码分析/">源码分析</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/275ba15/" title="Linux c 开发 - Memcached源码分析之基于Libevent的网络模型（1） -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Linux c 开发 - Memcached源码分析之基于Libevent的网络模型（1） -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/273d920/"  title="MemcachedClient 使用说明 -">
+ <strong>下一篇：</strong><br/> 
+ <span>MemcachedClient 使用说明 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

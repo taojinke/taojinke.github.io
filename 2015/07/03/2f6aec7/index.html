@@ -1,0 +1,634 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Automate Your Mac Via SMS using JavaScript for Automation, Node.js and Twilio - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="JavaScript is eating the programming world. Look around and you&amp;#x2019;ll see JavaScript in places people never would&amp;#x2019;ve expected 10 years ago. There&amp;#x2019;s JavaScript running on servers. The">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Automate Your Mac Via SMS using JavaScript for Automation, Node.js and Twilio -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/2f6aec7/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="JavaScript is eating the programming world. Look around and you&amp;#x2019;ll see JavaScript in places people never would&amp;#x2019;ve expected 10 years ago. There&amp;#x2019;s JavaScript running on servers. The">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f6917b.gif">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f6917b.png">
+<meta property="og:updated_time" content="2015-07-03T14:09:57.588Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Automate Your Mac Via SMS using JavaScript for Automation, Node.js and Twilio -">
+<meta name="twitter:description" content="JavaScript is eating the programming world. Look around and you&amp;#x2019;ll see JavaScript in places people never would&amp;#x2019;ve expected 10 years ago. There&amp;#x2019;s JavaScript running on servers. The">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/2f6aec7/" title="Automate Your Mac Via SMS using JavaScript for Automation, Node.js and Twilio -" itemprop="url">Automate Your Mac Via SMS using JavaScript for Automation, Node.js and Twilio -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:57.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Our_Tools"><span class="toc-number">1.</span> <span class="toc-text">Our Tools</span></a></li></ol>
+		
+		</div>
+		
+		<p> JavaScript is eating the programming world. Look around and you&#x2019;ll see JavaScript in places people never would&#x2019;ve expected 10 years ago. There&#x2019;s JavaScript running on servers. There are more front-end JavaScript frameworks than you can shake a stick at. And there&#x2019;s even JavaScript onmy dog! Lucky me because I love JavaScript. </p>
+<p>A few months ago at <a href="http://brooklynjs.com" target="_blank" rel="external">BrooklynJS</a> I was super excited to discover a new way I can use JavaScript. <a href="https://twitter.com/alanmoo" target="_blank" rel="external">Alan Mooiman</a> gave a great talking showing how you can use JavaScript to automate your Mac. After seeing Alan&#x2019;s talk I wondered,&#xA0;could I write a script to take some action on my Mac via SMS? Spoiler alert: yes! yes I can!</p>
+<p>This post is all about learning how to automate your Mac via SMS message. The actual task we automate could be one of countless options but for the sake of simplicity we&#x2019;re going to write an app that sends an iMessage message from the messages app when an SMS comes in.</p>
+<h4 id="Our_Tools">Our Tools</h4><ul>
+<li><a href="https://nodejs.org/" target="_blank" rel="external">Node.js</a> &#xA0;&#x2013; We&#x2019;ll be using node to receive our incoming SMS message from Twilio.</li>
+<li>JavaScript for Automation &#x2013; It&#x2019;s like AppleScript but it&#x2019;s JavaScript.</li>
+<li>OSX &gt;= 10.10 &#x2013; JavaScript for Automation requires Yosemite or higher.</li>
+<li>Twilio &#x2013; Need an account?Sign up for free!</li>
+</ul>
+<p>Sending iMessages with JavaScript </p>
+<p>We&#x2019;ll&#xA0;start by working on the automation portion of our application. We&#x2019;ll use <a href="https://developer.apple.com/library/mac/releasenotes/InterapplicationCommunication/RN-JavaScriptForAutomation/" target="_blank" rel="external">JavaScript for Automation</a> to make this happen. JavaScript for Automation allows you to do the things you would historically use AppleScript for using JavaScript. Pretty rad, right? </p>
+<p>Writing this in Apple&#x2019;s Script Editor will make it easy for us to quickly test our code. If you&#x2019;re a Vim lover like me, I know it&#x2019;ll be tough but you can do it!</p>
+<p>Once we open Script Editor we need to switch our language from AppleScript to JavaScript.</p>
+<p>Now we can start writing our code. Since we&#x2019;re keeping it basic we only need 3 lines of code:</p>
+<pre><code>var messages = <span class="constant">Application</span>(&amp;apos;<span class="constant">Messages</span>&amp;apos;);
+
+var buddy = messages.services[&amp;quot;<span class="constant">E</span><span class="symbol">:%REPLACE_WITH_YOUR_IMESSAGE_EMAIL%&amp;quot</span>;].buddies[&amp;quot;%<span class="constant">REPLACE_WITH_BUDDYS_EMAIL</span>%&amp;quot;];
+
+messages.send(&amp;quot;<span class="constant">JavaScript</span> sent this message!&amp;quot;, {<span class="symbol">to:</span> buddy});
+</code></pre><p>Make sure your replace the first element with the e-mail address you use for iMessage but keep the preceding &#x201C;E:&#x201D;. For example, mine would be &#x201C;E:ricky@twilio.com&#x201D;.&#xA0;Are you unsure what your iMessage email is? In the Messages application press &#x201C;cmd ,&#x201D; and then click on the accounts tab. Replace the second element with the address of a buddy you&#x2019;d like to message&#xA0;or if you don&#x2019;t want to spam your friend during testing you can send a message to yourself. </p>
+<p>Before we run this code let&#x2019;s break it down. On the first line we&#x2019;re getting an object that references the Messages application. The second line we get a reference to our buddy that we want to send a message to. On the last line, we call the send method and pass it the message content we want to send as well as the buddy we&#x2019;re sending to.</p>
+<p>Now that we have our code in place we can run it by hitting the big play button in Script Editor (or if you want to be l33 by pressing cmd r). You&#x2019;ll see your message application open and a message is sent to the friend you specified. Oh yeah!</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f6917b.gif" alt=""></p>
+<p>Hooking It Up To Twilio </p>
+<p>Now that we&#x2019;ve automated our mac to send our iMessage it&#x2019;s time to write the code that triggers this automation when a text message comes in via Twilio.</p>
+<p>First thing&#x2019;s first, we need to create a new node application. Hop into Terminal and get this bad boy started:</p>
+<p> Shell</p>
+<pre><code><span class="built_in">mkdir</span> sms-automation
+<span class="built_in">cd</span> sms-automation
+npm init
+</code></pre><p>We&#x2019;re going to be using <a href="http://hapijs.com/" target="_blank" rel="external">hapi.js</a> for this application.&#xA0;If you haven&#x2019;t worked with hapi before, it&#x2019;s a framework that makes building node.js web applications super easy. If you&#x2019;ve worked with express it is a lot like that! In order to use hapi we need to install it: </p>
+<p> Shell</p>
+<pre><code>npm <span class="keyword">install</span> hapi
+</code></pre><p>Now we can create our index.js file that will contain the code for our basic application:</p>
+<pre><code><span class="built_in">var</span> Hapi <span class="subst">=</span> <span class="keyword">require</span>(<span class="subst">&amp;</span>apos;hapi<span class="subst">&amp;</span>apos;);
+
+<span class="built_in">var</span> server <span class="subst">=</span> <span class="literal">new</span> Hapi<span class="built_in">.</span>Server();
+server<span class="built_in">.</span>connection({
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; host: <span class="subst">&amp;</span>apos;localhost<span class="subst">&amp;</span>apos;,
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; port: <span class="number">8000</span>
+});
+
+server<span class="built_in">.</span>start();
+</code></pre><p>We&#x2019;ve written the code for a basic server but right now it doesn&#x2019;t do anything. Luckily, we just need one route for our application. We can call the route incoming : </p>
+<pre><code><span class="xml">server.route(</span><span class="expression">{
+&amp;<span class="begin-block">#xA</span>0; &amp;<span class="begin-block">#xA</span>0; <span class="variable">method</span>: &amp;<span class="begin-block">#x</span>2018;<span class="variable">POST</span>&amp;<span class="begin-block">#x</span>2019;,
+&amp;<span class="begin-block">#xA</span>0; &amp;<span class="begin-block">#xA</span>0; <span class="variable">path</span>:&amp;<span class="begin-block">#xA</span>0;&amp;<span class="variable">apos</span>;<span class="end-block">/incoming</span>&amp;<span class="begin-block">#x</span>2019;,
+&amp;<span class="begin-block">#xA</span>0; &amp;<span class="begin-block">#xA</span>0; <span class="variable">handler</span>: <span class="variable">function</span> (<span class="variable">request</span>, <span class="variable">reply</span>) {
+&amp;<span class="begin-block">#xA</span>0; &amp;<span class="begin-block">#xA</span>0; &amp;<span class="begin-block">#xA</span>0; &amp;<span class="begin-block">#xA</span>0;<span class="variable">reply</span>(&amp;<span class="variable">apos</span>;<span class="variable">hello</span> <span class="variable">world</span>&amp;<span class="variable">apos</span>;);
+&amp;<span class="begin-block">#xA</span>0; &amp;<span class="begin-block">#xA</span>0; }</span><span class="xml">
+});
+
+server.start();</span>
+</code></pre><p>Start up our server and test out our new route:</p>
+<p> Shell</p>
+<pre><code>node <span class="keyword">index</span>.js
+</code></pre><p>You may have&#xA0;noticed that we made our route only respond to POST&#xA0;requests. We can use curl to&#xA0;try&#xA0;this out:</p>
+<p> Shell</p>
+<pre><code>curl -X POST <span class="string">http:</span><span class="comment">//127.0.0.1:8000/incoming</span>
+</code></pre><p>We now see we&#x2019;re getting our beautiful &#x201C;hello world&#x201D; response. But we want to do something that receives information about our incoming message and then executes our JavaScript that sends the message. In order to use that we&#x2019;re going to need to use the <em>exec()</em> function. Warning! The exec function runs a shell command on your local machine so be careful that you make sure users can&#x2019;t do anything malicious if you open this up to the outside world. </p>
+<p>In order to use <em>exec()</em> we need to require a couple standard libraries at the top of our index.js file: </p>
+<pre><code><span class="built_in">var</span> sys <span class="subst">=</span> <span class="keyword">require</span>(<span class="subst">&amp;</span>apos;sys<span class="subst">&amp;</span>apos;),
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; exec <span class="subst">=</span> <span class="keyword">require</span>(<span class="subst">&amp;</span>apos;child_process<span class="subst">&amp;</span>apos;)<span class="built_in">.</span>exec;
+</code></pre><p>Before we write the next part we need to jump back into Script Editor and save the code we wrote earlier in the same directory as our Node.js application.&#xA0;Save it as &#x201C;sendmessage.scpt&#x201D;.&#xA0;Saving a file&#xA0;sounds like it should be easy but the Script Editor dialogue can be confusing. When you go to save you need to click on the down arrow next to the &#x201C;Save As&#x201D; name and you&#x2019;ll have the ability to browse to your folder.</p>
+<p>So far we&#x2019;ve only run our automation script via Script Editor but we can also run it from the command line. Jump into terminal and browse the directory where we just saved our file. Now run this command:</p>
+<p> Shell</p>
+<pre><code>osascript <span class="operator">-l</span> JavaScript ./sendmessage.scpt
+</code></pre><p>Again, you&#x2019;ll see our messages application has sent our iMessage for us. This command is fairly basic but I wanted to highlight -l argument. This argument indicates that the script we&#x2019;re running is JavaScript, otherwise the command will think we&#x2019;re running code written in AppleScript and it will crash. </p>
+<p>We now have everything in place to call this script from our Node.js application. Go back into&#xA0;index.js and add the following code to call JavaScript for Automation script:</p>
+<pre><code><span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; handler: function (request, reply) {
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>;<span class="subst">&amp;</span><span class="variable">#xA0</span>;exec(<span class="subst">&amp;</span>quot;osascript <span class="attribute">-l</span> JavaScript <span class="subst">&amp;</span>quot;   __dirname   <span class="subst">&amp;</span>quot;/sendmessage<span class="built_in">.</span>scpt<span class="subst">&amp;</span>quot;, function(err, stdout, stderr) {
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>;console<span class="built_in">.</span><span class="keyword">log</span>(err);
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; });
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>;reply(<span class="subst">&amp;</span>apos;hello world<span class="subst">&amp;</span>apos;);
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; }
+</code></pre><p>This route will get called by Twilio whenever someone sends an SMS message to our app. We want to respond to that message indicating that our SMS was received. We can do that usingTwiML. TwiML allows us to provide some basic instructions of what Twilio should do with an incoming message or phone call. We could use the <a href="https://github.com/twilio/twilio-node" target="_blank" rel="external">Twilio Node.js helper library</a> to generate our TwiML but since TwiML is actually XML we&#x2019;re going to just hardcode in our response to avoid adding another dependency: </p>
+<pre><code><span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; path:<span class="subst">&amp;</span>apos;/incoming<span class="subst">&amp;</span>apos;,
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; handler: function (request, reply) {
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>;exec(<span class="subst">&amp;</span>quot;osascript <span class="attribute">-l</span> JavaScript <span class="subst">&amp;</span>quot;   __dirname   <span class="subst">&amp;</span>quot;/sendmessage<span class="built_in">.</span>scpt<span class="subst">&amp;</span>quot;, function(err, stdout, stderr) {
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; console<span class="built_in">.</span><span class="keyword">log</span>(err);
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>;});
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>;reply(<span class="subst">&amp;</span>apos;<span class="subst">&amp;</span><span class="literal">lt</span>;Response<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;Message<span class="subst">&amp;</span><span class="literal">gt</span>;Thanks<span class="subst">!</span> Sending iMessage now<span class="subst">!&amp;</span><span class="literal">lt</span>;/Message<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/Response<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span>apos;);
+<span class="subst">&amp;</span><span class="variable">#xA0</span>; <span class="subst">&amp;</span><span class="variable">#xA0</span>; }
+</code></pre><p>Twilio needs to be able to access our application so we need to expose our local host to the outside world. Fortunately, we can use one of my favorite tools called <a href="https://ngrok.com" target="_blank" rel="external">ngrok</a> to make this happen. If you haven&#x2019;t used this tool before, <a href="https://ngrok.com/download" target="_blank" rel="external">download and install ngrok</a> . </p>
+<p>With ngrok installed, we can run the following command to expose our localhost to the outside world:</p>
+<p> Shell</p>
+<pre><code>ngrok <span class="keyword">http</span> <span class="number">8000</span>
+</code></pre><p>Make note of the url ngrok created for your application then head to yourTwilio dashboard. If you don&#x2019;t already have a phone number you&#x2019;d like to use for your application then <a href="https://www.twilio.com/user/account/phone-numbers/search" target="_blank" rel="external">buy a new phone number</a> . Once you have a phone number set the SMS Request URL to the /incoming route on our application: </p>
+<p><img src="http://taojinke.github.io/img/20150703/2f6917b.png" alt=""></p>
+<p>The moment of truth. Send an SMS message to your application and watch as your Messages app opens and sends an iMessage. Party time!</p>
+<p>You can find the completed code for our application <a href="https://github.com/rickyrobinett/sms-automation" target="_blank" rel="external">on GitHub</a> . </p>
+<p>Hackers Gonna Hack </p>
+<p>You&#x2019;ve now&#xA0;built a basic example showing how you can automate your Mac via SMS. And we&#x2019;re doing it all using JavaScript! What will you build now that you have this ability? Here are a couple ideas:</p>
+<ul>
+<li>SMS to have your computer open Photobooth snap a picture and send back to you via MMS</li>
+<li>SMS your computer and get it to say something (using terminal say) to scare people in your house</li>
+</ul>
+<p>Are you looking for a way to improve the iMessage application we built together today? Try replacing the hard coded text we&#x2019;re sending each time with the body of the SMS message you&#x2019;re sending in.</p>
+<p>Have any questions or what to show me the latest project you&#x2019;ve hacked together? Drop a note in the comments below or holler at me on twitter ( <a href="http://twitter.com/rickyrobinett" target="_blank" rel="external">@rickyrobinett</a> ). </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MacOS/">MacOS</a><a href="/tags/Node-js/">Node.js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/07/03/2f4aba4/"  title="借助Nodejs探究WebSocket -">
+ <strong>下一篇：</strong><br/> 
+ <span>借助Nodejs探究WebSocket -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Our_Tools"><span class="toc-number">1.</span> <span class="toc-text">Our Tools</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

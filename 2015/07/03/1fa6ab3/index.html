@@ -1,0 +1,581 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>在windows上编译memcached v1.4.24 (用cygwin) - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x7F16;&amp;#x8BD1;&amp;#x73AF;&amp;#x5883;cygwin x86 &amp;#x5F53;&amp;#x524D;&amp;#x6700;&amp;#x65B0; win7 x64 sp1
+&amp;#x6210;&amp;#x54C1;&amp;#x7684;&amp;#x4F9D;&amp;#x8D56;&amp;#x5173;&amp;#x7CFB;(ldd&amp;#x8F93;&amp;#x51FA;)$ ldd /usr/local/bin/memcached">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在windows上编译memcached v1.4.24 (用cygwin) -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/1fa6ab3/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x7F16;&amp;#x8BD1;&amp;#x73AF;&amp;#x5883;cygwin x86 &amp;#x5F53;&amp;#x524D;&amp;#x6700;&amp;#x65B0; win7 x64 sp1
+&amp;#x6210;&amp;#x54C1;&amp;#x7684;&amp;#x4F9D;&amp;#x8D56;&amp;#x5173;&amp;#x7CFB;(ldd&amp;#x8F93;&amp;#x51FA;)$ ldd /usr/local/bin/memcached">
+<meta property="og:updated_time" content="2015-07-03T14:09:30.990Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在windows上编译memcached v1.4.24 (用cygwin) -">
+<meta name="twitter:description" content="&amp;#x7F16;&amp;#x8BD1;&amp;#x73AF;&amp;#x5883;cygwin x86 &amp;#x5F53;&amp;#x524D;&amp;#x6700;&amp;#x65B0; win7 x64 sp1
+&amp;#x6210;&amp;#x54C1;&amp;#x7684;&amp;#x4F9D;&amp;#x8D56;&amp;#x5173;&amp;#x7CFB;(ldd&amp;#x8F93;&amp;#x51FA;)$ ldd /usr/local/bin/memcached">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/1fa6ab3/" title="在windows上编译memcached v1.4.24 (用cygwin) -" itemprop="url">在windows上编译memcached v1.4.24 (用cygwin) -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:30.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#编译环境"><span class="toc-number">1.</span> <span class="toc-text">编译环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成品的依赖关系(ldd输出)"><span class="toc-number">2.</span> <span class="toc-text">成品的依赖关系(ldd输出)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译libevent"><span class="toc-number">3.</span> <span class="toc-text">编译libevent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译memcached"><span class="toc-number">4.</span> <span class="toc-text">编译memcached</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成,启动一下"><span class="toc-number">5.</span> <span class="toc-text">完成,启动一下</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="&#x7F16;&#x8BD1;&#x73AF;&#x5883;">&#x7F16;&#x8BD1;&#x73AF;&#x5883;</h2><p>cygwin x86 &#x5F53;&#x524D;&#x6700;&#x65B0; win7 x64 sp1</p>
+<h2 id="&#x6210;&#x54C1;&#x7684;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;(ldd&#x8F93;&#x51FA;)">&#x6210;&#x54C1;&#x7684;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;(ldd&#x8F93;&#x51FA;)</h2><pre><code>$ ldd <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>memcached
+    ntdll.dll =&amp;gt; <span class="regexp">/cygdrive/</span>c<span class="regexp">/Windows/</span>SysWOW64/ntdll.dll (<span class="number">0x77780000</span>)
+    kernel32.dll =&amp;gt; <span class="regexp">/cygdrive/</span>c<span class="regexp">/Windows/</span>syswow64/kernel32.dll (<span class="number">0x76fa0000</span>)
+    KERNELBASE.dll =&amp;gt; <span class="regexp">/cygdrive/</span>c<span class="regexp">/Windows/</span>syswow64/KERNELBASE.dll (<span class="number">0x76b30000</span>)
+    ADVAPI32.DLL =&amp;gt; <span class="regexp">/cygdrive/</span>c<span class="regexp">/Windows/</span>syswow64/ADVAPI32.DLL (<span class="number">0x75770000</span>)
+    msvcrt.dll =&amp;gt; <span class="regexp">/cygdrive/</span>c<span class="regexp">/Windows/</span>syswow64/msvcrt.dll (<span class="number">0x75810000</span>)
+    sechost.dll =&amp;gt; <span class="regexp">/cygdrive/</span>c<span class="regexp">/Windows/</span>SysWOW64/sechost.dll (<span class="number">0x769e0000</span>)
+    RPCRT4.dll =&amp;gt; <span class="regexp">/cygdrive/</span>c<span class="regexp">/Windows/</span>syswow64/RPCRT4.dll (<span class="number">0x770d0000</span>)
+    SspiCli.dll =&amp;gt; <span class="regexp">/cygdrive/</span>c<span class="regexp">/Windows/</span>syswow64/SspiCli.dll (<span class="number">0x75110000</span>)
+    CRYPTBASE.dll =&amp;gt; <span class="regexp">/cygdrive/</span>c<span class="regexp">/Windows/</span>syswow64/CRYPTBASE.dll (<span class="number">0x75100000</span>)
+    cygwin1.dll =&amp;gt; <span class="regexp">/usr/</span>bin/cygwin1.dll (<span class="number">0x61000000</span>)
+    cyggcc_s-<span class="number">1.</span>dll =&amp;gt; <span class="regexp">/usr/</span>bin/cyggcc_s-<span class="number">1.</span>dll (<span class="number">0x6fdb0000</span>)
+    cygevent-<span class="number">2</span>-<span class="number">0</span>-<span class="number">5.</span>dll =&amp;gt; <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>cygevent-<span class="number">2</span>-<span class="number">0</span>-<span class="number">5.</span>dll (<span class="number">0x63ec0000</span>)
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x4F9D;&#x8D56;&#x4E86;libevent</p>
+<h2 id="&#x7F16;&#x8BD1;libevent">&#x7F16;&#x8BD1;libevent</h2><pre><code><span class="keyword">cd</span> /tmp
+wget http<span class="variable">s:</span>//sourceforge.net/projects/levent/<span class="keyword">files</span>/libevent/libevent-<span class="number">2.0</span>/libevent-<span class="number">2.0</span>.<span class="number">22</span>-stable.tar.gz
+tar xf libevent-<span class="number">2.0</span>.<span class="number">22</span>-stable.tar.gz
+<span class="keyword">cd</span> libevent-<span class="number">2.0</span>.<span class="number">22</span>-stable
+./configure --prefix=/usr/local
+<span class="keyword">make</span> <span class="keyword">all</span>
+<span class="keyword">make</span>  install
+</code></pre><p>&#x5168;&#x7A0B;&#x65E0;&#x5F02;&#x5E38;&#x901A;&#x8FC7;</p>
+<h2 id="&#x7F16;&#x8BD1;memcached">&#x7F16;&#x8BD1;memcached</h2><pre><code><span class="keyword">cd</span> /tmp
+wget wget http:<span class="comment">//memcached.org/latest</span>
+tar xf latest
+<span class="keyword">cd</span> memcached-1.4.24/
+chmod 777 configure
+./configure
+</code></pre><p>configure &#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x540E;,&#x9700;&#x8981;&#x4FEE;&#x6539;Makefile,&#x4E0D;&#x7136;&#x7F16;&#x8BD1;&#x4F1A;&#x5931;&#x8D25;</p>
+<p>&#x5927;&#x6982;&#x662F;326&#x884C;,&#x5220;&#x6389;-Werror, &#x7ED3;&#x679C;&#x5982;&#x4E0B;</p>
+<pre><code><span class="attribute">CFLAGS </span>=<span class="string"> -g -O2 -pthread -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls</span>
+</code></pre><p>&#x7EE7;&#x7EED;&#x6267;&#x884C;&#x5269;&#x4F59;&#x7684;&#x7F16;&#x8BD1;</p>
+<pre><code><span class="built_in">make</span>
+<span class="built_in">make</span> install
+</code></pre><h2 id="&#x5B8C;&#x6210;,&#x542F;&#x52A8;&#x4E00;&#x4E0B;">&#x5B8C;&#x6210;,&#x542F;&#x52A8;&#x4E00;&#x4E0B;</h2><pre><code><span class="title">memcached</span> -vv
+</code></pre><p>&#x8F93;&#x51FA;&#x4E00;&#x5806;log,&#x7136;&#x540E;&#x7528;telnet&#x8BBF;&#x95EE;&#x4E00;&#x4E0B;,&#x6B63;&#x5E38;,&#x641E;&#x5B9A;.</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Cygwin/">Cygwin</a><a href="/tags/Memcached/">Memcached</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/1f9ebbf/" title="质量度量平台性能优化-4 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  质量度量平台性能优化-4 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/1fa572b/"  title="一个故障的生命周期 -">
+ <strong>下一篇：</strong><br/> 
+ <span>一个故障的生命周期 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#编译环境"><span class="toc-number">1.</span> <span class="toc-text">编译环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成品的依赖关系(ldd输出)"><span class="toc-number">2.</span> <span class="toc-text">成品的依赖关系(ldd输出)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译libevent"><span class="toc-number">3.</span> <span class="toc-text">编译libevent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译memcached"><span class="toc-number">4.</span> <span class="toc-text">编译memcached</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成,启动一下"><span class="toc-number">5.</span> <span class="toc-text">完成,启动一下</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

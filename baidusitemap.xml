@@ -3,14 +3,3402 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/aa27c09/</loc>
-    <lastmod>2015-07-02T15:04:41.072Z</lastmod>
+    <loc>http://taojinke.github.io/2015/07/03/2f6aec7/</loc>
+    <lastmod>2015-07-03T14:09:57.588Z</lastmod>
     <data>
         <display>
-        <title>朴灵：打破限制，从前端到全栈（图灵访谈） -</title>
-        <pubTime>2015-07-02T03:04:40.000Z</pubTime>
+        <title>Automate Your Mac Via SMS using JavaScript for Automation, Node.js and Twilio -</title>
+        <pubTime>2015-07-03T02:09:57.000Z</pubTime>
+        
+        <tag>MacOS </tag>
+         
+        <tag>Node.js </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2f4aba4/</loc>
+    <lastmod>2015-07-03T14:09:57.436Z</lastmod>
+    <data>
+        <display>
+        <title>借助Nodejs探究WebSocket -</title>
+        <pubTime>2015-07-03T02:09:57.000Z</pubTime>
         
         <tag>Node.js </tag>
+         
+        <tag>WebSocket </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2f40811/</loc>
+    <lastmod>2015-07-03T14:09:57.436Z</lastmod>
+    <data>
+        <display>
+        <title>The long road to Async/Await in JavaScript -</title>
+        <pubTime>2015-07-03T02:09:57.000Z</pubTime>
+        
+        <tag>ECMAScript </tag>
+         
+        <tag>Node.js </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2f2ef4e/</loc>
+    <lastmod>2015-07-03T14:09:57.244Z</lastmod>
+    <data>
+        <display>
+        <title>A Gulp.js tutorial -</title>
+        <pubTime>2015-07-03T02:09:57.000Z</pubTime>
+        
+        <tag>Gulp </tag>
+         
+        <tag>Sass </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2f28da6/</loc>
+    <lastmod>2015-07-03T14:09:57.244Z</lastmod>
+    <data>
+        <display>
+        <title>gulp简易入坑 -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Gulp </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2f37324/</loc>
+    <lastmod>2015-07-03T14:09:57.244Z</lastmod>
+    <data>
+        <display>
+        <title>How to Grunt and Gulp Your Way to Workflow Automation -</title>
+        <pubTime>2015-07-03T02:09:57.000Z</pubTime>
+        
+        <tag>Grunt </tag>
+         
+        <tag>Gulp </tag>
+         
+        <tag>工作流 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2f10224/</loc>
+    <lastmod>2015-07-03T14:09:56.896Z</lastmod>
+    <data>
+        <display>
+        <title>A Code Boot Camp for Underprivileged Kids -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Node.js </tag>
+         
+        <tag>Ruby </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2f0091e/</loc>
+    <lastmod>2015-07-03T14:09:56.784Z</lastmod>
+    <data>
+        <display>
+        <title>nodejs爬虫数据抓取乱码问题总结 -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Node.js </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2ef5e38/</loc>
+    <lastmod>2015-07-03T14:09:56.739Z</lastmod>
+    <data>
+        <display>
+        <title>Dealing with long paths -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Gulp </tag>
+         
+        <tag>Windows </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2ef3999/</loc>
+    <lastmod>2015-07-03T14:09:56.739Z</lastmod>
+    <data>
+        <display>
+        <title>Ready Steady Gulp -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Gulp </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2ee9395/</loc>
+    <lastmod>2015-07-03T14:09:56.669Z</lastmod>
+    <data>
+        <display>
+        <title>面向于初学者的Node.js学习笔记 01 搭建静态服务器 -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Node.js </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2edaba6/</loc>
+    <lastmod>2015-07-03T14:09:56.543Z</lastmod>
+    <data>
+        <display>
+        <title>Learn Node.js with 10 hands-on projects -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Node.js </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2ed5b15/</loc>
+    <lastmod>2015-07-03T14:09:56.493Z</lastmod>
+    <data>
+        <display>
+        <title>What's coming in Meteor 1.2, and beyond -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Meteor </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2ecf21a/</loc>
+    <lastmod>2015-07-03T14:09:56.493Z</lastmod>
+    <data>
+        <display>
+        <title>This Week's Node.js News - Issue 93 -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Node.js </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2ec8b90/</loc>
+    <lastmod>2015-07-03T14:09:56.455Z</lastmod>
+    <data>
+        <display>
+        <title>奇舞周刊第115期（2015-07-03） -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>Node.js </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2ec66f1/</loc>
+    <lastmod>2015-07-03T14:09:56.410Z</lastmod>
+    <data>
+        <display>
+        <title>Node.js 1.0可以在GitHub和VMs上使用了 -</title>
+        <pubTime>2015-07-03T02:09:56.000Z</pubTime>
+        
+        <tag>.Net </tag>
+         
+        <tag>GitHub </tag>
+         
+        <tag>Node.js </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/279241b/</loc>
+    <lastmod>2015-07-03T14:09:44.385Z</lastmod>
+    <data>
+        <display>
+        <title>【转】 Key/Value之王Memcached初探：三、Memcached解决Session的分布式存储场景的应用 -</title>
+        <pubTime>2015-07-03T02:09:44.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2776554/</loc>
+    <lastmod>2015-07-03T14:09:44.273Z</lastmod>
+    <data>
+        <display>
+        <title>【转】 Key/Value之王Memcached初探：二、Memcached在.Net中的基本操作 -</title>
+        <pubTime>2015-07-03T02:09:44.000Z</pubTime>
+        
+        <tag>.Net </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/276b7fd/</loc>
+    <lastmod>2015-07-03T14:09:44.269Z</lastmod>
+    <data>
+        <display>
+        <title>【转】Key/Value之王Memcached初探：一、掀起Memcached的盖头来 -</title>
+        <pubTime>2015-07-03T02:09:44.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/27631b6/</loc>
+    <lastmod>2015-07-03T14:09:44.085Z</lastmod>
+    <data>
+        <display>
+        <title>Linux c 开发 - Memcached源码分析之命令解析（2） -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>源码分析 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/275ba15/</loc>
+    <lastmod>2015-07-03T14:09:43.926Z</lastmod>
+    <data>
+        <display>
+        <title>Linux c 开发 - Memcached源码分析之基于Libevent的网络模型（1） -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Socket </tag>
+         
+        <tag>libevent </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/274a8a5/</loc>
+    <lastmod>2015-07-03T14:09:43.808Z</lastmod>
+    <data>
+        <display>
+        <title>Linux c 开发 - Memcached源码分析之消息回应（3） -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>源码分析 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/273d920/</loc>
+    <lastmod>2015-07-03T14:09:43.746Z</lastmod>
+    <data>
+        <display>
+        <title>MemcachedClient 使用说明 -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2737507/</loc>
+    <lastmod>2015-07-03T14:09:43.725Z</lastmod>
+    <data>
+        <display>
+        <title>Linux下安装MemCached笔记 -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2732958/</loc>
+    <lastmod>2015-07-03T14:09:43.677Z</lastmod>
+    <data>
+        <display>
+        <title>MemCached缓存知识知多少？ -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2730248/</loc>
+    <lastmod>2015-07-03T14:09:43.642Z</lastmod>
+    <data>
+        <display>
+        <title>redis和memcached比较 -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Redis </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2727e72/</loc>
+    <lastmod>2015-07-03T14:09:43.588Z</lastmod>
+    <data>
+        <display>
+        <title>zabbix monitor redis memcached with python script -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Python </tag>
+         
+        <tag>zabbix </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/271dd50/</loc>
+    <lastmod>2015-07-03T14:09:43.558Z</lastmod>
+    <data>
+        <display>
+        <title>Memcached使用手册 -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/26f6ec1/</loc>
+    <lastmod>2015-07-03T14:09:43.267Z</lastmod>
+    <data>
+        <display>
+        <title>Redis、Memcached、Guava、Ehcache中的算法 -</title>
+        <pubTime>2015-07-03T02:09:43.000Z</pubTime>
+        
+        <tag>Ehcache </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>Redis </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/23ed2e8/</loc>
+    <lastmod>2015-07-03T14:09:38.315Z</lastmod>
+    <data>
+        <display>
+        <title>Linux c 开发 - Memcached源码分析之LRU算法（6） -</title>
+        <pubTime>2015-07-03T02:09:38.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>源码分析 </tag>
+         
+        <tag>链表 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/23f2d3d/</loc>
+    <lastmod>2015-07-03T14:09:38.315Z</lastmod>
+    <data>
+        <display>
+        <title>Linux c 开发 - Memcached源码分析之增删改查操作（5） -</title>
+        <pubTime>2015-07-03T02:09:38.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>源码分析 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/23c66ca/</loc>
+    <lastmod>2015-07-03T14:09:38.198Z</lastmod>
+    <data>
+        <display>
+        <title>memcache（三）内存管理 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+        <tag>链表 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/23c1b1b/</loc>
+    <lastmod>2015-07-03T14:09:38.198Z</lastmod>
+    <data>
+        <display>
+        <title>Linux c 开发 - Memcached源码分析之HashTable（4） -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>源码分析 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/23bc0c6/</loc>
+    <lastmod>2015-07-03T14:09:38.198Z</lastmod>
+    <data>
+        <display>
+        <title>memcached Java客户端spymemcached的一致性Hash算法 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2391c81/</loc>
+    <lastmod>2015-07-03T14:09:37.913Z</lastmod>
+    <data>
+        <display>
+        <title>libmc - 一个高效轻便的 C++/Python Memcached 客户端库 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>Python </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/238d0d2/</loc>
+    <lastmod>2015-07-03T14:09:37.913Z</lastmod>
+    <data>
+        <display>
+        <title>Linux c 开发 - Memcached源码分析之存储机制Slabs（7） -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+        <tag>源码分析 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2388ee7/</loc>
+    <lastmod>2015-07-03T14:09:37.912Z</lastmod>
+    <data>
+        <display>
+        <title>云端高性能技术架构浅析 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>数据库 </tag>
+         
+        <tag>高性能 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2385931/</loc>
+    <lastmod>2015-07-03T14:09:37.912Z</lastmod>
+    <data>
+        <display>
+        <title>C# memcache -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>C# </tag>
+         
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2374f14/</loc>
+    <lastmod>2015-07-03T14:09:37.582Z</lastmod>
+    <data>
+        <display>
+        <title>memcache 源代码研究 - 请求处理流程 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/23731c8/</loc>
+    <lastmod>2015-07-03T14:09:37.582Z</lastmod>
+    <data>
+        <display>
+        <title>Linux c 开发 - Memcached源码分析之总结篇（8） -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+        <tag>源码分析 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/236f4bf/</loc>
+    <lastmod>2015-07-03T14:09:37.582Z</lastmod>
+    <data>
+        <display>
+        <title>Memcache的hash策略及配置总结 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/235b9ce/</loc>
+    <lastmod>2015-07-03T14:09:37.373Z</lastmod>
+    <data>
+        <display>
+        <title>memcached 1.4.23 发布，集中式缓存系统 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2359a11/</loc>
+    <lastmod>2015-07-03T14:09:37.373Z</lastmod>
+    <data>
+        <display>
+        <title>论实现序列化的在云端的必要性 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/234ccfd/</loc>
+    <lastmod>2015-07-03T14:09:37.205Z</lastmod>
+    <data>
+        <display>
+        <title>深入学习Memcached -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2348d83/</loc>
+    <lastmod>2015-07-03T14:09:37.205Z</lastmod>
+    <data>
+        <display>
+        <title>memcache源代码研究 - 数据结构篇（上） -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>数据结构 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/234073c/</loc>
+    <lastmod>2015-07-03T14:09:37.105Z</lastmod>
+    <data>
+        <display>
+        <title>轻量的Memcached代理Twemproxy的部署 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/233ddbb/</loc>
+    <lastmod>2015-07-03T14:09:37.105Z</lastmod>
+    <data>
+        <display>
+        <title>JS结合Memcache实现爬虫程序的识别与阻挡 -</title>
+        <pubTime>2015-07-03T02:09:37.000Z</pubTime>
+        
+        <tag>JavaScript </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>Python </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2335292/</loc>
+    <lastmod>2015-07-03T14:09:37.025Z</lastmod>
+    <data>
+        <display>
+        <title>memcache源代码研究 - overview -</title>
+        <pubTime>2015-07-03T02:09:36.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/23337b7/</loc>
+    <lastmod>2015-07-03T14:09:37.025Z</lastmod>
+    <data>
+        <display>
+        <title>Memcached 1.4.24 发布，集中式缓存系统 -</title>
+        <pubTime>2015-07-03T02:09:36.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/232e244/</loc>
+    <lastmod>2015-07-03T14:09:36.948Z</lastmod>
+    <data>
+        <display>
+        <title>IT 工程师文化碎碎念 -</title>
+        <pubTime>2015-07-03T02:09:36.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>操作系统 </tag>
+         
+        <tag>运维技术 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/232b170/</loc>
+    <lastmod>2015-07-03T14:09:36.948Z</lastmod>
+    <data>
+        <display>
+        <title>用Varnish和Memcached给WordPress网站提速 -</title>
+        <pubTime>2015-07-03T02:09:36.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Varnish </tag>
+         
+        <tag>WordPress </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2328a60/</loc>
+    <lastmod>2015-07-03T14:09:36.948Z</lastmod>
+    <data>
+        <display>
+        <title>Repcached实现Memcached主从复制功能 -</title>
+        <pubTime>2015-07-03T02:09:36.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/2321c83/</loc>
+    <lastmod>2015-07-03T14:09:36.901Z</lastmod>
+    <data>
+        <display>
+        <title>实践Ok</title>
+        <pubTime>2015-07-03T02:09:36.000Z</pubTime>
+        
+        <tag>Makefile </tag>
+         
+        <tag>libmemcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1feeb0b/</loc>
+    <lastmod>2015-07-03T14:09:31.531Z</lastmod>
+    <data>
+        <display>
+        <title>Memcached 类库 EnyimMemcached 下的JSON序列化和二进制序列化兼容 -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>.Net </tag>
+         
+        <tag>Json </tag>
+         
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fea1cd/</loc>
+    <lastmod>2015-07-03T14:09:31.466Z</lastmod>
+    <data>
+        <display>
+        <title>memcache的一致性hash算法使用 -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nosql </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fe00ab/</loc>
+    <lastmod>2015-07-03T14:09:31.374Z</lastmod>
+    <data>
+        <display>
+        <title>memcached 1.4.23发布,集中式缓存系统 -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fd8699/</loc>
+    <lastmod>2015-07-03T14:09:31.360Z</lastmod>
+    <data>
+        <display>
+        <title>通过MySQL的UDFs和Trigger操作Memcached -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>MySQL </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fd5f89/</loc>
+    <lastmod>2015-07-03T14:09:31.310Z</lastmod>
+    <data>
+        <display>
+        <title>MicroPHP 2.3.2 发布，微型 PHP 框架 -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>PHP </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fd164b/</loc>
+    <lastmod>2015-07-03T14:09:31.280Z</lastmod>
+    <data>
+        <display>
+        <title>分布式系统中异步处理的优化 -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>分布式系统 </tag>
+         
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fc8640/</loc>
+    <lastmod>2015-07-03T14:09:31.216Z</lastmod>
+    <data>
+        <display>
+        <title>在windows系统下安装memcached -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Windows </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fc04db/</loc>
+    <lastmod>2015-07-03T14:09:31.165Z</lastmod>
+    <data>
+        <display>
+        <title>nginx+tomcat+memcached (msm)实现 session同步复制 -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Tomcat </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fb3a38/</loc>
+    <lastmod>2015-07-03T14:09:31.088Z</lastmod>
+    <data>
+        <display>
+        <title>Web缓存技术-Memcached -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fae736/</loc>
+    <lastmod>2015-07-03T14:09:31.068Z</lastmod>
+    <data>
+        <display>
+        <title>Memcached(一)、HelloWorld -</title>
+        <pubTime>2015-07-03T02:09:31.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fa6ab3/</loc>
+    <lastmod>2015-07-03T14:09:30.990Z</lastmod>
+    <data>
+        <display>
+        <title>在windows上编译memcached v1.4.24 (用cygwin) -</title>
+        <pubTime>2015-07-03T02:09:30.000Z</pubTime>
+        
+        <tag>Cygwin </tag>
+         
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1fa572b/</loc>
+    <lastmod>2015-07-03T14:09:30.990Z</lastmod>
+    <data>
+        <display>
+        <title>一个故障的生命周期 -</title>
+        <pubTime>2015-07-03T02:09:30.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>MySQL </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1f9ebbf/</loc>
+    <lastmod>2015-07-03T14:09:30.982Z</lastmod>
+    <data>
+        <display>
+        <title>质量度量平台性能优化-4 -</title>
+        <pubTime>2015-07-03T02:09:30.000Z</pubTime>
+        
+        <tag>HTTP Cache </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>Python </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1f9baeb/</loc>
+    <lastmod>2015-07-03T14:09:30.949Z</lastmod>
+    <data>
+        <display>
+        <title>Memcached(三)、封装Memcached和Ehcache -</title>
+        <pubTime>2015-07-03T02:09:30.000Z</pubTime>
+        
+        <tag>Ehcache </tag>
+         
+        <tag>Java </tag>
+         
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1f96f3c/</loc>
+    <lastmod>2015-07-03T14:09:30.896Z</lastmod>
+    <data>
+        <display>
+        <title>WDCP安装memcached提示'No targets specified and no makefile found'错误的解决办法 -</title>
+        <pubTime>2015-07-03T02:09:30.000Z</pubTime>
+        
+        <tag>Makefile </tag>
+         
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/19b0f14/</loc>
+    <lastmod>2015-07-03T14:09:21.100Z</lastmod>
+    <data>
+        <display>
+        <title>nginx+lua+memcache实现灰度发布 -</title>
+        <pubTime>2015-07-03T02:09:20.000Z</pubTime>
+        
+        <tag>Lua </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>Nginx </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/19adbcf/</loc>
+    <lastmod>2015-07-03T14:09:21.099Z</lastmod>
+    <data>
+        <display>
+        <title>Tomcat基于MSM+Memcached实现Session共享 -</title>
+        <pubTime>2015-07-03T02:09:20.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Nginx </tag>
+         
+        <tag>Tomcat </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/19a46e2/</loc>
+    <lastmod>2015-07-03T14:09:20.988Z</lastmod>
+    <data>
+        <display>
+        <title>Linux下搭建Memcached缓存系统 -</title>
+        <pubTime>2015-07-03T02:09:20.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/199eefe/</loc>
+    <lastmod>2015-07-03T14:09:20.906Z</lastmod>
+    <data>
+        <display>
+        <title>谈OSSIM服务器内存开销问题 -</title>
+        <pubTime>2015-07-03T02:09:20.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>Snort </tag>
+         
+        <tag>操作系统 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/199c09b/</loc>
+    <lastmod>2015-07-03T14:09:20.906Z</lastmod>
+    <data>
+        <display>
+        <title>个人站搭建手册 -</title>
+        <pubTime>2015-07-03T02:09:20.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>MySQL </tag>
+         
+        <tag>PHP </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1990e62/</loc>
+    <lastmod>2015-07-03T14:09:20.801Z</lastmod>
+    <data>
+        <display>
+        <title>【maven项目】Spring MVC 中配置Memcache -</title>
+        <pubTime>2015-07-03T02:09:20.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/198d3ca/</loc>
+    <lastmod>2015-07-03T14:09:20.771Z</lastmod>
+    <data>
+        <display>
+        <title>linux(centos 6.4)下安装php memcache服务端及其客户端(详细教程) -</title>
+        <pubTime>2015-07-03T02:09:20.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Memcached </tag>
+         
+        <tag>PHP </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/19843bf/</loc>
+    <lastmod>2015-07-03T14:09:20.730Z</lastmod>
+    <data>
+        <display>
+        <title>Memcached的内存管理方式 -</title>
+        <pubTime>2015-07-03T02:09:20.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/19812eb/</loc>
+    <lastmod>2015-07-03T14:09:20.697Z</lastmod>
+    <data>
+        <display>
+        <title>RDBMS，memcache -</title>
+        <pubTime>2015-07-03T02:09:20.000Z</pubTime>
+        
+        <tag>Memcached </tag>
+         
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/11c0c6e/</loc>
+    <lastmod>2015-07-03T14:09:07.709Z</lastmod>
+    <data>
+        <display>
+        <title>storm源码分析之任务分配--task assignment -</title>
+        <pubTime>2015-07-03T02:09:06.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+        <tag>源码分析 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10b0b67/</loc>
+    <lastmod>2015-07-03T14:09:06.094Z</lastmod>
+    <data>
+        <display>
+        <title>QConf 正式开源！ -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>Shell </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10b2160/</loc>
+    <lastmod>2015-07-03T14:09:06.094Z</lastmod>
+    <data>
+        <display>
+        <title>ZooKeeper运维经验 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+        <tag>运维技术 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10b5987/</loc>
+    <lastmod>2015-07-03T14:09:06.094Z</lastmod>
+    <data>
+        <display>
+        <title>【每日一博】Apache Storm （drpc）开发心得 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10b9b72/</loc>
+    <lastmod>2015-07-03T14:09:06.094Z</lastmod>
+    <data>
+        <display>
+        <title>分布式服务协调员zookeeper - 应用场景和监控 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+        <tag>分布式系统 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10baefa/</loc>
+    <lastmod>2015-07-03T14:09:06.094Z</lastmod>
+    <data>
+        <display>
+        <title>kiteq - 一个多种持久化方案的 MQ 框架 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>MySQL </tag>
+         
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10c06de/</loc>
+    <lastmod>2015-07-03T14:09:06.094Z</lastmod>
+    <data>
+        <display>
+        <title>基于zookeeper的远程方法调用(RMI)的实现 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>Java RMI </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10c48c9/</loc>
+    <lastmod>2015-07-03T14:09:06.094Z</lastmod>
+    <data>
+        <display>
+        <title>zookeeper Watcher API 说明 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10b6f80/</loc>
+    <lastmod>2015-07-03T14:09:06.094Z</lastmod>
+    <data>
+        <display>
+        <title>Zookeeper -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10adf75/</loc>
+    <lastmod>2015-07-03T14:09:06.094Z</lastmod>
+    <data>
+        <display>
+        <title>zookeeper节点Watch机制实例展示 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10a7409/</loc>
+    <lastmod>2015-07-03T14:09:06.093Z</lastmod>
+    <data>
+        <display>
+        <title>kafka Expanding your cluster -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>Kafka </tag>
+         
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/10a4335/</loc>
+    <lastmod>2015-07-03T14:09:06.093Z</lastmod>
+    <data>
+        <display>
+        <title>supervisor management kafka zookeeper -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>Kafka </tag>
+         
+        <tag>Linux </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1098256/</loc>
+    <lastmod>2015-07-03T14:09:06.015Z</lastmod>
+    <data>
+        <display>
+        <title>Storm笔记 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Kafka </tag>
+         
+        <tag>Nosql </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/1093436/</loc>
+    <lastmod>2015-07-03T14:09:06.015Z</lastmod>
+    <data>
+        <display>
+        <title>基于zookeeper的MySQL主主负载均衡的简单实现 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>MySQL </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/107e5bd/</loc>
+    <lastmod>2015-07-03T14:09:06.015Z</lastmod>
+    <data>
+        <display>
+        <title>supervisor启动worker源码分析-worker.clj -</title>
+        <pubTime>2015-07-03T02:09:04.000Z</pubTime>
+        
+        <tag>Socket </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+        <tag>源码分析 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/109abd7/</loc>
+    <lastmod>2015-07-03T14:09:06.015Z</lastmod>
+    <data>
+        <display>
+        <title>python zookeeper解决redis做分布式锁带来的坑 -</title>
+        <pubTime>2015-07-03T02:09:05.000Z</pubTime>
+        
+        <tag>Redis </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+        <tag>分布式系统 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0fdfaad/</loc>
+    <lastmod>2015-07-03T14:09:05.757Z</lastmod>
+    <data>
+        <display>
+        <title>Consul和ZooKeeper、Doozerd、Etcd的区别 -</title>
+        <pubTime>2015-07-03T02:09:04.000Z</pubTime>
+        
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0fd9423/</loc>
+    <lastmod>2015-07-03T14:09:05.555Z</lastmod>
+    <data>
+        <display>
+        <title>Hadoop, Hbase, Zookeeper安全实践 -</title>
+        <pubTime>2015-07-03T02:09:04.000Z</pubTime>
+        
+        <tag>HBase </tag>
+         
+        <tag>Hadoop </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0fc45aa/</loc>
+    <lastmod>2015-07-03T14:09:04.347Z</lastmod>
+    <data>
+        <display>
+        <title>下一代云计算平台Apache Mesos安装部署 -</title>
+        <pubTime>2015-07-03T02:09:04.000Z</pubTime>
+        
+        <tag>Apache Mesos </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0d18748/</loc>
+    <lastmod>2015-07-03T14:09:00.029Z</lastmod>
+    <data>
+        <display>
+        <title>Storm配置项详解 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>JVM </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+        <tag>消息系统 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0d15dc7/</loc>
+    <lastmod>2015-07-03T14:09:00.029Z</lastmod>
+    <data>
+        <display>
+        <title>zookeeper使用和原理探究（一） -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cf55c2/</loc>
+    <lastmod>2015-07-03T14:08:59.854Z</lastmod>
+    <data>
+        <display>
+        <title>Zookeeper安装部署 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0d000a8/</loc>
+    <lastmod>2015-07-03T14:08:59.854Z</lastmod>
+    <data>
+        <display>
+        <title>云平台发现服务构建：为什么不使用ZooKeeper -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+        <tag>云平台 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0d05d6e/</loc>
+    <lastmod>2015-07-03T14:08:59.854Z</lastmod>
+    <data>
+        <display>
+        <title>Please stop calling databases CP or AP -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cfdc09/</loc>
+    <lastmod>2015-07-03T14:08:59.854Z</lastmod>
+    <data>
+        <display>
+        <title>dubbo发布web服务实例 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>Dubbo </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cf77f0/</loc>
+    <lastmod>2015-07-03T14:08:59.854Z</lastmod>
+    <data>
+        <display>
+        <title>Zookeeper 基本机制 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cdd404/</loc>
+    <lastmod>2015-07-03T14:08:59.854Z</lastmod>
+    <data>
+        <display>
+        <title>Zookeeper常见问题整理 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cf0ef5/</loc>
+    <lastmod>2015-07-03T14:08:59.854Z</lastmod>
+    <data>
+        <display>
+        <title>Apache Curator 2.8.0 发布，简化 zookeeper 客户端 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cd5781/</loc>
+    <lastmod>2015-07-03T14:08:59.740Z</lastmod>
+    <data>
+        <display>
+        <title>hadoop2.x通过Zookeeper来实现namenode的HA方案以及ResourceManager单点故障的解决方案 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>HDFS </tag>
+         
+        <tag>Hadoop </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cc3289/</loc>
+    <lastmod>2015-07-03T14:08:59.740Z</lastmod>
+    <data>
+        <display>
+        <title>ZooKeeper JAVA API  之环境准备和创建会话 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cbfcd3/</loc>
+    <lastmod>2015-07-03T14:08:59.533Z</lastmod>
+    <data>
+        <display>
+        <title>ZooKeeper 基本API使用 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cb4d0b/</loc>
+    <lastmod>2015-07-03T14:08:59.533Z</lastmod>
+    <data>
+        <display>
+        <title>Paxos与zookeeper -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>Paxos </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cb1755/</loc>
+    <lastmod>2015-07-03T14:08:59.299Z</lastmod>
+    <data>
+        <display>
+        <title>zookeeper原理和实现 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0cab33c/</loc>
+    <lastmod>2015-07-03T14:08:59.200Z</lastmod>
+    <data>
+        <display>
+        <title>分布式日志 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>HBase </tag>
+         
+        <tag>Log4J </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0ca5dc9/</loc>
+    <lastmod>2015-07-03T14:08:59.136Z</lastmod>
+    <data>
+        <display>
+        <title>Jstorm 集群搭建过程及一键安装部署脚本 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Sed </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0c9b072/</loc>
+    <lastmod>2015-07-03T14:08:59.099Z</lastmod>
+    <data>
+        <display>
+        <title>Zookeeper实现简单的分布式RPC框架 -</title>
+        <pubTime>2015-07-03T02:08:59.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+        <tag>分布式系统 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0c96c16/</loc>
+    <lastmod>2015-07-03T14:08:59.016Z</lastmod>
+    <data>
+        <display>
+        <title>1.dubbo的安装 quickstart -</title>
+        <pubTime>2015-07-03T02:08:58.000Z</pubTime>
+        
+        <tag>Dubbo </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0c8dc0b/</loc>
+    <lastmod>2015-07-03T14:08:58.965Z</lastmod>
+    <data>
+        <display>
+        <title>午夜杂谈 -</title>
+        <pubTime>2015-07-03T02:08:58.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+        <tag>分布式系统 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0c877f2/</loc>
+    <lastmod>2015-07-03T14:08:58.918Z</lastmod>
+    <data>
+        <display>
+        <title>zookeeper3.4.6的安装 -</title>
+        <pubTime>2015-07-03T02:08:58.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/07a61b6/</loc>
+    <lastmod>2015-07-03T14:08:50.731Z</lastmod>
+    <data>
+        <display>
+        <title>为什么不使用ZooKeeper构建云平台发现服务？ -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+        <tag>云平台 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0785e93/</loc>
+    <lastmod>2015-07-03T14:08:50.563Z</lastmod>
+    <data>
+        <display>
+        <title>Kafka设计解析（三）- Kafka High Availability （下） -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>Kafka </tag>
+         
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/077c9a6/</loc>
+    <lastmod>2015-07-03T14:08:50.563Z</lastmod>
+    <data>
+        <display>
+        <title>OpenStack中tooz介绍及实践 -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>OpenStack </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0779661/</loc>
+    <lastmod>2015-07-03T14:08:50.563Z</lastmod>
+    <data>
+        <display>
+        <title>ZooKeeper源码分析（二） -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>.Net </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/07880c1/</loc>
+    <lastmod>2015-07-03T14:08:50.563Z</lastmod>
+    <data>
+        <display>
+        <title>metaq安装实例 -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/07708c7/</loc>
+    <lastmod>2015-07-03T14:08:50.515Z</lastmod>
+    <data>
+        <display>
+        <title>初识zookeeper（一） -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/07673da/</loc>
+    <lastmod>2015-07-03T14:08:50.515Z</lastmod>
+    <data>
+        <display>
+        <title>360 如何用 QConf 搞定 2W+ 服务器的配置管理 -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+        <tag>共享内存 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/07516bb/</loc>
+    <lastmod>2015-07-03T14:08:50.169Z</lastmod>
+    <data>
+        <display>
+        <title>如何搭建拥有服务发现能力的mesosphere集群环境 -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>HAProxy </tag>
+         
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0744e89/</loc>
+    <lastmod>2015-07-03T14:08:50.099Z</lastmod>
+    <data>
+        <display>
+        <title>初识zookeeper（二）之与Dubbo-admin关联 -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/073e0ac/</loc>
+    <lastmod>2015-07-03T14:08:50.050Z</lastmod>
+    <data>
+        <display>
+        <title>SmartStack：Airbnb 的自动服务发现和注册框架 -</title>
+        <pubTime>2015-07-03T02:08:50.000Z</pubTime>
+        
+        <tag>HAProxy </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0738175/</loc>
+    <lastmod>2015-07-03T14:08:50.039Z</lastmod>
+    <data>
+        <display>
+        <title>毕业两年 -</title>
+        <pubTime>2015-07-03T02:08:49.000Z</pubTime>
+        
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/07357f4/</loc>
+    <lastmod>2015-07-03T14:08:49.998Z</lastmod>
+    <data>
+        <display>
+        <title>kafka_2.10-0.8.2.1单机安装配置 -</title>
+        <pubTime>2015-07-03T02:08:49.000Z</pubTime>
+        
+        <tag>Kafka </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/03b950d/</loc>
+    <lastmod>2015-07-03T14:08:44.588Z</lastmod>
+    <data>
+        <display>
+        <title>ZooKeeper （一）概览 -</title>
+        <pubTime>2015-07-03T02:08:44.000Z</pubTime>
+        
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/03c6703/</loc>
+    <lastmod>2015-07-03T14:08:44.574Z</lastmod>
+    <data>
+        <display>
+        <title>hbase-site.xml参数集合 -</title>
+        <pubTime>2015-07-03T02:08:44.000Z</pubTime>
+        
+        <tag>HBase </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/03ac7f9/</loc>
+    <lastmod>2015-07-03T14:08:44.508Z</lastmod>
+    <data>
+        <display>
+        <title>HBase0.98 + Hadoop2.6 Fully Distributed 完全分布式环境搭建 -</title>
+        <pubTime>2015-07-03T02:08:44.000Z</pubTime>
+        
+        <tag>HBase </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/03959c3/</loc>
+    <lastmod>2015-07-03T14:08:43.986Z</lastmod>
+    <data>
+        <display>
+        <title>zookeeper 理论 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/037eb8d/</loc>
+    <lastmod>2015-07-03T14:08:43.898Z</lastmod>
+    <data>
+        <display>
+        <title>zookeeper伪分布安装和使用 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/036c424/</loc>
+    <lastmod>2015-07-03T14:08:43.753Z</lastmod>
+    <data>
+        <display>
+        <title>Apache Kafka 集群环境搭建 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>Kafka </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/03720ea/</loc>
+    <lastmod>2015-07-03T14:08:43.753Z</lastmod>
+    <data>
+        <display>
+        <title>初始ZooKeeper与集群搭建实例 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/035efbd/</loc>
+    <lastmod>2015-07-03T14:08:43.670Z</lastmod>
+    <data>
+        <display>
+        <title>Zookeeper的日志和磁盘使用 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>Nosql </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0356223/</loc>
+    <lastmod>2015-07-03T14:08:43.537Z</lastmod>
+    <data>
+        <display>
+        <title>zookeeper应用场景 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0354748/</loc>
+    <lastmod>2015-07-03T14:08:43.537Z</lastmod>
+    <data>
+        <display>
+        <title>Apache Curator 2.7.1 发布，zookeeper 客户端简化 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/034cac5/</loc>
+    <lastmod>2015-07-03T14:08:43.476Z</lastmod>
+    <data>
+        <display>
+        <title>Git@OSC 项目推荐 —— ZooKeeper 管理工具 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/03430f6/</loc>
+    <lastmod>2015-07-03T14:08:43.415Z</lastmod>
+    <data>
+        <display>
+        <title>实时计算框架Storm集群搭建 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+        <tag>实时计算 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/033ccdd/</loc>
+    <lastmod>2015-07-03T14:08:43.353Z</lastmod>
+    <data>
+        <display>
+        <title>Apache Zookeeper 集群环境搭建 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0331aa4/</loc>
+    <lastmod>2015-07-03T14:08:43.284Z</lastmod>
+    <data>
+        <display>
+        <title>HBase和Zookeeper的安装和部署 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>HBase </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/032c04f/</loc>
+    <lastmod>2015-07-03T14:08:43.207Z</lastmod>
+    <data>
+        <display>
+        <title>ZooKeeper API简单调用 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/032686b/</loc>
+    <lastmod>2015-07-03T14:08:43.180Z</lastmod>
+    <data>
+        <display>
+        <title>python使用etcd来实现配置共享及集群服务发现 【上】 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>Nosql </tag>
+         
+        <tag>Python </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/030bf9d/</loc>
+    <lastmod>2015-07-03T14:08:43.022Z</lastmod>
+    <data>
+        <display>
+        <title>etcd 2.0发布，大部分功能已稳定 -</title>
+        <pubTime>2015-07-03T02:08:42.000Z</pubTime>
+        
+        <tag>CoreOS </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+        <tag>数据存储 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/030e43c/</loc>
+    <lastmod>2015-07-03T14:08:43.022Z</lastmod>
+    <data>
+        <display>
+        <title>架构师之dubbo-------dubbo+spring+zookeeper整合之最小系统 -</title>
+        <pubTime>2015-07-03T02:08:43.000Z</pubTime>
+        
+        <tag>Dubbo </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/0307db2/</loc>
+    <lastmod>2015-07-03T14:08:42.968Z</lastmod>
+    <data>
+        <display>
+        <title>Zookeeper3.4.6集群安装 -</title>
+        <pubTime>2015-07-03T02:08:42.000Z</pubTime>
+        
+        <tag>Hadoop </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/03036e5/</loc>
+    <lastmod>2015-07-03T14:08:42.963Z</lastmod>
+    <data>
+        <display>
+        <title>docker部署zookeeper -</title>
+        <pubTime>2015-07-03T02:08:42.000Z</pubTime>
+        
+        <tag>Docker </tag>
+         
+        <tag>ZooKeeper </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/f50ce83/</loc>
+    <lastmod>2015-07-03T14:08:19.554Z</lastmod>
+    <data>
+        <display>
+        <title>认识C++中的bitset类型 -</title>
+        <pubTime>2015-07-03T02:08:19.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/f501c4a/</loc>
+    <lastmod>2015-07-03T14:08:19.446Z</lastmod>
+    <data>
+        <display>
+        <title>C++ Primer快速学习 第一章 入门 -</title>
+        <pubTime>2015-07-03T02:08:19.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>操作系统 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/f4fdf41/</loc>
+    <lastmod>2015-07-03T14:08:19.437Z</lastmod>
+    <data>
+        <display>
+        <title>Android C++ 引用计数介绍, part 1 -</title>
+        <pubTime>2015-07-03T02:08:19.000Z</pubTime>
+        
+        <tag>Android </tag>
+         
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/f4f89ce/</loc>
+    <lastmod>2015-07-03T14:08:19.398Z</lastmod>
+    <data>
+        <display>
+        <title>如何在 Ubuntu/Debian/Linux Mint 中编译和安装 wxWidgets -</title>
+        <pubTime>2015-07-03T02:08:19.000Z</pubTime>
+        
+        <tag>Debian </tag>
+         
+        <tag>Ubuntu </tag>
+         
+        <tag>wxWidgets </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/f4f0116/</loc>
+    <lastmod>2015-07-03T14:08:19.331Z</lastmod>
+    <data>
+        <display>
+        <title>混合使用C和C++ -</title>
+        <pubTime>2015-07-03T02:08:19.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/f4e514e/</loc>
+    <lastmod>2015-07-03T14:08:19.260Z</lastmod>
+    <data>
+        <display>
+        <title>从大二开始学C++到现在的一些感悟 -</title>
+        <pubTime>2015-07-03T02:08:19.000Z</pubTime>
+        
+        <tag>C++ </tag>
          
         <tag>程序员 </tag>
          
@@ -25,16 +3413,522 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/aa1b3d7/</loc>
+    <loc>http://taojinke.github.io/2015/07/03/f4c6906/</loc>
+    <lastmod>2015-07-03T14:08:19.073Z</lastmod>
+    <data>
+        <display>
+        <title>1 通过JNI混合使用Java和C++ -----> 操作字符串 -</title>
+        <pubTime>2015-07-03T02:08:19.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>JNI </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/f4b9981/</loc>
+    <lastmod>2015-07-03T14:08:18.983Z</lastmod>
+    <data>
+        <display>
+        <title>basicpp —— 让 C++ 像以前的 BASIC 那么简单 -</title>
+        <pubTime>2015-07-03T02:08:18.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/ef9c63d/</loc>
+    <lastmod>2015-07-03T14:08:10.395Z</lastmod>
+    <data>
+        <display>
+        <title>高效的使用STL -</title>
+        <pubTime>2015-07-03T02:08:10.000Z</pubTime>
+        
+        <tag>STL </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/ef8be91/</loc>
+    <lastmod>2015-07-03T14:08:10.291Z</lastmod>
+    <data>
+        <display>
+        <title>C++ Primer快速学习 第一章 入门之二：输入与输出 -</title>
+        <pubTime>2015-07-03T02:08:10.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/ef8a145/</loc>
+    <lastmod>2015-07-03T14:08:10.291Z</lastmod>
+    <data>
+        <display>
+        <title>有了malloc/free为什么还要new/delete ？ -</title>
+        <pubTime>2015-07-03T02:08:10.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/ef7c58b/</loc>
+    <lastmod>2015-07-03T14:08:10.213Z</lastmod>
+    <data>
+        <display>
+        <title>专访图书作者祁宇：C++11让程序更简洁、更现代、更强大 -</title>
+        <pubTime>2015-07-03T02:08:10.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>程序员 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/ef7330f/</loc>
+    <lastmod>2015-07-03T14:08:10.182Z</lastmod>
+    <data>
+        <display>
+        <title>C++基础回顾（数据类型, 控制语句, 数组） -</title>
+        <pubTime>2015-07-03T02:08:10.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/ef77c4d/</loc>
+    <lastmod>2015-07-03T14:08:10.182Z</lastmod>
+    <data>
+        <display>
+        <title>C++中的内存管理 -</title>
+        <pubTime>2015-07-03T02:08:10.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/ef6c2c1/</loc>
+    <lastmod>2015-07-03T14:08:10.142Z</lastmod>
+    <data>
+        <display>
+        <title>编程菜鸟入门必备书籍 -</title>
+        <pubTime>2015-07-03T02:08:10.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>PHP </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/e91fc6a/</loc>
+    <lastmod>2015-07-03T14:07:59.545Z</lastmod>
+    <data>
+        <display>
+        <title>c++学习(1) -</title>
+        <pubTime>2015-07-03T02:07:59.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/e91abd9/</loc>
+    <lastmod>2015-07-03T14:07:59.504Z</lastmod>
+    <data>
+        <display>
+        <title>linux进程间通信总结 -</title>
+        <pubTime>2015-07-03T02:07:59.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>Linux </tag>
+         
+        <tag>消息系统 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/e90e3a7/</loc>
+    <lastmod>2015-07-03T14:07:59.468Z</lastmod>
+    <data>
+        <display>
+        <title>C++基础回顾2（函数, 指针和引用） -</title>
+        <pubTime>2015-07-03T02:07:59.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>指针 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/e9038c1/</loc>
+    <lastmod>2015-07-03T14:07:59.388Z</lastmod>
+    <data>
+        <display>
+        <title>GitHub 通告：整理了一个 C 和 C++ 开源库的清单（含示例代码） -</title>
+        <pubTime>2015-07-03T02:07:59.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>GitHub </tag>
+         
+        <tag>开源 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/e900a5e/</loc>
+    <lastmod>2015-07-03T14:07:59.388Z</lastmod>
+    <data>
+        <display>
+        <title>Facebook应用Moments使用C++实现跨平台代码共享 -</title>
+        <pubTime>2015-07-03T02:07:59.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/e8fb9cd/</loc>
+    <lastmod>2015-07-03T14:07:59.318Z</lastmod>
+    <data>
+        <display>
+        <title>如何在 Linux 中安装漂亮的 GTK+ 扁平化主题 Arc -</title>
+        <pubTime>2015-07-03T02:07:59.000Z</pubTime>
+        
+        <tag>GTK </tag>
+         
+        <tag>Linux </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/e8e9c28/</loc>
+    <lastmod>2015-07-03T14:07:59.175Z</lastmod>
+    <data>
+        <display>
+        <title>2015-06学习总结——c++ -</title>
+        <pubTime>2015-07-03T02:07:59.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/e8e4b97/</loc>
+    <lastmod>2015-07-03T14:07:59.145Z</lastmod>
+    <data>
+        <display>
+        <title>在什么情况下，Java比C++慢很多？ -</title>
+        <pubTime>2015-07-03T02:07:59.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/e8dcf14/</loc>
+    <lastmod>2015-07-03T14:07:59.115Z</lastmod>
+    <data>
+        <display>
+        <title>QT中QProcess调用命令行的痛苦经历 -</title>
+        <pubTime>2015-07-03T02:07:59.000Z</pubTime>
+        
+        <tag>Qt </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/c74a46e/</loc>
+    <lastmod>2015-07-03T14:07:02.864Z</lastmod>
+    <data>
+        <display>
+        <title>QT5.4 计算器程序 打包&发布,解决dll的最新解决方案 -</title>
+        <pubTime>2015-07-03T02:07:02.000Z</pubTime>
+        
+        <tag>Qt </tag>
+         
+        <tag>动态链接库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/c73fe6a/</loc>
+    <lastmod>2015-07-03T14:07:02.753Z</lastmod>
+    <data>
+        <display>
+        <title>小猪猪逆袭成博士之C++基础篇（一）数据精度、强制类型转换、变量命名规则 -</title>
+        <pubTime>2015-07-03T02:07:02.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/c735ad7/</loc>
+    <lastmod>2015-07-03T14:07:02.694Z</lastmod>
+    <data>
+        <display>
+        <title>Qt 5.5 正式发布，完全支持 Windows 10 -</title>
+        <pubTime>2015-07-03T02:07:02.000Z</pubTime>
+        
+        <tag>Qt </tag>
+         
+        <tag>Win10 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/c72fe11/</loc>
+    <lastmod>2015-07-03T14:07:02.693Z</lastmod>
+    <data>
+        <display>
+        <title>Qt 5.5正式发布 -</title>
+        <pubTime>2015-07-03T02:07:02.000Z</pubTime>
+        
+        <tag>Qt </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/c72dbe3/</loc>
+    <lastmod>2015-07-03T14:07:02.601Z</lastmod>
+    <data>
+        <display>
+        <title>Qt Creator 3.4.2 发布 -</title>
+        <pubTime>2015-07-03T02:07:02.000Z</pubTime>
+        
+        <tag>Qt </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/03/c723fa3/</loc>
+    <lastmod>2015-07-03T14:07:02.566Z</lastmod>
+    <data>
+        <display>
+        <title>Boost学习总结（一）VS2010环境下编译STLport和Boost -</title>
+        <pubTime>2015-07-03T02:07:02.000Z</pubTime>
+        
+        <tag>C++ </tag>
+         
+        <tag>Visual Studio </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/02/aa27c09/</loc>
     <lastmod>2015-07-02T15:04:41.072Z</lastmod>
     <data>
         <display>
-        <title>改进 ThinkJS 的异步编程方式 -</title>
+        <title>朴灵：打破限制，从前端到全栈（图灵访谈） -</title>
         <pubTime>2015-07-02T03:04:40.000Z</pubTime>
         
-        <tag>ThinkJS </tag>
+        <tag>Node.js </tag>
          
-        <tag>异步编程 </tag>
+        <tag>程序员 </tag>
          
          
            
@@ -71,16 +3965,16 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/aa0fa4b/</loc>
-    <lastmod>2015-07-02T15:04:40.994Z</lastmod>
+    <loc>http://taojinke.github.io/2015/07/02/aa1b3d7/</loc>
+    <lastmod>2015-07-02T15:04:41.072Z</lastmod>
     <data>
         <display>
-        <title>Node.js与io.js那些事儿 -</title>
+        <title>改进 ThinkJS 的异步编程方式 -</title>
         <pubTime>2015-07-02T03:04:40.000Z</pubTime>
         
-        <tag>io.js </tag>
+        <tag>ThinkJS </tag>
          
-        <tag>程序员 </tag>
+        <tag>异步编程 </tag>
          
          
            
@@ -135,16 +4029,16 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/a9f95d9/</loc>
-    <lastmod>2015-07-02T15:04:40.833Z</lastmod>
+    <loc>http://taojinke.github.io/2015/07/02/aa0fa4b/</loc>
+    <lastmod>2015-07-02T15:04:40.994Z</lastmod>
     <data>
         <display>
-        <title>网页爬虫的构建（一） -</title>
+        <title>Node.js与io.js那些事儿 -</title>
         <pubTime>2015-07-02T03:04:40.000Z</pubTime>
         
-        <tag>Html </tag>
+        <tag>io.js </tag>
          
-        <tag>Node.js </tag>
+        <tag>程序员 </tag>
          
          
            
@@ -181,14 +4075,16 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/a9e5d59/</loc>
-    <lastmod>2015-07-02T15:04:40.691Z</lastmod>
+    <loc>http://taojinke.github.io/2015/07/02/a9f95d9/</loc>
+    <lastmod>2015-07-02T15:04:40.833Z</lastmod>
     <data>
         <display>
-        <title>io.js发布2.0版本，并讨论加入Node基金会的可能性 -</title>
+        <title>网页爬虫的构建（一） -</title>
         <pubTime>2015-07-02T03:04:40.000Z</pubTime>
         
-        <tag>io.js </tag>
+        <tag>Html </tag>
+         
+        <tag>Node.js </tag>
          
          
            
@@ -223,11 +4119,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/a9d8681/</loc>
-    <lastmod>2015-07-02T15:04:40.561Z</lastmod>
+    <loc>http://taojinke.github.io/2015/07/02/a9e5d59/</loc>
+    <lastmod>2015-07-02T15:04:40.691Z</lastmod>
     <data>
         <display>
-        <title>Io.js 将并入 Node.js 基金会 -</title>
+        <title>io.js发布2.0版本，并讨论加入Node基金会的可能性 -</title>
         <pubTime>2015-07-02T03:04:40.000Z</pubTime>
         
         <tag>io.js </tag>
@@ -251,6 +4147,26 @@
         <pubTime>2015-07-02T03:04:40.000Z</pubTime>
         
         <tag>Meteor </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/02/a9d8681/</loc>
+    <lastmod>2015-07-02T15:04:40.561Z</lastmod>
+    <data>
+        <display>
+        <title>Io.js 将并入 Node.js 基金会 -</title>
+        <pubTime>2015-07-02T03:04:40.000Z</pubTime>
+        
+        <tag>io.js </tag>
          
          
            
@@ -561,26 +4477,6 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/a4489be/</loc>
-    <lastmod>2015-07-02T15:04:31.194Z</lastmod>
-    <data>
-        <display>
-        <title>gulp 入门学习 -</title>
-        <pubTime>2015-07-02T03:04:31.000Z</pubTime>
-        
-        <tag>Gulp </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://taojinke.github.io/2015/07/02/a441e52/</loc>
     <lastmod>2015-07-02T15:04:31.194Z</lastmod>
     <data>
@@ -593,6 +4489,26 @@
         <tag>io.js </tag>
          
         <tag>谷歌 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/02/a4489be/</loc>
+    <lastmod>2015-07-02T15:04:31.194Z</lastmod>
+    <data>
+        <display>
+        <title>gulp 入门学习 -</title>
+        <pubTime>2015-07-02T03:04:31.000Z</pubTime>
+        
+        <tag>Gulp </tag>
          
          
            
@@ -775,6 +4691,26 @@
 
     
   <url>
+    <loc>http://taojinke.github.io/2015/07/02/a03bed4/</loc>
+    <lastmod>2015-07-02T15:04:24.676Z</lastmod>
+    <data>
+        <display>
+        <title>Nodejs学习路线图 -</title>
+        <pubTime>2015-07-02T03:04:24.000Z</pubTime>
+        
+        <tag>Node.js </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://taojinke.github.io/2015/07/02/a043dc8/</loc>
     <lastmod>2015-07-02T15:04:24.676Z</lastmod>
     <data>
@@ -797,13 +4733,17 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/a03bed4/</loc>
-    <lastmod>2015-07-02T15:04:24.676Z</lastmod>
+    <loc>http://taojinke.github.io/2015/07/02/a0148f2/</loc>
+    <lastmod>2015-07-02T15:04:24.403Z</lastmod>
     <data>
         <display>
-        <title>Nodejs学习路线图 -</title>
+        <title>KeystoneJS之云中漫步 -</title>
         <pubTime>2015-07-02T03:04:24.000Z</pubTime>
         
+        <tag>Linux命令 </tag>
+         
+        <tag>MongoDB </tag>
+         
         <tag>Node.js </tag>
          
          
@@ -859,18 +4799,18 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/a0148f2/</loc>
-    <lastmod>2015-07-02T15:04:24.403Z</lastmod>
+    <loc>http://taojinke.github.io/2015/07/02/9ffb13b/</loc>
+    <lastmod>2015-07-02T15:04:24.084Z</lastmod>
     <data>
         <display>
-        <title>KeystoneJS之云中漫步 -</title>
-        <pubTime>2015-07-02T03:04:24.000Z</pubTime>
+        <title>Python,Javascript(NodeJS),PHP之间的AES加密解密 -</title>
+        <pubTime>2015-07-02T03:04:23.000Z</pubTime>
         
-        <tag>Linux命令 </tag>
-         
-        <tag>MongoDB </tag>
-         
         <tag>Node.js </tag>
+         
+        <tag>PHP </tag>
+         
+        <tag>加密解密 </tag>
          
          
            
@@ -903,18 +4843,16 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/9ffb13b/</loc>
-    <lastmod>2015-07-02T15:04:24.084Z</lastmod>
+    <loc>http://taojinke.github.io/2015/07/02/9fe086d/</loc>
+    <lastmod>2015-07-02T15:04:23.925Z</lastmod>
     <data>
         <display>
-        <title>Python,Javascript(NodeJS),PHP之间的AES加密解密 -</title>
+        <title>gulp-notify处理报错----gulp系列（二) -</title>
         <pubTime>2015-07-02T03:04:23.000Z</pubTime>
         
-        <tag>Node.js </tag>
+        <tag>Gulp </tag>
          
-        <tag>PHP </tag>
-         
-        <tag>加密解密 </tag>
+        <tag>Linux </tag>
          
          
            
@@ -957,28 +4895,6 @@
         <pubTime>2015-07-02T03:04:23.000Z</pubTime>
         
         <tag>Node.js </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/07/02/9fe086d/</loc>
-    <lastmod>2015-07-02T15:04:23.925Z</lastmod>
-    <data>
-        <display>
-        <title>gulp-notify处理报错----gulp系列（二) -</title>
-        <pubTime>2015-07-02T03:04:23.000Z</pubTime>
-        
-        <tag>Gulp </tag>
-         
-        <tag>Linux </tag>
          
          
            
@@ -1181,14 +5097,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/9af278e/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/9af0a42/</loc>
     <lastmod>2015-07-02T15:04:15.540Z</lastmod>
     <data>
         <display>
-        <title>通过Anuglar Material串串学客户端开发  - NodeJS模块机制之Module.Exports -</title>
+        <title>gulp-clean----gulp系列（五) -</title>
         <pubTime>2015-07-02T03:04:15.000Z</pubTime>
         
-        <tag>Node.js </tag>
+        <tag>Gulp </tag>
          
          
            
@@ -1201,14 +5117,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/9af0a42/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/9af278e/</loc>
     <lastmod>2015-07-02T15:04:15.540Z</lastmod>
     <data>
         <display>
-        <title>gulp-clean----gulp系列（五) -</title>
+        <title>通过Anuglar Material串串学客户端开发  - NodeJS模块机制之Module.Exports -</title>
         <pubTime>2015-07-02T03:04:15.000Z</pubTime>
         
-        <tag>Gulp </tag>
+        <tag>Node.js </tag>
          
          
            
@@ -1721,11 +5637,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/43823c0/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/438681c/</loc>
     <lastmod>2015-07-01T23:52:42.818Z</lastmod>
     <data>
         <display>
-        <title>Dubbo 浅读 -</title>
+        <title>Dubbo -</title>
         <pubTime>2015-07-01T23:52:42.000Z</pubTime>
         
         <tag>Dubbo </tag>
@@ -1741,11 +5657,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/438681c/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/43823c0/</loc>
     <lastmod>2015-07-01T23:52:42.818Z</lastmod>
     <data>
         <display>
-        <title>Dubbo -</title>
+        <title>Dubbo 浅读 -</title>
         <pubTime>2015-07-01T23:52:42.000Z</pubTime>
         
         <tag>Dubbo </tag>
@@ -2141,11 +6057,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/245239c/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/2454f8e/</loc>
     <lastmod>2015-07-01T23:51:50.400Z</lastmod>
     <data>
         <display>
-        <title>SpringMVC一路总结（二） -</title>
+        <title>SpringMVC一路总结（三） -</title>
         <pubTime>2015-07-01T23:51:50.000Z</pubTime>
         
         <tag>Spring MVC </tag>
@@ -2161,11 +6077,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/2454f8e/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/245239c/</loc>
     <lastmod>2015-07-01T23:51:50.400Z</lastmod>
     <data>
         <display>
-        <title>SpringMVC一路总结（三） -</title>
+        <title>SpringMVC一路总结（二） -</title>
         <pubTime>2015-07-01T23:51:50.000Z</pubTime>
         
         <tag>Spring MVC </tag>
@@ -2305,11 +6221,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/241000a/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/240b93d/</loc>
     <lastmod>2015-07-01T23:51:49.970Z</lastmod>
     <data>
         <display>
-        <title>spring MVC 乱码解决 -</title>
+        <title>【精品课程】SpringMVC视频，全网首发 -</title>
         <pubTime>2015-07-01T23:51:49.000Z</pubTime>
         
         <tag>Spring MVC </tag>
@@ -2325,11 +6241,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/240b93d/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/241000a/</loc>
     <lastmod>2015-07-01T23:51:49.970Z</lastmod>
     <data>
         <display>
-        <title>【精品课程】SpringMVC视频，全网首发 -</title>
+        <title>spring MVC 乱码解决 -</title>
         <pubTime>2015-07-01T23:51:49.000Z</pubTime>
         
         <tag>Spring MVC </tag>
@@ -2545,26 +6461,6 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/f487ba8/</loc>
-    <lastmod>2015-07-01T23:50:30.314Z</lastmod>
-    <data>
-        <display>
-        <title>分析一个Java Class文件 -</title>
-        <pubTime>2015-07-01T23:50:30.000Z</pubTime>
-        
-        <tag>JVM </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://taojinke.github.io/2015/07/02/f495762/</loc>
     <lastmod>2015-07-01T23:50:30.314Z</lastmod>
     <data>
@@ -2577,6 +6473,26 @@
         <tag>GitLab </tag>
          
         <tag>开源 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/02/f487ba8/</loc>
+    <lastmod>2015-07-01T23:50:30.314Z</lastmod>
+    <data>
+        <display>
+        <title>分析一个Java Class文件 -</title>
+        <pubTime>2015-07-01T23:50:30.000Z</pubTime>
+        
+        <tag>JVM </tag>
          
          
            
@@ -2927,6 +6843,26 @@
 
     
   <url>
+    <loc>http://taojinke.github.io/2015/07/02/f039e43/</loc>
+    <lastmod>2015-07-01T23:50:23.160Z</lastmod>
+    <data>
+        <display>
+        <title>基于Java软引用机制最大使用JVM堆内存并杜绝OutOfMemory -</title>
+        <pubTime>2015-07-01T23:50:22.000Z</pubTime>
+        
+        <tag>JVM </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://taojinke.github.io/2015/07/02/f03c7c4/</loc>
     <lastmod>2015-07-01T23:50:23.160Z</lastmod>
     <data>
@@ -2949,31 +6885,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/f039e43/</loc>
-    <lastmod>2015-07-01T23:50:23.160Z</lastmod>
-    <data>
-        <display>
-        <title>基于Java软引用机制最大使用JVM堆内存并杜绝OutOfMemory -</title>
-        <pubTime>2015-07-01T23:50:22.000Z</pubTime>
-        
-        <tag>JVM </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/07/02/f02bb36/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/f026d16/</loc>
     <lastmod>2015-07-01T23:50:22.998Z</lastmod>
     <data>
         <display>
-        <title>JVM方法调用（invokevirtual） -</title>
+        <title>JVM源码分析之SystemGC完全解读 -</title>
         <pubTime>2015-07-01T23:50:22.000Z</pubTime>
         
         <tag>JVM </tag>
@@ -3011,11 +6927,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/f026d16/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/f02bb36/</loc>
     <lastmod>2015-07-01T23:50:22.998Z</lastmod>
     <data>
         <display>
-        <title>JVM源码分析之SystemGC完全解读 -</title>
+        <title>JVM方法调用（invokevirtual） -</title>
         <pubTime>2015-07-01T23:50:22.000Z</pubTime>
         
         <tag>JVM </tag>
@@ -3095,11 +7011,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/eff8957/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/effab85/</loc>
     <lastmod>2015-07-01T23:50:22.577Z</lastmod>
     <data>
         <display>
-        <title>使用jprofile发现和修复内存泄露 -</title>
+        <title>jvm之类加载器-《疯狂java讲义》 -</title>
         <pubTime>2015-07-01T23:50:22.000Z</pubTime>
         
         <tag>JVM </tag>
@@ -3115,11 +7031,11 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/effab85/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/eff8957/</loc>
     <lastmod>2015-07-01T23:50:22.577Z</lastmod>
     <data>
         <display>
-        <title>jvm之类加载器-《疯狂java讲义》 -</title>
+        <title>使用jprofile发现和修复内存泄露 -</title>
         <pubTime>2015-07-01T23:50:22.000Z</pubTime>
         
         <tag>JVM </tag>
@@ -3373,16 +7289,16 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/e4c17d7/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/e4c54e0/</loc>
     <lastmod>2015-07-01T23:50:03.792Z</lastmod>
     <data>
         <display>
-        <title>在eclipse中进行HotSpot的源码调试 -</title>
+        <title>Java 20年：JVM虚拟化技术的发展 -</title>
         <pubTime>2015-07-01T23:50:03.000Z</pubTime>
         
-        <tag>Eclipse </tag>
-         
         <tag>JVM </tag>
+         
+        <tag>虚拟化 </tag>
          
          
            
@@ -3395,16 +7311,16 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/e4c54e0/</loc>
+    <loc>http://taojinke.github.io/2015/07/02/e4c17d7/</loc>
     <lastmod>2015-07-01T23:50:03.792Z</lastmod>
     <data>
         <display>
-        <title>Java 20年：JVM虚拟化技术的发展 -</title>
+        <title>在eclipse中进行HotSpot的源码调试 -</title>
         <pubTime>2015-07-01T23:50:03.000Z</pubTime>
         
-        <tag>JVM </tag>
+        <tag>Eclipse </tag>
          
-        <tag>虚拟化 </tag>
+        <tag>JVM </tag>
          
          
            
@@ -4059,6 +7975,30 @@
 
     
   <url>
+    <loc>http://taojinke.github.io/2015/07/02/ae16648/</loc>
+    <lastmod>2015-07-01T23:41:22.540Z</lastmod>
+    <data>
+        <display>
+        <title>每日文章精选 2015 07 01 -</title>
+        <pubTime>2015-07-01T23:41:22.000Z</pubTime>
+        
+        <tag>KDE </tag>
+         
+        <tag>思科 </tag>
+         
+        <tag>谷歌 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://taojinke.github.io/2015/07/02/ae13574/</loc>
     <lastmod>2015-07-01T23:41:22.540Z</lastmod>
     <data>
@@ -4079,12 +8019,12 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/02/ae16648/</loc>
-    <lastmod>2015-07-01T23:41:22.540Z</lastmod>
+    <loc>http://taojinke.github.io/2015/07/02/a6789fe/</loc>
+    <lastmod>2015-07-01T23:41:09.830Z</lastmod>
     <data>
         <display>
         <title>每日文章精选 2015 07 01 -</title>
-        <pubTime>2015-07-01T23:41:22.000Z</pubTime>
+        <pubTime>2015-07-01T23:41:09.000Z</pubTime>
         
         <tag>KDE </tag>
          
@@ -4115,30 +8055,6 @@
         <tag>Mac OS X </tag>
          
         <tag>iOS </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://taojinke.github.io/2015/07/02/a6789fe/</loc>
-    <lastmod>2015-07-01T23:41:09.830Z</lastmod>
-    <data>
-        <display>
-        <title>每日文章精选 2015 07 01 -</title>
-        <pubTime>2015-07-01T23:41:09.000Z</pubTime>
-        
-        <tag>KDE </tag>
-         
-        <tag>思科 </tag>
-         
-        <tag>谷歌 </tag>
          
          
            
@@ -4195,26 +8111,6 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/37e6a33/</loc>
-    <lastmod>2015-07-01T15:38:28.472Z</lastmod>
-    <data>
-        <display>
-        <title>Spring mvc+hibernate+freemarker(开源项目) -</title>
-        <pubTime>2015-07-01T03:38:27.000Z</pubTime>
-        
-        <tag>分类： java </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://taojinke.github.io/2015/07/01/37d2cd1/</loc>
     <lastmod>2015-07-01T15:38:28.472Z</lastmod>
     <data>
@@ -4235,14 +8131,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/37e9fe9/</loc>
+    <loc>http://taojinke.github.io/2015/07/01/37e6a33/</loc>
     <lastmod>2015-07-01T15:38:28.472Z</lastmod>
     <data>
         <display>
-        <title>maven 项目 spring mvc + jdbc 配置文件 - hfmbook的专栏</title>
+        <title>Spring mvc+hibernate+freemarker(开源项目) -</title>
         <pubTime>2015-07-01T03:38:27.000Z</pubTime>
         
-        <tag>分类： JAVA </tag>
+        <tag>分类： java </tag>
          
          
            
@@ -4263,6 +8159,26 @@
         <pubTime>2015-07-01T03:38:27.000Z</pubTime>
         
         <tag>分类： Java Spring </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/01/37e9fe9/</loc>
+    <lastmod>2015-07-01T15:38:28.472Z</lastmod>
+    <data>
+        <display>
+        <title>maven 项目 spring mvc + jdbc 配置文件 - hfmbook的专栏</title>
+        <pubTime>2015-07-01T03:38:27.000Z</pubTime>
+        
+        <tag>分类： JAVA </tag>
          
          
            
@@ -4395,14 +8311,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/26fec98/</loc>
+    <loc>http://taojinke.github.io/2015/07/01/2701d6c/</loc>
     <lastmod>2015-07-01T15:37:59.698Z</lastmod>
     <data>
         <display>
-        <title>Display status of all Concurrent Managers - Paul's Notes</title>
+        <title>java.util.concurrent 多线程框架 - yiihsia的学习阵地</title>
         <pubTime>2015-07-01T03:37:59.000Z</pubTime>
         
-        <tag>分类： Scripts Oracle EBS Concurrent Program </tag>
+        <tag>分类： JAVA </tag>
          
          
            
@@ -4415,14 +8331,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/2701d6c/</loc>
+    <loc>http://taojinke.github.io/2015/07/01/26fec98/</loc>
     <lastmod>2015-07-01T15:37:59.698Z</lastmod>
     <data>
         <display>
-        <title>java.util.concurrent 多线程框架 - yiihsia的学习阵地</title>
+        <title>Display status of all Concurrent Managers - Paul's Notes</title>
         <pubTime>2015-07-01T03:37:59.000Z</pubTime>
         
-        <tag>分类： JAVA </tag>
+        <tag>分类： Scripts Oracle EBS Concurrent Program </tag>
          
          
            
@@ -4555,6 +8471,26 @@
 
     
   <url>
+    <loc>http://taojinke.github.io/2015/07/01/037f38b/</loc>
+    <lastmod>2015-07-01T15:29:50.686Z</lastmod>
+    <data>
+        <display>
+        <title>JVM调优（收藏） - SMCwwh</title>
+        <pubTime>2015-07-01T03:29:50.000Z</pubTime>
+        
+        <tag>分类： JVM &amp; Class字节码 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://taojinke.github.io/2015/07/01/038a0e2/</loc>
     <lastmod>2015-07-01T15:29:50.686Z</lastmod>
     <data>
@@ -4613,26 +8549,6 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/037f38b/</loc>
-    <lastmod>2015-07-01T15:29:50.686Z</lastmod>
-    <data>
-        <display>
-        <title>JVM调优（收藏） - SMCwwh</title>
-        <pubTime>2015-07-01T03:29:50.000Z</pubTime>
-        
-        <tag>分类： JVM &amp; Class字节码 </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://taojinke.github.io/2015/07/01/0370e0d/</loc>
     <lastmod>2015-07-01T15:29:50.598Z</lastmod>
     <data>
@@ -4653,14 +8569,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/0358c4f/</loc>
+    <loc>http://taojinke.github.io/2015/07/01/03386bb/</loc>
     <lastmod>2015-07-01T15:29:50.438Z</lastmod>
     <data>
         <display>
-        <title>《Java Performance》笔记4——JVM性能调优入门 - Tony Chen的专栏</title>
+        <title>JVM学习笔记（四）------内存调优 - kobejayandy的专栏</title>
         <pubTime>2015-07-01T03:29:50.000Z</pubTime>
         
-        <tag>分类： java技术 </tag>
+        <tag>分类： JVM虚拟机 </tag>
          
          
            
@@ -4673,14 +8589,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/03386bb/</loc>
+    <loc>http://taojinke.github.io/2015/07/01/0358c4f/</loc>
     <lastmod>2015-07-01T15:29:50.438Z</lastmod>
     <data>
         <display>
-        <title>JVM学习笔记（四）------内存调优 - kobejayandy的专栏</title>
+        <title>《Java Performance》笔记4——JVM性能调优入门 - Tony Chen的专栏</title>
         <pubTime>2015-07-01T03:29:50.000Z</pubTime>
         
-        <tag>分类： JVM虚拟机 </tag>
+        <tag>分类： java技术 </tag>
          
          
            
@@ -4749,14 +8665,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/7d5b9d0/</loc>
+    <loc>http://taojinke.github.io/2015/07/01/7d58dde/</loc>
     <lastmod>2015-07-01T13:38:43.081Z</lastmod>
     <data>
         <display>
-        <title>麻省理工学院（MIT）发明漏洞自动修复系统 -</title>
+        <title>旧金山Spark Summit 2015，见证中国的技术力量 -</title>
         <pubTime>2015-07-01T01:38:43.000Z</pubTime>
         
-        <tag>安全漏洞 </tag>
+        <tag>技术 </tag>
          
          
            
@@ -4769,14 +8685,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/7d58dde/</loc>
+    <loc>http://taojinke.github.io/2015/07/01/7d5b9d0/</loc>
     <lastmod>2015-07-01T13:38:43.081Z</lastmod>
     <data>
         <display>
-        <title>旧金山Spark Summit 2015，见证中国的技术力量 -</title>
+        <title>麻省理工学院（MIT）发明漏洞自动修复系统 -</title>
         <pubTime>2015-07-01T01:38:43.000Z</pubTime>
         
-        <tag>技术 </tag>
+        <tag>安全漏洞 </tag>
          
          
            
@@ -4963,28 +8879,6 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/f95ee95/</loc>
-    <lastmod>2015-06-30T23:37:30.538Z</lastmod>
-    <data>
-        <display>
-        <title>Android开发周报：Android Studio取代Eclipse，MVP架构解析 -</title>
-        <pubTime>2015-06-30T23:37:30.000Z</pubTime>
-        
-        <tag>Android Studio </tag>
-         
-        <tag>Eclipse </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://taojinke.github.io/2015/07/01/f95c9f6/</loc>
     <lastmod>2015-06-30T23:37:30.538Z</lastmod>
     <data>
@@ -5013,6 +8907,28 @@
         <pubTime>2015-06-30T23:37:30.000Z</pubTime>
         
         <tag>安卓开发 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/07/01/f95ee95/</loc>
+    <lastmod>2015-06-30T23:37:30.538Z</lastmod>
+    <data>
+        <display>
+        <title>Android开发周报：Android Studio取代Eclipse，MVP架构解析 -</title>
+        <pubTime>2015-06-30T23:37:30.000Z</pubTime>
+        
+        <tag>Android Studio </tag>
+         
+        <tag>Eclipse </tag>
          
          
            
@@ -5087,14 +9003,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/f9408be/</loc>
+    <loc>http://taojinke.github.io/2015/07/01/f942128/</loc>
     <lastmod>2015-06-30T23:37:30.327Z</lastmod>
     <data>
         <display>
-        <title>DBeaver 3.4.2 发布，数据库管理工具 -</title>
+        <title>OS X 10.10.4发布：提高网络可靠性，移除Discoveryd -</title>
         <pubTime>2015-06-30T23:37:30.000Z</pubTime>
         
-        <tag>数据库 </tag>
+        <tag>Mac OS X </tag>
          
          
            
@@ -5107,14 +9023,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/07/01/f942128/</loc>
+    <loc>http://taojinke.github.io/2015/07/01/f9408be/</loc>
     <lastmod>2015-06-30T23:37:30.327Z</lastmod>
     <data>
         <display>
-        <title>OS X 10.10.4发布：提高网络可靠性，移除Discoveryd -</title>
+        <title>DBeaver 3.4.2 发布，数据库管理工具 -</title>
         <pubTime>2015-06-30T23:37:30.000Z</pubTime>
         
-        <tag>Mac OS X </tag>
+        <tag>数据库 </tag>
          
          
            
@@ -5765,14 +9681,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/09/c97a6eb/</loc>
+    <loc>http://taojinke.github.io/2015/06/09/c977135/</loc>
     <lastmod>2015-06-09T01:06:41.059Z</lastmod>
     <data>
         <display>
-        <title>效率提升 Swift语言将开放源代码 -</title>
+        <title>REMnux 6.0 发布，基于 Ubuntu 的 Linux 发行 -</title>
         <pubTime>2015-06-09T01:06:41.000Z</pubTime>
         
-        <tag>IT </tag>
+        <tag>Ubuntu </tag>
          
          
            
@@ -5785,14 +9701,14 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/09/c977135/</loc>
+    <loc>http://taojinke.github.io/2015/06/09/c97a6eb/</loc>
     <lastmod>2015-06-09T01:06:41.059Z</lastmod>
     <data>
         <display>
-        <title>REMnux 6.0 发布，基于 Ubuntu 的 Linux 发行 -</title>
+        <title>效率提升 Swift语言将开放源代码 -</title>
         <pubTime>2015-06-09T01:06:41.000Z</pubTime>
         
-        <tag>Ubuntu </tag>
+        <tag>IT </tag>
          
          
            
@@ -6033,28 +9949,6 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/09/c19e418/</loc>
-    <lastmod>2015-06-09T01:06:27.902Z</lastmod>
-    <data>
-        <display>
-        <title>苹果更新OS X版本 命名为EI Capitan -</title>
-        <pubTime>2015-06-09T01:06:27.000Z</pubTime>
-        
-        <tag>Apple </tag>
-         
-        <tag>Mac OS X </tag>
-         
-         
-           
-             
-              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://taojinke.github.io/2015/06/09/c1a2fc7/</loc>
     <lastmod>2015-06-09T01:06:27.902Z</lastmod>
     <data>
@@ -6067,6 +9961,28 @@
         <tag>Ruby </tag>
          
         <tag>开源 </tag>
+         
+         
+           
+             
+              <breadCrumb title="transcribe" url="http://taojinke.github.io/categories/transcribe/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://taojinke.github.io/2015/06/09/c19e418/</loc>
+    <lastmod>2015-06-09T01:06:27.902Z</lastmod>
+    <data>
+        <display>
+        <title>苹果更新OS X版本 命名为EI Capitan -</title>
+        <pubTime>2015-06-09T01:06:27.000Z</pubTime>
+        
+        <tag>Apple </tag>
+         
+        <tag>Mac OS X </tag>
          
          
            
@@ -6101,16 +10017,16 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/09/a054d52/</loc>
+    <loc>http://taojinke.github.io/2015/06/09/a057e26/</loc>
     <lastmod>2015-06-09T01:05:32.063Z</lastmod>
     <data>
         <display>
-        <title>Swift 2.0发布：即将开源，支持Linux -</title>
+        <title>图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈） -</title>
         <pubTime>2015-06-09T01:05:32.000Z</pubTime>
         
-        <tag>Linux </tag>
+        <tag>Java8 </tag>
          
-        <tag>开源 </tag>
+        <tag>函数式编程 </tag>
          
          
            
@@ -6123,16 +10039,16 @@
 
     
   <url>
-    <loc>http://taojinke.github.io/2015/06/09/a057e26/</loc>
+    <loc>http://taojinke.github.io/2015/06/09/a054d52/</loc>
     <lastmod>2015-06-09T01:05:32.063Z</lastmod>
     <data>
         <display>
-        <title>图灵访谈 ： [英] 《Java 8函数式编程》作者Richard Warbourton：Java的亮点不是语言本身（图灵访谈） -</title>
+        <title>Swift 2.0发布：即将开源，支持Linux -</title>
         <pubTime>2015-06-09T01:05:32.000Z</pubTime>
         
-        <tag>Java8 </tag>
+        <tag>Linux </tag>
          
-        <tag>函数式编程 </tag>
+        <tag>开源 </tag>
          
          
            

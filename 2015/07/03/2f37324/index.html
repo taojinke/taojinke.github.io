@@ -1,0 +1,741 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>How to Grunt and Gulp Your Way to Workflow Automation - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="This article is part of a web dev series from Microsoft. Thank you for supporting the partners who make SitePoint possible.
+When you are new to front-end development and start mastering HTML5, CSS and">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Grunt and Gulp Your Way to Workflow Automation -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/03/2f37324/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="This article is part of a web dev series from Microsoft. Thank you for supporting the partners who make SitePoint possible.
+When you are new to front-end development and start mastering HTML5, CSS and">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f307b8.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f30a29.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f30c9a.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f318cf.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f31b40.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f31b40.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f31db1.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f32022.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f32022.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f32293.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f32293.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f32504.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f32504.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f32775.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f329e6.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150703/2f32c57.png">
+<meta property="og:updated_time" content="2015-07-03T14:09:57.244Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to Grunt and Gulp Your Way to Workflow Automation -">
+<meta name="twitter:description" content="This article is part of a web dev series from Microsoft. Thank you for supporting the partners who make SitePoint possible.
+When you are new to front-end development and start mastering HTML5, CSS and">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/03/2f37324/" title="How to Grunt and Gulp Your Way to Workflow Automation -" itemprop="url">How to Grunt and Gulp Your Way to Workflow Automation -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-03T02:09:57.000Z" itemprop="datePublished"> 发表于 2015-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#The_Sample_We’ll_Use"><span class="toc-number">1.</span> <span class="toc-text">The Sample We’ll Use</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Understanding_Node-js_Package_Manager"><span class="toc-number">2.</span> <span class="toc-text">Understanding Node.js Package Manager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Grunt"><span class="toc-number">3.</span> <span class="toc-text">Grunt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#What_is_grunt?"><span class="toc-number">3.1.</span> <span class="toc-text">What is grunt?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_1-_Create_the_package-json_file"><span class="toc-number">3.2.</span> <span class="toc-text">Step 1. Create the package.json file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_2-_Install_Grunt_globally_and_locally"><span class="toc-number">3.3.</span> <span class="toc-text">Step 2. Install Grunt globally and locally</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_3-_Create_the_gruntFile-js"><span class="toc-number">3.4.</span> <span class="toc-text">Step 3. Create the gruntFile.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_4-_Add_your_first_task:_JSHint"><span class="toc-number">3.5.</span> <span class="toc-text">Step 4. Add your first task: JSHint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_5-_Add_a_second_task:_Less_compilation"><span class="toc-number">3.6.</span> <span class="toc-text">Step 5. Add a second task: Less compilation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_6-_Use_watch_so_you_do_not_have_to_run_grunt_manually"><span class="toc-number">3.7.</span> <span class="toc-text">Step 6. Use watch so you do not have to run grunt manually</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp"><span class="toc-number">4.</span> <span class="toc-text">Gulp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_1-_Create_the_package-json_file-1"><span class="toc-number">4.1.</span> <span class="toc-text">Step 1. Create the package.json file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_2-_Install_Gulp_and_gulp-util_globally_and_locally"><span class="toc-number">4.2.</span> <span class="toc-text">Step 2. Install Gulp and gulp-util globally and locally</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_3-_Using_your_first_task:_Less_compilation"><span class="toc-number">4.3.</span> <span class="toc-text">Step 3. Using your first task: Less compilation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion:_which_one_to_choose?"><span class="toc-number">5.</span> <span class="toc-text">Conclusion: which one to choose?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#More_information"><span class="toc-number">6.</span> <span class="toc-text">More information</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#More_hands-on_with_JavaScript"><span class="toc-number">7.</span> <span class="toc-text">More hands-on with JavaScript</span></a></li></ol>
+		
+		</div>
+		
+		<p>This article is part of a web dev series from Microsoft. Thank you for supporting the partners who make SitePoint possible.</p>
+<p>When you are new to front-end development and start mastering HTML5, CSS and JavaScript, the obvious next step is to put your hands on tools that most developers use to stay sane in this complex space. You too deserve to have more flexibility and features while writing your CSS sheets by using Less. You too deserve to optimize bandwidth by minifying your JS code. You too deserve to be able to automatically check that your JS code is good using JSHint. You deserve all this good stuff.</p>
+<p>So you start to use all these great tools by hand; running more and more command lines manually. Sometimes, you forget to run the Less compiler. Sometimes you forget to run JSHint and a bug is shipped&#x2026;</p>
+<p>And suddenly you find yourself wondering: is there any solution to automate all these tools? How can you create a repeatable workflow to prevent you from doing mistakes?</p>
+<p>Obviously a solution exists, and two tools in particular are waiting for you to get started: <strong>Grunt</strong> and <strong>Gulp</strong> . </p>
+<p>As a newbie using these tools, you are wondering how they work and which one to use, aren&#x2019;t you? Well perfect then, you are reading the right article!</p>
+<h2 id="The_Sample_We&#x2019;ll_Use">The Sample We&#x2019;ll Use</h2><p>I will give you the basis for using Grunt and Gulp using a really simple example that you can download here: <a href="http://aka.ms/gruntgulpplugin?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">http://aka.ms/gruntgulpplugin</a></p>
+<p>It is a simple web site composed of three files:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f307b8.png" alt=""></p>
+<p>Styles.less define the CSS sheet in a richer manner that what you can do using standard CSS file. In the end we use the Less compiler to create a styles.css file. Using less, we are able for instance to use variables in the css file: </p>
+<p><img src="http://taojinke.github.io/img/20150703/2f30a29.png" alt=""></p>
+<p>Get more info about Less here: <a href="http://lesscss.org/?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">http://lesscss.org/</a></p>
+<p>The JavaScript and HTML code are really simple. The page should look like this:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f30c9a.png" alt=""></p>
+<h2 id="Understanding_Node-js_Package_Manager">Understanding Node.js Package Manager</h2><p>You need to understand first how Node.JS Package Manager (npm) works.</p>
+<p>Npm is the tool provided with Node.JS. It is used to get tools and frameworks while automatically resolving their dependencies.</p>
+<p>For instance, to use less and compile it into a web usable CSS file, you first need to install less using this command:</p>
+<pre><code>npm <span class="keyword">install</span> -g <span class="operator">less</span>
+</code></pre><p><em>Note: To get the npm command line, you have to install nodejs from</em><a href="http://nodejs.org/?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">http://nodejs.org/</a></p>
+<p>Once this is done you can run this command to compile .less files into .css:</p>
+<pre><code><span class="tag">lessc</span> <span class="tag">styles</span><span class="class">.less</span> &amp;<span class="tag">gt</span>; <span class="tag">styles</span><span class="class">.css</span>
+</code></pre><p>Npm uses a file that it creates and store on the local folder it is working: package.json . This file is using the JavaScript Object Notation (JSON) format to let npm know which tool and version is installed and the frameworks used by the current project (which is represented by the current folder). </p>
+<p>This file is important for Grunt and Gulp because it will contain the list of plugins downloaded and usable in your automation workflow.</p>
+<p>To create an empty package.json file you can use the following npm command:</p>
+<pre><code><span class="built_in">npm</span> init
+</code></pre><p>You will go through some questions that you can answer using the default option, then you will be all set to start.</p>
+<p>In this file you will have two kinds of dependencies:</p>
+<ul>
+<li>The ones needed for the execution of your web app / nodejs app</li>
+<li>The ones needed for the development phase (like Less) and which are used to compile / check your code</li>
+</ul>
+<p>Npm basically gives you three ways to install packages:</p>
+<ul>
+<li>Globally on your machine using the &#x2013;g or-global option</li>
+<li>For execution purpose, locally on your project folder using no options (only npm install [tools or framework])</li>
+<li>For dev purpose, locally on your project folder using the —save-dev option</li>
+</ul>
+<p>The third one will create a devDependencies section / property inside the package.json file. </p>
+<p><img src="http://taojinke.github.io/img/20150703/2f318cf.png" alt=""></p>
+<h2 id="Grunt">Grunt</h2><h3 id="What_is_grunt?">What is grunt?</h3><p>Grunt is a pioneer in the JavaScript automation workflow area. There are a lot of <a href="http://gruntjs.com/who-uses-grunt?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">known Grunt users</a> like Twitter, jQuery and Modernizr. </p>
+<p>The basic principle for Grunt is to give us an easy way to run tasks . A task is a set of code files and configuration files already created for you. You can get new tasks by installing Grunt plugins that you will get using npm. You can find a plugin for pretty much every tool you might use, such as <a href="https://www.npmjs.com/package/grunt-contrib-less?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Less</a> and <a href="https://www.npmjs.com/package/grunt-contrib-jshint?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">JSHint</a> . </p>
+<p>To run Grunt, you have to create a Gruntfile in which you specify which tasks you want to run and the configuration for each of them. Once this is done, you only have to run the grunt command line specifying the task you want to run (default or a specific one) and it will do it automatically. </p>
+<p>Now let&#x2019;s go through a step by step guide to set up all this.</p>
+<h3 id="Step_1-_Create_the_package-json_file">Step 1. Create the package.json file</h3><p>Use npm to init the file: </p>
+<pre><code><span class="built_in">npm</span> init
+</code></pre><p>You will have to answer a few questions like the project name and what is the default .js file. You can also choose to create the file manually and setting its content to:</p>
+<pre><code><span class="collection">{
+  &amp;quot;name&amp;quot;: &amp;quot;project-name&amp;quot;,
+  &amp;quot;devDependencies&amp;quot;: <span class="collection">{}</span>,
+  &amp;quot;dependencies&amp;quot;: <span class="collection">{}</span>
+}</span>
+</code></pre><h3 id="Step_2-_Install_Grunt_globally_and_locally">Step 2. Install Grunt globally and locally</h3><p>You need to install Grunt globally to get the command line and locally to initialize everything needed for the project.</p>
+<p>Run:</p>
+<pre><code>npm <span class="keyword">install</span> -g grunt
+</code></pre><p>Then run it locally:</p>
+<pre><code>npm install grunt --<span class="built_in">save</span>-<span class="built_in">dev</span>
+</code></pre><p>Note: Do not forget the &#x2013;dev part for it to be specified as a devDependencie in the package.json file. </p>
+<h3 id="Step_3-_Create_the_gruntFile-js">Step 3. Create the gruntFile.js</h3><p>Grunt works using a file named gruntFile.js. This file contains everything needed by Grunt, that is to say:</p>
+<ul>
+<li>Configuration for tasks</li>
+<li>Custom tasks</li>
+<li>Task loading</li>
+</ul>
+<p>Grunt expect the file to export a single function which take one parameter named grunt . You will use this object to perform all Grunt related actions. </p>
+<p>Here is a minimal gruntfile that only read the package.json file and create a default task which runs nothing. </p>
+<p>Note: place the file in the project folder, side by side with the package.json file </p>
+<pre><code><span class="function"><span class="keyword">module</span>.<span class="title">exports</span> =</span> <span class="function"><span class="keyword">function</span><span class="params">(grunt)</span> {</span>
+
+  <span class="comment">// Project configuration.</span>
+  grunt.initConfig<span class="params">({
+    pkg: grunt.file.readJSON<span class="params">(&amp;apos;package.json&amp;apos;)</span>,
+  })</span>;
+
+  <span class="comment">// Default task(s).</span>
+  grunt.registerTask<span class="params">(&amp;apos;default&amp;apos;, [])</span>;
+
+};
+</code></pre><p>You can execute it to be sure everything is configured correctly.</p>
+<p>To do that, open a command prompt on the project folder and run:</p>
+<pre><code>grunt
+</code></pre><p>You should see something like this:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f31b40.png" alt=""></p>
+<h3 id="Step_4-_Add_your_first_task:_JSHint">Step 4. Add your first task: JSHint</h3><p>Now that your Gruntfile is ready, the next step is to add a plugin and use it. All plugins can be found here: <a href="http://gruntjs.com/plugins?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">http://gruntjs.com/plugins</a> . One of the common tasks performed in a Gruntfile is checking if the JavaScript syntax is correct. To do that, we usually use JSHint. </p>
+<p>Let&#x2019;s add is to your grunt workflow.</p>
+<p>If you search for JShint on the grunt plugins page, you will find grunt-contrib-jshint ( <a href="https://www.npmjs.com/package/grunt-contrib-jshint?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">here</a> ) which corresponds to what we need! </p>
+<p>In the project folder, run:</p>
+<pre><code>npm install grunt-contrib-jshint --<span class="built_in">save</span>-<span class="built_in">dev</span>
+</code></pre><p>One this is done you have to add it in your Gruntfile.js. There are two simple steps for that:</p>
+<ul>
+<li>Load the plugin</li>
+<li>Configure the task</li>
+</ul>
+<p>To load the plugin, use the loadNpmTasks function: </p>
+<pre><code><span class="comment">// Load the plugin that provides the &amp;quot;jshint&amp;quot; task</span>
+grunt.loadNpmTasks<span class="params">(&amp;apos;grunt-contrib-jshint&amp;apos;)</span>;
+</code></pre><p>The configuration is done in the initConfig function where you have to add a new property to the object given in parameter. This have to be the name of the task you want to add and is related to the plugin you use. The best way to know that name and the list of available options for the task is to have a look at the plugin documentation. You will always find a well-documented sample. </p>
+<p>For instance, in our sample we want to check all the JavaScript files except the gruntfile.js . We also want to activate a set of rules to check in the JavaScript files like eqeqeq to ensure we use triple equals when needed. </p>
+<p>Here is the initConfig function modified:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f31b40.png" alt=""></p>
+<p>You can run your task by using the following command line (where you specify the task name as a parameter for grunt ): </p>
+<pre><code><span class="title">grunt</span> jshint
+</code></pre><p>The result is here:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f31db1.png" alt=""></p>
+<p>You just have to run that command and it will automatically prompt you for any errors it encounter.</p>
+<p>Congratulation, you now have a task automated in your grunt workflow!</p>
+<h3 id="Step_5-_Add_a_second_task:_Less_compilation">Step 5. Add a second task: Less compilation</h3><p>Your JShint task works well but it is a little bit alone in the workflow. Usually, we are using tools like grunt to run more than one task.</p>
+<p>It is really easy to add more of them as you just have to follow the same steps. Let&#x2019;s say you now want to add the compilation for your less file inside the automated process. If you search in the grunt plugins, you will find a grunt-contrib-less plugin that you can install on your project folder:</p>
+<pre><code>npm <span class="keyword">install</span> grunt-contrib-<span class="operator">less</span> --save-dev
+</code></pre><p>Like for the jshint task, you have to add the configuration:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f32022.png" alt=""></p>
+<p>Then, load the task:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f32022.png" alt=""></p>
+<p>You can now run Grunt and specify the less task: this will launch only less. That is OK but you want to run all the tasks right? That is the role of the default task. </p>
+<p>When you just run grunt without specifying any task it will search for a default task and run all the task specified in its array. You can modify it to run less and jshint . Note that to add a group of tasks like default your need to call the registerTask function: </p>
+<p><img src="http://taojinke.github.io/img/20150703/2f32293.png" alt=""></p>
+<p>From now, when you run:</p>
+<pre><code>grunt
+</code></pre><p>It will run jshint, then less:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f32293.png" alt=""></p>
+<p>You can add any task you want, and you can also specify other group of task like default and call them by passing their name as an argument to the grunt command line. </p>
+<p>Easy right?</p>
+<h3 id="Step_6-_Use_watch_so_you_do_not_have_to_run_grunt_manually">Step 6. Use watch so you do not have to run grunt manually</h3><p>Now, you are a happy developer. All you repetitive tasks are automated inside a grunt workflow and you just have to run grunt for them to execute. But that can be done even more easily. That can be done automatically.</p>
+<p>To do that, you can add a specific task named watch . This task will constantly inspect your working folder and, based on rules, when a file is modified, grunt will run an associated task. </p>
+<p>First, install watch in your project folder:</p>
+<p>npm install grunt-contrib-watch &#x2013;save-dev</p>
+<p>Load it like all other tasks using the loadNpmTasks function and configure it. The config part is a bit different here because you need to specify a configuration for each task you want to cover using watch . </p>
+<p><img src="http://taojinke.github.io/img/20150703/2f32504.png" alt=""></p>
+<p>You can find the full documentation for this task here: <a href="https://www.npmjs.com/package/grunt-contrib-watch?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">https://www.npmjs.com/package/grunt-contrib-watch</a></p>
+<p>When you want to activate watch you only have to run the following command: </p>
+<p>grunt watch</p>
+<p>And it will execute tasks each time a file is changed and this file is in the scope of watched files for the specific task.</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f32504.png" alt=""></p>
+<p>And that&#x2019;s it! You now know everything to create automated workflow using grunt.</p>
+<h2 id="Gulp">Gulp</h2><p>What is Gulp?</p>
+<p>Gulp is an alternative to grunt. It is a bit more recent and has a reputation as being more flexible than grunt. Before choosing which one you will use, let&#x2019;s have a look at how gulp works.</p>
+<p>Gulp ( <a href="http://gulpjs.com/?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">http://gulpjs.com/</a> ) is a workflow automation tool. Like grunt, it works using npm and the package.json file. All available plugins will also be downloaded using npm and added as devDependencies in the package.json file. </p>
+<p>One of the main differences with Gulp is that it uses streams. A stream is a set of functions through which a file will go and be modified in memory . The file will be written on the disk only at the end of the process so it is more efficient. Grunt tasks, on the other hand, work as silos and cannot be chained. </p>
+<p>Let&#x2019;s have a quick look at how Gulp works by following a few easy steps.</p>
+<h3 id="Step_1-_Create_the_package-json_file-1">Step 1. Create the package.json file</h3><p>Similar to Grunt, you first have to create the package.json file. You can use the exact same technique you used for the grunt sample. </p>
+<h3 id="Step_2-_Install_Gulp_and_gulp-util_globally_and_locally">Step 2. Install Gulp and gulp-util globally and locally</h3><p>Once the package.json file is created, install gulp globally and locally using:</p>
+<pre><code>npm <span class="keyword">install</span> -g gulp
+</code></pre><p>and</p>
+<pre><code>npm install gulp --<span class="built_in">save</span>-<span class="built_in">dev</span>
+</code></pre><p>This will install the gulp command line and everything needed to run a gulp workflow.</p>
+<p>You then have to install gulp utils which contains common function shared by other plugins:</p>
+<pre><code>npm install gulp-util --<span class="built_in">save</span>-<span class="built_in">dev</span>
+</code></pre><p>Finally, create the minimum gulp file which will look like this:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f32775.png" alt=""></p>
+<p>As you can see it is a bit different from the grunt syntax. In gulp, plugins are loaded using the require syntax as you might be used to if you are a nodeJS developer. There is also a default task defined using the gulp.task function. </p>
+<p>If you run the gulp command line using a command prompt in the project folder, you should see a result like this: </p>
+<p><img src="http://taojinke.github.io/img/20150703/2f329e6.png" alt=""></p>
+<h3 id="Step_3-_Using_your_first_task:_Less_compilation">Step 3. Using your first task: Less compilation</h3><p>To use a plugin in gulp, you use the same function as the one we used to create the default task. This is because you do not have to use a specific name to create a task. You just call gulp.task, set the name you want and give it a JavaScript function as a second parameter. When gulp runs the task, it will run this function. </p>
+<p>To use a plugin, you call it using the name you chose when require -ing it. Usually, you call it as part of a streaming workflow which generally starts with a selection of files. This is done with the gulp.src function. It will select a bunch of files and return a stream that can be used by another function using pipe . That is how you can chain multiple actions without writing them to the disk. You just pass the stream from one plugin to another. </p>
+<p>Here is a simple sample for less:</p>
+<p><img src="http://taojinke.github.io/img/20150703/2f32c57.png" alt=""></p>
+<p>We first require (&#x2018;gulp-less&#x2019;) to load the less plugin for gulp. (We got it using npm install gulp-less —save-dev ). </p>
+<p>Then gulp.src will select all the .less files, we &#x2018;pipe&#x2019; it to the less() function and it finally is &#x2018;piped&#x2019; to gulp.dest which indicates where to write the result. As gulp.src can select more than one file, gulp.dest specifies a folder. </p>
+<p>Once you understand the piping model, you can easily get the same result as the one we got using grunt.</p>
+<p>The power of gulp is that you can create custom task in which you call more than one plugin and where you can associate them the way you want.</p>
+<p>Note: there is obviously also a gulp-watch plugin you can use to automated the launch of your workflow! </p>
+<h2 id="Conclusion:_which_one_to_choose?">Conclusion: which one to choose?</h2><p>I hope that you have now a clearer understanding of why you need an automation workflow and how you can use grunt or gulp to get it. </p>
+<p>Choosing one of them is more related to the task you want to achieve.</p>
+<p>Grunt is easy to use. You do not have to understand the piping system and achieving simple task will be more straight-forward. It is a really mature tool, used by a lot of known editors and developers and there is a lot of plugins available.</p>
+<p>Once that said, the way gulp is designed can give you a lot of flexibility. It has existed for quite some time now and even if you won&#x2019;t find as many plugins as you will for grunt, all the classic ones are available for gulp.</p>
+<p>If you are using a really standard workflow with common steps like jshint, uglifying, css validating etc., Grunt is a good choice. If you are up to more complicated tasks, gulp will be a good wingman.</p>
+<h2 id="More_information">More information</h2><ul>
+<li>Grunt website: <a href="http://gruntjs.com/" target="_blank" rel="external">http://</a><a href="http://gruntjs.com/" target="_blank" rel="external">com/</a></li>
+<li>Gulp website : <a href="http://gulpjs.com" target="_blank" rel="external">http://</a><a href="http://gulpjs.com" target="_blank" rel="external">com</a></li>
+<li>Use grunt inside Microsoft Visual Studio:<a href="http://www.asp.net/vnext/overview/aspnet-vnext/grunt-and-bower-in-visual-studio-2015?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">http://www.asp.net/vnext/overview/aspnet-vnext/grunt-and-bower-in-visual-studio-2015</a></li>
+</ul>
+<h2 id="More_hands-on_with_JavaScript">More hands-on with JavaScript</h2><p>Microsoft has a bunch of free learning on many open source JavaScript topics and we&#x2019;re on a mission to create a lot more with <a href="http://blogs.windows.com/msedgedev/2015/04/29/introducing-microsoft-edge-the-browser-built-for-windows-10/?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Microsoft Edge</a> . Here are some to check-out: </p>
+<ul>
+<li><a href="http://channel9.msdn.com/events/WebPlatformSummit/2015?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Microsoft Edge Web Summit 2015</a> (a complete series of what to expect with the new browser, new web platform features, and guest speakers from the community)</li>
+<li><a href="http://www.microsoftvirtualacademy.com/training-courses/best-of-build-and-windows-10?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Build of //BUILD/ and Windows 10</a> (including the new JavaScript engine for sites and apps)</li>
+<li><a href="http://channel9.msdn.com/Events/WebPlatformSummit/2015/Advancing-JavaScript-without-breaking-the-web?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Advancing JavaScript without Breaking the Web</a> (Christian Heilmann&#x2019;s recent keynote)</li>
+<li><a href="http://channel9.msdn.com/Events/Build/2015/2-665?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Hosted Web Apps and Web Platform Innovations</a> (a deep-dive on topics like manifold.JS)</li>
+<li><a href="http://channel9.msdn.com/Series/Practical-Performance-Tips-to-Make-Your-HTMLJavaScript-Faster/06?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Practical Performance Tips to Make your HTML/JavaScript Faster</a> (a 7-part series from responsive design to casual games to performance optimization)</li>
+<li><a href="http://www.microsoftvirtualacademy.com/training-courses/the-modern-web-platform-jump-start?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">The Modern Web Platform JumpStart</a> (the fundamentals of HTML, CSS, and JS)</li>
+</ul>
+<p>And some free tools to get started: <a href="https://code.visualstudio.com/?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Visual Studio Code</a> , <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Azure Trial</a> , and <a href="http://dev.modern.ie/?utm_source=SitePoint&amp;utm_medium=article34&amp;utm_campaign=SitePoint" target="_blank" rel="external">cross-browser testing tools</a> &#x2013; all available for Mac, Linux, or Windows. </p>
+<p>This article is part of the web dev tech series from Microsoft. We&#x2019;re excited to share <a href="http://blogs.windows.com/msedgedev/2015/04/29/introducing-microsoft-edge-the-browser-built-for-windows-10/?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">Microsoft Edge</a> and the new <a href="http://blogs.windows.com/msedgedev/2015/02/26/a-break-from-the-past-the-birth-of-microsofts-new-web-rendering-engine/?WT.mc_id=13410-DEV-sitepoint-article34" target="_blank" rel="external">EdgeHTML rendering engine</a> with you. Get free virtual machines or test remotely on your Mac, iOS, Android, or Windows device @ <a href="http://dev.modern.ie/?utm_source=SitePoint&amp;utm_medium=article34&amp;utm_campaign=SitePoint" target="_blank" rel="external">modern.IE</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Grunt/">Grunt</a><a href="/tags/Gulp/">Gulp</a><a href="/tags/工作流/">工作流</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/03/2f4aba4/" title="借助Nodejs探究WebSocket -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  借助Nodejs探究WebSocket -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/2f2ef4e/"  title="A Gulp.js tutorial -">
+ <strong>下一篇：</strong><br/> 
+ <span>A Gulp.js tutorial -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#The_Sample_We’ll_Use"><span class="toc-number">1.</span> <span class="toc-text">The Sample We’ll Use</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Understanding_Node-js_Package_Manager"><span class="toc-number">2.</span> <span class="toc-text">Understanding Node.js Package Manager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Grunt"><span class="toc-number">3.</span> <span class="toc-text">Grunt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#What_is_grunt?"><span class="toc-number">3.1.</span> <span class="toc-text">What is grunt?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_1-_Create_the_package-json_file"><span class="toc-number">3.2.</span> <span class="toc-text">Step 1. Create the package.json file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_2-_Install_Grunt_globally_and_locally"><span class="toc-number">3.3.</span> <span class="toc-text">Step 2. Install Grunt globally and locally</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_3-_Create_the_gruntFile-js"><span class="toc-number">3.4.</span> <span class="toc-text">Step 3. Create the gruntFile.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_4-_Add_your_first_task:_JSHint"><span class="toc-number">3.5.</span> <span class="toc-text">Step 4. Add your first task: JSHint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_5-_Add_a_second_task:_Less_compilation"><span class="toc-number">3.6.</span> <span class="toc-text">Step 5. Add a second task: Less compilation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_6-_Use_watch_so_you_do_not_have_to_run_grunt_manually"><span class="toc-number">3.7.</span> <span class="toc-text">Step 6. Use watch so you do not have to run grunt manually</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp"><span class="toc-number">4.</span> <span class="toc-text">Gulp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_1-_Create_the_package-json_file-1"><span class="toc-number">4.1.</span> <span class="toc-text">Step 1. Create the package.json file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_2-_Install_Gulp_and_gulp-util_globally_and_locally"><span class="toc-number">4.2.</span> <span class="toc-text">Step 2. Install Gulp and gulp-util globally and locally</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step_3-_Using_your_first_task:_Less_compilation"><span class="toc-number">4.3.</span> <span class="toc-text">Step 3. Using your first task: Less compilation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion:_which_one_to_choose?"><span class="toc-number">5.</span> <span class="toc-text">Conclusion: which one to choose?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#More_information"><span class="toc-number">6.</span> <span class="toc-text">More information</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#More_hands-on_with_JavaScript"><span class="toc-number">7.</span> <span class="toc-text">More hands-on with JavaScript</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>472</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>73</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>61</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>52</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>30</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>25</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>21</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-OS-X/" title="Mac OS X">Mac OS X<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>7</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
