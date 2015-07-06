@@ -1,0 +1,599 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>.net Mongo Driver 1.0与2.0的对比与2.0的优化 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x524D;&amp;#x8A00;&amp;#x6700;&amp;#x8FD1;&amp;#x95F2;&amp;#x7684;&amp;#x65F6;&amp;#x95F4;&amp;#x6709;&amp;#x70B9;&amp;#x591A;&amp;#xFF0C;&amp;#x6240;&amp;#x4EE5;&amp;#x8FD8;&amp;#x662F;&amp;#x5199;&amp;#x535A;&amp;#x5BA2;&amp;#x5427;&amp;#x3002;
+&amp;#x6709;&amp;#x4EBA;&amp;#x8BF4;Mongo&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".net Mongo Driver 1.0与2.0的对比与2.0的优化 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/06/194ea14/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x524D;&amp;#x8A00;&amp;#x6700;&amp;#x8FD1;&amp;#x95F2;&amp;#x7684;&amp;#x65F6;&amp;#x95F4;&amp;#x6709;&amp;#x70B9;&amp;#x591A;&amp;#xFF0C;&amp;#x6240;&amp;#x4EE5;&amp;#x8FD8;&amp;#x662F;&amp;#x5199;&amp;#x535A;&amp;#x5BA2;&amp;#x5427;&amp;#x3002;
+&amp;#x6709;&amp;#x4EBA;&amp;#x8BF4;Mongo&amp;#">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194ad0b.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194b6cf.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194bbb1.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194be22.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194c093.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194c304.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194c575.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194c575.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194c7e6.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/194c7e6.png">
+<meta property="og:updated_time" content="2015-07-06T13:29:59.433Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content=".net Mongo Driver 1.0与2.0的对比与2.0的优化 -">
+<meta name="twitter:description" content="&amp;#x524D;&amp;#x8A00;&amp;#x6700;&amp;#x8FD1;&amp;#x95F2;&amp;#x7684;&amp;#x65F6;&amp;#x95F4;&amp;#x6709;&amp;#x70B9;&amp;#x591A;&amp;#xFF0C;&amp;#x6240;&amp;#x4EE5;&amp;#x8FD8;&amp;#x662F;&amp;#x5199;&amp;#x535A;&amp;#x5BA2;&amp;#x5427;&amp;#x3002;
+&amp;#x6709;&amp;#x4EBA;&amp;#x8BF4;Mongo&amp;#">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/06/194ea14/" title=".net Mongo Driver 1.0与2.0的对比与2.0的优化 -" itemprop="url">.net Mongo Driver 1.0与2.0的对比与2.0的优化 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-06T01:29:59.000Z" itemprop="datePublished"> 发表于 2015-07-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-在query的构建方面，虽然有问题，但是勉强能接受"><span class="toc-number">2.1.</span> <span class="toc-text">a.在query的构建方面，虽然有问题，但是勉强能接受</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-另外分组查询是设计非常不好的。比如:"><span class="toc-number">2.2.</span> <span class="toc-text">c.另外分组查询是设计非常不好的。比如:</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h3 id="&#x524D;&#x8A00;">&#x524D;&#x8A00;</h3><p>&#x6700;&#x8FD1;&#x95F2;&#x7684;&#x65F6;&#x95F4;&#x6709;&#x70B9;&#x591A;&#xFF0C;&#x6240;&#x4EE5;&#x8FD8;&#x662F;&#x5199;&#x535A;&#x5BA2;&#x5427;&#x3002;</p>
+<p>&#x6709;&#x4EBA;&#x8BF4;Mongo&#xA0;2.0&#x7684;&#x5199;&#x6CD5;&#x96BE;&#x4EE5;&#x628A;&#x63A7;&#xFF0C;&#x597D;&#x591A;&#x5730;&#x65B9;&#x4E0D;&#x77E5;&#x9053;&#x548B;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x575A;&#x6301;&#x7528;1.0(&#x4E0D;&#x613F;&#x610F;&#x53BB;&#x5C1D;&#x8BD5;2.0)&#xFF0C;&#x6211;&#x611F;&#x89C9;&#x4E0D;&#x53EF;&#x7406;&#xFFFD;&#xFFFD;&#xFFFD;&#x3002;&#x6240;&#x4EE5;&#x5199;&#x7BC7;&#x535A;&#x5BA2;&#x6BD4;&#x8F83;&#x4E0B;&#x3002;</p>
+<p>Mongo C#&#x9A71;&#x52A8;1.0&#x5230;2.0&#x8BBE;&#x8BA1;&#x65B9;&#x9762;&#x7684;&#x5DEE;&#x522B;&#x975E;&#x5E38;&#x5927;&#x3002;</p>
+<h3 id="&#x6B63;&#x6587;">&#x6B63;&#x6587;</h3><p> &#x5148;&#x8BF4;1.0&#x5427;&#xFF0C;&#x66F4;&#x50CF;&#x662F;Mongo &#x5404;&#x529F;&#x80FD;&#x7684;&#x76F4;&#x8BD1;&#xFF0C;&#x6240;&#x4EE5;&#x5199;&#x6CD5;&#x4E0E;mongo&#x539F;&#x751F;&#x67E5;&#x8BE2;&#x4FEE;&#x6539;&#x7B49;&#x6BD4;&#x8F83;&#x7C7B;&#x4F3C;&#xFF0C;&#x6613;&#x4E0A;&#x624B;&#x3002;&#x4F46;&#x662F;&#x8BBE;&#x8BA1;&#x4E0A;&#x786E;&#x5B9E;&#x5B58;&#x5728;&#x5F88;&#x591A;&#x95EE;&#x9898;&#x3002; &#x7B80;&#x5355;&#x8BF4;&#x51E0;&#x70B9;: </p>
+<h4 id="a-&#x5728;query&#x7684;&#x6784;&#x5EFA;&#x65B9;&#x9762;&#xFF0C;&#x867D;&#x7136;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x662F;&#x52C9;&#x5F3A;&#x80FD;&#x63A5;&#x53D7;">a.&#x5728;query&#x7684;&#x6784;&#x5EFA;&#x65B9;&#x9762;&#xFF0C;&#x867D;&#x7136;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x662F;&#x52C9;&#x5F3A;&#x80FD;&#x63A5;&#x53D7;</h4><pre><code><span class="number">1</span>  <span class="built_in">var</span> modelCursor <span class="subst">=</span> collection<span class="built_in">.</span>Find(
+<span class="number">2</span>                 Query<span class="built_in">.</span><span class="literal">And</span>(Query<span class="built_in">.</span>Matches(<span class="subst">&amp;</span>quot;Name<span class="subst">&amp;</span>quot;, <span class="subst">&amp;</span>quot;test<span class="subst">&amp;</span>quot;),Query<span class="built_in">.</span><span class="literal">EQ</span>(<span class="subst">&amp;</span>quot;Age<span class="subst">&amp;</span>quot;,<span class="number">10</span>),Query<span class="built_in">.</span><span class="keyword">In</span>(<span class="subst">&amp;</span>quot;id<span class="subst">&amp;</span>quot;,<span class="literal">new</span> BsonArray(){<span class="subst">&amp;</span>quot;<span class="number">123</span><span class="subst">&amp;</span>quot;,<span class="subst">&amp;</span>quot;<span class="number">456</span><span class="subst">&amp;</span>quot;,<span class="subst">&amp;</span>quot;sda<span class="subst">&amp;</span>quot;})));
+<span class="number">3</span> <span class="built_in">var</span> modelCursor1 <span class="subst">=</span> collection<span class="built_in">.</span>Find(
+<span class="number">4</span>                Query<span class="built_in">.</span><span class="literal">And</span>(Query<span class="subst">&amp;</span><span class="literal">lt</span>;TestData<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="built_in">.</span>Matches(t <span class="subst">=&amp;</span><span class="literal">gt</span>; t<span class="built_in">.</span>Name, <span class="subst">&amp;</span>quot;test<span class="subst">&amp;</span>quot;), Query<span class="subst">&amp;</span><span class="literal">lt</span>;TestData<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="built_in">.</span><span class="literal">EQ</span>(t<span class="subst">=&amp;</span><span class="literal">gt</span>;t<span class="built_in">.</span>Age, <span class="number">10</span>), Query<span class="subst">&amp;</span><span class="literal">lt</span>;TestData<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="built_in">.</span><span class="keyword">In</span>(t<span class="subst">=&amp;</span><span class="literal">gt</span>;t<span class="built_in">.</span>_id, <span class="literal">new</span> BsonArray() { <span class="subst">&amp;</span>quot;<span class="number">123</span><span class="subst">&amp;</span>quot;, <span class="subst">&amp;</span>quot;<span class="number">456</span><span class="subst">&amp;</span>quot;, <span class="subst">&amp;</span>quot;sda<span class="subst">&amp;</span>quot; })));
+</code></pre><p>&#x7B2C;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x4EE3;&#x7801;&#x7B80;&#x5355;&#xFF0C;&#x4F46;&#x662F;&#x786C;&#x5B57;&#x7B26;&#x4E32;&#x6BD4;&#x8F83;&#x591A;&#xFF0C;&#x4E07;&#x4E00;&#x6539;&#x4E2A;&#x5B57;&#x6BB5;&#xFF0C;&#x7EF4;&#x62A4;&#x96BE;&#x5EA6;&#x5927;</p>
+<p>&#x7B2C;&#x4E8C;&#x79CD;&#x65B9;&#x5F0F;&#x4EE3;&#x7801;&#x7EF4;&#x62A4;&#x6027;&#x597D;&#xFF0C;&#x4F46;&#x662F;&#x4EE3;&#x7801;&#x771F;&#x662F;&#x70E6;&#x7410;&#xFF0C;&#x6BCF;&#x4E2A;query&#x90FD;&#x8981;&#x6765;&#x4E2A;&#x6CDB;&#x578B;&#x7EA6;&#x5B9A;,&#x5197;&#x4F59;&#x592A;&#x591A;&#x4E86;</p>
+<p>b.&#x5927;&#x91CF;linq&#x65B9;&#x6CD5;&#x4E0E;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x6267;&#x884C;&#x6784;&#x5EFA;&#x67E5;&#x8BE2;&#x7684;&#x65B9;&#x6CD5;&#x6DF7;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x8FD9;&#x70B9;&#x662F;&#x53EF;&#x4EE5;&#x6539;&#x8FDB;&#x7684;&#x3002;&#x5426;&#x5219;&#x53EF;&#x80FD;&#x51FA;&#x73B0;&#x4E00;&#x4E0B;&#x95EE;&#x9898;:</p>
+<p>&#x5728;&#x67E5;&#x8BE2;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x4E0A;MongoCursor&lt;TDefaultDocument&gt;&#x3002;&#x7EE7;&#x627F;IEnumerable&lt;T&gt;&#xFF0C;Find&#x65F6;&#x53EA;&#x662F;&#x6784;&#x5EFA;&#x67E5;&#x8BE2;&#x800C;&#x5DF2;&#xFF0C;&#x53EA;&#x6709;&#x8C03;&#x7528;GetEnumerator()&#x624D;&#x56DE;&#x53BB;&#x6570;&#x636E;&#x5E93;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x3002;&#x4E5F;&#x5C31;&#x662F;ToList()&#x6216;&#x8005;foreach&#x7684;&#x65F6;&#x5019;&#x624D;&#x53BB;&#x67E5;&#x8BE2;&#x3002;&#x8FD9;&#x4E00;&#x70B9;&#x8BBE;&#x8BA1;&#x7684;&#x6CA1;&#x9519;&#x8DDF;ef&#x4E00;&#x81F4;&#x7684;</p>
+<p>&#x6267;&#x884C;&#x65B9;&#x5F0F;&#xFF0C;&#x770B;&#x770B;&#x6E90;&#x7801;&#x622A;&#x56FE;:</p>
+<p><img src="http://taojinke.github.io/img/20150706/194ad0b.png" alt=""></p>
+<p>&#x8FD9;&#x6837;&#x770B;&#x8D77;&#x6765;&#x6CA1;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x5982;&#x4E0B;&#x4EE3;&#x7801;:</p>
+<p><img src="http://taojinke.github.io/img/20150706/194b6cf.png" alt=""></p>
+<p>&#x8FD9;&#x662F;&#x6BB5;&#x5E38;&#x7528;&#x7684;&#x5206;&#x9875;&#x4EE3;&#x7801;&#xFF0C;&#x6211;&#x5929;&#x771F;&#x7684;&#x4EE5;&#x4E3A;&#x4ED6;&#x4F1A;&#x5C06;cursor.Skip().Take()&#x751F;&#x6210;&#x67E5;&#x8BE2;&#x53BB;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x6267;&#x884C;&#x518D;&#x628A;200&#x6761;&#x7ED3;&#x679C;&#x8FD4;&#x56DE;&#x7ED9;&#x6211;&#x3002; <strong>&#x4F46;&#x662F;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x4E0D;&#x662F;&#x8FD9;&#x6837;&#x7684;</strong></p>
+<p>&#x5176;&#x5B9E;&#x5DF2;&#x7ECF;&#x628A;&#x6240;&#x6709;&#x6570;&#x636E;&#x90FD;&#x62FF;&#x51FA;&#x6765;&#x4E86;&#xFF0C;&#x53EA;&#x662F;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x4F7F;&#x7528;&#x4E86;linq&#x7684;Skip&#x53BB;&#x8DF3;&#x8FC7;&#x800C;&#x5DF2;&#x3002;</p>
+<p>&#x6B63;&#x786E;&#x7684;&#x7528;&#x6CD5;&#x662F;:</p>
+<p><img src="http://taojinke.github.io/img/20150706/194bbb1.png" alt=""></p>
+<p>&#x8981;&#x4F7F;&#x7528;cursor&#x7684;Set&#x5F00;&#x5934;&#x7684;&#x65B9;&#x6CD5;&#x624D;&#x662F;&#x6784;&#x5EFA;&#x67E5;&#x8BE2;&#x7684;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x4F60;&#x5B66;ef&#x90A3;&#x4E5F;&#x5B66;&#x5F7B;&#x5E95;&#x70B9;&#x554A;&#xFF0C;&#x4E0D;&#x4FE1;&#x4F60;&#x770B; <strong>ef&#x67E5;&#x8BE2;&#x65F6;&#x7684;Skip</strong> &#xFF1A; </p>
+<p><img src="http://taojinke.github.io/img/20150706/194be22.png" alt=""></p>
+<p>&#x4EBA;&#x5BB6;&#x628A;Skip Take&#x90FD;&#x201C;&#x91CD;&#x5199;&#x201D;&#x4E86;&#x597D;&#x5427;&#xFF0C;&#x6839;&#x672C;&#x6CA1;&#x4F7F;&#x7528;IEnumerable&lt;T&gt;&#x7684;Skip&#x3002; &#x8FD9;&#x4E00;&#x70B9;&#x60F3;&#x8BF4;&#x660E;&#x7684;&#xFF0C;&#x5C31;&#x662F;&#x5BFC;&#x81F4;&#x4E86;&#x5927;&#x91CF;&#x7684;linq&#x5BA2;&#x6237;&#x7AEF;&#x6267;&#x884C;&#x7684;&#x4EE3;&#x7801;&#x4E0E;Mongo&#x670D;&#x52A1;&#x7AEF;&#x6267;&#x884C;&#x7684;&#x4EE3;&#x7801;&#x6DF7;&#x6742;&#x7684;&#x95EE;&#x9898;</p>
+<h4 id="c-&#x53E6;&#x5916;&#x5206;&#x7EC4;&#x67E5;&#x8BE2;&#x662F;&#x8BBE;&#x8BA1;&#x975E;&#x5E38;&#x4E0D;&#x597D;&#x7684;&#x3002;&#x6BD4;&#x5982;:">c.&#x53E6;&#x5916;&#x5206;&#x7EC4;&#x67E5;&#x8BE2;&#x662F;&#x8BBE;&#x8BA1;&#x975E;&#x5E38;&#x4E0D;&#x597D;&#x7684;&#x3002;&#x6BD4;&#x5982;:</h4><p><img src="http://taojinke.github.io/img/20150706/194c093.png" alt=""></p>
+<p>&#x8BF7;&#x770B;GroupArgs&#x7684;&#x6CE8;&#x91CA;:</p>
+<p>&#x77E5;&#x9053;&#x6211;&#x5199;&#x8FD9;&#x4E48;&#x591A;&#x6CE8;&#x91CA;&#xFF0C;&#x4E3A;&#x5565;&#x5417;&#xFF0C;&#x6211;&#x6015;&#x8FC7;&#x4E24;&#x5929;&#x6211;&#x4E5F;&#x4E0D;&#x77E5;&#x9053;&#x548B;&#x7528;&#x7684;&#x4E86;&#x3002;&#x66F4;&#x522B;&#x8BF4;&#x8BA9;&#x5176;&#x4ED6;&#x540C;&#x4E8B;&#x7528;&#x4E86;&#x3002; <strong>&#x4E00;&#x4E2A;&#x5206;&#x7EC4;&#x67E5;&#x8BE2;&#x5C45;&#x7136;&#x8FD8;&#x8981;&#x5728;c#&#x4E2D;&#x5199;&#x539F;&#x59CB;&#x7684;js&#x4EE3;&#x7801;&#x6765;&#x5B9E;&#x73B0;</strong> &#x3002;&#x6240;&#x4EE5;&#x9A71;&#x52A8;&#x5728;&#x8FD9;&#x91CC;&#x7684;&#x5B9E;&#x73B0;&#x53EA;&#x662F; <strong>&#x534A;&#x6210;&#x54C1;</strong> &#x7684;&#x3002; </p>
+<p> &#x5BF9;&#x6BD4;&#x7740;&#x518D;&#x8BF4;&#x8BF4;2.0&#x5427;,&#x9996;&#x5148;&#x4E0E;&#x65F6;&#x4FF1;&#x8FDB;&#x5927;&#x91CF;&#x91C7;&#x7528;&#x4E86;&#x5F02;&#x6B65;&#x7F16;&#x7A0B;&#x3002;&#x7136;&#x540E;&#x5BF9;lamda&#x8868;&#x8FBE;&#x5F0F;&#x4E0E;&#x5F3A;&#x7C7B;&#x578B;&#x7684;&#x652F;&#x6301;&#x90FD;&#x505A;&#x4E86;&#x6539;&#x8FDB;&#x3002;</p>
+<p>a.&#x9996;&#x5148;&#x67E5;&#x8BE2;&#x5168;&#x90E8;&#x662F;lamda&#x8868;&#x8FBE;&#x5F0F;&#x4E86;&#xFF0C;&#x8FD9;&#x6B21;&#x7B97;&#x662F;&#x628A;&#x67E5;&#x8BE2;&#x8FD9;&#x5757;&#x5F7B;&#x5E95;&#x672C;&#x5730;&#x5316;&#x4E86;&#x3002;&#x4E0D;&#x7528;&#x518D;&#x53BB;&#x8BB0;&#x4F4F;Mongo&#x67E5;&#x8BE2;&#x539F;&#x751F;&#x7684;&#x8BED;&#x6CD5;&#x4E86;&#xFF0C;&#x95E8;&#x69DB;&#x5F88;&#x4F4E;&#x4E86;&#x3002;&#x5982;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150706/194c304.png" alt=""></p>
+<p>b.&#x91CD;&#x5199;&#x4E86;&#x67E5;&#x8BE2;&#x8FD4;&#x56DE;&#x503C;&#x7C7B;&#x578B;&#xFF0C;&#x53EB;&#x4EC0;&#x4E48;FindFluent&#x3002;&#x7FFB;&#x8BD1;&#x8FC7;&#x6765;&#x5C31;&#x662F; <strong>&#x53EF;&#x94FE;&#x5F0F;&#x8C03;&#x7528;&#x7684;&#x4E1C;&#x4E1C;,&#x770B;&#x770B;&#x6E90;&#x7801;:</strong></p>
+<p><img src="http://taojinke.github.io/img/20150706/194c575.png" alt=""></p>
+<p>&#x679C;&#x7136;&#x90FD;&#x662F;&#x8FD4;&#x56DE;&#x7684;this&#x4FBF;&#x4E8E;&#x94FE;&#x5F0F;&#x8C03;&#x7528;&#xFF0C;&#x518D;&#x770B;&#x770B;&#x91CC;&#x9762;&#x7684;&#x65B9;&#x6CD5;:</p>
+<p><img src="http://taojinke.github.io/img/20150706/194c575.png" alt=""></p>
+<p>2.0&#x4E0D;&#x518D;&#x7EE7;&#x627F;IEnumerable&#x63A5;&#x53E3;&#xFF0C;&#x91CC;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x5168;&#x90E8;&#x662F;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;&#x7684;&#x4E86;&#xFF0C;&#x6BD4;&#x5982;:</p>
+<p>findFluent.Skip(10).Limit(10).SortBy(t =&gt; t.Age);&#x4F7F;&#x7528;&#x8D77;&#x6765;&#x987A;&#x624B;&#x591A;&#x4E86;&#xFF0C;&#x800C;&#x4E14;&#x90FD;&#x662F;&#x5230;&#x6570;&#x636E;&#x5E93;&#x7AEF;&#x6267;&#x884C;&#x7684;.</p>
+<p>&#x5C31;&#x8FDE;&#x53D6;&#x96C6;&#x5408;&#x7684;First&#x65B9;&#x6CD5;&#xFF0C;&#x4E5F;&#x662F;&#x7ECF;&#x8FC7;&#x670D;&#x52A1;&#x7AEF;&#x5904;&#x7406;&#x7684;,&#x4E0D;&#x4FE1;&#x4F60;&#x770B;:</p>
+<p><img src="http://taojinke.github.io/img/20150706/194c7e6.png" alt=""></p>
+<p>&#x4F60;&#x518D;&#x770B;&#x770B;Single&#x65B9;&#x6CD5;:</p>
+<p><img src="http://taojinke.github.io/img/20150706/194c7e6.png" alt=""></p>
+<p>&#x67E5;&#x8BE2;&#x7684;&#x65F6;&#x5019;&#x90FD;&#x505A;&#x4E86;Limit&#x5904;&#x7406;&#xFF0C;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x4F46;&#x662F;&#x4F1A;&#x4E0D;&#x4F1A;&#x7A81;&#x7136;&#x5FC3;&#x5934;&#x4E00;&#x7D27;&#x3002;&#x600E;&#x4E48;Single&#x7684;&#x65F6;&#x5019;find.Limit(2)&#x554A;&#xFF0C;&#x592A;&#x5947;&#x602A;&#x4E86;&#x3002;&#x4E0D;&#x8FC7;&#x806A;&#x660E;&#x7684;&#x5C0F;&#x4F19;&#x4F34;&#xFF0C;&#x60F3;&#x4E00;&#x4F1A;&#x513F;&#x5E94;&#x8BE5;&#x77E5;&#x9053;&#x548B;&#x56DE;&#x4E8B;&#x4E86;&#xFF0C;&#x54C8;&#x54C8;&#xFF01;</p>
+<p>&#x518D;&#x770B;&#x770B;&#x5206;&#x7EC4;&#x67E5;&#x8BE2;&#x4F18;&#x5316;&#xFF0C;&#x6211;&#x5C31;&#x4E0D;&#x8BF4;&#x4E86;&#xFF0C;&#x628A;c#&#x91CC;&#x5199;js&#x4EE3;&#x7801;&#x7684;&#x90E8;&#x5206;&#x76F4;&#x63A5;&#x641E;&#x6389;&#x4E86;&#x3002;&#x4F7F;&#x7528;lamda&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#x4E86;,&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>var dataGroup = collection.Aggregate().Group(t =&gt; t.Age, g =&gt; new { _id = g.Key, TotalAge = g.Sum(x =&gt; x.Age) });</p>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;2.0&#x90FD;&#x662F;&#x5F02;&#x6B65;&#x7F16;&#x7A0B;&#xFF0C;&#x719F;&#x6089;&#x4E0B;&#x7528;&#x6CD5;&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x8FD9;&#x4E5F;&#x662F;.net4.5&#x6BD4;&#x8F83;&#x5927;&#x7684;&#x6539;&#x53D8;:&#x628A;&#x5F02;&#x6B65;&#x7F16;&#x7A0B;&#x53D8;&#x5F97;&#x7B80;&#x5355;&#x3002;</p>
+<p>&#x5148;&#x5199;&#x8FD9;&#x4E48;&#x591A;&#x4E86;&#xFF0C;&#x90A3;&#x91CC;&#x8BF4;&#x7684;&#x4E0D;&#x5BF9;&#x7684;&#x5730;&#x65B9;&#x5927;&#x5BB6;&#x591A;&#x591A;&#x6307;&#x51FA;&#x3002;&#x53E6;&#x5916;&#x8EAB;&#x8FB9;&#x6709;&#x8C01;&#x8FD8;&#x575A;&#x6301;&#x7528;1.0&#x7684;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x5C1D;&#x8BD5;&#x7740;&#x53BB;&#x8BF4;&#x670D;&#x4ED6;&#x2026;&#x2026;&#x989D;&#x2026;&#x2026;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MongoDB/">MongoDB</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/06/19c9c4b/" title="mongodb运维之副本集实践 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  mongodb运维之副本集实践 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/06/19ad8a2/"  title="MongoDb gridfs-ngnix文件存储方案 -">
+ <strong>下一篇：</strong><br/> 
+ <span>MongoDb gridfs-ngnix文件存储方案 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-在query的构建方面，虽然有问题，但是勉强能接受"><span class="toc-number">2.1.</span> <span class="toc-text">a.在query的构建方面，虽然有问题，但是勉强能接受</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-另外分组查询是设计非常不好的。比如:"><span class="toc-number">2.2.</span> <span class="toc-text">c.另外分组查询是设计非常不好的。比如:</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>587</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>32</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>23</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>9</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

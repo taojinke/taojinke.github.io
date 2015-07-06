@@ -1,0 +1,615 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Node.js入门 – 永恒的Hello World! - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x672C;&amp;#x6587;&amp;#x81EA; theprojectspot.com &amp;#x7FFB;&amp;#x8BD1;&amp;#x800C;&amp;#x6765;&amp;#xFF0C;&amp;#x6587;&amp;#x7AE0;&amp;#x539F;&amp;#x4F5C;&amp;#x8005;&amp;#x4E3A; Lee Jacobson , &amp;#x5DF2;&amp;#x7ECF;&amp;#x4F5C;&amp;#x8005;&amp;#x6388;&amp;#x6743;&amp;#x7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js入门 – 永恒的Hello World! -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/06/709e45f/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x672C;&amp;#x6587;&amp;#x81EA; theprojectspot.com &amp;#x7FFB;&amp;#x8BD1;&amp;#x800C;&amp;#x6765;&amp;#xFF0C;&amp;#x6587;&amp;#x7AE0;&amp;#x539F;&amp;#x4F5C;&amp;#x8005;&amp;#x4E3A; Lee Jacobson , &amp;#x5DF2;&amp;#x7ECF;&amp;#x4F5C;&amp;#x8005;&amp;#x6388;&amp;#x6743;&amp;#x7">
+<meta property="og:updated_time" content="2015-07-06T13:25:16.376Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js入门 – 永恒的Hello World! -">
+<meta name="twitter:description" content="&amp;#x672C;&amp;#x6587;&amp;#x81EA; theprojectspot.com &amp;#x7FFB;&amp;#x8BD1;&amp;#x800C;&amp;#x6765;&amp;#xFF0C;&amp;#x6587;&amp;#x7AE0;&amp;#x539F;&amp;#x4F5C;&amp;#x8005;&amp;#x4E3A; Lee Jacobson , &amp;#x5DF2;&amp;#x7ECF;&amp;#x4F5C;&amp;#x8005;&amp;#x6388;&amp;#x6743;&amp;#x7">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/06/709e45f/" title="Node.js入门 – 永恒的Hello World! -" itemprop="url">Node.js入门 – 永恒的Hello World! -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-06T01:25:16.000Z" itemprop="datePublished"> 发表于 2015-07-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始Hello_World吧"><span class="toc-number">2.</span> <span class="toc-text">开始Hello World吧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#让我们的响应更有趣一点"><span class="toc-number">3.</span> <span class="toc-text">让我们的响应更有趣一点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充："><span class="toc-number"></span> <span class="toc-text">补充：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Related_Posts"><span class="toc-number">1.</span> <span class="toc-text">Related Posts</span></a></li></ol>
+		
+		</div>
+		
+		<p> &#x672C;&#x6587;&#x81EA; <a href="http://web.archive.org/web/20150514063702/http://www.theprojectspot.com/" target="_blank" rel="external">theprojectspot.com</a> &#x7FFB;&#x8BD1;&#x800C;&#x6765;&#xFF0C;&#x6587;&#x7AE0;&#x539F;&#x4F5C;&#x8005;&#x4E3A; <a href="http://web.archive.org/web/20150514063702/http://www.theprojectspot.com/#%21/aboutme" target="_blank" rel="external">Lee Jacobson</a> , &#x5DF2;&#x7ECF;&#x4F5C;&#x8005;&#x6388;&#x6743;&#x7FFB;&#x8BD1;&#x7528;&#x4E8E;&#x975E;&#x5546;&#x4E1A;&#x7528;&#x9014;&#x3002;&#x539F;&#x6587;&#x5730;&#x5740;&#xFF1A; <a href="http://web.archive.org/web/20150514063702/http://www.theprojectspot.com/tutorial-post/Node-js-for-beginners-part-1-hello-world/2/" target="_blank" rel="external">&#x731B;&#x6233;&#x8FD9;&#x91CC;&#x8FDB;&#x5165;</a></p>
+<h3 id="&#x4ECB;&#x7ECD;">&#x4ECB;&#x7ECD;</h3><p>&#x8FD9;&#x662F;&#x6211;&#x7684;&#x5173;&#x4E8E;Node.js&#x7CFB;&#x5217;&#x5165;&#x95E8;&#x6559;&#x7A0B;&#x7684;&#x7B2C;&#x4E00;&#x7BC7;&#x3002;&#x5FC5;&#x987B;&#x8BF4;&#x660E;&#x4E00;&#x4E0B;&#xFF0C;&#x6211;&#x5E76;&#x4E0D;&#x662F;Node.js&#x7684;&#x4E13;&#x5BB6;&#xFF0C;&#x4F46;&#x662F;&#x5C1D;&#x8BD5;&#x5411;&#x522B;&#x4EBA;&#x89E3;&#x91CA;&#x8FD9;&#x662F;&#x600E;&#x4E48;&#x56DE;&#x4E8B;&#x662F;&#x81EA;&#x6211;&#x5B66;&#x4E60;&#x7684;&#x4E00;&#x4E2A;&#x597D;&#x65B9;&#x6CD5;&#x3002;&#x5982;&#x679C;&#x4F60;&#x53D1;&#x73B0;&#x6709;&#x4E9B;&#x5730;&#x65B9;&#x5E76;&#x4E0D;&#x662F;&#x90A3;&#x4E48;&#x6B63;&#x786E;&#xFF0C;&#x8BF7;&#x63D0;&#x51FA;&#x6765;&#x8BA9;&#x6211;&#x77E5;&#x9053;&#x4EE5;&#x4FBF;&#x4FEE;&#x6B63;&#xFF0C;&#x8C22;&#x4E4B;&#x3002;</p>
+<p>&#x6700;&#x8FD1;Node.js&#x5982;&#x6B64;&#x6D41;&#x884C;&#xFF0C;&#x5230;&#x5904;&#x662F;&#x8BA8;&#x8BBA;&#x8FD9;&#x4E2A;&#x7684;&#x8BDD;&#x9898;&#xFF0C;&#x6211;&#x51B3;&#x5B9A;&#x4E00;&#x63A2;&#x7A76;&#x7ADF;&#x5B66;&#x5B66;&#x8FD9;&#x73A9;&#x610F;&#x513F;&#x3002;&#x8F6F;&#x4EF6;&#x884C;&#x4E1A;&#x6280;&#x672F;&#x66F4;&#x65B0;&#x5982;&#x6B64;&#x4E4B;&#x5FEB;&#xFF0C;&#x5982;&#x679C;&#x843D;&#x5728;&#x540E;&#x9762;&#x662F;&#x5F88;&#x5371;&#x9669;&#x6EF4;&#xFF08;&#x6C57;&#xFF0C;&#x8FD9;&#x54E5;&#x4EEC; &#x624D;20&#x5C81;&#x51FA;&#x5934;&#xFF0C;&#x5C31;&#x6709;&#x8FD9;&#x4E48;&#x5F3A;&#x7684;&#x843D;&#x540E;&#x4E8E;&#x65F6;&#x4EE3;&#x7684;&#x5371;&#x673A;&#x611F;&#xFF09;&#x3002;&#x5982;&#x679C;&#x4F60;&#x4E0D;&#x60F3;&#x843D;&#x540E;&#x4E8E;&#x65F6;&#x4EE3;&#xFF0C;&#x4E0D;&#x60F3;&#x5931;&#x4E1A;&#xFF0C;&#x5B66;&#x4E60;&#x65B0;&#x7684;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x66F4;&#x65B0;&#x81EA;&#x5DF1;&#x7684;&#x6280;&#x80FD;&#x662F;&#x4F5C;&#x4E3A;&#x7A0B;&#x5E8F;&#x5458;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x4EF6;&#x4E8B;&#x60C5;&#x3002;&#x5982; &#x679C;&#x4F60;&#x4E0D;&#x80FD;&#x8BA4;&#x771F;&#x5BF9;&#x5F85;&#x6B64;&#x4E8B;&#xFF0C;&#x60F3;&#x60F3;&#x90A3;&#x4E9B;&#x83DC;&#x9E1F;&#x65B0;&#x7A0B;&#x5E8F;&#x5458;&#x4E0D;&#x80FD;&#x627E;&#x5230;&#x5DE5;&#x4F5C;&#x7684;&#x60B2;&#x60E8;&#x5883;&#x5730;&#x5427;&#x3002;</p>
+<p>&#x597D;&#x4E86;&#xFF0C;&#x95F2;&#x8BDD;&#x5C11;&#x8BF4;&#xFF0C;&#x8FDB;&#x5165;&#x6B63;&#x9898;&#xFF08;&#x94DB;&#x94DB;&#x94DB;&#x94DB;&#xFF09;&#x3002;</p>
+<p>Node.js&#x662F;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x7AEF;JavaScript&#x5B9E;&#x73B0;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x6240;&#x6709;Javascript&#x7684;&#x725B;B&#x7279;&#x6027;&#x90FD;&#x80FD;&#x5728;Node.js&#x91CC;&#x5F97;&#x5230;&#x652F; &#x6301;&#xFF0C;&#x540C;&#x6837;&#x610F;&#x5473;&#x7740;&#x5982;&#x679C;&#x4F60;&#x4EE5;&#x524D;&#x6709;JavaScript&#x7F16;&#x7A0B;&#x7ECF;&#x9A8C;&#x7684;&#x8BDD;&#xFF0C;&#x4F60;&#x5B66;&#x4E60;Node.js&#x5C06;&#x5360;&#x6709;&#x6781;&#x5927;&#x7684;&#x4F18;&#x52BF;&#x3002;Node.js&#x521A;&#x51FA;&#x73B0;&#x6CA1;&#x51E0;&#x5E74;&#xFF0C;&#x54EA;&#x6015;&#x662F;&#x4E00;&#x76F4;&#x7528;&#x8FD9;&#x4E2A;&#x4E1C; &#x897F;&#x5DE5;&#x4F5C;&#x7684;&#xFF0C;&#x4E5F;&#x53EA;&#x662F;&#x51E0;&#x5E74;&#xFF0C;&#x5BF9;&#x6BD4;C&#x8FD9;&#x4E9B;&#x53E4;&#x8001;&#x8BED;&#x8A00;&#x6709;&#x8FD9;&#x4E48;&#x591A;&#x4EBA;&#x5728;&#x7528;&#xFF0C;&#x8FD9;&#x73A9;&#x610F;&#x6CA1;&#x591A;&#x5C11;&#x4EBA;&#x4F1A;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4F1A;&#x7684;&#x8BDD;&#xFF0C;&#x6BD4;&#x5355;&#x7EAF;php&#x7A0B;&#x5E8F;&#x5458;&#x7684;&#x7ADE;&#x4E89;&#x529B;&#x8981;&#x63D0;&#x9AD8;&#x4E0D;&#x5C11;&#x5427;&#xFF1F;(&#x4F5C;&#x8005;&#x89C2;&#x70B9;&#xFF0C;&#x7528; php&#x7684;&#x540C;&#x5B66;&#x4E0D;&#x8981;&#x5728;&#x8BC4;&#x8BBA;&#x91CC;&#x9A82;&#x6211;&#x3002;&#x3002;&#x3002;)</p>
+<h3 id="&#x5F00;&#x59CB;Hello_World&#x5427;">&#x5F00;&#x59CB;Hello World&#x5427;</h3><p>&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x5F00;&#x59CB;&#x5199;&#x7B2C;&#x4E00;&#x4E2A;Hello Wrold&#x7A0B;&#x5E8F;&#xFF0C;&#x9996;&#x5148;&#x5230; <a href="http://web.archive.org/web/20150514063702/http://www.nodejs.org/" target="_blank" rel="external">http://www.nodejs.org</a> &#x53BB;&#x4E0B;&#x8F7D;&#x5E76;&#x5B89;&#x88C5;node.js&#x3002;&#x5B89;&#x88C5;&#x597D;&#x4E4B;&#x540E;&#xFF0C;&#x7528;&#x4F60;&#x559C;&#x6B22;&#x7684;&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;JavaScript&#x6587;&#x4EF6;&#xFF0C;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A; </p>
+<pre><code>console.<span class="built_in">log</span><span class="params">(&amp;quot;Hello World&amp;quot;)</span>;
+</code></pre><p>&#x4FDD;&#x5B58;&#x4E3A;&#x201D;hello.js&#x201D; &#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x7EC8;&#x7AEF;&#x91CC;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#x8FD0;&#x884C;&#x7A0B;&#x5E8F;&#xFF1A;</p>
+<pre><code><span class="tag">node</span> <span class="tag">hello</span><span class="class">.js</span>
+</code></pre><p>&#x73B0;&#x5728;&#x4F60;&#x5E94;&#x8BE5;&#x5728;&#x7EC8;&#x7AEF;&#x91CC;&#x770B;&#x5230;&#x91D1;&#x5149;&#x95EA;&#x95EA;&#x7684;&#x201C;Hello World&#x201D;&#x4E24;&#x4E2A;&#x5927;&#x5B57;&#x4E86;&#x3002;&#x5982;&#x679C;&#x53EA;&#x60F3;&#x770B;&#x5230;&#x8FD9;&#x4E24;&#x4E2A;&#x5B57;&#xFF0C;&#x90A3;&#x4E48;&#x5230;&#x8FD9;&#x91CC;&#x5C31;&#x5B8C;&#x4E86;&#xFF0C;&#x4E0D;&#x8FC7;&#x6211;&#x76F8;&#x4FE1;&#x4F60;&#x66F4;&#x60F3;&#x770B;&#x5230;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x91CC;&#x600E;&#x4E48;&#x770B;&#x5230;&#x8FD9;&#x4E24;&#x4E2A;&#x5B57;&#xFF0C;&#x597D;&#x5427;&#xFF0C;&#x6253;&#x5F00;&#x4F60;&#x521A;&#x624D;&#x521B;&#x5EFA;&#x7684;hello.js&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x91CD;&#x65B0;&#x7F16;&#x8F91;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>var http = require<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;http&amp;apos;);</span>
+
+    http.createServer<span class="list">(<span class="keyword">function</span> <span class="list">(<span class="keyword">request</span>, response)</span> {
+        response.writeHead<span class="list">(<span class="number">200</span>, {<span class="keyword">&amp;apos</span><span class="comment">;Content-Type&amp;apos;: &amp;apos;text/plain&amp;apos;});</span>
+        response.end<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;Hello World\n&amp;apos;);</span>
+    })</span>.listen<span class="list">(<span class="number">8080</span>)</span><span class="comment">;</span>
+
+    console.log<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;Server started&amp;apos;);</span></span></span></span></span>
+</code></pre><p>&#x4FDD;&#x5B58;&#x6587;&#x4EF6;&#x7136;&#x540E;&#x6267;&#x884C;&#xFF1A;</p>
+<pre><code><span class="tag">node</span> <span class="tag">hello</span><span class="class">.js</span>
+</code></pre><p>&#x7EC8;&#x7AEF;&#x91CC;&#x5E94;&#x8BE5;&#x770B;&#x5230;&#x201C;Server started&#x201D;&#xFF0C;&#x7528;&#x6D4F;&#x89C8;&#x5668;&#x6253;&#x5F00;<a href="http://localhost:8080&#xFF0C;&#x6211;&#x64CD;&#xFF0C;&#x91D1;&#x5149;&#x95EA;&#x95EA;&#x7684;&#x201C;Hello" target="_blank" rel="external">http://localhost:8080&#xFF0C;&#x6211;&#x64CD;&#xFF0C;&#x91D1;&#x5149;&#x95EA;&#x95EA;&#x7684;&#x201C;Hello</a> World&#x201D;&#x51FA;&#x73B0;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x91CC;&#x4E86;&#x3002;</p>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x56DE;&#x987E;&#x4E00;&#x4E0B;&#x6211;&#x4EEC;&#x521A;&#x624D;&#x5199;&#x7684;&#x4EE3;&#x7801;&#x3002;</p>
+<p>&#x7B2C;&#x4E00;&#x884C;&#x662F;&#x83B7;&#x53D6;&#x4E00;&#x4E2A;http&#x7EC4;&#x4EF6;&#x5E76;&#x8D4B;&#x503C;&#x7ED9;&#x53D8;&#x91CF;&#x201D;http&#x201D;&#xFF0C;http&#x662F;Node.js&#x7684;&#x5185;&#x7F6E;&#x7EC4;&#x4EF6;, &#x65B9;&#x4FBF;&#x6211;&#x4EEC;&#x521B;&#x5EFA;Node.js&#x5E94;&#x7528;&#x7684;&#x4E1C;&#x4E1C;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8C03;&#x7528;Node.js&#x7684;http&#x7EC4;&#x4EF6;&#x7684;&#x201D;createServer&#x201D;&#x65B9;&#x6CD5;&#x6765;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;http&#x670D;&#x52A1;, &#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x5E76;&#x4E14;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x3002;</p>
+<p>&#x8C03;&#x7528;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;listen&#x6765;&#x4FA6;&#x542C;&#x7AEF;&#x53E3;&#xFF0C;&#x53C2;&#x6570;&#x503C;&#x5C31;&#x662F;&#x4F60;&#x9700;&#x8981;&#x4FA6;&#x542C;&#x7684;&#x7AEF;&#x53E3;&#x6570;&#x503C;&#xFF0C;&#x8FD9;&#x4E5F;&#x662F;&#x521A;&#x624D;&#x4E3A;&#x4EC0;&#x4E48;&#x6211;&#x4EEC;&#x8981;&#x7528;<a href="http://localhost:8080&#x53BB;&#x8BF7;&#x6C42;&#x7684;&#x539F;&#x56E0;&#xFF0C;&#x4EE3;&#x7801;&#x91CC;&#x6307;&#x5B9A;&#x4E86;&#x8FD9;&#x4E2A;&#x7AEF;&#x53E3;&amp;#x3002" target="_blank" rel="external">http://localhost:8080&#x53BB;&#x8BF7;&#x6C42;&#x7684;&#x539F;&#x56E0;&#xFF0C;&#x4EE3;&#x7801;&#x91CC;&#x6307;&#x5B9A;&#x4E86;&#x8FD9;&#x4E2A;&#x7AEF;&#x53E3;&amp;#x3002</a>;</p>
+<p>&#x6211;&#x4EEC;&#x8FD8;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x5165;createServer&#xFF0C;&#x5728;JavaScript&#x7F16;&#x7A0B;&#x4E2D;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x5E38;&#x7528;&#x7684;&#x505A;&#x6CD5;&#xFF0C;&#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x50CF;&#x53D8;&#x91CF;&#x6216;&#x8005;&#x5BF9;&#x8C61;&#x4E00;&#x6837;&#x4F5C;&#x4E3A;&#x53C2; &#x6570;&#x4F20;&#x5165;&#x522B;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5F53;&#x6211;&#x4EEC;&#x521B;&#x5EFA;&#x7684;http&#x670D;&#x52A1;&#x6BCF;&#x6B21;&#x63A5;&#x6536;&#x5230;&#x4ECE;8080&#x7AEF;&#x53E3;&#x8FC7;&#x6765;&#x7684;&#x8BF7;&#x6C42;&#x65F6;&#xFF0C;&#x6267;&#x884C;&#x4F20;&#x5165;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x800C;&#x6211;&#x4EEC;&#x4F20;&#x5165;&#x7684;&#x51FD;&#x6570;&#x79F0;&#x4E4B;&#x4E3A;&#x533F;&#x540D;&#x51FD;&#x6570;&#xFF0C;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x6CA1;&#x6709;&#x7ED9;&#x5B83;&#x547D; &#x540D;&#x3002;</p>
+<p>&#x4F60;&#x53EF;&#x80FD;&#x6CE8;&#x610F;&#x5230;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x7684;&#x533F;&#x540D;&#x51FD;&#x6570;&#x6709;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x201D;request&#x201D;&#x548C;&#x201D;response&#x201D;&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#x7531;http&#x670D;&#x52A1;&#x5728;&#x63A5;&#x6536;&#x5230;&#x8BF7;&#x6C42;&#x65F6;&#x4F20;&#x5165;&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x662F;&#x5BF9;&#x8C61;&#xFF0C;request&#x7528;&#x4E8E;&#x83B7;&#x53D6;&#x8BF7;&#x6C42;&#x5185;&#x5BB9;&#xFF0C;response&#x7528;&#x4E8E;&#x6211;&#x4EEC;&#x8FD4;&#x56DE;&#x76F8;&#x5173;&#x4FE1;&#x606F;&#x3002;</p>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x533F;&#x540D;&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x7B2C;&#x4E00;&#x4EF6;&#x4E8B;&#x662F;&#x8C03;&#x7528;response&#x7684;writeHead&#x51FD;&#x6570;&#x8BBE;&#x7F6E;&#x5C06;&#x8981;&#x8FD4;&#x56DE;&#x7684;http&#x72B6;&#x6001;(200&#x6210;&#x529F;&#xFF0C;403&#x65E0;&#x6743;&#x9650;&#xFF0C;500&#x5F02;&#x5E38;&#xFF0C;&#x7B49;&#x7B49;)&#xFF0C;&#x540C;&#x65F6;&#x8BBE;&#x7F6E;Content-Type&#x5934;&#xFF0C;&#x544A;&#x8BC9;&#x6D4F;&#x89C8;&#x5668;&#x6211;&#x4EEC;&#x8FD4;&#x56DE;&#x7684;&#x662F;&#x7EAF;&#x6587;&#x672C;&#x3002;</p>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x5229;&#x7528;response&#x5BF9;&#x8C61;&#x8F93;&#x51FA;&#x91D1;&#x5149;&#x95EA;&#x95EA;&#x7684;Hello World&#x4E86;&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x53EA;&#x662F;&#x7B80;&#x5355;&#x5730;&#x8C03;&#x7528;response&#x7684;write&#x65B9;&#x6CD5;&#x7136;&#x540E;&#x7ED3;&#x675F;&#xFF0C;&#x6240;&#x4EE5;&#x7528;response&#x7684;end&#x6765;&#x7ED3;&#x675F;&#x672C;&#x6B21;&#x54CD;&#x5E94;&#x3002;</p>
+<h3 id="&#x8BA9;&#x6211;&#x4EEC;&#x7684;&#x54CD;&#x5E94;&#x66F4;&#x6709;&#x8DA3;&#x4E00;&#x70B9;">&#x8BA9;&#x6211;&#x4EEC;&#x7684;&#x54CD;&#x5E94;&#x66F4;&#x6709;&#x8DA3;&#x4E00;&#x70B9;</h3><p>&#x5C31;&#x7B97;&#x6211;&#x4E0D;&#x65AD;&#x52A0;&#x4E0A;&#x201D;&#x91D1;&#x5149;&#x95EA;&#x95EA;&#x201D;&#x7684;&#x5B9A;&#x8BED;&#xFF0C;&#x4E5F;&#x65E0;&#x6CD5;&#x63A9;&#x9970;Hello World&#x662F;&#x4E00;&#x4E2A;&#x65E0;&#x804A;&#x7684;&#x7A0B;&#x5E8F;&#xFF08;&#x597D;&#x5427;&#xFF0C;&#x6240;&#x6709;&#x7A0B;&#x5E8F;&#x5458;&#x90FD;&#x662F;&#x901A;&#x8FC7;&#x5199;&#x4E00;&#x4E2A;&#x65E0;&#x804A;&#x7684;&#x7A0B;&#x5E8F;&#x5F00;&#x59CB;&#x7684;&#x2026;&#xFF09;, &#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x5199;&#x4E00;&#x4E2A;&#x7A0D;&#x5FAE;&#x4E0D;&#x90A3;&#x4E48;&#x65E0;&#x804A;&#x7684;&#x7A0B;&#x5E8F;&#xFF1A;&#x7528;&#x6237;&#x8BA1;&#x6570;&#x5668;&#x3002;&#x7528;Node.js&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7528;&#x6237;&#x8BA1;&#x6570;&#x5668;&#x5DE8;&#x7B80;&#x5355;&#xFF0C;&#x751A;&#x81F3;&#x4E0D;&#x50CF;php&#x4E00;&#x6837;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x6570;&#x636E;&#x5E93;&#x3002;&#xFF08;&#x539F;&#x6587;&#x5982;&#x6B64;&#xFF0C;&#x4E8B;&#x5B9E;&#x4E0A;&#x522B; &#x7684;&#x6280;&#x672F;&#x4E5F;&#x53EF;&#x4EE5;&#x4E0D;&#x9700;&#x8981;&#x6570;&#x636E;&#x5E93;&#x4E4B;&#x7C7B;&#x7684;&#xFF0C;&#x5229;&#x7528;&#x5168;&#x5C40;&#x4F1A;&#x8BDD;&#x7B49;&#x6765;&#x5B9E;&#x73B0;&#xFF0C;&#x4F5C;&#x8005;&#x7684;&#x610F;&#x601D;&#x53EF;&#x80FD;&#x662F;&#x76F4;&#x63A5;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x53D8;&#x91CF;&#x8BA1;&#x6570;&#xFF0C;&#x4F46;&#x4E0B;&#x6587;&#x7684;&#x53D8;&#x91CF;&#x5728;&#x8BF7;&#x6C42;&#x4E4B;&#x5916;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x4E00;&#x4E2A;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF09;&#x3002;</p>
+<p>&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x53EB;counter.js&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x5199;&#x5165;&#xFF1A;</p>
+<pre><code>var http = require<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;http&amp;apos;);</span>
+var userCount = <span class="number">0</span><span class="comment">;</span>
+http.createServer<span class="list">(<span class="keyword">function</span> <span class="list">(<span class="keyword">request</span>, response)</span> {
+    console.log<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;New connection&amp;apos;);</span>
+    userCount++<span class="comment">;</span>
+    response.writeHead<span class="list">(<span class="number">200</span>, {<span class="keyword">&amp;apos</span><span class="comment">;Content-Type&amp;apos;: &amp;apos;text/plain&amp;apos;});</span>
+    response.write<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;Hello!\n&amp;apos;);</span>
+    response.write<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;We have had &amp;apos;+userCount+&amp;apos; visits!\n&amp;apos;);</span>
+    response.end<span class="list">()</span><span class="comment">;</span>
+})</span>.listen<span class="list">(<span class="number">8080</span>)</span><span class="comment">;</span>
+console.log<span class="list">(<span class="keyword">&amp;apos</span><span class="comment">;Server started&amp;apos;);</span></span></span></span></span></span></span>
+</code></pre><p>&#x7136;&#x540E;&#x8FD0;&#x884C;&#x4E4B;&#xFF1A;</p>
+<pre><code><span class="tag">node</span> <span class="tag">counter</span><span class="class">.js</span>
+</code></pre><p>&#x8FD9;&#x65F6;&#x5019;&#x8BBF;&#x95EE;<a href="http://localhost:8080&#xFF0C;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8BBF;&#x95EE;&#x6B21;&#x6570;&#xFF0C;&#x5237;&#x65B0;&#x8FD9;&#x4E2A;&#x6570;&#x5B57;&#x4F1A;&#x589E;&#x957F;&amp;#x3002" target="_blank" rel="external">http://localhost:8080&#xFF0C;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8BBF;&#x95EE;&#x6B21;&#x6570;&#xFF0C;&#x5237;&#x65B0;&#x8FD9;&#x4E2A;&#x6570;&#x5B57;&#x4F1A;&#x589E;&#x957F;&amp;#x3002</a>;</p>
+<p>&#x6CE8;&#xFF1A;&#x4F60;&#x53EF;&#x80FD;&#x4F1A;&#x770B;&#x5230;&#x4E00;&#x4E2A;&#x5947;&#x602A;&#x7684;&#x73B0;&#x8C61;&#xFF0C;&#x6BCF;&#x5237;&#x65B0;&#x4E00;&#x6B21;&#xFF0C;&#x6570;&#x503C;&#x589E;&#x52A0;&#x662F;2&#x800C;&#x4E0D;&#x662F;1&#xFF0C;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;&#x4F60;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x540C;&#x65F6;&#x8BF7;&#x6C42;&#x4E86;<a href="http://localhost:8080/favicon.ico&amp;#x3002" target="_blank" rel="external">http://localhost:8080/favicon.ico&amp;#x3002</a>;</p>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x7EC8;&#x7AEF;&#x7684;&#x8F93;&#x51FA;&#x770B;&#x5230;&#x6BCF;&#x6B21;&#x8BF7;&#x6C42;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x7A0B;&#x5E8F;&#x7684;&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x5148;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;userCount&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x7136;&#x540E;&#x6BCF;&#x6B21;&#x63A5;&#x6536;&#x5230;&#x8BF7;&#x6C42;&#x65F6;+1&#xFF0C;&#x5E76;&#x8F93;&#x51FA;&#x5230;&#x6D4F;&#x89C8;&#x5668;&#x3002;</p>
+<p>&#x5728;PHP&#x91CC;&#x4F60;&#x8981;&#x5B9E;&#x73B0;&#x76F8;&#x540C;&#x529F;&#x80FD;&#x7684;&#x8BDD;&#xFF0C;&#x9700;&#x8981;&#x4FDD;&#x5B58;&#x4FE1;&#x606F;&#x5230;&#x7C7B;&#x4F3C;&#x6587;&#x672C;&#x6216;&#x8005;&#x6570;&#x636E;&#x5E93;&#x7684;&#x4E1C;&#x897F;&#x91CC;&#x9762;&#x53BB;&#x3002;&#xFF08;&#x53C8;&#x9ED1;PHP&#x2026;&#xFF09;</p>
+<p>&#x8F6C;&#x81EA;&#xFF1A; <a href="http://web.archive.org/web/20150514063702/http://www.laonan.net/blog/63/" target="_blank" rel="external">http://www.laonan.net/blog/63/</a></p>
+<h2 id="&#x8865;&#x5145;&#xFF1A;">&#x8865;&#x5145;&#xFF1A;</h2><p>Hello World </p>
+<p>&#x597D;&#x4E86;,&#x8BA9;&#x6211;&#x4EEC;&#x5F00;&#x59CB;&#x5B9E;&#x73B0;&#x7B2C;&#x4E00;&#x4E2A; Node.js &#x7A0B;&#x5E8F;&#x5427;&#x3002;&#x6253;&#x5F00;&#x4F60;&#x5E38;&#x7528;&#x7684;&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;,&#x5728;&#x5176;&#x4E2D;&#x8F93;&#x5165;:</p>
+<pre><code>console.<span class="built_in">log</span><span class="params">(&amp;apos;Hello World&amp;apos;)</span>;
+</code></pre><p>&#x5C06;&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x4E3A; helloworld.js,&#x6253;&#x5F00;&#x7EC8;&#x7AEF;,&#x8FDB;&#x5165; helloworld.js &#x6240;&#x5728;&#x7684;&#x76EE;&#x5F55;,&#x6267;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;:</p>
+<pre><code><span class="tag">node</span> <span class="tag">helloworld</span><span class="class">.js</span>
+</code></pre><p>&#x5982;&#x679C;&#x4E00;&#x5207;&#x6B63;&#x5E38;,&#x4F60;&#x5C06;&#x4F1A;&#x5728;&#x7EC8;&#x7AEF;&#x4E2D;&#x770B;&#x5230;&#x8F93;&#x51FA; Hello World &#x3002;&#x5F88;&#x7B80;&#x5355;&#x5427;?&#x4E0B;&#x9762;&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x89E3;&#x91CA;&#x4E00;&#x4E0B;&#x8FD9;&#x4E2A;&#x7A0B;&#x5E8F;&#x7684;&#x7EC6;&#x8282;&#x3002; console &#x662F; Node.js &#x63D0;&#x4F9B;&#x7684;&#x63A7;&#x5236;&#x53F0;&#x5BF9;&#x8C61;,&#x5176;&#x4E2D;&#x5305;&#x542B;&#x4E86;&#x5411;&#x6807;&#x51C6;&#x8F93;&#x51FA;&#x5199;&#x5165;&#x7684;&#x64CD;&#x4F5C;,&#x5982; console.log &#x3001; console.error &#x7B49;&#x3002; console.log &#x662F;&#x6211;&#x4EEC;&#x6700;&#x5E38;&#x7528;&#x7684;&#x8F93;&#x51FA;&#x6307;&#x4EE4;,&#x5B83;&#x548C; C &#x8BED;&#x8A00;&#x4E2D;&#x7684; printf &#x7684;&#x529F;&#x80FD;&#x7C7B;&#x4F3C;,&#x4E5F;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x4EFB;&#x610F;&#x591A;&#x4E2A;&#x53C2;&#x6570;,&#x652F;&#x6301; %d &#x3001; %s &#x53D8;&#x91CF;&#x5F15;&#x7528;,&#x4F8B;&#x5982;:</p>
+<pre><code><span class="comment">//consolelog.js</span>
+console.<span class="keyword">log</span>(&amp;apos;<span class="variable">%s</span>: <span class="variable">%d</span>&amp;apos;, &amp;apos;Hello&amp;apos;, <span class="number">25</span>);
+</code></pre><p>&#x8F93;&#x51FA;&#x7684;&#x662F; Hello: 25&#x3002;</p>
+<p>&#x5C0F;&#x6280;&#x5DE7;&#x2014;&#x2014;&#x4F7F;&#x7528; supervisor </p>
+<p>&#x5982;&#x679C;&#x4F60;&#x6709; PHP &#x5F00;&#x53D1;&#x7ECF;&#x9A8C;,&#x4F1A;&#x4E60;&#x60EF;&#x5728;&#x4FEE;&#x6539; PHP &#x811A;&#x672C;&#x540E;&#x76F4;&#x63A5;&#x5237;&#x65B0;&#x6D4F;&#x89C8;&#x5668;&#x4EE5;&#x89C2;&#x5BDF;&#x7ED3;&#x679C;,&#x800C;&#x4F60;&#x5728;&#x5F00;&#x53D1; Node.js &#x5B9E;&#x73B0;&#x7684; HTTP &#x5E94;&#x7528;&#x65F6;&#x4F1A;&#x53D1;&#x73B0;,&#x65E0;&#x8BBA;&#x4F60;&#x4FEE;&#x6539;&#x4E86;&#x4EE3;&#x7801;&#x7684;&#x54EA;&#x4E00;&#x90E8;&#x4EFD;,&#x90FD;&#x5FC5;&#x987B;&#x7EC8;&#x6B62;Node.js &#x518D;&#x91CD;&#x65B0;&#x8FD0;&#x884C;&#x624D;&#x4F1A;&#x594F;&#x6548;&#x3002;&#x8FD9;&#x662F;&#x56E0;&#x4E3A; Node.js &#x53EA;&#x6709;&#x5728;&#x7B2C;&#x4E00;&#x6B21;&#x5F15;&#x7528;&#x5230;&#x67D0;&#x90E8;&#x4EFD;&#x65F6;&#x624D;&#x4F1A;&#x53BB;&#x89E3;&#x6790;&#x811A;&#x672C;&#x6587;&#x4EF6;,&#x4EE5;&#x540E;&#x90FD;&#x4F1A;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x5185;&#x5B58;,&#x907F;&#x514D;&#x91CD;&#x590D;&#x8F7D;&#x5165;,&#x800C; PHP &#x5219;&#x603B;&#x662F;&#x91CD;&#x65B0;&#x8BFB;&#x53D6;&#x5E76;&#x89E3;&#x6790;&#x811A;&#x672C;(&#x5982;&#x679C;&#x6CA1;&#x6709;&#x4E13;&#x95E8;&#x7684;&#x4F18;&#x5316;&#x914D;&#x7F6E;)&#x3002;Node.js&#x7684;&#x8FD9;&#x79CD;&#x8BBE;&#x8BA1;&#x867D;&#x7136;&#x6709;&#x5229;&#x4E8E;&#x63D0;&#x9AD8;&#x6027;&#x80FD;,&#x5374;&#x4E0D;&#x5229;&#x4E8E;&#x5F00;&#x53D1;&#x8C03;&#x8BD5;,&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x5728;&#x5F00;&#x53D1;&#x8FC7;&#x7A0B;&#x4E2D;&#x603B;&#x662F;&#x5E0C;&#x671B;&#x4FEE;&#x6539;&#x540E;&#x7ACB;&#x5373;&#x770B;&#x5230;&#x6548;&#x679C;,&#x800C;&#x4E0D;&#x662F;&#x6BCF;&#x6B21;&#x90FD;&#x8981;&#x7EC8;&#x6B62;&#x8FDB;&#x7A0B;&#x5E76;&#x91CD;&#x542F;&#x3002;</p>
+<p>supervisor &#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x4F60;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;,&#x5B83;&#x4F1A;&#x76D1;&#x89C6;&#x4F60;&#x5BF9;&#x4EE3;&#x7801;&#x7684;&#x6539;&#x52A8;,&#x5E76;&#x81EA;&#x52A8;&#x91CD;&#x542F; Node.js&#x3002;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x5F88;&#x7B80;&#x5355;,&#x9996;&#x5148;&#x4F7F;&#x7528; npm &#x5B89;&#x88C5; supervisor:</p>
+<pre><code>npm <span class="keyword">install</span> -g supervisor
+</code></pre><p>&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;&#x7684;&#x662F; Linux &#x6216; Mac,&#x76F4;&#x63A5;&#x952E;&#x5165;&#x4E0A;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x5F88;&#x53EF;&#x80FD;&#x4F1A;&#x6709;&#x6743;&#x9650;&#x9519;&#x8BEF;&#x3002;&#x539F;&#x56E0;&#x662F; npm&#x9700;&#x8981;&#x628A; supervisor &#x5B89;&#x88C5;&#x5230;&#x7CFB;&#x7EDF;&#x76EE;&#x5F55;,&#x9700;&#x8981;&#x7BA1;&#x7406;&#x5458;&#x6388;&#x6743;,&#x53EF;&#x4EE5;&#x4F7F;&#x7528; </p>
+<pre><code>sudo npm <span class="keyword">install</span> -g supervisor
+</code></pre><p>&#x547D;&#x4EE4;&#x6765;&#x5B89;&#x88C5;&#x3002;</p>
+<p>&#x63A5;&#x4E0B;&#x6765;,&#x4F7F;&#x7528; supervisor &#x547D;&#x4EE4;&#x542F;&#x52A8; app.js: </p>
+<pre><code><span class="tag">supervisor</span> <span class="tag">app</span><span class="class">.js</span>
+</code></pre><p> 1 Total Views  1 Views Today</p>
+<h3 id="Related_Posts">Related Posts</h3><ul>
+<li><a href="http://justcode.ikeepstudying.com/2015/05/mysql-%e6%9f%a5%e8%af%a2%e6%97%b6%e5%bc%ba%e5%88%b6%e5%8c%ba%e5%88%86%e5%a4%a7%e5%b0%8f%e5%86%99/" target="_blank" rel="external">MySQL &#x67E5;&#x8BE2;&#x65F6;&#x5F3A;&#x5236;&#x533A;&#x5206;&#x5927;&#x5C0F;&#x5199;</a>&#x8BA9;MySQL&#x641C;&#x7D22;&#x533A;&#x5206;&#x5927;&#x5C0F;&#x5199;&#x6216;&#x6392;&#x5E8F;&#x65F6;&#x5206;&#x5927;&#x5C0F;&#x5199;&#x65B9;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A; &#xA0; 1.&#x5728;SQL&#x4E2D;&#x5F3A;&#x5236; SELECT <code>field</code> FROM <code>table</code> WHERE BINARY <code>colunm</code> = &apos;xxxxxx&apos; SELECT <code>field</code> &#x2026;</li>
+<li><a href="http://justcode.ikeepstudying.com/2015/05/kodexplorer-%e7%ae%80%e4%bb%8b/" target="_blank" rel="external">KODExplorer &#x7B80;&#x4ECB;</a>KODExplorer&#x662F;&#x6B3E;&#x5F00;&#x6E90;&#x7801;&#x7684;&#x57FA;&#x4E8E;Web&#x7684;&#x5728;&#x7EBF;&#x6587;&#x4EF6;&#x7BA1;&#x7406;&#x3001;&#x4EE3;&#x7801;&#x7F16;&#x8F91;&#x5668;&#x3002;&#x5B83;&#x63D0;&#x4F9B;&#x4E86;&#x7C7B;windows&#x7ECF;&#x5178;&#x7528;&#x6237;&#x754C;&#x9762;&#xFF0C;&#x4E00;&#x6574;&#x5957;&#x5728;&#x7EBF;&#x6587;&#x4EF6;&#x7BA1;&#x7406;&#x3001;&#x6587;&#x4EF6;&#x9884;&#x89C8;&#x3001;&#x7F16; &#x8F91;&#x3001;&#x4E0A;&#x4F20;&#x4E0B;&#x8F7D;&#x3001;&#x5728;&#x7EBF;&#x89E3;&#x538B;&#x7F29;&#x3001;&#x97F3;&#x4E50;&#x64AD;&#x653E;&#x529F;&#x80FD;&#x3002;&#x8BA9;&#x4F60;&#x76F4;&#x63A5;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x7AEF;&#x5B9E;&#x73B0;web&#x5F00;&#x53D1;&#x3001;&#x6E90;&#x7801;&#x6587;&#x4EF6;&#x9884;&#x89C8;&#x3001;&#x7F51;&#x7AD9;&#x90E8;&#x7F72;&#x2026;</li>
+<li><a href="http://justcode.ikeepstudying.com/2015/05/node-js-%e8%bf%9e%e6%8e%a5-mysql-%e5%b9%b6%e8%bf%9b%e8%a1%8c%e6%95%b0%e6%8d%ae%e5%ba%93%e6%93%8d%e4%bd%9c-node-js-%e5%bc%80%e5%8f%91%e6%8c%87%e5%8d%97/" target="_blank" rel="external">Node.js &#x8FDE;&#x63A5; MySQL &#x5E76;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x5E93;&#x64CD;&#x4F5C; &#x2013;node.js &#x5F00;&#x53D1;&#x6307;&#x5357;</a>Node.js&#x662F;&#x4E00;&#x5957;&#x7528;&#x6765;&#x7F16;&#x5199;&#x9AD8;&#x6027;&#x80FD;&#x7F51;&#x7EDC;&#x670D;&#x52A1;&#x5668;&#x7684;JavaScript&#x5DE5;&#x5177;&#x5305; &#xA0; &#x901A;&#x5E38;&#x5728;NodeJS&#x5F00;&#x53D1;&#x4E2D;&#x6211;&#x4EEC;&#x7ECF;&#x5E38;&#x6D89;&#x53CA;&#x5230;&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5C24;&#x5176;&#x662F; MySQL &#xFF0C;&#x4F5C;&#x4E3A;&#x5E94;&#x7528;&#x6700;&#x4E3A;&#x5E7F;&#x6CDB;&#x7684;&#x5F00;&#x6E90;&#x6570;&#x636E;&#x5E93;&#x5219;&#x6210;&#x4E3A;&#x6211;&#x4EEC;&#x7684;&#x9996;&#x9009;&#xFF0C;&#x672C;&#x7BC7;&#x5C31;&#x6765;&#x4ECB;&#x7ECD;&#x4E0B;&#x5982;&#x4F55;&#x901A;&#x8FC7;NodeJS&#x2026;</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Node-js/">Node.js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/06/709bd4f/" title="fetch API 对标准 Stream 的支持 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  fetch API 对标准 Stream 的支持 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/06/70a4878/"  title="PHP 报错 Use of undefined constant prop_values – ass… -">
+ <strong>下一篇：</strong><br/> 
+ <span>PHP 报错 Use of undefined constant prop_values – ass… -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始Hello_World吧"><span class="toc-number">2.</span> <span class="toc-text">开始Hello World吧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#让我们的响应更有趣一点"><span class="toc-number">3.</span> <span class="toc-text">让我们的响应更有趣一点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充："><span class="toc-number"></span> <span class="toc-text">补充：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Related_Posts"><span class="toc-number">1.</span> <span class="toc-text">Related Posts</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>587</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>32</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>23</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>9</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

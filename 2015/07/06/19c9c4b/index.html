@@ -1,0 +1,659 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>mongodb运维之副本集实践 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;amp;#x6B63;&amp;amp;#x5F0F;&amp;amp;#x73AF;&amp;amp;#x5883;&amp;amp;#xFF0C;  
+4&amp;#x53F0;&amp;#x673A;&amp;#x5668;+&amp;#x4E00;&amp;#x53F0;&amp;#x5B9A;&amp;#x65F6;&amp;#x4EFB;&amp;#x52A1;&amp;#x7684;&amp;#x673A;&amp;#x5668;&amp;#x3002;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x662F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongodb运维之副本集实践 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/06/19c9c4b/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;amp;#x6B63;&amp;amp;#x5F0F;&amp;amp;#x73AF;&amp;amp;#x5883;&amp;amp;#xFF0C;  
+4&amp;#x53F0;&amp;#x673A;&amp;#x5668;+&amp;#x4E00;&amp;#x53F0;&amp;#x5B9A;&amp;#x65F6;&amp;#x4EFB;&amp;#x52A1;&amp;#x7684;&amp;#x673A;&amp;#x5668;&amp;#x3002;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x662F">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/19c027c.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/19c04ed.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150706/19c09cf.png">
+<meta property="og:updated_time" content="2015-07-06T13:30:00.439Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongodb运维之副本集实践 -">
+<meta name="twitter:description" content="&amp;amp;#x6B63;&amp;amp;#x5F0F;&amp;amp;#x73AF;&amp;amp;#x5883;&amp;amp;#xFF0C;  
+4&amp;#x53F0;&amp;#x673A;&amp;#x5668;+&amp;#x4E00;&amp;#x53F0;&amp;#x5B9A;&amp;#x65F6;&amp;#x4EFB;&amp;#x52A1;&amp;#x7684;&amp;#x673A;&amp;#x5668;&amp;#x3002;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x662F">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/06/19c9c4b/" title="mongodb运维之副本集实践 -" itemprop="url">mongodb运维之副本集实践 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-06T01:30:00.000Z" itemprop="datePublished"> 发表于 2015-07-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#云服务"><span class="toc-number">1.</span> <span class="toc-text">云服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mongodb部署最佳实践"><span class="toc-number">2.</span> <span class="toc-text">mongodb部署最佳实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备3台阿里云主机"><span class="toc-number">3.</span> <span class="toc-text">准备3台阿里云主机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意点"><span class="toc-number">4.</span> <span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化阿里云的新增硬盘"><span class="toc-number">5.</span> <span class="toc-text">格式化阿里云的新增硬盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置文件"><span class="toc-number">6.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-number">7.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化"><span class="toc-number">8.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reconfig"><span class="toc-number">9.</span> <span class="toc-text">reconfig</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#db-oplog-rs"><span class="toc-number">10.</span> <span class="toc-text">db.oplog.rs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在SECONDARY节点无法show_dbs"><span class="toc-number">11.</span> <span class="toc-text">在SECONDARY节点无法show dbs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存问题"><span class="toc-number">12.</span> <span class="toc-text">内存问题</span></a></li></ol>
+		
+		</div>
+		
+		<pre><code><span class="keyword">&amp;</span><span class="id">#x6B63</span>;<span class="keyword">&amp;</span><span class="id">#x5F0F</span>;<span class="keyword">&amp;</span><span class="id">#x73AF</span>;<span class="keyword">&amp;</span><span class="id">#x5883</span>;<span class="keyword">&amp;</span><span class="id">#xFF0C</span>;  
+</code></pre><p>4&#x53F0;&#x673A;&#x5668;+&#x4E00;&#x53F0;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;&#x7684;&#x673A;&#x5668;&#x3002;<br>&#x670D;&#x52A1;&#x5668;&#x662F;&#x963F;&#x91CC;&#x4E91;&#x7684;ECS&#xFF0C;<br>&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x7528;&#x7684;&#x662F;&#x963F;&#x91CC;&#x4E91;&#x7684;SLB&#xFF0C;<br>mysql&#x7528;&#x963F;&#x91CC;&#x4E91;&#x7684;RDS&#xFF0C;<br>&#x7F13;&#x5B58;&#x7528;&#x963F;&#x91CC;&#x4E91;&#x7684;OCS&#xFF0C;<br>&#x8FD0;&#x7EF4;&#x57FA;&#x672C;&#x4E0A;&#x662F;&#x90FD;&#x4E0D;&#x9700;&#x8981;&#x62C5;&#x5FC3;&#x4E86;&#xFF0C;<br>&#x73B0;&#x5728;&#x7684;&#x4E91;&#x670D;&#x52A1;&#x5DF2;&#x7ECF;&#x975E;&#x5E38;&#x5B8C;&#x5584;&#x4E86;&#xFF0C;<br>&#x5176;&#x5B9E;&#x6211;&#x4EEC;&#x7528;&#x963F;&#x91CC;&#x4E91;&#x7684;&#x670D;&#x52A1;&#x975E;&#x5E38;&#x591A;&#xFF0C;<br>&#x5927;&#x6982;&#x6709;20&#x591A;&#x4E2A;&#x7C7B;&#x578B;&#x7684;&#x670D;&#x52A1;&#xFF0C;<br>&#x611F;&#x8C22;&#x963F;&#x91CC;&#x4E91;&#x3002; </p>
+<p>&#x800C;&#x6211;&#x7684;&#x6280;&#x672F;&#x6808;&#x662F;nodejs + mongodb&#xFF0C;&#x800C;&#x963F;&#x91CC;&#x4E91;&#x6709;k-v&#x517C;&#x5BB9;redis&#x534F;&#x8BAE;&#x7684;nosql&#xFF0C;&#x65E0;mongodb&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x8981;&#x60B2;&#x5267;&#x7684;&#x81EA;&#x5DF1;&#x8FD0;&#x7EF4;mongodb&#x4E86;&#x3002;</p>
+<p>&#x963F;&#x91CC;&#x7684;ots&#x662F;&#x975E;&#x7ED3;&#x6784;&#x5316;&#x5B58;&#x50A8;&#xFF0C;&#x6CA1;&#x6709;nodejs&#x7684;sdk&#xFF0C;&#x5C31;&#x7B97;&#x6709;&#xFF0C;&#x4E0D;&#x517C;&#x5BB9;mongodb&#xFF0C;&#x4E5F;&#x6CA1;&#x5565;&#x53EF;&#x73A9;&#x7684;&#x3002;</p>
+<h2 id="&#x4E91;&#x670D;&#x52A1;">&#x4E91;&#x670D;&#x52A1;</h2><p>MongoDB&#x5B58;&#x50A8;&#x670D;&#x52A1;&#x7684;&#x4E91;&#x5E73;&#x53F0;&#xFF08;MongoHQ, MongoLabs &#x548C; Mongo Machine&#xFF09;</p>
+<p>&#x56FD;&#x5185;&#x7684;&#x8C8C;&#x4F3C;&#x53EA;&#x6709; <a href="http://developer.baidu.com/wiki/index.php?title=docs/cplat/bae/mongodb" target="_blank" rel="external">http://developer.baidu.com/wiki/index.php?title=docs/cplat/bae/mongodb</a></p>
+<p>&#x828B;&#x5934;&#x63A8;&#x8350;&#x7528;pg&#xFF0C;&#x652F;&#x6301;json&#x683C;&#x5F0F;&#x5B58;&#x50A8;</p>
+<p>&#x8FD8;&#x6709;&#x5C31;&#x662F;parse&#x548C;leancloud&#x8FD9;&#x7C7B;&#x9762;&#x5411;api&#x7684;&#x3002;</p>
+<p>&#x4EAC;&#x4E1C;&#x548C;&#x817E;&#x8BAF;&#x90FD;&#x6709;&#x8FC7;&#xFF0C;&#x540E;&#x6765;&#x5173;&#x95ED;&#x4E86;&#xFF0C;&#x4E0D;&#x77E5;&#x4F55;&#x6545;</p>
+<h2 id="mongodb&#x90E8;&#x7F72;&#x6700;&#x4F73;&#x5B9E;&#x8DF5;">mongodb&#x90E8;&#x7F72;&#x6700;&#x4F73;&#x5B9E;&#x8DF5;</h2><p>&#x5E38;&#x8BC6;&#xFF1A; replset + shard</p>
+<p>replset&#x662F;&#x526F;&#x672C;&#x96C6;&#xFF0C;shard&#x662F;&#x5206;&#x7247;</p>
+<p>mongoDB&#x7684;&#x4E3B;&#x4ECE;&#x6A21;&#x5F0F;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x526F;&#x672C;&#x7684;&#x5E94;&#x7528;&#xFF0C;&#x6CA1;&#x6709;&#x5F88;&#x597D;&#x7684;&#x6269;&#x5C55;&#x6027;&#x548C;&#x5BB9;&#x9519;&#x6027;&#x3002;&#x800C;&#x526F;&#x672C;&#x96C6;&#x5177;&#x6709;&#x591A;&#x4E2A;&#x526F;&#x672C;&#x4FDD;&#x8BC1;&#x4E86;&#x5BB9;&#x9519;&#x6027;&#xFF0C;&#x5C31;&#x7B97;&#x4E00;&#x4E2A;&#x526F;&#x672C;&#x6302;&#x6389;&#x4E86;&#x8FD8;&#x6709;&#x5F88;&#x591A;&#x526F;&#x672C;&#x5B58;&#x5728;&#xFF0C;&#x5E76;&#x4E14;&#x89E3;&#x51B3;&#x4E86;&#x4E0A;&#x9762;&#x7B2C;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x201C;&#x4E3B;&#x8282;&#x70B9;&#x6302;&#x6389;&#x4E86;&#xFF0C;&#x6574;&#x4E2A;&#x96C6;&#x7FA4;&#x5185;&#x4F1A;&#x81EA;&#x52A8;&#x5207;&#x6362;&#x201D;&#x3002;</p>
+<p>&#x6BD4;&#x5982;&#x6E38;&#x620F;&#xFF0C;&#x5F00;&#x4E86;&#x67D0;&#x4E00;&#x4E2A;&#x670D;&#xFF0C;&#x90A3;&#x4E48;&#x6240;&#x6709;&#x7684;&#x6570;&#x636E;&#x90FD;&#x5728;&#x4E00;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#xFF0C;&#x6B64;&#x65F6;&#x5B83;&#x8981;&#x4FDD;&#x8BC1;&#x7684;&#x662F;&#x670D;&#x52A1;&#x4E0D;&#x6302;&#x5C31;&#x53EF;&#x4EE5;&#xFF0C;&#x4E0D;&#x7528;&#x8003;&#x8651;&#x66F4;&#x591A;&#x7684;&#x5E76;&#x53D1;&#x4E0A;&#x7684;&#x538B;&#x529B;&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x9996;&#x5148;&#x662F;&#x526F;&#x672C;&#x96C6;&#x3002;</p>
+<p><img src="http://taojinke.github.io/img/20150706/19c027c.png" alt=""></p>
+<p>&#x5982;&#x679C;&#x6709;&#x8282;&#x70B9;&#x6302;&#x4E86;&#xFF0C;&#x5B83;&#x4F1A;&#x91CD;&#x65B0;&#x9009;&#x4E3E;&#x65B0;&#x7684;&#x4E3B;&#x8282;&#x70B9;</p>
+<p><img src="http://taojinke.github.io/img/20150706/19c04ed.png" alt=""></p>
+<p>&#x800C;&#x66F4;&#x591A;&#x7684;&#x60C5;&#x51B5;&#x662F;&#xFF0C;&#x4F60;&#x8981;&#x8003;&#x8651;&#x5E76;&#x53D1;&#xFF0C;&#x800C;&#x4E14;&#x53EF;&#x80FD;&#x662F;&#x5343;&#x4E07;&#xFF0C;&#x4EBF;&#x4E07;&#x5E76;&#x53D1;&#xFF0C;&#x526F;&#x672C;&#x96C6;&#x662F;&#x641E;&#x4E0D;&#x5B9A;&#x7684;&#x3002;</p>
+<p>&#x4E8E;&#x662F;shard&#x5C31;&#x767B;&#x573A;&#x4E86;&#x3002;</p>
+<p>&#x5206;&#x7247;&#x5E76;&#x4E0D;&#x662F;mongo&#x72EC;&#x6709;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x5F88;&#x591A;&#x6570;&#x636E;&#x5E93;&#x90FD;&#x6709;&#xFF0C;mongodb&#x91CC;&#x7684;&#x5206;&#x7247;&#x662F;&#x6307;&#x901A;&#x8FC7;mongos&#x6765;&#x5F53;&#x7F51;&#x5173;&#x8DEF;&#x7531;&#xFF0C;&#x5206;&#x53D1;&#x8BF7;&#x6C42;&#x5230;&#x6BCF;&#x4E2A;shard&#xFF0C;&#x7136;&#x540E;&#x6BCF;&#x4E2A;shard&#x4F1A;&#x5BF9;&#x5E94;&#x5404;&#x81EA;&#x7684;&#x526F;&#x672C;&#x96C6;&#x3002;</p>
+<p>&#x65E2;&#x7136;&#x662F;&#x5206;&#x53D1;&#x8BF7;&#x6C42;&#xFF0C;&#x5C31;&#x4F1A;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x6027;&#x80FD;&#x635F;&#x8017;&#xFF0C;&#x4F46;&#x597D;&#x5904;&#x662F;&#x4F60;&#x80FD;&#x5904;&#x7406;&#x66F4;&#x591A;&#x8BF7;&#x6C42;&#x3002;&#x6240;&#x4EE5;&#x6309;&#x7167;&#x573A;&#x666F;&#x9009;&#x62E9;</p>
+<ul>
+<li>&#x6027;&#x80FD;&#x6700;&#x4F73;&#xFF0C;&#x5F53;&#x7136;&#x662F;&#x4E00;&#x4E2A;&#x526F;&#x672C;&#x96C6;&#xFF0C;&#x5982;&#x679C;&#x80FD;&#x6EE1;&#x8DB3;&#x9700;&#x6C42;&#xFF0C;&#x4F18;&#x5148;</li>
+<li>&#x5982;&#x679C;&#x526F;&#x672C;&#x96C6;&#x4E0D;&#x8DB3;&#x53CA;&#x652F;&#x6491;&#x5E76;&#x53D1;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x9009;shard</li>
+</ul>
+<h2 id="&#x51C6;&#x5907;3&#x53F0;&#x963F;&#x91CC;&#x4E91;&#x4E3B;&#x673A;">&#x51C6;&#x5907;3&#x53F0;&#x963F;&#x91CC;&#x4E91;&#x4E3B;&#x673A;</h2><ul>
+<li>10.51.83.118</li>
+<li>10.51.77.129</li>
+<li>10.44.204.241</li>
+</ul>
+<p>&#x5148;&#x5404;&#x81EA;ping&#x4E00;&#x4E0B;&#xFF0C;&#x4FDD;&#x8BC1;&#x7F51;&#x7EDC;&#x901A;&#x7545;&#x3002;</p>
+<p>&#x786E;&#x5B9A;&#x6211;&#x7684;&#x76EE;&#x6807;&#x662F;1&#x4E3B;&#xFF0C;2&#x4ECE;&#xFF0C;&#x5947;&#x6570;&#x4E2A;</p>
+<p>&#x8FD9;&#x7BC7;&#x6587;&#x5B57;&#x8BB2;&#x4E86;Bully&#x7B97;&#x6CD5;&#x4EE5;&#x53CA;&#x4E3A;&#x5565;&#x662F;&#x5947;&#x6570;&#x4E2A;</p>
+<p><a href="http://www.lanceyan.com/tech/mongodb_repset2.html" target="_blank" rel="external">http://www.lanceyan.com/tech/mongodb_repset2.html</a></p>
+<h2 id="&#x6CE8;&#x610F;&#x70B9;">&#x6CE8;&#x610F;&#x70B9;</h2><ul>
+<li>&#x670D;&#x52A1;&#x5668;&#x8282;&#x70B9;&#x4E4B;&#x524D;&#x65F6;&#x95F4;&#x8981;&#x540C;&#x6B65;</li>
+<li>&#x5F00;&#x542F;&#x9632;&#x706B;&#x5899;&#x7684;&#x4E00;&#x5B9A;&#x8981;&#x5141;&#x8BB8;&#x901A;&#x8FC7;</li>
+<li>&#x5F00;&#x542F;selinux&#x7684;&#x4E5F;&#x8981;&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;</li>
+<li>&#x5EFA;&#x7ACB;&#x53CC;&#x51FB;&#x4E92;&#x4FE1;&#x6A21;&#x5F0F;&#x6700;&#x597D;&#x4E0D;&#x8FC7;</li>
+</ul>
+<h2 id="&#x683C;&#x5F0F;&#x5316;&#x963F;&#x91CC;&#x4E91;&#x7684;&#x65B0;&#x589E;&#x786C;&#x76D8;">&#x683C;&#x5F0F;&#x5316;&#x963F;&#x91CC;&#x4E91;&#x7684;&#x65B0;&#x589E;&#x786C;&#x76D8;</h2><p><a href="http://www.cnblogs.com/dudu/archive/2012/12/07/aliyun-linux-fdisk.html" target="_blank" rel="external">http://www.cnblogs.com/dudu/archive/2012/12/07/aliyun-linux-fdisk.html</a></p>
+<p>&#x7136;&#x540E;&#x6302;&#x8F7D;&#x5230;/data&#x76EE;&#x5F55;&#x4E0B;</p>
+<h2 id="&#x914D;&#x7F6E;&#x6587;&#x4EF6;">&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h2><p>~/config/r0.config</p>
+<pre><code><span class="variable">port=</span><span class="number">27000</span> <span class="variable">fork=</span><span class="constant">true</span> <span class="variable">logpath=</span>/data/replset/log/r0.log <span class="variable">dbpath=</span>/data/replset/r0 <span class="variable">logappend=</span><span class="constant">true</span> <span class="variable">replSet=</span>rs <span class="comment">#keyFile=/data/replset/key/r0 </span>
+</code></pre><p>~/config/r1.config</p>
+<pre><code><span class="variable">port=</span><span class="number">27001</span> <span class="variable">fork=</span><span class="constant">true</span> <span class="variable">logpath=</span>/data/replset/log/r1.log <span class="variable">dbpath=</span>/data/replset/r1 <span class="variable">logappend=</span><span class="constant">true</span> <span class="variable">replSet=</span>rs <span class="comment">#keyFile=/data/replset/key/r1 </span>
+</code></pre><p>~/config/r2.config</p>
+<pre><code><span class="variable">port=</span><span class="number">27002</span> <span class="variable">fork=</span><span class="constant">true</span> <span class="variable">logpath=</span>/data/replset/log/r2.log <span class="variable">dbpath=</span>/data/replset/r2 <span class="variable">logappend=</span><span class="constant">true</span> <span class="variable">replSet=</span>rs <span class="comment">#keyFile=/data/replset/key/r2 </span>
+</code></pre><h2 id="&#x542F;&#x52A8;">&#x542F;&#x52A8;</h2><p>&#x786E;&#x4FDD;&#x76EE;&#x5F55;&#x4E3A;&#x7A7A;&#xFF0C;&#x6740;&#x6B7B;&#x6240;&#x6709;mongod&#x8FDB;&#x7A0B;</p>
+<pre><code>rm -rf /data/replset/  ps -ef|<span class="keyword">grep</span> mongod | awk &amp;apos;{<span class="keyword">print</span> <span class="variable">$2</span>}&amp;apos; | xargs <span class="keyword">kill</span> -<span class="number">9</span> ps -ef|<span class="keyword">grep</span> mongod 
+</code></pre><p>&#x521B;&#x5EFA;&#x76EE;&#x5F55;</p>
+<pre><code>mkdir -<span class="tag">p</span> /data/replset/r0 mkdir -<span class="tag">p</span> /data/replset/r1 mkdir -<span class="tag">p</span> /data/replset/r2 mkdir -<span class="tag">p</span> /data/replset/key mkdir -<span class="tag">p</span> /data/replset/log 
+</code></pre><p>&#x51C6;&#x5907;key&#x6587;&#x4EF6;</p>
+<pre><code>echo &amp;quot;replset1 key&amp;quot; &amp;gt; <span class="regexp">/data/</span>replset<span class="regexp">/key/</span>r0 echo &amp;quot;replset1 key&amp;quot; &amp;gt; <span class="regexp">/data/</span>replset<span class="regexp">/key/</span>r1 echo &amp;quot;replset1 key&amp;quot; &amp;gt; <span class="regexp">/data/</span>replset<span class="regexp">/key/</span>r2 chmod <span class="number">600</span> <span class="regexp">/data/</span>replset<span class="regexp">/key/</span>r*   
+</code></pre><p>&#x6CE8;&#x610F;&#x7B2C;&#x4E00;&#x6B21;&#x4E0D;&#x80FD;&#x7528;keyFile</p>
+<pre><code>mongod <span class="operator">-f</span> ~/config/r0.config &amp;amp; mongod <span class="operator">-f</span> ~/config/r1.config &amp;amp; mongod <span class="operator">-f</span> ~/config/r2.config &amp;amp; 
+</code></pre><p>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x91CC;&#x662F;fork=true&#xFF0C;&#x6240;&#x4EE5;&#x542F;&#x52A8;&#x9700;&#x8981;&#x70B9;&#x65F6;&#x95F4;</p>
+<h2 id="&#x521D;&#x59CB;&#x5316;">&#x521D;&#x59CB;&#x5316;</h2><pre><code>&amp;gt; rs<span class="class">.initiate</span>()   {   &amp;quot;info2&amp;quot; <span class="value">: &amp;quot;</span>no configuration explicitly specified -- making one&amp;quot;,   &amp;quot;me&amp;quot; <span class="value">: &amp;quot;</span>iZ25xk7uei1Z<span class="value">:<span class="number">27001</span>&amp;quot;</span>,   &amp;quot;ok&amp;quot; <span class="value">: <span class="number">1</span> } </span>
+</code></pre><p>&#x64E6;&#xFF0C;&#x8D85;&#x7EA7;&#x6162;&#x3002;&#x3002;&#x3002;&#x3002;</p>
+<p>&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x8BED;&#x53E5;&#x521D;&#x59CB;&#x5316;</p>
+<pre><code>mongo --port <span class="number">27000</span> rs.initiate({ <span class="string">_id:</span>&amp;apos;rs&amp;apos;,<span class="string">members:</span>[{ <span class="string">_id:</span><span class="number">0</span>, <span class="string">host:</span>&amp;apos;<span class="number">10.51</span>.77.129:<span class="number">27000</span>&amp;apos; }]}) 
+</code></pre><p>&#x8FD9;&#x4E2A;&#x5176;&#x5B9E;&#x4E5F;&#x5F88;&#x6162;&#x3002;&#x3002;&#x3002;&#x3002;</p>
+<p>&#x5F85;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x7EE7;&#x7EED;&#x589E;&#x52A0;&#x5176;&#x4ED6;2&#x4E2A;&#x8282;&#x70B9;&#xFF08;&#x4E00;&#x5B9A;&#x8981;&#x6CE8;&#x610F;&#xFF0C;&#x5728;rs:PRIMARY&#x5373;&#x4E3B;&#x8282;&#x70B9;&#x4E0A;&#x624D;&#x80FD;&#x589E;&#x52A0;rs:SECONDARY&#x548C;ARBITER&#x3002;&#x5982;&#x679C;&#x4E4B;&#x524D;&#x8FDE;&#x7684;&#x662F;&#x5176;&#x4ED6;&#x7AEF;&#x53E3;&#xFF0C;&#x9700;&#x8981;&#x5207;&#x6362;&#x7684;&#x3002;&#xFF09;</p>
+<pre><code><span class="tag">rs</span><span class="class">.add</span>(&amp;<span class="tag">quot</span>;10<span class="class">.51</span><span class="class">.77</span><span class="class">.129</span><span class="pseudo">:27001</span>&amp;<span class="tag">quot</span>;) <span class="tag">rs</span><span class="class">.addArb</span>(&amp;<span class="tag">quot</span>;10<span class="class">.51</span><span class="class">.77</span><span class="class">.129</span><span class="pseudo">:27002</span>&amp;<span class="tag">quot</span>;) 
+</code></pre><p>&#x67E5;&#x770B;&#x72B6;&#x6001;</p>
+<pre><code><span class="tag">rs</span><span class="class">.status</span>(); 
+</code></pre><p>&#x5982;&#x679C;&#x60F3;&#x79FB;&#x9664;&#x67D0;&#x4E00;&#x4E2A;&#x8282;&#x70B9;</p>
+<pre><code><span class="tag">rs</span><span class="class">.remove</span>(&amp;<span class="tag">quot</span>;10<span class="class">.51</span><span class="class">.77</span><span class="class">.129</span><span class="pseudo">:27001</span>&amp;<span class="tag">quot</span>;) <span class="tag">rs</span><span class="class">.remove</span>(&amp;<span class="tag">quot</span>;10<span class="class">.51</span><span class="class">.77</span><span class="class">.129</span><span class="pseudo">:27000</span>&amp;<span class="tag">quot</span>;) <span class="tag">rs</span><span class="class">.remove</span>(&amp;<span class="tag">quot</span>;10<span class="class">.51</span><span class="class">.77</span><span class="class">.129</span><span class="pseudo">:27002</span>&amp;<span class="tag">quot</span>;) 
+</code></pre><h2 id="reconfig">reconfig</h2><p>&#x5982;&#x679C;&#x60F3;&#x5220;&#x9664;&#xFF0C;&#x91CD;&#x7F6E;&#x7528;rs.reconfig(),&#x8FD9;&#x6837;&#x505A;&#x4E0D;&#x4E00;&#x5B9A;&#x4F1A;&#x6210;&#x529F;&#xFF0C;&#x6709;&#x7684;&#x65F6;&#x5019;&#x65E0;&#x6CD5;&#x5207;&#x6362;&#x5230;&#x4E3B;&#x8282;&#x70B9;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#xFF0C;&#x5220;&#x9664;/data/replset&#x76EE;&#x5F55;&#xFF0C;&#x7136;&#x540E;&#x91CD;&#x542F;&#x6240;&#x6709;mongo&#x7684;&#x8FDB;&#x7A0B;&#x3002;</p>
+<pre><code>rs.<span class="function"><span class="title">reconfig</span><span class="params">({ _id:&amp;apos;rs&amp;apos;,members:[{ _id:<span class="number">1</span>, host:&amp;apos;<span class="number">10.51</span>.<span class="number">77.129</span>:<span class="number">27000</span>&amp;apos; }]})</span></span> rs.<span class="function"><span class="title">add</span><span class="params">(&amp;quot;<span class="number">10.51</span>.<span class="number">77.129</span>:<span class="number">27000</span>&amp;quot;)</span></span> rs.<span class="function"><span class="title">addArb</span><span class="params">(&amp;quot;<span class="number">10.51</span>.<span class="number">77.129</span>:<span class="number">27002</span>&amp;quot;)</span></span> 
+</code></pre><h2 id="db-oplog-rs">db.oplog.rs</h2><pre><code>rs<span class="value">:PRIMARY&amp;gt;</span> use local switched to db local rs<span class="value">:PRIMARY&amp;gt;</span> show collections me oplog<span class="class">.rs</span> startup_log system<span class="class">.indexes</span> system<span class="class">.replset</span> rs<span class="value">:PRIMARY&amp;gt;</span>  rs<span class="value">:PRIMARY&amp;gt;</span>  rs<span class="value">:PRIMARY&amp;gt;</span> db<span class="class">.oplog</span><span class="class">.rs</span><span class="class">.find</span>() { &amp;quot;ts&amp;quot; <span class="value">: <span class="function">Timestamp</span>(<span class="number">1435495192</span>, <span class="number">1</span>), &amp;quot;</span>h&amp;quot; <span class="value">: <span class="function">NumberLong</span>(<span class="number">0</span>), &amp;quot;</span>v&amp;quot; <span class="value">: <span class="number">2</span>, &amp;quot;</span>op&amp;quot; <span class="value">: &amp;quot;</span>n&amp;quot;, &amp;quot;ns&amp;quot; <span class="value">: &amp;quot;</span>&amp;quot;, &amp;quot;o&amp;quot; <span class="value">: { &amp;quot;</span>msg&amp;quot; <span class="value">: &amp;quot;</span>initiating set&amp;quot; } } { &amp;quot;ts&amp;quot; <span class="value">: <span class="function">Timestamp</span>(<span class="number">1435495306</span>, <span class="number">1</span>), &amp;quot;</span>h&amp;quot; <span class="value">: <span class="function">NumberLong</span>(<span class="number">0</span>), &amp;quot;</span>v&amp;quot; <span class="value">: <span class="number">2</span>, &amp;quot;</span>op&amp;quot; <span class="value">: &amp;quot;</span>n&amp;quot;, &amp;quot;ns&amp;quot; <span class="value">: &amp;quot;</span>&amp;quot;, &amp;quot;o&amp;quot; <span class="value">: { &amp;quot;</span>msg&amp;quot; <span class="value">: &amp;quot;</span>Reconfig set&amp;quot;, &amp;quot;version&amp;quot; <span class="value">: <span class="number">2</span> } } { &amp;quot;</span>ts&amp;quot; <span class="value">: <span class="function">Timestamp</span>(<span class="number">1435495323</span>, <span class="number">1</span>), &amp;quot;</span>h&amp;quot; <span class="value">: <span class="function">NumberLong</span>(<span class="number">0</span>), &amp;quot;</span>v&amp;quot; <span class="value">: <span class="number">2</span>, &amp;quot;</span>op&amp;quot; <span class="value">: &amp;quot;</span>n&amp;quot;, &amp;quot;ns&amp;quot; <span class="value">: &amp;quot;</span>&amp;quot;, &amp;quot;o&amp;quot; <span class="value">: { &amp;quot;</span>msg&amp;quot; <span class="value">: &amp;quot;</span>Reconfig set&amp;quot;, &amp;quot;version&amp;quot; <span class="value">: <span class="number">3</span> } } </span>
+</code></pre><h2 id="&#x5728;SECONDARY&#x8282;&#x70B9;&#x65E0;&#x6CD5;show_dbs">&#x5728;SECONDARY&#x8282;&#x70B9;&#x65E0;&#x6CD5;show dbs</h2><p>&#x4E3B;&#x4ECE;&#x542F;&#x52A8;&#x4E4B;&#x540E;&#xFF0C;&#x8FDE;&#x63A5;slave&#x53EF;&#x4EE5;&#x6210;&#x529F;&#x8FDE;&#x4E0A;&#xFF0C;&#x4F46;&#x662F;&#x5728;slave&#x4E2D;&#x6267;&#x884C; show dbs &#x7684;&#x65F6;&#x5019;&#x5C31;&#x62A5;&#x9519;&#x4E86;:</p>
+<pre><code>QUERY    Error<span class="value">: listDatabases failed:{ &amp;quot;</span>note&amp;quot; <span class="value">: &amp;quot;</span>from execCommand&amp;quot;, &amp;quot;ok&amp;quot; <span class="value">: <span class="number">0</span>, &amp;quot;</span>errmsg&amp;quot; <span class="value">: &amp;quot;</span>not master&amp;quot; } 
+</code></pre><p>&#x89E3;&#x51B3;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<p>&#x5728;&#x62A5;&#x9519;&#x7684;slave&#x673A;&#x5668;&#x4E0A;&#x6267;&#x884C; rs.slaveOk()&#x65B9;&#x6CD5;&#x5373;&#x53EF;&#x3002;</p>
+<p>&#x89E3;&#x91CA;&#x4E00;&#x4E0B;&#x5177;&#x4F53;slaveOk&#x65B9;&#x6CD5;&#x662F;&#x4EC0;&#x4E48;&#x610F;&#x601D;&#xFF1F;</p>
+<pre><code>Provides a shorthand <span class="keyword">for</span> the following operation:  db.getMongo().setSlaveOk() This allows the current connection <span class="keyword">to</span> allow <span class="keyword">read</span> operations <span class="keyword">to</span> run <span class="keyword">on</span> secondary members. See the readPref() <span class="function"><span class="keyword">method</span> <span class="title">for</span> <span class="title">more</span> <span class="title">fine</span>-<span class="title">grained</span> <span class="title">control</span> <span class="title">over</span> <span class="title">read</span> <span class="title">preference</span> <span class="title">in</span> <span class="title">the</span> <span class="title">mongo</span> <span class="title">shell</span>. </span>
+</code></pre><p>see</p>
+<ul>
+<li><a href="http://segmentfault.com/a/1190000002924522" target="_blank" rel="external">http://segmentfault.com/a/1190000002924522</a></li>
+<li><a href="http://www.it165.net/database/html/201402/5280.html" target="_blank" rel="external">http://www.it165.net/database/html/201402/5280.html</a></li>
+</ul>
+<h2 id="&#x5185;&#x5B58;&#x95EE;&#x9898;">&#x5185;&#x5B58;&#x95EE;&#x9898;</h2><p>&#x67E5;&#x770B;&#x5185;&#x5B58;&#x60C5;&#x51B5;&#x6700;&#x5E38;&#x7528;&#x7684;&#x662F;free&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code>[deploy<span class="annotation">@iZ</span>25xk7uei1Z config]$ free -m              total       used       free     shared    buffers     cached <span class="string">Mem:</span>          <span class="number">7567</span>       <span class="number">6821</span>        <span class="number">745</span>          <span class="number">8</span>        <span class="number">129</span>       <span class="number">6122</span> -<span class="regexp">/+ buffers/</span><span class="string">cache:</span>        <span class="number">569</span>       <span class="number">6997</span> <span class="string">Swap:</span>            <span class="number">0</span>          <span class="number">0</span>          <span class="number">0</span> 
+</code></pre><p>&#x9650;&#x5236;&#x5185;&#x5B58;</p>
+<p>&#x6240;&#x6709;&#x8FDE;&#x63A5;&#x6D88;&#x8017;&#x7684;&#x5185;&#x5B58;&#x52A0;&#x8D77;&#x6765;&#x4F1A;&#x76F8;&#x5F53;&#x60CA;&#x4EBA;&#xFF0C;&#x63A8;&#x8350;&#x628A;Stack&#x8BBE;&#x7F6E;&#x5C0F;&#x4E00;&#x70B9;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;1024&#xFF1A;</p>
+<pre><code><span class="built_in">ulimit</span> <span class="operator">-s</span> <span class="number">1024</span> 
+</code></pre><p>&#x901A;&#x8FC7;&#x8C03;&#x6574;&#x5185;&#x6838;&#x53C2;&#x6570;drop_caches&#x4E5F;&#x53EF;&#x4EE5;&#x91CA;&#x653E;&#x7F13;&#x5B58;&#xFF1A;</p>
+<pre><code><span class="attribute">sysctl vm.drop_caches</span>=<span class="string">1 </span>
+</code></pre><p>&#x6709;&#x65F6;&#x5019;&#xFF0C;&#x51FA;&#x4E8E;&#x67D0;&#x4E9B;&#x539F;&#x56E0;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x60F3;&#x91CA;&#x653E;&#x6389;MongoDB&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58;&#xFF0C;&#x4E0D;&#x8FC7;&#x524D;&#x9762;&#x8BF4;&#x4E86;&#xFF0C;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x5DE5;&#x4F5C;&#x662F;&#x7531;&#x865A;&#x62DF;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x5668;&#x63A7;&#x5236;&#x7684;&#xFF0C;&#x5E78;&#x597D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;MongoDB&#x5185;&#x7F6E;&#x7684;closeAllDatabases&#x547D;&#x4EE4;&#x8FBE;&#x5230;&#x76EE;&#x7684;&#xFF1A;</p>
+<pre><code>mongo&amp;<span class="keyword">gt</span>; <span class="keyword">use</span> admin mongo&amp;<span class="keyword">gt</span>; db.runCommand({closeAllDatabases:<span class="number">1</span>}) 
+</code></pre><p>&#x5E73;&#x65F6;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;mongo&#x547D;&#x4EE4;&#x884C;&#x6765;&#x76D1;&#x63A7;MongoDB&#x7684;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x60C5;&#x51B5;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code><span class="tag">mongo</span>&amp;<span class="tag">gt</span>; <span class="tag">db</span><span class="class">.serverStatus</span>()<span class="rule"><span class="attribute">.mem</span>:<span class="value"> {  &amp;quot</span></span>;<span class="tag">resident</span>&amp;<span class="tag">quot</span>; : 22346,  &amp;<span class="tag">quot</span>;<span class="tag">virtual</span>&amp;<span class="tag">quot</span>; : 1938524,  &amp;<span class="tag">quot</span>;<span class="tag">mapped</span>&amp;<span class="tag">quot</span>; : 962283 } 
+</code></pre><p>&#x8FD8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;mongostat&#x547D;&#x4EE4;&#x6765;&#x76D1;&#x63A7;MongoDB&#x7684;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x60C5;&#x51B5;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code><span class="keyword">shell</span>&amp;gt; mongostat mapped vsize <span class="keyword">res</span> faults  <span class="number">940</span><span class="keyword">g</span> <span class="number">1893</span><span class="keyword">g</span> <span class="number">21.9</span><span class="keyword">g</span> <span class="number">0</span> 
+</code></pre><p>&#x5176;&#x4E2D;&#x5185;&#x5B58;&#x76F8;&#x5173;&#x5B57;&#x6BB5;&#x7684;&#x542B;&#x4E49;&#x662F;&#xFF1A;</p>
+<ul>
+<li>mapped&#xFF1A;&#x6620;&#x5C04;&#x5230;&#x5185;&#x5B58;&#x7684;&#x6570;&#x636E;&#x5927;&#x5C0F;</li>
+<li>visze&#xFF1A;&#x5360;&#x7528;&#x7684;&#x865A;&#x62DF;&#x5185;&#x5B58;&#x5927;&#x5C0F;</li>
+<li>res&#xFF1A;&#x5360;&#x7528;&#x7684;&#x7269;&#x7406;&#x5185;&#x5B58;&#x5927;&#x5C0F;</li>
+</ul>
+<p>&#x6CE8;&#xFF1A;&#x5982;&#x679C;&#x64CD;&#x4F5C;&#x4E0D;&#x80FD;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x5B8C;&#x6210;&#xFF0C;&#x7ED3;&#x679C;faults&#x5217;&#x7684;&#x6570;&#x503C;&#x4E0D;&#x4F1A;&#x662F;0&#xFF0C;&#x89C6;&#x5927;&#x5C0F;&#x53EF;&#x80FD;&#x6709;&#x6027;&#x80FD;&#x95EE;&#x9898;&#x3002; &#x5728;&#x4E0A;&#x9762;&#x7684;&#x7ED3;&#x679C;&#x4E2D;&#xFF0C;vsize&#x662F;mapped&#x7684;&#x4E24;&#x500D;&#xFF0C;&#x800C;mapped&#x7B49;&#x4E8E;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x6240;&#x4EE5;&#x8BF4;vsize&#x662F;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x7684;&#x4E24;&#x500D;&#xFF0C;&#x4E4B;&#x6240;&#x4EE5;&#x4F1A;&#x8FD9;&#x6837;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x672C;&#x4F8B;&#x4E2D;&#xFF0C;MongoDB&#x5F00;&#x542F;&#x4E86;journal&#xFF0C;&#x9700;&#x8981;&#x5728;&#x5185;&#x5B58;&#x91CC;&#x591A;&#x6620;&#x5C04;&#x4E00;&#x6B21;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x5982;&#x679C;&#x5173;&#x95ED;journal&#xFF0C;&#x5219;vsize&#x548C;mapped&#x5927;&#x81F4;&#x76F8;&#x5F53;&#x3002;</p>
+<p>see</p>
+<ul>
+<li><a href="http://www.oschina.net/question/16840_44521" target="_blank" rel="external">http://www.oschina.net/question/16840_44521</a></li>
+</ul>
+<p>&#x66F4;&#x597D;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x4F7F;&#x7528;docker&#xFF0C;&#x4E00;&#x52B3;&#x6C38;&#x9038;</p>
+<ul>
+<li>&#x624B;&#x628A;&#x624B;&#x6559;&#x4F60;&#x7528;Docker&#x90E8;&#x7F72;&#x4E00;&#x4E2A;MongoDB&#x96C6;&#x7FA4;&#xA0; <a href="http://dockone.io/article/181" target="_blank" rel="external">http://dockone.io/article/181</a></li>
+</ul>
+<p>&#x5168;&#x6587;&#x5B8C;</p>
+<p>&#x6B22;&#x8FCE;&#x5173;&#x6CE8;&#x6211;&#x7684;&#x516C;&#x4F17;&#x53F7;&#x3010;node&#x5168;&#x6808;&#x3011;</p>
+<p><img src="http://taojinke.github.io/img/20150706/19c09cf.png" alt=""></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MongoDB/">MongoDB</a><a href="/tags/运维技术/">运维技术</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/06/19d7805/" title="MongoDB 3.0 用户创建 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  MongoDB 3.0 用户创建 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/06/194ea14/"  title=".net Mongo Driver 1.0与2.0的对比与2.0的优化 -">
+ <strong>下一篇：</strong><br/> 
+ <span>.net Mongo Driver 1.0与2.0的对比与2.0的优化 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#云服务"><span class="toc-number">1.</span> <span class="toc-text">云服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mongodb部署最佳实践"><span class="toc-number">2.</span> <span class="toc-text">mongodb部署最佳实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备3台阿里云主机"><span class="toc-number">3.</span> <span class="toc-text">准备3台阿里云主机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意点"><span class="toc-number">4.</span> <span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化阿里云的新增硬盘"><span class="toc-number">5.</span> <span class="toc-text">格式化阿里云的新增硬盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置文件"><span class="toc-number">6.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-number">7.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化"><span class="toc-number">8.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reconfig"><span class="toc-number">9.</span> <span class="toc-text">reconfig</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#db-oplog-rs"><span class="toc-number">10.</span> <span class="toc-text">db.oplog.rs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在SECONDARY节点无法show_dbs"><span class="toc-number">11.</span> <span class="toc-text">在SECONDARY节点无法show dbs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存问题"><span class="toc-number">12.</span> <span class="toc-text">内存问题</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>587</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>32</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>23</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>9</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

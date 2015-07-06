@@ -1,0 +1,575 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Spring REST 异常处理 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x5728;&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7;&amp;#x4E2D;&amp;#x5199;&amp;#x5230;&amp;#x4E86;Spring MVC&amp;#x7684;&amp;#x5F02;&amp;#x5E38;&amp;#x5904;&amp;#x7406;&amp;#xFF0C;SpringMVC&amp;#x6355;&amp;#x83B7;&amp;#x5230;&amp;#x5F02;&amp;#x5E38;&amp;#x4E4B;&amp;#x540E;&amp;#x4F1A;&amp;#x8F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring REST 异常处理 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/06/df393ec/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x5728;&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7;&amp;#x4E2D;&amp;#x5199;&amp;#x5230;&amp;#x4E86;Spring MVC&amp;#x7684;&amp;#x5F02;&amp;#x5E38;&amp;#x5904;&amp;#x7406;&amp;#xFF0C;SpringMVC&amp;#x6355;&amp;#x83B7;&amp;#x5230;&amp;#x5F02;&amp;#x5E38;&amp;#x4E4B;&amp;#x540E;&amp;#x4F1A;&amp;#x8F">
+<meta property="og:updated_time" content="2015-07-06T13:28:21.947Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring REST 异常处理 -">
+<meta name="twitter:description" content="&amp;#x5728;&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7;&amp;#x4E2D;&amp;#x5199;&amp;#x5230;&amp;#x4E86;Spring MVC&amp;#x7684;&amp;#x5F02;&amp;#x5E38;&amp;#x5904;&amp;#x7406;&amp;#xFF0C;SpringMVC&amp;#x6355;&amp;#x83B7;&amp;#x5230;&amp;#x5F02;&amp;#x5E38;&amp;#x4E4B;&amp;#x540E;&amp;#x4F1A;&amp;#x8F">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/06/df393ec/" title="Spring REST 异常处理 -" itemprop="url">Spring REST 异常处理 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-06T01:28:21.000Z" itemprop="datePublished"> 发表于 2015-07-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#通过ResponseEntity"><span class="toc-number">1.</span> <span class="toc-text">通过ResponseEntity</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过ExceptionHandler注解"><span class="toc-number"></span> <span class="toc-text">通过ExceptionHandler注解</span></a>
+		
+		</div>
+		
+		<p>&#x5728;&#x4E0A;&#x4E00;&#x7BC7;&#x4E2D;&#x5199;&#x5230;&#x4E86;Spring MVC&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#xFF0C;SpringMVC&#x6355;&#x83B7;&#x5230;&#x5F02;&#x5E38;&#x4E4B;&#x540E;&#x4F1A;&#x8F6C;&#x5230;&#x76F8;&#x5E94;&#x7684;&#x9519;&#x8BEF;&#x9875;&#x9762;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;REST API &#xFF0C;&#x4E00;&#x822C;&#x53EA;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x548C;&#x72B6;&#x6001;&#x7801;&#xFF0C;&#x6BD4;&#x5982;&#x53D1;&#x751F;&#x5F02;&#x5E38;&#xFF0C;&#x53EA;&#x5411;&#x5BA2;&#x6237;&#x7AEF;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;500&#x7684;&#x72B6;&#x6001;&#x7801;&#xFF0C;&#x548C;&#x4E00;&#x4E2A;&#x9519;&#x8BEF;&#x6D88;&#x606F;&#x3002;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x4E0D;&#x505A;&#x5904;&#x7406;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x901A;&#x8FC7;REST API&#x8BBF;&#x95EE;&#xFF0C;&#x53D1;&#x751F;&#x5F02;&#x5E38;&#x7684;&#x8BDD;&#xFF0C;&#x4F1A;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x9519;&#x8BEF;&#x9875;&#x9762;&#x7684;html&#x4EE3;&#x7801;&#x3002;&#x3002;&#x3002;&#x8FD9;&#x65F6;&#x5019;&#x600E;&#x4E48;&#x505A;&#x5462;, &#x6211;&#x73B0;&#x5728;&#x6240;&#x77E5;&#x9053;&#x7684;&#x5C31;&#x4E24;&#x79CD;&#x505A;&#x6CD5;</p>
+<h3 id="&#x901A;&#x8FC7;ResponseEntity">&#x901A;&#x8FC7;ResponseEntity</h3><p>&#x901A;&#x8FC7;ResponseEntity&#x63A5;&#x6536;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x5BF9;&#x8C61;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;HttpStatus.&#x4E3E;&#x4F8B;&#xFF1A; </p>
+<pre><code>@RequestMapping(value<span class="subst">=&amp;</span>quot;/customer<span class="subst">/</span>{id}<span class="subst">&amp;</span>quot; )
+<span class="keyword">public</span> ResponseEntity<span class="subst">&amp;</span><span class="literal">lt</span>;Customer<span class="subst">&amp;</span><span class="literal">gt</span>; getCustomerById(@PathVariable <span class="built_in">String</span> id)
+{
+    Customer customer;
+    try 
+    {
+        customer <span class="subst">=</span> customerService<span class="built_in">.</span>getCustomerDetail(id);
+    } 
+    catch (CustomerNotFoundException e) 
+    {
+        <span class="keyword">return</span> <span class="literal">new</span> ResponseEntity<span class="subst">&amp;</span><span class="literal">lt</span>;Customer<span class="subst">&amp;</span><span class="literal">gt</span>;(HttpStatus<span class="built_in">.</span>NOT_FOUND);
+    }
+
+    <span class="keyword">return</span> <span class="literal">new</span> ResponseEntity<span class="subst">&amp;</span><span class="literal">lt</span>;Customer<span class="subst">&amp;</span><span class="literal">gt</span>;(customer,HttpStatus<span class="built_in">.</span>OK);
+    }
+</code></pre><p>&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x7684;&#x8BDD;&#x6211;&#x4EEC;&#x5F97;&#x5728;&#x6BCF;&#x4E2A;RequestMapping &#x65B9;&#x6CD5;&#x4E2D;&#x52A0;&#x5165;try catch&#x8BED;&#x53E5;&#x5757;&#xFF0C;&#x6BD4;&#x8F83;&#x9EBB;&#x70E6;&#xFF0C;&#x4E0B;&#x9762;&#x4ECB;&#x7ECD;&#x4E2A;&#x66F4;&#x7B80;&#x5355;&#x70B9;&#x7684;&#x65B9;&#x6CD5;</p>
+<h2 id="&#x901A;&#x8FC7;ExceptionHandler&#x6CE8;&#x89E3;">&#x901A;&#x8FC7;ExceptionHandler&#x6CE8;&#x89E3;</h2><p>&#x8FD9;&#x91CC;&#x8DDF;&#x524D;&#x9762;&#x4E0D;&#x540C;&#x7684;&#x662F;&#xFF0C;&#x6211;&#x4EEC;&#x6CE8;&#x89E3;&#x65B9;&#x6CD5;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;ResponseEntity&#x5BF9;&#x8C61;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x8DF3;&#x8F6C;&#x7684;&#x9875;&#x9762;&#x3002;</p>
+<pre><code><span class="annotation">@RequestMapping</span>(value=&amp;quot;/customer/{id}&amp;quot; )
+<span class="annotation">@ResponseBody</span>
+<span class="keyword">public</span> <span class="function">Customer <span class="title">getCustomerById</span><span class="params">(@PathVariable String id)</span> <span class="keyword">throws</span> CustomerNotFoundException
+</span>{
+    <span class="function"><span class="keyword">return</span> customerService.<span class="title">getCustomerDetail</span><span class="params">(id)</span></span>;
+}
+
+<span class="annotation">@ExceptionHandler</span>(CustomerNotFoundException.class)
+<span class="keyword">public</span> ResponseEntity&amp;lt;ClientErrorInformation&amp;gt; rulesForCustomerNotFound(HttpServletRequest req, Exception e) 
+{
+    ClientErrorInformation <span class="keyword">error</span> = <span class="keyword">new</span> ClientErrorInformation(e.toString(), req.getRequestURI());
+    <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&amp;lt;ClientErrorInformation&amp;gt;(<span class="keyword">error</span>, HttpStatus.NOT_FOUND);
+
+}
+</code></pre><p>&#x603B;&#x7ED3;&#xFF1A;&#x8FD9;&#x91CC;&#x4E24;&#x79CD;&#x65B9;&#x6CD5;&#xFF0C;&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x7B2C;&#x4E8C;&#x79CD;&#xFF0C;&#x6211;&#x4EEC;&#x65E2;&#x53EF;&#x4EE5;&#x5728;&#x5355;&#x4E2A;Controller&#x4E2D;&#x5B9A;&#x4E49;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x6807;&#x6709;ControllerAdvice&#x6CE8;&#x89E3;&#x7684;&#x7C7B;&#x4E2D;&#x5B9A;&#x4E49;&#x4ECE;&#x800C;&#x4F7F;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x5BF9;&#x6574;&#x4E2A;&#x7A0B;&#x5E8F;&#x6709;&#x6548;&#x3002; </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Net/">.Net</a><a href="/tags/REST/">REST</a><a href="/tags/Spring-MVC/">Spring MVC</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/06/199f595/" title="ABP结合MongoDB的使用范例 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  ABP结合MongoDB的使用范例 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/06/df36cdc/"  title="SpringMVC 异常处理 -">
+ <strong>下一篇：</strong><br/> 
+ <span>SpringMVC 异常处理 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#通过ResponseEntity"><span class="toc-number">1.</span> <span class="toc-text">通过ResponseEntity</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过ExceptionHandler注解"><span class="toc-number"></span> <span class="toc-text">通过ExceptionHandler注解</span></a>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>587</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>32</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>23</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>9</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

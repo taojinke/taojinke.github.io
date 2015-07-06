@@ -1,0 +1,602 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Gulp学习指南之CSS合并、压缩与MD5命名及路径替换 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x63A5;&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#xFF1A;Gulp&amp;#x5B66;&amp;#x4E60;&amp;#x6307;&amp;#x5357;&amp;#xFF0C;&amp;#x8FD9;&amp;#x91CC;&amp;#x4E3B;&amp;#x8981;&amp;#x8BB0;&amp;#x5F55;&amp;#x4E00;&amp;#x4E0B;&amp;#x7528; gulp &amp;#x6765;&amp;#x5408;&amp;#x5E7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gulp学习指南之CSS合并、压缩与MD5命名及路径替换 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/06/a100e68/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x63A5;&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#xFF1A;Gulp&amp;#x5B66;&amp;#x4E60;&amp;#x6307;&amp;#x5357;&amp;#xFF0C;&amp;#x8FD9;&amp;#x91CC;&amp;#x4E3B;&amp;#x8981;&amp;#x8BB0;&amp;#x5F55;&amp;#x4E00;&amp;#x4E0B;&amp;#x7528; gulp &amp;#x6765;&amp;#x5408;&amp;#x5E7">
+<meta property="og:updated_time" content="2015-07-06T13:26:37.623Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gulp学习指南之CSS合并、压缩与MD5命名及路径替换 -">
+<meta name="twitter:description" content="&amp;#x63A5;&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#xFF1A;Gulp&amp;#x5B66;&amp;#x4E60;&amp;#x6307;&amp;#x5357;&amp;#xFF0C;&amp;#x8FD9;&amp;#x91CC;&amp;#x4E3B;&amp;#x8981;&amp;#x8BB0;&amp;#x5F55;&amp;#x4E00;&amp;#x4E0B;&amp;#x7528; gulp &amp;#x6765;&amp;#x5408;&amp;#x5E7">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/06/a100e68/" title="Gulp学习指南之CSS合并、压缩与MD5命名及路径替换 -" itemprop="url">Gulp学习指南之CSS合并、压缩与MD5命名及路径替换 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-06T01:26:37.000Z" itemprop="datePublished"> 发表于 2015-07-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Gulp插件到本地项目"><span class="toc-number">1.</span> <span class="toc-text">安装Gulp插件到本地项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建配置文件_gulpfile-js"><span class="toc-number">2.</span> <span class="toc-text">创建配置文件 gulpfile.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行结果"><span class="toc-number">3.</span> <span class="toc-text">运行结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">4.</span> <span class="toc-text">结语</span></a></li></ol>
+		
+		</div>
+		
+		<p> &#x63A5;&#x4E0A;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#xFF1A;Gulp&#x5B66;&#x4E60;&#x6307;&#x5357;&#xFF0C;&#x8FD9;&#x91CC;&#x4E3B;&#x8981;&#x8BB0;&#x5F55;&#x4E00;&#x4E0B;&#x7528; gulp &#x6765;&#x5408;&#x5E76;&#x3001;&#x538B;&#x7F29; CSS &#x4EE5;&#x53CA;&#x8FDB;&#x884C; MD5 &#x547D;&#x540D;&#x4EE5;&#x53CA;&#x66FF;&#x6362;&#x6587;&#x4EF6;&#x4E2D;&#x5F15;&#x5165;&#x7684; CSS &#x6587;&#x4EF6;&#xFF0C;&#x5F53;&#x7136;&#x8FD9;&#x4E00;&#x7CFB;&#x5217;&#x64CD;&#x4F5C;&#x90FD;&#x662F;&#x7528;&#x57FA;&#x4E8E; gulp &#x63D2;&#x4EF6;&#x7684;&#xFF0C;&#x4E3B;&#x8981;&#x4F1A;&#x7528;&#x5230;&#x4E0B;&#x9762;&#x7684;&#x51E0;&#x4E2A;&#x63D2;&#x4EF6;&#xFF1A; </p>
+<pre><code>var concat = require(&amp;apos;gulp-concat&amp;apos;);
+//- &amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x5408</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#xFF1B</span>;
+
+var minifyCss = require(&amp;apos;gulp-minify-css&amp;apos;);
+//- &amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;<span class="class">CSS</span>&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#xFF1B</span>; 
+
+var rev = require(&amp;apos;gulp-rev&amp;apos;);
+//- &amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x540D</span>;&amp;<span class="symbol">#x52A0</span>;<span class="class">MD5</span>&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x7F00</span>;
+
+var revCollector = require(&amp;apos;gulp-rev-collector&amp;apos;);
+//- &amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;
+</code></pre><h3 id="&#x5B89;&#x88C5;Gulp&#x63D2;&#x4EF6;&#x5230;&#x672C;&#x5730;&#x9879;&#x76EE;">&#x5B89;&#x88C5;Gulp&#x63D2;&#x4EF6;&#x5230;&#x672C;&#x5730;&#x9879;&#x76EE;</h3><pre><code>npm init
+//- &amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>; package.json&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x91CC</span>;&amp;<span class="symbol">#x9762</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E9B</span>;&amp;<span class="symbol">#x5E38</span>;&amp;<span class="symbol">#x89C4</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x914D</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x4FE1</span>;&amp;<span class="symbol">#x606F</span>;
+
+npm install gulp gulp-concat gulp-minify-css gulp-rev gulp-rev-collector --save-dev
+//- &amp;<span class="symbol">#x5B89</span>;&amp;<span class="symbol">#x88C5</span>;&amp;<span class="symbol">#x63D2</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x9879</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x5185</span>;
+</code></pre><p>&#x5B8C;&#x6210;&#x4E0A;&#x9762;&#x4E24;&#x6B65;&#x540E;&#xFF0C;&#x4F1A;&#x5728;&#x6211;&#x4EEC;&#x7684;&#x9879;&#x76EE;&#x5185;&#x751F;&#x6210;&#x4E00;&#x4E2A; package.json &#x6587;&#x4EF6;&#x4EE5;&#x53CA;&#x4E00;&#x4E2A; node_modules &#x76EE;&#x5F55; </p>
+<h3 id="&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;_gulpfile-js">&#x521B;&#x5EFA;&#x914D;&#x7F6E;&#x6587;&#x4EF6; gulpfile.js</h3><p>&#x5728;&#x9879;&#x76EE;&#x6839;&#x76EE;&#x5F55;&#x5185;&#x521B;&#x5EFA;&#x4E00;&#x4E2A; gulpfile.js &#x6587;&#xFFFD;&#xFFFD;&#xFFFD;(&#x5FC5;&#x987B;&#x662F;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x540D;&#x54DF;~)&#xFF0C;&#x5185;&#x5BB9;&#x5C31;&#x662F;&#x4E0A;&#x9762;&#x51E0;&#x4E2A;&#x63D2;&#x4EF6;&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#xFF1A; </p>
+<pre><code>var gulp = require(&amp;apos;gulp&amp;apos;);
+var concat = require(&amp;apos;gulp-concat&amp;apos;);                            //- &amp;<span class="symbol">#x591A</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x5408</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#xFF1B</span>;
+var minifyCss = require(&amp;apos;gulp-minify-css&amp;apos;);                     //- &amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;<span class="class">CSS</span>&amp;<span class="symbol">#x4E3A</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#xFF1B</span>;
+var rev = require(&amp;apos;gulp-rev&amp;apos;);                                  //- &amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x540D</span>;&amp;<span class="symbol">#x52A0</span>;<span class="class">MD5</span>&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x7F00</span>;
+var revCollector = require(&amp;apos;gulp-rev-collector&amp;apos;);               //- &amp;<span class="symbol">#x8DEF</span>;&amp;<span class="symbol">#x5F84</span>;&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;
+gulp.task(&amp;apos;concat&amp;apos;, function() {                                //- &amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x540D</span>;&amp;<span class="symbol">#x4E3A</span>; concat &amp;<span class="symbol">#x7684</span>; task
+    gulp.src([&amp;apos;./css/wap_v3.1.css&amp;apos;, &amp;apos;./css/wap_v3.1.3.css&amp;apos;])    //- &amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x7684</span>;css&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x653E</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x5B57</span>;&amp;<span class="symbol">#x7B26</span>;&amp;<span class="symbol">#x4E32</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x7EC4</span>;&amp;<span class="symbol">#x91CC</span>;
+        .pipe(concat(&amp;apos;wap.min.css&amp;apos;))                            //- &amp;<span class="symbol">#x5408</span>;&amp;<span class="symbol">#x5E76</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x540D</span>;
+        .pipe(minifyCss())                                      //- &amp;<span class="symbol">#x538B</span>;&amp;<span class="symbol">#x7F29</span>;&amp;<span class="symbol">#x5904</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x884C</span>;
+        .pipe(rev())                                            //- &amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x540D</span>;&amp;<span class="symbol">#x52A0</span>;<span class="class">MD5</span>&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x7F00</span>;
+        .pipe(gulp.dest(&amp;apos;./css&amp;apos;))                               //- &amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x672C</span>;&amp;<span class="symbol">#x5730</span>;
+        .pipe(rev.manifest())                                   //- &amp;<span class="symbol">#x751F</span>;&amp;<span class="symbol">#x6210</span>;&amp;<span class="symbol">#x4E00</span>;&amp;<span class="symbol">#x4E2A</span>;rev-manifest.json
+        .pipe(gulp.dest(&amp;apos;./rev&amp;apos;));                              //- &amp;<span class="symbol">#x5C06</span>; rev-manifest.json &amp;<span class="symbol">#x4FDD</span>;&amp;<span class="symbol">#x5B58</span>;&amp;<span class="symbol">#x5230</span>; rev &amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x5F55</span>;&amp;<span class="symbol">#x5185</span>;
+});
+gulp.task(&amp;apos;rev&amp;apos;, function() {
+    gulp.src([&amp;apos;./rev/*.json&amp;apos;, &amp;apos;./application/**/header.php&amp;apos;])   //- &amp;<span class="symbol">#x8BFB</span>;&amp;<span class="symbol">#x53D6</span>; rev-manifest.json &amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x53CA</span>;&amp;<span class="symbol">#x9700</span>;&amp;<span class="symbol">#x8981</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;css&amp;<span class="symbol">#x540D</span>;&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;
+        .pipe(revCollector())                                   //- &amp;<span class="symbol">#x6267</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x5185</span>;css&amp;<span class="symbol">#x540D</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;
+        .pipe(gulp.dest(&amp;apos;./application/&amp;apos;));                     //- &amp;<span class="symbol">#x66FF</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x540E</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x6587</span>;&amp;<span class="symbol">#x4EF6</span>;&amp;<span class="symbol">#x8F93</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x76EE</span>;&amp;<span class="symbol">#x5F55</span>;
+});
+gulp.task(&amp;apos;default&amp;apos;, [&amp;apos;concat&amp;apos;, &amp;apos;rev&amp;apos;]);
+</code></pre><h3 id="&#x8FD0;&#x884C;&#x7ED3;&#x679C;">&#x8FD0;&#x884C;&#x7ED3;&#x679C;</h3><p>&#x901A;&#x8FC7;&#x4EE5;&#x4E0A;&#x7684;&#x914D;&#x7F6E;&#x4E4B;&#x540E;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5F00;&#x59CB;&#x8FD0;&#x884C; gulp &#x5BF9;&#x6211;&#x4EEC;&#x7684;&#x9879;&#x76EE;&#x8FDB;&#x884C;&#x76F8;&#x5173;&#x7684;&#x64CD;&#x4F5C;&#x5566;&#xFF1B; </p>
+<p>&#x4F7F;&#x7528; gulp &#x547D;&#x4EE4;&#xFF0C;&#x8FD0;&#x884C; Gulp.js &#x6784;&#x5EFA;&#x7A0B;&#x5E8F; </p>
+<p>&#x9996;&#x5148;&#x8FD0;&#x884C; concat &#x8FD9;&#x4E2A; task &#x751F;&#x6210;&#x4E00;&#x4E2A; rev-manifest.json &#x6587;&#x4EF6; </p>
+<p>&#x7136;&#x540E;&#x518D;&#x8FD0;&#x884C; rev &#x8FD9;&#x4E2A; task &#x66FF;&#x6362;&#x6389;&#x6587;&#x4EF6;&#x4E2D;&#x5F15;&#x5165;&#x7684; css</p>
+<pre><code><span class="rule"><span class="attribute">YuanWingdeMacBook-Pro</span>:<span class="value">m YuanWing$ gulp concat
+[<span class="number">11</span>:<span class="number">47</span>:<span class="number">02</span>] Using gulpfile ~/SVN/JKD/m/gulpfile.js
+[<span class="number">11</span>:<span class="number">47</span>:<span class="number">03</span>] Starting &amp;apos</span></span>;<span class="tag">concat</span>&amp;<span class="tag">apos</span>;...
+<span class="attr_selector">[11:47:03]</span> <span class="tag">Finished</span> &amp;<span class="tag">apos</span>;<span class="tag">concat</span>&amp;<span class="tag">apos</span>; <span class="tag">after</span> 12 <span class="tag">ms</span>
+<span class="rule"><span class="attribute">YuanWingdeMacBook-Pro</span>:<span class="value">m YuanWing$ gulp rev
+[<span class="number">11</span>:<span class="number">47</span>:<span class="number">17</span>] Using gulpfile ~/SVN/JKD/m/gulpfile.js
+[<span class="number">11</span>:<span class="number">47</span>:<span class="number">17</span>] Starting &amp;apos</span></span>;<span class="tag">rev</span>&amp;<span class="tag">apos</span>;...
+<span class="attr_selector">[11:47:17]</span> <span class="tag">Finished</span> &amp;<span class="tag">apos</span>;<span class="tag">rev</span>&amp;<span class="tag">apos</span>; <span class="tag">after</span> 10 <span class="tag">ms</span>
+<span class="rule"><span class="attribute">YuanWingdeMacBook-Pro</span>:<span class="value">m YuanWing$ </span></span>
+</code></pre><p>rev-manifest.json&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#xFF1A; </p>
+<pre><code>{
+  &amp;quot;wap.<span class="built_in">min</span>.css&amp;quot;: &amp;quot;wap.<span class="built_in">min</span>-c49f62a273.css&amp;quot;
+}
+</code></pre><p>header.php&#x66FF;&#x6362;&#x524D;&#x540E;&#x5BF9;&#x6BD4;&#xFF1A; </p>
+<p>&#x66FF;&#x6362;&#x524D;&#xFF1A; &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/wap.min.css&quot; /&gt;</p>
+<p>&#x66FF;&#x6362;&#x540E;&#xFF1A; &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/wap.min-c49f62a273.css&quot; /&gt;</p>
+<p>gulp-rev-collector &#x8FDB;&#x884C;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x66FF;&#x6362;&#x662F;&#x4F9D;&#x636E; rev-manifest.json &#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x5148;&#x6210;&#x751F; .json &#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x8FDB;&#x884C;&#x66FF;&#x6362;&#xFF1B; </p>
+<h3 id="&#x7ED3;&#x8BED;">&#x7ED3;&#x8BED;</h3><p>&#x4E0A;&#x9762;&#x7528;&#x5230;&#x7684;&#x51E0;&#x4E2A;&#x63D2;&#x4EF6;&#x90FD;&#x53EA;&#x7528;&#x5230;&#x4E86;&#x4ED6;&#x4EEC;&#x81EA;&#x8EAB;&#x529F;&#x80FD;&#x5F88;&#x5C0F;&#x5F88;&#x5C0F;&#x7684;&#x4E00;&#x90E8;&#x4EFD;&#xFF0C;&#x611F;&#x5174;&#x7684;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x53BB;&#x597D;&#x597D;&#x4F53;&#x9A8C;&#x4E00;&#x4E0B;&#xFF1A;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/Gulp/">Gulp</a><a href="/tags/加密解密/">加密解密</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/06/a0fe9c9/" title="推荐近期15个 Node.js 开发工具 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  推荐近期15个 Node.js 开发工具 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/06/a10a837/"  title="nodejs爬虫数据抓取乱码问题总结 -">
+ <strong>下一篇：</strong><br/> 
+ <span>nodejs爬虫数据抓取乱码问题总结 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Gulp插件到本地项目"><span class="toc-number">1.</span> <span class="toc-text">安装Gulp插件到本地项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建配置文件_gulpfile-js"><span class="toc-number">2.</span> <span class="toc-text">创建配置文件 gulpfile.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行结果"><span class="toc-number">3.</span> <span class="toc-text">运行结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">4.</span> <span class="toc-text">结语</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>587</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>32</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>23</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>9</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

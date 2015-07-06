@@ -1,0 +1,699 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>chuck-lua的并发处理 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="chuck-lua&amp;#x4F7F;&amp;#x7528;&amp;#x7684;&amp;#x662F;&amp;#x5355;&amp;#x7EBF;&amp;#x7A0B;&amp;#x6A21;&amp;#x578B;,&amp;#x4F9D;&amp;#x8D56;&amp;#x4E8E;&amp;#x5E95;&amp;#x5C42;&amp;#x9AD8;&amp;#x6548;&amp;#x7387;&amp;#x7684;&amp;#x4E8B;&amp;#x4EF6;&amp;#x56DE;&amp;#x8C03;&amp;#x6846;&amp;#x67B">
+<meta property="og:type" content="article">
+<meta property="og:title" content="chuck-lua的并发处理 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/06/c03dba0/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="chuck-lua&amp;#x4F7F;&amp;#x7528;&amp;#x7684;&amp;#x662F;&amp;#x5355;&amp;#x7EBF;&amp;#x7A0B;&amp;#x6A21;&amp;#x578B;,&amp;#x4F9D;&amp;#x8D56;&amp;#x4E8E;&amp;#x5E95;&amp;#x5C42;&amp;#x9AD8;&amp;#x6548;&amp;#x7387;&amp;#x7684;&amp;#x4E8B;&amp;#x4EF6;&amp;#x56DE;&amp;#x8C03;&amp;#x6846;&amp;#x67B">
+<meta property="og:updated_time" content="2015-07-06T13:27:29.977Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="chuck-lua的并发处理 -">
+<meta name="twitter:description" content="chuck-lua&amp;#x4F7F;&amp;#x7528;&amp;#x7684;&amp;#x662F;&amp;#x5355;&amp;#x7EBF;&amp;#x7A0B;&amp;#x6A21;&amp;#x578B;,&amp;#x4F9D;&amp;#x8D56;&amp;#x4E8E;&amp;#x5E95;&amp;#x5C42;&amp;#x9AD8;&amp;#x6548;&amp;#x7387;&amp;#x7684;&amp;#x4E8B;&amp;#x4EF6;&amp;#x56DE;&amp;#x8C03;&amp;#x6846;&amp;#x67B">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/06/c03dba0/" title="chuck-lua的并发处理 -" itemprop="url">chuck-lua的并发处理 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-06T01:27:29.000Z" itemprop="datePublished"> 发表于 2015-07-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>chuck-lua&#x4F7F;&#x7528;&#x7684;&#x662F;&#x5355;&#x7EBF;&#x7A0B;&#x6A21;&#x578B;,&#x4F9D;&#x8D56;&#x4E8E;&#x5E95;&#x5C42;&#x9AD8;&#x6548;&#x7387;&#x7684;&#x4E8B;&#x4EF6;&#x56DE;&#x8C03;&#x6846;&#x67B6;.&#x4ECE;&#x524D;&#x6587;&#x4ECB;&#x7ECD;&#x8FC7;&#x7684;&#x4F7F;&#x7528;&#x793A;&#x4F8B;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x51FA;,&#x57FA;&#x672C;&#x63A5;&#x53E3;&#x4E0E;node.js&#x7C7B;&#x4F3C;,&#x5927;&#x91CF;&#x4F9D;&#x8D56;&#x65B9;&#x6CD5;&#x56DE;&#x8C03;.</p>
+<p>&#x5BF9;&#x4E8E;lua&#x8FD9;&#x79CD;&#x652F;&#x6301;coroutine&#x7684;&#x8BED;&#x8A00;,&#x4F7F;&#x7528;coroutine&#x6765;&#x5C06;&#x5F02;&#x6B65;&#x56DE;&#x8C03;&#x8F6C;&#x6362;&#x6210;&#x540C;&#x6B65;&#x63A5;&#x53E3;&#x662F;&#x5F88;&#x65B9;&#x4FBF;&#x7684;.</p>
+<p>chuck-lua&#x63D0;&#x4F9B;&#x4E86;&#x4E24;&#x79CD;&#x4F7F;&#x7528;coroutine&#x89E3;&#x51B3;&#x5F02;&#x6B65;&#x95EE;&#x9898;&#x7684;&#x65B9;&#x5F0F;:</p>
+<ul>
+<li>&#x76F4;&#x63A5;&#x4F7F;&#x7528;coroutine</li>
+<li>coroutine pool&#x914D;&#x5408;&#x4EFB;&#x52A1;&#x961F;&#x5217;</li>
+</ul>
+<p>&#x9996;&#x5148;&#x6765;&#x770B;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;,&#x770B;&#x4E0B;&#x5982;&#x4F55;&#x5C06;&#x5F02;&#x6B65;&#x7684;redis&#x4E8B;&#x4EF6;&#x8F6C;&#x6362;&#x6210;&#x540C;&#x6B65;&#x63A5;&#x53E3;:</p>
+<p>redis.lua</p>
+<pre><code><span class="keyword">local</span> chuck   = <span class="built_in">require</span>(&amp;quot;chuck&amp;quot;)
+<span class="keyword">local</span> engine  = <span class="built_in">require</span>(&amp;quot;distri.engine&amp;quot;)
+<span class="keyword">local</span> Sche    = <span class="built_in">require</span>(&amp;quot;distri.uthread.sche&amp;quot;)
+<span class="keyword">local</span> LinkQue = <span class="built_in">require</span>(&amp;quot;distri.linkque&amp;quot;)
+<span class="keyword">local</span> map = {}
+<span class="keyword">local</span> client = {}
+<span class="function"><span class="keyword">function</span> <span class="title">client:new</span><span class="params">(c)</span></span>
+  <span class="keyword">local</span> o = {}
+  o.__index = client
+  o.__gc    = <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="built_in">print</span>(&amp;quot;redis_client gc&amp;quot;) <span class="keyword">end</span>      
+  <span class="built_in">setmetatable</span>(o,o)
+  o.c = c
+  o.pending = LinkQue:New()
+  <span class="keyword">return</span> o
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">client:Close</span><span class="params">(err)</span></span>
+    <span class="keyword">local</span> co
+    <span class="keyword">while</span> <span class="keyword">true</span> <span class="keyword">do</span>
+        co = self.pending:Pop()
+        <span class="keyword">if</span> co <span class="keyword">then</span>
+            co = co[<span class="number">1</span>]
+            Sche.WakeUp(co,<span class="keyword">false</span>,err)
+        <span class="keyword">else</span>
+            map[self.c] = <span class="keyword">nil</span>
+            self.c:Close()
+            self.c = <span class="keyword">nil</span>
+            <span class="keyword">return</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">client:Do</span><span class="params">(cmd)</span></span>
+    <span class="keyword">local</span> co = Sche.Running()
+    <span class="keyword">if</span> <span class="keyword">not</span> co <span class="keyword">then</span> <span class="keyword">return</span> &amp;quot;should call <span class="keyword">in</span> a <span class="built_in">coroutine</span> context &amp;quot; <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> self.c <span class="keyword">then</span> <span class="keyword">return</span> &amp;quot;client close&amp;quot; <span class="keyword">end</span>
+    <span class="keyword">if</span> &amp;quot;ok&amp;quot; == self.c:Execute(cmd,<span class="function"><span class="keyword">function</span> <span class="params">(_,reply)</span></span>
+        Sche.WakeUp(co,<span class="keyword">true</span>,reply)
+    <span class="keyword">end</span>) <span class="keyword">then</span>
+        <span class="keyword">local</span> node = {co}
+        self.pending:Push(node)
+        <span class="comment">--[[
+            &amp;#x5982;&amp;#x679C;succ == true,&amp;#x5219;reply&amp;#x662F;&amp;#x64CD;&amp;#x4F5C;&amp;#x7ED3;&amp;#x679C;,
+            &amp;#x5426;&amp;#x5219;,reply&amp;#x662F;&amp;#x4F20;&amp;#x9012;&amp;#x7ED9;Close&amp;#x7684;err&amp;#x503C;
+        ]]</span><span class="comment">--</span>
+        <span class="keyword">local</span> succ,reply = Sche.Wait()
+        self.pending:Remove(node)
+        <span class="keyword">if</span> succ <span class="keyword">then</span>
+            <span class="keyword">return</span> <span class="keyword">nil</span>,reply
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> reply
+        <span class="keyword">end</span> 
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> &amp;quot;<span class="built_in">error</span>&amp;quot;
+<span class="keyword">end</span>
+<span class="keyword">local</span> redis = {}
+<span class="function"><span class="keyword">function</span> <span class="title">redis.Connect</span><span class="params">(ip,port,on_error)</span></span>
+    <span class="keyword">local</span> err,c = chuck.redis.Connect(engine,ip,port,<span class="function"><span class="keyword">function</span> <span class="params">(_,err)</span></span>
+        <span class="keyword">local</span> c = map[_]
+        <span class="keyword">if</span> c <span class="keyword">then</span>
+            on_error(c,err)
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>)
+    <span class="keyword">if</span> c <span class="keyword">then</span>
+        <span class="keyword">return</span> err,client:new(c)
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> err
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">return</span> redis
+</code></pre><p>redis.lua&#x5C01;&#x88C5;&#x4E86;&#x5F02;&#x6B65;&#x4E8B;&#x4EF6;&#x63A5;&#x53E3;,&#x5411;&#x7528;&#x6237;&#x63D0;&#x4F9B;&#x4E86;&#x540C;&#x6B65;&#x7684;&#x8C03;&#x7528;&#x65B9;&#x5F0F;,&#x552F;&#x4E00;&#x7684;&#x4F7F;&#x7528;&#x7EA6;&#x675F;&#x662F;redis:Do&#x5FC5;&#x987B;&#x5728;coroutine&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#x624D;&#x80FD;&#x88AB;&#x4F7F;&#x7528;.</p>
+<p>&#x6211;&#x4EEC;&#x9996;&#x5148;&#x770B;&#x4E0B;&#x5982;&#x4F55;&#x5728;&#x7B2C;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x4E0B;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;:</p>
+<pre><code><span class="keyword">local</span> Distri = <span class="built_in">require</span>(&amp;quot;distri.distri&amp;quot;)
+<span class="keyword">local</span> Redis  = <span class="built_in">require</span>(&amp;quot;distri.redis&amp;quot;)
+<span class="keyword">local</span> err,client = Redis.Connect(&amp;quot;<span class="number">127.0</span>.0.1&amp;quot;,<span class="number">6379</span>)
+<span class="keyword">if</span> client <span class="keyword">then</span>
+    <span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">co_fun</span><span class="params">(i)</span></span>
+        <span class="keyword">local</span> cmd = <span class="built_in">string</span>.format(&amp;quot;hmget chaid:%d chainfo skills&amp;quot;,i)    
+        <span class="keyword">local</span> err,reply = client:Do(cmd)
+        <span class="keyword">if</span> reply <span class="keyword">then</span>
+            <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="built_in">pairs</span>(reply) <span class="keyword">do</span>
+                <span class="built_in">print</span>(k,v)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span> 
+    <span class="keyword">end</span>
+    <span class="keyword">for</span> i = <span class="number">1</span>,<span class="number">1000</span> <span class="keyword">do</span>
+        Sche.Spawn(co_fun,i)
+    <span class="keyword">end</span>
+    Distri.Run()
+<span class="keyword">end</span> 
+</code></pre><p>&#x5728;&#x8FD9;&#x79CD;&#x6A21;&#x5F0F;&#x4E0B;,&#x6BCF;&#x4E2A;redis&#x4EFB;&#x52A1;&#x90FD;&#x7531;&#x4E00;&#x4E2A;&#x5355;&#x72EC;&#x7684;coroutine&#x76F4;&#x63A5;&#x6267;&#x884C;.</p>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x518D;&#x770B;&#x4E0B;&#x5982;&#x4F55;&#x5229;&#x7528;pool&#x548C;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x5B8C;&#x6210;&#x540C;&#x6837;&#x7684;&#x6548;&#x679C;:</p>
+<pre><code><span class="built_in">local</span> Distri = <span class="built_in">require</span>(&amp;quot;distri.distri&amp;quot;)
+<span class="built_in">local</span> Redis  = <span class="built_in">require</span>(&amp;quot;distri.redis&amp;quot;)
+<span class="built_in">local</span> Task   = <span class="built_in">require</span>(&amp;quot;distri.uthread.task&amp;quot;)
+<span class="built_in">local</span> err,client = Redis.Connect(&amp;quot;<span class="number">127.0</span>.0.1&amp;quot;,<span class="number">6379</span>)
+<span class="keyword">if</span> client <span class="keyword">then</span>
+    <span class="keyword">for</span> i = <span class="number">1</span>,<span class="number">1000</span> <span class="built_in">do</span>
+        Task.New(<span class="function"><span class="keyword">function</span> ()</span>
+            <span class="built_in">local</span> cmd = <span class="keyword">string</span>.<span class="built_in">format</span>(&amp;quot;hmget chaid:%d chainfo skills&amp;quot;,i)    
+            <span class="built_in">local</span> err,reply = client:Do(cmd)
+            <span class="keyword">if</span> reply <span class="keyword">then</span>
+                <span class="keyword">for</span> k,v <span class="operator">in</span> pairs(reply) <span class="built_in">do</span>
+                    print(k,v)
+                <span class="function"><span class="keyword">end</span>
+            <span class="title">end</span></span>
+        <span class="keyword">end</span>)
+    <span class="function"><span class="keyword">end</span>
+    <span class="title">Distri</span>.<span class="title">Run</span>()</span>
+<span class="function"><span class="keyword">end</span> </span>
+</code></pre><p>&#x5BF9;&#x4E8E;&#x6BCF;&#x4E2A;&#x4EFB;&#x52A1;,&#x4F7F;&#x7528;Task.New&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;,&#x4EFB;&#x52A1;&#x88AB;&#x521B;&#x5EFA;&#x4E4B;&#x540E;&#x4F1A;&#x88AB;&#x6DFB;&#x52A0;&#x5230;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x5C3E;&#x90E8;,&#x9884;&#x5148;&#x521B;&#x5EFA;&#x7684;pool&#x4E2D;&#x7684;coroutine&#x5C06;&#x4F1A;&#x88AB;&#x5524;&#x9192;,&#x4ECE;&#x961F;&#x5217;&#x4E2D;&#x63D0;&#x53D6;&#x4EFB;&#x52A1;&#x5E76;&#x6267;&#x884C;.</p>
+<p>&#x6700;&#x540E;,&#x518D;&#x6765;&#x770B;&#x4E00;&#x4E0B;&#x5BF9;&#x4E8E;&#x7F51;&#x7EDC;&#x6D88;&#x606F;,&#x5982;&#x4F55;&#x5229;&#x7528;Task&#x5904;&#x7406;&#x4EFB;&#x52A1;.</p>
+<pre><code>local <span class="type">Task</span>   = require(&amp;quot;distri.uthread.task&amp;quot;)
+local <span class="type">Distri</span> = require(&amp;quot;distri.distri&amp;quot;)
+local <span class="type">Redis</span>  = require(&amp;quot;distri.redis&amp;quot;)
+local <span class="type">Socket</span> = require(&amp;quot;distri.socket&amp;quot;)
+local <span class="type">Packet</span> = require(&amp;quot;chuck&amp;quot;).packet
+local clone     = <span class="type">Packet</span>.clone
+local err,client = <span class="type">Redis</span>.<span class="type">Connect</span>(&amp;quot;<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>&amp;quot;,<span class="number">6379</span>)
+<span class="keyword">if</span> client then
+    local server = <span class="type">Socket</span>.stream.listen(&amp;quot;<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>&amp;quot;,<span class="number">8010</span>,function (s,errno)
+        <span class="keyword">if</span> s then
+            <span class="keyword">if</span> s:<span class="type">Ok</span>(<span class="number">4096</span>,<span class="type">Socket</span>.stream.rawdecoder,<span class="type">Task</span>.<span class="type">Wrap</span>(function (_,msg,errno)
+                    <span class="keyword">if</span> msg then                     
+                        local cmd = <span class="type">string</span>.format(&amp;quot;hmget chaid:%d chainfo skills&amp;quot;,<span class="number">1</span>)    
+                        local err,reply = client:<span class="type">Do</span>(cmd)
+                        local <span class="literal">result</span> = &amp;quot;&amp;quot;
+                        <span class="keyword">if</span> reply then
+                            <span class="keyword">for</span> k,v <span class="keyword">in</span> pairs(reply) <span class="keyword">do</span>
+                                <span class="literal">result</span> = <span class="literal">result</span> .. v .. &amp;quot;\n&amp;quot;
+                            <span class="keyword">end</span>
+                        <span class="keyword">else</span>
+                            <span class="literal">result</span> = &amp;quot;error\n&amp;quot;
+                        <span class="keyword">end</span>                 
+                        s:<span class="type">Send</span>(<span class="type">Packet</span>.rawpacket(<span class="literal">result</span>))
+                    <span class="keyword">else</span>
+                        s:<span class="type">Close</span>()
+                        s = <span class="keyword">nil</span>
+                    <span class="keyword">end</span>
+            <span class="keyword">end</span>),client) then
+                s:<span class="type">SetRecvTimeout</span>(<span class="number">5000</span>)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>     
+    <span class="keyword">end</span>)
+    <span class="keyword">if</span> server then
+        <span class="type">Distri</span>.<span class="type">Run</span>()
+    <span class="keyword">end</span> 
+<span class="keyword">end</span>
+</code></pre><p>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;echo&#x670D;&#x52A1;,&#x5F53;&#x7528;&#x6237;&#x8FDE;&#x63A5;&#x4E0A;&#x670D;&#x52A1;&#x5668;&#x53D1;&#x9001;&#x6D88;&#x606F;,&#x670D;&#x52A1;&#x5668;&#x6536;&#x5230;&#x6D88;&#x606F;&#x4E4B;&#x540E;&#x63D0;&#x4EA4;&#x4E00;&#x4E2A;redis&#x8BF7;&#x6C42;,&#x5E76;&#x5C06;&#x7ED3;&#x679C;&#x8FD4;&#x56DE;&#x7ED9;&#x5BA2;&#x6237;.</p>
+<p>&#x8FD9;&#x91CC;&#x7684;&#x5173;&#x952E;&#x70B9;&#x662F;&#x4F7F;&#x7528;Task.Wrap&#x5C01;&#x88C5;&#x4E86;&#x4E8B;&#x4EF6;&#x56DE;&#x8C03;&#x51FD;&#x6570;.&#x4E5F;&#x5C31;&#x662F;&#x8BF4;,&#x5BF9;&#x7F51;&#x7EDC;&#x6D88;&#x606F;&#x7684;&#x5904;&#x7406;&#x4E5F;&#x662F;&#x5728;coroutine&#x4E0A;&#x4E0B;&#x4E2D;&#x6267;&#x884C;&#x7684;.&#x56E0;&#x6B64;&#x5728;&#x4E8B;&#x4EF6;&#x56DE;&#x8C03;&#x4E2D;&#x7684;&#x963B;&#x585E;&#x5E76;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x65E0;&#x6CD5;&#x54CD;&#x5E94;&#x5176;&#x5B83;&#x5230;&#x6765;&#x7684;&#x5E76;&#x53D1;&#x8BF7;&#x6C42;.</p>
+<p><a href="https://github.com/sniperHW/chuck.git" target="_blank" rel="external">https://github.com/sniperHW/chuck.git</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Redis/">Redis</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/06/c060362/" title="zabbix如何监控多个JMX/Redis等实例(105) -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  zabbix如何监控多个JMX/Redis等实例(105) -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/06/c039744/"  title="mysql突然出现大量慢sql，随后redis访问超时 -">
+ <strong>下一篇：</strong><br/> 
+ <span>mysql突然出现大量慢sql，随后redis访问超时 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>587</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>32</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>23</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>9</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,557 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>谈OSSIM服务器内存开销问题 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x8C08;OSSIM&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x5185;&amp;#x5B58;&amp;#x5F00;&amp;#x9500;&amp;#x95EE;&amp;#x9898; OSSIM&amp;#x7ECF;&amp;#x5386;&amp;#x5341;&amp;#x591A;&amp;#x5E74;&amp;#x53D1;&amp;#x5C55;&amp;#xFF0C;&amp;#x76EE;&amp;#x524D;&amp;#x5DF2;&amp;#x7ECF;&amp;#x6210;&amp;#x4E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈OSSIM服务器内存开销问题 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/06/b0a8780/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x8C08;OSSIM&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x5185;&amp;#x5B58;&amp;#x5F00;&amp;#x9500;&amp;#x95EE;&amp;#x9898; OSSIM&amp;#x7ECF;&amp;#x5386;&amp;#x5341;&amp;#x591A;&amp;#x5E74;&amp;#x53D1;&amp;#x5C55;&amp;#xFF0C;&amp;#x76EE;&amp;#x524D;&amp;#x5DF2;&amp;#x7ECF;&amp;#x6210;&amp;#x4E">
+<meta property="og:updated_time" content="2015-07-06T13:27:03.872Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈OSSIM服务器内存开销问题 -">
+<meta name="twitter:description" content="&amp;#x8C08;OSSIM&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x5185;&amp;#x5B58;&amp;#x5F00;&amp;#x9500;&amp;#x95EE;&amp;#x9898; OSSIM&amp;#x7ECF;&amp;#x5386;&amp;#x5341;&amp;#x591A;&amp;#x5E74;&amp;#x53D1;&amp;#x5C55;&amp;#xFF0C;&amp;#x76EE;&amp;#x524D;&amp;#x5DF2;&amp;#x7ECF;&amp;#x6210;&amp;#x4E">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/06/b0a8780/" title="谈OSSIM服务器内存开销问题 -" itemprop="url">谈OSSIM服务器内存开销问题 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-06T01:27:03.000Z" itemprop="datePublished"> 发表于 2015-07-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#谈OSSIM服务器内存开销问题"><span class="toc-number">1.</span> <span class="toc-text">谈OSSIM服务器内存开销问题</span></a></li></ol>
+		
+		</div>
+		
+		<h4 id="&#x8C08;OSSIM&#x670D;&#x52A1;&#x5668;&#x5185;&#x5B58;&#x5F00;&#x9500;&#x95EE;&#x9898;">&#x8C08;OSSIM&#x670D;&#x52A1;&#x5668;&#x5185;&#x5B58;&#x5F00;&#x9500;&#x95EE;&#x9898;</h4><p> OSSIM&#x7ECF;&#x5386;&#x5341;&#x591A;&#x5E74;&#x53D1;&#x5C55;&#xFF0C;&#x76EE;&#x524D;&#x5DF2;&#x7ECF;&#x6210;&#x4E3A;&#x6700;&#x4F18;&#x79C0;&#x7684;&#x5F00;&#x6E90;&#x5B89;&#x5168;&#x4E8B;&#x4EF6;&#x4FE1;&#x606F;&#x7BA1;&#x7406;&#x5E73;&#x53F0;&#xFF0C;&#x5B83;&#x5728;&#x6211;&#x56FD;&#x7684;&#x5E94;&#x7528;&#x624D;&#x521A;&#x521A;&#x8D77;&#x6B65;&#x3002;&#x591A;&#x5E74;&#x524D;&#xFF0C;&#x5728;&#x56FD;&#x5916;&#x8003;&#x67E5;&#x65F6;&#x6211;&#x610F;&#x5916;&#x53D1;&#x73B0;&#x4E86;&#x8FD9;&#x6B3E;&#x4F18;&#x79C0;&#x7684;&#x8F6F;&#x4EF6;&#x7CFB;&#x7EDF;&#xFF0C;&#x5E76;&#x4E0D;&#x65AD;&#x6539;&#x8FDB;&#x4E4B;&#x540E;&#x5F00;&#x59CB;&#x5728;&#x56FD;&#x5185;&#x5F00;&#x59CB;&#x63A8;&#x5E7F;&#x5E94;&#x7528;OSSIM&#xFF0C;&#x5728;&#x6211;&#x64B0;&#x5199;&#x7684;&#x300A;Unix/Linux&#x7F51;&#x7EDC;&#x65E5;&#x5FD7;&#x4E0E;&#x6D41;&#x91CF;&#x76D1;&#x63A7;&#x300B;&#x4E00;&#x4E66;&#x4E2D;&#x82B1;&#x8D39;30%&#x7684;&#x7B14;&#x58A8;&#xFF0C;&#x8BB2;&#x8FF0;&#x4E86;OSSIM&#x90E8;&#x7F72;&#x53CA;&#x5E94;&#x7528;&#x6280;&#x5DE7;&#x3002;&#x4F46;&#x521D;&#x5B66;&#x8005;&#x5F80;&#x5F80;&#x591A;&#x8FD9;&#x79CD;&#x7CFB;&#x7EDF;&#x7684;&#x786C;&#x4EF6;&#x8981;&#x6C42;&#x4E4B;&#x9AD8;&#x5E76;&#x4E0D;&#x7406;&#x89E3;&#xFF0C;&#x672C;&#x6587;&#x5C31;&#x8C08;&#x8C08;&#x5230;&#x5E95;OSSIM&#x7684;&#x54EA;&#x4E9B;&#x670D;&#x52A1;&#x5728;&#x6D88;&#x8017;&#x7740;&#x5185;&#x5B58;&#x3002;  &#x9664;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x672C;&#x751F;&#x4EE5;&#x4E0B;&#x5B50;&#x7CFB;&#x7EDF;&#x5C06;&#x6D88;&#x8017;&#x5927;&#x91CF;&#x5185;&#x5B58;&#x3002;&#xFF08;&#x6709;&#x5173;&#x7CFB;&#x7EDF;&#x786C;&#x4EF6;&#x9009;&#x578B;&#x95EE;&#x9898;&#x5927;&#x5BB6;&#x53EF;&#x53C2;&#x8003;&#x6211;&#x7684;&#x4E13;&#x8457;&#xFF09;</p>
+<p> 1  &#xFF09;  <strong>. iptables</strong>  &#x94FE;&#x3001;&#x8868;&#x53CA;&#x89C4;&#x5219;&#x90FD;&#x6D88;&#x8017;&#x6709;&#x9650;&#x7684;&#x7CFB;&#x7EDF;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x4E14;&#x89C4;&#x5219;&#x52A0;&#x8F7D;&#x8D8A;&#x591A;&#x6D88;&#x8017;&#x5185;&#x5B58;&#x8D8A;&#x5927;&#xFF1B;</p>
+<p> 2  &#xFF09;  .  <em><strong>Snort</strong></em>  &#x6A21;&#x5757;&#xFF0C;&#x5DE5;&#x4F5C;&#x65F6;&#x65E2;&#x6D88;&#x8017;  CPU  &#x8BA1;&#x7B97;&#x8D44;&#x6E90;&#x5B83;&#x7684;&#x89C4;&#x5219;&#x540C;&#x65F6;&#x6D88;&#x8017;&#x5927;&#x91CF;&#x5185;&#x5B58;&#xFF0C;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#xFF0C;&#x5229;&#x7528;  Snort  &#x53EF;&#x4EE5;&#x5C06;  SPAN  &#x8FC7;&#x6765;&#x7684;&#x6D41;&#x91CF;&#x8FDB;&#x884C;&#x6DF1;&#x5EA6;&#x5305;&#x68C0;&#x6D4B;&#xFF0C;&#x8FD9;&#x662F;&#x7CFB;&#x7EDF;&#x9700;&#x8981;&#x5BF9;&#x6570;&#x636E;&#x5305;&#x7684;&#x5185;&#x5BB9;&#x8FDB;&#x884C;&#x8BC6;&#x522B;&#xFF0C;&#x5206;&#x6790;&#x548C;&#x5206;&#x7C7B;&#xFF0C;&#x5C06;&#x91C7;&#x7528;&#x57FA;&#x4E8E;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x591A;&#x6A21;&#x5F0F;&#x5339;&#x914D;&#x7B97;&#x6CD5;&#x548C;&#x57FA;&#x4E8E;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x591A;&#x6A21;&#x5F0F;&#x5339;&#x914D;&#x7B97;&#x6CD5;&#xFF0C;&#x8FD9;&#x6837;&#x4EE5;&#x6765;&#x5927;&#x90E8;&#x5206;  CPU  &#x7684;&#x8BA1;&#x7B97;&#x65F6;&#x95F4;&#x5C06;&#x88AB;  snort  &#x5360;&#x7528;&#xFF0C;&#x4E0E;&#x6B64;&#x540C;&#x65F6;  snort  &#x8FD8;&#x4F1A;&#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93;&#x4EA7;&#x751F;&#x5927;&#x91CF;&#x65E5;&#x5FD7;&#x4ECE;&#x800C;&#x5360;&#x7528;&#x78C1;&#x76D8;  IO  &#xFF1B;</p>
+<p> 3  &#xFF09; <strong>Squid</strong> &#xFF0C;&#x5B9E;&#x73B0;  squid  &#x5BF9;&#x672C;&#x673A;&#x7684;  apache  &#x670D;&#x52A1;&#x5B9E;&#x73B0;&#x52A0;&#x901F;&#x529F;&#x80FD;  ,  &#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;  /etc/squid3/squid.conf  &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x201C;  Recommended minimum configuration  &#x201D;&#x63A8;&#x8350;&#x6700;&#x5C0F;&#x5316;&#x914D;&#x7F6E;&#x4E00;&#x680F;&#x67E5;&#x627E;&#x5177;&#x4F53;&#x914D;&#x7F6E;&#xFF1B;</p>
+<p> 4  &#xFF09; <strong>Memcache</strong> ,  &#x5F53;&#x6570;&#x636E;&#x91CF;&#x5927;&#x65F6;&#xFF0C;&#x5229;&#x7528;  memcached  &#x53EF;&#x4EE5;&#x7F13;&#x5B58;  session  &#x6570;&#x636E;&#x3001;&#x4E34;&#x65F6;&#x6570;&#x636E;&#x4EE5;&#x51CF;&#x5C11;&#x5BF9;&#x4ED6;&#x4EEC;&#x7684;&#x6570;&#x636E;&#x5E93;&#x5199;&#x64CD;&#x4F5C;&#xFF0C;&#x4F46;&#x5B83;&#x6D88;&#x8017;&#x5185;&#x5B58;&#x4E5F;&#x5F88;&#x5927;&#xFF1B;</p>
+<p> 5)  <strong>Redis  &#x3001;  memcache</strong>  ,  &#x90FD;&#x662F;&#x57FA;&#x4E8E;  key/value  &#x5B58;&#x50A8;&#xFF0C;&#x5F53;&#x63D2;&#x5165;&#x7684;&#x6570;&#x636E;&#x8D8A;&#x591A;&#x65F6;&#x6D88;&#x8017;&#x5185;&#x5B58;&#x8D8A;&#x5927;&#xFF0C;&#x5F53;&#x6570;&#x636E;&#x7EE7;&#x7EED;&#x589E;&#x52A0;&#x4ED6;&#x4EEC;&#x6709;&#x53EF;&#x80FD;&#x4F1A;&#x5360;&#x7528;  70%  &#x7684;&#x5185;&#x5B58;&#xFF0C;&#x6D88;&#x8017;&#x5F88;&#x5927;&#xFF1B;</p>
+<p> 6) <strong>LAMP</strong> ,  &#x9664;  Linux  &#x7CFB;&#x7EDF;&#x672C;&#x8EAB;&#x7684;&#x5185;&#x5B58;&#x6D88;&#x8017;&#x5916;&#xFF0C;&#x8FD8;&#x6709;  Apache  &#x3001;  Mysql  &#x3001;  PHP  &#x53CA;&#x6A21;&#x5757;&#x7684;&#x5185;&#x5B58;&#x6D88;&#x8017;&#xFF1B;</p>
+<p> 7) <strong>OSSEC</strong>,  &#x5229;&#x7528;&#x89C4;&#x5219;&#x8FDB;&#x884C;&#x5165;&#x4FB5;&#x68C0;&#x6D4B;&#x5206;&#x6790;&#x65F6;&#xFF0C;&#x6D88;&#x8017;&#x5927;&#x91CF;&#x5185;&#x5B58;&#xFF1B;</p>
+<p> 8  &#xFF09;  <strong>OpenVas</strong>  &#x5728;&#x8FDB;&#x884C;&#x6F0F;&#x6D1E;&#x626B;&#x63CF;&#x65F6;&#x4F1A;&#x52A0;&#x8F7D;&#x6F0F;&#x6D1E;&#x5E93;&#x8FD9;&#x6837;&#x4F1A;&#x6D88;&#x8017;&#x5927;&#x91CF;&#x5185;&#x5B58;&#xFF1B;</p>
+<p> 9  &#xFF09; <strong>Ntop</strong> &#xFF0C;&#x5728;&#x76D1;&#x63A7;&#x65F6;&#xFF0C;&#x5728;&#x8BFB;&#x53D6;&#x6D41;&#x91CF;&#x5230;  Ntop  &#x4E2D;&#xFF0C;  ntop  &#x5C06;&#x4EA7;&#x751F;&#x5927;&#x91CF;&#x4E3B;&#x673A;&#x6570;&#x91CF;&#xFF0C;&#x8FD9;&#x53EF;&#x80FD;&#x6D88;&#x8017;&#x5927;&#x91CF;&#x670D;&#x52A1;&#x5668;&#x5185;&#x5B58;&#xFF1B;&#x5982;&#x679C;&#x5229;&#x7528;  &quot;q&#x201D;  &#x53C2;&#x6570;&#x5C06;  ntop  &#x4EA7;&#x751F;&#x7684;&#x53EF;&#x4EE5;&#x5305;&#x8F6C;&#x50A8;&#x4E3A;&#x6587;&#x4EF6;&#x5728;&#x8FD9;&#x4E00;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x540C;&#x6837;&#x6D88;&#x8017;&#x5185;&#x5B58;&#xFF1B;</p>
+<p> 10  &#xFF09;  <strong>Agent</strong>  &#xFF0C;&#x5728;  Sensor  &#x4E2D;&#x5305;&#x542B;&#x4E0A;&#x767E;&#x4E2A;  Agent  &#x63D2;&#x4EF6;&#x8FD9;&#x4E9B;&#x90FD;&#x6D88;&#x8017;&#x7740;&#x5927;&#x91CF;&#x5185;&#x5B58;&#xFF1B;</p>
+<p> 11  &#xFF09;  <strong>Alienvault  &#x6846;&#x67B6;</strong>  &#x8FD0;&#x884C;&#x540C;&#x6837;&#x6D88;&#x8017;&#x5185;&#x5B58;&#xFF1B;</p>
+<p> 12  &#xFF09;  <strong>OSSIM  &#x4E2D;&#x5173;&#x8054;&#x5F15;&#x64CE;</strong>  &#x7684;&#x805A;&#x5408;&#x6A21;&#x5757;&#xFF0C;&#x5728;&#x5904;&#x7406;&#x590D;&#x6742;&#x62A5;&#x8B66;&#x5E76;&#x5BF9;&#x62A5;&#x8B66;&#x4E8B;&#x4EF6;&#x8FDB;&#x884C;&#x805A;&#x5408;&#x5904;&#x7406;&#x65F6;&#xFF0C;&#x4F1A;&#x8FDB;&#x884C;&#x5927;&#x91CF;&#x8BA1;&#x7B97;&#x6D88;&#x8017;&#x5185;&#x5B58;&#x4EE5;&#x53CA;  CPU  &#x8D44;&#x6E90;&#xFF0C;&#x7279;&#x522B;&#x662F;&#x5BF9;&#x4E8E;&#x77ED;&#x65F6;&#x95F4;&#x591A;&#x6B21;&#x8FDE;&#x7EED;&#x653B;&#x51FB;&#xFF0C;&#x626B;&#x63CF;&#x5F15;&#x64CE;&#x7684;&#x62A5;&#x8B66;&#x6570;&#x76EE;&#x66F4;&#x591A;&#xFF0C;&#x57FA;&#x4E8E;&#x7F51;&#x683C;&#x7684;&#x805A;&#x5408;&#x65B9;&#x6CD5;&#xFF0C;&#x5408;&#x5E76;&#x8D77;&#x6765;&#x7CFB;&#x7EDF;&#x505A;&#x5173;&#x8054;&#x5206;&#x6790;&#x4EFB;&#x52A1;&#x91CF;&#x5F88;&#x5927;&#xFF0C;&#x6240;&#x4EE5;&#x4F1A;&#x6D88;&#x8017;&#x5927;&#x91CF;&#x7CFB;&#x7EDF;&#x8D44;&#x6E90;&#x3002;</p>
+<p>&#x6700;&#x91CD;&#x8981;&#x7684;&#x4E09;&#x4E2A;&#x6307;&#x6807;&#xFF1A;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#x3001;CPU&#x6570;&#x91CF;&#x3001;&#x78C1;&#x76D8;I/O&#x53CA;&#x7F51;&#x7EDC;I/O&#x5927;&#x5C0F;&#xA0;</p>
+<p>16GB&#x5185;&#x5B58;&#x662F;&#x57FA;&#x672C;&#x914D;&#x7F6E;&#x5C31;&#x4E0D;&#x8DB3;&#x4E3A;&#x5947;&#xFF0C;&#x6700;&#x597D;&#x5C06;&#x670D;&#x52A1;&#x5668;&#x5185;&#x5B58;&#x914D;&#x7F6E;&#x5230;32GB&#x53CA;&#x4EE5;&#x4E0A;&#x3002;  &#x5982;&#x679C;&#x670D;&#x52A1;&#x5668;&#x5185;&#x5B58;&#x5C0F;&#x4E8E;8GB&#x7684;&#x73AF;&#x5883;&#x4E2D;&#x4F7F;&#x7528;OSSIM&#xFF0C;&#x8FD8;&#x4E0D;&#x5982;&#x73B0;&#x5728;&#x5C31;&#x653E;&#x5F03; :-)</p>
+<p>&#x672C;&#x6587;&#x51FA;&#x81EA; &#x201C;&#x674E;&#x6668;&#x5149;&#x539F;&#x521B;&#x6280;&#x672F;&#x535A;&#x5BA2;&#x201D; &#x535A;&#x5BA2;&#xFF0C;&#x8C22;&#x7EDD;&#x8F6C;&#x8F7D;&#xFF01; </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Memcached/">Memcached</a><a href="/tags/Snort/">Snort</a><a href="/tags/操作系统/">操作系统</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/06/b0b214f/" title="【maven项目】Spring MVC 中配置Memcache -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【maven项目】Spring MVC 中配置Memcache -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/06/b097d63/"  title="RDBMS，memcache -">
+ <strong>下一篇：</strong><br/> 
+ <span>RDBMS，memcache -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#谈OSSIM服务器内存开销问题"><span class="toc-number">1.</span> <span class="toc-text">谈OSSIM服务器内存开销问题</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>587</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>32</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>23</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>9</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
