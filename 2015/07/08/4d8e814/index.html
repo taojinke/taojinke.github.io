@@ -1,0 +1,942 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>Node.js(express) + MongoDB(mongoose) 简单开发（一） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="IDE&amp;#xFF1A;webstorm
+
+&amp;#x5EFA;&amp;#x7ACB;&amp;#x9879;&amp;#x76EE;
+
+Node&amp;#x53CA;express&amp;#x7684;&amp;#x5B89;&amp;#x88C5;&amp;#x8FD9;&amp;#x91CC;&amp;#x5C31;&amp;#x4E0D;&amp;#x518D;&amp;#x8D58;&amp;#x8FF0;&amp;#xFF0C;&amp;#x7F51;&amp;#x4E0A;&amp;#x6709;&amp;#x5F88;&amp;#x591">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js(express) + MongoDB(mongoose) 简单开发（一） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/08/4d8e814/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="IDE&amp;#xFF1A;webstorm
+
+&amp;#x5EFA;&amp;#x7ACB;&amp;#x9879;&amp;#x76EE;
+
+Node&amp;#x53CA;express&amp;#x7684;&amp;#x5B89;&amp;#x88C5;&amp;#x8FD9;&amp;#x91CC;&amp;#x5C31;&amp;#x4E0D;&amp;#x518D;&amp;#x8D58;&amp;#x8FF0;&amp;#xFF0C;&amp;#x7F51;&amp;#x4E0A;&amp;#x6709;&amp;#x5F88;&amp;#x591">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d84e45.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d850b6.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d85327.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d85809.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d85809.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d85a7a.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d85a7a.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d85ceb.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d85f5c.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d866af.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d86920.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d86920.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d86b91.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d86b91.png">
+<meta property="og:image" content="http://taojinke.github.io/img/20150708/4d87073.png">
+<meta property="og:updated_time" content="2015-07-08T14:33:30.534Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js(express) + MongoDB(mongoose) 简单开发（一） -">
+<meta name="twitter:description" content="IDE&amp;#xFF1A;webstorm
+
+&amp;#x5EFA;&amp;#x7ACB;&amp;#x9879;&amp;#x76EE;
+
+Node&amp;#x53CA;express&amp;#x7684;&amp;#x5B89;&amp;#x88C5;&amp;#x8FD9;&amp;#x91CC;&amp;#x5C31;&amp;#x4E0D;&amp;#x518D;&amp;#x8D58;&amp;#x8FF0;&amp;#xFF0C;&amp;#x7F51;&amp;#x4E0A;&amp;#x6709;&amp;#x5F88;&amp;#x591">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/08/4d8e814/" title="Node.js(express) + MongoDB(mongoose) 简单开发（一） -" itemprop="url">Node.js(express) + MongoDB(mongoose) 简单开发（一） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-08T02:33:30.000Z" itemprop="datePublished"> 发表于 2015-07-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>IDE&#xFF1A;webstorm</p>
+<ol>
+<li>&#x5EFA;&#x7ACB;&#x9879;&#x76EE;</li>
+</ol>
+<p>Node&#x53CA;express&#x7684;&#x5B89;&#x88C5;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x518D;&#x8D58;&#x8FF0;&#xFF0C;&#x7F51;&#x4E0A;&#x6709;&#x5F88;&#x591A;&#x5B89;&#x88C5;&#x7684;&#x6559;&#x7A0B;&#xFF0C;&#x4E0D;&#x4F1A;&#x7684;&#x540C;&#x5B66;&#x53EF;&#x4EE5;&#x81EA;&#x884C;&#x67E5;&#x627E;&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x91C7;&#x7528;express4.x&#x7248;&#x672C;</p>
+<p>&#x5B89;&#x88C5;express&#x5E93;&#x5B8C;&#x6210;&#x4E4B;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;express&#x547D;&#x4EE4;&#x6765;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x81EA;&#x5DF1;&#x7684;&#x9879;&#x76EE;&#xFF1A; express -e vlan</p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;express&#x5E2E;&#x6211;&#x4EEC;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684;&#x9879;&#x76EE;&#x7EA7;&#x76EE;&#x5F55;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d84e45.png" alt="1_thumb5"></p>
+<p>express&#x9ED8;&#x8BA4;&#x7684;&#x662F;jade&#x7684;&#x6A21;&#x7248;&#xFF0C; -e&#x4EE3;&#x8868;&#x4F7F;&#x7528;ejs&#xFF0C; &#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x4F7F;&#x7528;ejs</p>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x8FDB;&#x5165;&#x9879;&#x76EE;&#x76EE;&#x5F55;&#x5E76;&#x5B89;&#x88C5;express&#x6240;&#x9700;&#x7684;&#x4F9D;&#x8D56;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d850b6.png" alt="3_thumb2"></p>
+<p>2.&#x76EE;&#x5F55;&#x7ED3;&#x6784;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d85327.png" alt="2_thumb3"></p>
+<p>www&#x6587;&#x4EF6;&#x5C31;&#x662F;&#x542F;&#x52A8;&#x6587;&#x4EF6;</p>
+<p>node_modules &#x5B58;&#x653E;&#x6240;&#x6709;&#x9879;&#x76EE;&#x7684;&#x4F9D;&#x8D56;</p>
+<p>public&#x4E3A;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x5B58;&#x653E;&#x76EE;&#x5F55;&#xFF0C;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;</p>
+<p>routes&#x4E3A;&#x8DEF;&#x7531;&#x6587;&#x4EF6;</p>
+<p>views&#x5C31;&#x662F;&#x89C6;&#x56FE;&#x4E86;&#xFF08;&#x9875;&#x9762;&#x6587;&#x4EF6;&#xFF0C;ejs&#x6A21;&#x677F;&#xFF09;</p>
+<ol>
+<li>app.js&#x6838;&#x5FC3;&#x6587;&#x4EF6;</li>
+</ol>
+<p>&#x4E00;&#x822C;&#x53EF;&#x80FD;&#x4F1A;&#x6539;&#x52A8;&#x7684;&#x5730;&#x65B9;&#x6211;&#x90FD;&#x6CE8;&#x91CA;&#x4E86;&#x51FA;&#x6765;&#xFF0C; &#x5B8C;&#x6574;&#x7684;app.js&#x6587;&#x4EF6;&#x5982;&#x4E0B;</p>
+<pre><code><span class="keyword">var</span> express = require(&amp;apos;express&amp;apos;);
+<span class="keyword">var</span> path = require(&amp;apos;path&amp;apos;);
+<span class="keyword">var</span> favicon = require(&amp;apos;serve-favicon&amp;apos;);
+<span class="keyword">var</span> logger = require(&amp;apos;morgan&amp;apos;);
+<span class="keyword">var</span> cookieParser = require(&amp;apos;cookie-parser&amp;apos;);
+<span class="keyword">var</span> bodyParser = require(&amp;apos;body-parser&amp;apos;);
+
+<span class="keyword">var</span> routes = require(&amp;apos;./routes/index&amp;apos;);
+<span class="comment">//var users = require(&amp;apos;./routes/users&amp;apos;);</span>
+<span class="keyword">var</span> ejs = require(&amp;quot;ejs&amp;quot;);
+<span class="keyword">var</span> <span class="keyword">app</span> = express();
+
+<span class="comment">// &amp;#x89C6;&amp;#x56FE;&amp;#x76EE;&amp;#x5F55;</span>
+<span class="keyword">app</span>.<span class="keyword">set</span>(&amp;apos;views&amp;apos;, path.join(__dirname, &amp;apos;views&amp;apos;));
+<span class="comment">// &amp;#x4F7F;&amp;#x7528;ejs&amp;#x6A21;&amp;#x677F; &amp;#xFF08;&amp;#x66FF;&amp;#x6362;&amp;#x4E3A;html&amp;#x6587;&amp;#x4EF6;&amp;#xFF09;</span>
+<span class="keyword">app</span>.engine(&amp;apos;.html&amp;apos;, ejs.__express);
+<span class="keyword">app</span>.<span class="keyword">set</span>(&amp;apos;<span class="keyword">view</span> engine&amp;apos;, &amp;apos;html&amp;apos;);
+<span class="comment">//app.set(&amp;apos;view engine&amp;apos;, &amp;apos;ejs&amp;apos;);</span>
+
+<span class="comment">// uncomment after placing your favicon in /public</span>
+<span class="comment">//app.use(favicon(__dirname + &amp;apos;/public/favicon.ico&amp;apos;));</span>
+<span class="keyword">app</span>.<span class="keyword">use</span>(logger(&amp;apos;dev&amp;apos;));
+<span class="keyword">app</span>.<span class="keyword">use</span>(bodyParser.json());
+<span class="keyword">app</span>.<span class="keyword">use</span>(bodyParser.urlencoded({ extended: false }));
+<span class="keyword">app</span>.<span class="keyword">use</span>(cookieParser());
+<span class="comment">// &amp;#x9759;&amp;#x6001;&amp;#x8D44;&amp;#x6E90;&amp;#x5B58;&amp;#x653E;&amp;#x76EE;&amp;#x5F55;</span>
+<span class="keyword">app</span>.<span class="keyword">use</span>(express.static(path.join(__dirname, &amp;apos;public&amp;apos;)));
+
+<span class="keyword">app</span>.<span class="keyword">use</span>(&amp;apos;/&amp;apos;, routes);
+<span class="comment">//app.use(&amp;apos;/users&amp;apos;, users);</span>
+
+<span class="comment">// catch 404 and forward to error handler</span>
+<span class="keyword">app</span>.<span class="keyword">use</span>(function(req, res, next) {
+  <span class="keyword">var</span> <span class="keyword">err</span> = new <span class="keyword">Error</span>(&amp;apos;Not Found&amp;apos;);
+  <span class="keyword">err</span>.status = 404;
+  next(<span class="keyword">err</span>);
+});
+
+<span class="comment">// error handlers</span>
+
+<span class="comment">// development error handler</span>
+<span class="comment">// will print stacktrace</span>
+<span class="keyword">if</span> (<span class="keyword">app</span>.<span class="literal">get</span>(&amp;apos;env&amp;apos;) === &amp;apos;development&amp;apos;) {
+  <span class="keyword">app</span>.<span class="keyword">use</span>(function(<span class="keyword">err</span>, req, res, next) {
+    res.status(<span class="keyword">err</span>.status || 500);
+    res.render(&amp;apos;<span class="keyword">error</span>&amp;apos;, {
+      message: <span class="keyword">err</span>.message,
+      <span class="keyword">error</span>: <span class="keyword">err</span>
+    });
+  });
+}
+
+<span class="comment">// production error handler</span>
+<span class="comment">// no stacktraces leaked to user</span>
+<span class="keyword">app</span>.<span class="keyword">use</span>(function(<span class="keyword">err</span>, req, res, next) {
+  res.status(<span class="keyword">err</span>.status || 500);
+  res.render(&amp;apos;<span class="keyword">error</span>&amp;apos;, {
+    message: <span class="keyword">err</span>.message,
+    <span class="keyword">error</span>: {}
+  });
+});
+
+
+module.exports = <span class="keyword">app</span>;
+</code></pre><p>&#x67E5;&#x770B;./bin/www&#x6587;&#x4EF6;&#x3002;</p>
+<pre><code>#!<span class="regexp">/usr/</span>bin/env node
+
+<span class="comment">/**
+ * Module dependencies.
+ */</span>
+
+<span class="keyword">var</span> app = <span class="built_in">require</span>(&amp;apos;../app&amp;apos;);
+<span class="keyword">var</span> debug = <span class="built_in">require</span>(&amp;apos;debug&amp;apos;)(&amp;apos;vlan:server&amp;apos;);
+<span class="keyword">var</span> http = <span class="built_in">require</span>(&amp;apos;http&amp;apos;);
+
+<span class="comment">/**
+ * Get port from environment and store in Express.
+ */</span>
+
+<span class="comment">/*
+* &amp;#x5B9A;&amp;#x4E49;&amp;#x542F;&amp;#x52A8;&amp;#x7AEF;&amp;#x53E3;
+* */</span>
+<span class="keyword">var</span> port = normalizePort(process.env.PORT || &amp;apos;<span class="number">8080</span>&amp;apos;);
+app.set(&amp;apos;port&amp;apos;, port);
+
+<span class="comment">/**
+ * Create HTTP server.
+ */</span>
+
+<span class="keyword">var</span> server = http.createServer(app);
+
+<span class="comment">/**
+ * Listen on provided port, on all network interfaces.
+ */</span>
+
+server.listen(port);
+server.on(&amp;apos;error&amp;apos;, onError);
+server.on(&amp;apos;listening&amp;apos;, onListening);
+
+<span class="comment">/**
+ * Normalize a port into a number, string, or false.
+ */</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">normalizePort</span>(<span class="params">val</span>) </span>{
+  <span class="keyword">var</span> port = <span class="built_in">parseInt</span>(val, <span class="number">10</span>);
+
+  <span class="keyword">if</span> (<span class="built_in">isNaN</span>(port)) {
+    <span class="comment">// named pipe</span>
+    <span class="keyword">return</span> val;
+  }
+
+  <span class="keyword">if</span> (port &amp;gt;= <span class="number">0</span>) {
+    <span class="comment">// port number</span>
+    <span class="keyword">return</span> port;
+  }
+
+  <span class="keyword">return</span> <span class="literal">false</span>;
+}
+
+<span class="comment">/**
+ * Event listener for HTTP server &amp;quot;error&amp;quot; event.
+ */</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">onError</span>(<span class="params">error</span>) </span>{
+  <span class="keyword">if</span> (error.syscall !== &amp;apos;listen&amp;apos;) {
+    <span class="keyword">throw</span> error;
+  }
+
+  <span class="keyword">var</span> bind = <span class="keyword">typeof</span> port === &amp;apos;string&amp;apos;
+    ? &amp;apos;Pipe &amp;apos; + port
+    : &amp;apos;Port &amp;apos; + port;
+
+  <span class="comment">// handle specific listen errors with friendly messages</span>
+  <span class="keyword">switch</span> (error.code) {
+    <span class="keyword">case</span> &amp;apos;EACCES&amp;apos;:
+      <span class="built_in">console</span>.error(bind + &amp;apos; requires elevated privileges&amp;apos;);
+      process.exit(<span class="number">1</span>);
+      <span class="keyword">break</span>;
+    <span class="keyword">case</span> &amp;apos;EADDRINUSE&amp;apos;:
+      <span class="built_in">console</span>.error(bind + &amp;apos; is already <span class="keyword">in</span> use&amp;apos;);
+      process.exit(<span class="number">1</span>);
+      <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+      <span class="keyword">throw</span> error;
+  }
+}
+
+<span class="comment">/**
+ * Event listener for HTTP server &amp;quot;listening&amp;quot; event.
+ */</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">onListening</span>(<span class="params"></span>) </span>{
+  <span class="keyword">var</span> addr = server.address();
+  <span class="keyword">var</span> bind = <span class="keyword">typeof</span> addr === &amp;apos;string&amp;apos;
+    ? &amp;apos;pipe &amp;apos; + addr
+    : &amp;apos;port &amp;apos; + addr.port;
+  debug(&amp;apos;Listening on &amp;apos; + bind);
+}
+</code></pre><p>4.&#x8DEF;&#x7531;&#x529F;&#x80FD;</p>
+<p>&#x9996;&#x5148;&#x5728;&#x9879;&#x76EE;&#x76EE;&#x5F55;&#x91CC;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;controller&#x5373;&#x63A7;&#x5236;&#x5C42;</p>
+<p>&#x5728;controller&#x4E0B;&#x65B0;&#x5EFA;index.js &#x8FD9;&#x91CC;&#x9762;&#x6211;&#x4EEC;&#x7B80;&#x5355;&#x7684;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;title&#x6765;&#x8FDB;&#x884C;&#x6D4B;&#x8BD5;</p>
+<pre><code>exports<span class="built_in">.</span>index <span class="subst">=</span> function (){
+    <span class="keyword">return</span> {title: <span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x6B22</span>;<span class="subst">&amp;</span><span class="variable">#x8FCE</span>;<span class="subst">&amp;</span><span class="variable">#x6765</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x6211</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x9996</span>;<span class="subst">&amp;</span><span class="variable">#x9875</span>;<span class="subst">&amp;</span><span class="variable">#xFF01</span>;<span class="subst">&amp;</span>quot;};
+};
+</code></pre><p>&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x5728;&#x8DEF;&#x7531;&#x5C42;&#x91CC;&#x9762;&#x8BBE;&#x7F6E;index.js</p>
+<pre><code>var express = require<span class="params">(&amp;apos;express&amp;apos;)</span>;
+var router = express.Router<span class="params">()</span>;
+
+<span class="comment">// &amp;#x5F15;&amp;#x5165;c&amp;#x5C42;&amp;#x7684;&amp;#x5404;&amp;#x4E2A;&amp;#x63A7;&amp;#x5236;&amp;#x5668;</span>
+var indexController = require<span class="params">(&amp;quot;../controller/index&amp;quot;)</span>;
+
+<span class="comment">/* GET index page. */</span>
+router.get<span class="params">(&amp;apos;/index&amp;apos;, function<span class="params">(req, res, next)</span> {
+  res.render<span class="params">(&amp;apos;index&amp;apos;, indexController.index<span class="params">()</span>)</span>;
+})</span>;
+
+<span class="function"><span class="keyword">module</span>.<span class="title">exports</span> =</span> router;
+</code></pre><p>&#x7136;&#x540E;&#x5BF9;V&#x5C42;&#x7684;index.html&#x6A21;&#x677F;&#x8FDB;&#x884C;&#x4FEE;&#x6539;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!</span>DOCTYPE html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;html<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;head<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;title<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span> title <span class="subst">%&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/title<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>apos;stylesheet<span class="subst">&amp;</span>apos; href<span class="subst">=&amp;</span>apos;/css/style<span class="built_in">.</span>css<span class="subst">&amp;</span>apos; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;/head<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;body<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;h1<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span> title <span class="subst">%&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/h1<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;p<span class="subst">&amp;</span><span class="literal">gt</span>;Welcome <span class="keyword">to</span> <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span> title <span class="subst">%&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/p<span class="subst">&amp;</span><span class="literal">gt</span>;
+  <span class="subst">&amp;</span><span class="literal">lt</span>;/body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/html<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x91C7;&#x7528;&#x7684;&#x662F;ejs&#x6A21;&#x677F;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x4E25;&#x683C;&#x6309;&#x7167;ejs&#x7684;&#x6A21;&#x677F;&#x89C4;&#x5219;&#xFF0C;&#x5F53;&#x7136;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x5176;&#x4ED6;&#x6A21;&#x7248;&#x5F15;&#x64CE;&#xFF0C;&#x6BD4;&#x5982;jade&#x7B49;&#x7B49;</p>
+<p>&#x53E6;&#x5916;&#x6211;&#x5BF9;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x76EE;&#x5F55;&#x8FDB;&#x884C;&#x4E86;&#x4E00;&#x4E9B;&#x5C0F;&#x4FEE;&#x6539;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x4E2A;&#x4EBA;&#x4E60;&#x60EF;&#xFF0C;</p>
+<p>&#x539F;&#x672C;&#x7684;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x76EE;&#x5F55;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d85809.png" alt="4_thumb1"></p>
+<p>&#x6539;&#x8FC7;&#x540E;&#x7684;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x76EE;&#x5F55;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d85809.png" alt="image_thumb1"></p>
+<p>&#x6240;&#x4EE5;&#x9875;&#x9762;&#x5F15;&#x7528;&#x7684;&#x65F6;&#x5019;&#x8981;&#x7A0D;&#x5FAE;&#x6CE8;&#x610F;&#x4E0B;&#xFF0C;&#x5F53;&#x8D44;&#x6E90;&#x52A0;&#x8F7D;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9ED8;&#x8BA4;&#x4ECE;public&#x4E0B;&#x67E5;&#x627E;&#xFF0C;&#x6240;&#x4EE5;&#x5F15;&#x7528;&#x7684;&#x8DEF;&#x5F84;&#xFF1A;&lt;link rel=&apos;stylesheet&apos; href=&apos;/css/style.css&apos; /&gt;</p>
+<p>&#x4E00;&#x5207;&#x5927;&#x529F;&#x544A;&#x6210;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x542F;&#x52A8;&#x670D;&#x52A1;&#xFF0C;&#x6765;&#x8BBF;&#x95EE;&#x6211;&#x4EEC;&#x7684;&#x6D4B;&#x8BD5;&#x9875;&#x9762;&#xFF0C;&#x7EC8;&#x7AEF;&#x53EF;&#x4EE5;&#x7528;npm start&#x8FDB;&#x884C;&#x8BBF;&#x95EE;&#xFF0C;&#x6211;&#x7528;&#x7684;webstorm&#x76F4;&#x63A5;debug&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6548;&#x679C;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d85a7a.png" alt="image_thumb3"></p>
+<p><img src="http://taojinke.github.io/img/20150708/4d85a7a.png" alt="image_thumb5"></p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6210;&#x529F;&#x8BBF;&#x95EE;&#x9875;&#x9762;&#xFF0C;&#x5E76;&#x4E14;css&#x4E5F;&#x6210;&#x529F;&#x52A0;&#x8F7D;&#x3002;</p>
+<p>&#x5230;&#x8FD9;&#x4E3A;&#x6B62;&#xFF0C;&#x5176;&#x5B9E;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;express&#x7684;&#x642D;&#x5EFA;&#x5C31;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#xFF0C;&#x611F;&#x89C9;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x5BF9;&#x4E0D;&#x5BF9;&#xFF1F; &#x53EA;&#x8981;&#x6574;&#x7AD9;&#x7684;&#x67B6;&#x6784;&#x601D;&#x7EF4;&#x7406;&#x987A;&#xFF0C;&#x4E00;&#x5207;&#x90FD;&#x80FD;&#x8FCE;&#x5203;&#x800C;&#x89E3;&#xFF01;</p>
+<p>5.&#x5B8C;&#x6574;&#x7684;&#x9879;&#x76EE;</p>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x505A;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x767B;&#x5F55;&#x6CE8;&#x518C;&#xFF0C;&#x4F7F;&#x7528;MongoDB&#x505A;&#x4E3A;&#x6211;&#x4EEC;&#x7684;&#x6570;&#x636E;&#x5E93;&#x3002;</p>
+<p>&#x505A;&#x4E4B;&#x524D;&#x6211;&#x4EEC;&#x5148;&#x6765;&#x89C4;&#x5212;&#x4E00;&#x4E0B;&#x601D;&#x8DEF;&#xFF1A;</p>
+<p>&#x2460;&#x65B0;&#x5EFA;&#x4E24;&#x4E2A;&#x9875;&#x9762;&#xFF0C;&#x4E00;&#x4E2A;&#x767B;&#x5F55;&#x9875;&#xFF08;login.html&#xFF09;, &#x767B;&#x5F55;&#x6210;&#x529F;&#x540E;&#x7684;&#x8DF3;&#x8F6C;&#x9875;&#xFF08;home.html&#xFF09;</p>
+<p>&#x2461;&#x7167;&#x846B;&#x82A6;&#x753B;&#x74E2;&#xFF0C;&#x6309;&#x7167;&#x521A;&#x521A;&#x7684;&#x987A;&#x5E8F;&#xFF0C;&#x5148;&#x8DD1;&#x901A;&#x8FD9;&#x4E24;&#x4E2A;&#x9875;&#x9762;</p>
+<p>&#x2462;&#x5199;&#x767B;&#x5F55;&#x548C;&#x6CE8;&#x518C;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x5C31;&#x9700;&#x8981;&#x7528;&#x5230;&#x6570;&#x636E;&#x5E93;&#x4E86;&#xFF0C;&#x6CE8;&#x518C;&#x4E4B;&#x524D;&#x5148;&#x8FDB;&#x884C;&#x67E5;&#x8BE2;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x91CC;&#x662F;&#x5426;&#x6709;&#x8FD9;&#x4E2A;&#x7528;&#x6237;&#x540D;&#xFF0C;&#x7136;&#x540E;&#x662F;&#x767B;&#x5F55;&#xFF0C;&#x8D26;&#x6237;&#x4E0E;&#x5BC6;&#x7801;&#x662F;&#x5426;&#x5339;&#x914D;</p>
+<p>&#x2463;&#x524D;&#x7AEF;&#x7684;&#x6CE8;&#x518C;&#x548C;&#x767B;&#x5F55;&#x7684;&#x529F;&#x80FD;&#x5B9E;&#x73B0;</p>
+<p>&#x5927;&#x4F53;&#x4E0A;&#x5C31;&#x8FD9;&#x4E2A;&#x601D;&#x8DEF;&#xFF0C;&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x4E00;&#x6B65;&#x6B65;&#x8FDB;&#x884C;&#x3002;</p>
+<p>1.&#x521B;&#x5EFA;&#x767B;&#x5F55;&#x9875;&#x4EE5;&#x53CA;&#x767B;&#x5F55;&#x6210;&#x529F;&#x9875;</p>
+<p>&#x5728;&#x8DEF;&#x7531;&#x5C42;&#x7684;index.js&#x91CC;&#x9762;&#x65B0;&#x589E;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code><span class="keyword">var</span> loginController = require(&amp;quot;../controller/login&amp;quot;);
+
+<span class="comment">/* GET login page. */</span>
+router.<span class="keyword">get</span>(&amp;apos;/login&amp;apos;, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span> </span>{
+  res.render(&amp;apos;login&amp;apos;, loginController.login());
+});
+</code></pre><p>C&#x5C42;&#x7684;login.js&#xFF1A;</p>
+<pre><code>exports<span class="built_in">.</span>login <span class="subst">=</span> function (){
+    <span class="keyword">return</span> {title: <span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x8FD9</span>;<span class="subst">&amp;</span><span class="variable">#x91CC</span>;<span class="subst">&amp;</span><span class="variable">#x662F</span>;<span class="subst">&amp;</span><span class="variable">#x767B</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x9875</span>;<span class="subst">&amp;</span>quot;};
+};
+</code></pre><p>V&#x5C42;&#x7684;login.html&#xFF1A;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!</span>DOCTYPE html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;head<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta charset<span class="subst">=&amp;</span>quot;utf<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;title<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span>title<span class="subst">%&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/title<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;script<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;/css/login<span class="built_in">.</span>css<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/head<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;h1<span class="subst">&amp;</span><span class="literal">gt</span>;~<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span>title<span class="subst">%&amp;</span><span class="literal">gt</span>;~<span class="subst">&amp;</span><span class="literal">lt</span>;/h1<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;form id<span class="subst">=&amp;</span>quot;myForm<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="variable">#x5E10</span>;<span class="subst">&amp;</span><span class="variable">#x53F7</span>;<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;input <span class="keyword">type</span><span class="subst">=&amp;</span>quot;text<span class="subst">&amp;</span>quot; name<span class="subst">=&amp;</span>quot;username<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;br<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;br<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="variable">#x5BC6</span>;<span class="subst">&amp;</span><span class="variable">#x7801</span>;<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;input <span class="keyword">type</span><span class="subst">=&amp;</span>quot;password<span class="subst">&amp;</span>quot; name<span class="subst">=&amp;</span>quot;password<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;br<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;br<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;input <span class="keyword">type</span><span class="subst">=&amp;</span>quot;button<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x6CE8</span>;<span class="subst">&amp;</span><span class="variable">#x518C</span>;<span class="subst">&amp;</span>quot; node<span class="attribute">-type</span><span class="subst">=&amp;</span>quot;register<span class="subst">&amp;</span>quot; <span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;   <span class="subst">&amp;</span><span class="literal">lt</span>;input <span class="keyword">type</span><span class="subst">=&amp;</span>quot;button<span class="subst">&amp;</span>quot; value<span class="subst">=&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x767B</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span>quot; node<span class="attribute">-type</span><span class="subst">=&amp;</span>quot;submit<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/form<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;/js/jquery<span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;script src<span class="subst">=&amp;</span>quot;/js/login<span class="built_in">.</span>js<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/script<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/html<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x6837;&#x5F0F;&#x7B80;&#x5355;&#x7684;&#x5199;&#x5199;&#x5C31;&#x53EF;&#x4EE5;&#x5566;~</p>
+<p>&#x91CD;&#x542F;&#x670D;&#x52A1;&#xFF0C;&#x8BBF;&#x95EE;login&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d85ceb.png" alt="image_thumb8"></p>
+<p><img src="http://taojinke.github.io/img/20150708/4d85f5c.png" alt="image_thumb11"></p>
+<p>&#x5168;&#x90E8;OK&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x662F;home&#x9875;&#x9762;&#xFF0C;&#x7531;&#x4E8E;home&#x9875;&#x662F;&#x767B;&#x9646;&#x6210;&#x529F;&#x9875;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x505A;&#x4E2A;&#x5047;&#x7684;&#x5E10;&#x53F7;&#x8FDB;&#x884C;&#x6D4B;&#x8BD5;:</p>
+<p>&#x8DEF;&#x7531;&#x5C42;&#x7684;index.js&#x6DFB;&#x52A0;&#x8BBF;&#x95EE;home&#x7684;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code><span class="comment">/* GET home page. */</span>
+router<span class="built_in">.</span>get(<span class="subst">&amp;</span>apos;/home<span class="subst">&amp;</span>apos;, function(req, res, next) {
+  res<span class="built_in">.</span>render(<span class="subst">&amp;</span>apos;home<span class="subst">&amp;</span>apos;, {
+    title: <span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x767B</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x6210</span>;<span class="subst">&amp;</span><span class="variable">#x529F</span>;<span class="subst">&amp;</span><span class="variable">#x9875</span>;<span class="subst">&amp;</span>quot;,
+    username: <span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x6D4B</span>;<span class="subst">&amp;</span><span class="variable">#x8BD5</span>;<span class="subst">&amp;</span><span class="variable">#x5E10</span>;<span class="subst">&amp;</span><span class="variable">#x53F7</span>;<span class="subst">&amp;</span>quot;
+  });
+});
+</code></pre><p>V&#x5C42;&#x7684;home.html&#xFF1A;</p>
+<pre><code><span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">!</span>DOCTYPE html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;html<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;head<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;meta charset<span class="subst">=&amp;</span>quot;utf<span class="subst">-</span><span class="number">8</span><span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;title<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="variable">#x606D</span>;<span class="subst">&amp;</span><span class="variable">#x559C</span>;~<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span> title <span class="subst">%&amp;</span><span class="literal">gt</span>;~<span class="subst">&amp;</span><span class="variable">#x606D</span>;<span class="subst">&amp;</span><span class="variable">#x559C</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/title<span class="subst">&amp;</span><span class="literal">gt</span>;
+    <span class="subst">&amp;</span><span class="literal">lt</span>;<span class="keyword">link</span> rel<span class="subst">=&amp;</span>quot;stylesheet<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;/css/home<span class="built_in">.</span>css<span class="subst">&amp;</span>quot;<span class="subst">/</span><span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/head<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;h1<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="variable">#x5C0A</span>;<span class="subst">&amp;</span><span class="variable">#x656C</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;<span class="subst">%=</span> username <span class="subst">%&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x6B22</span>;<span class="subst">&amp;</span><span class="variable">#x8FCE</span>;<span class="subst">&amp;</span><span class="variable">#x60A8</span>;<span class="subst">&amp;</span><span class="variable">#xFF01</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/h1<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;a class<span class="subst">=&amp;</span>quot;logout<span class="subst">&amp;</span>quot; href<span class="subst">=&amp;</span>quot;/logout<span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="literal">gt</span>;<span class="subst">&amp;</span><span class="variable">#x9000</span>;<span class="subst">&amp;</span><span class="variable">#x51FA</span>;<span class="subst">&amp;</span><span class="variable">#x767B</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="literal">lt</span>;/a<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/body<span class="subst">&amp;</span><span class="literal">gt</span>;
+<span class="subst">&amp;</span><span class="literal">lt</span>;/html<span class="subst">&amp;</span><span class="literal">gt</span>;
+</code></pre><p>&#x540C;&#x6837;&#x6837;&#x5F0F;&#x7B80;&#x5355;&#x5199;&#x5199;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;</p>
+<p>&#x91CD;&#x542F;&#x670D;&#x52A1;&#xFF0C;&#x8BBF;&#x95EE;home&#x9875;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d866af.png" alt="image_thumb13"></p>
+<p><img src="http://taojinke.github.io/img/20150708/4d86920.png" alt="image_thumb16"></p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8BBF;&#x95EE;&#x6210;&#x529F;&#xFF0C;&#x8FD9;&#x91CC;&#x5176;&#x5B9E;&#x6211;&#x4EEC;&#x5E94;&#x8BE5;&#x6709;&#x4E00;&#x4E2A;&#x9000;&#x51FA;&#x767B;&#x5F55;&#x7684;&#x9875;&#x9762;&#xFF0C;&#x6211;&#x5C31;&#x4E0D;&#x518D;&#x5355;&#x5199;&#x4E00;&#x4E2A;&#x9875;&#x9762;&#x4E86;&#xFF0C;&#x9000;&#x51FA;&#x767B;&#x9646;&#x540E;&#x76F4;&#x63A5;&#x8DF3;&#x8F6C;&#x5230;&#x767B;&#x5F55;&#x9875;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;~~~</p>
+<p>&#x8DEF;&#x7531;&#x5C42;&#x66FE;&#x52A0;&#x4E00;&#x4E2A;&#x8BBF;&#x95EE;logout&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x53EF;&#x4EE5;&#xFF1A;</p>
+<pre><code><span class="comment">/*GET logout page.*/</span>
+router.<span class="keyword">get</span>(&amp;apos;/logout&amp;apos;, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span></span>{
+  res.redirect(&amp;quot;/login&amp;quot;);
+});
+</code></pre><p>&#x91CD;&#x542F;&#x670D;&#x52A1;&#x540E;&#x6211;&#x4EEC;&#x70B9;&#x9000;&#x51FA;&#x767B;&#x5F55;&#x6309;&#x94AE;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x76F4;&#x63A5;&#x8DF3;&#x8F6C;&#x5230;&#x4E86;&#x767B;&#x5F55;&#x9875;~</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d86920.png" alt="image_thumb19"></p>
+<p>&#x597D;&#x4E86;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x8BE5;&#x5B9E;&#x73B0;&#x524D;&#x7AEF;&#x767B;&#x5F55;&#x6CE8;&#x518C;&#x7684;&#x529F;&#x80FD;&#x4E86;&#xFF0C;&#x8FD9;&#x91CC;&#x5148;&#x6765;&#x5199;&#x767B;&#x5F55;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x6765;&#x89C4;&#x5B9A;&#x4E0B;&#x63A5;&#x53E3;&#x7684;&#x683C;&#x5F0F;&#xFF1A;{&#x201C;code&#x201D;: 200, &#x201C;msg&#x201D;: &#x201C;&#x767B;&#x5F55;&#x6210;&#x529F;&#x201D;}</p>
+<p>code&#x7B49;&#x4E8E;200&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E3A;&#x767B;&#x5F55;&#x6210;&#x529F;&#xFF0C;201&#x4E3A;&#x767B;&#x5F55;&#x5931;&#x8D25;&#x3002;&#x6211;&#x4EEC;&#x5148;&#x7528;get&#x65B9;&#x5F0F;&#x6765;&#x6D4B;&#x8BD5;&#x9875;&#x9762;&#xFF0C;&#x8DD1;&#x901A;&#x9875;&#x9762;&#x4EE5;&#x540E;&#x518D;&#x7528;post&#x65B9;&#x5F0F;&#x63D0;&#x4EA4;</p>
+<p>&#x5728;C&#x5C42;&#x65B0;&#x5EFA;getLogin.js&#xFF1A;</p>
+<pre><code><span class="built_in">var</span> userList <span class="subst">=</span> {};
+exports<span class="built_in">.</span>getLogin <span class="subst">=</span> function (req, res){
+    res<span class="built_in">.</span>send({
+        code:<span class="number">200</span>,
+        msg: <span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x767B</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x6210</span>;<span class="subst">&amp;</span><span class="variable">#x529F</span>;<span class="subst">&amp;</span><span class="variable">#xFF08</span>;<span class="subst">&amp;</span><span class="variable">#x672C</span>;<span class="subst">&amp;</span><span class="variable">#x6761</span>;<span class="subst">&amp;</span><span class="variable">#x6D88</span>;<span class="subst">&amp;</span><span class="variable">#x606F</span>;<span class="subst">&amp;</span><span class="variable">#x6765</span>;<span class="subst">&amp;</span><span class="variable">#x81EA</span>;<span class="subst">&amp;</span><span class="variable">#x540E</span>;<span class="subst">&amp;</span><span class="variable">#x53F0</span>;<span class="subst">&amp;</span><span class="variable">#xFF09</span>;<span class="subst">&amp;</span>quot;
+    });
+    userList <span class="subst">=</span> {
+        username: req<span class="built_in">.</span>param(<span class="subst">&amp;</span>quot;username<span class="subst">&amp;</span>quot;)
+    }
+};
+exports<span class="built_in">.</span>userList <span class="subst">=</span> function (){
+    <span class="keyword">return</span> userList;
+};
+</code></pre><p>userList&#x7528;&#x6765;&#x5B58;&#x50A8;&#x767B;&#x5F55;&#x65F6;&#x6240;&#x586B;&#x5199;&#x7684;&#x7528;&#x6237;&#x4FE1;&#x606F;&#xFF08;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#x91CC;&#x8BFB;&#x53D6;&#x5185;&#x5BB9;&#xFF09;</p>
+<p>&#x5728;&#x8DEF;&#x7531;&#x5C42;&#x7684;index.js&#x505A;&#x5982;&#x4E0B;&#x6539;&#x52A8;&#xFF1A;</p>
+<pre><code><span class="built_in">var</span> getLoginController <span class="subst">=</span> <span class="keyword">require</span>(<span class="subst">&amp;</span>quot;<span class="built_in">..</span>/controller/getLogin<span class="subst">&amp;</span>quot;);
+<span class="comment">/* GET home page. */</span>
+router<span class="built_in">.</span>get(<span class="subst">&amp;</span>apos;/home<span class="subst">&amp;</span>apos;, function (req, res){
+  res<span class="built_in">.</span>render(<span class="subst">&amp;</span>apos;home<span class="subst">&amp;</span>apos;, {
+      title: <span class="subst">&amp;</span>quot;<span class="subst">&amp;</span><span class="variable">#x767B</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x6210</span>;<span class="subst">&amp;</span><span class="variable">#x529F</span>;<span class="subst">&amp;</span><span class="variable">#x9875</span>;<span class="subst">&amp;</span>quot;,
+      username: getLoginController<span class="built_in">.</span>userList()<span class="built_in">.</span>username
+  });
+});
+router<span class="built_in">.</span>get(<span class="subst">&amp;</span>apos;/userData<span class="subst">&amp;</span>apos;, getLoginController<span class="built_in">.</span>getLogin);
+</code></pre><p>userData&#x5373;&#x524D;&#x7AEF;&#x7684;&#x63A5;&#x53E3;&#x5730;&#x5740;</p>
+<p>&#x73B0;&#x5728;&#x5C31;&#x53EF;&#x4EE5;&#x6765;&#x5199;&#x5199;&#x524D;&#x7AEF;&#x767B;&#x5F55;&#x7684;&#x529F;&#x80FD;&#x4E86;&#xFF1A;</p>
+<pre><code>;(<span class="function"><span class="keyword">function</span> <span class="params">($)</span></span>{
+    <span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span> <span class="params">(options)</span></span>{
+        <span class="keyword">var</span> <span class="keyword">self</span> = this;
+            <span class="keyword">self</span>.options = $.extend({
+                <span class="keyword">parent</span>: $(&amp;quot;<span class="comment">#myForm&amp;quot;),</span>
+                register: $(&amp;quot;[node-type=register]&amp;quot;),
+                submit: $(&amp;quot;[node-type=submit]&amp;quot;)
+            }, options);
+        <span class="keyword">self</span>.bindEvent();
+    };
+    foo.prototype = {
+        bindEvent: <span class="function"><span class="keyword">function</span> <span class="params">()</span></span>{
+            <span class="keyword">var</span> <span class="keyword">self</span> = this;
+            <span class="keyword">self</span>.login();
+        },
+        login: <span class="function"><span class="keyword">function</span> <span class="params">()</span></span>{
+            <span class="keyword">var</span> <span class="keyword">self</span> = this,
+                <span class="keyword">parent</span> = <span class="keyword">self</span>.options.<span class="keyword">parent</span>,
+                submit = <span class="keyword">self</span>.options.submit;
+            submit.on(&amp;quot;click&amp;quot;, <span class="function"><span class="keyword">function</span> <span class="params">()</span></span>{
+                <span class="keyword">var</span> jqXML = $.ajax({
+                    url: &amp;quot;/userData&amp;quot;,
+                    dataType: &amp;quot;json&amp;quot;,
+                    type: &amp;quot;get&amp;quot;,
+                    data: <span class="keyword">parent</span>.serialize()
+                });
+                jqXML.done(<span class="function"><span class="keyword">function</span> <span class="params">(data)</span></span>{
+                    <span class="keyword">if</span>(data.code == <span class="number">200</span>){
+                        location.href = &amp;quot;/home&amp;quot;;
+                    }
+                });
+            });
+        }
+    };
+    <span class="keyword">new</span> foo();
+})(jQuery);
+</code></pre><p>&#x7B80;&#x5355;&#x7684;get&#x63D0;&#x4EA4;&#x65B9;&#x5F0F;&#xFF0C;&#x8BB0;&#x5F97;&#x5728;login.html&#x9875;&#x9762;&#x4E0A;&#x5F15;&#x7528;~</p>
+<p>&#x4E00;&#x5207;OK&#xFF0C;&#x91CD;&#x542F;&#x670D;&#x52A1;&#xFF0C;&#x8BBF;&#x95EE;login&#x9875;&#x9762;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d86b91.png" alt="image_thumb23"></p>
+<p>&#x8F93;&#x5165;&#x7528;&#x6237;&#x540D;&#x4EE5;&#x540E;&#x70B9;&#x51FB;&#x767B;&#x5F55;&#xFF1A;</p>
+<p><img src="http://taojinke.github.io/img/20150708/4d86b91.png" alt="image_thumb29"></p>
+<p><img src="http://taojinke.github.io/img/20150708/4d87073.png" alt="image_thumb32"></p>
+<p>&#x606D;&#x559C;&#xFF01;&#x8BBF;&#x95EE;&#x6210;&#x529F;&#xFF01;</p>
+<p>&#x4E0B;&#x4E00;&#x8282;&#x6211;&#x4EEC;&#x5C06;&#x8DDF;&#x6570;&#x636E;&#x5E93;&#x8FDE;&#x63A5;&#x8D77;&#x6765;&#xFF0C;&#x505A;&#x4E00;&#x4E2A;&#x771F;&#x6B63;&#x610F;&#x4E49;&#x4E0A;&#x7684;&#x767B;&#x5F55;&#x6CE8;&#x518C;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Html/">Html</a><a href="/tags/JavaScript/">JavaScript</a><a href="/tags/MongoDB/">MongoDB</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/08/4db3bc8/" title="MongoDB 数据库管理（不定时更新） -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  MongoDB 数据库管理（不定时更新） -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/08/4d75c92/"  title="基于MongoDB的全国电影票预定系统 -">
+ <strong>下一篇：</strong><br/> 
+ <span>基于MongoDB的全国电影票预定系统 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>606</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>10</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

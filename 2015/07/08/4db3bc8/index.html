@@ -1,0 +1,739 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>MongoDB 数据库管理（不定时更新） - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x51E0;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x5927;&amp;#x81F4;&amp;#x8BF4;&amp;#x4E86;&amp;#x526F;&amp;#x672C;&amp;#x96C6;&amp;#x7684;&amp;#x642D;&amp;#x5EFA;&amp;#x3001;&amp;#x526F;&amp;#x672C;&amp;#x96C6;&amp;#x7684;&amp;#x7BA1;&amp;#x7406;&amp;#xFF0C;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB 数据库管理（不定时更新） -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/08/4db3bc8/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x51E0;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x5927;&amp;#x81F4;&amp;#x8BF4;&amp;#x4E86;&amp;#x526F;&amp;#x672C;&amp;#x96C6;&amp;#x7684;&amp;#x642D;&amp;#x5EFA;&amp;#x3001;&amp;#x526F;&amp;#x672C;&amp;#x96C6;&amp;#x7684;&amp;#x7BA1;&amp;#x7406;&amp;#xFF0C;">
+<meta property="og:updated_time" content="2015-07-08T14:33:30.606Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB 数据库管理（不定时更新） -">
+<meta name="twitter:description" content="&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x51E0;&amp;#x7BC7;&amp;#x6587;&amp;#x7AE0;&amp;#x5927;&amp;#x81F4;&amp;#x8BF4;&amp;#x4E86;&amp;#x526F;&amp;#x672C;&amp;#x96C6;&amp;#x7684;&amp;#x642D;&amp;#x5EFA;&amp;#x3001;&amp;#x526F;&amp;#x672C;&amp;#x96C6;&amp;#x7684;&amp;#x7BA1;&amp;#x7406;&amp;#xFF0C;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/08/4db3bc8/" title="MongoDB 数据库管理（不定时更新） -" itemprop="url">MongoDB 数据库管理（不定时更新） -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-08T02:33:30.000Z" itemprop="datePublished"> 发表于 2015-07-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#六："><span class="toc-number">1.</span> <span class="toc-text">六：</span></a></li></ol>
+		
+		</div>
+		
+		<p>&#x4E4B;&#x524D;&#x7684;&#x51E0;&#x7BC7;&#x6587;&#x7AE0;&#x5927;&#x81F4;&#x8BF4;&#x4E86;&#x526F;&#x672C;&#x96C6;&#x7684;&#x642D;&#x5EFA;&#x3001;&#x526F;&#x672C;&#x96C6;&#x7684;&#x7BA1;&#x7406;&#xFF0C;&#x73B0;&#x5728;&#x8BF4;&#x4E0B;MongoDB&#x6570;&#x636E;&#x5E93;&#xFFFD;&#xFFFD;&#xFFFD;&#x7BA1;&#x7406;&#x3002;</p>
+<p>&#x4E00;&#xFF1A;&#x67E5;&#x770B;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;&#xFF1A; db.serverStatus()</p>
+<pre><code>zjy<span class="value">:PRIMARY&amp;gt;</span> db<span class="class">.serverStatus</span>()
+{
+    &amp;quot;**host**&amp;quot; <span class="value">: &amp;quot;</span>zhoujinyi&amp;quot;,
+    &amp;quot;**version**&amp;quot; <span class="value">: &amp;quot;</span>3<span class="class">.0</span><span class="class">.4</span>&amp;quot;,
+    &amp;quot;process&amp;quot; <span class="value">: &amp;quot;</span>mongod&amp;quot;,
+    &amp;quot;pid&amp;quot; <span class="value">: <span class="function">NumberLong</span>(<span class="number">3939</span>),
+    &amp;quot;</span>uptime&amp;quot; <span class="value">: <span class="number">149427</span>,
+    &amp;quot;</span>uptimeMillis&amp;quot; <span class="value">: <span class="function">NumberLong</span>(<span class="number">149427393</span>),
+    &amp;quot;</span>uptimeEstimate&amp;quot; <span class="value">: <span class="number">140539</span>,
+    &amp;quot;</span>localTime&amp;quot; <span class="value">: <span class="function">ISODate</span>(&amp;quot;</span>2015-07-01T14<span class="value">:<span class="number">06</span>:<span class="number">12.922</span>Z&amp;quot;</span>),
+    &amp;quot;asserts&amp;quot; <span class="value">: {
+        &amp;quot;</span>regular&amp;quot; <span class="value">: <span class="number">0</span>,
+        &amp;quot;</span>warning&amp;quot; <span class="value">: <span class="number">0</span>,
+        &amp;quot;</span>msg&amp;quot; <span class="value">: <span class="number">0</span>,
+        &amp;quot;</span>user&amp;quot; <span class="value">: <span class="number">30</span>,
+        &amp;quot;</span>rollovers&amp;quot; <span class="value">: <span class="number">0</span>
+    },
+    &amp;quot;</span>**backgroundFlushing**&amp;quot; <span class="value">: {
+        &amp;quot;</span>flushes&amp;quot; <span class="value">: <span class="number">2490</span>,
+        &amp;quot;</span>total_ms&amp;quot; <span class="value">: <span class="number">10410</span>,
+        &amp;quot;</span>average_ms&amp;quot; <span class="value">: <span class="number">4.180722891566265</span>,
+        &amp;quot;</span>last_ms&amp;quot; <span class="value">: <span class="number">10</span>,
+        &amp;quot;</span>last_finished&amp;quot; <span class="value">: <span class="function">ISODate</span>(&amp;quot;</span>2015-07-01T14<span class="value">:<span class="number">05</span>:<span class="number">47.284</span>Z&amp;quot;</span>)
+    },
+    &amp;quot;**connections**&amp;quot; <span class="value">: {
+        &amp;quot;</span>**current**&amp;quot; <span class="value">: <span class="number">7</span>,
+        &amp;quot;</span>available&amp;quot; <span class="value">: <span class="number">43</span>,
+        &amp;quot;</span>totalCreated&amp;quot; <span class="value">: <span class="function">NumberLong</span>(<span class="number">10016</span>)
+    },
+...
+...
+    &amp;quot;</span>**network**&amp;quot; <span class="value">: {
+        &amp;quot;</span>bytesIn&amp;quot; <span class="value">: <span class="number">23165291</span>,
+        &amp;quot;</span>bytesOut&amp;quot; <span class="value">: <span class="number">25295567</span>,
+        &amp;quot;</span>numRequests&amp;quot; <span class="value">: <span class="number">209093</span>
+    },
+    &amp;quot;</span>**opcounters**&amp;quot; <span class="value">: {
+        &amp;quot;</span>insert&amp;quot; <span class="value">: <span class="number">9</span>,
+        &amp;quot;</span>query&amp;quot; <span class="value">: <span class="number">53</span>,
+        &amp;quot;</span>update&amp;quot; <span class="value">: <span class="number">9</span>,
+        &amp;quot;</span>delete&amp;quot; <span class="value">: <span class="number">0</span>,
+        &amp;quot;</span>getmore&amp;quot; <span class="value">: <span class="number">59219</span>,
+        &amp;quot;</span><span class="tag">command</span>&amp;quot; <span class="value">: <span class="number">149822</span>
+    },
+    &amp;quot;</span>opcountersRepl&amp;quot; <span class="value">: {
+        &amp;quot;</span>insert&amp;quot; <span class="value">: <span class="number">0</span>,
+        &amp;quot;</span>query&amp;quot; <span class="value">: <span class="number">0</span>,
+        &amp;quot;</span>update&amp;quot; <span class="value">: <span class="number">0</span>,
+        &amp;quot;</span>delete&amp;quot; <span class="value">: <span class="number">0</span>,
+        &amp;quot;</span>getmore&amp;quot; <span class="value">: <span class="number">0</span>,
+        &amp;quot;</span><span class="tag">command</span>&amp;quot; <span class="value">: <span class="number">0</span>
+    },
+    &amp;quot;</span>**repl**&amp;quot; <span class="value">: {
+        &amp;quot;</span>**setName**&amp;quot; <span class="value">: &amp;quot;</span>zjy&amp;quot;,
+        &amp;quot;setVersion&amp;quot; <span class="value">: <span class="number">31303</span>,
+        &amp;quot;</span>**ismaster**&amp;quot; <span class="value">: true,
+        &amp;quot;</span>secondary&amp;quot; <span class="value">: false,
+        &amp;quot;</span>**hosts**&amp;quot; <span class="value">: [
+            &amp;quot;</span>127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="value">:<span class="number">27017</span>&amp;quot;</span>,
+            &amp;quot;127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="value">:<span class="number">27018</span>&amp;quot;</span>,
+            &amp;quot;127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="value">:<span class="number">27019</span>&amp;quot;</span>
+        ],
+        &amp;quot;**primary**&amp;quot; <span class="value">: &amp;quot;</span>127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="value">:<span class="number">27017</span>&amp;quot;</span>,
+        &amp;quot;me&amp;quot; <span class="value">: &amp;quot;</span>127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="value">:<span class="number">27017</span>&amp;quot;</span>,
+        &amp;quot;electionId&amp;quot; <span class="value">: <span class="function">ObjectId</span>(&amp;quot;</span>5592be327c7062c30c3bff24&amp;quot;),
+        &amp;quot;rbid&amp;quot; <span class="value">: <span class="number">652411007</span>
+    },
+    &amp;quot;</span>**storageEngine**&amp;quot; <span class="value">: {
+        &amp;quot;</span>name&amp;quot; <span class="value">: &amp;quot;</span>mmapv1&amp;quot;
+    },
+    &amp;quot;writeBacksQueued&amp;quot; <span class="value">: false,
+    &amp;quot;</span>**mem**&amp;quot; <span class="value">: {
+        &amp;quot;</span>bits&amp;quot; <span class="value">: <span class="number">64</span>,
+        &amp;quot;</span>**resident**&amp;quot; <span class="value">: <span class="number">130</span>,
+        &amp;quot;</span>**virtual**&amp;quot; <span class="value">: <span class="number">9710</span>,
+        &amp;quot;</span>supported&amp;quot; <span class="value">: true,
+        &amp;quot;</span>**mapped**&amp;quot; <span class="value">: <span class="number">4574</span>,
+        &amp;quot;</span>mappedWithJournal&amp;quot; <span class="value">: <span class="number">9148</span>
+    },
+...
+...
+    &amp;quot;</span>ok&amp;quot; <span class="value">: <span class="number">1</span>
+}</span>
+</code></pre><p>&#x901A;&#x8FC7;&#x4E0A;&#x9762;&#x770B;&#x5230;MongoDB&#x7684;&#x7248;&#x672C;&#x3001;&#x540E;&#x53F0;&#x5237;&#x5199;&#x60C5;&#x51B5;&#x3001;&#x526F;&#x672C;&#x96C6;&#x60C5;&#x51B5;&#x3001;&#x64CD;&#x4F5C;&#x6570;&#x91CF;&#x60C5;&#x51B5;&#x3001;&#x8FDB;&#x51FA;&#x7F51;&#x7EDC;&#x60C5;&#x51B5;&#x3001;&#x8FDE;&#x63A5;&#x6570;&#x60C5;&#x51B5;&#x548C;&#x5185;&#x5B58;&#x60C5;&#x51B5;&#x3002;</p>
+<p>&#x5176;&#x4E2D;&#x5185;&#x5B58;&#x76F8;&#x5173;&#x5B57;&#x6BB5;&#x7684;&#x542B;&#x4E49;&#x662F;&#xFF1A;&#x5355;&#x4F4D;&#x662F;M</p>
+<p>mapped&#xFF1A;&#x6620;&#x5C04;&#x5230;&#x5185;&#x5B58;&#x7684;&#x6570;&#x636E;&#x5927;&#x5C0F;</p>
+<p>visze&#xFF1A;&#x5360;&#x7528;&#x7684;&#x865A;&#x62DF;&#x5185;&#x5B58;&#x5927;&#x5C0F;</p>
+<p>res&#xFF1A;&#x5B9E;&#x9645;&#x4F7F;&#x7528;&#x7684;&#x5185;&#x5B58;&#x5927;&#x5C0F;</p>
+<p>&#x5728;&#x4E0A;&#x9762;&#x7684;&#x7ED3;&#x679C;&#x4E2D;&#xFF0C;virtual&#x662F;mapped&#x7684;&#x4E24;&#x500D;&#xFF0C;&#x800C;mapped&#x7B49;&#x4E8E;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x6240;&#x4EE5;&#x8BF4;vsize&#x662F;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x7684;&#x4E24;&#x500D;&#xFF0C;&#x4E4B;&#x6240;&#x4EE5;&#x4F1A;&#x8FD9;&#x6837;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x672C;&#x4F8B;&#x4E2D;&#xFF0C;MongoDB&#x5F00;&#x542F;&#x4E86;journal&#xFF0C;&#x9700;&#x8981;&#x5728;&#x5185;&#x5B58;&#x91CC;&#x591A;&#x6620;&#x5C04;&#x4E00;&#x6B21;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x5982;&#x679C;&#x5173;&#x95ED;journal&#xFF0C;&#x5219;virtual&#x548C;mapped&#x5927;&#x81F4;&#x76F8;&#x5F53;&#x3002;</p>
+<p>&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;mongostat&#x6765;&#x67E5;&#x770B;&#xFF1A; </p>
+<pre><code>root<span class="comment">@zhoujinyi:~# mongostat</span>
+insert query update delete getmore command flushes mapped vsize    res faults qr|<span class="string">qw ar</span>|<span class="string">aw netIn netOut conn set repl     time
+    *0    *0     *0     *0       1     2</span>|<span class="string">0       0   4.5G  9.5G 133.0M      0   0</span>|<span class="string">0   0</span>|<span class="string">0  262b    11k    7 zjy  PRI 10:23:13
+    *0    *0     *0     *0       0     2</span>|<span class="string">0       0   4.5G  9.5G 133.0M      0   0</span>|<span class="string">0   0</span>|<span class="string">0  215b    11k    7 zjy  PRI 10:23:14
+    *0    *0     *0     *0       0     2</span>|<span class="string">0       0   4.5G  9.5G 133.0M      0   0</span>|<span class="string">0   0</span>|<span class="string">0  215b    11k    7 zjy  PRI 10:23:15</span>
+</code></pre><p>&#x4E8C;&#xFF1A;&#x67E5;&#x770B;&#x6570;&#x636E;&#x5E93;/&#x8868;&#x72B6;&#x6001;&#xFF1A;db.stats()/db.coll.stats() </p>
+<pre><code><span class="xml">zjy:PRIMARY&amp;gt;**db.stats()**
+</span><span class="expression">{
+    &amp;<span class="variable">quot</span>;**<span class="variable">db</span>**&amp;<span class="variable">quot</span>; : &amp;<span class="variable">quot</span>;<span class="variable">test</span>&amp;<span class="variable">quot</span>;,
+    **&amp;<span class="variable">quot</span>;<span class="variable">collections</span>&amp;<span class="variable">quot</span>;** : 7,
+    &amp;<span class="variable">quot</span>;<span class="variable">objects</span>&amp;<span class="variable">quot</span>; : 36,
+    &amp;<span class="variable">quot</span>;<span class="variable">avgObjSize</span>&amp;<span class="variable">quot</span>; : 417<span class="variable">.</span>1111111111111,
+    &amp;<span class="variable">quot</span>;**<span class="variable">dataSize</span>**&amp;<span class="variable">quot</span>; : 15016,      #&amp;<span class="begin-block">#x</span>6570;&amp;<span class="begin-block">#x</span>636<span class="variable">E</span>;&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>4<span class="variable">EF</span>6;&amp;<span class="begin-block">#x</span>5927;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>0<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>3002;
+    &amp;<span class="variable">quot</span>;**<span class="variable">storageSize</span>**&amp;<span class="variable">quot</span>; : 1093632, #&amp;<span class="begin-block">#x</span>5<span class="variable">B</span>58;&amp;<span class="begin-block">#x</span>50<span class="variable">A</span>8;&amp;<span class="begin-block">#x</span>7<span class="variable">A</span>7<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>95<span class="variable">F</span>4;&amp;<span class="begin-block">#x</span>5927;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>0<span class="variable">F</span>;&amp;<span class="begin-block">#xFF</span>1<span class="variable">A</span>;<span class="variable">datasize</span>+&amp;<span class="begin-block">#x</span>96<span class="variable">C</span>6;&amp;<span class="begin-block">#x</span>5408;&amp;<span class="begin-block">#x</span>4<span class="variable">E</span>24;&amp;<span class="begin-block">#x</span>7<span class="variable">AEF</span>;&amp;<span class="begin-block">#x</span>9884;&amp;<span class="begin-block">#x</span>7559;&amp;<span class="begin-block">#x</span>7684;&amp;<span class="begin-block">#x</span>672<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>4<span class="variable">F</span>7<span class="variable">F</span>;&amp;<span class="begin-block">#x</span>7528;&amp;<span class="begin-block">#x</span>7<span class="variable">A</span>7<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>95<span class="variable">F</span>4;&amp;<span class="begin-block">#x</span>3002;
+    &amp;<span class="variable">quot</span>;<span class="variable">numExtents</span>&amp;<span class="variable">quot</span>; : 7,
+    &amp;<span class="variable">quot</span>;**<span class="variable">indexes</span>**&amp;<span class="variable">quot</span>; : 4,
+    &amp;<span class="variable">quot</span>;<span class="variable">indexSize</span>&amp;<span class="variable">quot</span>; : 32704,
+    &amp;<span class="variable">quot</span>;**<span class="variable">fileSize</span>**&amp;<span class="variable">quot</span>; : 67108864, #&amp;<span class="begin-block">#x</span>7269;&amp;<span class="begin-block">#x</span>7406;&amp;<span class="begin-block">#x</span>6587;&amp;<span class="begin-block">#x</span>4<span class="variable">EF</span>6;&amp;<span class="begin-block">#x</span>5927;&amp;<span class="begin-block">#x</span>5<span class="variable">C</span>0<span class="variable">F</span>;&amp;<span class="begin-block">#xFF</span>1<span class="variable">A</span>;&amp;<span class="begin-block">#x</span>5305;&amp;<span class="begin-block">#x</span>62<span class="variable">EC</span>;&amp;<span class="begin-block">#x</span>9884;&amp;<span class="begin-block">#x</span>5206;&amp;<span class="begin-block">#x</span>914<span class="variable">D</span>;
+    &amp;<span class="variable">quot</span>;<span class="variable">nsSizeMB</span>&amp;<span class="variable">quot</span>; : 16,
+    &amp;<span class="variable">quot</span>;<span class="variable">extentFreeList</span>&amp;<span class="variable">quot</span>; : {
+        &amp;<span class="variable">quot</span>;<span class="variable">num</span>&amp;<span class="variable">quot</span>; : 0,
+        &amp;<span class="variable">quot</span>;<span class="variable">totalSize</span>&amp;<span class="variable">quot</span>; : 0
+    }</span><span class="xml">,
+    &amp;quot;dataFileVersion&amp;quot; : </span><span class="expression">{
+        &amp;<span class="variable">quot</span>;<span class="variable">major</span>&amp;<span class="variable">quot</span>; : 4,
+        &amp;<span class="variable">quot</span>;<span class="variable">minor</span>&amp;<span class="variable">quot</span>; : 22
+    }</span><span class="xml">,
+    &amp;quot;ok&amp;quot; : 1
+}</span>
+</code></pre><p>&#x901A;&#x8FC7;&#x4E0A;&#x9762;&#x770B;&#x5230;&#x6570;&#x636E;&#x5E93;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x96C6;&#x5408;&#xFF08;&#x8868;&#xFF09;&#x6570;&#x91CF;&#xFF0C;&#x7D22;&#x5F15;&#x6570;&#x91CF;&#x3001;&#x5927;&#x5C0F;&#xFF0C;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#xFF0C;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;&#x548C;&#x7269;&#x7406;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x3002;</p>
+<p>&#x4E09;&#xFF0C;&#x67E5;&#x770B;&#x5F53;&#x524D;Query&#x6267;&#x884C;&#x60C5;&#x51B5;&#xFF1A; db.currentOP():</p>
+<pre><code><span class="method">zjy:</span><span class="class">PRIMARY</span>&amp;gt; db.currentOP()
+{
+    &amp;quot;inprog&amp;quot; : [
+        {
+            &amp;quot;**desc**&amp;quot; : &amp;quot;conn4732&amp;quot;,   #&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4E0E</span>;&amp;<span class="symbol">#x65E5</span>;&amp;<span class="symbol">#x5FD7</span>;&amp;<span class="symbol">#x4FE1</span>;&amp;<span class="symbol">#x606F</span>;&amp;<span class="symbol">#x8054</span>;&amp;<span class="symbol">#x7CFB</span>;&amp;<span class="symbol">#x8D77</span>;&amp;<span class="symbol">#x6765</span>;
+            &amp;quot;threadId&amp;quot; : &amp;quot;<span class="number">0x33903c0</span>&amp;quot;,
+            &amp;quot;**connectionId**&amp;quot; : <span class="number">4732</span>, #&amp;<span class="symbol">#x8FDE</span>;&amp;<span class="symbol">#x63A5</span>;<span class="class">ID</span>
+            &amp;quot;**opid**&amp;quot; : <span class="number">221672</span>,       #&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x6807</span>;&amp;<span class="symbol">#x8BC6</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x4E2A</span>;<span class="class">ID</span>&amp;<span class="symbol">#x6765</span>;&amp;<span class="symbol">#x7EC8</span>;&amp;<span class="symbol">#x6B62</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#xFF1A</span>;**db.killOP(opid)**&amp;quot;**active**&amp;quot; : <span class="keyword">true</span>,       #&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x793A</span>;&amp;<span class="symbol">#x7EBF</span>;&amp;<span class="symbol">#x7A0B</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x5426</span>;&amp;<span class="symbol">#x5728</span>;&amp;<span class="symbol">#x8FD0</span>;&amp;<span class="symbol">#x884C</span>;
+            &amp;quot;**secs_running**&amp;quot; : <span class="number">4</span>,    #&amp;<span class="symbol">#x6267</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x65F6</span>;&amp;<span class="symbol">#x95F4</span>;
+            &amp;quot;microsecs_running&amp;quot; : <span class="class">NumberLong</span>(<span class="number">4999899</span>),
+            &amp;quot;**op**&amp;quot; : &amp;quot;getmore&amp;quot;,      #&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7C7B</span>;&amp;<span class="symbol">#x578B</span>;&amp;<span class="symbol">#xFF1A</span>;&amp;<span class="symbol">#x63D2</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x3001</span>;&amp;<span class="symbol">#x5220</span>;&amp;<span class="symbol">#x9664</span>;&amp;<span class="symbol">#x3001</span>;&amp;<span class="symbol">#x66F4</span>;&amp;<span class="symbol">#x65B0</span>;&amp;<span class="symbol">#x3001</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x8BE2</span>;
+            &amp;quot;**ns**&amp;quot; : &amp;quot;local.oplog.rs&amp;quot;, #&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x96C6</span>;&amp;<span class="symbol">#x5408</span>;
+            &amp;quot;**query**&amp;quot; : {
+                &amp;quot;ts&amp;quot; : {
+                    &amp;quot;<span class="char">$g</span>te&amp;quot; : <span class="class">Timestamp</span>(<span class="number">1435674461</span>, <span class="number">1</span>)
+                }
+            },
+            &amp;quot;**client**&amp;quot; : &amp;quot;<span class="number">127.0</span>.0.1:<span class="number">52101</span>&amp;quot;, 
+            &amp;quot;numYields&amp;quot; : <span class="number">0</span>, #&amp;<span class="symbol">#x8868</span>;&amp;<span class="symbol">#x793A</span>;&amp;<span class="symbol">#x8BE5</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x4EA4</span>;&amp;<span class="symbol">#x51FA</span>;&amp;<span class="symbol">#x9501</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x800C</span>;&amp;<span class="symbol">#x4F7F</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x4ED6</span>;&amp;<span class="symbol">#x64CD</span>;&amp;<span class="symbol">#x4F5C</span>;&amp;<span class="symbol">#x5F97</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x8FD0</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x3002</span>;
+            &amp;quot;locks&amp;quot; : {      #&amp;<span class="symbol">#x9501</span>;&amp;<span class="symbol">#x4FE1</span>;&amp;<span class="symbol">#x606F</span>;
+            },
+            &amp;quot;waitingForLock&amp;quot; : <span class="keyword">false</span>,
+            &amp;quot;lockStats&amp;quot; : {
+                &amp;quot;<span class="class">Global</span>&amp;quot; : {
+                    &amp;quot;acquireCount&amp;quot; : {
+                        &amp;quot;r&amp;quot; : <span class="class">NumberLong</span>(<span class="number">10</span>)
+                    }
+                },
+                &amp;quot;<span class="class">MMAPV1Journal</span>&amp;quot; : {
+                    &amp;quot;acquireCount&amp;quot; : {
+                        &amp;quot;r&amp;quot; : <span class="class">NumberLong</span>(<span class="number">5</span>)
+                    }
+                },
+                &amp;quot;<span class="class">Database</span>&amp;quot; : {
+                    &amp;quot;acquireCount&amp;quot; : {
+                        &amp;quot;r&amp;quot; : <span class="class">NumberLong</span>(<span class="number">5</span>)
+                    }
+                },
+                &amp;quot;oplog&amp;quot; : {
+                    &amp;quot;acquireCount&amp;quot; : {
+                        &amp;quot;<span class="class">R</span>&amp;quot; : <span class="class">NumberLong</span>(<span class="number">5</span>)
+                    }
+                }
+            }
+        }  
+</code></pre><p>…<br>…  </p>
+<p>&#x901A;&#x8FC7;&#x4E0A;&#x9762;&#x770B;&#x5230;&#x5F53;&#x524D;&#x6267;&#x884C;&#x7684;&#x8FDB;&#x7A0B;&#xFF0C;&#x7C7B;&#x4F3C;MySQL&#x7684;show processlist&#x3002;&#x53EF;&#x4EE5;&#x6DFB;&#x52A0;&#x8FC7;&#x6EE4;&#x6761;&#x4EF6;&#xFF1A;</p>
+<pre><code><span class="symbol">zjy:</span><span class="constant">PRIMARY&amp;</span>gt; db.currentOP({&amp;quot;ns&amp;quot;<span class="symbol">:&amp;quot</span>;test&amp;quot;})
+</code></pre><p>&#x56DB;&#xFF1A;&#x76D1;&#x63A7;MongoDB&#x5404;&#x4E2A;&#x72B6;&#x6001;&#xFF1A;mongotop&#x3001;mongostat </p>
+<pre><code><span class="tag">root</span><span class="at_rule">@<span class="keyword">zhoujinyi:~#</span> mongotop     #&amp;#x67E5</span>;&amp;<span class="id">#x770B</span>;&amp;<span class="id">#x90A3</span>;&amp;<span class="id">#x4E2A</span>;&amp;<span class="id">#x51E0</span>;&amp;<span class="id">#x4E2A</span>;&amp;<span class="id">#x6700</span>;&amp;<span class="id">#x7E41</span>;&amp;<span class="id">#x5FD9</span>;
+                     <span class="tag">ns</span>    <span class="tag">total</span>    <span class="tag">read</span>    <span class="tag">write</span>    2015<span class="tag">-07-01T11</span><span class="pseudo">:24</span><span class="pseudo">:43-04</span><span class="pseudo">:00</span>
+                    <span class="tag">abc</span>      0<span class="tag">ms</span>     0<span class="tag">ms</span>      0<span class="tag">ms</span>                             
+                <span class="tag">abc</span><span class="class">.AOE</span>      0<span class="tag">ms</span>     0<span class="tag">ms</span>      0<span class="tag">ms</span>                             
+                <span class="tag">abc</span><span class="class">.aoe</span>      0<span class="tag">ms</span>     0<span class="tag">ms</span>      0<span class="tag">ms</span>                             
+     <span class="tag">abc</span><span class="class">.system</span><span class="class">.indexes</span>      0<span class="tag">ms</span>     0<span class="tag">ms</span>      0<span class="tag">ms</span>                             
+          <span class="tag">abc</span><span class="class">.system</span><span class="class">.js</span>      0<span class="tag">ms</span>     0<span class="tag">ms</span>      0<span class="tag">ms</span>                             
+  <span class="tag">abc</span><span class="class">.system</span><span class="class">.namespaces</span>      0<span class="tag">ms</span>     0<span class="tag">ms</span>      0<span class="tag">ms</span>                             
+               <span class="tag">abc</span><span class="class">.test</span>      0<span class="tag">ms</span>     0<span class="tag">ms</span>      0<span class="tag">ms</span>                             
+   <span class="tag">admin</span><span class="class">.system</span><span class="class">.indexes</span>      0<span class="tag">ms</span>     0<span class="tag">ms</span>      0<span class="tag">ms</span>                             
+<span class="tag">admin</span><span class="class">.system</span><span class="class">.namespaces</span>      0<span class="tag">ms</span>     0<span class="tag">ms</span>      0<span class="tag">ms</span>                             
+     <span class="tag">admin</span><span class="class">.system</span><span class="class">.roles</span>   
+
+<span class="tag">root</span><span class="at_rule">@<span class="keyword">zhoujinyi:~#</span> mongostat
+insert query update delete getmore command flushes mapped vsize    res faults qr|qw ar|aw netIn netOut conn set repl     time
+    *<span class="number">0</span>    *<span class="number">0</span>     *<span class="number">0</span>     *<span class="number">0</span>       <span class="number">0</span>     <span class="number">2</span>|<span class="number">0</span>       <span class="number">0</span>   <span class="number">4.5</span>G  <span class="number">9.5</span>G <span class="number">133.0</span>M      <span class="number">0</span>   <span class="number">0</span>|<span class="number">0</span>   <span class="number">0</span>|<span class="number">0</span>  <span class="number">215</span>b    <span class="number">11</span>k    <span class="number">7</span> zjy  PRI <span class="number">11</span>:<span class="number">26</span>:<span class="number">21</span>
+    *<span class="number">0</span>    *<span class="number">0</span>     *<span class="number">0</span>     *<span class="number">0</span>       <span class="number">0</span>     <span class="number">2</span>|<span class="number">0</span>       <span class="number">0</span>   <span class="number">4.5</span>G  <span class="number">9.5</span>G <span class="number">133.0</span>M      <span class="number">0</span>   <span class="number">0</span>|<span class="number">0</span>   <span class="number">0</span>|<span class="number">0</span>  <span class="number">215</span>b    <span class="number">11</span>k    <span class="number">7</span> zjy  PRI <span class="number">11</span>:<span class="number">26</span>:<span class="number">22</span>
+    *<span class="number">0</span>    *<span class="number">0</span>     *<span class="number">0</span>     *<span class="number">0</span>       <span class="number">0</span>     <span class="number">2</span>|<span class="number">0</span>       <span class="number">0</span>   <span class="number">4.5</span>G  <span class="number">9.5</span>G <span class="number">133.0</span>M      <span class="number">0</span>   <span class="number">0</span>|<span class="number">0</span>   <span class="number">0</span>|<span class="number">0</span>  <span class="number">215</span>b    <span class="number">11</span>k    <span class="number">7</span> zjy  PRI <span class="number">11</span>:<span class="number">26</span>:<span class="number">23</span>
+    *<span class="number">0</span>    *<span class="number">0</span>     *<span class="number">0</span>     *<span class="number">0</span>       <span class="number">1</span>     <span class="number">2</span>|<span class="number">0</span>       <span class="number">0</span>   <span class="number">4.5</span>G  <span class="number">9.5</span>G <span class="number">133.0</span>M      <span class="number">0</span>   <span class="number">0</span>|<span class="number">0</span>   <span class="number">0</span>|<span class="number">0</span>  <span class="number">262</span>b    <span class="number">11</span>k    <span class="number">7</span> zjy  PRI <span class="number">11</span>:<span class="number">26</span>:<span class="number">24</span></span>
+</code></pre><p>&#x4E0A;&#x9762;insert&#x3001;query&#x3001;update&#x3001;delete&#x3001;getmore&#x3001;command &#x6BCF;&#x79CD;&#x5BF9;&#x5E94;&#x64CD;&#x4F5C;&#x7684;&#x53D1;&#x751F;&#x6B21;&#x6570;&#x3002;</p>
+<pre><code>flushes<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x5237</span>;<span class="subst">&amp;</span><span class="variable">#x5199</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x78C1</span>;<span class="subst">&amp;</span><span class="variable">#x76D8</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6B21</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+mapped<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x6620</span>;<span class="subst">&amp;</span><span class="variable">#x5C04</span>;<span class="subst">&amp;</span><span class="variable">#x5230</span>;<span class="subst">&amp;</span><span class="variable">#x5185</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x91CF</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x7EA6</span>;<span class="subst">&amp;</span><span class="variable">#x7B49</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#x76EE</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x5C0F</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+vsize<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x6B63</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x865A</span>;<span class="subst">&amp;</span><span class="variable">#x62DF</span>;<span class="subst">&amp;</span><span class="variable">#x5185</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x5C0F</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x901A</span>;<span class="subst">&amp;</span><span class="variable">#x5E38</span>;<span class="subst">&amp;</span><span class="variable">#x4E3A</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x636E</span>;<span class="subst">&amp;</span><span class="variable">#x76EE</span>;<span class="subst">&amp;</span><span class="variable">#x5F55</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="number">2</span><span class="subst">&amp;</span><span class="variable">#x500D</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;<span class="subst">&amp;</span><span class="variable">#xFF08</span>;<span class="subst">&amp;</span><span class="variable">#x4E00</span>;<span class="subst">&amp;</span><span class="variable">#x6B21</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x6620</span>;<span class="subst">&amp;</span><span class="variable">#x5C04</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x4E00</span>;<span class="subst">&amp;</span><span class="variable">#x6B21</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#x4E8E</span>;<span class="subst">&amp;</span><span class="variable">#x65E5</span>;<span class="subst">&amp;</span><span class="variable">#x5FD7</span>;<span class="subst">&amp;</span><span class="variable">#x7CFB</span>;<span class="subst">&amp;</span><span class="variable">#x7EDF</span>;<span class="subst">&amp;</span><span class="variable">#xFF09</span>;
+res<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x6B63</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x4F7F</span>;<span class="subst">&amp;</span><span class="variable">#x7528</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5185</span>;<span class="subst">&amp;</span><span class="variable">#x5B58</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x5C0F</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+qr<span class="subst">|</span>qw<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x8BFB</span>;<span class="subst">&amp;</span><span class="variable">#x5199</span>;<span class="subst">&amp;</span><span class="variable">#x64CD</span>;<span class="subst">&amp;</span><span class="variable">#x4F5C</span>;<span class="subst">&amp;</span><span class="variable">#x961F</span>;<span class="subst">&amp;</span><span class="variable">#x5217</span>;<span class="subst">&amp;</span><span class="variable">#x5927</span>;<span class="subst">&amp;</span><span class="variable">#x5C0F</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5373</span>;<span class="subst">&amp;</span><span class="variable">#x6709</span>;<span class="subst">&amp;</span><span class="variable">#x591A</span>;<span class="subst">&amp;</span><span class="variable">#x5C11</span>;<span class="subst">&amp;</span><span class="variable">#x8BFB</span>;<span class="subst">&amp;</span><span class="variable">#x5199</span>;<span class="subst">&amp;</span><span class="variable">#x64CD</span>;<span class="subst">&amp;</span><span class="variable">#x4F5C</span>;<span class="subst">&amp;</span><span class="variable">#x88AB</span>;<span class="subst">&amp;</span><span class="variable">#x963B</span>;<span class="subst">&amp;</span><span class="variable">#x585E</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x7B49</span>;<span class="subst">&amp;</span><span class="variable">#x5F85</span>;<span class="subst">&amp;</span><span class="variable">#x8FDB</span>;<span class="subst">&amp;</span><span class="variable">#x884C</span>;<span class="subst">&amp;</span><span class="variable">#x5904</span>;<span class="subst">&amp;</span><span class="variable">#x7406</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+ar<span class="subst">|</span>aw<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x6D3B</span>;<span class="subst">&amp;</span><span class="variable">#x52A8</span>;<span class="subst">&amp;</span><span class="variable">#x5BA2</span>;<span class="subst">&amp;</span><span class="variable">#x6237</span>;<span class="subst">&amp;</span><span class="variable">#x7AEF</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x91CF</span>;<span class="subst">&amp;</span><span class="variable">#xFF0C</span>;<span class="subst">&amp;</span><span class="variable">#x5373</span>;<span class="subst">&amp;</span><span class="variable">#x6B63</span>;<span class="subst">&amp;</span><span class="variable">#x5728</span>;<span class="subst">&amp;</span><span class="variable">#x8FDB</span>;<span class="subst">&amp;</span><span class="variable">#x884C</span>;<span class="subst">&amp;</span><span class="variable">#x8BFB</span>;<span class="subst">&amp;</span><span class="variable">#x5199</span>;<span class="subst">&amp;</span><span class="variable">#x64CD</span>;<span class="subst">&amp;</span><span class="variable">#x4F5C</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5BA2</span>;<span class="subst">&amp;</span><span class="variable">#x6237</span>;<span class="subst">&amp;</span><span class="variable">#x7AEF</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+netId<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x901A</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x7F51</span>;<span class="subst">&amp;</span><span class="variable">#x7EDC</span>;<span class="subst">&amp;</span><span class="variable">#x4F20</span>;<span class="subst">&amp;</span><span class="variable">#x8F93</span>;<span class="subst">&amp;</span><span class="variable">#x8FDB</span>;<span class="subst">&amp;</span><span class="variable">#x6765</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5B57</span>;<span class="subst">&amp;</span><span class="variable">#x8282</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+netou<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;t<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x901A</span>;<span class="subst">&amp;</span><span class="variable">#x8FC7</span>;<span class="subst">&amp;</span><span class="variable">#x7F51</span>;<span class="subst">&amp;</span><span class="variable">#x7EDC</span>;<span class="subst">&amp;</span><span class="variable">#x4F20</span>;<span class="subst">&amp;</span><span class="variable">#x8F93</span>;<span class="subst">&amp;</span><span class="variable">#x51FA</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x5B57</span>;<span class="subst">&amp;</span><span class="variable">#x8282</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+Conn<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x670D</span>;<span class="subst">&amp;</span><span class="variable">#x52A1</span>;<span class="subst">&amp;</span><span class="variable">#x5668</span>;<span class="subst">&amp;</span><span class="variable">#x6253</span>;<span class="subst">&amp;</span><span class="variable">#x5F00</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x8FDE</span>;<span class="subst">&amp;</span><span class="variable">#x63A5</span>;<span class="subst">&amp;</span><span class="variable">#x6570</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+time<span class="subst">&amp;</span><span class="variable">#xFF1A</span>;<span class="subst">&amp;</span><span class="variable">#x8868</span>;<span class="subst">&amp;</span><span class="variable">#x793A</span>;<span class="subst">&amp;</span><span class="variable">#x7EDF</span>;<span class="subst">&amp;</span><span class="variable">#x8BA1</span>;<span class="subst">&amp;</span><span class="variable">#x7684</span>;<span class="subst">&amp;</span><span class="variable">#x65F6</span>;<span class="subst">&amp;</span><span class="variable">#x95F4</span>;<span class="subst">&amp;</span><span class="variable">#x3002</span>;
+</code></pre><p>&#x4E94;&#xFF1A;&#x65E5;&#x5FD7;&#x5206;&#x5272;&#xFF0C; db.adminCommand({&quot;logRotate&quot;:1})</p>
+<pre><code>zjy:PRIMARY&amp;gt;<span class="keyword">*</span><span class="keyword">*</span>db.adminCommand({&amp;quot;logRotate&amp;quot;:1<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>})<span class="keyword">*</span><span class="keyword">*</span>
+{ &amp;quot;ok&amp;quot; : 1 }
+</code></pre><p>&#x7C7B;&#x4F3C;MySQL&#x7684;flush log&#x3002;</p>
+<h4 id="&#x516D;&#xFF1A;">&#x516D;&#xFF1A;</h4>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MongoDB/">MongoDB</a><a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/07/08/4d8e814/"  title="Node.js(express) + MongoDB(mongoose) 简单开发（一） -">
+ <strong>下一篇：</strong><br/> 
+ <span>Node.js(express) + MongoDB(mongoose) 简单开发（一） -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#六："><span class="toc-number">1.</span> <span class="toc-text">六：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>606</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>10</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

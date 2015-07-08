@@ -1,0 +1,965 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>MongoDB 3.0 用户创建 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="&amp;#x6458;&amp;#x8981;&amp;#xFF1A;MongoDB 3.0 &amp;#x5B89;&amp;#x5168;&amp;#x6743;&amp;#x9650;&amp;#x8BBF;&amp;#x95EE;&amp;#x63A7;&amp;#x5236;&amp;#xFF0C;&amp;#x5728;&amp;#x6DFB;&amp;#x52A0;&amp;#x7528;&amp;#x6237;&amp;#x4E0A;&amp;#x9762;3.0&amp;#x7248;&amp;#x672C;&amp;#x548C;&amp;#x4E4B;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB 3.0 用户创建 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/08/4dc1c64/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="&amp;#x6458;&amp;#x8981;&amp;#xFF1A;MongoDB 3.0 &amp;#x5B89;&amp;#x5168;&amp;#x6743;&amp;#x9650;&amp;#x8BBF;&amp;#x95EE;&amp;#x63A7;&amp;#x5236;&amp;#xFF0C;&amp;#x5728;&amp;#x6DFB;&amp;#x52A0;&amp;#x7528;&amp;#x6237;&amp;#x4E0A;&amp;#x9762;3.0&amp;#x7248;&amp;#x672C;&amp;#x548C;&amp;#x4E4B;&amp;">
+<meta property="og:updated_time" content="2015-07-08T14:33:30.606Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB 3.0 用户创建 -">
+<meta name="twitter:description" content="&amp;#x6458;&amp;#x8981;&amp;#xFF1A;MongoDB 3.0 &amp;#x5B89;&amp;#x5168;&amp;#x6743;&amp;#x9650;&amp;#x8BBF;&amp;#x95EE;&amp;#x63A7;&amp;#x5236;&amp;#xFF0C;&amp;#x5728;&amp;#x6DFB;&amp;#x52A0;&amp;#x7528;&amp;#x6237;&amp;#x4E0A;&amp;#x9762;3.0&amp;#x7248;&amp;#x672C;&amp;#x548C;&amp;#x4E4B;&amp;">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/08/4dc1c64/" title="MongoDB 3.0 用户创建 -" itemprop="url">MongoDB 3.0 用户创建 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-08T02:33:30.000Z" itemprop="datePublished"> 发表于 2015-07-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#摘要："><span class="toc-number">1.</span> <span class="toc-text">摘要：</span></a></li></ol>
+		
+		</div>
+		
+		<h4 id="&#x6458;&#x8981;&#xFF1A;">&#x6458;&#x8981;&#xFF1A;</h4><p>MongoDB 3.0 &#x5B89;&#x5168;&#x6743;&#x9650;&#x8BBF;&#x95EE;&#x63A7;&#x5236;&#xFF0C;&#x5728;&#x6DFB;&#x52A0;&#x7528;&#x6237;&#x4E0A;&#x9762;3.0&#x7248;&#x672C;&#x548C;&#x4E4B;&#x524D;&#x7684;&#x7248;&#x672C;&#x6709;&#x5F88;&#x5927;&#x7684;&#x533A;&#x522B;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x8BF4;&#x660E;&#x4E0B;3.0&#x7684;&#x6DFB;&#x52A0;&#x7528;&#xFFFD;&#xFFFD;&#xFFFD;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x73AF;&#x5883;&#x3001;&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<p>&#x5728; <a href="http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/" target="_blank" rel="external">&#x5B89;&#x88C5;MongoDB</a> &#x4E4B;&#x540E;&#xFF0C;&#x5148;&#x5173;&#x95ED;auth&#x8BA4;&#x8BC1;&#xFF0C;&#x8FDB;&#x5165;&#x67E5;&#x770B;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x53EA;&#x6709;&#x4E00;&#x4E2A;local&#x5E93;&#xFF0C;admin&#x5E93;&#x662F;&#x4E0D;&#x5B58;&#x5728;&#x7684;&#xFF1A; </p>
+<pre><code>root<span class="variable">@zhoujinyi</span><span class="symbol">:/usr/local/mongo4</span><span class="comment"># mongo --port=27020</span>
+<span class="constant">MongoDB </span>shell <span class="symbol">version:</span> <span class="number">3.0</span>.<span class="number">4</span>
+connecting <span class="symbol">to:</span> <span class="number">127.0</span>.<span class="number">0</span>.<span class="number">1</span><span class="symbol">:</span><span class="number">27020</span>/test
+<span class="number">2015</span>-<span class="number">06</span>-<span class="number">29</span><span class="constant">T09:</span><span class="number">31</span><span class="symbol">:</span>08.<span class="number">673</span>-<span class="number">0400</span> <span class="constant">I CONTROL </span> [initandlisten] 
+&amp;gt; show dbs;
+local  <span class="number">0</span>.<span class="number">07</span>8GB
+</code></pre><p>&#x73B0;&#x5728;&#x9700;&#x8981;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5E10;&#x53F7;&#xFF0C;&#x8BE5;&#x8D26;&#x53F7;&#x9700;&#x8981;&#x6709;grant&#x6743;&#x9650;&#xFF0C;&#x5373;&#xFF1A;&#x8D26;&#x53F7;&#x7BA1;&#x7406;&#x7684;&#x6388;&#x6743;&#x6743;&#x9650;&#x3002;&#x6CE8;&#x610F;&#x4E00;&#x70B9;&#xFF0C;&#x5E10;&#x53F7;&#x662F;&#x8DDF;&#x7740;&#x5E93;&#x8D70;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x6307;&#x5B9A;&#x5E93;&#x91CC;&#x6388;&#x6743;&#xFF0C;&#x5FC5;&#x987B;&#x4E5F;&#x5728;&#x6307;&#x5B9A;&#x5E93;&#x91CC;&#x9A8C;&#x8BC1;(auth)&#x3002; </p>
+<pre><code>&amp;gt<span class="comment">; use admin</span>
+switched to db admin
+&amp;gt<span class="comment">;**db.createUser(</span>
+...   {
+...     user: &amp;quot<span class="comment">;dba&amp;quot;,</span>
+...     pwd: &amp;quot<span class="comment">;dba&amp;quot;,</span>
+...     roles: [ { role: &amp;quot<span class="comment">;userAdminAnyDatabase&amp;quot;, db: &amp;quot;admin&amp;quot; } ]****...   }</span>
+... )**
+Successfully added user: {
+    &amp;quot<span class="comment">;user&amp;quot; : &amp;quot;dba&amp;quot;,</span>
+    &amp;quot<span class="comment">;roles&amp;quot; : [</span>
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;userAdminAnyDatabase&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;</span>
+        }
+    ]
+}
+</code></pre><p>&#x4E0A;&#x9762;&#x52A0;&#x7C97;&#x7684;&#x5C31;&#x662F;&#x6267;&#x884C;&#x7684;&#x547D;&#x4EE4;&#xFF1A;</p>
+<p>user&#xFF1A;&#x7528;&#x6237;&#x540D;</p>
+<p>pwd&#xFF1A;&#x5BC6;&#x7801;</p>
+<p>roles&#xFF1A;&#x6307;&#x5B9A;&#x7528;&#x6237;&#x7684;&#x89D2;&#x8272;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4E00;&#x4E2A;&#x7A7A;&#x6570;&#x7EC4;&#x7ED9;&#x65B0;&#x7528;&#x6237;&#x8BBE;&#x5B9A;&#x7A7A;&#x89D2;&#x8272;&#xFF1B;&#x5728;roles&#x5B57;&#x6BB5;,&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x5185;&#x7F6E;&#x89D2;&#x8272;&#x548C;&#x7528;&#x6237;&#x5B9A;&#x4E49;&#x7684;&#x89D2;&#x8272;&#x3002; <a href="http://docs.mongodb.org/manual/reference/built-in-roles/#built-in-roles" target="_blank" rel="external">role&#x91CC;&#x7684;&#x89D2;&#x8272;</a> &#x53EF;&#x4EE5;&#x9009;&#xFF1A; </p>
+<pre><code><span class="class">Built</span>-<span class="class">In</span> <span class="class">Roles</span>&amp;<span class="symbol">#xFF08</span>;&amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x7F6E</span>;&amp;<span class="symbol">#x89D2</span>;&amp;<span class="symbol">#x8272</span>;&amp;<span class="symbol">#xFF09</span>;&amp;<span class="symbol">#xFF1A</span>;
+    <span class="number">1.</span> &amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5E93</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x89D2</span>;&amp;<span class="symbol">#x8272</span>;&amp;<span class="symbol">#xFF1A</span>;read&amp;<span class="symbol">#x3001</span>;readWrite;
+    <span class="number">2.</span> &amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5E93</span>;&amp;<span class="symbol">#x7BA1</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x89D2</span>;&amp;<span class="symbol">#x8272</span>;&amp;<span class="symbol">#xFF1A</span>;dbAdmin&amp;<span class="symbol">#x3001</span>;dbOwner&amp;<span class="symbol">#x3001</span>;userAdmin&amp;<span class="symbol">#xFF1B</span>;
+    <span class="number">3.</span> &amp;<span class="symbol">#x96C6</span>;&amp;<span class="symbol">#x7FA4</span>;&amp;<span class="symbol">#x7BA1</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x89D2</span>;&amp;<span class="symbol">#x8272</span>;&amp;<span class="symbol">#xFF1A</span>;clusterAdmin&amp;<span class="symbol">#x3001</span>;clusterManager&amp;<span class="symbol">#x3001</span>;clusterMonitor&amp;<span class="symbol">#x3001</span>;hostManager&amp;<span class="symbol">#xFF1B</span>;
+    <span class="number">4.</span> &amp;<span class="symbol">#x5907</span>;&amp;<span class="symbol">#x4EFD</span>;&amp;<span class="symbol">#x6062</span>;&amp;<span class="symbol">#x590D</span>;&amp;<span class="symbol">#x89D2</span>;&amp;<span class="symbol">#x8272</span>;&amp;<span class="symbol">#xFF1A</span>;backup&amp;<span class="symbol">#x3001</span>;restore&amp;<span class="symbol">#xFF1B</span>;
+    <span class="number">5.</span> &amp;<span class="symbol">#x6240</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x6570</span>;&amp;<span class="symbol">#x636E</span>;&amp;<span class="symbol">#x5E93</span>;&amp;<span class="symbol">#x89D2</span>;&amp;<span class="symbol">#x8272</span>;&amp;<span class="symbol">#xFF1A</span>;readAnyDatabase&amp;<span class="symbol">#x3001</span>;readWriteAnyDatabase&amp;<span class="symbol">#x3001</span>;userAdminAnyDatabase&amp;<span class="symbol">#x3001</span>;dbAdminAnyDatabase
+    <span class="number">6.</span> &amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x7EA7</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x89D2</span>;&amp;<span class="symbol">#x8272</span>;&amp;<span class="symbol">#xFF1A</span>;root  
+    // &amp;<span class="symbol">#x8FD9</span>;&amp;<span class="symbol">#x91CC</span>;&amp;<span class="symbol">#x8FD8</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x51E0</span>;&amp;<span class="symbol">#x4E2A</span>;&amp;<span class="symbol">#x89D2</span>;&amp;<span class="symbol">#x8272</span>;&amp;<span class="symbol">#x95F4</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x6216</span>;&amp;<span class="symbol">#x76F4</span>;&amp;<span class="symbol">#x63A5</span>;&amp;<span class="symbol">#x63D0</span>;&amp;<span class="symbol">#x4F9B</span>;&amp;<span class="symbol">#x4E86</span>;&amp;<span class="symbol">#x7CFB</span>;&amp;<span class="symbol">#x7EDF</span>;&amp;<span class="symbol">#x8D85</span>;&amp;<span class="symbol">#x7EA7</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x8BBF</span>;&amp;<span class="symbol">#x95EE</span>;&amp;<span class="symbol">#xFF08</span>;dbOwner &amp;<span class="symbol">#x3001</span>;userAdmin&amp;<span class="symbol">#x3001</span>;userAdminAnyDatabase&amp;<span class="symbol">#xFF09</span>;
+    <span class="number">7.</span> &amp;<span class="symbol">#x5185</span>;&amp;<span class="symbol">#x90E8</span>;&amp;<span class="symbol">#x89D2</span>;&amp;<span class="symbol">#x8272</span>;&amp;<span class="symbol">#xFF1A</span>;__system  
+</code></pre><p>&#x521A;&#x5EFA;&#x7ACB;&#x4E86;&#xA0;userAdminAnyDatabase&#xA0;&#x89D2;&#x8272;&#xFF0C;&#x7528;&#x6765;&#x7BA1;&#x7406;&#x7528;&#x6237;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x89D2;&#x8272;&#x6765;&#x521B;&#x5EFA;&#x3001;&#x5220;&#x9664;&#x7528;&#x6237;&#x3002;&#x9A8C;&#x8BC1;&#xFF1A;&#x9700;&#x8981;&#x5F00;&#x542F;auth&#x53C2;&#x6570;&#x3002; </p>
+<pre><code>root@zhoujinyi:/usr/local/mongo4<span class="array"># mongo </span>--port=<span class="number">27020</span>
+MongoDB shell version: <span class="number">3.0</span>.4
+connecting to: <span class="number">127.0</span>.0.1:<span class="number">27020</span>/test
+&amp;gt; show dbs;    **####&amp;<span class="array">#x</span>6CA1;&amp;<span class="array">#x</span>6709;&amp;<span class="array">#x</span>9A8C;&amp;<span class="array">#x</span>8BC1;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>5BFC;&amp;<span class="array">#x</span>81F4;&amp;<span class="array">#x</span>6CA1;&amp;<span class="array">#x</span>6743;&amp;<span class="array">#x</span>9650;&amp;<span class="array">#x</span>3002;**<span class="number">2015</span>-<span class="number">06</span>-<span class="number">29</span>T10:<span class="number">02</span>:<span class="number">16.634</span>-<span class="number">0400</span> E QUERY    Error: listDatabases failed:{
+    &amp;quot;ok&amp;quot; : <span class="number">0</span>,
+    &amp;quot;errmsg&amp;quot; : &amp;quot;not authorized on admin to execute command { listDatabases: <span class="number">1.0</span> }&amp;quot;,
+    &amp;quot;code&amp;quot; : <span class="number">13</span>
+}
+    at Error (&amp;lt;anonymous&amp;gt;)
+    at Mongo.getDBs (src/mongo/shell/mongo.js:<span class="number">47</span>:<span class="number">15</span>)
+    at shellHelper.show (src/mongo/shell/utils.js:<span class="number">630</span>:<span class="number">33</span>)
+    at shellHelper (src/mongo/shell/utils.js:<span class="number">524</span>:<span class="number">36</span>)
+    at (shellhelp2):<span class="number">1</span>:<span class="number">1</span> at src/mongo/shell/mongo.js:<span class="number">47</span>
+&amp;gt; use admin        **#&amp;<span class="array">#x</span>9A8C;&amp;<span class="array">#x</span>8BC1;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>56E0;&amp;<span class="array">#x</span>4E3A;&amp;<span class="array">#x</span>5728;admin&amp;<span class="array">#x</span>4E0B;&amp;<span class="array">#x</span>9762;&amp;<span class="array">#x</span>6DFB;&amp;<span class="array">#x</span>52A0;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>5E10;&amp;<span class="array">#x</span>53F7;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>6240;&amp;<span class="array">#x</span>4EE5;&amp;<span class="array">#x</span>8981;&amp;<span class="array">#x</span>5230;admin&amp;<span class="array">#x</span>4E0B;&amp;<span class="array">#x</span>9762;&amp;<span class="array">#x</span>9A8C;&amp;<span class="array">#x</span>8BC1;&amp;<span class="array">#x</span>3002;**
+switched to db admin
+&amp;gt; **db.auth**(&amp;apos;dba&amp;apos;,&amp;apos;dba&amp;apos;)
+<span class="number">1</span>
+&amp;gt; show dbs;
+admin  <span class="number">0.078</span>GB
+local  <span class="number">0.078</span>GB
+&amp;gt; use test        **#&amp;<span class="array">#x</span>5728;test&amp;<span class="array">#x</span>5E93;&amp;<span class="array">#x</span>91CC;&amp;<span class="array">#x</span>521B;&amp;<span class="array">#x</span>5EFA;&amp;<span class="array">#x</span>5E10;&amp;<span class="array">#x</span>53F7;**
+switched to db test
+&amp;gt;**db.createUser**(
+...     {
+...       user: &amp;quot;zjyr&amp;quot;,
+...       pwd: &amp;quot;zjyr&amp;quot;,
+...       roles: [
+...          { role: &amp;quot;read&amp;quot;, db: &amp;quot;test&amp;quot; }    **#&amp;<span class="array">#x</span>53EA;&amp;<span class="array">#x</span>8BFB;&amp;<span class="array">#x</span>5E10;&amp;<span class="array">#x</span>53F7;**
+...       ]
+...     }
+... )
+Successfully added user: {
+    &amp;quot;user&amp;quot; : &amp;quot;zjyr&amp;quot;,
+    &amp;quot;roles&amp;quot; : [
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;read&amp;quot;,
+            &amp;quot;db&amp;quot; : &amp;quot;test&amp;quot;
+        }
+    ]
+}
+&amp;gt;**db.createUser**(
+...     {
+...       user: &amp;quot;zjy&amp;quot;,
+...       pwd: &amp;quot;zjy&amp;quot;,
+...       roles: [
+...          { role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;test&amp;quot; }   #&amp;<span class="array">#x</span>8BFB;&amp;<span class="array">#x</span>5199;&amp;<span class="array">#x</span>5E10;&amp;<span class="array">#x</span>53F7;
+...       ]
+...     }
+... )
+Successfully added user: {
+    &amp;quot;user&amp;quot; : &amp;quot;zjy&amp;quot;,
+    &amp;quot;roles&amp;quot; : [
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;readWrite&amp;quot;,               **#&amp;<span class="array">#x</span>8BFB;&amp;<span class="array">#x</span>5199;&amp;<span class="array">#x</span>8D26;&amp;<span class="array">#x</span>53F7;**
+            &amp;quot;db&amp;quot; : &amp;quot;test&amp;quot;
+        }
+    ]
+}
+&amp;gt; show users;                                    **#&amp;<span class="array">#x</span>67E5;&amp;<span class="array">#x</span>770B;&amp;<span class="array">#x</span>5F53;&amp;<span class="array">#x</span>524D;&amp;<span class="array">#x</span>5E93;&amp;<span class="array">#x</span>4E0B;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>7528;&amp;<span class="array">#x</span>6237;**
+{
+    &amp;quot;_id&amp;quot; : &amp;quot;test.zjyr&amp;quot;,
+    &amp;quot;user&amp;quot; : &amp;quot;zjyr&amp;quot;,
+    &amp;quot;db&amp;quot; : &amp;quot;test&amp;quot;,
+    &amp;quot;roles&amp;quot; : [
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;read&amp;quot;,
+            &amp;quot;db&amp;quot; : &amp;quot;test&amp;quot;
+        }
+    ]
+}
+{
+    &amp;quot;_id&amp;quot; : &amp;quot;test.zjy&amp;quot;,
+    &amp;quot;user&amp;quot; : &amp;quot;zjy&amp;quot;,
+    &amp;quot;db&amp;quot; : &amp;quot;test&amp;quot;,
+    &amp;quot;roles&amp;quot; : [
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;readWrite&amp;quot;,
+            &amp;quot;db&amp;quot; : &amp;quot;test&amp;quot;
+        }
+    ]
+}
+</code></pre><p>&#x4E0A;&#x9762;&#x521B;&#x5EFA;&#x4E86;2&#x4E2A;&#x5E10;&#x53F7;&#xFF0C;&#x73B0;&#x5728;&#x9A8C;&#x8BC1;&#x4E0B;&#xFF1A;&#x9A8C;&#x8BC1;&#x524D;&#x63D0;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x96C6;&#x5408;</p>
+<pre><code>&amp;gt; db.abc.insert({&amp;quot;a&amp;quot;:<span class="number">1</span>,&amp;quot;b&amp;quot;:<span class="number">2</span>})             **#&amp;<span class="symbol">#x63D2</span>;&amp;<span class="symbol">#x5165</span>;&amp;<span class="symbol">#x5931</span>;&amp;<span class="symbol">#x8D25</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x6743</span>;&amp;<span class="symbol">#x9650</span>;&amp;<span class="symbol">#xFF0C</span>;userAdminAnyDatabase &amp;<span class="symbol">#x6743</span>;&amp;<span class="symbol">#x9650</span>;&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x9488</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x6237</span>;&amp;<span class="symbol">#x7BA1</span>;&amp;<span class="symbol">#x7406</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#xFF0C</span>;&amp;<span class="symbol">#x5BF9</span>;&amp;<span class="symbol">#x5176</span>;&amp;<span class="symbol">#x4ED6</span>;&amp;<span class="symbol">#x662F</span>;&amp;<span class="symbol">#x6CA1</span>;&amp;<span class="symbol">#x6709</span>;&amp;<span class="symbol">#x6743</span>;&amp;<span class="symbol">#x9650</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x3002</span>;**
+<span class="class">WriteResult</span>({
+    &amp;quot;writeError&amp;quot; : {
+        &amp;quot;code&amp;quot; : <span class="number">13</span>,
+        &amp;quot;errmsg&amp;quot; : &amp;quot;not authorized on test to execute command { <span class="method">insert:</span> \&amp;quot;abc\&amp;quot;, <span class="method">documents:</span> [ { _<span class="method">id:</span> <span class="class">ObjectId</span>(&amp;apos;<span class="number">55915185</span>d629831d887ce2cb&amp;apos;), <span class="method">a:</span> <span class="number">1.0</span>, <span class="method">b:</span> <span class="number">2.0</span> } ], <span class="method">ordered:</span> <span class="keyword">true</span> }&amp;quot;
+    }
+})
+&amp;gt; 
+bye
+root@<span class="method">zhoujinyi:</span>/usr/local/mongo4# mongo --port=<span class="number">27020</span>
+<span class="class">MongoDB</span> shell <span class="method">version:</span> <span class="number">3.0</span>.4
+connecting <span class="method">to:</span> <span class="number">127.0</span>.0.1:<span class="number">27020</span>/test
+&amp;gt; use test
+switched to db test
+&amp;gt; db.auth(&amp;apos;zjy&amp;apos;,&amp;apos;zjy&amp;apos;)      **#&amp;<span class="symbol">#x7528</span>;&amp;<span class="symbol">#x521B</span>;&amp;<span class="symbol">#x5EFA</span>;&amp;<span class="symbol">#x7684</span>;readWrite&amp;<span class="symbol">#x5E10</span>;&amp;<span class="symbol">#x53F7</span>;&amp;<span class="symbol">#x8FDB</span>;&amp;<span class="symbol">#x884C</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x5165</span>;**<span class="number">1</span>
+&amp;gt; db.abc.insert({&amp;quot;a&amp;quot;:<span class="number">1</span>,&amp;quot;b&amp;quot;:<span class="number">2</span>})
+<span class="class">WriteResult</span>({ &amp;quot;nInserted&amp;quot; : <span class="number">1</span> })
+&amp;gt; db.abc.insert({&amp;quot;a&amp;quot;:<span class="number">11</span>,&amp;quot;b&amp;quot;:<span class="number">22</span>})
+<span class="class">WriteResult</span>({ &amp;quot;nInserted&amp;quot; : <span class="number">1</span> })
+&amp;gt; db.abc.insert({&amp;quot;a&amp;quot;:<span class="number">111</span>,&amp;quot;b&amp;quot;:<span class="number">222</span>})
+<span class="class">WriteResult</span>({ &amp;quot;nInserted&amp;quot; : <span class="number">1</span> })
+&amp;gt; db.abc.find()
+{ &amp;quot;_id&amp;quot; : <span class="class">ObjectId</span>(&amp;quot;<span class="number">559151</span>a1b78649ebd8316853&amp;quot;), &amp;quot;a&amp;quot; : <span class="number">1</span>, &amp;quot;b&amp;quot; : <span class="number">2</span> }
+{ &amp;quot;_id&amp;quot; : <span class="class">ObjectId</span>(&amp;quot;<span class="number">559151</span>cab78649ebd8316854&amp;quot;), &amp;quot;a&amp;quot; : <span class="number">11</span>, &amp;quot;b&amp;quot; : <span class="number">22</span> }
+{ &amp;quot;_id&amp;quot; : <span class="class">ObjectId</span>(&amp;quot;<span class="number">559151</span>ceb78649ebd8316855&amp;quot;), &amp;quot;a&amp;quot; : <span class="number">111</span>, &amp;quot;b&amp;quot; : <span class="number">222</span> }
+&amp;gt; db.auth(&amp;apos;zjyr&amp;apos;,&amp;apos;zjyr&amp;apos;)      **#&amp;<span class="symbol">#x5207</span>;&amp;<span class="symbol">#x6362</span>;&amp;<span class="symbol">#x5230</span>;&amp;<span class="symbol">#x53EA</span>;&amp;<span class="symbol">#x6709</span>;read&amp;<span class="symbol">#x6743</span>;&amp;<span class="symbol">#x9650</span>;&amp;<span class="symbol">#x7684</span>;&amp;<span class="symbol">#x5E10</span>;&amp;<span class="symbol">#x53F7</span>;**<span class="number">1</span>
+&amp;gt; db.abc.insert({&amp;quot;a&amp;quot;:<span class="number">1111</span>,&amp;quot;b&amp;quot;:<span class="number">2222</span>})  **#&amp;<span class="symbol">#x4E0D</span>;&amp;<span class="symbol">#x80FD</span>;&amp;<span class="symbol">#x5199</span>;&amp;<span class="symbol">#x5165</span>;**
+<span class="class">WriteResult</span>({
+    &amp;quot;writeError&amp;quot; : {
+        &amp;quot;code&amp;quot; : <span class="number">13</span>,
+        &amp;quot;errmsg&amp;quot; : &amp;quot;not authorized on test to execute command { <span class="method">insert:</span> \&amp;quot;abc\&amp;quot;, <span class="method">documents:</span> [ { _<span class="method">id:</span> <span class="class">ObjectId</span>(&amp;apos;<span class="number">559151</span>ebb78649ebd8316856&amp;apos;), <span class="method">a:</span> <span class="number">1111.0</span>, <span class="method">b:</span> <span class="number">2222.0</span> } ], <span class="method">ordered:</span> <span class="keyword">true</span> }&amp;quot;
+    }
+})
+&amp;gt; db.abc.find()        **#&amp;<span class="symbol">#x53EF</span>;&amp;<span class="symbol">#x4EE5</span>;&amp;<span class="symbol">#x67E5</span>;&amp;<span class="symbol">#x770B</span>;**
+{ &amp;quot;_id&amp;quot; : <span class="class">ObjectId</span>(&amp;quot;<span class="number">559151</span>a1b78649ebd8316853&amp;quot;), &amp;quot;a&amp;quot; : <span class="number">1</span>, &amp;quot;b&amp;quot; : <span class="number">2</span> }
+{ &amp;quot;_id&amp;quot; : <span class="class">ObjectId</span>(&amp;quot;<span class="number">559151</span>cab78649ebd8316854&amp;quot;), &amp;quot;a&amp;quot; : <span class="number">11</span>, &amp;quot;b&amp;quot; : <span class="number">22</span> }
+{ &amp;quot;_id&amp;quot; : <span class="class">ObjectId</span>(&amp;quot;<span class="number">559151</span>ceb78649ebd8316855&amp;quot;), &amp;quot;a&amp;quot; : <span class="number">111</span>, &amp;quot;b&amp;quot; : <span class="number">222</span> }
+</code></pre><p>&#x6709;&#x6CA1;&#x6709;&#x4E00;&#x4E2A;&#x8D85;&#x7EA7;&#x6743;&#x9650;&#xFF1F;&#x4E0D;&#x4EC5;&#x53EF;&#x4EE5;&#x6388;&#x6743;&#xFF0C;&#x800C;&#x4E14;&#x4E5F;&#x53EF;&#x4EE5;&#x5BF9;&#x96C6;&#x5408;&#x8FDB;&#x884C;&#x4EFB;&#x610F;&#x64CD;&#x4F5C;&#xFF1F;&#x7B54;&#x6848;&#x662F;&#x80AF;&#x5B9A;&#x7684;&#xFF0C;&#x53EA;&#x662F;&#x4E0D;&#x5EFA;&#x8BAE;&#x4F7F;&#x7528;&#x3002;&#x90A3;&#x5C31;&#x662F;role&#x89D2;&#x8272;&#x8BBE;&#x7F6E;&#x6210;root&#x3002; </p>
+<pre><code>&amp;gt<span class="comment">; db.auth(&amp;apos;dba&amp;apos;,&amp;apos;dba&amp;apos;)</span>
+1
+&amp;gt<span class="comment">;**db.createUser**(</span>
+...  {
+...    user: &amp;quot<span class="comment">;zhoujinyi&amp;quot;,</span>
+...    pwd: &amp;quot<span class="comment">;zhoujinyi&amp;quot;,</span>
+...    roles: [
+...       { role: &amp;quot<span class="comment">;**root**&amp;quot;, db: &amp;quot;admin&amp;quot; }      **#&amp;#x8D85;&amp;#x7EA7;root&amp;#x5E10;&amp;#x53F7;**</span>
+...    ]
+...  }
+... )
+Successfully added user: {
+    &amp;quot<span class="comment">;user&amp;quot; : &amp;quot;zhoujinyi&amp;quot;,</span>
+    &amp;quot<span class="comment">;roles&amp;quot; : [</span>
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;root&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;</span>
+        }
+    ]
+}
+&amp;gt<span class="comment">; </span>
+&amp;gt<span class="comment">;**show users;              #&amp;#x67E5;&amp;#x770B;&amp;#x5F53;&amp;#x524D;&amp;#x5E93;&amp;#x4E0B;&amp;#x7684;&amp;#x7528;&amp;#x6237;**</span>
+{
+    &amp;quot<span class="comment">;_id&amp;quot; : &amp;quot;admin.dba&amp;quot;,</span>
+    &amp;quot<span class="comment">;user&amp;quot; : &amp;quot;dba&amp;quot;,</span>
+    &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;,</span>
+    &amp;quot<span class="comment">;roles&amp;quot; : [</span>
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;userAdminAnyDatabase&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;</span>
+        }
+    ]
+}
+{
+    &amp;quot<span class="comment">;_id&amp;quot; : &amp;quot;admin.zhoujinyi&amp;quot;,</span>
+    &amp;quot<span class="comment">;user&amp;quot; : &amp;quot;zhoujinyi&amp;quot;,</span>
+    &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;,</span>
+    &amp;quot<span class="comment">;roles&amp;quot; : [</span>
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;root&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;</span>
+        }
+    ]
+}
+&amp;gt<span class="comment">; use admin</span>
+switched to db admin
+&amp;gt<span class="comment">; db.auth(&amp;apos;zhoujinyi&amp;apos;,&amp;apos;zhoujinyi&amp;apos;)</span>
+1
+&amp;gt<span class="comment">; use test</span>
+switched to db test
+&amp;gt<span class="comment">; db.abc.insert({&amp;quot;a&amp;quot;:1,&amp;quot;b&amp;quot;:2})</span>
+WriteResult({ &amp;quot<span class="comment">;nInserted&amp;quot; : 1 })</span>
+&amp;gt<span class="comment">; db.abc.insert({&amp;quot;a&amp;quot;:1111,&amp;quot;b&amp;quot;:2222})         **#&amp;#x6743;&amp;#x9650;&amp;#x90FD;&amp;#x6709;**</span>
+WriteResult({ &amp;quot<span class="comment">;nInserted&amp;quot; : 1 })</span>
+&amp;gt<span class="comment">; db.abc.find()</span>
+{ &amp;quot<span class="comment">;_id&amp;quot; : ObjectId(&amp;quot;5591539bb78649ebd8316857&amp;quot;), &amp;quot;a&amp;quot; : 1, &amp;quot;b&amp;quot; : 2 }</span>
+{ &amp;quot<span class="comment">;_id&amp;quot; : ObjectId(&amp;quot;559153a0b78649ebd8316858&amp;quot;), &amp;quot;a&amp;quot; : 1111, &amp;quot;b&amp;quot; : 2222 }</span>
+&amp;gt<span class="comment">; db.abc.remove({})</span>
+WriteResult({ &amp;quot<span class="comment">;nRemoved&amp;quot; : 2 })</span>
+</code></pre><p>&#x56E0;&#x4E3A;&#x5E10;&#x53F7;&#x90FD;&#x662F;&#x5728;&#x5F53;&#x524D;&#x9700;&#x8981;&#x6388;&#x6743;&#x7684;&#x6570;&#x636E;&#x5E93;&#x4E0B;&#x6388;&#x6743;&#x7684;&#xFF0C;&#x90A3;&#x8981;&#x662F;&#x4E0D;&#x5728;&#x5F53;&#x524D;&#x6570;&#x636E;&#x5E93;&#x4E0B;&#x4F1A;&#x600E;&#x4E48;&#x6837;&#xFF1F;</p>
+<pre><code>&amp;gt; db
+admin
+&amp;gt;**db.createUser**(
+...  {
+...    user: &amp;quot;dxy&amp;quot;,
+...    pwd: &amp;quot;dxy&amp;quot;,
+...    roles: [
+...       { role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;test&amp;quot; },     **#&amp;<span class="array">#x</span>5728;&amp;<span class="array">#x</span>5F53;&amp;<span class="array">#x</span>524D;&amp;<span class="array">#x</span>5E93;&amp;<span class="array">#x</span>4E0B;&amp;<span class="array">#x</span>521B;&amp;<span class="array">#x</span>5EFA;&amp;<span class="array">#x</span>5176;&amp;<span class="array">#x</span>4ED6;&amp;<span class="array">#x</span>5E93;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>5E10;&amp;<span class="array">#x</span>53F7;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>5728;admin&amp;<span class="array">#x</span>5E93;&amp;<span class="array">#x</span>4E0B;&amp;<span class="array">#x</span>521B;&amp;<span class="array">#x</span>5EFA;test&amp;<span class="array">#x</span>3001;abc&amp;<span class="array">#x</span>5E93;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>5E10;&amp;<span class="array">#x</span>53F7;**
+...       { role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;abc&amp;quot; }         
+...    ]
+...  }
+... )
+Successfully added user: {
+    &amp;quot;user&amp;quot; : &amp;quot;dxy&amp;quot;,
+    &amp;quot;roles&amp;quot; : [
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;readWrite&amp;quot;,
+            &amp;quot;db&amp;quot; : &amp;quot;test&amp;quot;
+        },
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;readWrite&amp;quot;,
+            &amp;quot;db&amp;quot; : &amp;quot;abc&amp;quot;
+        }
+    ]
+}
+&amp;gt; 
+&amp;gt; show users;
+{
+    &amp;quot;_id&amp;quot; : &amp;quot;admin.dba&amp;quot;,
+    &amp;quot;user&amp;quot; : &amp;quot;dba&amp;quot;,
+    &amp;quot;db&amp;quot; : &amp;quot;admin&amp;quot;,
+    &amp;quot;roles&amp;quot; : [
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;userAdminAnyDatabase&amp;quot;,
+            &amp;quot;db&amp;quot; : &amp;quot;admin&amp;quot;
+        }
+    ]
+}
+{
+    &amp;quot;_id&amp;quot; : &amp;quot;admin.zhoujinyi&amp;quot;,
+    &amp;quot;user&amp;quot; : &amp;quot;zhoujinyi&amp;quot;,
+    &amp;quot;db&amp;quot; : &amp;quot;admin&amp;quot;,
+    &amp;quot;roles&amp;quot; : [
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;root&amp;quot;,
+            &amp;quot;db&amp;quot; : &amp;quot;admin&amp;quot;
+        }
+    ]
+}
+{
+    &amp;quot;_id&amp;quot; : &amp;quot;admin.dxy&amp;quot;,
+    &amp;quot;user&amp;quot; : &amp;quot;dxy&amp;quot;,
+    &amp;quot;db&amp;quot; : &amp;quot;admin&amp;quot;,
+    &amp;quot;roles&amp;quot; : [
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;readWrite&amp;quot;,
+            &amp;quot;db&amp;quot; : &amp;quot;test&amp;quot;
+        },
+        {
+            &amp;quot;role&amp;quot; : &amp;quot;readWrite&amp;quot;,
+            &amp;quot;db&amp;quot; : &amp;quot;abc&amp;quot;
+        }
+    ]
+}
+&amp;gt; use test
+switched to db test
+&amp;gt; db.auth(&amp;apos;dxy&amp;apos;,&amp;apos;dxy&amp;apos;)         **#&amp;<span class="array">#x</span>5728;admin&amp;<span class="array">#x</span>4E0B;&amp;<span class="array">#x</span>521B;&amp;<span class="array">#x</span>5EFA;&amp;<span class="array">#x</span>7684;&amp;<span class="array">#x</span>5E10;&amp;<span class="array">#x</span>53F7;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>4E0D;&amp;<span class="array">#x</span>80FD;&amp;<span class="array">#x</span>76F4;&amp;<span class="array">#x</span>63A5;&amp;<span class="array">#x</span>5728;&amp;<span class="array">#x</span>5176;&amp;<span class="array">#x</span>4ED6;&amp;<span class="array">#x</span>5E93;&amp;<span class="array">#x</span>9A8C;&amp;<span class="array">#x</span>8BC1;&amp;<span class="array">#xFF</span>0C;**Error: <span class="number">18</span> Authentication failed.
+<span class="number">0</span>
+&amp;gt; use admin
+switched to db admin           **#&amp;<span class="array">#x</span>53EA;&amp;<span class="array">#x</span>80FD;&amp;<span class="array">#x</span>5728;&amp;<span class="array">#x</span>5E10;&amp;<span class="array">#x</span>53F7;&amp;<span class="array">#x</span>521B;&amp;<span class="array">#x</span>5EFA;&amp;<span class="array">#x</span>5E93;&amp;<span class="array">#x</span>4E0B;&amp;<span class="array">#x</span>8BA4;&amp;<span class="array">#x</span>8BC1;&amp;<span class="array">#xFF</span>0C;&amp;<span class="array">#x</span>518D;&amp;<span class="array">#x</span>53BB;&amp;<span class="array">#x</span>5176;&amp;<span class="array">#x</span>4ED6;&amp;<span class="array">#x</span>5E93;&amp;<span class="array">#x</span>8FDB;&amp;<span class="array">#x</span>884C;&amp;<span class="array">#x</span>64CD;&amp;<span class="array">#x</span>4F5C;&amp;<span class="array">#x</span>3002;**&amp;gt; db.auth(&amp;apos;dxy&amp;apos;,&amp;apos;dxy&amp;apos;)
+<span class="number">1</span>
+&amp;gt; use test
+switched to db test
+&amp;gt; db.abc.insert({&amp;quot;a&amp;quot;:<span class="number">1111</span>,&amp;quot;b&amp;quot;:<span class="number">2222</span>})
+WriteResult({ &amp;quot;nInserted&amp;quot; : <span class="number">1</span> })
+&amp;gt; use abc
+switched to db abc
+&amp;gt; db.abc.insert({&amp;quot;a&amp;quot;:<span class="number">1111</span>,&amp;quot;b&amp;quot;:<span class="number">2222</span>})
+WriteResult({ &amp;quot;nInserted&amp;quot; : <span class="number">1</span> })
+</code></pre><p>&#x4E0A;&#x9762;&#x66F4;&#x52A0;&#x8FDB;&#x4E00;&#x6B65;&#x8BF4;&#x660E;&#x6570;&#x636E;&#x5E93;&#x5E10;&#x53F7;&#x662F;&#x8DDF;&#x7740;&#x6570;&#x636E;&#x5E93;&#x6765;&#x8D70;&#x7684;&#xFF0C;&#x54EA;&#x91CC;&#x521B;&#x5EFA;&#x54EA;&#x91CC;&#x8BA4;&#x8BC1;&#x3002;</p>
+<p>&#x521B;&#x5EFA;&#x4E86;&#x8FD9;&#x4E48;&#x591A;&#x5E10;&#x53F7;&#xFF0C;&#x600E;&#x4E48;&#x67E5;&#x770B;&#x6240;&#x6709;&#x5E10;&#x53F7;&#xFF1F; </p>
+<pre><code>&amp;gt<span class="comment">;  use admin</span>
+switched to db admin
+&amp;gt<span class="comment">; db.auth(&amp;apos;dba&amp;apos;,&amp;apos;dba&amp;apos;)</span>
+1
+&amp;gt<span class="comment">;**db.system.users.find().pretty()**</span>
+{
+    &amp;quot<span class="comment">;_id&amp;quot; : &amp;quot;admin.dba&amp;quot;,</span>
+    &amp;quot<span class="comment">;user&amp;quot; : &amp;quot;dba&amp;quot;,</span>
+    &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;,</span>
+    &amp;quot<span class="comment">;credentials&amp;quot; : {</span>
+        &amp;quot<span class="comment">;SCRAM-SHA-1&amp;quot; : {</span>
+            &amp;quot<span class="comment">;iterationCount&amp;quot; : 10000,</span>
+            &amp;quot<span class="comment">;salt&amp;quot; : &amp;quot;KfDUzCOIUo7WVjFr64ZOcQ==&amp;quot;,</span>
+            &amp;quot<span class="comment">;storedKey&amp;quot; : &amp;quot;t4sPsKG2dXnZztVYj5EgdUzT9sc=&amp;quot;,</span>
+            &amp;quot<span class="comment">;serverKey&amp;quot; : &amp;quot;2vCGiq9NIc1zKqeEL6VvO4rP26A=&amp;quot;</span>
+        }
+    },
+    &amp;quot<span class="comment">;roles&amp;quot; : [</span>
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;userAdminAnyDatabase&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;</span>
+        }
+    ]
+}
+{
+    &amp;quot<span class="comment">;_id&amp;quot; : &amp;quot;test.zjyr&amp;quot;,</span>
+    &amp;quot<span class="comment">;user&amp;quot; : &amp;quot;zjyr&amp;quot;,</span>
+    &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;test&amp;quot;,</span>
+    &amp;quot<span class="comment">;credentials&amp;quot; : {</span>
+        &amp;quot<span class="comment">;SCRAM-SHA-1&amp;quot; : {</span>
+            &amp;quot<span class="comment">;iterationCount&amp;quot; : 10000,</span>
+            &amp;quot<span class="comment">;salt&amp;quot; : &amp;quot;h1gOW3J7wzJuTqgmmQgJKQ==&amp;quot;,</span>
+            &amp;quot<span class="comment">;storedKey&amp;quot; : &amp;quot;7lkoANdxM2py0qiDBzFaZYPp1cM=&amp;quot;,</span>
+            &amp;quot<span class="comment">;serverKey&amp;quot; : &amp;quot;Qyu6IRNyaKLUvqJ2CAa/tQYY36c=&amp;quot;</span>
+        }
+    },
+    &amp;quot<span class="comment">;roles&amp;quot; : [</span>
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;read&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;test&amp;quot;</span>
+        }
+    ]
+}
+{
+    &amp;quot<span class="comment">;_id&amp;quot; : &amp;quot;test.zjy&amp;quot;,</span>
+    &amp;quot<span class="comment">;user&amp;quot; : &amp;quot;zjy&amp;quot;,</span>
+    &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;test&amp;quot;,</span>
+    &amp;quot<span class="comment">;credentials&amp;quot; : {</span>
+        &amp;quot<span class="comment">;SCRAM-SHA-1&amp;quot; : {</span>
+            &amp;quot<span class="comment">;iterationCount&amp;quot; : 10000,</span>
+            &amp;quot<span class="comment">;salt&amp;quot; : &amp;quot;afwaKuTYPWwbDBduQ4Hm7g==&amp;quot;,</span>
+            &amp;quot<span class="comment">;storedKey&amp;quot; : &amp;quot;ebb2LYLn4hiOVlZqgrAKBdStfn8=&amp;quot;,</span>
+            &amp;quot<span class="comment">;serverKey&amp;quot; : &amp;quot;LG2qWwuuV+FNMmr9lWs+Rb3DIhQ=&amp;quot;</span>
+        }
+    },
+    &amp;quot<span class="comment">;roles&amp;quot; : [</span>
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;readWrite&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;test&amp;quot;</span>
+        }
+    ]
+}
+{
+    &amp;quot<span class="comment">;_id&amp;quot; : &amp;quot;admin.zhoujinyi&amp;quot;,</span>
+    &amp;quot<span class="comment">;user&amp;quot; : &amp;quot;zhoujinyi&amp;quot;,</span>
+    &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;,</span>
+    &amp;quot<span class="comment">;credentials&amp;quot; : {</span>
+        &amp;quot<span class="comment">;SCRAM-SHA-1&amp;quot; : {</span>
+            &amp;quot<span class="comment">;iterationCount&amp;quot; : 10000,</span>
+            &amp;quot<span class="comment">;salt&amp;quot; : &amp;quot;pE2cSOYtBOYevk8tqrwbSQ==&amp;quot;,</span>
+            &amp;quot<span class="comment">;storedKey&amp;quot; : &amp;quot;TwMxdnlB5Eiaqg4tNh9ByNuUp9A=&amp;quot;,</span>
+            &amp;quot<span class="comment">;serverKey&amp;quot; : &amp;quot;Mofr9ohVlFfR6/md4LMRkOhXouc=&amp;quot;</span>
+        }
+    },
+    &amp;quot<span class="comment">;roles&amp;quot; : [</span>
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;root&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;</span>
+        }
+    ]
+}
+{
+    &amp;quot<span class="comment">;_id&amp;quot; : &amp;quot;admin.dxy&amp;quot;,</span>
+    &amp;quot<span class="comment">;user&amp;quot; : &amp;quot;dxy&amp;quot;,</span>
+    &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;admin&amp;quot;,</span>
+    &amp;quot<span class="comment">;credentials&amp;quot; : {</span>
+        &amp;quot<span class="comment">;SCRAM-SHA-1&amp;quot; : {</span>
+            &amp;quot<span class="comment">;iterationCount&amp;quot; : 10000,</span>
+            &amp;quot<span class="comment">;salt&amp;quot; : &amp;quot;XD6smcWX4tdg/ZJPoLxxRg==&amp;quot;,</span>
+            &amp;quot<span class="comment">;storedKey&amp;quot; : &amp;quot;F4uiayykHDp/r9krAKZjdr+gqjM=&amp;quot;,</span>
+            &amp;quot<span class="comment">;serverKey&amp;quot; : &amp;quot;Kf51IU9J3RIrB8CFn5Z5hEKMSkw=&amp;quot;</span>
+        }
+    },
+    &amp;quot<span class="comment">;roles&amp;quot; : [</span>
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;readWrite&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;test&amp;quot;</span>
+        },
+        {
+            &amp;quot<span class="comment">;role&amp;quot; : &amp;quot;readWrite&amp;quot;,</span>
+            &amp;quot<span class="comment">;db&amp;quot; : &amp;quot;abc&amp;quot;</span>
+        }
+    ]
+}
+&amp;gt<span class="comment">; db.system.users.find().count()</span>
+5
+</code></pre><p>&#x5907;&#x4EFD;&#x8FD8;&#x539F;&#x4F7F;&#x7528;&#x90A3;&#x4E2A;&#x89D2;&#x8272;&#x7684;&#x5E10;&#x53F7;&#xFF1F;&#x4E4B;&#x524D;&#x521B;&#x5EFA;&#x7684;&#x5E10;&#x53F7;zjy:test&#x5E93;&#x8BFB;&#x5199;&#x6743;&#x9650;&#xFF1B;zjyr:test&#x5E93;&#x8BFB;&#x6743;&#x9650;</p>
+<pre><code>root@zhoujinyi:~# **mongodump** --port=27020 -uzjyr -pzjyr --<span class="keyword">db</span>=<span class="keyword">test</span> -o backup  **#&amp;#x53EA;&amp;#x8981;&amp;#x8BFB;&amp;#x6743;&amp;#x9650;&amp;#x5C31;&amp;#x53EF;&amp;#x4EE5;&amp;#x5907;&amp;#x4EFD;**
+2015-06-29T11:20:04.864-0400    writing <span class="keyword">test</span>.abc to backup/<span class="keyword">test</span>/abc.bson
+2015-06-29T11:20:04.865-0400    writing <span class="keyword">test</span>.abc metadata to backup/<span class="keyword">test</span>/abc.metadata.json
+2015-06-29T11:20:04.866-0400    done dumping <span class="keyword">test</span>.abc
+2015-06-29T11:20:04.867-0400    writing <span class="keyword">test</span>.system.indexes to backup/<span class="keyword">test</span>/system.indexes.bson
+
+
+root@zhoujinyi:~# **mongorestore** --port=27020 -uzjy -pzjy --<span class="keyword">db</span>=<span class="keyword">test</span> backup/<span class="keyword">test</span>/  #&amp;#x8BFB;&amp;#x5199;&amp;#x6743;&amp;#x9650;&amp;#x53EF;&amp;#x4EE5;&amp;#x8FDB;&amp;#x884C;&amp;#x8FD8;&amp;#x539F;
+2015-06-29T11:20:26.607-0400    building a <span class="keyword">list</span> of collections to <span class="keyword">restore</span> from backup/<span class="keyword">test</span>/ <span class="keyword">dir</span>
+2015-06-29T11:20:26.609-0400    reading metadata <span class="keyword">file</span> from backup/<span class="keyword">test</span>/abc.metadata.json
+2015-06-29T11:20:26.609-0400    restoring <span class="keyword">test</span>.abc from <span class="keyword">file</span> backup/<span class="keyword">test</span>/abc.bson
+2015-06-29T11:20:26.611-0400    <span class="keyword">error</span>: E11000 duplicate key <span class="keyword">error</span> index: <span class="keyword">test</span>.abc.<span class="label">$_id_</span> dup key: { : ObjectId(&amp;apos;559154efb78649ebd831685a&amp;apos;) }
+2015-06-29T11:20:26.611-0400    restoring indexes <span class="keyword">for</span> collection <span class="keyword">test</span>.abc from metadata
+2015-06-29T11:20:26.612-0400    finished restoring <span class="keyword">test</span>.abc
+2015-06-29T11:20:26.612-0400    done
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MongoDB/">MongoDB</a><a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/08/4d75c92/" title="基于MongoDB的全国电影票预定系统 -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  基于MongoDB的全国电影票预定系统 -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/08/4da31ab/"  title="mongodb运维之副本集实践 -">
+ <strong>下一篇：</strong><br/> 
+ <span>mongodb运维之副本集实践 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#摘要："><span class="toc-number">1.</span> <span class="toc-text">摘要：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>606</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>10</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

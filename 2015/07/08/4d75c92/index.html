@@ -1,0 +1,638 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="1XvvwQ7Apt" />
+  
+    <title>基于MongoDB的全国电影票预定系统 - | dianzi blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="edwin">
+    
+
+    
+    <meta name="description" content="**&amp;amp;#x524D;&amp;amp;#x8A00;**&amp;amp;#x53D7;&amp;amp;#x5230;&amp;amp;#x4E2D;&amp;amp;#x6587;&amp;amp;#x793E;&amp;amp;#x533A;&amp;amp;#x300A;&amp;amp;#x7535;&amp;amp;#x5546;&amp;amp;#x53C2;&amp;amp;#x8003;&amp;amp;#x67B6;&amp;amp;#x6784;&amp;amp;#x7B2C;&amp;amp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于MongoDB的全国电影票预定系统 -">
+<meta property="og:url" content="http://taojinke.github.io/2015/07/08/4d75c92/index.html">
+<meta property="og:site_name" content="dianzi blog">
+<meta property="og:description" content="**&amp;amp;#x524D;&amp;amp;#x8A00;**&amp;amp;#x53D7;&amp;amp;#x5230;&amp;amp;#x4E2D;&amp;amp;#x6587;&amp;amp;#x793E;&amp;amp;#x533A;&amp;amp;#x300A;&amp;amp;#x7535;&amp;amp;#x5546;&amp;amp;#x53C2;&amp;amp;#x8003;&amp;amp;#x67B6;&amp;amp;#x6784;&amp;amp;#x7B2C;&amp;amp">
+<meta property="og:updated_time" content="2015-07-08T14:33:30.081Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于MongoDB的全国电影票预定系统 -">
+<meta name="twitter:description" content="**&amp;amp;#x524D;&amp;amp;#x8A00;**&amp;amp;#x53D7;&amp;amp;#x5230;&amp;amp;#x4E2D;&amp;amp;#x6587;&amp;amp;#x793E;&amp;amp;#x533A;&amp;amp;#x300A;&amp;amp;#x7535;&amp;amp;#x5546;&amp;amp;#x53C2;&amp;amp;#x8003;&amp;amp;#x67B6;&amp;amp;#x6784;&amp;amp;#x7B2C;&amp;amp">
+
+    
+    <link rel="alternative" href="/atom.xml" title="dianzi blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?345f95aea4ada2935d6f9ea4177b51ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="dianzi blog" title="dianzi blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="dianzi blog">dianzi blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+						<a href="/music/index.html" target="_blank">Music</a>
+					</li>
+					<li>
+ 					
+						<form class="search" action="http://taojinke.github.io/" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/08/4d75c92/" title="基于MongoDB的全国电影票预定系统 -" itemprop="url">基于MongoDB的全国电影票预定系统 -</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="edwin" target="_blank" itemprop="author">edwin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-08T02:33:30.000Z" itemprop="datePublished"> 发表于 2015-07-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#描述信息文档结构"><span class="toc-number">2.</span> <span class="toc-text">描述信息文档结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#影院描述信息"><span class="toc-number">3.</span> <span class="toc-text">影院描述信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#影厅描述信息"><span class="toc-number">4.</span> <span class="toc-text">影厅描述信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#影片描述信息"><span class="toc-number">5.</span> <span class="toc-text">影片描述信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#影片放映文档结构"><span class="toc-number">6.</span> <span class="toc-text">影片放映文档结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交易系统"><span class="toc-number">7.</span> <span class="toc-text">交易系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<pre><code>**&amp;<span class="id">#x524D</span>;&amp;<span class="id">#x8A00</span>;**&amp;<span class="id">#x53D7</span>;&amp;<span class="id">#x5230</span>;&amp;<span class="id">#x4E2D</span>;&amp;<span class="id">#x6587</span>;&amp;<span class="id">#x793E</span>;&amp;<span class="id">#x533A</span>;&amp;<span class="id">#x300A</span>;&amp;<span class="id">#x7535</span>;&amp;<span class="id">#x5546</span>;&amp;<span class="id">#x53C2</span>;&amp;<span class="id">#x8003</span>;&amp;<span class="id">#x67B6</span>;&amp;<span class="id">#x6784</span>;&amp;<span class="id">#x7B2C</span>;&amp;<span class="id">#x4E8C</span>;&amp;<span class="id">#x90E8</span>;&amp;<span class="id">#x5206</span>;&amp;<span class="id">#xFF1A</span>;&amp;<span class="id">#x5E93</span>;&amp;<span class="id">#x5B58</span>;&amp;<span class="id">#x4F18</span>;&amp;<span class="id">#x5316</span>;&amp;<span class="id">#x65B9</span>;&amp;<span class="id">#x6CD5</span>;&amp;<span class="id">#x300B</span>;&amp;<span class="id">#x542F</span>;&amp;<span class="id">#x53D1</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x60F3</span>;&amp;<span class="id">#x5230</span>;&amp;<span class="id">#x4E86</span>;&amp;<span class="id">#x53BB</span>;&amp;<span class="id">#x5E74</span>;&amp;<span class="id">#x505A</span>;&amp;<span class="id">#x8FC7</span>;&amp;<span class="id">#x7C7B</span>;&amp;<span class="id">#x4F3C</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x7535</span>;&amp;<span class="id">#x5F71</span>;&amp;<span class="id">#x7968</span>;&amp;<span class="id">#x9884</span>;&amp;<span class="id">#x5B9A</span>;&amp;<span class="id">#x7CFB</span>;&amp;<span class="id">#x7EDF</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x5982</span>;&amp;<span class="id">#x679C</span>;&amp;<span class="id">#x7528</span>;<span class="tag">MongoDB</span>&amp;<span class="id">#x53BB</span>;&amp;<span class="id">#x505A</span>;&amp;<span class="id">#x5B58</span>;&amp;<span class="id">#x50A8</span>;&amp;<span class="id">#x652F</span>;&amp;<span class="id">#x6491</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x90A3</span>;&amp;<span class="id">#x5E94</span>;&amp;<span class="id">#x8BE5</span>;&amp;<span class="id">#x662F</span>;&amp;<span class="id">#x600E</span>;&amp;<span class="id">#x6837</span>;&amp;<span class="id">#x67B6</span>;&amp;<span class="id">#x6784</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x5462</span>;&amp;<span class="id">#xFF1F</span>;&amp;<span class="id">#x672C</span>;&amp;<span class="id">#x6587</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x76EE</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x662F</span>;&amp;<span class="id">#xFFFD</span>;&amp;<span class="id">#xFFFD</span>;&amp;<span class="id">#xFFFD</span>;&amp;<span class="id">#x4E86</span>;&amp;<span class="id">#x66F4</span>;&amp;<span class="id">#x597D</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x5B66</span>;&amp;<span class="id">#x4E60</span>;&amp;<span class="id">#x638C</span>;&amp;<span class="id">#x63E1</span>;<span class="tag">MongoDB</span>&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x6240</span>;&amp;<span class="id">#x4EE5</span>;&amp;<span class="id">#x67D0</span>;&amp;<span class="id">#x4E9B</span>;&amp;<span class="id">#x8BBE</span>;&amp;<span class="id">#x8BA1</span>;&amp;<span class="id">#x4E0A</span>;&amp;<span class="id">#x66F4</span>;&amp;<span class="id">#x504F</span>;&amp;<span class="id">#x5411</span>;&amp;<span class="id">#x4E8E</span>;&amp;<span class="id">#x529F</span>;&amp;<span class="id">#x80FD</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x5C55</span>;&amp;<span class="id">#x793A</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x5728</span>;&amp;<span class="id">#x5B9E</span>;&amp;<span class="id">#x9645</span>;&amp;<span class="id">#x4F7F</span>;&amp;<span class="id">#x7528</span>;&amp;<span class="id">#x4E0A</span>;&amp;<span class="id">#x8981</span>;&amp;<span class="id">#x56E0</span>;&amp;<span class="id">#x5730</span>;&amp;<span class="id">#x5236</span>;&amp;<span class="id">#x5B9C</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x6539</span>;&amp;<span class="id">#x53D8</span>;&amp;<span class="id">#xFF0C</span>;&amp;<span class="id">#x5408</span>;&amp;<span class="id">#x9002</span>;&amp;<span class="id">#x624D</span>;&amp;<span class="id">#x662F</span>;&amp;<span class="id">#x6700</span>;&amp;<span class="id">#x597D</span>;&amp;<span class="id">#x7684</span>;&amp;<span class="id">#x3002</span>;
+</code></pre><h2 id="&#x9700;&#x6C42;">&#x9700;&#x6C42;</h2><p>&#x7535;&#x5F71;&#x7968;&#x9884;&#x5B9A;&#x7CFB;&#x7EDF;&#x4E0E;&#x7535;&#x5546;&#x7CFB;&#x7EDF;&#x975E;&#x5E38;&#x7C7B;&#x4F3C;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x62BD;&#x8C61;&#x7406;&#x89E3;&#x4E3A;&#x5546;&#x54C1;&#x7684;&#x552E;&#x5356;&#x3002;&#x8FDB;&#x4E00;&#x6B65;&#x7684;&#x8BB2;&#x7535;&#x5F71;&#x7968;&#x7CFB;&#x7EDF;&#x662F;&#x7535;&#x5546;&#x7CFB;&#x7EDF;&#x7684;&#x4E00;&#x4E2A;&#x5E93;&#x5B58;&#x7279;&#x4F8B;&#x573A;&#x666F;&#xFF1A;</p>
+<ul>
+<li>&#x6BCF;&#x4E2A;&#x573A;&#x6B21;&#xFF0C;&#x6BCF;&#x4E2A;&#x5EA7;&#x4F4D;&#xFF0C;&#x90FD;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x5E93;&#x5B58;</li>
+<li>&#x6BCF;&#x4E2A;&#x8BA2;&#x5355;&#x6240;&#x9884;&#x5B9A;&#x7684;&#x5EA7;&#x4F4D;&#x6709;&#x9501;&#x5B9A;&#x72B6;&#x6001;&#xFF0C;&#x5728;&#x652F;&#x4ED8;&#x524D;&#x5BF9;&#x5E94;&#x7684;&#x4F5C;&#x4E3A;&#x4E0D;&#x80FD;&#x88AB;&#x518D;&#x6B21;&#x8D2D;&#x4E70;</li>
+<li>&#x8BA2;&#x5355;&#x6D89;&#x53CA;&#x5230;&#x7684;&#x5EA7;&#x4F4D;&#x8981;&#x4E0D;&#x5168;&#x6210;&#x529F;&#xFF0C;&#x8981;&#x4E0D;&#x5168;&#x5931;&#x8D25;</li>
+<li><p>&#x201C;&#x5168;&#x56FD;&#x201D;&#x7EA7;&#x7684;&#xFF0C;&#x6570;&#x636E;&#x5BB9;&#x91CF;&#x4E0D;&#x662F;&#x592A;&#x5927;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x6027;&#x80FD;&#x4E0A;&#x8981;&#x652F;&#x6301;&#x6C34;&#x5E73;&#x6269;&#x5C55;</p>
+<p>  PS&#xFF1A;&#x5B9E;&#x9645;&#x4E0A;&#x7684;&#x7406;&#x8BBA;TPS&#x5E76;&#x4E0D;&#x9AD8;&#xFF0C;&#x76EE;&#x524D;&#x5168;&#x56FD;5000&#x5BB6;&#x5F71;&#x9662;&#xFF0C;&#x5047;&#x8BBE;&#x5E73;&#x5747;8&#x4E2A;&#x5F71;&#x5385;&#xFF0C;&#x6BCF;&#x4E2A;&#x5F71;&#x5385;6&#x4E2A;&#x573A;&#x6B21;&#xFF0C;&#x6BCF;&#x573A;&#x6B21;200&#x4E2A;&#x5EA7;&#x4F4D;&#xFF0C;&#x65E9;&#x4E2D;&#x665A;&#x5404;3&#x4E2A;&#x9AD8;&#x5CF0;&#xFF0C;&#x6BCF;&#x4E2A;&#x9AD8;&#x5CF0;1&#x4E2A;&#x5C0F;&#x65F6;&#x3002;&#x8BA1;&#x7B97;&#x5F97;&#x51FA;TPS&#x5927;&#x6982;&#x662F;&#xFF1A;5000 <em> 8 </em> 6 * 200/ 3 / 3600 &#xFF1D; 4444 TPS&#xFF1B;&#x4F46;&#x662F;&#x8BBE;&#x8BA1;&#x4E0A;&#x6211;&#x4EEC;&#x8FD8;&#x662F;&#x8981;&#x4FDD;&#x8BC1;&#x6027;&#x80FD;&#x7684;&#x53EF;&#x6C34;&#x5E73;&#x6269;&#x5C55;&#xFF0C;&#x5426;&#x5219;&#x600E;&#x4E48;&#x4F53;&#x73B0;MongoDB&#x7684;&#x7279;&#x8272;&#x5462;&#xFF1F;^-^</p>
+</li>
+</ul>
+<h2 id="&#x63CF;&#x8FF0;&#x4FE1;&#x606F;&#x6587;&#x6863;&#x7ED3;&#x6784;">&#x63CF;&#x8FF0;&#x4FE1;&#x606F;&#x6587;&#x6863;&#x7ED3;&#x6784;</h2><h2 id="&#x5F71;&#x9662;&#x63CF;&#x8FF0;&#x4FE1;&#x606F;">&#x5F71;&#x9662;&#x63CF;&#x8FF0;&#x4FE1;&#x606F;</h2><p>&#x4FDD;&#x5B58;&#x6700;&#x57FA;&#x672C;&#x7684;&#x5F71;&#x9662;&#x4FE1;&#x606F;&#xFF0C;&#x5305;&#x62EC;&#x5730;&#x7406;&#x4FE1;&#x606F;&#xFF0C;&#x540D;&#x79F0;&#xFF0C;_id&#x4E3A;MongoDB&#x7531;MongoDB&#x81EA;&#x52A8;&#x5206;&#x914D;</p>
+<p>CinemaManager.cinema_detail</p>
+<p>{</p>
+<p>_id: ,</p>
+<p>name: &#x201C;&#x201D;,</p>
+<p>city: &#x201C;&#x201D;</p>
+<p>location: [, ],</p>
+<p>comments: &#x201C;&#x201D;</p>
+<p>}</p>
+<p>&#x4F8B;&#x5982;&#xFF1A;</p>
+<p>rs0:PRIMARY&amp;gt; db.cinema_detail.insert({&lt;br /&gt; &amp;quot;name&amp;quot; : &amp;quot;&#x5927;&#x65F6;&#x4EE3;&#x7535;&#x5F71;&#x9662;&amp;quot;,&lt;br /&gt; &amp;quot;city&amp;quot; : &amp;quot;&#x676D;&#x5DDE;&amp;quot;,&lt;br /&gt; &amp;quot;location&amp;quot; : [ 120.13, 30.16 ],&lt;br /&gt; &amp;quot;comments&amp;quot; : &amp;quot;IMAX 4K&#xFF0C;&#x6709;&#x505C;&#x8F66;&#x4F4D;&amp;quot;&lt;br /&gt; });&lt;br /&gt;</p>
+<p>&#x56E0;&#x4E3A;&#x5F71;&#x9662;&#x4FE1;&#x606F;&#x7684;&#x67E5;&#x8BE2;&#x4E00;&#x822C;&#x90FD;&#x662F;&#x6309;&#x7167;&#x57CE;&#x5E02;&#x548C;&#x540D;&#x79F0;&#xFF0C;&#x6216;&#x8005;&#x5730;&#x7406;&#x5750;&#x6807;&#x68C0;&#x7D22;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x5EFA;&#x7ACB;&#x4E24;&#x4E2A;&#x7D22;&#x5F15;</p>
+<p>Index1&#xFF1A;&#x57CE;&#x5E02;+&#x540D;&#x79F0;&#x7684;&#x590D;&#x5408;&#x7D22;&#x5F15;&#xFF0C;&#x56E0;&#x4E3A;&#x67E5;&#x8BE2;&#x7535;&#x5F71;&#x9662;&#x65F6;&#x4E00;&#x822C;&#x90FD;&#x4F1A;&#x6307;&#x5B9A;&#x57CE;&#x5E02;&#x540D;</p>
+<p>&lt;br /&gt; rs0:PRIMARY&amp;gt; db.cinema_detail.ensureIndex({city:1, name:1})&lt;br /&gt; {&lt;br /&gt; &amp;quot;createdCollectionAutomatically&amp;quot; : false,&lt;br /&gt; &amp;quot;numIndexesBefore&amp;quot; : 2,&lt;br /&gt; &amp;quot;numIndexesAfter&amp;quot; : 2,&lt;br /&gt; &amp;quot;ok&amp;quot; : 1&lt;br /&gt; }</p>
+<p>&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x590D;&#x5408;&#x7D22;&#x5F15;&#xFF0C;&#x6240;&#x4EE5;&#x9488;&#x5BF9; city + name&#x7684;&#x67E5;&#x8BE2;&#xFF0C;&#x6216;&#x8005; city&#x7684;&#x67E5;&#x8BE2;&#x662F;&#x6709;&#x6548;&#x7684;&#xFF0C;&#x53EA;&#x67E5;&#x627E;name&#x5B57;&#x6BB5;&#x662F;&#x65E0;&#x6CD5;&#x901A;&#x8FC7;&#x7D22;&#x5F15;&#x4F18;&#x5316;&#x7684;&#x3002;&#x8FD9;&#x91CC;&#x8BF4;&#x660E;&#x4E0B;&#x4E3A;&#x4F55;&#x4E0D;&#x5206;&#x522B;&#x7B80;&#x5386;city&#xFF0C;&#x548C;name&#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x9996;&#x5148;&#xFF0C;&#x4ECE;&#x4E1A;&#x52A1;&#x4E0A;&#x7535;&#x5F71;&#x9662;&#x7684;&#x67E5;&#x627E;&#x90FD;&#x662F;&#x7ED9;&#x5B9A;&#x4E86;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x57CE;&#x5E02;&#x4FE1;&#x606F;&#xFF0C;&#x5168;&#x56FD;&#x8303;&#x56F4;&#x7684;&#x67E5;&#x627E;&#x9700;&#x6C42;&#x975E;&#x5E38;&#x5C11;&#xFF0C;&#x4E3A;&#x6B64;&#x591A;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;&#x7D22;&#x5F15;&#x6CA1;&#x6709;&#x7279;&#x522B;&#x5FC5;&#x8981;&#x6027;&#x3002;</p>
+<p>Index2&#xFF1A;&#x5730;&#x7406;&#x5750;&#x6807;&#x7D22;&#x5F15;&#xFF0C;&#x7528;&#x6765;&#x5E94;&#x4ED8;&#x201D;&#x6700;&#x8FD1;&#x7684;&#x7535;&#x5F71;&#x9662;&#x201D;&#x7C7B;&#x67E5;&#x8BE2;</p>
+<p>rs0:PRIMARY&amp;gt; db.cinema_detail.ensureIndex({location: &amp;quot;2d&amp;quot;})&lt;br /&gt; {&lt;br /&gt; &amp;quot;createdCollectionAutomatically&amp;quot; : false,&lt;br /&gt; &amp;quot;numIndexesBefore&amp;quot; : 3,&lt;br /&gt; &amp;quot;numIndexesAfter&amp;quot; : 4,&lt;br /&gt; &amp;quot;ok&amp;quot; : 1&lt;br /&gt; }&lt;br /&gt;</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x67E5;&#x8BE2;&#x5728;&#x676D;&#x5DDE;&#x6700;&#x8FD1;&#x7684;&#x67D0;&#x4E2A;&#x7535;&#x5F71;&#x9662;</p>
+<p> rs0:PRIMARY&gt; db.cinema_detail.find({city:&#x201D;&#x676D;&#x5DDE;&#x201D;, location: { $near: [  120.9  , 30.11] }}).pretty()</p>
+<p>{&lt;br /&gt; &amp;quot;_id&amp;quot; : ObjectId(&amp;quot;559a3ef8c6058dae1ac49ce8&amp;quot;),&lt;br /&gt; &amp;quot;name&amp;quot; : &amp;quot;&#x5927;&#x65F6;&#x4EE3;&#x7535;&#x5F71;&#x9662;&amp;quot;,&lt;br /&gt; &amp;quot;city&amp;quot; : &amp;quot;&#x676D;&#x5DDE;&amp;quot;,&lt;br /&gt; &amp;quot;location&amp;quot; : [&lt;br /&gt; 120.13,&lt;br /&gt; 30.16&lt;br /&gt; ],&lt;br /&gt; &amp;quot;comments&amp;quot; : &amp;quot;IMAX 4K&#xFF0C;&#x6709;&#x505C;&#x8F66;&#x4F4D;&amp;quot;&lt;br /&gt; }</p>
+<h2 id="&#x5F71;&#x5385;&#x63CF;&#x8FF0;&#x4FE1;&#x606F;">&#x5F71;&#x5385;&#x63CF;&#x8FF0;&#x4FE1;&#x606F;</h2><p>theater_detail.cinema_id&#x4E0E;cinema_detail._id&#x96C6;&#x5408;&#x5F62;&#x6210;references&#x5173;&#x7CFB;&#xFF0C;&#x901A;&#x8FC7;cinema_detail._id&#x53EF;&#x4EE5;&#x5FEB;&#x901F;&#x627E;&#x5230;&#x6240;&#x5C5E;&#x5F71;&#x5385;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x53E6;&#x4E00;&#x4E2A;&#x5173;&#x952E;&#x5B57;&#x6BB5;theater_detail.seat&#x7528;&#x6765;&#x63CF;&#x8FF0;&#x5EA7;&#x4F4D;&#x4FE1;&#x606F;&#xFF0C;&#x6BCF;&#x6392;&#x6240;&#x6709;&#x7684;&#x5EA7;&#x4F4D;&#x662F;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#xFF0C;&#x4E0D;&#x540C;&#x6392;&#x53EF;&#x4EE5;&#x6709;&#x4E0D;&#x540C;&#x6570;&#x91CF;&#x7684;&#x5EA7;&#x4F4D;&#x3002;</p>
+<p>CinemaManager.theater_detail</p>
+<p>&lt;br /&gt; {&lt;br /&gt; _id: ,&lt;br /&gt; cinema_id: ,&lt;br /&gt; name: ,&lt;br /&gt; seat:&lt;br /&gt; {&lt;br /&gt; row1: [],&lt;br /&gt; row2: [],&lt;br /&gt; row3: [],&lt;br /&gt; : []&lt;br /&gt; }&lt;br /&gt; comments: &amp;quot;&amp;quot;&lt;br /&gt; }&lt;br /&gt;</p>
+<p>&lt;br /&gt; rs0:PRIMARY&amp;gt; db.theater_detail.insert({&lt;br /&gt; cinema_id:ObjectId(&amp;quot;559a3ef8c6058dae1ac49ce8&amp;quot;),&lt;br /&gt; name:&amp;quot;IMAX&#x5385;&amp;quot;,&lt;br /&gt; seat:&lt;br /&gt; {&lt;br /&gt; row1: [1, 1, 1, 1],&lt;br /&gt; row2: [1, 1, 1],&lt;br /&gt; row3: [1, 1, 1, 1],&lt;br /&gt; row4: [1, 1, 1, 1, 1],&lt;br /&gt; },&lt;br /&gt; comments: &amp;quot;&#x53EF;&#x5BB9;&#x7EB3;&#x54E6;xxx&#x4EBA;&#xFF0C;&#x5F27;&#x5F62;&#x8367;&#x5E55;&amp;quot;&lt;br /&gt; })</p>
+<p>rs0:PRIMARY&gt; db.theater_detail.insert({</p>
+<p>cinema_id:ObjectId(&#x201C;559a3ef8c6058dae1ac49ce8&#x2033;),</p>
+<p>name:&#x201D;&#x4E2D;&#x56FD;&#x5DE8;&#x5E55;&#x5385;&#x201D;,</p>
+<p>seat:</p>
+<p>{</p>
+<p>row1: [1, 1, 1, 1],</p>
+<p>row2: [1, 1, 1],</p>
+<p>row3: [1, 1, 1, 1]</p>
+<p>},</p>
+<p>comments: &#x201C;&#x53EF;&#x5BB9;&#x7EB3;&#x54E6;xxx&#x4EBA;&#xFF0C;&#x5F27;&#x5F62;&#x8367;&#x5E55;&#x201D;</p>
+<p>})</p>
+<p>&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;</p>
+<p>&lt;br /&gt; rs0:PRIMARY&amp;gt; db.theater_detail.ensureIndex({cinema_id:1})&lt;br /&gt; {&lt;br /&gt; &amp;quot;createdCollectionAutomatically&amp;quot; : false,&lt;br /&gt; &amp;quot;numIndexesBefore&amp;quot; : 1,&lt;br /&gt; &amp;quot;numIndexesAfter&amp;quot; : 2,&lt;br /&gt; &amp;quot;ok&amp;quot; : 1&lt;br /&gt; }&lt;br /&gt;</p>
+<h2 id="&#x5F71;&#x7247;&#x63CF;&#x8FF0;&#x4FE1;&#x606F;">&#x5F71;&#x7247;&#x63CF;&#x8FF0;&#x4FE1;&#x606F;</h2><p>&#x5F71;&#x7247;&#x8BF4;&#x660E;</p>
+<p>{&lt;br /&gt; _id: ,&lt;br /&gt; name: &amp;quot;&amp;quot;,&lt;br /&gt; director: &amp;quot;director name&amp;quot;&lt;br /&gt; actor: []&lt;br /&gt; comments: &amp;quot;&amp;quot;&lt;br /&gt; }&lt;br /&gt;</p>
+<p>&lt;br /&gt; rs0:PRIMARY&amp;gt; db.movie_detail.insert({&lt;br /&gt; name: &amp;quot;&#x4E00;&#x8DEF;&#x5411;&#x897F;&amp;quot;,&lt;br /&gt; director: &amp;quot;&#x80E1;&#x8000;&#x8F89;&amp;quot;,&lt;br /&gt; actor:[&amp;quot;&#x5F20;&#x5EFA;&#x58F0;&amp;quot;, &amp;quot;&#x738B;&#x5B97;&#x5C27;&amp;quot;, &amp;quot;&#x80E1;&#x8000;&#x8F89;&amp;quot;, &amp;quot;&#x4F55;&#x4F69;&#x745C;&amp;quot;, &amp;quot;&#x5F20;&#x6696;&#x96C5;&amp;quot;, &amp;quot;&#x90ED;&#x9896;&#x513F;&amp;quot;],&lt;br /&gt; comments: &amp;quot;&#x8BE5;&#x5F71;&#x7247;&#x63CF;&#x5199;&#x7684;&#x662F;&#x5F53;&#x4EE3;&#x9999;&#x6E2F;&#x793E;&#x4F1A;&#x4E2D;&#x666E;&#x901A;&#x5E74;&#x8F7B;&#x4EBA;&#x5BF9;&#x201C;&#x7231;&#x201D;&#x4E0E;&#x201C;&#x6027;&#x201D;&#x7684;&#x8FFD;&#x6C42;&#x800C;&#x9010;&#x6E10;&#x6539;&#x53D8;&#x7684;&#x5FC3;&#x8DEF;&#x5386;&#x7A0B;&#x7684;&#x6545;&#x4E8B;&amp;quot;&lt;br /&gt; })&lt;br /&gt;</p>
+<p>&#x7D22;&#x5F15;</p>
+<p>&lt;br /&gt; rs0:PRIMARY&amp;gt; db.movie_detail.ensureIndex({name:1})&lt;br /&gt; {&lt;br /&gt; &amp;quot;createdCollectionAutomatically&amp;quot; : false,&lt;br /&gt; &amp;quot;numIndexesBefore&amp;quot; : 1,&lt;br /&gt; &amp;quot;numIndexesAfter&amp;quot; : 2,&lt;br /&gt; &amp;quot;ok&amp;quot; : 1&lt;br /&gt; }&lt;br /&gt;</p>
+<h2 id="&#x5F71;&#x7247;&#x653E;&#x6620;&#x6587;&#x6863;&#x7ED3;&#x6784;">&#x5F71;&#x7247;&#x653E;&#x6620;&#x6587;&#x6863;&#x7ED3;&#x6784;</h2><p>&#x653E;&#x6620;&#x4FE1;&#x606F;&#x5305;&#x542B;&#x653E;&#x6620;&#x65F6;&#x95F4;&#x6BB5;&#xFF0C;&#x653E;&#x6620;&#x5F71;&#x5385;&#xFF0C;&#x7968;&#x4EF7;&#x3002;&#x867D;&#x7136;Document&#x7ED3;&#x6784;&#x53EF;&#x4EE5;&#x505A;&#x590D;&#x6742;&#x7684;&#x5D4C;&#x5957;&#xFF0C;&#x4F46;&#x539F;&#x5219;&#x4E0A;&#x671F;&#x671B;Document&#x5C3D;&#x91CF;&#x5C0F;&#xFF0C;&#x5229;&#x7528;&#x6570;&#x636E;Shard&#xFF0C;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x3002;&#x6240;&#x4EE5;&#x5728;movie_schedule&#x7684;&#x8BBE;&#x8BA1;&#x4E0A;&#x6BCF;&#x4E2A;&#x5F71;&#x7247;&#x7684;&#x6BCF;&#x573A;&#x653E;&#x6620;&#x72EC;&#x7ACB;&#x4E00;&#x4E2A;Document&#x8868;&#x8FBE;&#x3002;</p>
+<p>&lt;br /&gt; {&lt;br /&gt; _id: ,&lt;br /&gt; cinema_id:&lt;br /&gt; movie_id: ,&lt;br /&gt; theater_id: ,&lt;br /&gt; start_time: ,&lt;br /&gt; end_time: ,&lt;br /&gt; comments: &amp;quot;&amp;quot;&lt;br /&gt; }&lt;br /&gt;</p>
+<p>movie_schedule&#x7684;References&#x5173;&#x7CFB;&#x8F83;&#x591A;&#xFF0C;&#x9700;&#x8981;&#x4E0E;&#x7535;&#x5F71;&#x9662;&#xFF0C;&#x5F71;&#x5385;&#xFF0C;&#x7535;&#x5F71;&#x4E09;&#x8005;&#x5206;&#x522B;&#x5EFA;&#x7ACB;&#x5173;&#x7CFB;&#x3002;</p>
+<p>&lt;br /&gt; db.movie_schedule.insert({&lt;br /&gt; cinema_id:ObjectId(&amp;quot;559a3ef8c6058dae1ac49ce8&amp;quot;),&lt;br /&gt; movie_id:ObjectId(&amp;quot;559b68f372b34f216246cb1d&amp;quot;),&lt;br /&gt; theater_id:ObjectId(&amp;quot;559b625072b34f216246cb1b&amp;quot;),&lt;br /&gt; start_time: ISODate(&amp;quot;2015-07-07T10:00:00.00Z&amp;quot;),&lt;br /&gt; end_time: ISODate(&amp;quot;2015-07-07T12:00:00.000Z&amp;quot;),&lt;br /&gt; comments: &amp;quot;&#x9996;&#x6620;&amp;quot;&lt;br /&gt; )}</p>
+<p>db.movie_schedule.insert({</p>
+<p>cinema_id:ObjectId(&#x201C;559a3ef8c6058dae1ac49ce8&#x2033;),</p>
+<p>movie_id:ObjectId(&#x201C;559b68f372b34f216246cb1d&#x201D;),</p>
+<p>theater_id:ObjectId(&#x201C;559b625072b34f216246cb1b&#x201D;),</p>
+<p>start_time: ISODate(&#x201C;2015-07-07T12:30:00.00Z&#x201D;),</p>
+<p>end_time: ISODate(&#x201C;2015-07-07T14:30:00.000Z&#x201D;),</p>
+<p>comments: &#x201C;&#x201D;</p>
+<p>)}</p>
+<p>&#x8FD8;&#x662F;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x590D;&#x5408;&#x7D22;&#x5F15;&#xFF0C;&#x4F18;&#x5316;&#x67E5;&#x8BE2;&#x67D0;&#x4E00;&#x7535;&#x5F71;&#x9662;&#x7684;&#x67D0;&#x90E8;&#x5F71;&#x7247;&#xFF08;&#x7684;&#x67D0;&#x4E00;&#x5F71;&#x5385;&#xFF09;&#x4E0A;&#x6620;&#x4FE1;&#x606F;</p>
+<p>&lt;br /&gt; rs0:PRIMARY&amp;gt; db.movie_schedule.ensureIndex({cinema_id:1, movie_id:1, theater_id:1})&lt;br /&gt; {&lt;br /&gt; &amp;quot;createdCollectionAutomatically&amp;quot; : false,&lt;br /&gt; &amp;quot;numIndexesBefore&amp;quot; : 1,&lt;br /&gt; &amp;quot;numIndexesAfter&amp;quot; : 2,&lt;br /&gt; &amp;quot;ok&amp;quot; : 1&lt;br /&gt; }&lt;br /&gt;</p>
+<p>PS&#xFF1A;&#x4E5F;&#x53EF;&#x4EE5;&#x5EFA;&#x7ACB;&#x76F8;&#x5E94;&#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x7528;&#x6765;&#x4F18;&#x5316;&#x67D0;&#x4E00;&#x65F6;&#x95F4;&#x6BB5;&#x5185;&#x7684;&#x5F71;&#x7247;&#x4FE1;&#x606F;&#x67E5;&#x8BE2;&#xFF0C;&#x8BFB;&#x8005;&#x81EA;&#x884C;&#x601D;&#x8003;</p>
+<h2 id="&#x4EA4;&#x6613;&#x7CFB;&#x7EDF;">&#x4EA4;&#x6613;&#x7CFB;&#x7EDF;</h2><p>&#x81F3;&#x6B64;&#xFF0C;&#x57FA;&#x672C;&#x7684;&#x4FE1;&#x606F;&#x6587;&#x6863;&#x96C6;&#x5408;&#x5747;&#x5DF2;&#x5EFA;&#x7ACB;&#x5B8C;&#x6210;&#xFF0C;&#x4E00;&#x822C;&#x7684;&#x67E5;&#x8BE2;&#x9700;&#x6C42;&#x90FD;&#x53EF;&#x4EE5;&#x6EE1;&#x8DB3;&#x4E86;&#x3002;&#x63A5;&#x4E0B;&#x6765;&#x662F;&#x91CD;&#x70B9;&#xFF1A;&#x5E93;&#x5B58;&#x552E;&#x5356;&#x7CFB;&#x7EDF;&#x3002;&#x62BD;&#x8C61;&#x7684;&#x6765;&#x770B;&#xFF0C;&#x552E;&#x5356;&#x7CFB;&#x7EDF;&#x5C31;&#x662F;&#x5BF9;&#x4E0A;&#x8BC9;&#x6240;&#x6709;&#x96C6;&#x5408;&#x7684;&#x4E00;&#x4E2A;&#x6574;&#x5408;&#xFF0C;&#x5916;&#x52A0;&#x4E00;&#x5957;&#xFFFD;&#xFFFD;&#xFFFD;&#x5B58;&#x5B57;&#x6BB5;&#x3002;&#x6211;&#x4EEC;&#x8BA4;&#x4E3A;&#x4E00;&#x573A;&#x653E;&#x6620;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x4E3B;&#x5546;&#x54C1;&#xFF0C;&#x6BCF;&#x4E2A;&#x5EA7;&#x4F4D;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A;&#x662F;&#x8FD9;&#x4E2A;&#x5546;&#x54C1;&#x7684;SKU&#xFF0C;&#x6BCF;&#x4E2A;SKU&#x90FD;&#x662F;1&#x4EFD;&#x3002;</p>
+<p>&#x901A;&#x8FC7;Reference&#x5173;&#x7CFB;&#x7ED3;&#x5408;movie_schedule&#x4E0E;theater_detail&#xFF0C;&#x6CE8;&#x610F;&#x8FD9;&#x91CC;&#x5F15;&#x7528;&#x4E86;</p>
+<p>&lt;br /&gt; {&lt;br /&gt; _id: ,&lt;br /&gt; movie_schedule_id:&lt;br /&gt; theater_id: ,&lt;br /&gt; seat:&lt;br /&gt; {&lt;br /&gt; row1: [2, 2, 2, 2],&lt;br /&gt; row2: [2, 2, 2],&lt;br /&gt; row3: [2, 2, 2, 2],&lt;br /&gt; row4: [2, 2, 2, 2, 2],&lt;br /&gt; }&lt;br /&gt; }&lt;br /&gt;</p>
+<p>&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x91CC;&#x4E0D;&#x4EC5;&#x4EC5;&#x662F;Reference&#x7684;&#x5F15;&#x7528;&#x5173;&#x7CFB;&#xFF0C;&#x8FD8;&#x590D;&#x5236;&#x4E86;theater_detail.seat&#x5B57;&#x6BB5;&#xFF0C;&#x6BCF;&#x4E2A;seat&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x5E93;&#x5B58;&#x6570;&#x5B57;&#xFF0C;&#x56E0;&#x4E3A;&#x5728;MongoDB&#x4E2D;&#x4E00;&#x4E2A;Document&#x7684;&#x64CD;&#x4F5C;&#x662F;&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;&#x539F;&#x5B50;&#x7684;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x5BF9;Collection&#x52A0;&#x4EFB;&#x4F55;&#x9501;&#x3002;&#x6570;&#x5B57;2&#x5E76;&#x4E0D;&#x662F;&#x8868;&#x793A;&#x53EF;&#x4EE5;&#x5356;2&#x6B21;&#xFF1A;</p>
+<ul>
+<li>&#x6570;&#x5B57;2&#x8868;&#x793A;&#xFF0C;&#x53EF;&#x9500;&#x552E;</li>
+<li>&#x6570;&#x5B57;1&#x8868;&#x793A;&#xFF0C;&#x5DF2;&#x9501;&#x5B9A;</li>
+<li>&#x6570;&#x5B57;0&#x8868;&#x793A;&#xFF0C;&#x5DF2;&#x552E;&#x5B8C;</li>
+</ul>
+<p>&#x4EA4;&#x6613;&#x903B;&#x8F91;&#x4E0A;&#x53EF;&#x901A;&#x8FC7;FindAndModify + $inc&#xFF0C;&#x539F;&#x5B50;&#x6027;&#x7684;&#x4FEE;&#x6539;&#x5E93;&#x5B58;&#x4FE1;&#x606F;&#x3002;&#x5176;&#x4ED6;&#x7684;&#x63CF;&#x8FF0;&#x4FE1;&#x606F;&#x662F;&#x5426;&#x9700;&#x8981;&#x518D;&#x6B21;&#x5197;&#x4F59;&#x53D6;&#x51B3;&#x4E8E;&#x5177;&#x4F53;&#x7684;&#x4E1A;&#x52A1;&#x72B6;&#x51B5;&#x4E86;&#xFF0C;&#x5177;&#x4F53;&#x95EE;&#x9898;&#x5177;&#x4F53;&#x5206;&#x6790;&#x3002;&#x6211;&#x672C;&#x4EBA;&#x66F4;&#x503E;&#x5411;&#x4E8E;&#x76EE;&#x524D;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x65B9;&#x6848;&#xFF0C;&#x4E0D;&#x505A;&#x8FC7;&#x591A;&#x7684;&#x5197;&#x4F59;&#xFF0C;&#x539F;&#x56E0;&#xFF1A;</p>
+<ol>
+<li>&#x6570;&#x636E;&#x8BA2;&#x6B63;&#x590D;&#x6742;&#xFF0C;&#x591A;&#x4E00;&#x4E2A;&#x5197;&#x4F59;&#xFF0C;&#x591A;&#x4E00;&#x4EFD;&#x590D;&#x6742;2. &#x5176;&#x4ED6;&#x4FE1;&#x606F;&#x57FA;&#x672C;&#x90FD;&#x662F;&#x9759;&#x6001;&#x6570;&#x636E;&#xFF0C;&#x6570;&#x636E;&#x91CF;&#x53C8;&#x5C0F;&#xFF0C;&#x5B8C;&#x5168;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;Cache&#x6280;&#x672F;&#x89E3;&#x51B3;&#x8BFB;&#x53D6;&#x95EE;&#x9898; </li>
+</ol>
+<p>&#x5148;&#x63D2;&#x5165;&#x4E00;&#x4E2A;&#x6211;&#x4EEC;&#x7684;&#x5546;&#x54C1;</p>
+<p>&lt;br /&gt; db.movie_item.insert({&lt;br /&gt; movie_schedule_id : ObjectId(&amp;quot;559b6ee472b34f216246cb1e&amp;quot;),&lt;br /&gt; theater_id : ObjectId(&amp;quot;559b625072b34f216246cb1b&amp;quot;),&lt;br /&gt; seat :&lt;br /&gt; {&lt;br /&gt; row1: [2, 2, 2, 2],&lt;br /&gt; row2: [2, 2, 2],&lt;br /&gt; row3: [2, 2, 2, 2],&lt;br /&gt; row4: [2, 2, 2, 2, 2],&lt;br /&gt; }&lt;br /&gt; })&lt;br /&gt;</p>
+<p>&#x7D22;&#x5F15;</p>
+<p>rs0:PRIMARY&gt; db.movie_item.ensureIndex({movie_schedule_id:1})<br>{<br>&quot;createdCollectionAutomatically&quot; : false,<br>&quot;numIndexesBefore&quot; : 1,<br>&quot;numIndexesAfter&quot; : 2,<br>&quot;ok&quot; : 1<br>}<br>&#x9501;&#x5B9A;&#x5EA7;&#x4F4D;&#x7684;&#x52A8;&#x4F5C;&#xFF0C;&#x9501;&#x5B9A;&#x7B2C;4&#x6392;&#x7684;3&#x53F7;&#x4F4D;&#x7F6E;&#xFF08;&#x4ECE;1&#x5F00;&#x59CB;&#x8BA1;&#x6570;&#xFF0C;&#x7535;&#x5F71;&#x9662;&#x7684;&#x5EA7;&#x4F4D;&#x53F7;&#x6700;&#x5C0F;&#x90FD;&#x662F;0&#xFF09;&#x548C;&#x9501;&#x5B9A;&#x7B2C;4&#x6392;&#x7684;2&#x53F7;&#x4F4D;&#x7F6E;&#xFF1A; </p>
+<p>&lt;br /&gt; db.movie_item.findAndModify({&lt;br /&gt; query: { &amp;quot;_id&amp;quot;:ObjectId(&amp;quot;559b790f72b34f216246cb22&amp;quot;), &amp;quot;seat.row4.2&amp;quot;:2 },&lt;br /&gt; update: { $inc: {&amp;quot;seat.row4.2&amp;quot;:-1}},&lt;br /&gt; upsert: false&lt;br /&gt; })</p>
+<p>db.movie_item.findAndModify({</p>
+<p>query: { &#x201C;_id&#x201D;:ObjectId(&#x201C;559b790f72b34f216246cb22&#x2033;), &#x201C;seat.row4.1&#x2033;:2 },</p>
+<p>update: { $inc: {&#x201C;seat.row4.1&#x2033;:-1}},</p>
+<p>upsert: false</p>
+<p>})</p>
+<p>&#x5206;&#x522B;&#x9501;&#x5B9A;&#x4E86;&#x7B2C;4&#x6392;3&#x53F7;&#xFF08;row4[2]&#xFF09;&#xFF0C;&#x7B2C;4&#x6392;2&#x53F7;&#xFF08;row4[1])&#xFF0C;&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x91CC;&#x662F;&#x5206;&#x4E24;&#x6B21;&#x9501;&#x5B9A;&#x7684;&#xFF0C;&#x9501;&#x5B9A;&#x64CD;&#x4F5C;&#x5E76;&#x4E0D;&#x9700;&#x8981;&#x539F;&#x5B50;&#x5B8C;&#x6210;&#xFF0C;&#x5426;&#x5219;&#x4F1A;&#x9020;&#x6210;&#x7528;&#x6237;&#x9501;&#x5B9A;&#x5931;&#x8D25;&#x6982;&#x7387;&#x7684;&#x4E0A;&#x5347;&#x3002;&#x540E;&#x9762;&#x90A3;&#x6B21;&#x5047;&#x8BBE;&#x9501;&#x5B9A;&#x5931;&#x8D25;&#x540E;&#xFF0C;&#x7528;&#x6237;&#x4E00;&#x822C;&#x662F;&#x4F1A;&#x91CD;&#x65B0;&#x9009;&#x62E9;&#x53E6;&#x4E00;&#x4FA7;&#x76F8;&#x90BB;&#x7684;&#x4F4D;&#x7F6E;&#x3002; </p>
+<p>&lt;br /&gt; rs0:PRIMARY&amp;gt; db.movie_item.find({_id:ObjectId(&amp;quot;559b790f72b34f216246cb22&amp;quot;)}).pretty()&lt;br /&gt; {&lt;br /&gt; &amp;quot;_id&amp;quot; : ObjectId(&amp;quot;559b790f72b34f216246cb22&amp;quot;),&lt;br /&gt; &amp;quot;movie_schedule_id&amp;quot; : ObjectId(&amp;quot;559b6ee472b34f216246cb1e&amp;quot;),&lt;br /&gt; &amp;quot;theater_id&amp;quot; : ObjectId(&amp;quot;559b625072b34f216246cb1b&amp;quot;),&lt;br /&gt; &amp;quot;seat&amp;quot; : {&lt;br /&gt; &amp;quot;row1&amp;quot; : [&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2&lt;br /&gt; ],&lt;br /&gt; &amp;quot;row2&amp;quot; : [&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2&lt;br /&gt; ],&lt;br /&gt; &amp;quot;row3&amp;quot; : [&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2&lt;br /&gt; ],&lt;br /&gt; &amp;quot;row4&amp;quot; : [&lt;br /&gt; 2,&lt;br /&gt; 1,&lt;br /&gt; 1,&lt;br /&gt; 2,&lt;br /&gt; 2&lt;br /&gt; ]&lt;br /&gt; }&lt;br /&gt; }&lt;br /&gt;</p>
+<p>OK&#xFF0C;&#x4EA4;&#x6613;&#x6210;&#x529F;&#x4EE5;&#x6B64;&#x7C7B;&#x63A8;&#xFF0C;&#x540C;&#x65F6;&#x4FEE;&#x6539;&#x4E24;&#x4E2A;&#x5E93;&#x5B58;&#x5230;0&#xFF0C;&#x8FD9;&#x91CC;&#x5229;&#x7528;&#x4E86;findAndModify&#x7684;&#x539F;&#x5B50;&#x7279;&#x6027;</p>
+<p>&lt;br /&gt; db.movie_item.findAndModify({&lt;br /&gt; query: {&lt;br /&gt; _id:ObjectId(&amp;quot;559b790f72b34f216246cb22&amp;quot;),&lt;br /&gt; $and:[ {&amp;quot;seat.row4.2&amp;quot;:1}, {&amp;quot;seat.row4.1&amp;quot;:1}]&lt;br /&gt; },&lt;br /&gt; update: {&lt;br /&gt; $inc: {&amp;quot;seat.row4.2&amp;quot;:-1, &amp;quot;seat.row4.1&amp;quot;:-1}&lt;br /&gt; },&lt;br /&gt; upsert: false&lt;br /&gt; })&lt;br /&gt;</p>
+<p>&#x518D;&#x67E5;&#x4E0B;&#x96C6;&#x5408;&#x770B;&#x770B;&#xFF1A;</p>
+<p>&lt;br /&gt; rs0:PRIMARY&amp;gt; db.movie_item.find({_id:ObjectId(&amp;quot;559b790f72b34f216246cb22&amp;quot;)}).pretty()&lt;br /&gt; {&lt;br /&gt; &amp;quot;_id&amp;quot; : ObjectId(&amp;quot;559b790f72b34f216246cb22&amp;quot;),&lt;br /&gt; &amp;quot;movie_schedule_id&amp;quot; : ObjectId(&amp;quot;559b6ee472b34f216246cb1e&amp;quot;),&lt;br /&gt; &amp;quot;theater_id&amp;quot; : ObjectId(&amp;quot;559b625072b34f216246cb1b&amp;quot;),&lt;br /&gt; &amp;quot;seat&amp;quot; : {&lt;br /&gt; &amp;quot;row1&amp;quot; : [&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2&lt;br /&gt; ],&lt;br /&gt; &amp;quot;row2&amp;quot; : [&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2&lt;br /&gt; ],&lt;br /&gt; &amp;quot;row3&amp;quot; : [&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2,&lt;br /&gt; 2&lt;br /&gt; ],&lt;br /&gt; &amp;quot;row4&amp;quot; : [&lt;br /&gt; 2,&lt;br /&gt; 0,&lt;br /&gt; 0,&lt;br /&gt; 2,&lt;br /&gt; 2&lt;br /&gt; ]&lt;br /&gt; }&lt;br /&gt; }&lt;br /&gt;</p>
+<h2 id="&#x603B;&#x7ED3;">&#x603B;&#x7ED3;</h2><p>&#x4E00;&#x5957;&#x5168;&#x56FD;&#x7EA7;&#x7684;&#x7535;&#x5F71;&#x7968;&#x7CFB;&#x7EDF;&#x4F1A;&#x6BD4;&#x8FD9;&#x590D;&#x6742;&#x7684;&#x591A;&#xFF0C;&#x672C;&#x6587;&#x7684;&#x76EE;&#x7684;&#x8FD8;&#x662F;&#x4EE5;&#x6559;&#x7A0B;&#x4E3A;&#x4E3B;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x8BF4;&#x660E;MongoDB&#x5982;&#x4F55;&#x6784;&#x5EFA;&#x4E00;&#x4E2A;&#x7535;&#x5F71;&#x7968;&#x7CFB;&#x7EDF;&#xFF0C;&#x4F46;&#x8DDD;&#x79BB;&#x751F;&#x957F;&#x7CFB;&#x7EDF;&#x8FD8;&#x662F;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x8DDD;&#x79BB;&#xFF0C;&#x4ECD;&#x6709;&#x5F88;&#x591A;&#x5176;&#x4ED6;&#x7684;&#x6280;&#x672F;&#x70B9;&#x9700;&#x8981;&#x8BA8;&#x8BBA;&#xFF0C;&#x53EF;&#x4EE5;&#x5EF6;&#x4F38;&#x5F00;&#x7684;&#x8FD8;&#x6709;&#xFF0C;&#x4E0B;&#x5355;&#x5931;&#x8D25;&#xFF0C;&#x8FC7;&#x671F;&#x672A;&#x4ED8;&#x6B3E;&#xFF0C;&#x6570;&#x636E;&#x552F;&#x4E00;&#x6027;&#x7B49;&#x95EE;&#x9898;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/transcribe/">transcribe</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MongoDB/">MongoDB</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+1696217" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/08/4d8e814/" title="Node.js(express) + MongoDB(mongoose) 简单开发（一） -">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Node.js(express) + MongoDB(mongoose) 简单开发（一） -</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/08/4dc1c64/"  title="MongoDB 3.0 用户创建 -">
+ <strong>下一篇：</strong><br/> 
+ <span>MongoDB 3.0 用户创建 -
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+	<!--���ٰ�-->
+	<div id="SOHUCS"></div>
+	<script charset="utf-8" type="text/javascript" src="http://assets.changyan.sohu.com/upload/changyan.js" ></script>
+	<script type="text/javascript">
+		window.changyan.api.config({
+			appid: 'cyrNEabSF',
+			conf: 'prod_034326b8fb64167667674dc334104436'
+		});
+	</script>
+</div>
+
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#描述信息文档结构"><span class="toc-number">2.</span> <span class="toc-text">描述信息文档结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#影院描述信息"><span class="toc-number">3.</span> <span class="toc-text">影院描述信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#影厅描述信息"><span class="toc-number">4.</span> <span class="toc-text">影厅描述信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#影片描述信息"><span class="toc-number">5.</span> <span class="toc-text">影片描述信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#影片放映文档结构"><span class="toc-number">6.</span> <span class="toc-text">影片放映文档结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交易系统"><span class="toc-number">7.</span> <span class="toc-text">交易系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/transcribe/" title="transcribe">transcribe<sup>606</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>80</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Node-js/" title="Node.js">Node.js<sup>75</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Memcached/" title="Memcached">Memcached<sup>71</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JVM/" title="JVM">JVM<sup>65</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>42</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/io-js/" title="io.js">io.js<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>35</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-MVC/" title="Spring MVC">Spring MVC<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gulp/" title="Gulp">Gulp<sup>29</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>28</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nosql/" title="Nosql">Nosql<sup>27</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>17</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>15</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程序员/" title="程序员">程序员<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Net/" title=".Net">.Net<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码分析/" title="源码分析">源码分析<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>10</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+<div class="weiboshow">
+	<p class="asidetitle">新浪微博</p>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1289635200&verifier=e6bef170&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/512316815" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/sblig" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/sblig" target="_blank" title="fblog">fblog</a> © 2015
+		
+		<a href="/about" target="_blank" title="edwin">edwin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
